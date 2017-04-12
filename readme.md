@@ -1,4 +1,4 @@
-#[arteigenschaften.ch](http://arteigenschaften.ch), neu aufgebaut
+# [arteigenschaften.ch](http://arteigenschaften.ch), neu aufgebaut
 
 [![js-standard-style](https://img.shields.io/badge/license-ISC-brightgreen.svg)](https://github.com/barbalex/gs/blob/master/license.md)
 
