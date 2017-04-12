@@ -66,5 +66,5 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
 ### Aktueller Stand
 
 - Es besteht [ein Projekt](https://github.com/barbalex/ae_import), mit dem die Daten aus der bisherigen CouchDB in die neue PostgreSQL importiert werden können
-- Es gibt [ein Projekt](https://github.com/barbalex/ae_api) für die künftige API
+- Es gibt [ein Projekt](https://github.com/barbalex/ae_api) für die künftige API, inklusive Strukturdiagramm der Datenbank
 - Die neue Anwendung ist im Aufbau, Ziel: Ende 2017
