@@ -43,13 +43,12 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
   - erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
   - rasche Installation und einfache Aktualisierung der Enwicklungsumgebung und eines grossen Teils der für die Entwicklung benötigten Fremd-Software
-- [ES6](https://github.com/lukehoban/es6features), die neue Version von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
-  - fördert lesbaren, kurzen Code
+- [ES6](http://www.ecma-international.org/ecma-262/6.0/) und [ES2016](https://www.ecma-international.org/ecma-262/7.0/), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
+  - fördern lesbaren, kurzen Code
 - [flow](https://flow.org):
-  - Fehler im Code finden, noch bevor er ausgeführt wird!
-  - Bestehende Fehler finden, bevor sie von Benutzern gemeldet werden
-- [prettier](https://github.com/prettier/prettier) 
-  - formatiert den Code
+  - Fehler finden, noch bevor der Code ausgeführt wird!
+  - bestehende Fehler finden, bevor sie von Benutzern gemeldet werden
+- [prettier](https://github.com/prettier/prettier) formatiert den Code
   - der Entwickler muss sich nicht um Stil kümmern, er kann sich stattdessen auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - jede Änderung ist direkt sichtbar
@@ -65,6 +64,6 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
 
 ### Aktueller Stand
 
-- Es besteht [ein Projekt](https://github.com/barbalex/ae_import), mit dem die Daten aus der bisherigen CouchDB in die neue PostgreSQL importiert werden können
+- Es besteht [ein Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren
 - Es gibt [ein Projekt](https://github.com/barbalex/ae_api) für die künftige API, inklusive Strukturdiagramm der Datenbank
-- Die neue Anwendung ist im Aufbau, Ziel: Beginn 2017
+- Die neue Anwendung ist im Aufbau, Ziel: Beginn 2018
