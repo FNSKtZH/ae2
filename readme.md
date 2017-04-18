@@ -48,7 +48,7 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
 - [flow](https://flow.org):
   - Fehler im Code finden, noch bevor er ausgeführt wird!
   - Bestehende Fehler finden, bevor sie von Benutzern gemeldet werden
-- [prettier](http://eslint.org)
+- [prettier](https://github.com/prettier/prettier)
   - erzwingt einen konsequenten und lesbaren Programmierstil
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - jede Änderung ist direkt sichtbar
