@@ -58,9 +58,9 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
   - vereinfacht die Architektur der anwendungs-seitigen Daten
   - ermöglicht es, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
 - [React](https://facebook.github.io/react/index.html)
-  - Die Benutzeroberfläche ist eine Funktion der anwendungs-seitigen Daten
+  - die Benutzeroberfläche ist eine Funktion der anwendungs-seitigen Daten
   - vereinfacht die Steuerung der Benutzeroberfläche
-  - Die Benutzeroberfläche wird aus wiederverwertbaren und testbaren Komponenten aufgebaut
+  - die Benutzeroberfläche wird aus wiederverwertbaren und testbaren Komponenten aufgebaut
 - [hapi.js](http://hapijs.com) liefert Applikation und API bzw. Daten
 
 ### Aktueller Stand
