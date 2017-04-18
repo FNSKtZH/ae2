@@ -48,7 +48,8 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
 - [flow](https://flow.org):
   - Fehler finden, noch bevor der Code ausgeführt wird!
   - bestehende Fehler finden, bevor sie von Benutzern gemeldet werden
-- [prettier](https://github.com/prettier/prettier) formatiert den Code
+- [prettier](https://github.com/prettier/prettier)<br/>
+  - formatiert den Code<br/>
   - der Entwickler muss sich nicht um Stil kümmern, er kann sich stattdessen auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - jede Änderung ist direkt sichtbar
