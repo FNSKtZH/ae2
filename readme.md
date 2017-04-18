@@ -49,7 +49,7 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
   - Fehler im Code finden, noch bevor er ausgeführt wird!
   - Bestehende Fehler finden, bevor sie von Benutzern gemeldet werden
 - [prettier](https://github.com/prettier/prettier)
-  - erzwingt einen konsequenten und lesbaren Programmierstil
+  - erzwingt einen konsequenten und lesbaren Programmierstil
   - der Entwickler muss sich nicht um Stil kümmern, d.h. er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - jede Änderung ist direkt sichtbar
