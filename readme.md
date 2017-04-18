@@ -48,9 +48,8 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
 - [flow](https://flow.org):
   - Fehler im Code finden, noch bevor er ausgeführt wird!
   - Bestehende Fehler finden, bevor sie von Benutzern gemeldet werden
-- [eslint](http://eslint.org)
+- [prettier](http://eslint.org)
   - erzwingt einen konsequenten und lesbaren Programmierstil
-  - reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - jede Änderung ist direkt sichtbar
   - raschere Enwicklung, weniger Fehler
@@ -67,4 +66,4 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
 
 - Es besteht [ein Projekt](https://github.com/barbalex/ae_import), mit dem die Daten aus der bisherigen CouchDB in die neue PostgreSQL importiert werden können
 - Es gibt [ein Projekt](https://github.com/barbalex/ae_api) für die künftige API, inklusive Strukturdiagramm der Datenbank
-- Die neue Anwendung ist im Aufbau, Ziel: Ende 2017
+- Die neue Anwendung ist im Aufbau, Ziel: Beginn 2017
