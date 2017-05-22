@@ -1,16 +1,17 @@
 // @flow
 import React, { Component } from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
+import styled from 'styled-components'
 
 import AppBar from './AppBar'
 import TreeColumn from './TreeColumn'
-import Taxonomie from './Taxonomie'
-import EigenschaftenSammlung from './EigenschaftenSammlung'
-import BeziehungsSammlung from './BeziehungsSammlung'
-import Exporte from './Exporte'
-import FourOhFour from './FourOhFour'
-
+import Main from './Main'
 import '../index.css'
+
+const Container = styled.div`
+  height: 100%;
+`
 
 class App extends Component {
   componentWillMount() {
@@ -22,20 +23,14 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <AppBar />
-        <TreeColumn />
-        <Switch>
-          <Route path="/Taxonomien" component={Taxonomie} />
-          <Route
-            path="/Eigenschaften-Sammlungen"
-            component={EigenschaftenSammlung}
-          />
-          <Route path="/Beziehungs-Sammlungen" component={BeziehungsSammlung} />
-          <Route path="/Exporte" component={Exporte} />
-          <Route component={FourOhFour} />
-        </Switch>
-      </div>
+        <ReflexContainer orientation="vertical">
+          <ReflexElement><TreeColumn /></ReflexElement>
+          <ReflexSplitter key="treeSplitter" />
+          <ReflexElement><Main /></ReflexElement>
+        </ReflexContainer>
+      </Container>
     )
   }
 }

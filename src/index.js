@@ -10,6 +10,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import App from './components/App'
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
+import constants from './modules/constants'
 
 // Needed for onTouchTap and material-ui
 // //stackoverflow.com/a/34015469/988941
@@ -17,7 +18,7 @@ injectTapEventPlugin()
 
 const theme = Object.assign({}, myTtheme, {
   appBar: {
-    height: 51,
+    height: constants.appBarHeight,
   },
 })
 
