@@ -19,16 +19,6 @@ const StyledAppBar = styled(AppBar)`
 const Button = styled(({ visible, ...rest }) => <FlatButton {...rest} />)`
   color: ${props => (props.visible ? 'rgb(255, 255, 255) !important' : 'rgba(255, 255, 255, 0.298039) !important')};
 `
-const TreeButton = styled(Button)`
-  > div > span {
-    padding-right: 6px !important;
-  }
-`
-const DatenButton = styled(Button)`
-  > div > span {
-    padding-left: 6px !important;
-  }
-`
 const MenuDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -56,6 +46,7 @@ const enhance = compose(
 )
 
 const MyAppBar = ({
+  store,
   onClickColumnButtonTree,
   onClickColumnButtonData,
   onClickColumnButtonExport,
@@ -72,9 +63,21 @@ const MyAppBar = ({
       title="Arteigenschaften"
       iconElementRight={
         <MenuDiv>
-          <TreeButton label="Strukturbaum" onClick={onClickColumnButtonTree} />
-          <DatenButton label="Daten" onClick={onClickColumnButtonData} />
-          <Button label="Exporte" onClick={onClickColumnButtonExport} />
+          <Button
+            label="Strukturbaum"
+            visible={store.ui.visibleColumns.tree}
+            onClick={onClickColumnButtonTree}
+          />
+          <Button
+            label="Daten"
+            visible={store.ui.visibleColumns.data}
+            onClick={onClickColumnButtonData}
+          />
+          <Button
+            label="Exporte"
+            visible={store.ui.visibleColumns.export}
+            onClick={onClickColumnButtonExport}
+          />
           <IconMenu
             iconButtonElement={
               <IconButton>

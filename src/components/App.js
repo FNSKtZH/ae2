@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
 import styled from 'styled-components'
+import { observer, inject } from 'mobx-react'
+import compose from 'recompose/compose'
 
 import AppBar from './AppBar'
 import TreeColumn from './TreeColumn'
@@ -12,7 +14,15 @@ const Container = styled.div`
   height: 100%;
 `
 
+const enhance = compose(inject('store'), withRouter, observer)
+
 class App extends Component {
+  props: {
+    store: Object,
+    location: Object,
+    history: Object,
+  }
+
   componentWillMount() {
     const { location, history } = this.props
     if (location.pathname === '/') {
@@ -21,17 +31,22 @@ class App extends Component {
   }
 
   render() {
+    const { store } = this.props
+
     return (
       <Container>
         <AppBar />
         <ReflexContainer orientation="vertical">
-          <ReflexElement><TreeColumn /></ReflexElement>
-          <ReflexSplitter key="treeSplitter" />
-          <ReflexElement><Main /></ReflexElement>
+          {store.ui.visibleColumns.tree &&
+            <ReflexElement><TreeColumn /></ReflexElement>}
+          {store.ui.visibleColumns.tree &&
+            <ReflexSplitter key="treeSplitter" />}
+          {store.ui.visibleColumns.main &&
+            <ReflexElement><Main /></ReflexElement>}
         </ReflexContainer>
       </Container>
     )
   }
 }
 
-export default withRouter(App)
+export default enhance(App)

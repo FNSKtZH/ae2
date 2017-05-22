@@ -5,8 +5,7 @@ export default (store: Object): void => {
   extendObservable(store.ui, {
     visibleColumns: {
       tree: true,
-      data: true,
-      export: false,
+      main: true,
     },
     toggleColumnVisibility: action('toggleColumnVisibility', column => {
       store.ui.visibleColumns[column] = !store.ui.visibleColumns[column]
