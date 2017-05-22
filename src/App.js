@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import styled from 'styled-components'
+
+import './index.css'
 
 class App extends Component {
   render() {
