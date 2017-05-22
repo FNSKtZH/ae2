@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import myTtheme from './styling/theme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -21,7 +22,9 @@ const theme = Object.assign({}, myTtheme, {
 })
 
 ReactDOM.render(
-  <MuiThemeProvider muiTheme={getMuiTheme(theme)}><App /></MuiThemeProvider>,
+  <BrowserRouter>
+    <MuiThemeProvider muiTheme={getMuiTheme(theme)}><App /></MuiThemeProvider>
+  </BrowserRouter>,
   document.getElementById('root'),
 )
 registerServiceWorker()
