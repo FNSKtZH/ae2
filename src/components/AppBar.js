@@ -6,6 +6,7 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FlatButton from 'material-ui/FlatButton'
+import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -40,21 +41,30 @@ const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
 
 const enhance = compose(
+  inject('store'),
   withHandlers({
-    onClickButton: props => name => {
-      console.log('not yet implemented')
-    },
+    onClickColumnButtonTree: props => () =>
+      props.store.ui.toggleColumnVisibility('tree'),
+    onClickColumnButtonData: props => () =>
+      props.store.ui.toggleColumnVisibility('data'),
+    onClickColumnButtonExport: props => () =>
+      props.store.ui.toggleColumnVisibility('export'),
     ueberArteigenschaftenOnClick: props => () =>
       window.open('https://github.com/barbalex/ae2'),
   }),
+  observer,
 )
 
 const MyAppBar = ({
-  onClickButton,
+  onClickColumnButtonTree,
+  onClickColumnButtonData,
+  onClickColumnButtonExport,
   ueberArteigenschaftenOnClick,
 }: {
   store: Object,
-  onClickButton: () => void,
+  onClickColumnButtonTree: () => void,
+  onClickColumnButtonData: () => void,
+  onClickColumnButtonExport: () => void,
   ueberArteigenschaftenOnClick: () => void,
 }) => {
   return (
@@ -62,9 +72,9 @@ const MyAppBar = ({
       title="Arteigenschaften"
       iconElementRight={
         <MenuDiv>
-          <TreeButton label="Strukturbaum" onClick={onClickButton} />
-          <DatenButton label="Daten" onClick={onClickButton} />
-          <Button label="Exporte" onClick={onClickButton} />
+          <TreeButton label="Strukturbaum" onClick={onClickColumnButtonTree} />
+          <DatenButton label="Daten" onClick={onClickColumnButtonData} />
+          <Button label="Exporte" onClick={onClickColumnButtonExport} />
           <IconMenu
             iconButtonElement={
               <IconButton>
