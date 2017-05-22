@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import AppBar from './AppBar'
 import TreeColumn from './TreeColumn'
 import Main from './Main'
-import '../index.css'
 
 const Container = styled.div`
   height: 100%;
