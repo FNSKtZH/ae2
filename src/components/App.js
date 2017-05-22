@@ -40,6 +40,7 @@ class App extends Component {
           {store.ui.visibleColumns.tree &&
             <ReflexElement><TreeColumn /></ReflexElement>}
           {store.ui.visibleColumns.tree &&
+            store.ui.visibleColumns.main &&
             <ReflexSplitter key="treeSplitter" />}
           {store.ui.visibleColumns.main &&
             <ReflexElement><Main /></ReflexElement>}

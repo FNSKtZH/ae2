@@ -10,6 +10,7 @@ import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
+import { withRouter } from 'react-router'
 
 const StyledAppBar = styled(AppBar)`
   @media print {
@@ -32,13 +33,40 @@ const iconMenuStyle = { paddingLeft: 10 }
 
 const enhance = compose(
   inject('store'),
+  withRouter,
   withHandlers({
     onClickColumnButtonTree: props => () =>
-      props.store.ui.toggleColumnVisibility('tree'),
-    onClickColumnButtonData: props => () =>
-      props.store.ui.toggleColumnVisibility('data'),
-    onClickColumnButtonExport: props => () =>
-      props.store.ui.toggleColumnVisibility('export'),
+      props.store.ui.setColumnVisibility(
+        'tree',
+        !props.store.ui.visibleColumns.tree,
+      ),
+    onClickColumnButtonData: props => () => {
+      const pathIsMain = [
+        '/Taxonomien',
+        '/Eigenschaften-Sammlungen',
+        '/Beziehungs-Sammlungen',
+      ].includes(props.location.pathname)
+      const mainIsVisible = props.store.ui.visibleColumns.main
+      if (!mainIsVisible) {
+        props.store.ui.setColumnVisibility('main', true)
+      }
+      if (!pathIsMain) {
+        props.history.push('/Taxonomien')
+      } else {
+        props.store.ui.setColumnVisibility('main')
+      }
+    },
+    onClickColumnButtonExport: props => () => {
+      const mainIsVisible = props.store.ui.visibleColumns.main
+      if (props.location.pathname !== '/Exporte') {
+        props.history.push('/Exporte')
+        if (!mainIsVisible) {
+          props.store.ui.setColumnVisibility('main')
+        }
+      } else {
+        props.history.push('/Taxonomien')
+      }
+    },
     ueberArteigenschaftenOnClick: props => () =>
       window.open('https://github.com/barbalex/ae2'),
   }),
@@ -47,57 +75,64 @@ const enhance = compose(
 
 const MyAppBar = ({
   store,
+  location,
   onClickColumnButtonTree,
   onClickColumnButtonData,
   onClickColumnButtonExport,
   ueberArteigenschaftenOnClick,
 }: {
   store: Object,
+  location: Object,
   onClickColumnButtonTree: () => void,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
   ueberArteigenschaftenOnClick: () => void,
-}) => {
-  return (
-    <StyledAppBar
-      title="Arteigenschaften"
-      iconElementRight={
-        <MenuDiv>
-          <Button
-            label="Strukturbaum"
-            visible={store.ui.visibleColumns.tree}
-            onClick={onClickColumnButtonTree}
+}) => (
+  <StyledAppBar
+    title="Arteigenschaften"
+    iconElementRight={
+      <MenuDiv>
+        <Button
+          label="Strukturbaum"
+          visible={store.ui.visibleColumns.tree}
+          onClick={onClickColumnButtonTree}
+        />
+        <Button
+          label="Daten"
+          visible={
+            store.ui.visibleColumns.main &&
+              [
+                '/Taxonomien',
+                '/Eigenschaften-Sammlungen',
+                '/Beziehungs-Sammlungen',
+              ].includes(location.pathname)
+          }
+          onClick={onClickColumnButtonData}
+        />
+        <Button
+          label="Exporte"
+          visible={location.pathname === '/Exporte'}
+          onClick={onClickColumnButtonExport}
+        />
+        <IconMenu
+          iconButtonElement={
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          anchorOrigin={iconMenuAnchorOrigin}
+          targetOrigin={iconMenuTargetOrigin}
+          style={iconMenuStyle}
+        >
+          <MenuItem
+            primaryText="über arteigenschaften.ch"
+            onTouchTap={ueberArteigenschaftenOnClick}
           />
-          <Button
-            label="Daten"
-            visible={store.ui.visibleColumns.data}
-            onClick={onClickColumnButtonData}
-          />
-          <Button
-            label="Exporte"
-            visible={store.ui.visibleColumns.export}
-            onClick={onClickColumnButtonExport}
-          />
-          <IconMenu
-            iconButtonElement={
-              <IconButton>
-                <MoreVertIcon />
-              </IconButton>
-            }
-            anchorOrigin={iconMenuAnchorOrigin}
-            targetOrigin={iconMenuTargetOrigin}
-            style={iconMenuStyle}
-          >
-            <MenuItem
-              primaryText="über arteigenschaften.ch"
-              onTouchTap={ueberArteigenschaftenOnClick}
-            />
-          </IconMenu>
-        </MenuDiv>
-      }
-      showMenuIconButton={false}
-    />
-  )
-}
+        </IconMenu>
+      </MenuDiv>
+    }
+    showMenuIconButton={false}
+  />
+)
 
 export default enhance(MyAppBar)

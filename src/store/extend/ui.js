@@ -7,8 +7,8 @@ export default (store: Object): void => {
       tree: true,
       main: true,
     },
-    toggleColumnVisibility: action('toggleColumnVisibility', column => {
-      store.ui.visibleColumns[column] = !store.ui.visibleColumns[column]
+    setColumnVisibility: action('setColumnVisibility', (column, value) => {
+      store.ui.visibleColumns[column] = value
     }),
   })
 }
