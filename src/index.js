@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
+import myTtheme from './styling/theme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
@@ -14,7 +14,7 @@ import './index.css'
 // //stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
 
-const theme = Object.assign({}, lightBaseTheme, {
+const theme = Object.assign({}, myTtheme, {
   appBar: {
     height: 51,
   },
