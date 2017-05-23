@@ -8,7 +8,7 @@ const Taxonomy = () => {
   return (
     <div>
       Taxonomie
-      <QueryRenderer
+      {/*<QueryRenderer
         environment={environment}
         query={graphql`
             query Taxonomy {
@@ -22,7 +22,7 @@ const Taxonomy = () => {
         render={(error, props) => {
           console.log('props:', props)
         }}
-      />
+      />*/}
     </div>
   )
 }
