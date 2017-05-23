@@ -5,6 +5,7 @@ const { Environment, Network, RecordSource, Store } = require('relay-runtime')
 function fetchQuery(operation, variables, cacheConfig, uploadables) {
   return fetch('http://localhost:5000/graphql', {
     method: 'POST',
+    mode: 'cors',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

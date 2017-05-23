@@ -5,16 +5,16 @@
   "dependencies": {
     "lodash": "4.17.4",
     "material-ui": "0.18.1",
-    "mobx": "^3.1.9",
-    "mobx-react": "^4.1.8",
+    "mobx": "3.1.9",
+    "mobx-react": "4.1.8",
     "react": "15.5.4",
     "react-dom": "15.5.4",
-    "react-reflex": "^1.1.14",
+    "react-reflex": "1.1.14",
     "react-relay": "1.0.0",
-    "react-router": "^4.1.1",
-    "react-router-dom": "^4.1.1",
-    "react-tap-event-plugin": "^2.0.1",
-    "recompose": "^0.23.4",
+    "react-router": "4.1.1",
+    "react-router-dom": "4.1.1",
+    "react-tap-event-plugin": "2.0.1",
+    "recompose": "0.23.4",
     "styled-components": "1.4.6"
   },
   "devDependencies": {
@@ -23,8 +23,7 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.0.0",
-    "babel-plugin-react-relay": "0.10.0",
-    "babel-plugin-relay": "^1.0.1",
+    "babel-plugin-relay": "1.0.1",
     "babel-preset-react-app": "3.0.0",
     "babel-runtime": "6.23.0",
     "case-sensitive-paths-webpack-plugin": "2.0.0",
@@ -42,7 +41,7 @@
     "eslint-plugin-react": "7.0.1",
     "extract-text-webpack-plugin": "2.1.0",
     "file-loader": "0.11.1",
-    "flow-bin": "^0.46.0",
+    "flow-bin": "0.46.0",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.28.0",
     "jest": "20.0.3",
@@ -62,9 +61,12 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "npm run build-relay && node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "flow": "flow"
+    "flow": "flow",
+    "schema": "node scripts/schema.js",
+    "build-relay": "relay-compiler --src ./src --schema ./schema/schema.graphql",
+    "watch-relay": "npm run build-relay -- --watch"
   },
   "jest": {
     "collectCoverageFrom": [

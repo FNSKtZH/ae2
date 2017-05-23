@@ -1,0 +1,4439 @@
+# A connection to a list of `Category` values.
+type CategoriesConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Category` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Category` and cursor to aid in pagination.
+  edges: [CategoriesEdge]
+
+  # A list of `Category` objects.
+  nodes: [Category!]
+}
+
+# A `Category` edge in the connection.
+type CategoriesEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Category` at the end of the edge.
+  node: Category!
+}
+
+# Methods to use when ordering `Category`.
+enum CategoriesOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  NAME_ASC
+  NAME_DESC
+}
+
+type Category implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  name: String!
+
+  # Reads and enables paginatation through a set of `Object`.
+  objectsByCategory(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: ObjectCondition
+  ): ObjectsConnection
+
+  # Reads and enables paginatation through a set of `Taxonomy`.
+  taxonomiesByCategory(
+    # The method to use when ordering `Taxonomy`.
+    orderBy: TaxonomiesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyCondition
+  ): TaxonomiesConnection
+}
+
+# A condition to be used against `Category` object types. All fields are tested
+# for equality and combined with a logical ‘and.’
+input CategoryCondition {
+  # Checks for equality with the object’s `name` field.
+  name: String
+}
+
+input CategoryInput {
+  name: String!
+}
+
+# Represents an update to a `Category`. Fields that are set will be updated.
+input CategoryPatch {
+  name: String
+}
+
+# All input for the `createCategory` mutation.
+input CreateCategoryInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Category` to be created by this mutation.
+  category: CategoryInput!
+}
+
+# The output of our `createCategory` mutation.
+type CreateCategoryPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Category` that was created by this mutation.
+  category: Category
+
+  # An edge for our `Category`. May be used by Relay 1.
+  categoryEdge(
+    # The method to use when ordering `Category`.
+    orderBy: CategoriesOrderBy = PRIMARY_KEY_ASC
+  ): CategoriesEdge
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createObject` mutation.
+input CreateObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Object` to be created by this mutation.
+  object: ObjectInput!
+}
+
+# The output of our `createObject` mutation.
+type CreateObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Object` that was created by this mutation.
+  object: Object
+
+  # An edge for our `Object`. May be used by Relay 1.
+  objectEdge(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
+  ): ObjectsEdge
+
+  # Reads a single `Category` that is related to this `Object`.
+  categoryByCategory: Category
+
+  # Reads a single `Organization` that is related to this `Object`.
+  organizationByOrganizationId: Organization
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createOrganization` mutation.
+input CreateOrganizationInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Organization` to be created by this mutation.
+  organization: OrganizationInput!
+}
+
+# The output of our `createOrganization` mutation.
+type CreateOrganizationPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Organization` that was created by this mutation.
+  organization: Organization
+
+  # An edge for our `Organization`. May be used by Relay 1.
+  organizationEdge(
+    # The method to use when ordering `Organization`.
+    orderBy: OrganizationsOrderBy = PRIMARY_KEY_ASC
+  ): OrganizationsEdge
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createOrganizationUser` mutation.
+input CreateOrganizationUserInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `OrganizationUser` to be created by this mutation.
+  organizationUser: OrganizationUserInput!
+}
+
+# The output of our `createOrganizationUser` mutation.
+type CreateOrganizationUserPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `OrganizationUser` that was created by this mutation.
+  organizationUser: OrganizationUser
+
+  # An edge for our `OrganizationUser`. May be used by Relay 1.
+  organizationUserEdge(
+    # The method to use when ordering `OrganizationUser`.
+    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
+  ): OrganizationUsersEdge
+
+  # Reads a single `Organization` that is related to this `OrganizationUser`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `OrganizationUser`.
+  userByUserId: User
+
+  # Reads a single `Role` that is related to this `OrganizationUser`.
+  roleByRole: Role
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createPropertyCollection` mutation.
+input CreatePropertyCollectionInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `PropertyCollection` to be created by this mutation.
+  propertyCollection: PropertyCollectionInput!
+}
+
+# All input for the `createPropertyCollectionObject` mutation.
+input CreatePropertyCollectionObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `PropertyCollectionObject` to be created by this mutation.
+  propertyCollectionObject: PropertyCollectionObjectInput!
+}
+
+# The output of our `createPropertyCollectionObject` mutation.
+type CreatePropertyCollectionObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `PropertyCollectionObject` that was created by this mutation.
+  propertyCollectionObject: PropertyCollectionObject
+
+  # An edge for our `PropertyCollectionObject`. May be used by Relay 1.
+  propertyCollectionObjectEdge(
+    # The method to use when ordering `PropertyCollectionObject`.
+    orderBy: PropertyCollectionObjectsOrderBy = PRIMARY_KEY_ASC
+  ): PropertyCollectionObjectsEdge
+
+  # Reads a single `Object` that is related to this `PropertyCollectionObject`.
+  objectByObjectId: Object
+
+  # Reads a single `PropertyCollection` that is related to this `PropertyCollectionObject`.
+  propertyCollectionByPropertyCollectionId: PropertyCollection
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `createPropertyCollection` mutation.
+type CreatePropertyCollectionPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `PropertyCollection` that was created by this mutation.
+  propertyCollection: PropertyCollection
+
+  # An edge for our `PropertyCollection`. May be used by Relay 1.
+  propertyCollectionEdge(
+    # The method to use when ordering `PropertyCollection`.
+    orderBy: PropertyCollectionsOrderBy = PRIMARY_KEY_ASC
+  ): PropertyCollectionsEdge
+
+  # Reads a single `Organization` that is related to this `PropertyCollection`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `PropertyCollection`.
+  userByImportedBy: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createRelationCollection` mutation.
+input CreateRelationCollectionInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `RelationCollection` to be created by this mutation.
+  relationCollection: RelationCollectionInput!
+}
+
+# All input for the `createRelationCollectionObject` mutation.
+input CreateRelationCollectionObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `RelationCollectionObject` to be created by this mutation.
+  relationCollectionObject: RelationCollectionObjectInput!
+}
+
+# The output of our `createRelationCollectionObject` mutation.
+type CreateRelationCollectionObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `RelationCollectionObject` that was created by this mutation.
+  relationCollectionObject: RelationCollectionObject
+
+  # An edge for our `RelationCollectionObject`. May be used by Relay 1.
+  relationCollectionObjectEdge(
+    # The method to use when ordering `RelationCollectionObject`.
+    orderBy: RelationCollectionObjectsOrderBy = PRIMARY_KEY_ASC
+  ): RelationCollectionObjectsEdge
+
+  # Reads a single `Object` that is related to this `RelationCollectionObject`.
+  objectByObjectId: Object
+
+  # Reads a single `RelationCollection` that is related to this `RelationCollectionObject`.
+  relationCollectionByRelationCollectionId: RelationCollection
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `createRelationCollection` mutation.
+type CreateRelationCollectionPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `RelationCollection` that was created by this mutation.
+  relationCollection: RelationCollection
+
+  # An edge for our `RelationCollection`. May be used by Relay 1.
+  relationCollectionEdge(
+    # The method to use when ordering `RelationCollection`.
+    orderBy: RelationCollectionsOrderBy = PRIMARY_KEY_ASC
+  ): RelationCollectionsEdge
+
+  # Reads a single `Organization` that is related to this `RelationCollection`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `RelationCollection`.
+  userByImportedBy: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createRelation` mutation.
+input CreateRelationInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Relation` to be created by this mutation.
+  relation: RelationInput!
+}
+
+# All input for the `createRelationPartner` mutation.
+input CreateRelationPartnerInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `RelationPartner` to be created by this mutation.
+  relationPartner: RelationPartnerInput!
+}
+
+# The output of our `createRelationPartner` mutation.
+type CreateRelationPartnerPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `RelationPartner` that was created by this mutation.
+  relationPartner: RelationPartner
+
+  # An edge for our `RelationPartner`. May be used by Relay 1.
+  relationPartnerEdge(
+    # The method to use when ordering `RelationPartner`.
+    orderBy: RelationPartnersOrderBy = PRIMARY_KEY_ASC
+  ): RelationPartnersEdge
+
+  # Reads a single `Object` that is related to this `RelationPartner`.
+  objectByObjectId: Object
+
+  # Reads a single `Relation` that is related to this `RelationPartner`.
+  relationByRelationId: Relation
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `createRelation` mutation.
+type CreateRelationPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Relation` that was created by this mutation.
+  relation: Relation
+
+  # An edge for our `Relation`. May be used by Relay 1.
+  relationEdge(
+    # The method to use when ordering `Relation`.
+    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
+  ): RelationsEdge
+
+  # Reads a single `Object` that is related to this `Relation`.
+  objectByObjectId: Object
+
+  # Reads a single `RelationCollectionObject` that is related to this `Relation`.
+  relationCollectionObjectByObjectIdAndRelationCollectionId: RelationCollectionObject
+
+  # Reads a single `RelationCollection` that is related to this `Relation`.
+  relationCollectionByRelationCollectionId: RelationCollection
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createRole` mutation.
+input CreateRoleInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Role` to be created by this mutation.
+  role: RoleInput!
+}
+
+# The output of our `createRole` mutation.
+type CreateRolePayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Role` that was created by this mutation.
+  role: Role
+
+  # An edge for our `Role`. May be used by Relay 1.
+  roleEdge(
+    # The method to use when ordering `Role`.
+    orderBy: RolesOrderBy = PRIMARY_KEY_ASC
+  ): RolesEdge
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createTaxonomy` mutation.
+input CreateTaxonomyInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Taxonomy` to be created by this mutation.
+  taxonomy: TaxonomyInput!
+}
+
+# All input for the `createTaxonomyObject` mutation.
+input CreateTaxonomyObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `TaxonomyObject` to be created by this mutation.
+  taxonomyObject: TaxonomyObjectInput!
+}
+
+# The output of our `createTaxonomyObject` mutation.
+type CreateTaxonomyObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `TaxonomyObject` that was created by this mutation.
+  taxonomyObject: TaxonomyObject
+
+  # An edge for our `TaxonomyObject`. May be used by Relay 1.
+  taxonomyObjectEdge(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
+  ): TaxonomyObjectsEdge
+
+  # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
+  taxonomyByTaxonomyId: Taxonomy
+
+  # Reads a single `Object` that is related to this `TaxonomyObject`.
+  objectByObjectId: Object
+
+  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
+  taxonomyObjectByParentId: TaxonomyObject
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `createTaxonomy` mutation.
+type CreateTaxonomyPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Taxonomy` that was created by this mutation.
+  taxonomy: Taxonomy
+
+  # An edge for our `Taxonomy`. May be used by Relay 1.
+  taxonomyEdge(
+    # The method to use when ordering `Taxonomy`.
+    orderBy: TaxonomiesOrderBy = PRIMARY_KEY_ASC
+  ): TaxonomiesEdge
+
+  # Reads a single `Organization` that is related to this `Taxonomy`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `Category` that is related to this `Taxonomy`.
+  categoryByCategory: Category
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createUser` mutation.
+input CreateUserInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `User` to be created by this mutation.
+  user: UserInput!
+}
+
+# The output of our `createUser` mutation.
+type CreateUserPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `User` that was created by this mutation.
+  user: User
+
+  # An edge for our `User`. May be used by Relay 1.
+  userEdge(
+    # The method to use when ordering `User`.
+    orderBy: UsersOrderBy = PRIMARY_KEY_ASC
+  ): UsersEdge
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# A location in a connection that can be used for resuming pagination.
+scalar Cursor
+
+# The day, does not include a time.
+scalar Date
+
+# All input for the `deleteCategoryByName` mutation.
+input DeleteCategoryByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+}
+
+# All input for the `deleteCategory` mutation.
+input DeleteCategoryInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Category` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteCategory` mutation.
+type DeleteCategoryPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  category: Category
+  deletedCategoryId: ID
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteObjectById` mutation.
+input DeleteObjectByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+}
+
+# All input for the `deleteObject` mutation.
+input DeleteObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Object` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteObject` mutation.
+type DeleteObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  object: Object
+  deletedObjectId: ID
+
+  # Reads a single `Category` that is related to this `Object`.
+  categoryByCategory: Category
+
+  # Reads a single `Organization` that is related to this `Object`.
+  organizationByOrganizationId: Organization
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteOrganizationById` mutation.
+input DeleteOrganizationByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+}
+
+# All input for the `deleteOrganizationByName` mutation.
+input DeleteOrganizationByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+}
+
+# All input for the `deleteOrganization` mutation.
+input DeleteOrganizationInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Organization` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteOrganization` mutation.
+type DeleteOrganizationPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  organization: Organization
+  deletedOrganizationId: ID
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteOrganizationUserByOrganizationIdAndUserIdAndRole` mutation.
+input DeleteOrganizationUserByOrganizationIdAndUserIdAndRoleInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  organizationId: Uuid!
+  userId: Uuid!
+  role: String!
+}
+
+# All input for the `deleteOrganizationUser` mutation.
+input DeleteOrganizationUserInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `OrganizationUser` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteOrganizationUser` mutation.
+type DeleteOrganizationUserPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  organizationUser: OrganizationUser
+  deletedOrganizationUserId: ID
+
+  # Reads a single `Organization` that is related to this `OrganizationUser`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `OrganizationUser`.
+  userByUserId: User
+
+  # Reads a single `Role` that is related to this `OrganizationUser`.
+  roleByRole: Role
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deletePropertyCollectionById` mutation.
+input DeletePropertyCollectionByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+}
+
+# All input for the `deletePropertyCollectionByName` mutation.
+input DeletePropertyCollectionByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+}
+
+# All input for the `deletePropertyCollection` mutation.
+input DeletePropertyCollectionInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `PropertyCollection` to be deleted.
+  nodeId: ID!
+}
+
+# All input for the `deletePropertyCollectionObjectByObjectIdAndPropertyCollectionId` mutation.
+input DeletePropertyCollectionObjectByObjectIdAndPropertyCollectionIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  objectId: Uuid!
+  propertyCollectionId: Uuid!
+}
+
+# All input for the `deletePropertyCollectionObject` mutation.
+input DeletePropertyCollectionObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `PropertyCollectionObject` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deletePropertyCollectionObject` mutation.
+type DeletePropertyCollectionObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  propertyCollectionObject: PropertyCollectionObject
+  deletedPropertyCollectionObjectId: ID
+
+  # Reads a single `Object` that is related to this `PropertyCollectionObject`.
+  objectByObjectId: Object
+
+  # Reads a single `PropertyCollection` that is related to this `PropertyCollectionObject`.
+  propertyCollectionByPropertyCollectionId: PropertyCollection
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `deletePropertyCollection` mutation.
+type DeletePropertyCollectionPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  propertyCollection: PropertyCollection
+  deletedPropertyCollectionId: ID
+
+  # Reads a single `Organization` that is related to this `PropertyCollection`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `PropertyCollection`.
+  userByImportedBy: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteRelationById` mutation.
+input DeleteRelationByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+}
+
+# All input for the `deleteRelationCollectionById` mutation.
+input DeleteRelationCollectionByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+}
+
+# All input for the `deleteRelationCollectionByName` mutation.
+input DeleteRelationCollectionByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+}
+
+# All input for the `deleteRelationCollection` mutation.
+input DeleteRelationCollectionInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `RelationCollection` to be deleted.
+  nodeId: ID!
+}
+
+# All input for the `deleteRelationCollectionObjectByObjectIdAndRelationCollectionId` mutation.
+input DeleteRelationCollectionObjectByObjectIdAndRelationCollectionIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  objectId: Uuid!
+  relationCollectionId: Uuid!
+}
+
+# All input for the `deleteRelationCollectionObject` mutation.
+input DeleteRelationCollectionObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `RelationCollectionObject` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteRelationCollectionObject` mutation.
+type DeleteRelationCollectionObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  relationCollectionObject: RelationCollectionObject
+  deletedRelationCollectionObjectId: ID
+
+  # Reads a single `Object` that is related to this `RelationCollectionObject`.
+  objectByObjectId: Object
+
+  # Reads a single `RelationCollection` that is related to this `RelationCollectionObject`.
+  relationCollectionByRelationCollectionId: RelationCollection
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `deleteRelationCollection` mutation.
+type DeleteRelationCollectionPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  relationCollection: RelationCollection
+  deletedRelationCollectionId: ID
+
+  # Reads a single `Organization` that is related to this `RelationCollection`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `RelationCollection`.
+  userByImportedBy: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteRelation` mutation.
+input DeleteRelationInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Relation` to be deleted.
+  nodeId: ID!
+}
+
+# All input for the `deleteRelationPartnerByObjectIdAndRelationId` mutation.
+input DeleteRelationPartnerByObjectIdAndRelationIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  objectId: Uuid!
+  relationId: Uuid!
+}
+
+# All input for the `deleteRelationPartner` mutation.
+input DeleteRelationPartnerInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `RelationPartner` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteRelationPartner` mutation.
+type DeleteRelationPartnerPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  relationPartner: RelationPartner
+  deletedRelationPartnerId: ID
+
+  # Reads a single `Object` that is related to this `RelationPartner`.
+  objectByObjectId: Object
+
+  # Reads a single `Relation` that is related to this `RelationPartner`.
+  relationByRelationId: Relation
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `deleteRelation` mutation.
+type DeleteRelationPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  relation: Relation
+  deletedRelationId: ID
+
+  # Reads a single `Object` that is related to this `Relation`.
+  objectByObjectId: Object
+
+  # Reads a single `RelationCollectionObject` that is related to this `Relation`.
+  relationCollectionObjectByObjectIdAndRelationCollectionId: RelationCollectionObject
+
+  # Reads a single `RelationCollection` that is related to this `Relation`.
+  relationCollectionByRelationCollectionId: RelationCollection
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteRoleByName` mutation.
+input DeleteRoleByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+}
+
+# All input for the `deleteRole` mutation.
+input DeleteRoleInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Role` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteRole` mutation.
+type DeleteRolePayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  role: Role
+  deletedRoleId: ID
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteTaxonomyById` mutation.
+input DeleteTaxonomyByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+}
+
+# All input for the `deleteTaxonomyByName` mutation.
+input DeleteTaxonomyByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+}
+
+# All input for the `deleteTaxonomy` mutation.
+input DeleteTaxonomyInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Taxonomy` to be deleted.
+  nodeId: ID!
+}
+
+# All input for the `deleteTaxonomyObjectById` mutation.
+input DeleteTaxonomyObjectByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+}
+
+# All input for the `deleteTaxonomyObject` mutation.
+input DeleteTaxonomyObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `TaxonomyObject` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteTaxonomyObject` mutation.
+type DeleteTaxonomyObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  taxonomyObject: TaxonomyObject
+  deletedTaxonomyObjectId: ID
+
+  # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
+  taxonomyByTaxonomyId: Taxonomy
+
+  # Reads a single `Object` that is related to this `TaxonomyObject`.
+  objectByObjectId: Object
+
+  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
+  taxonomyObjectByParentId: TaxonomyObject
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `deleteTaxonomy` mutation.
+type DeleteTaxonomyPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  taxonomy: Taxonomy
+  deletedTaxonomyId: ID
+
+  # Reads a single `Organization` that is related to this `Taxonomy`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `Category` that is related to this `Taxonomy`.
+  categoryByCategory: Category
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteUserByEmail` mutation.
+input DeleteUserByEmailInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  email: String!
+}
+
+# All input for the `deleteUserById` mutation.
+input DeleteUserByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+}
+
+# All input for the `deleteUserByName` mutation.
+input DeleteUserByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+}
+
+# All input for the `deleteUser` mutation.
+input DeleteUserInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `User` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteUser` mutation.
+type DeleteUserPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  user: User
+  deletedUserId: ID
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# A JavaScript object encoded in the JSON format as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+scalar Json
+
+# The root mutation type which contains root level fields which mutate data.
+type Mutation {
+  # Creates a single `Category`.
+  createCategory(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateCategoryInput!
+  ): CreateCategoryPayload
+
+  # Updates a single `Category` using its globally unique id and a patch.
+  updateCategory(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateCategoryInput!
+  ): UpdateCategoryPayload
+
+  # Updates a single `Category` using a unique key and a patch.
+  updateCategoryByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateCategoryByNameInput!
+  ): UpdateCategoryPayload
+
+  # Deletes a single `Category` using its globally unique id.
+  deleteCategory(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteCategoryInput!
+  ): DeleteCategoryPayload
+
+  # Deletes a single `Category` using a unique key.
+  deleteCategoryByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteCategoryByNameInput!
+  ): DeleteCategoryPayload
+
+  # Creates a single `Object`.
+  createObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateObjectInput!
+  ): CreateObjectPayload
+
+  # Updates a single `Object` using its globally unique id and a patch.
+  updateObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateObjectInput!
+  ): UpdateObjectPayload
+
+  # Updates a single `Object` using a unique key and a patch.
+  updateObjectById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateObjectByIdInput!
+  ): UpdateObjectPayload
+
+  # Deletes a single `Object` using its globally unique id.
+  deleteObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteObjectInput!
+  ): DeleteObjectPayload
+
+  # Deletes a single `Object` using a unique key.
+  deleteObjectById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteObjectByIdInput!
+  ): DeleteObjectPayload
+
+  # Creates a single `Organization`.
+  createOrganization(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateOrganizationInput!
+  ): CreateOrganizationPayload
+
+  # Updates a single `Organization` using its globally unique id and a patch.
+  updateOrganization(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateOrganizationInput!
+  ): UpdateOrganizationPayload
+
+  # Updates a single `Organization` using a unique key and a patch.
+  updateOrganizationById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateOrganizationByIdInput!
+  ): UpdateOrganizationPayload
+
+  # Updates a single `Organization` using a unique key and a patch.
+  updateOrganizationByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateOrganizationByNameInput!
+  ): UpdateOrganizationPayload
+
+  # Deletes a single `Organization` using its globally unique id.
+  deleteOrganization(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteOrganizationInput!
+  ): DeleteOrganizationPayload
+
+  # Deletes a single `Organization` using a unique key.
+  deleteOrganizationById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteOrganizationByIdInput!
+  ): DeleteOrganizationPayload
+
+  # Deletes a single `Organization` using a unique key.
+  deleteOrganizationByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteOrganizationByNameInput!
+  ): DeleteOrganizationPayload
+
+  # Creates a single `OrganizationUser`.
+  createOrganizationUser(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateOrganizationUserInput!
+  ): CreateOrganizationUserPayload
+
+  # Updates a single `OrganizationUser` using its globally unique id and a patch.
+  updateOrganizationUser(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateOrganizationUserInput!
+  ): UpdateOrganizationUserPayload
+
+  # Updates a single `OrganizationUser` using a unique key and a patch.
+  updateOrganizationUserByOrganizationIdAndUserIdAndRole(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateOrganizationUserByOrganizationIdAndUserIdAndRoleInput!
+  ): UpdateOrganizationUserPayload
+
+  # Deletes a single `OrganizationUser` using its globally unique id.
+  deleteOrganizationUser(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteOrganizationUserInput!
+  ): DeleteOrganizationUserPayload
+
+  # Deletes a single `OrganizationUser` using a unique key.
+  deleteOrganizationUserByOrganizationIdAndUserIdAndRole(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteOrganizationUserByOrganizationIdAndUserIdAndRoleInput!
+  ): DeleteOrganizationUserPayload
+
+  # Creates a single `PropertyCollection`.
+  createPropertyCollection(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreatePropertyCollectionInput!
+  ): CreatePropertyCollectionPayload
+
+  # Updates a single `PropertyCollection` using its globally unique id and a patch.
+  updatePropertyCollection(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdatePropertyCollectionInput!
+  ): UpdatePropertyCollectionPayload
+
+  # Updates a single `PropertyCollection` using a unique key and a patch.
+  updatePropertyCollectionById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdatePropertyCollectionByIdInput!
+  ): UpdatePropertyCollectionPayload
+
+  # Updates a single `PropertyCollection` using a unique key and a patch.
+  updatePropertyCollectionByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdatePropertyCollectionByNameInput!
+  ): UpdatePropertyCollectionPayload
+
+  # Deletes a single `PropertyCollection` using its globally unique id.
+  deletePropertyCollection(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeletePropertyCollectionInput!
+  ): DeletePropertyCollectionPayload
+
+  # Deletes a single `PropertyCollection` using a unique key.
+  deletePropertyCollectionById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeletePropertyCollectionByIdInput!
+  ): DeletePropertyCollectionPayload
+
+  # Deletes a single `PropertyCollection` using a unique key.
+  deletePropertyCollectionByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeletePropertyCollectionByNameInput!
+  ): DeletePropertyCollectionPayload
+
+  # Creates a single `PropertyCollectionObject`.
+  createPropertyCollectionObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreatePropertyCollectionObjectInput!
+  ): CreatePropertyCollectionObjectPayload
+
+  # Updates a single `PropertyCollectionObject` using its globally unique id and a patch.
+  updatePropertyCollectionObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdatePropertyCollectionObjectInput!
+  ): UpdatePropertyCollectionObjectPayload
+
+  # Updates a single `PropertyCollectionObject` using a unique key and a patch.
+  updatePropertyCollectionObjectByObjectIdAndPropertyCollectionId(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdatePropertyCollectionObjectByObjectIdAndPropertyCollectionIdInput!
+  ): UpdatePropertyCollectionObjectPayload
+
+  # Deletes a single `PropertyCollectionObject` using its globally unique id.
+  deletePropertyCollectionObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeletePropertyCollectionObjectInput!
+  ): DeletePropertyCollectionObjectPayload
+
+  # Deletes a single `PropertyCollectionObject` using a unique key.
+  deletePropertyCollectionObjectByObjectIdAndPropertyCollectionId(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeletePropertyCollectionObjectByObjectIdAndPropertyCollectionIdInput!
+  ): DeletePropertyCollectionObjectPayload
+
+  # Creates a single `Relation`.
+  createRelation(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateRelationInput!
+  ): CreateRelationPayload
+
+  # Updates a single `Relation` using its globally unique id and a patch.
+  updateRelation(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRelationInput!
+  ): UpdateRelationPayload
+
+  # Updates a single `Relation` using a unique key and a patch.
+  updateRelationById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRelationByIdInput!
+  ): UpdateRelationPayload
+
+  # Deletes a single `Relation` using its globally unique id.
+  deleteRelation(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRelationInput!
+  ): DeleteRelationPayload
+
+  # Deletes a single `Relation` using a unique key.
+  deleteRelationById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRelationByIdInput!
+  ): DeleteRelationPayload
+
+  # Creates a single `RelationCollection`.
+  createRelationCollection(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateRelationCollectionInput!
+  ): CreateRelationCollectionPayload
+
+  # Updates a single `RelationCollection` using its globally unique id and a patch.
+  updateRelationCollection(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRelationCollectionInput!
+  ): UpdateRelationCollectionPayload
+
+  # Updates a single `RelationCollection` using a unique key and a patch.
+  updateRelationCollectionById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRelationCollectionByIdInput!
+  ): UpdateRelationCollectionPayload
+
+  # Updates a single `RelationCollection` using a unique key and a patch.
+  updateRelationCollectionByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRelationCollectionByNameInput!
+  ): UpdateRelationCollectionPayload
+
+  # Deletes a single `RelationCollection` using its globally unique id.
+  deleteRelationCollection(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRelationCollectionInput!
+  ): DeleteRelationCollectionPayload
+
+  # Deletes a single `RelationCollection` using a unique key.
+  deleteRelationCollectionById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRelationCollectionByIdInput!
+  ): DeleteRelationCollectionPayload
+
+  # Deletes a single `RelationCollection` using a unique key.
+  deleteRelationCollectionByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRelationCollectionByNameInput!
+  ): DeleteRelationCollectionPayload
+
+  # Creates a single `RelationCollectionObject`.
+  createRelationCollectionObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateRelationCollectionObjectInput!
+  ): CreateRelationCollectionObjectPayload
+
+  # Updates a single `RelationCollectionObject` using its globally unique id and a patch.
+  updateRelationCollectionObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRelationCollectionObjectInput!
+  ): UpdateRelationCollectionObjectPayload
+
+  # Updates a single `RelationCollectionObject` using a unique key and a patch.
+  updateRelationCollectionObjectByObjectIdAndRelationCollectionId(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRelationCollectionObjectByObjectIdAndRelationCollectionIdInput!
+  ): UpdateRelationCollectionObjectPayload
+
+  # Deletes a single `RelationCollectionObject` using its globally unique id.
+  deleteRelationCollectionObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRelationCollectionObjectInput!
+  ): DeleteRelationCollectionObjectPayload
+
+  # Deletes a single `RelationCollectionObject` using a unique key.
+  deleteRelationCollectionObjectByObjectIdAndRelationCollectionId(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRelationCollectionObjectByObjectIdAndRelationCollectionIdInput!
+  ): DeleteRelationCollectionObjectPayload
+
+  # Creates a single `RelationPartner`.
+  createRelationPartner(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateRelationPartnerInput!
+  ): CreateRelationPartnerPayload
+
+  # Updates a single `RelationPartner` using its globally unique id and a patch.
+  updateRelationPartner(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRelationPartnerInput!
+  ): UpdateRelationPartnerPayload
+
+  # Updates a single `RelationPartner` using a unique key and a patch.
+  updateRelationPartnerByObjectIdAndRelationId(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRelationPartnerByObjectIdAndRelationIdInput!
+  ): UpdateRelationPartnerPayload
+
+  # Deletes a single `RelationPartner` using its globally unique id.
+  deleteRelationPartner(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRelationPartnerInput!
+  ): DeleteRelationPartnerPayload
+
+  # Deletes a single `RelationPartner` using a unique key.
+  deleteRelationPartnerByObjectIdAndRelationId(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRelationPartnerByObjectIdAndRelationIdInput!
+  ): DeleteRelationPartnerPayload
+
+  # Creates a single `Role`.
+  createRole(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateRoleInput!
+  ): CreateRolePayload
+
+  # Updates a single `Role` using its globally unique id and a patch.
+  updateRole(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRoleInput!
+  ): UpdateRolePayload
+
+  # Updates a single `Role` using a unique key and a patch.
+  updateRoleByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateRoleByNameInput!
+  ): UpdateRolePayload
+
+  # Deletes a single `Role` using its globally unique id.
+  deleteRole(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRoleInput!
+  ): DeleteRolePayload
+
+  # Deletes a single `Role` using a unique key.
+  deleteRoleByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteRoleByNameInput!
+  ): DeleteRolePayload
+
+  # Creates a single `Taxonomy`.
+  createTaxonomy(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateTaxonomyInput!
+  ): CreateTaxonomyPayload
+
+  # Updates a single `Taxonomy` using its globally unique id and a patch.
+  updateTaxonomy(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateTaxonomyInput!
+  ): UpdateTaxonomyPayload
+
+  # Updates a single `Taxonomy` using a unique key and a patch.
+  updateTaxonomyById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateTaxonomyByIdInput!
+  ): UpdateTaxonomyPayload
+
+  # Updates a single `Taxonomy` using a unique key and a patch.
+  updateTaxonomyByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateTaxonomyByNameInput!
+  ): UpdateTaxonomyPayload
+
+  # Deletes a single `Taxonomy` using its globally unique id.
+  deleteTaxonomy(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteTaxonomyInput!
+  ): DeleteTaxonomyPayload
+
+  # Deletes a single `Taxonomy` using a unique key.
+  deleteTaxonomyById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteTaxonomyByIdInput!
+  ): DeleteTaxonomyPayload
+
+  # Deletes a single `Taxonomy` using a unique key.
+  deleteTaxonomyByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteTaxonomyByNameInput!
+  ): DeleteTaxonomyPayload
+
+  # Creates a single `TaxonomyObject`.
+  createTaxonomyObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateTaxonomyObjectInput!
+  ): CreateTaxonomyObjectPayload
+
+  # Updates a single `TaxonomyObject` using its globally unique id and a patch.
+  updateTaxonomyObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateTaxonomyObjectInput!
+  ): UpdateTaxonomyObjectPayload
+
+  # Updates a single `TaxonomyObject` using a unique key and a patch.
+  updateTaxonomyObjectById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateTaxonomyObjectByIdInput!
+  ): UpdateTaxonomyObjectPayload
+
+  # Deletes a single `TaxonomyObject` using its globally unique id.
+  deleteTaxonomyObject(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteTaxonomyObjectInput!
+  ): DeleteTaxonomyObjectPayload
+
+  # Deletes a single `TaxonomyObject` using a unique key.
+  deleteTaxonomyObjectById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteTaxonomyObjectByIdInput!
+  ): DeleteTaxonomyObjectPayload
+
+  # Creates a single `User`.
+  createUser(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateUserInput!
+  ): CreateUserPayload
+
+  # Updates a single `User` using its globally unique id and a patch.
+  updateUser(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateUserInput!
+  ): UpdateUserPayload
+
+  # Updates a single `User` using a unique key and a patch.
+  updateUserById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateUserByIdInput!
+  ): UpdateUserPayload
+
+  # Updates a single `User` using a unique key and a patch.
+  updateUserByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateUserByNameInput!
+  ): UpdateUserPayload
+
+  # Updates a single `User` using a unique key and a patch.
+  updateUserByEmail(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateUserByEmailInput!
+  ): UpdateUserPayload
+
+  # Deletes a single `User` using its globally unique id.
+  deleteUser(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteUserInput!
+  ): DeleteUserPayload
+
+  # Deletes a single `User` using a unique key.
+  deleteUserById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteUserByIdInput!
+  ): DeleteUserPayload
+
+  # Deletes a single `User` using a unique key.
+  deleteUserByName(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteUserByNameInput!
+  ): DeleteUserPayload
+
+  # Deletes a single `User` using a unique key.
+  deleteUserByEmail(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteUserByEmailInput!
+  ): DeleteUserPayload
+}
+
+# An object with a globally unique `ID`.
+interface Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+}
+
+type Object implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Uuid!
+  category: String
+  organizationId: Uuid!
+
+  # Reads a single `Category` that is related to this `Object`.
+  categoryByCategory: Category
+
+  # Reads a single `Organization` that is related to this `Object`.
+  organizationByOrganizationId: Organization
+
+  # Reads and enables paginatation through a set of `PropertyCollectionObject`.
+  propertyCollectionObjectsByObjectId(
+    # The method to use when ordering `PropertyCollectionObject`.
+    orderBy: PropertyCollectionObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: PropertyCollectionObjectCondition
+  ): PropertyCollectionObjectsConnection
+
+  # Reads and enables paginatation through a set of `Relation`.
+  relationsByObjectId(
+    # The method to use when ordering `Relation`.
+    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCondition
+  ): RelationsConnection
+
+  # Reads and enables paginatation through a set of `RelationCollectionObject`.
+  relationCollectionObjectsByObjectId(
+    # The method to use when ordering `RelationCollectionObject`.
+    orderBy: RelationCollectionObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCollectionObjectCondition
+  ): RelationCollectionObjectsConnection
+
+  # Reads and enables paginatation through a set of `RelationPartner`.
+  relationPartnersByObjectId(
+    # The method to use when ordering `RelationPartner`.
+    orderBy: RelationPartnersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationPartnerCondition
+  ): RelationPartnersConnection
+
+  # Reads and enables paginatation through a set of `TaxonomyObject`.
+  taxonomyObjectsByObjectId(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyObjectCondition
+  ): TaxonomyObjectsConnection
+}
+
+# A condition to be used against `Object` object types. All fields are tested for equality and combined with a logical ‘and.’
+input ObjectCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
+
+  # Checks for equality with the object’s `category` field.
+  category: String
+
+  # Checks for equality with the object’s `organizationId` field.
+  organizationId: Uuid
+}
+
+input ObjectInput {
+  id: Uuid
+  category: String
+  organizationId: Uuid!
+}
+
+# Represents an update to a `Object`. Fields that are set will be updated.
+input ObjectPatch {
+  id: Uuid
+  category: String
+  organizationId: Uuid
+}
+
+# A connection to a list of `Object` values.
+type ObjectsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Object` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Object` and cursor to aid in pagination.
+  edges: [ObjectsEdge]
+
+  # A list of `Object` objects.
+  nodes: [Object!]
+}
+
+# A `Object` edge in the connection.
+type ObjectsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Object` at the end of the edge.
+  node: Object!
+}
+
+# Methods to use when ordering `Object`.
+enum ObjectsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CATEGORY_ASC
+  CATEGORY_DESC
+  ORGANIZATION_ID_ASC
+  ORGANIZATION_ID_DESC
+}
+
+type Organization implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Uuid!
+  name: String!
+
+  # Reads and enables paginatation through a set of `Object`.
+  objectsByOrganizationId(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: ObjectCondition
+  ): ObjectsConnection
+
+  # Reads and enables paginatation through a set of `OrganizationUser`.
+  organizationUsersByOrganizationId(
+    # The method to use when ordering `OrganizationUser`.
+    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: OrganizationUserCondition
+  ): OrganizationUsersConnection
+
+  # Reads and enables paginatation through a set of `PropertyCollection`.
+  propertyCollectionsByOrganizationId(
+    # The method to use when ordering `PropertyCollection`.
+    orderBy: PropertyCollectionsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: PropertyCollectionCondition
+  ): PropertyCollectionsConnection
+
+  # Reads and enables paginatation through a set of `RelationCollection`.
+  relationCollectionsByOrganizationId(
+    # The method to use when ordering `RelationCollection`.
+    orderBy: RelationCollectionsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCollectionCondition
+  ): RelationCollectionsConnection
+
+  # Reads and enables paginatation through a set of `Taxonomy`.
+  taxonomiesByOrganizationId(
+    # The method to use when ordering `Taxonomy`.
+    orderBy: TaxonomiesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyCondition
+  ): TaxonomiesConnection
+}
+
+# A condition to be used against `Organization` object types. All fields are
+# tested for equality and combined with a logical ‘and.’
+input OrganizationCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
+
+  # Checks for equality with the object’s `name` field.
+  name: String
+}
+
+input OrganizationInput {
+  id: Uuid
+  name: String!
+}
+
+# Represents an update to a `Organization`. Fields that are set will be updated.
+input OrganizationPatch {
+  id: Uuid
+  name: String
+}
+
+# A connection to a list of `Organization` values.
+type OrganizationsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Organization` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Organization` and cursor to aid in pagination.
+  edges: [OrganizationsEdge]
+
+  # A list of `Organization` objects.
+  nodes: [Organization!]
+}
+
+# A `Organization` edge in the connection.
+type OrganizationsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Organization` at the end of the edge.
+  node: Organization!
+}
+
+# Methods to use when ordering `Organization`.
+enum OrganizationsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+}
+
+type OrganizationUser implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  organizationId: Uuid!
+  userId: Uuid!
+  role: String!
+
+  # Reads a single `Organization` that is related to this `OrganizationUser`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `OrganizationUser`.
+  userByUserId: User
+
+  # Reads a single `Role` that is related to this `OrganizationUser`.
+  roleByRole: Role
+}
+
+# A condition to be used against `OrganizationUser` object types. All fields are
+# tested for equality and combined with a logical ‘and.’
+input OrganizationUserCondition {
+  # Checks for equality with the object’s `organizationId` field.
+  organizationId: Uuid
+
+  # Checks for equality with the object’s `userId` field.
+  userId: Uuid
+
+  # Checks for equality with the object’s `role` field.
+  role: String
+}
+
+input OrganizationUserInput {
+  organizationId: Uuid!
+  userId: Uuid!
+  role: String!
+}
+
+# Represents an update to a `OrganizationUser`. Fields that are set will be updated.
+input OrganizationUserPatch {
+  organizationId: Uuid
+  userId: Uuid
+  role: String
+}
+
+# A connection to a list of `OrganizationUser` values.
+type OrganizationUsersConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `OrganizationUser` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `OrganizationUser` and cursor to aid in pagination.
+  edges: [OrganizationUsersEdge]
+
+  # A list of `OrganizationUser` objects.
+  nodes: [OrganizationUser!]
+}
+
+# A `OrganizationUser` edge in the connection.
+type OrganizationUsersEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `OrganizationUser` at the end of the edge.
+  node: OrganizationUser!
+}
+
+# Methods to use when ordering `OrganizationUser`.
+enum OrganizationUsersOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ORGANIZATION_ID_ASC
+  ORGANIZATION_ID_DESC
+  USER_ID_ASC
+  USER_ID_DESC
+  ROLE_ASC
+  ROLE_DESC
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: Cursor
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: Cursor
+}
+
+type PropertyCollection implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Uuid!
+  name: String!
+  description: String
+  links: [String]
+  combining: Boolean
+  organizationId: Uuid!
+  lastUpdated: Date
+  termsOfUse: String
+  importedBy: Uuid!
+
+  # Reads a single `Organization` that is related to this `PropertyCollection`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `PropertyCollection`.
+  userByImportedBy: User
+
+  # Reads and enables paginatation through a set of `PropertyCollectionObject`.
+  propertyCollectionObjectsByPropertyCollectionId(
+    # The method to use when ordering `PropertyCollectionObject`.
+    orderBy: PropertyCollectionObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: PropertyCollectionObjectCondition
+  ): PropertyCollectionObjectsConnection
+}
+
+# A condition to be used against `PropertyCollection` object types. All fields are
+# tested for equality and combined with a logical ‘and.’
+input PropertyCollectionCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
+
+  # Checks for equality with the object’s `name` field.
+  name: String
+
+  # Checks for equality with the object’s `description` field.
+  description: String
+
+  # Checks for equality with the object’s `links` field.
+  links: [String]
+
+  # Checks for equality with the object’s `combining` field.
+  combining: Boolean
+
+  # Checks for equality with the object’s `organizationId` field.
+  organizationId: Uuid
+
+  # Checks for equality with the object’s `lastUpdated` field.
+  lastUpdated: Date
+
+  # Checks for equality with the object’s `termsOfUse` field.
+  termsOfUse: String
+
+  # Checks for equality with the object’s `importedBy` field.
+  importedBy: Uuid
+}
+
+input PropertyCollectionInput {
+  id: Uuid
+  name: String!
+  description: String
+  links: [String]
+  combining: Boolean
+  organizationId: Uuid!
+  lastUpdated: Date
+  termsOfUse: String
+  importedBy: Uuid!
+}
+
+type PropertyCollectionObject implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  objectId: Uuid!
+  propertyCollectionId: Uuid!
+  properties: Json
+
+  # Reads a single `Object` that is related to this `PropertyCollectionObject`.
+  objectByObjectId: Object
+
+  # Reads a single `PropertyCollection` that is related to this `PropertyCollectionObject`.
+  propertyCollectionByPropertyCollectionId: PropertyCollection
+}
+
+# A condition to be used against `PropertyCollectionObject` object types. All
+# fields are tested for equality and combined with a logical ‘and.’
+input PropertyCollectionObjectCondition {
+  # Checks for equality with the object’s `objectId` field.
+  objectId: Uuid
+
+  # Checks for equality with the object’s `propertyCollectionId` field.
+  propertyCollectionId: Uuid
+
+  # Checks for equality with the object’s `properties` field.
+  properties: Json
+}
+
+input PropertyCollectionObjectInput {
+  objectId: Uuid!
+  propertyCollectionId: Uuid!
+  properties: Json
+}
+
+# Represents an update to a `PropertyCollectionObject`. Fields that are set will be updated.
+input PropertyCollectionObjectPatch {
+  objectId: Uuid
+  propertyCollectionId: Uuid
+  properties: Json
+}
+
+# A connection to a list of `PropertyCollectionObject` values.
+type PropertyCollectionObjectsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `PropertyCollectionObject` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `PropertyCollectionObject` and cursor to aid in pagination.
+  edges: [PropertyCollectionObjectsEdge]
+
+  # A list of `PropertyCollectionObject` objects.
+  nodes: [PropertyCollectionObject!]
+}
+
+# A `PropertyCollectionObject` edge in the connection.
+type PropertyCollectionObjectsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `PropertyCollectionObject` at the end of the edge.
+  node: PropertyCollectionObject!
+}
+
+# Methods to use when ordering `PropertyCollectionObject`.
+enum PropertyCollectionObjectsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  OBJECT_ID_ASC
+  OBJECT_ID_DESC
+  PROPERTY_COLLECTION_ID_ASC
+  PROPERTY_COLLECTION_ID_DESC
+  PROPERTIES_ASC
+  PROPERTIES_DESC
+}
+
+# Represents an update to a `PropertyCollection`. Fields that are set will be updated.
+input PropertyCollectionPatch {
+  id: Uuid
+  name: String
+  description: String
+  links: [String]
+  combining: Boolean
+  organizationId: Uuid
+  lastUpdated: Date
+  termsOfUse: String
+  importedBy: Uuid
+}
+
+# A connection to a list of `PropertyCollection` values.
+type PropertyCollectionsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `PropertyCollection` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `PropertyCollection` and cursor to aid in pagination.
+  edges: [PropertyCollectionsEdge]
+
+  # A list of `PropertyCollection` objects.
+  nodes: [PropertyCollection!]
+}
+
+# A `PropertyCollection` edge in the connection.
+type PropertyCollectionsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `PropertyCollection` at the end of the edge.
+  node: PropertyCollection!
+}
+
+# Methods to use when ordering `PropertyCollection`.
+enum PropertyCollectionsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  LINKS_ASC
+  LINKS_DESC
+  COMBINING_ASC
+  COMBINING_DESC
+  ORGANIZATION_ID_ASC
+  ORGANIZATION_ID_DESC
+  LAST_UPDATED_ASC
+  LAST_UPDATED_DESC
+  TERMS_OF_USE_ASC
+  TERMS_OF_USE_DESC
+  IMPORTED_BY_ASC
+  IMPORTED_BY_DESC
+}
+
+# The root query type which gives access points into the data universe.
+type Query implements Node {
+  # Fetches an object given its globally unique `ID`.
+  node(
+    # The globally unique `ID`.
+    nodeId: ID!
+  ): Node
+
+  # Reads and enables paginatation through a set of `Category`.
+  allCategories(
+    # The method to use when ordering `Category`.
+    orderBy: CategoriesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: CategoryCondition
+  ): CategoriesConnection
+
+  # Reads a single `Category` using its globally unique `ID`.
+  category(
+    # The globally unique `ID` to be used in selecting a single `Category`.
+    nodeId: ID!
+  ): Category
+  categoryByName(name: String!): Category
+
+  # Reads and enables paginatation through a set of `Object`.
+  allObjects(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: ObjectCondition
+  ): ObjectsConnection
+
+  # Reads a single `Object` using its globally unique `ID`.
+  object(
+    # The globally unique `ID` to be used in selecting a single `Object`.
+    nodeId: ID!
+  ): Object
+  objectById(id: Uuid!): Object
+
+  # Reads and enables paginatation through a set of `Organization`.
+  allOrganizations(
+    # The method to use when ordering `Organization`.
+    orderBy: OrganizationsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: OrganizationCondition
+  ): OrganizationsConnection
+
+  # Reads a single `Organization` using its globally unique `ID`.
+  organization(
+    # The globally unique `ID` to be used in selecting a single `Organization`.
+    nodeId: ID!
+  ): Organization
+  organizationById(id: Uuid!): Organization
+  organizationByName(name: String!): Organization
+
+  # Reads and enables paginatation through a set of `OrganizationUser`.
+  allOrganizationUsers(
+    # The method to use when ordering `OrganizationUser`.
+    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: OrganizationUserCondition
+  ): OrganizationUsersConnection
+
+  # Reads a single `OrganizationUser` using its globally unique `ID`.
+  organizationUser(
+    # The globally unique `ID` to be used in selecting a single `OrganizationUser`.
+    nodeId: ID!
+  ): OrganizationUser
+  organizationUserByOrganizationIdAndUserIdAndRole(organizationId: Uuid!, userId: Uuid!, role: String!): OrganizationUser
+
+  # Reads and enables paginatation through a set of `PropertyCollection`.
+  allPropertyCollections(
+    # The method to use when ordering `PropertyCollection`.
+    orderBy: PropertyCollectionsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: PropertyCollectionCondition
+  ): PropertyCollectionsConnection
+
+  # Reads a single `PropertyCollection` using its globally unique `ID`.
+  propertyCollection(
+    # The globally unique `ID` to be used in selecting a single `PropertyCollection`.
+    nodeId: ID!
+  ): PropertyCollection
+  propertyCollectionById(id: Uuid!): PropertyCollection
+  propertyCollectionByName(name: String!): PropertyCollection
+
+  # Reads and enables paginatation through a set of `PropertyCollectionObject`.
+  allPropertyCollectionObjects(
+    # The method to use when ordering `PropertyCollectionObject`.
+    orderBy: PropertyCollectionObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: PropertyCollectionObjectCondition
+  ): PropertyCollectionObjectsConnection
+
+  # Reads a single `PropertyCollectionObject` using its globally unique `ID`.
+  propertyCollectionObject(
+    # The globally unique `ID` to be used in selecting a single `PropertyCollectionObject`.
+    nodeId: ID!
+  ): PropertyCollectionObject
+  propertyCollectionObjectByObjectIdAndPropertyCollectionId(objectId: Uuid!, propertyCollectionId: Uuid!): PropertyCollectionObject
+
+  # Reads and enables paginatation through a set of `Relation`.
+  allRelations(
+    # The method to use when ordering `Relation`.
+    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCondition
+  ): RelationsConnection
+
+  # Reads a single `Relation` using its globally unique `ID`.
+  relation(
+    # The globally unique `ID` to be used in selecting a single `Relation`.
+    nodeId: ID!
+  ): Relation
+  relationById(id: Uuid!): Relation
+
+  # Reads and enables paginatation through a set of `RelationCollection`.
+  allRelationCollections(
+    # The method to use when ordering `RelationCollection`.
+    orderBy: RelationCollectionsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCollectionCondition
+  ): RelationCollectionsConnection
+
+  # Reads a single `RelationCollection` using its globally unique `ID`.
+  relationCollection(
+    # The globally unique `ID` to be used in selecting a single `RelationCollection`.
+    nodeId: ID!
+  ): RelationCollection
+  relationCollectionById(id: Uuid!): RelationCollection
+  relationCollectionByName(name: String!): RelationCollection
+
+  # Reads and enables paginatation through a set of `RelationCollectionObject`.
+  allRelationCollectionObjects(
+    # The method to use when ordering `RelationCollectionObject`.
+    orderBy: RelationCollectionObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCollectionObjectCondition
+  ): RelationCollectionObjectsConnection
+
+  # Reads a single `RelationCollectionObject` using its globally unique `ID`.
+  relationCollectionObject(
+    # The globally unique `ID` to be used in selecting a single `RelationCollectionObject`.
+    nodeId: ID!
+  ): RelationCollectionObject
+  relationCollectionObjectByObjectIdAndRelationCollectionId(objectId: Uuid!, relationCollectionId: Uuid!): RelationCollectionObject
+
+  # Reads and enables paginatation through a set of `RelationPartner`.
+  allRelationPartners(
+    # The method to use when ordering `RelationPartner`.
+    orderBy: RelationPartnersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationPartnerCondition
+  ): RelationPartnersConnection
+
+  # Reads a single `RelationPartner` using its globally unique `ID`.
+  relationPartner(
+    # The globally unique `ID` to be used in selecting a single `RelationPartner`.
+    nodeId: ID!
+  ): RelationPartner
+  relationPartnerByObjectIdAndRelationId(objectId: Uuid!, relationId: Uuid!): RelationPartner
+
+  # Reads and enables paginatation through a set of `Role`.
+  allRoles(
+    # The method to use when ordering `Role`.
+    orderBy: RolesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RoleCondition
+  ): RolesConnection
+
+  # Reads a single `Role` using its globally unique `ID`.
+  role(
+    # The globally unique `ID` to be used in selecting a single `Role`.
+    nodeId: ID!
+  ): Role
+  roleByName(name: String!): Role
+
+  # Reads and enables paginatation through a set of `Taxonomy`.
+  allTaxonomies(
+    # The method to use when ordering `Taxonomy`.
+    orderBy: TaxonomiesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyCondition
+  ): TaxonomiesConnection
+
+  # Reads a single `Taxonomy` using its globally unique `ID`.
+  taxonomy(
+    # The globally unique `ID` to be used in selecting a single `Taxonomy`.
+    nodeId: ID!
+  ): Taxonomy
+  taxonomyById(id: Uuid!): Taxonomy
+  taxonomyByName(name: String!): Taxonomy
+
+  # Reads and enables paginatation through a set of `TaxonomyObject`.
+  allTaxonomyObjects(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyObjectCondition
+  ): TaxonomyObjectsConnection
+
+  # Reads a single `TaxonomyObject` using its globally unique `ID`.
+  taxonomyObject(
+    # The globally unique `ID` to be used in selecting a single `TaxonomyObject`.
+    nodeId: ID!
+  ): TaxonomyObject
+  taxonomyObjectById(id: Uuid!): TaxonomyObject
+
+  # Reads and enables paginatation through a set of `User`.
+  allUsers(
+    # The method to use when ordering `User`.
+    orderBy: UsersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: UserCondition
+  ): UsersConnection
+
+  # Reads a single `User` using its globally unique `ID`.
+  user(
+    # The globally unique `ID` to be used in selecting a single `User`.
+    nodeId: ID!
+  ): User
+  userById(id: Uuid!): User
+  userByName(name: String!): User
+  userByEmail(email: String!): User
+
+  # Exposes the root query type nested one level down. This is helpful for Relay 1
+  # which can only query top level fields if they are in a particular form.
+  query: Query!
+
+  # The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  nodeId: ID!
+}
+
+type Relation implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Uuid!
+  objectId: Uuid
+  relationCollectionId: Uuid!
+  properties: Json
+
+  # Reads a single `Object` that is related to this `Relation`.
+  objectByObjectId: Object
+
+  # Reads a single `RelationCollectionObject` that is related to this `Relation`.
+  relationCollectionObjectByObjectIdAndRelationCollectionId: RelationCollectionObject
+
+  # Reads a single `RelationCollection` that is related to this `Relation`.
+  relationCollectionByRelationCollectionId: RelationCollection
+
+  # Reads and enables paginatation through a set of `RelationPartner`.
+  relationPartnersByRelationId(
+    # The method to use when ordering `RelationPartner`.
+    orderBy: RelationPartnersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationPartnerCondition
+  ): RelationPartnersConnection
+}
+
+type RelationCollection implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Uuid!
+  name: String!
+  description: String
+  links: [String]
+  natureOfRelation: String!
+  combining: Boolean
+  organizationId: Uuid!
+  lastUpdated: Date
+  termsOfUse: String
+  importedBy: Uuid!
+
+  # Reads a single `Organization` that is related to this `RelationCollection`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `RelationCollection`.
+  userByImportedBy: User
+
+  # Reads and enables paginatation through a set of `Relation`.
+  relationsByRelationCollectionId(
+    # The method to use when ordering `Relation`.
+    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCondition
+  ): RelationsConnection
+
+  # Reads and enables paginatation through a set of `RelationCollectionObject`.
+  relationCollectionObjectsByRelationCollectionId(
+    # The method to use when ordering `RelationCollectionObject`.
+    orderBy: RelationCollectionObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCollectionObjectCondition
+  ): RelationCollectionObjectsConnection
+}
+
+# A condition to be used against `RelationCollection` object types. All fields are
+# tested for equality and combined with a logical ‘and.’
+input RelationCollectionCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
+
+  # Checks for equality with the object’s `name` field.
+  name: String
+
+  # Checks for equality with the object’s `description` field.
+  description: String
+
+  # Checks for equality with the object’s `links` field.
+  links: [String]
+
+  # Checks for equality with the object’s `natureOfRelation` field.
+  natureOfRelation: String
+
+  # Checks for equality with the object’s `combining` field.
+  combining: Boolean
+
+  # Checks for equality with the object’s `organizationId` field.
+  organizationId: Uuid
+
+  # Checks for equality with the object’s `lastUpdated` field.
+  lastUpdated: Date
+
+  # Checks for equality with the object’s `termsOfUse` field.
+  termsOfUse: String
+
+  # Checks for equality with the object’s `importedBy` field.
+  importedBy: Uuid
+}
+
+input RelationCollectionInput {
+  id: Uuid
+  name: String!
+  description: String
+  links: [String]
+  natureOfRelation: String!
+  combining: Boolean
+  organizationId: Uuid!
+  lastUpdated: Date
+  termsOfUse: String
+  importedBy: Uuid!
+}
+
+type RelationCollectionObject implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  objectId: Uuid!
+  relationCollectionId: Uuid!
+
+  # Reads a single `Object` that is related to this `RelationCollectionObject`.
+  objectByObjectId: Object
+
+  # Reads a single `RelationCollection` that is related to this `RelationCollectionObject`.
+  relationCollectionByRelationCollectionId: RelationCollection
+
+  # Reads and enables paginatation through a set of `Relation`.
+  relationsByObjectIdAndRelationCollectionId(
+    # The method to use when ordering `Relation`.
+    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCondition
+  ): RelationsConnection
+}
+
+# A condition to be used against `RelationCollectionObject` object types. All
+# fields are tested for equality and combined with a logical ‘and.’
+input RelationCollectionObjectCondition {
+  # Checks for equality with the object’s `objectId` field.
+  objectId: Uuid
+
+  # Checks for equality with the object’s `relationCollectionId` field.
+  relationCollectionId: Uuid
+}
+
+input RelationCollectionObjectInput {
+  objectId: Uuid!
+  relationCollectionId: Uuid!
+}
+
+# Represents an update to a `RelationCollectionObject`. Fields that are set will be updated.
+input RelationCollectionObjectPatch {
+  objectId: Uuid
+  relationCollectionId: Uuid
+}
+
+# A connection to a list of `RelationCollectionObject` values.
+type RelationCollectionObjectsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `RelationCollectionObject` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `RelationCollectionObject` and cursor to aid in pagination.
+  edges: [RelationCollectionObjectsEdge]
+
+  # A list of `RelationCollectionObject` objects.
+  nodes: [RelationCollectionObject!]
+}
+
+# A `RelationCollectionObject` edge in the connection.
+type RelationCollectionObjectsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `RelationCollectionObject` at the end of the edge.
+  node: RelationCollectionObject!
+}
+
+# Methods to use when ordering `RelationCollectionObject`.
+enum RelationCollectionObjectsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  OBJECT_ID_ASC
+  OBJECT_ID_DESC
+  RELATION_COLLECTION_ID_ASC
+  RELATION_COLLECTION_ID_DESC
+}
+
+# Represents an update to a `RelationCollection`. Fields that are set will be updated.
+input RelationCollectionPatch {
+  id: Uuid
+  name: String
+  description: String
+  links: [String]
+  natureOfRelation: String
+  combining: Boolean
+  organizationId: Uuid
+  lastUpdated: Date
+  termsOfUse: String
+  importedBy: Uuid
+}
+
+# A connection to a list of `RelationCollection` values.
+type RelationCollectionsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `RelationCollection` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `RelationCollection` and cursor to aid in pagination.
+  edges: [RelationCollectionsEdge]
+
+  # A list of `RelationCollection` objects.
+  nodes: [RelationCollection!]
+}
+
+# A `RelationCollection` edge in the connection.
+type RelationCollectionsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `RelationCollection` at the end of the edge.
+  node: RelationCollection!
+}
+
+# Methods to use when ordering `RelationCollection`.
+enum RelationCollectionsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  LINKS_ASC
+  LINKS_DESC
+  NATURE_OF_RELATION_ASC
+  NATURE_OF_RELATION_DESC
+  COMBINING_ASC
+  COMBINING_DESC
+  ORGANIZATION_ID_ASC
+  ORGANIZATION_ID_DESC
+  LAST_UPDATED_ASC
+  LAST_UPDATED_DESC
+  TERMS_OF_USE_ASC
+  TERMS_OF_USE_DESC
+  IMPORTED_BY_ASC
+  IMPORTED_BY_DESC
+}
+
+# A condition to be used against `Relation` object types. All fields are tested
+# for equality and combined with a logical ‘and.’
+input RelationCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
+
+  # Checks for equality with the object’s `objectId` field.
+  objectId: Uuid
+
+  # Checks for equality with the object’s `relationCollectionId` field.
+  relationCollectionId: Uuid
+
+  # Checks for equality with the object’s `properties` field.
+  properties: Json
+}
+
+input RelationInput {
+  id: Uuid
+  objectId: Uuid
+  relationCollectionId: Uuid!
+  properties: Json
+}
+
+type RelationPartner implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  objectId: Uuid!
+  relationId: Uuid!
+
+  # Reads a single `Object` that is related to this `RelationPartner`.
+  objectByObjectId: Object
+
+  # Reads a single `Relation` that is related to this `RelationPartner`.
+  relationByRelationId: Relation
+}
+
+# A condition to be used against `RelationPartner` object types. All fields are
+# tested for equality and combined with a logical ‘and.’
+input RelationPartnerCondition {
+  # Checks for equality with the object’s `objectId` field.
+  objectId: Uuid
+
+  # Checks for equality with the object’s `relationId` field.
+  relationId: Uuid
+}
+
+input RelationPartnerInput {
+  objectId: Uuid!
+  relationId: Uuid!
+}
+
+# Represents an update to a `RelationPartner`. Fields that are set will be updated.
+input RelationPartnerPatch {
+  objectId: Uuid
+  relationId: Uuid
+}
+
+# A connection to a list of `RelationPartner` values.
+type RelationPartnersConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `RelationPartner` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `RelationPartner` and cursor to aid in pagination.
+  edges: [RelationPartnersEdge]
+
+  # A list of `RelationPartner` objects.
+  nodes: [RelationPartner!]
+}
+
+# A `RelationPartner` edge in the connection.
+type RelationPartnersEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `RelationPartner` at the end of the edge.
+  node: RelationPartner!
+}
+
+# Methods to use when ordering `RelationPartner`.
+enum RelationPartnersOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  OBJECT_ID_ASC
+  OBJECT_ID_DESC
+  RELATION_ID_ASC
+  RELATION_ID_DESC
+}
+
+# Represents an update to a `Relation`. Fields that are set will be updated.
+input RelationPatch {
+  id: Uuid
+  objectId: Uuid
+  relationCollectionId: Uuid
+  properties: Json
+}
+
+# A connection to a list of `Relation` values.
+type RelationsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Relation` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Relation` and cursor to aid in pagination.
+  edges: [RelationsEdge]
+
+  # A list of `Relation` objects.
+  nodes: [Relation!]
+}
+
+# A `Relation` edge in the connection.
+type RelationsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Relation` at the end of the edge.
+  node: Relation!
+}
+
+# Methods to use when ordering `Relation`.
+enum RelationsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  OBJECT_ID_ASC
+  OBJECT_ID_DESC
+  RELATION_COLLECTION_ID_ASC
+  RELATION_COLLECTION_ID_DESC
+  PROPERTIES_ASC
+  PROPERTIES_DESC
+}
+
+type Role implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  name: String!
+
+  # Reads and enables paginatation through a set of `OrganizationUser`.
+  organizationUsersByRole(
+    # The method to use when ordering `OrganizationUser`.
+    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: OrganizationUserCondition
+  ): OrganizationUsersConnection
+}
+
+# A condition to be used against `Role` object types. All fields are tested for equality and combined with a logical ‘and.’
+input RoleCondition {
+  # Checks for equality with the object’s `name` field.
+  name: String
+}
+
+input RoleInput {
+  name: String!
+}
+
+# Represents an update to a `Role`. Fields that are set will be updated.
+input RolePatch {
+  name: String
+}
+
+# A connection to a list of `Role` values.
+type RolesConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Role` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Role` and cursor to aid in pagination.
+  edges: [RolesEdge]
+
+  # A list of `Role` objects.
+  nodes: [Role!]
+}
+
+# A `Role` edge in the connection.
+type RolesEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Role` at the end of the edge.
+  node: Role!
+}
+
+# Methods to use when ordering `Role`.
+enum RolesOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  NAME_ASC
+  NAME_DESC
+}
+
+# A connection to a list of `Taxonomy` values.
+type TaxonomiesConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Taxonomy` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Taxonomy` and cursor to aid in pagination.
+  edges: [TaxonomiesEdge]
+
+  # A list of `Taxonomy` objects.
+  nodes: [Taxonomy!]
+}
+
+# A `Taxonomy` edge in the connection.
+type TaxonomiesEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Taxonomy` at the end of the edge.
+  node: Taxonomy!
+}
+
+# Methods to use when ordering `Taxonomy`.
+enum TaxonomiesOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  LINKS_ASC
+  LINKS_DESC
+  LAST_UPDATED_ASC
+  LAST_UPDATED_DESC
+  ORGANIZATION_ID_ASC
+  ORGANIZATION_ID_DESC
+  CATEGORY_ASC
+  CATEGORY_DESC
+  IS_CATEGORY_STANDARD_ASC
+  IS_CATEGORY_STANDARD_DESC
+  HABITAT_LABEL_ASC
+  HABITAT_LABEL_DESC
+  HABITAT_COMMENTS_ASC
+  HABITAT_COMMENTS_DESC
+  HABITAT_NR_FNS_MIN_ASC
+  HABITAT_NR_FNS_MIN_DESC
+  HABITAT_NR_FNS_MAX_ASC
+  HABITAT_NR_FNS_MAX_DESC
+}
+
+type Taxonomy implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Uuid!
+  name: String!
+  description: String
+  links: [String]
+  lastUpdated: Date
+  organizationId: Uuid!
+  category: String
+  isCategoryStandard: Boolean
+  habitatLabel: String
+  habitatComments: String
+  habitatNrFnsMin: Int
+  habitatNrFnsMax: Int
+
+  # Reads a single `Organization` that is related to this `Taxonomy`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `Category` that is related to this `Taxonomy`.
+  categoryByCategory: Category
+
+  # Reads and enables paginatation through a set of `TaxonomyObject`.
+  taxonomyObjectsByTaxonomyId(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyObjectCondition
+  ): TaxonomyObjectsConnection
+}
+
+# A condition to be used against `Taxonomy` object types. All fields are tested
+# for equality and combined with a logical ‘and.’
+input TaxonomyCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
+
+  # Checks for equality with the object’s `name` field.
+  name: String
+
+  # Checks for equality with the object’s `description` field.
+  description: String
+
+  # Checks for equality with the object’s `links` field.
+  links: [String]
+
+  # Checks for equality with the object’s `lastUpdated` field.
+  lastUpdated: Date
+
+  # Checks for equality with the object’s `organizationId` field.
+  organizationId: Uuid
+
+  # Checks for equality with the object’s `category` field.
+  category: String
+
+  # Checks for equality with the object’s `isCategoryStandard` field.
+  isCategoryStandard: Boolean
+
+  # Checks for equality with the object’s `habitatLabel` field.
+  habitatLabel: String
+
+  # Checks for equality with the object’s `habitatComments` field.
+  habitatComments: String
+
+  # Checks for equality with the object’s `habitatNrFnsMin` field.
+  habitatNrFnsMin: Int
+
+  # Checks for equality with the object’s `habitatNrFnsMax` field.
+  habitatNrFnsMax: Int
+}
+
+input TaxonomyInput {
+  id: Uuid
+  name: String!
+  description: String
+  links: [String]
+  lastUpdated: Date
+  organizationId: Uuid!
+  category: String
+  isCategoryStandard: Boolean
+  habitatLabel: String
+  habitatComments: String
+  habitatNrFnsMin: Int
+  habitatNrFnsMax: Int
+}
+
+type TaxonomyObject implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Uuid!
+  taxonomyId: Uuid!
+  objectId: Uuid
+  parentId: Uuid
+  name: String!
+  properties: Json
+
+  # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
+  taxonomyByTaxonomyId: Taxonomy
+
+  # Reads a single `Object` that is related to this `TaxonomyObject`.
+  objectByObjectId: Object
+
+  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
+  taxonomyObjectByParentId: TaxonomyObject
+
+  # Reads and enables paginatation through a set of `TaxonomyObject`.
+  taxonomyObjectsByParentId(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyObjectCondition
+  ): TaxonomyObjectsConnection
+}
+
+# A condition to be used against `TaxonomyObject` object types. All fields are
+# tested for equality and combined with a logical ‘and.’
+input TaxonomyObjectCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
+
+  # Checks for equality with the object’s `taxonomyId` field.
+  taxonomyId: Uuid
+
+  # Checks for equality with the object’s `objectId` field.
+  objectId: Uuid
+
+  # Checks for equality with the object’s `parentId` field.
+  parentId: Uuid
+
+  # Checks for equality with the object’s `name` field.
+  name: String
+
+  # Checks for equality with the object’s `properties` field.
+  properties: Json
+}
+
+input TaxonomyObjectInput {
+  id: Uuid
+  taxonomyId: Uuid!
+  objectId: Uuid
+  parentId: Uuid
+  name: String!
+  properties: Json
+}
+
+# Represents an update to a `TaxonomyObject`. Fields that are set will be updated.
+input TaxonomyObjectPatch {
+  id: Uuid
+  taxonomyId: Uuid
+  objectId: Uuid
+  parentId: Uuid
+  name: String
+  properties: Json
+}
+
+# A connection to a list of `TaxonomyObject` values.
+type TaxonomyObjectsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `TaxonomyObject` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
+  edges: [TaxonomyObjectsEdge]
+
+  # A list of `TaxonomyObject` objects.
+  nodes: [TaxonomyObject!]
+}
+
+# A `TaxonomyObject` edge in the connection.
+type TaxonomyObjectsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `TaxonomyObject` at the end of the edge.
+  node: TaxonomyObject!
+}
+
+# Methods to use when ordering `TaxonomyObject`.
+enum TaxonomyObjectsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  TAXONOMY_ID_ASC
+  TAXONOMY_ID_DESC
+  OBJECT_ID_ASC
+  OBJECT_ID_DESC
+  PARENT_ID_ASC
+  PARENT_ID_DESC
+  NAME_ASC
+  NAME_DESC
+  PROPERTIES_ASC
+  PROPERTIES_DESC
+}
+
+# Represents an update to a `Taxonomy`. Fields that are set will be updated.
+input TaxonomyPatch {
+  id: Uuid
+  name: String
+  description: String
+  links: [String]
+  lastUpdated: Date
+  organizationId: Uuid
+  category: String
+  isCategoryStandard: Boolean
+  habitatLabel: String
+  habitatComments: String
+  habitatNrFnsMin: Int
+  habitatNrFnsMax: Int
+}
+
+# All input for the `updateCategoryByName` mutation.
+input UpdateCategoryByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+
+  # An object where the defined keys will be set on the `Category` identified by our unique key.
+  categoryPatch: CategoryPatch!
+}
+
+# All input for the `updateCategory` mutation.
+input UpdateCategoryInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Category` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Category` identified by our globally unique `ID`.
+  categoryPatch: CategoryPatch!
+}
+
+# The output of our `updateCategory` mutation.
+type UpdateCategoryPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  category: Category
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateObjectById` mutation.
+input UpdateObjectByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+
+  # An object where the defined keys will be set on the `Object` identified by our unique key.
+  objectPatch: ObjectPatch!
+}
+
+# All input for the `updateObject` mutation.
+input UpdateObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Object` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Object` identified by our globally unique `ID`.
+  objectPatch: ObjectPatch!
+}
+
+# The output of our `updateObject` mutation.
+type UpdateObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  object: Object
+
+  # Reads a single `Category` that is related to this `Object`.
+  categoryByCategory: Category
+
+  # Reads a single `Organization` that is related to this `Object`.
+  organizationByOrganizationId: Organization
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateOrganizationById` mutation.
+input UpdateOrganizationByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+
+  # An object where the defined keys will be set on the `Organization` identified by our unique key.
+  organizationPatch: OrganizationPatch!
+}
+
+# All input for the `updateOrganizationByName` mutation.
+input UpdateOrganizationByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+
+  # An object where the defined keys will be set on the `Organization` identified by our unique key.
+  organizationPatch: OrganizationPatch!
+}
+
+# All input for the `updateOrganization` mutation.
+input UpdateOrganizationInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Organization` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Organization` identified by our globally unique `ID`.
+  organizationPatch: OrganizationPatch!
+}
+
+# The output of our `updateOrganization` mutation.
+type UpdateOrganizationPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  organization: Organization
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateOrganizationUserByOrganizationIdAndUserIdAndRole` mutation.
+input UpdateOrganizationUserByOrganizationIdAndUserIdAndRoleInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  organizationId: Uuid!
+  userId: Uuid!
+  role: String!
+
+  # An object where the defined keys will be set on the `OrganizationUser` identified by our unique key.
+  organizationUserPatch: OrganizationUserPatch!
+}
+
+# All input for the `updateOrganizationUser` mutation.
+input UpdateOrganizationUserInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `OrganizationUser` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `OrganizationUser` identified by our globally unique `ID`.
+  organizationUserPatch: OrganizationUserPatch!
+}
+
+# The output of our `updateOrganizationUser` mutation.
+type UpdateOrganizationUserPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  organizationUser: OrganizationUser
+
+  # Reads a single `Organization` that is related to this `OrganizationUser`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `OrganizationUser`.
+  userByUserId: User
+
+  # Reads a single `Role` that is related to this `OrganizationUser`.
+  roleByRole: Role
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updatePropertyCollectionById` mutation.
+input UpdatePropertyCollectionByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+
+  # An object where the defined keys will be set on the `PropertyCollection` identified by our unique key.
+  propertyCollectionPatch: PropertyCollectionPatch!
+}
+
+# All input for the `updatePropertyCollectionByName` mutation.
+input UpdatePropertyCollectionByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+
+  # An object where the defined keys will be set on the `PropertyCollection` identified by our unique key.
+  propertyCollectionPatch: PropertyCollectionPatch!
+}
+
+# All input for the `updatePropertyCollection` mutation.
+input UpdatePropertyCollectionInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `PropertyCollection` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `PropertyCollection` identified by our globally unique `ID`.
+  propertyCollectionPatch: PropertyCollectionPatch!
+}
+
+# All input for the `updatePropertyCollectionObjectByObjectIdAndPropertyCollectionId` mutation.
+input UpdatePropertyCollectionObjectByObjectIdAndPropertyCollectionIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  objectId: Uuid!
+  propertyCollectionId: Uuid!
+
+  # An object where the defined keys will be set on the `PropertyCollectionObject` identified by our unique key.
+  propertyCollectionObjectPatch: PropertyCollectionObjectPatch!
+}
+
+# All input for the `updatePropertyCollectionObject` mutation.
+input UpdatePropertyCollectionObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `PropertyCollectionObject` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `PropertyCollectionObject` identified by our globally unique `ID`.
+  propertyCollectionObjectPatch: PropertyCollectionObjectPatch!
+}
+
+# The output of our `updatePropertyCollectionObject` mutation.
+type UpdatePropertyCollectionObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  propertyCollectionObject: PropertyCollectionObject
+
+  # Reads a single `Object` that is related to this `PropertyCollectionObject`.
+  objectByObjectId: Object
+
+  # Reads a single `PropertyCollection` that is related to this `PropertyCollectionObject`.
+  propertyCollectionByPropertyCollectionId: PropertyCollection
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `updatePropertyCollection` mutation.
+type UpdatePropertyCollectionPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  propertyCollection: PropertyCollection
+
+  # Reads a single `Organization` that is related to this `PropertyCollection`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `PropertyCollection`.
+  userByImportedBy: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateRelationById` mutation.
+input UpdateRelationByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+
+  # An object where the defined keys will be set on the `Relation` identified by our unique key.
+  relationPatch: RelationPatch!
+}
+
+# All input for the `updateRelationCollectionById` mutation.
+input UpdateRelationCollectionByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+
+  # An object where the defined keys will be set on the `RelationCollection` identified by our unique key.
+  relationCollectionPatch: RelationCollectionPatch!
+}
+
+# All input for the `updateRelationCollectionByName` mutation.
+input UpdateRelationCollectionByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+
+  # An object where the defined keys will be set on the `RelationCollection` identified by our unique key.
+  relationCollectionPatch: RelationCollectionPatch!
+}
+
+# All input for the `updateRelationCollection` mutation.
+input UpdateRelationCollectionInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `RelationCollection` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `RelationCollection` identified by our globally unique `ID`.
+  relationCollectionPatch: RelationCollectionPatch!
+}
+
+# All input for the `updateRelationCollectionObjectByObjectIdAndRelationCollectionId` mutation.
+input UpdateRelationCollectionObjectByObjectIdAndRelationCollectionIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  objectId: Uuid!
+  relationCollectionId: Uuid!
+
+  # An object where the defined keys will be set on the `RelationCollectionObject` identified by our unique key.
+  relationCollectionObjectPatch: RelationCollectionObjectPatch!
+}
+
+# All input for the `updateRelationCollectionObject` mutation.
+input UpdateRelationCollectionObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `RelationCollectionObject` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `RelationCollectionObject` identified by our globally unique `ID`.
+  relationCollectionObjectPatch: RelationCollectionObjectPatch!
+}
+
+# The output of our `updateRelationCollectionObject` mutation.
+type UpdateRelationCollectionObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  relationCollectionObject: RelationCollectionObject
+
+  # Reads a single `Object` that is related to this `RelationCollectionObject`.
+  objectByObjectId: Object
+
+  # Reads a single `RelationCollection` that is related to this `RelationCollectionObject`.
+  relationCollectionByRelationCollectionId: RelationCollection
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `updateRelationCollection` mutation.
+type UpdateRelationCollectionPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  relationCollection: RelationCollection
+
+  # Reads a single `Organization` that is related to this `RelationCollection`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `RelationCollection`.
+  userByImportedBy: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateRelation` mutation.
+input UpdateRelationInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Relation` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Relation` identified by our globally unique `ID`.
+  relationPatch: RelationPatch!
+}
+
+# All input for the `updateRelationPartnerByObjectIdAndRelationId` mutation.
+input UpdateRelationPartnerByObjectIdAndRelationIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  objectId: Uuid!
+  relationId: Uuid!
+
+  # An object where the defined keys will be set on the `RelationPartner` identified by our unique key.
+  relationPartnerPatch: RelationPartnerPatch!
+}
+
+# All input for the `updateRelationPartner` mutation.
+input UpdateRelationPartnerInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `RelationPartner` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `RelationPartner` identified by our globally unique `ID`.
+  relationPartnerPatch: RelationPartnerPatch!
+}
+
+# The output of our `updateRelationPartner` mutation.
+type UpdateRelationPartnerPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  relationPartner: RelationPartner
+
+  # Reads a single `Object` that is related to this `RelationPartner`.
+  objectByObjectId: Object
+
+  # Reads a single `Relation` that is related to this `RelationPartner`.
+  relationByRelationId: Relation
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `updateRelation` mutation.
+type UpdateRelationPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  relation: Relation
+
+  # Reads a single `Object` that is related to this `Relation`.
+  objectByObjectId: Object
+
+  # Reads a single `RelationCollectionObject` that is related to this `Relation`.
+  relationCollectionObjectByObjectIdAndRelationCollectionId: RelationCollectionObject
+
+  # Reads a single `RelationCollection` that is related to this `Relation`.
+  relationCollectionByRelationCollectionId: RelationCollection
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateRoleByName` mutation.
+input UpdateRoleByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+
+  # An object where the defined keys will be set on the `Role` identified by our unique key.
+  rolePatch: RolePatch!
+}
+
+# All input for the `updateRole` mutation.
+input UpdateRoleInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Role` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Role` identified by our globally unique `ID`.
+  rolePatch: RolePatch!
+}
+
+# The output of our `updateRole` mutation.
+type UpdateRolePayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  role: Role
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateTaxonomyById` mutation.
+input UpdateTaxonomyByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+
+  # An object where the defined keys will be set on the `Taxonomy` identified by our unique key.
+  taxonomyPatch: TaxonomyPatch!
+}
+
+# All input for the `updateTaxonomyByName` mutation.
+input UpdateTaxonomyByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+
+  # An object where the defined keys will be set on the `Taxonomy` identified by our unique key.
+  taxonomyPatch: TaxonomyPatch!
+}
+
+# All input for the `updateTaxonomy` mutation.
+input UpdateTaxonomyInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Taxonomy` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Taxonomy` identified by our globally unique `ID`.
+  taxonomyPatch: TaxonomyPatch!
+}
+
+# All input for the `updateTaxonomyObjectById` mutation.
+input UpdateTaxonomyObjectByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+
+  # An object where the defined keys will be set on the `TaxonomyObject` identified by our unique key.
+  taxonomyObjectPatch: TaxonomyObjectPatch!
+}
+
+# All input for the `updateTaxonomyObject` mutation.
+input UpdateTaxonomyObjectInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `TaxonomyObject` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `TaxonomyObject` identified by our globally unique `ID`.
+  taxonomyObjectPatch: TaxonomyObjectPatch!
+}
+
+# The output of our `updateTaxonomyObject` mutation.
+type UpdateTaxonomyObjectPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  taxonomyObject: TaxonomyObject
+
+  # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
+  taxonomyByTaxonomyId: Taxonomy
+
+  # Reads a single `Object` that is related to this `TaxonomyObject`.
+  objectByObjectId: Object
+
+  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
+  taxonomyObjectByParentId: TaxonomyObject
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# The output of our `updateTaxonomy` mutation.
+type UpdateTaxonomyPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  taxonomy: Taxonomy
+
+  # Reads a single `Organization` that is related to this `Taxonomy`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `Category` that is related to this `Taxonomy`.
+  categoryByCategory: Category
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateUserByEmail` mutation.
+input UpdateUserByEmailInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  email: String!
+
+  # An object where the defined keys will be set on the `User` identified by our unique key.
+  userPatch: UserPatch!
+}
+
+# All input for the `updateUserById` mutation.
+input UpdateUserByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Uuid!
+
+  # An object where the defined keys will be set on the `User` identified by our unique key.
+  userPatch: UserPatch!
+}
+
+# All input for the `updateUserByName` mutation.
+input UpdateUserByNameInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  name: String!
+
+  # An object where the defined keys will be set on the `User` identified by our unique key.
+  userPatch: UserPatch!
+}
+
+# All input for the `updateUser` mutation.
+input UpdateUserInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `User` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `User` identified by our globally unique `ID`.
+  userPatch: UserPatch!
+}
+
+# The output of our `updateUser` mutation.
+type UpdateUserPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  user: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+type User implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Uuid!
+  name: String!
+  email: String!
+  password: String!
+
+  # Reads and enables paginatation through a set of `OrganizationUser`.
+  organizationUsersByUserId(
+    # The method to use when ordering `OrganizationUser`.
+    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: OrganizationUserCondition
+  ): OrganizationUsersConnection
+
+  # Reads and enables paginatation through a set of `PropertyCollection`.
+  propertyCollectionsByImportedBy(
+    # The method to use when ordering `PropertyCollection`.
+    orderBy: PropertyCollectionsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: PropertyCollectionCondition
+  ): PropertyCollectionsConnection
+
+  # Reads and enables paginatation through a set of `RelationCollection`.
+  relationCollectionsByImportedBy(
+    # The method to use when ordering `RelationCollection`.
+    orderBy: RelationCollectionsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCollectionCondition
+  ): RelationCollectionsConnection
+}
+
+# A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
+input UserCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
+
+  # Checks for equality with the object’s `name` field.
+  name: String
+
+  # Checks for equality with the object’s `email` field.
+  email: String
+
+  # Checks for equality with the object’s `password` field.
+  password: String
+}
+
+input UserInput {
+  id: Uuid
+  name: String!
+  email: String!
+  password: String!
+}
+
+# Represents an update to a `User`. Fields that are set will be updated.
+input UserPatch {
+  id: Uuid
+  name: String
+  email: String
+  password: String
+}
+
+# A connection to a list of `User` values.
+type UsersConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `User` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `User` and cursor to aid in pagination.
+  edges: [UsersEdge]
+
+  # A list of `User` objects.
+  nodes: [User!]
+}
+
+# A `User` edge in the connection.
+type UsersEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `User` at the end of the edge.
+  node: User!
+}
+
+# Methods to use when ordering `User`.
+enum UsersOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  PASSWORD_ASC
+  PASSWORD_DESC
+}
+
+# A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122).
+scalar Uuid
