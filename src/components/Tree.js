@@ -46,8 +46,6 @@ const tree = {
   nodes: [
     {
       id: 1,
-      menuType: 'topLevel',
-      nodeType: 'dontKnow',
       url: [1],
       label: 'Taxonomien',
       hasChildren: true,
@@ -55,8 +53,6 @@ const tree = {
     },
     {
       id: 2,
-      menuType: 'topLevel',
-      nodeType: 'dontKnow',
       url: [2],
       label: 'Eigenschaften-Sammlungen',
       hasChildren: true,
@@ -64,8 +60,6 @@ const tree = {
     },
     {
       id: 3,
-      menuType: 'topLevel',
-      nodeType: 'dontKnow',
       url: [3],
       label: 'Beziehungs-Sammlungen',
       hasChildren: true,
@@ -107,8 +101,6 @@ class TreeColumn extends Component {
           if (props) {
             const nodes = props.allCategories.nodes.map((n, index) => ({
               id: n.name,
-              menuType: 'group',
-              nodeType: 'dontKnow',
               url: [1, n.name],
               label: n.name,
               hasChildren: true,
