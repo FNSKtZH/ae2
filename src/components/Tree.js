@@ -4,10 +4,10 @@ import { observer, inject } from 'mobx-react'
 import { AutoSizer, List } from 'react-virtualized'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-// import { createFragmentContainer, graphql } from 'react-relay'
-// import { createContainer, QL } from 'react-relay'
+import { QueryRenderer, graphql } from 'react-relay'
 
-import Row from './Row'
+import Row from './TreeRow'
+import environment from '../modules/createRelayEnvironment'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -91,21 +91,38 @@ class TreeColumn extends Component {
 
   render() {
     return (
-      <Container>
-        <AutoSizer>
-          {({ height, width }) => (
-            <ListContainer
-              height={height}
-              rowCount={3}
-              rowHeight={singleRowHeight}
-              rowRenderer={this.rowRenderer}
-              noRowsRenderer={this.noRowsRenderer}
-              scrollToIndex={null}
-              width={width}
-            />
-          )}
-        </AutoSizer>
-      </Container>
+      <QueryRenderer
+        environment={environment}
+        query={graphql`
+            query TaxonomyQuery {
+              allCategories {
+                nodes {
+                  name
+                }
+              }
+            }
+          `}
+        render={({ error, props }) => {
+          console.log('props:', props)
+          return (
+            <Container>
+              <AutoSizer>
+                {({ height, width }) => (
+                  <ListContainer
+                    height={height}
+                    rowCount={3}
+                    rowHeight={singleRowHeight}
+                    rowRenderer={this.rowRenderer}
+                    noRowsRenderer={this.noRowsRenderer}
+                    scrollToIndex={null}
+                    width={width}
+                  />
+                )}
+              </AutoSizer>
+            </Container>
+          )
+        }}
+      />
     )
   }
 }

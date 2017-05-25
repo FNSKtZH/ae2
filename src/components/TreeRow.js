@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
