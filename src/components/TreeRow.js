@@ -100,7 +100,6 @@ const Row = ({
         >
           {useSymbolIcon &&
             <SymbolIcon
-              node={node}
               id="symbol"
               className="material-icons"
               onClick={onClickNodeSymbol}

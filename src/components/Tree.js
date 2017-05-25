@@ -114,7 +114,6 @@ class TreeColumn extends Component {
                     rowHeight={singleRowHeight}
                     rowRenderer={this.rowRenderer}
                     noRowsRenderer={this.noRowsRenderer}
-                    scrollToIndex={null}
                     width={width}
                   />
                 )}
