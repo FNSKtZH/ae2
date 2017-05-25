@@ -11,6 +11,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import App from './components/App'
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
+import 'react-reflex/styles.css'
 import constants from './modules/constants'
 import store from './store'
 
@@ -30,6 +31,6 @@ ReactDOM.render(
       <MuiThemeProvider muiTheme={getMuiTheme(theme)}><App /></MuiThemeProvider>
     </Provider>
   </BrowserRouter>,
-  document.getElementById('root'),
+  document.getElementById('root')
 )
 registerServiceWorker()
