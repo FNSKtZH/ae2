@@ -94,7 +94,7 @@ class TreeColumn extends Component {
       <QueryRenderer
         environment={environment}
         query={graphql`
-            query TaxonomyQuery {
+            query TreeQuery {
               allCategories {
                 nodes {
                   name
