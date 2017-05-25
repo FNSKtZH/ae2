@@ -73,6 +73,7 @@ const tree = {
   ],
 }
 const enhance = compose(inject('store'), observer)
+let nodes = []
 
 class TreeColumn extends Component {
   props: { store: Object }
@@ -103,14 +104,27 @@ class TreeColumn extends Component {
             }
           `}
         render={({ error, props }) => {
-          console.log('props:', props)
+          if (props) {
+            const nodes = props.allCategories.nodes.map((n, index) => ({
+              id: n.name,
+              menuType: 'group',
+              nodeType: 'dontKnow',
+              url: [1, n.name],
+              label: n.name,
+              hasChildren: true,
+              parentId: 1,
+            }))
+            console.log('nodes:', nodes)
+            tree.nodes = [...tree.nodes, ...nodes]
+            console.log('tree.nodes:', tree.nodes)
+          }
           return (
             <Container>
               <AutoSizer>
                 {({ height, width }) => (
                   <ListContainer
                     height={height}
-                    rowCount={3}
+                    rowCount={tree.nodes.length}
                     rowHeight={singleRowHeight}
                     rowRenderer={this.rowRenderer}
                     noRowsRenderer={this.noRowsRenderer}
