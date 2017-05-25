@@ -8,6 +8,7 @@ import { QueryRenderer, graphql } from 'react-relay'
 
 import Row from './TreeRow'
 import environment from '../modules/createRelayEnvironment'
+import sort from '../modules/nodes/sort'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -73,7 +74,6 @@ const tree = {
   ],
 }
 const enhance = compose(inject('store'), observer)
-let nodes = []
 
 class TreeColumn extends Component {
   props: { store: Object }
@@ -114,9 +114,8 @@ class TreeColumn extends Component {
               hasChildren: true,
               parentId: 1,
             }))
-            console.log('nodes:', nodes)
             tree.nodes = [...tree.nodes, ...nodes]
-            console.log('tree.nodes:', tree.nodes)
+            tree.nodes = sort(tree.nodes)
           }
           return (
             <Container>
