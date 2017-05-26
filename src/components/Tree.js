@@ -9,6 +9,7 @@ import { QueryRenderer, graphql } from 'react-relay'
 import Row from './TreeRow'
 import environment from '../modules/createRelayEnvironment'
 import sort from '../modules/nodes/sort'
+import topLevelNodes from '../modules/nodes/topLevel'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -41,39 +42,14 @@ const LoadingDiv = styled.div`
   padding-left: 15px;
   font-size: 14px;
 `
-const tree = {
-  name: 'tree',
-  nodes: [
-    {
-      id: 1,
-      url: [1],
-      label: 'Taxonomien',
-      hasChildren: true,
-      parentId: null,
-    },
-    {
-      id: 2,
-      url: [2],
-      label: 'Eigenschaften-Sammlungen',
-      hasChildren: true,
-      parentId: null,
-    },
-    {
-      id: 3,
-      url: [3],
-      label: 'Beziehungs-Sammlungen',
-      hasChildren: true,
-      parentId: null,
-    },
-  ],
-}
+let nodes = []
 const enhance = compose(inject('store'), observer)
 
 class TreeColumn extends Component {
   props: { store: Object }
 
   rowRenderer = ({ key, index, style }) => (
-    <Row key={key} index={index} style={style} tree={tree} openNodes={[]} />
+    <Row key={key} index={index} style={style} nodes={nodes} openNodes={[]} />
   )
 
   noRowsRenderer = () => (
@@ -99,15 +75,15 @@ class TreeColumn extends Component {
           `}
         render={({ error, props }) => {
           if (props) {
-            const nodes = props.allCategories.nodes.map((n, index) => ({
+            nodes = props.allCategories.nodes.map((n, index) => ({
               id: n.name,
               url: [1, n.name],
               label: n.name,
               hasChildren: true,
               parentId: 1,
             }))
-            tree.nodes = [...tree.nodes, ...nodes]
-            tree.nodes = sort(tree.nodes)
+            nodes = [...topLevelNodes, ...nodes]
+            nodes = sort(nodes)
           }
           return (
             <Container>
@@ -115,7 +91,7 @@ class TreeColumn extends Component {
                 {({ height, width }) => (
                   <ListContainer
                     height={height}
-                    rowCount={tree.nodes.length}
+                    rowCount={nodes.length}
                     rowHeight={singleRowHeight}
                     rowRenderer={this.rowRenderer}
                     noRowsRenderer={this.noRowsRenderer}

@@ -51,17 +51,21 @@ const Row = ({
   index,
   style,
   store,
-  tree,
+  nodes,
 }: {
   key?: number,
   index: number,
   style: Object,
   store: Object,
-  tree: Object,
+  nodes: Array<Object>,
 }) => {
-  const node = tree.nodes[index]
-  const onClickNode = event => tree.toggleNode(tree, node)
-  const onClickNodeSymbol = event => tree.toggleNodeSymbol(tree, node)
+  const node = nodes[index]
+  const onClickNode = event => {
+    console.log('todo')
+  }
+  const onClickNodeSymbol = event => {
+    console.log('todo')
+  }
   const myProps = { key: index }
   // build symbols
   let useSymbolIcon = true
@@ -83,7 +87,7 @@ const Row = ({
   return (
     <div key={key} style={style}>
       <ContextMenuTrigger
-        id={`${tree.name}${node.menuType}`}
+        id={`${node.menuType}`}
         collect={props => myProps}
         nodeId={node.id}
         nodeLabel={node.label}
