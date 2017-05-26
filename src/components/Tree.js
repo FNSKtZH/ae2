@@ -8,8 +8,6 @@ import { QueryRenderer, graphql } from 'react-relay'
 
 import Row from './TreeRow'
 import environment from '../modules/createRelayEnvironment'
-import sort from '../modules/nodes/sort'
-import topLevelNodes from '../modules/nodes/topLevel'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -42,14 +40,13 @@ const LoadingDiv = styled.div`
   padding-left: 15px;
   font-size: 14px;
 `
-let nodes = []
 const enhance = compose(inject('store'), observer)
 
 class TreeColumn extends Component {
   props: { store: Object }
 
   rowRenderer = ({ key, index, style }) => (
-    <Row key={key} index={index} style={style} nodes={nodes} openNodes={[]} />
+    <Row key={key} index={index} style={style} />
   )
 
   noRowsRenderer = () => (
@@ -61,6 +58,7 @@ class TreeColumn extends Component {
   )
 
   render() {
+    const { store } = this.props
     return (
       <QueryRenderer
         environment={environment}
@@ -75,15 +73,14 @@ class TreeColumn extends Component {
           `}
         render={({ error, props }) => {
           if (props) {
-            nodes = props.allCategories.nodes.map((n, index) => ({
+            const nodes = props.allCategories.nodes.map((n, index) => ({
               id: n.name,
               url: [1, n.name],
               label: n.name,
               hasChildren: true,
               parentId: 1,
             }))
-            nodes = [...topLevelNodes, ...nodes]
-            nodes = sort(nodes)
+            store.nodes.setTaxCategoriesNodes(nodes)
           }
           return (
             <Container>
@@ -91,7 +88,7 @@ class TreeColumn extends Component {
                 {({ height, width }) => (
                   <ListContainer
                     height={height}
-                    rowCount={nodes.length}
+                    rowCount={store.nodes.nodes.length}
                     rowHeight={singleRowHeight}
                     rowRenderer={this.rowRenderer}
                     noRowsRenderer={this.noRowsRenderer}
