@@ -12,6 +12,8 @@ import Main from './Main'
 
 const Container = styled.div`
   height: 100%;
+  display: flex;
+  flex-direction: column;
 `
 
 const enhance = compose(inject('store'), withRouter, observer)
