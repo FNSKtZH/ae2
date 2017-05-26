@@ -1,12 +1,10 @@
 // @flow
 import { extendObservable, action, computed } from 'mobx'
 
-import topLevelNodes from '../../modules/nodes/topLevel'
 import sort from '../../modules/nodes/sort'
 
 export default (store: Object): void => {
   extendObservable(store.nodes, {
-    topLevel: topLevelNodes,
     taxCategories: [],
     setTaxCategoriesNodes: action('setTaxCategoriesNodes', nodes => {
       store.nodes.taxCategories = nodes
@@ -27,7 +25,7 @@ export default (store: Object): void => {
           ...store.nodes.taxTaxonomies,
           ...store.nodes.taxTaxonomyObjects,
         ]),
-      { name: 'nodes' },
+      { name: 'nodes' }
     ),
   })
 }

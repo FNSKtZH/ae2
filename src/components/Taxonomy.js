@@ -16,10 +16,7 @@ const Taxonomy = () => (
           }
         }
       `}
-    render={({ error, props }) => {
-      console.log('props:', props)
-      return <div>Taxonomy</div>
-    }}
+    render={({ error, props }) => <div>Taxonomy</div>}
   />
 )
 

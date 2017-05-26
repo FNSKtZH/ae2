@@ -1,5 +1,5 @@
 // @flow
-
+import { toJS } from 'mobx'
 /**
    * As all nodes are now in one flat list,
    * we need to sort them
@@ -25,18 +25,28 @@ const compare = (a, b) => {
   return a - b
 }
 
-export default (nodes: Array<Object>): Array<Object> =>
-  nodes.sort(
-    (a, b) =>
-      compare(a.url[0], b.url[0]) ||
-      compare(a.url[1], b.url[1]) ||
-      compare(a.url[2], b.url[2]) ||
-      compare(a.url[3], b.url[3]) ||
-      compare(a.url[4], b.url[4]) ||
-      compare(a.url[5], b.url[5]) ||
-      compare(a.url[6], b.url[6]) ||
-      compare(a.url[7], b.url[7]) ||
-      compare(a.url[8], b.url[8]) ||
-      compare(a.url[9], b.url[9]) ||
-      compare(a.url[10], b.url[10])
-  )
+export default (nodes: Array<Object>): Array<Object> => {
+  return nodes.sort((a, b) => {
+    /*
+     * need to convert to js
+     * otherwise mobx declares out of bound warnings
+     * because not existing array indexes are called
+     */
+    const aJS = toJS(a)
+    const bJS = toJS(b)
+
+    return (
+      compare(aJS.url[0], bJS.url[0]) ||
+      compare(aJS.url[1], bJS.url[1]) ||
+      compare(aJS.url[2], bJS.url[2]) ||
+      compare(aJS.url[3], bJS.url[3]) ||
+      compare(aJS.url[4], bJS.url[4]) ||
+      compare(aJS.url[5], bJS.url[5]) ||
+      compare(aJS.url[6], bJS.url[6]) ||
+      compare(aJS.url[7], bJS.url[7]) ||
+      compare(aJS.url[8], bJS.url[8]) ||
+      compare(aJS.url[9], bJS.url[9]) ||
+      compare(aJS.url[10], bJS.url[10])
+    )
+  })
+}
