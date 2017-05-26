@@ -36,17 +36,17 @@ export default (nodes: Array<Object>): Array<Object> => {
     const bJS = toJS(b)
 
     return (
-      compare(aJS.url[0], bJS.url[0]) ||
-      compare(aJS.url[1], bJS.url[1]) ||
-      compare(aJS.url[2], bJS.url[2]) ||
-      compare(aJS.url[3], bJS.url[3]) ||
-      compare(aJS.url[4], bJS.url[4]) ||
-      compare(aJS.url[5], bJS.url[5]) ||
-      compare(aJS.url[6], bJS.url[6]) ||
-      compare(aJS.url[7], bJS.url[7]) ||
-      compare(aJS.url[8], bJS.url[8]) ||
-      compare(aJS.url[9], bJS.url[9]) ||
-      compare(aJS.url[10], bJS.url[10])
+      compare(aJS.sort[0], bJS.sort[0]) ||
+      compare(aJS.sort[1], bJS.sort[1]) ||
+      compare(aJS.sort[2], bJS.sort[2]) ||
+      compare(aJS.sort[3], bJS.sort[3]) ||
+      compare(aJS.sort[4], bJS.sort[4]) ||
+      compare(aJS.sort[5], bJS.sort[5]) ||
+      compare(aJS.sort[6], bJS.sort[6]) ||
+      compare(aJS.sort[7], bJS.sort[7]) ||
+      compare(aJS.sort[8], bJS.sort[8]) ||
+      compare(aJS.sort[9], bJS.sort[9]) ||
+      compare(aJS.sort[10], bJS.sort[10])
     )
   })
 }

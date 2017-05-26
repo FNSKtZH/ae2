@@ -75,10 +75,11 @@ class TreeColumn extends Component {
           if (props) {
             const nodes = props.allCategories.nodes.map((n, index) => ({
               id: n.name,
-              url: [1, n.name],
+              url: ['Taxonomien', n.name],
+              sort: [1, index],
               label: n.name,
               hasChildren: true,
-              parentId: 1,
+              parentId: 'Taxonomien',
             }))
             store.nodes.setTaxCategoriesNodes(nodes)
           }
