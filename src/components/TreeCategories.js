@@ -5,7 +5,7 @@ import compose from 'recompose/compose'
 import { QueryRenderer, graphql } from 'react-relay'
 
 import environment from '../modules/createRelayEnvironment'
-import Tree from './Tree'
+import TreeTaxonomies from './TreeTaxonomies'
 
 const enhance = compose(inject('store'), observer)
 
@@ -23,7 +23,6 @@ const TreeCategories = ({ store }: { store: Object }) => (
         allCategories {
           totalCount
           nodes {
-            id
             name
           }
         }
@@ -32,7 +31,7 @@ const TreeCategories = ({ store }: { store: Object }) => (
     render={({ error, props }) => {
       if (props) {
         const nodes = props.allCategories.nodes.map((n, index) => ({
-          id: n.id,
+          id: n.name,
           url: ['Taxonomien', n.name],
           sort: [1, index],
           label: n.name,
@@ -41,7 +40,7 @@ const TreeCategories = ({ store }: { store: Object }) => (
         }))
         store.nodes.setTaxCategoriesNodes(nodes)
       }
-      return <Tree />
+      return <TreeTaxonomies />
     }}
   />
 )

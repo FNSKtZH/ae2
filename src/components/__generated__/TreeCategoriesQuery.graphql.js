@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeCategoriesQuery.graphql
- * @generated SignedSource<<ce96c50dcd10b27f85209ba90a954f8c>>
- * @relayHash 29495843c0fdec4a8e1b3a4902c9f63c
+ * @generated SignedSource<<4d4c55a6f959fbe75c2c88056759f486>>
+ * @relayHash 925b6d09058003e58d219e0f716fe407
  * @flow
  * @nogrep
  */
@@ -22,6 +22,7 @@ import type {ConcreteBatch} from 'relay-runtime';
 /*
 query TreeCategoriesQuery {
   allCategories {
+    totalCount
     nodes {
       name
     }
@@ -44,6 +45,13 @@ const batch /*: ConcreteBatch*/ = {
         "name": "allCategories",
         "plural": false,
         "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          },
           {
             "kind": "LinkedField",
             "alias": null,
@@ -87,6 +95,13 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          },
+          {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
@@ -109,7 +124,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeCategoriesQuery {\n  allCategories {\n    nodes {\n      name\n    }\n  }\n}\n"
+  "text": "query TreeCategoriesQuery {\n  allCategories {\n    totalCount\n    nodes {\n      name\n    }\n  }\n}\n"
 };
 
 module.exports = batch;
