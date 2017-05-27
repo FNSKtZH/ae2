@@ -23,6 +23,7 @@ const TreeCategories = ({ store }: { store: Object }) => (
         allCategories {
           totalCount
           nodes {
+            id
             name
           }
         }
@@ -31,7 +32,7 @@ const TreeCategories = ({ store }: { store: Object }) => (
     render={({ error, props }) => {
       if (props) {
         const nodes = props.allCategories.nodes.map((n, index) => ({
-          id: `level1_1_level2_${index}`,
+          id: n.id,
           url: ['Taxonomien', n.name],
           sort: [1, index],
           label: n.name,
