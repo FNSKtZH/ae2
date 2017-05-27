@@ -15,7 +15,7 @@ export default (store: Object): void => {
     }),
     taxTaxonomyObjects: [],
     setTaxTaxonomyObjectsNodes: action('setTaxTaxonomyObjectsNodes', nodes => {
-      store.nodes.TaxonomyObjects = nodes
+      store.nodes.taxTaxonomyObjects = nodes
     }),
     nodes: computed(
       () =>

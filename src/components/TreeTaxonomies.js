@@ -5,7 +5,7 @@ import compose from 'recompose/compose'
 import { QueryRenderer, graphql } from 'react-relay'
 
 import environment from '../modules/createRelayEnvironment'
-import Tree from './Tree'
+import TreeTaxonomyObjectsByTaxonomy from './TreeTaxonomyObjectsByTaxonomy'
 
 const enhance = compose(inject('store'), observer)
 
@@ -27,25 +27,22 @@ const TreeTaxonomies = ({ store }: { store: Object }) => (
         }
     `}
     render={({ error, props }) => {
-      if (props) {
-        console.log('props:', props)
-        if (props.categoryByName) {
-          const nodes = props.categoryByName.taxonomiesByCategory.nodes.map(
-            (n, index) => ({
-              id: n.id,
-              url: ['Taxonomien', props.categoryByName.name, n.name],
-              sort: [1, index],
-              label: n.name,
-              hasChildren: true,
-              parentId: 'level1_1',
-            })
-          )
-          store.nodes.setTaxTaxonomiesNodes(nodes)
-        } else {
-          store.nodes.setTaxTaxonomiesNodes([])
-        }
+      if (props && props.categoryByName) {
+        const nodes = props.categoryByName.taxonomiesByCategory.nodes.map(
+          (n, index) => ({
+            id: n.id,
+            url: ['Taxonomien', props.categoryByName.name, n.name],
+            sort: [1, index],
+            label: n.name,
+            hasChildren: true,
+            parentId: 'level1_1',
+          })
+        )
+        store.nodes.setTaxTaxonomiesNodes(nodes)
+      } else {
+        store.nodes.setTaxTaxonomiesNodes([])
       }
-      return <Tree />
+      return <TreeTaxonomyObjectsByTaxonomy />
     }}
   />
 )

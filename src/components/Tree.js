@@ -57,6 +57,7 @@ class TreeColumn extends Component {
 
   render() {
     const { store } = this.props
+    console.log('store.nodes.nodes.length:', store.nodes.nodes.length)
     return (
       <Container>
         <AutoSizer>
