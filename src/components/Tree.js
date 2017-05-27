@@ -4,10 +4,8 @@ import { observer, inject } from 'mobx-react'
 import { AutoSizer, List } from 'react-virtualized'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import { QueryRenderer, graphql } from 'react-relay'
 
 import Row from './TreeRow'
-import environment from '../modules/createRelayEnvironment'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -60,47 +58,20 @@ class TreeColumn extends Component {
   render() {
     const { store } = this.props
     return (
-      <QueryRenderer
-        environment={environment}
-        query={graphql`
-            query TreeQuery {
-              allCategories {
-                nodes {
-                  name
-                }
-              }
-            }
-          `}
-        render={({ error, props }) => {
-          if (props) {
-            const nodes = props.allCategories.nodes.map((n, index) => ({
-              id: `level1_1_level2_${index}`,
-              url: ['Taxonomien', n.name],
-              sort: [1, index],
-              label: n.name,
-              hasChildren: true,
-              parentId: 'level1_1',
-            }))
-            store.nodes.setTaxCategoriesNodes(nodes)
-          }
-          return (
-            <Container>
-              <AutoSizer>
-                {({ height, width }) => (
-                  <ListContainer
-                    height={height}
-                    rowCount={store.nodes.nodes.length}
-                    rowHeight={singleRowHeight}
-                    rowRenderer={this.rowRenderer}
-                    noRowsRenderer={this.noRowsRenderer}
-                    width={width}
-                  />
-                )}
-              </AutoSizer>
-            </Container>
-          )
-        }}
-      />
+      <Container>
+        <AutoSizer>
+          {({ height, width }) => (
+            <ListContainer
+              height={height}
+              rowCount={store.nodes.nodes.length}
+              rowHeight={singleRowHeight}
+              rowRenderer={this.rowRenderer}
+              noRowsRenderer={this.noRowsRenderer}
+              width={width}
+            />
+          )}
+        </AutoSizer>
+      </Container>
     )
   }
 }
