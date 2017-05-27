@@ -9,12 +9,19 @@ import Tree from './Tree'
 
 const enhance = compose(inject('store'), observer)
 
+/**
+ * TODO:
+ * depending on top level node
+ * query for taxonomies, property_collections or relation_collections
+ * for the meantime only querying taxonomies
+ */
 const TreeCategories = ({ store }: { store: Object }) => (
   <QueryRenderer
     environment={environment}
     query={graphql`
       query TreeCategoriesQuery {
         allCategories {
+          totalCount
           nodes {
             name
           }
