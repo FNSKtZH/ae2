@@ -32,7 +32,6 @@ const TreeTaxonomies = ({ store }: { store: Object }) => (
           (n, index) => ({
             id: n.id,
             url: ['Taxonomien', props.categoryByName.name, n.name],
-            sort: [1, index],
             label: n.name,
             hasChildren: true,
             parentId: 'level1_1',

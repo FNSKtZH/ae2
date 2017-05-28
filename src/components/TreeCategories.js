@@ -33,7 +33,6 @@ const TreeCategories = ({ store }: { store: Object }) => (
         const nodes = props.allCategories.nodes.map((n, index) => ({
           id: n.name,
           url: ['Taxonomien', n.name],
-          sort: [1, index],
           label: n.name,
           hasChildren: true,
           parentId: 'level1_1',

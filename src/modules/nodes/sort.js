@@ -16,12 +16,16 @@ import { toJS } from 'mobx'
    * if both array elements at this index are same,
    * compare values at next index
    */
+const collator = new window.Intl.Collator('de-CH')
 const compare = (a, b) => {
   // sort a before, if it has no value at this index
   if (a !== 0 && !a) return -1
   // sort a after if b has no value at this index
   if (b !== 0 && !b) return 1
   // sort a before if its value is smaller
+  if (isNaN(a) && isNaN(b)) {
+    return collator.compare(a, b)
+  }
   return a - b
 }
 
@@ -31,22 +35,25 @@ export default (nodes: Array<Object>): Array<Object> => {
      * need to convert to js
      * otherwise mobx declares out of bound warnings
      * because not existing array indexes are called
+     * TODO:
+     * this may be speed critical
+     * try not to have to use toJS
      */
-    const aJS = toJS(a)
-    const bJS = toJS(b)
+    const aUrl = toJS(a.url)
+    const bUrl = toJS(b.url)
 
     return (
-      compare(aJS.sort[0], bJS.sort[0]) ||
-      compare(aJS.sort[1], bJS.sort[1]) ||
-      compare(aJS.sort[2], bJS.sort[2]) ||
-      compare(aJS.sort[3], bJS.sort[3]) ||
-      compare(aJS.sort[4], bJS.sort[4]) ||
-      compare(aJS.sort[5], bJS.sort[5]) ||
-      compare(aJS.sort[6], bJS.sort[6]) ||
-      compare(aJS.sort[7], bJS.sort[7]) ||
-      compare(aJS.sort[8], bJS.sort[8]) ||
-      compare(aJS.sort[9], bJS.sort[9]) ||
-      compare(aJS.sort[10], bJS.sort[10])
+      compare(aUrl[0], bUrl[0]) ||
+      compare(aUrl[1], bUrl[1]) ||
+      compare(aUrl[2], bUrl[2]) ||
+      compare(aUrl[3], bUrl[3]) ||
+      compare(aUrl[4], bUrl[4]) ||
+      compare(aUrl[5], bUrl[5]) ||
+      compare(aUrl[6], bUrl[6]) ||
+      compare(aUrl[7], bUrl[7]) ||
+      compare(aUrl[8], bUrl[8]) ||
+      compare(aUrl[9], bUrl[9]) ||
+      compare(aUrl[10], bUrl[10])
     )
   })
 }

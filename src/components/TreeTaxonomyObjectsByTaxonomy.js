@@ -41,7 +41,6 @@ const TreeTaxonomyObjectsByTaxonomy = ({ store }: { store: Object }) => (
                 props.taxonomyByName.name,
                 n.name,
               ],
-              sort: [1, index],
               label: n.name,
               hasChildren: true,
               parentId: 'level1_1',
