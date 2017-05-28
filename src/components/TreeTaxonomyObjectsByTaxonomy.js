@@ -30,7 +30,6 @@ const TreeTaxonomyObjectsByTaxonomy = ({ store }: { store: Object }) => (
     `}
     render={({ error, props }) => {
       if (props) {
-        console.log('props:', props)
         if (props.taxonomyByName) {
           const nodes = props.taxonomyByName.taxonomyObjectsByTaxonomyId.nodes.map(
             (n, index) => ({
@@ -45,10 +44,6 @@ const TreeTaxonomyObjectsByTaxonomy = ({ store }: { store: Object }) => (
               hasChildren: true,
               parentId: 'level1_1',
             })
-          )
-          console.log(
-            'TreeTaxonomyObjectsByTaxonomy: nodes.length:',
-            nodes.length
           )
           store.nodes.setTaxTaxonomyObjectsNodes(nodes)
         } else {
