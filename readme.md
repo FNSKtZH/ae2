@@ -31,7 +31,7 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 ### Diese Technologien werden verwendet:
 
 - Als Datenbank [PostgreSQL](https://www.postgresql.org)
-  - Die dynamische Datenstruktur, welche mit Hilfe von [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) den Benutzern ermöglicht, eigene Datenstrukturen zu importieren, bleibt erhalten - genau dort wo nötig
+  - Benutzer können wo nötig dank [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) weiterhin eigene Datenstrukturen importieren
   - Alle übrigen Datenstrukturen sind relational und ermöglichen damit:
      - Einfachere Verwaltung
      - Einfachere Datenauswertung
