@@ -13,17 +13,28 @@ export default (store: Object): void => {
     setTaxTaxonomiesNodes: action('setTaxTaxonomiesNodes', nodes => {
       store.nodes.taxTaxonomies = nodes
     }),
-    taxTaxonomyObjects: [],
-    setTaxTaxonomyObjectsNodes: action('setTaxTaxonomyObjectsNodes', nodes => {
-      store.nodes.taxTaxonomyObjects = nodes
-    }),
+    taxTaxonomyObjectsLevel1: [],
+    setTaxTaxonomyObjectsNodesLevel1: action(
+      'setTaxTaxonomyObjectsNodesLevel1',
+      nodes => {
+        store.nodes.taxTaxonomyObjectsLevel1 = nodes
+      }
+    ),
+    taxTaxonomyObjectsLevel2: [],
+    setTaxTaxonomyObjectsNodesLevel2: action(
+      'setTaxTaxonomyObjectsNodesLevel2',
+      nodes => {
+        store.nodes.taxTaxonomyObjectsLevel2 = nodes
+      }
+    ),
     nodes: computed(
       () =>
         sort([
           ...store.nodes.topLevel,
           ...store.nodes.taxCategories,
           ...store.nodes.taxTaxonomies,
-          ...store.nodes.taxTaxonomyObjects,
+          ...store.nodes.taxTaxonomyObjectsLevel1,
+          ...store.nodes.taxTaxonomyObjectsLevel2,
         ]),
       { name: 'nodes' }
     ),

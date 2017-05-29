@@ -5,8 +5,7 @@ import compose from 'recompose/compose'
 import { QueryRenderer, graphql } from 'react-relay'
 
 import environment from '../modules/createRelayEnvironment'
-// import TreeTaxonomyObjectLevel1 from './TreeTaxonomyObjectLevel1'
-import Tree from './Tree'
+import TreeTaxonomyObjectLevel1 from './TreeTaxonomyObjectLevel1'
 
 const enhance = compose(inject('store'), observer)
 
@@ -42,8 +41,7 @@ const TreeTaxonomies = ({ store }: { store: Object }) => (
       } else {
         store.nodes.setTaxTaxonomiesNodes([])
       }
-      // return <TreeTaxonomyObjectLevel1 />
-      return <Tree />
+      return <TreeTaxonomyObjectLevel1 />
     }}
   />
 )
