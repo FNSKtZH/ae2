@@ -8,7 +8,7 @@
 -	Die Anwendung ist nützlich und es gibt bisher keine echte Alternative. Es ist daher davon auszugehen, dass sie noch ein paar Jahre weiterverwendet wird
 -	Es gibt einige aktuelle Erweiterungs-Wünsche. Das dürften nicht die letzten sein
 -	Anpassungen an der aktuellen Anwendung sind anspruchsvoll und Nebenwirkungen schwierig zu vermeiden
--	Web- und Datenbanktechnologie entwickeln sich rasant weiter. Daher stehen heute viel [besser geeignete Mittel](https://github.com/barbalex/ae2#diese-technologien-werden-verwendet) zur Verfügung, um eine solche Anwendung aufzubauen
+-	Web- und Datenbanktechnologie entwickeln sich rasant weiter. Daher stehen heute viel [besser geeignete Mittel](#diese-technologien-werden-verwendet) zur Verfügung, um eine solche Anwendung aufzubauen
 
 ### Projektziele:
 -	Hauptziel: Unterhaltbarkeit verbessern und künftige Erweiterungen ermöglichen
