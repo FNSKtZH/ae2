@@ -8,7 +8,7 @@
 -	Die Anwendung ist nützlich und es gibt bisher keine echte Alternative. Es ist daher davon auszugehen, dass sie noch ein paar Jahre weiterverwendet wird
 -	Es gibt einige aktuelle Erweiterungs-Wünsche. Das dürften nicht die letzten sein
 -	Anpassungen an der aktuellen Anwendung sind anspruchsvoll und Nebenwirkungen schwierig zu vermeiden
--	Web- und Datenbanktechnologie entwickeln sich rasant weiter. Daher stehen heute viel [besser geeignete Mittel](#technologien) zur Verfügung, um eine solche Anwendung aufzubauen
+-	Web- und Datenbanktechnologie entwickeln sich rasant weiter. Daher stehen heute viel [besser geeignete Mittel](#https://github.com/barbalex/ae2#diese-technologien-werden-verwendet) zur Verfügung, um eine solche Anwendung aufzubauen
 
 ### Projektziele:
 -	Hauptziel: Unterhaltbarkeit verbessern und künftige Erweiterungen ermöglichen
@@ -28,7 +28,7 @@ Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieb
 Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
 
 
-### [Diese Technologien werden verwendet](#technologien):
+### Diese Technologien werden verwendet:
 
 - Als Datenbank [PostgreSQL](https://www.postgresql.org)
   - Benutzer können wo nötig dank [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) weiterhin eigene Datenstrukturen importieren
