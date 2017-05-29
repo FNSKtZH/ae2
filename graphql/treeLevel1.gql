@@ -1,0 +1,10 @@
+{
+  allCategories {
+    nodes {
+      name
+      taxonomiesByCategory {
+        totalCount
+      }
+    }
+  }
+}

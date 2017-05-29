@@ -1,0 +1,15 @@
+{
+  allCategories {
+    nodes {
+      name
+      taxonomiesByCategory {
+        totalCount
+        nodes {
+          name
+          id
+          isCategoryStandard
+        }
+      }
+    }
+  }
+}

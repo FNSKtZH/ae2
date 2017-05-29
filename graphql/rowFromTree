@@ -38,12 +38,6 @@
                                       totalCount
                                       nodes {
                                         name
-                                        taxonomyObjectsByParentId(condition: {name: "test"}) {
-                                          totalCount
-                                          nodes {
-                                            name
-                                          }
-                                        }
                                       }
                                     }
                                   }
