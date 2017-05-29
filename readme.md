@@ -48,14 +48,12 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
   - Ermöglicht es, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
-  - erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
-  - rasche Installation und einfache Aktualisierung der Enwicklungsumgebung und eines grossen Teils der für die Entwicklung benötigten Fremd-Software
-- [ES6](http://www.ecma-international.org/ecma-262/6.0) und [ES2016](https://www.ecma-international.org/ecma-262/7.0), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
-  - fördern lesbaren, kurzen Code
-- [flow](https://flow.org):
-  - Fehler finden, bevor der Code ausgeführt wird!
+  - Erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
+  - Rasche Installation und einfache Aktualisierung der Enwicklungsumgebung und eines grossen Teils der für die Entwicklung benötigten Fremd-Software
+- [ES6](http://www.ecma-international.org/ecma-262/6.0) und [ES2016](https://www.ecma-international.org/ecma-262/7.0), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript) fördern lesbaren, kurzen Code
+- [flow](https://flow.org) deckt Fehler auf, bevor der Code ausgeführt wird!
 - [prettier](https://github.com/prettier/prettier) formatiert den Code<br/>
-  - Der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
+  Der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - Jede Änderung ist direkt sichtbar
 - [React](https://facebook.github.io/react/index.html)
