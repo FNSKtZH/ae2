@@ -3465,6 +3465,28 @@ type Taxonomy implements Node {
   habitatNrFnsMax: Int
 
   # Reads and enables paginatation through a set of `TaxonomyObject`.
+  taxonomyObjectLevel1(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyTaxonomyObjectLevel1OrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+  ): TaxonomyTaxonomyObjectLevel1Connection
+
+  # Reads and enables paginatation through a set of `TaxonomyObject`.
   taxonomyObjectLevel1ByName(
     # The method to use when ordering `TaxonomyObject`.
     orderBy: TaxonomyTaxonomyObjectLevel1ByNameOrderBy = NATURAL
@@ -3803,6 +3825,35 @@ type TaxonomyTaxonomyObjectLevel1ByNameEdge {
 
 # Methods to use when ordering `TaxonomyObject`.
 enum TaxonomyTaxonomyObjectLevel1ByNameOrderBy {
+  NATURAL
+}
+
+# A connection to a list of `TaxonomyObject` values.
+type TaxonomyTaxonomyObjectLevel1Connection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `TaxonomyObject` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
+  edges: [TaxonomyTaxonomyObjectLevel1Edge]
+
+  # A list of `TaxonomyObject` objects.
+  nodes: [TaxonomyObject]
+}
+
+# A `TaxonomyObject` edge in the connection.
+type TaxonomyTaxonomyObjectLevel1Edge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `TaxonomyObject` at the end of the edge.
+  node: TaxonomyObject
+}
+
+# Methods to use when ordering `TaxonomyObject`.
+enum TaxonomyTaxonomyObjectLevel1OrderBy {
   NATURAL
 }
 

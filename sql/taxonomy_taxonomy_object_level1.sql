@@ -1,4 +1,3 @@
--- not in use
 CREATE OR REPLACE FUNCTION ae.taxonomy_taxonomy_object_level1(taxonomy ae.taxonomy)
   RETURNS setof ae.taxonomy_object AS
   $$
