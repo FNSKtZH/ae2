@@ -37,7 +37,8 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
      - Einfachere Datenauswertung
      - Bessere Gewährleistung der Datenintegrität
 - [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [Relay](https://facebook.github.io/relay)
-  - API-Server mit einer Zeile bauen und konfigurieren. Ca. zwei Monate weniger Arbeit!!!
+  - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!!!
+  - Weniger Code = weniger Fehler :-)
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
   - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. Relay kümmert sich um die Bereitstellung
   - Raschere Enwicklung, weniger Fehler
