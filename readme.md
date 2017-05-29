@@ -25,7 +25,7 @@ Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieb
 -	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
 -	Mögliche spätere Erweiterung: Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
 
-Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisationen gesteuert, welche Benutzern entsprechende Rechte erteilen.
+Daten sind vor Veränderung geschützt. Organisationen können Benutzern Bearbeitungs-Rechte erteilen.
 
 
 ### Diese Technologien werden verwendet:
@@ -36,35 +36,35 @@ Daten werden vor Veränderung geschützt. Ihre Anpassung wird durch Organisation
      - einfachere Verwaltung
      - einfachere Datenauswertung
      - bessere Gewährleistung der Datenintegrität
-- Alle Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
-  - einfache Aktualisierung
-  - zuverlässige Verwaltung benutzter Fremd-Software
-  - einfache Aktualisierung der Server nach Anpassungen
+- [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [relay](https://facebook.github.io/relay)
+  - API-Server mit einer Zeile bauen und konfigurieren. Ca. zwei Monate weniger Arbeit!!!
+  - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
+  - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. Relay kümmert sich um die Bereitstellung
+  - raschere Enwicklung, weniger Fehler
+- [hapi.js](http://hapijs.com) liefert die Schnittstellen für das [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content) und [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content)
+- [MobX](https://mobx.js.org)
+  - vereinfacht die Architektur der anwendungs-seitigen Daten (soweit das nicht von Relay übernommen wird)
+  - ermöglicht es, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
+- Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
+  - einfache und zuverlässig
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
   - erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
   - rasche Installation und einfache Aktualisierung der Enwicklungsumgebung und eines grossen Teils der für die Entwicklung benötigten Fremd-Software
 - [ES6](http://www.ecma-international.org/ecma-262/6.0/) und [ES2016](https://www.ecma-international.org/ecma-262/7.0/), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
   - fördern lesbaren, kurzen Code
 - [flow](https://flow.org):
-  - Fehler finden, noch bevor der Code ausgeführt wird!
-  - bestehende Fehler finden, bevor sie von Benutzern gemeldet werden
+  - Fehler finden, bevor der Code ausgeführt wird!
 - [prettier](https://github.com/prettier/prettier)<br/>
   - formatiert den Code<br/>
-  - der Entwickler muss sich nicht um Stil kümmern, er kann sich stattdessen auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
+  - der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - jede Änderung ist direkt sichtbar
-  - raschere Enwicklung, weniger Fehler
-- [Flux](http://facebook.github.io/flux) in Form von [MobX](https://mobx.js.org/)
-  - vereinfacht die Architektur der anwendungs-seitigen Daten
-  - ermöglicht es, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
 - [React](https://facebook.github.io/react/index.html)
   - die Benutzeroberfläche ist eine Funktion der anwendungs-seitigen Daten
   - vereinfacht die Steuerung der Benutzeroberfläche
   - die Benutzeroberfläche wird aus wiederverwertbaren und testbaren Komponenten aufgebaut
-- [hapi.js](http://hapijs.com) liefert Applikation und API bzw. Daten
 
 ### Aktueller Stand
 
 - Es besteht [ein Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren
-- Es gibt [ein Projekt](https://github.com/barbalex/ae_api) für die künftige API, inklusive Strukturdiagramm der Datenbank
 - Die neue Anwendung ist im Aufbau, Ziel: Beginn 2018
