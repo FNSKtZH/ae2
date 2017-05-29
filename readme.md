@@ -52,10 +52,8 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
   - Rasche Installation und einfache Aktualisierung der Enwicklungsumgebung und eines grossen Teils der für die Entwicklung benötigten Fremd-Software
 - [ES6](http://www.ecma-international.org/ecma-262/6.0) und [ES2016](https://www.ecma-international.org/ecma-262/7.0), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript) fördern lesbaren, kurzen Code
 - [flow](https://flow.org) deckt Fehler auf, bevor der Code ausgeführt wird!
-- [prettier](https://github.com/prettier/prettier) formatiert den Code<br/>
-  Der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
-- [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
-  - Jede Änderung ist direkt sichtbar
+- [prettier](https://github.com/prettier/prettier) formatiert den Code. Der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
+- [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser - jede Änderung ist direkt sichtbar
 - [React](https://facebook.github.io/react/index.html)
   - Die Benutzeroberfläche ist eine Funktion der anwendungs-seitigen Daten
   - Vereinfacht die Steuerung der Benutzeroberfläche
