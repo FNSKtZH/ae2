@@ -19,50 +19,49 @@
 
 ### Funktionale Ziele:
 Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon bei den Eigenschaften- und Beziehungssammlungen. Das ermöglicht folgende Features:
--	Jede neue Version einer Taxonomie wird importiert, ohne die alte zu ersetzten (wie bisher Eigenschaften- und Beziehungssammlungen)
+-	Jede neue Version einer Taxonomie wird importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaften- und Beziehungssammlungen
 -	Damit bleiben alle Daten langfristig erhalten
 -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
 -	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
 -	Mögliche spätere Erweiterung: Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
 
-Daten sind vor Veränderung geschützt. Organisationen können Benutzern Bearbeitungs-Rechte erteilen.
+Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
 
 
 ### Diese Technologien werden verwendet:
 
 - Als Datenbank [PostgreSQL](https://www.postgresql.org)
-  - die dynamische Datenstruktur, welche mit Hilfe von [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) den Benutzern ermöglicht, eigene Datenstrukturen zu importieren, bleibt erhalten - genau dort wo nötig
-  - alle übrigen Datenstrukturen sind relational und ermöglichen damit:
-     - einfachere Verwaltung
-     - einfachere Datenauswertung
-     - bessere Gewährleistung der Datenintegrität
+  - Die dynamische Datenstruktur, welche mit Hilfe von [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) den Benutzern ermöglicht, eigene Datenstrukturen zu importieren, bleibt erhalten - genau dort wo nötig
+  - Alle übrigen Datenstrukturen sind relational und ermöglichen damit:
+     - Einfachere Verwaltung
+     - Einfachere Datenauswertung
+     - Bessere Gewährleistung der Datenintegrität
 - [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [relay](https://facebook.github.io/relay)
   - API-Server mit einer Zeile bauen und konfigurieren. Ca. zwei Monate weniger Arbeit!!!
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
   - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. Relay kümmert sich um die Bereitstellung
-  - raschere Enwicklung, weniger Fehler
+  - Raschere Enwicklung, weniger Fehler
 - [hapi.js](http://hapijs.com) liefert die Schnittstellen für das [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content) und [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content)
 - [MobX](https://mobx.js.org)
-  - vereinfacht die Architektur der anwendungs-seitigen Daten (soweit das nicht von Relay übernommen wird)
-  - ermöglicht es, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
+  - Vereinfacht die Architektur der anwendungs-seitigen Daten (soweit das nicht von Relay übernommen wird)
+  - Ermöglicht es, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
-  - einfache und zuverlässig
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
   - erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
   - rasche Installation und einfache Aktualisierung der Enwicklungsumgebung und eines grossen Teils der für die Entwicklung benötigten Fremd-Software
-- [ES6](http://www.ecma-international.org/ecma-262/6.0/) und [ES2016](https://www.ecma-international.org/ecma-262/7.0/), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
+- [ES6](http://www.ecma-international.org/ecma-262/6.0) und [ES2016](https://www.ecma-international.org/ecma-262/7.0), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
   - fördern lesbaren, kurzen Code
 - [flow](https://flow.org):
   - Fehler finden, bevor der Code ausgeführt wird!
 - [prettier](https://github.com/prettier/prettier)<br/>
-  - formatiert den Code<br/>
-  - der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
+  - Formatiert den Code<br/>
+  - Der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
-  - jede Änderung ist direkt sichtbar
+  - Jede Änderung ist direkt sichtbar
 - [React](https://facebook.github.io/react/index.html)
-  - die Benutzeroberfläche ist eine Funktion der anwendungs-seitigen Daten
-  - vereinfacht die Steuerung der Benutzeroberfläche
-  - die Benutzeroberfläche wird aus wiederverwertbaren und testbaren Komponenten aufgebaut
+  - Die Benutzeroberfläche ist eine Funktion der anwendungs-seitigen Daten
+  - Vereinfacht die Steuerung der Benutzeroberfläche
+  - Die Benutzeroberfläche wird aus wiederverwertbaren und testbaren Komponenten aufgebaut
 
 ### Aktueller Stand
 
