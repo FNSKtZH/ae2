@@ -1,12 +1,10 @@
-CREATE OR REPLACE FUNCTION ae.taxonomy_object_toplevel(taxonomy_object ae.taxonomy_object)
-  RETURNS boolean AS
+CREATE OR REPLACE FUNCTION ae.taxonomy_object_toplevel()
+  RETURNS setof ae.taxonomy_object AS
   $$
-    select
-      case
-        when taxonomy_object.parent_id is null then true
-        else false
-      end
+    select *
+    from ae.taxonomy_object
+    where parent_id is null
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.taxonomy_object_toplevel(taxonomy_object ae.taxonomy_object)
+ALTER FUNCTION ae.taxonomy_object_toplevel()
   OWNER TO postgres;
