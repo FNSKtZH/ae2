@@ -1,3 +1,4 @@
+-- not in use
 CREATE OR REPLACE FUNCTION ae.taxonomy_object_toplevel(taxonomy_object ae.taxonomy_object)
   RETURNS boolean AS
   $$

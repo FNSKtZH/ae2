@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION ae.taxonomy_object_toplevel(taxonomy ae.taxonomy)
+-- not in use
+CREATE OR REPLACE FUNCTION ae.taxonomy_taxonomy_object_level1(taxonomy ae.taxonomy)
   RETURNS setof ae.taxonomy_object AS
   $$
     SELECT *
@@ -7,5 +8,5 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_object_toplevel(taxonomy ae.taxonomy)
     taxonomy_id = taxonomy.id
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.taxonomy_object_toplevel(taxonomy ae.taxonomy)
+ALTER FUNCTION ae.taxonomy_taxonomy_object_level1(taxonomy ae.taxonomy)
   OWNER TO postgres;
