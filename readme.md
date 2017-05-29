@@ -18,8 +18,8 @@
 -	Datenintegrität besser gewährleisten
 
 ### Funktionale Ziele:
-Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden, ähnlich wie bisher schon bei den Eigenschaften- und Beziehungssammlungen. Das ermöglicht folgende Features:
--	Jede neue Version einer Taxonomie kann importiert werden, ohne dass die alte ersetzt werden muss (wie bisher Eigenschaften- und Beziehungssammlungen)
+Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon bei den Eigenschaften- und Beziehungssammlungen. Das ermöglicht folgende Features:
+-	Jede neue Version einer Taxonomie wird importiert, ohne die alte zu ersetzten (wie bisher Eigenschaften- und Beziehungssammlungen)
 -	Damit bleiben alle Daten langfristig erhalten
 -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
 -	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
