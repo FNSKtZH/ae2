@@ -42,7 +42,7 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
   - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. Relay kümmert sich um die Bereitstellung
   - Raschere Enwicklung, weniger Fehler
-- [hapi.js](http://hapijs.com) liefert die Schnittstellen für das [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content) und [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content)
+- [hapi.js](http://hapijs.com) liefert (weiterhin) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content) und [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content)
 - [MobX](https://mobx.js.org)
   - Vereinfacht die Architektur der anwendungs-seitigen Daten (soweit das nicht von Relay übernommen wird)
   - Ermöglicht es, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
@@ -54,9 +54,8 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
   - fördern lesbaren, kurzen Code
 - [flow](https://flow.org):
   - Fehler finden, bevor der Code ausgeführt wird!
-- [prettier](https://github.com/prettier/prettier)<br/>
-  - Formatiert den Code<br/>
-  - Der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
+- [prettier](https://github.com/prettier/prettier) formatiert den Code<br/>
+  - Der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser
   - Jede Änderung ist direkt sichtbar
 - [React](https://facebook.github.io/react/index.html)
