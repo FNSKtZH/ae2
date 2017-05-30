@@ -1,7 +1,7 @@
 -- needed because
 -- can't filter for null in graphql (yet)
 -- trick: passing name is optional
-CREATE OR REPLACE FUNCTION ae.category_taxonomy_by_category(category ae.category, name text)
+CREATE OR REPLACE FUNCTION ae.category_taxonomy_by_category(category ae.category, categoryname text)
   RETURNS setof ae.taxonomy AS
   $$
     SELECT ae.taxonomy.*
@@ -16,5 +16,5 @@ CREATE OR REPLACE FUNCTION ae.category_taxonomy_by_category(category ae.category
       END
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.category_taxonomy_by_category(category ae.category, name text)
+ALTER FUNCTION ae.category_taxonomy_by_category(category ae.category, categoryname text)
   OWNER TO postgres;

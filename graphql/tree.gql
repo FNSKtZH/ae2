@@ -16,6 +16,12 @@
                 totalCount
                 nodes {
                   name
+                  taxonomyObjectLevel3(taxonomyname: "CSCF (2009)") {
+                    totalCount
+                    nodes {
+                      name
+                    }
+                  }
                 }
               }
             }
