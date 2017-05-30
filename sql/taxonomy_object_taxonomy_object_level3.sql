@@ -2,13 +2,13 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_object_taxonomy_object_level3(taxonomy_ob
   RETURNS setof ae.taxonomy_object AS
   $$
     SELECT to3.*
-    FROM ae.taxonomy
-      INNER JOIN ae.taxonomy_object AS to1
+    FROM ae.taxonomy_object AS to1
+      INNER JOIN ae.taxonomy
       ON ae.taxonomy.id = to1.taxonomy_id
-        INNER JOIN ae.taxonomy_object AS to2
-        ON to1.id = to2.parent_id
-          INNER JOIN ae.taxonomy_object AS to3
-          ON to2.id = to3.parent_id
+      INNER JOIN ae.taxonomy_object AS to2
+        INNER JOIN ae.taxonomy_object AS to3
+        ON to2.id = to3.parent_id
+      ON to1.id = to2.parent_id
     WHERE
       to1.parent_id IS NULL AND
       ae.taxonomy.name = $2 AND
