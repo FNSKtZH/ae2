@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION ae.taxonomy_taxonomy_object_level1_by_taxonomy(taxonomy ae.taxonomy, name text)
+CREATE OR REPLACE FUNCTION ae.taxonomy_taxonomy_object_level1(taxonomy ae.taxonomy, name text)
   RETURNS setof ae.taxonomy_object AS
   $$
     SELECT ae.taxonomy_object.*
@@ -13,5 +13,5 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_taxonomy_object_level1_by_taxonomy(taxono
     END
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.taxonomy_taxonomy_object_level1_by_taxonomy(taxonomy ae.taxonomy, name text)
+ALTER FUNCTION ae.taxonomy_taxonomy_object_level1(taxonomy ae.taxonomy, name text)
   OWNER TO postgres;

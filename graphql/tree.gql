@@ -1,0 +1,27 @@
+{
+  allCategories {
+    totalCount
+    nodes {
+      name
+      taxonomiesByCategory(condition: {name: "CSCF (2009)"}) {
+        totalCount
+        nodes {
+          name
+          isCategoryStandard
+          taxonomyObjectLevel1(name: "CSCF (2009)") {
+            totalCount
+            nodes {
+              name
+              taxonomyObjectLevel2(taxonomyname: "CSCF (2009)", level1name: "Amphibia") {
+                totalCount
+                nodes {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
