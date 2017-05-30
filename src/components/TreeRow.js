@@ -71,7 +71,11 @@ const Row = ({
   let useSymbolIcon = true
   let useSymbolSpan = false
   let symbolIcon
-  if (node.hasChildren /* && isNodeOpen(toJS(tree.openNodes), node.url)*/) {
+  if (
+    node.hasChildren ||
+    (node.childrenCount &&
+      node.childrenCount > 0) /* && isNodeOpen(toJS(tree.openNodes), node.url)*/
+  ) {
     symbolIcon = 'expand_more'
   } else if (node.hasChildren) {
     symbolIcon = 'chevron_right'

@@ -14,13 +14,19 @@ const TreeTaxonomies = ({ store }: { store: Object }) => (
     environment={environment}
     query={graphql`
       query TreeTaxonomiesQuery {
-          categoryByName(name: "Fauna") {
-            name
-            taxonomiesByCategory {
-              totalCount
-              nodes {
-                id
-                name
+        allCategories {
+            totalCount
+            nodes {
+              name
+              taxonomiesByCategory {
+                totalCount
+                nodes {
+                  id
+                  name
+                  taxonomyObjectLevel1 {
+                    totalCount
+                  }
+                }
               }
             }
           }
@@ -32,9 +38,8 @@ const TreeTaxonomies = ({ store }: { store: Object }) => (
           (n, index) => ({
             id: n.id,
             url: ['Taxonomien', props.categoryByName.name, n.name],
-            label: n.name,
-            hasChildren: true,
-            parentId: 'level1_1',
+            label: `${n.name}${n.taxonomyObjectLevel1.totalCount > 0 ? ` (${n.taxonomyObjectLevel1.totalCount})` : ''}`,
+            childrenCount: n.taxonomyObjectLevel1.totalCount,
           })
         )
         store.nodes.setTaxTaxonomiesNodes(nodes)

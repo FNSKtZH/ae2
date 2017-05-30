@@ -26,6 +26,9 @@ const TreeTaxonomyObjectLevel2 = ({ store }: { store: Object }) => (
             taxonomyObjectByParentId {
               name
             }
+            taxonomyObjectsByParentId {
+              totalCount
+            }
           }
         }
       }
@@ -42,9 +45,8 @@ const TreeTaxonomyObjectLevel2 = ({ store }: { store: Object }) => (
               n.taxonomyObjectByParentId.name,
               n.name,
             ],
-            label: n.name,
-            hasChildren: true,
-            parentId: 'level1_1',
+            label: `${n.name}${n.taxonomyObjectsByParentId.totalCount > 0 ? ` (${n.taxonomyObjectsByParentId.totalCount})` : ''}`,
+            childrenCount: n.taxonomyObjectsByParentId.totalCount,
           }))
           store.nodes.setTaxTaxonomyObjectsNodesLevel2(nodes)
         } else {

@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyObjectLevel1Query.graphql
- * @generated SignedSource<<bd63ae79a553917d5dc6a4bd05f0d40a>>
- * @relayHash 8e1ce8afd2ad6e2564f1f5cfc05f7ab5
+ * @generated SignedSource<<5b772c18e4ddbc256d9e767b210302e1>>
+ * @relayHash bd91bf8c9d7463af10fde56a43f18070
  * @flow
  * @nogrep
  */
@@ -29,6 +29,9 @@ query TreeTaxonomyObjectLevel1Query {
       taxonomyByTaxonomyId {
         category
         name
+      }
+      taxonomyObjectsByParentId {
+        totalCount
       }
     }
   }
@@ -99,6 +102,24 @@ const batch /*: ConcreteBatch*/ = {
                     "alias": null,
                     "args": null,
                     "name": "name",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              },
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
                     "storageKey": null
                   }
                 ],
@@ -184,6 +205,24 @@ const batch /*: ConcreteBatch*/ = {
                   }
                 ],
                 "storageKey": null
+              },
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
               }
             ],
             "storageKey": null
@@ -193,7 +232,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyObjectLevel1Query {\n  taxonomyObjectLevel1 {\n    totalCount\n    nodes {\n      id\n      name\n      taxonomyByTaxonomyId {\n        category\n        name\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyObjectLevel1Query {\n  taxonomyObjectLevel1 {\n    totalCount\n    nodes {\n      id\n      name\n      taxonomyByTaxonomyId {\n        category\n        name\n      }\n      taxonomyObjectsByParentId {\n        totalCount\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;
