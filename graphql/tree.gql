@@ -6,9 +6,10 @@
       taxonomiesByCategory(condition: {category: "Fauna"}) {
         totalCount
         nodes {
+          id
           name
           isCategoryStandard
-          taxonomyObjectLevel1(name: "CSCF (2009)") {
+          taxonomyObjectLevel1(taxonomyId: "5444e7eb-177f-4faf-ba44-0e3da1b391e0") {
             totalCount
             nodes {
               id
