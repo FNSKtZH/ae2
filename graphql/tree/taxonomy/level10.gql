@@ -4,17 +4,9 @@
       nameGerman
       propertyCollectionsByDataType {
         totalCount
-        nodes {
-          id
-          name
-        }
       }
       relationCollectionsByDataType {
         totalCount
-        nodes {
-          id
-          name
-        }
       }
       categoriesByDataType {
         totalCount
@@ -52,6 +44,27 @@
                                 nodes {
                                   id
                                   name
+                                  taxonomyObjectsByParentId(condition: {parentId: "310212c8-2f89-43c5-9db8-d3c3f6ca8b0b"}) {
+                                    totalCount
+                                    nodes {
+                                      id
+                                      name
+                                      taxonomyObjectsByParentId(condition: {parentId: "310212c8-2f89-43c5-9db8-d3c3f6ca8b0b"}) {
+                                        totalCount
+                                        nodes {
+                                          id
+                                          name
+                                          taxonomyObjectsByParentId {
+                                            totalCount
+                                            nodes {
+                                              id
+                                              name
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
                                 }
                               }
                             }

@@ -1,0 +1,16 @@
+{
+  allDataTypes {
+    nodes {
+      nameGerman
+      propertyCollectionsByDataType {
+        totalCount
+      }
+      relationCollectionsByDataType {
+        totalCount
+      }
+      categoriesByDataType {
+        totalCount
+      }
+    }
+  }
+}
