@@ -40,8 +40,7 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
   - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!!!
   - Weniger Code = weniger Fehler :-)
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
-  - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. Relay kümmert sich um die Bereitstellung
-  - Raschere Enwicklung, weniger Fehler
+  - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQl und Relay kümmern sich um die Bereitstellung
 - [hapi.js](http://hapijs.com) liefert (weiterhin) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content) und [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content)
 - [MobX](https://mobx.js.org)
   - Vereinfacht die Architektur der anwendungs-seitigen Daten (soweit das nicht von Relay übernommen wird)
