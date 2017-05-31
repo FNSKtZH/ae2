@@ -41,17 +41,17 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
   - Weniger Code = weniger Fehler :-)
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
   - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQl und Relay kümmern sich um die Bereitstellung
-- [hapi.js](http://hapijs.com) liefert (weiterhin) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content) und [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content)
+- [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
 - [MobX](https://mobx.js.org)
   - Vereinfacht die Architektur der anwendungs-seitigen Daten (soweit das nicht von Relay übernommen wird)
-  - Ermöglicht es, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
+  - Ermöglicht, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
   - Erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
   - Rasche Installation und einfache Aktualisierung der Enwicklungsumgebung und eines grossen Teils der für die Entwicklung benötigten Fremd-Software
 - [ES6](http://www.ecma-international.org/ecma-262/6.0) und [ES2016](https://www.ecma-international.org/ecma-262/7.0), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript) fördern lesbaren, kurzen Code
-- [flow](https://flow.org) deckt Fehler auf, bevor der Code ausgeführt wird!
-- [prettier](https://github.com/prettier/prettier) formatiert den Code. Der Entwickler muss sich nicht um Stil kümmern. Er kann sich auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
+- [flow](https://flow.org) deckt Fehler auf, bevor der Code ausgeführt wird
+- [prettier](https://github.com/prettier/prettier) formatiert den Code. Statt sich um Stil zu kümmern, kann sich der Entwickler auf die Funktionalität konzentrieren. Das beschleunigt die Entwicklung und reduziert Fehler
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser - jede Änderung ist direkt sichtbar
 - [React](https://facebook.github.io/react/index.html)
   - Die Benutzeroberfläche ist eine Funktion der anwendungs-seitigen Daten
