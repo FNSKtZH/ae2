@@ -683,6 +683,7 @@ type DataType implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   name: String!
+  nameGerman: String
 
   # Reads and enables paginatation through a set of `PropertyCollection`.
   propertyCollectionsByDataType(
@@ -765,15 +766,20 @@ type DataType implements Node {
 input DataTypeCondition {
   # Checks for equality with the object’s `name` field.
   name: String
+
+  # Checks for equality with the object’s `nameGerman` field.
+  nameGerman: String
 }
 
 input DataTypeInput {
   name: String!
+  nameGerman: String
 }
 
 # Represents an update to a `DataType`. Fields that are set will be updated.
 input DataTypePatch {
   name: String
+  nameGerman: String
 }
 
 # A connection to a list of `DataType` values.
@@ -807,6 +813,8 @@ enum DataTypesOrderBy {
   NATURAL
   NAME_ASC
   NAME_DESC
+  NAME_GERMAN_ASC
+  NAME_GERMAN_DESC
 }
 
 # The day, does not include a time.
