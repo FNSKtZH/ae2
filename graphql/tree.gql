@@ -3,7 +3,7 @@
     totalCount
     nodes {
       name
-      taxonomiesByCategory(condition: {name: "CSCF (2009)"}) {
+      taxonomiesByCategory(condition: {category: "Fauna"}) {
         totalCount
         nodes {
           name
@@ -11,15 +11,32 @@
           taxonomyObjectLevel1(name: "CSCF (2009)") {
             totalCount
             nodes {
+              id
               name
-              taxonomyObjectLevel2(taxonomyname: "CSCF (2009)", level1name: "Amphibia") {
+              taxonomyObjectsByParentId(condition: {parentId: "eb06d369-1f58-4d99-8094-521872e05b21"}) {
                 totalCount
                 nodes {
+                  id
                   name
-                  taxonomyObjectLevel3(taxonomyname: "CSCF (2009)") {
+                  taxonomyObjectsByParentId(condition: {parentId: "1246ff73-170a-411e-9598-91606c50e516"}) {
                     totalCount
                     nodes {
+                      id
                       name
+                      taxonomyObjectsByParentId(condition: {parentId: "e9cdb7a4-5335-4e1d-b25f-c222084a9ba5"}) {
+                        totalCount
+                        nodes {
+                          id
+                          name
+                          taxonomyObjectsByParentId(condition: {parentId: "055338cf-bb74-441c-a41d-6914bdebd748"}) {
+                            totalCount
+                            nodes {
+                              id
+                              name
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }

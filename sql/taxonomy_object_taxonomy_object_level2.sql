@@ -3,10 +3,10 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_object_taxonomy_object_level2(taxonomy_ob
   $$
     SELECT to2.*
     FROM ae.taxonomy_object AS to1
-      INNER JOIN ae.taxonomy
-      ON ae.taxonomy.id = to1.taxonomy_id
       INNER JOIN ae.taxonomy_object AS to2
       ON to1.id = to2.parent_id
+      INNER JOIN ae.taxonomy
+      ON ae.taxonomy.id = to1.taxonomy_id
     WHERE
       to1.parent_id IS NULL AND
       ae.taxonomy.name = $2 AND

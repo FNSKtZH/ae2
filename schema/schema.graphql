@@ -29,12 +29,38 @@ enum CategoriesOrderBy {
   NATURAL
   NAME_ASC
   NAME_DESC
+  ID_ASC
+  ID_DESC
 }
 
 type Category implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   name: String!
+  id: Uuid!
+
+  # Reads and enables paginatation through a set of `Taxonomy`.
+  taxonomyByCategory(
+    # The method to use when ordering `Taxonomy`.
+    orderBy: CategoryTaxonomyByCategoryOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    categoryname: String
+  ): CategoryTaxonomyByCategoryConnection
 
   # Reads and enables paginatation through a set of `Object`.
   objectsByCategory(
@@ -92,15 +118,49 @@ type Category implements Node {
 input CategoryCondition {
   # Checks for equality with the object’s `name` field.
   name: String
+
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
 }
 
 input CategoryInput {
   name: String!
+  id: Uuid
 }
 
 # Represents an update to a `Category`. Fields that are set will be updated.
 input CategoryPatch {
   name: String
+  id: Uuid
+}
+
+# A connection to a list of `Taxonomy` values.
+type CategoryTaxonomyByCategoryConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Taxonomy` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Taxonomy` and cursor to aid in pagination.
+  edges: [CategoryTaxonomyByCategoryEdge]
+
+  # A list of `Taxonomy` objects.
+  nodes: [Taxonomy]
+}
+
+# A `Taxonomy` edge in the connection.
+type CategoryTaxonomyByCategoryEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Taxonomy` at the end of the edge.
+  node: Taxonomy
+}
+
+# Methods to use when ordering `Taxonomy`.
+enum CategoryTaxonomyByCategoryOrderBy {
+  NATURAL
 }
 
 # All input for the `createCategory` mutation.
@@ -2349,50 +2409,6 @@ type Query implements Node {
     nodeId: ID!
   ): Node
 
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObjectLevel1(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectLevel1OrderBy = NATURAL
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-  ): TaxonomyObjectLevel1Connection
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObjectLevel2(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectLevel2OrderBy = NATURAL
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-  ): TaxonomyObjectLevel2Connection
-
   # Reads and enables paginatation through a set of `Category`.
   allCategories(
     # The method to use when ordering `Category`.
@@ -3484,30 +3500,8 @@ type Taxonomy implements Node {
     # Skip the first `n` values from our `after` cursor, an alternative to cursor
     # based pagination. May not be used with `last`.
     offset: Int
-  ): TaxonomyTaxonomyObjectLevel1Connection
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObjectLevel1ByName(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyTaxonomyObjectLevel1ByNameOrderBy = NATURAL
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
     name: String
-  ): TaxonomyTaxonomyObjectLevel1ByNameConnection
+  ): TaxonomyTaxonomyObjectLevel1Connection
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
@@ -3606,6 +3600,55 @@ type TaxonomyObject implements Node {
   name: String!
   properties: Json
 
+  # Reads and enables paginatation through a set of `TaxonomyObject`.
+  taxonomyObjectLevel2(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyObjectTaxonomyObjectLevel2OrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    taxonomyname: String
+    level1name: String
+  ): TaxonomyObjectTaxonomyObjectLevel2Connection
+
+  # Reads and enables paginatation through a set of `TaxonomyObject`.
+  taxonomyObjectLevel3(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyObjectTaxonomyObjectLevel3OrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    taxonomyname: String
+    level1name: String
+    level2name: String
+  ): TaxonomyObjectTaxonomyObjectLevel3Connection
+
   # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
   taxonomyByTaxonomyId: Taxonomy
 
@@ -3672,64 +3715,6 @@ input TaxonomyObjectInput {
   properties: Json
 }
 
-# A connection to a list of `TaxonomyObject` values.
-type TaxonomyObjectLevel1Connection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # The count of *all* `TaxonomyObject` you could get from the connection.
-  totalCount: Int
-
-  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
-  edges: [TaxonomyObjectLevel1Edge]
-
-  # A list of `TaxonomyObject` objects.
-  nodes: [TaxonomyObject]
-}
-
-# A `TaxonomyObject` edge in the connection.
-type TaxonomyObjectLevel1Edge {
-  # A cursor for use in pagination.
-  cursor: Cursor
-
-  # The `TaxonomyObject` at the end of the edge.
-  node: TaxonomyObject
-}
-
-# Methods to use when ordering `TaxonomyObject`.
-enum TaxonomyObjectLevel1OrderBy {
-  NATURAL
-}
-
-# A connection to a list of `TaxonomyObject` values.
-type TaxonomyObjectLevel2Connection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # The count of *all* `TaxonomyObject` you could get from the connection.
-  totalCount: Int
-
-  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
-  edges: [TaxonomyObjectLevel2Edge]
-
-  # A list of `TaxonomyObject` objects.
-  nodes: [TaxonomyObject]
-}
-
-# A `TaxonomyObject` edge in the connection.
-type TaxonomyObjectLevel2Edge {
-  # A cursor for use in pagination.
-  cursor: Cursor
-
-  # The `TaxonomyObject` at the end of the edge.
-  node: TaxonomyObject
-}
-
-# Methods to use when ordering `TaxonomyObject`.
-enum TaxonomyObjectLevel2OrderBy {
-  NATURAL
-}
-
 # Represents an update to a `TaxonomyObject`. Fields that are set will be updated.
 input TaxonomyObjectPatch {
   id: Uuid
@@ -3783,6 +3768,64 @@ enum TaxonomyObjectsOrderBy {
   PROPERTIES_DESC
 }
 
+# A connection to a list of `TaxonomyObject` values.
+type TaxonomyObjectTaxonomyObjectLevel2Connection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `TaxonomyObject` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
+  edges: [TaxonomyObjectTaxonomyObjectLevel2Edge]
+
+  # A list of `TaxonomyObject` objects.
+  nodes: [TaxonomyObject]
+}
+
+# A `TaxonomyObject` edge in the connection.
+type TaxonomyObjectTaxonomyObjectLevel2Edge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `TaxonomyObject` at the end of the edge.
+  node: TaxonomyObject
+}
+
+# Methods to use when ordering `TaxonomyObject`.
+enum TaxonomyObjectTaxonomyObjectLevel2OrderBy {
+  NATURAL
+}
+
+# A connection to a list of `TaxonomyObject` values.
+type TaxonomyObjectTaxonomyObjectLevel3Connection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `TaxonomyObject` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
+  edges: [TaxonomyObjectTaxonomyObjectLevel3Edge]
+
+  # A list of `TaxonomyObject` objects.
+  nodes: [TaxonomyObject]
+}
+
+# A `TaxonomyObject` edge in the connection.
+type TaxonomyObjectTaxonomyObjectLevel3Edge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `TaxonomyObject` at the end of the edge.
+  node: TaxonomyObject
+}
+
+# Methods to use when ordering `TaxonomyObject`.
+enum TaxonomyObjectTaxonomyObjectLevel3OrderBy {
+  NATURAL
+}
+
 # Represents an update to a `Taxonomy`. Fields that are set will be updated.
 input TaxonomyPatch {
   id: Uuid
@@ -3797,35 +3840,6 @@ input TaxonomyPatch {
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
-}
-
-# A connection to a list of `TaxonomyObject` values.
-type TaxonomyTaxonomyObjectLevel1ByNameConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # The count of *all* `TaxonomyObject` you could get from the connection.
-  totalCount: Int
-
-  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
-  edges: [TaxonomyTaxonomyObjectLevel1ByNameEdge]
-
-  # A list of `TaxonomyObject` objects.
-  nodes: [TaxonomyObject]
-}
-
-# A `TaxonomyObject` edge in the connection.
-type TaxonomyTaxonomyObjectLevel1ByNameEdge {
-  # A cursor for use in pagination.
-  cursor: Cursor
-
-  # The `TaxonomyObject` at the end of the edge.
-  node: TaxonomyObject
-}
-
-# Methods to use when ordering `TaxonomyObject`.
-enum TaxonomyTaxonomyObjectLevel1ByNameOrderBy {
-  NATURAL
 }
 
 # A connection to a list of `TaxonomyObject` values.
