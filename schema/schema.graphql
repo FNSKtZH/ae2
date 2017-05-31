@@ -3909,6 +3909,9 @@ type TaxonomyObject implements Node {
   name: String!
   properties: Json
 
+  # until postgraphql can filter parent_id null
+  level: Int
+
   # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
   taxonomyByTaxonomyId: Taxonomy
 
@@ -3964,6 +3967,9 @@ input TaxonomyObjectCondition {
 
   # Checks for equality with the object’s `properties` field.
   properties: Json
+
+  # Checks for equality with the object’s `level` field.
+  level: Int
 }
 
 input TaxonomyObjectInput {
@@ -3973,6 +3979,9 @@ input TaxonomyObjectInput {
   parentId: Uuid
   name: String!
   properties: Json
+
+  # until postgraphql can filter parent_id null
+  level: Int
 }
 
 # Represents an update to a `TaxonomyObject`. Fields that are set will be updated.
@@ -3983,6 +3992,9 @@ input TaxonomyObjectPatch {
   parentId: Uuid
   name: String
   properties: Json
+
+  # until postgraphql can filter parent_id null
+  level: Int
 }
 
 # A connection to a list of `TaxonomyObject` values.
@@ -4026,6 +4038,8 @@ enum TaxonomyObjectsOrderBy {
   NAME_DESC
   PROPERTIES_ASC
   PROPERTIES_DESC
+  LEVEL_ASC
+  LEVEL_DESC
 }
 
 # Represents an update to a `Taxonomy`. Fields that are set will be updated.
