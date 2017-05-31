@@ -62,4 +62,9 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 ### Aktueller Stand
 
 - Es besteht [ein Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren
-- Die neue Anwendung ist im Aufbau, Ziel: Beginn 2018
+- Der Anwendungs-API-Server ist bereit ([postgraphql](https://github.com/postgraphql/postgraphql))
+- Der API-Server für abhängige Anwendungen [existiert im Entwurf](https://github.com/barbalex/ae_api)
+- Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Momentan existiert:
+  - Entwicklungsumgebung
+  - Layout und Navigation (Entwurf)
+  - Der Struktur- und Navigationsbaum ist im Aufbau
