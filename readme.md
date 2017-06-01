@@ -60,11 +60,11 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 
 ### Aktueller Stand
 
-- Es besteht ein [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren. Status: ca. zu 90% bereit (Ergebnis des Imports muss noch kontrolliert werden, taxonomy_objects von Lebensräumen werden noch nicht exportiert)
+- Es besteht ein [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren. Status: ca. zu 90% bereit. Das Ergebnis des Imports muss noch kontrolliert werden, taxonomy_object's von Lebensräumen werden noch nicht exportiert
 - Datenstruktur: ![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
 - Der Anwendungs-API-Server ist bereit ([postgraphql](https://github.com/postgraphql/postgraphql))
-- Der API-Server für abhängige Anwendungen [existiert im Entwurf](https://github.com/barbalex/ae_api). Braucht aber noch viel Liebe
-- Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Momentan existiert:
-  - Entwicklungsumgebung
-  - Layout und Navigation (Entwurf)
+- Der API-Server für abhängige Anwendungen [existiert im Entwurf](https://github.com/barbalex/ae_api). Braucht aber noch etwas Liebe
+- Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
+  - Entwicklungsumgebung ist gebaut
+  - Layout und Navigation bestehen im Entwurf
   - Der Struktur- und Navigationsbaum ist im Aufbau
