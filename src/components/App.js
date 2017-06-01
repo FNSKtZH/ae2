@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
 import styled from 'styled-components'
 import { observer, inject } from 'mobx-react'
@@ -16,20 +15,13 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const enhance = compose(inject('store'), withRouter, observer)
+const enhance = compose(inject('store'), observer)
 
 class App extends Component {
   props: {
     store: Object,
     location: Object,
     history: Object,
-  }
-
-  componentWillMount() {
-    const { location, history } = this.props
-    if (location.pathname === '/') {
-      history.push('/Taxonomien')
-    }
   }
 
   render() {

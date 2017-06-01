@@ -10,7 +10,6 @@ import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
-import { withRouter } from 'react-router'
 
 const StyledAppBar = styled(AppBar)`
   @media print {
@@ -33,19 +32,18 @@ const iconMenuStyle = { paddingLeft: 10 }
 
 const enhance = compose(
   inject('store'),
-  withRouter,
   withHandlers({
     onClickColumnButtonTree: props => () =>
       props.store.ui.setColumnVisibility(
         'tree',
-        !props.store.ui.visibleColumns.tree,
+        !props.store.ui.visibleColumns.tree
       ),
     onClickColumnButtonData: props => () => {
       const pathIsMain = [
-        '/Taxonomien',
-        '/Eigenschaften-Sammlungen',
-        '/Beziehungs-Sammlungen',
-      ].includes(props.location.pathname)
+        '/taxonomy',
+        '/property_collection',
+        '/relation_collection',
+      ].includes(props.store.activeNodeArray[0])
       const mainIsVisible = props.store.ui.visibleColumns.main
       if (!mainIsVisible) {
         props.store.ui.setColumnVisibility('main', true)
@@ -58,31 +56,29 @@ const enhance = compose(
     },
     onClickColumnButtonExport: props => () => {
       const mainIsVisible = props.store.ui.visibleColumns.main
-      if (props.location.pathname !== '/Exporte') {
-        props.history.push('/Exporte')
+      if (props.store.activeNodeArray[0] !== 'export') {
+        props.store.setActiveNodeArray('export')
         if (!mainIsVisible) {
           props.store.ui.setColumnVisibility('main')
         }
       } else {
-        props.history.push('/Taxonomien')
+        props.store.setActiveNodeArray('taxonomy')
       }
     },
     ueberArteigenschaftenOnClick: props => () =>
       window.open('https://github.com/barbalex/ae2'),
   }),
-  observer,
+  observer
 )
 
 const MyAppBar = ({
   store,
-  location,
   onClickColumnButtonTree,
   onClickColumnButtonData,
   onClickColumnButtonExport,
   ueberArteigenschaftenOnClick,
 }: {
   store: Object,
-  location: Object,
   onClickColumnButtonTree: () => void,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
@@ -102,16 +98,16 @@ const MyAppBar = ({
           visible={
             store.ui.visibleColumns.main &&
               [
-                '/Taxonomien',
-                '/Eigenschaften-Sammlungen',
-                '/Beziehungs-Sammlungen',
-              ].includes(location.pathname)
+                '/taxonomy',
+                '/property_collection',
+                '/relation_collection',
+              ].includes(store.activeNodeArray[0])
           }
           onClick={onClickColumnButtonData}
         />
         <Button
           label="Exporte"
-          visible={location.pathname === '/Exporte'}
+          visible={store.activeNodeArray[0] === 'export'}
           onClick={onClickColumnButtonExport}
         />
         <IconMenu

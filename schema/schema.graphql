@@ -31,6 +31,8 @@ enum CategoriesOrderBy {
   NAME_DESC
   ID_ASC
   ID_DESC
+  DATA_TYPE_ASC
+  DATA_TYPE_DESC
 }
 
 type Category implements Node {
@@ -38,6 +40,7 @@ type Category implements Node {
   nodeId: ID!
   name: String!
   id: Uuid!
+  dataType: String
 
   # Reads and enables paginatation through a set of `Taxonomy`.
   taxonomyByCategory(
@@ -61,6 +64,9 @@ type Category implements Node {
     offset: Int
     categoryname: String
   ): CategoryTaxonomyByCategoryConnection
+
+  # Reads a single `DataType` that is related to this `Category`.
+  dataTypeByDataType: DataType
 
   # Reads and enables paginatation through a set of `Object`.
   objectsByCategory(
@@ -121,17 +127,22 @@ input CategoryCondition {
 
   # Checks for equality with the object’s `id` field.
   id: Uuid
+
+  # Checks for equality with the object’s `dataType` field.
+  dataType: String
 }
 
 input CategoryInput {
   name: String!
   id: Uuid
+  dataType: String
 }
 
 # Represents an update to a `Category`. Fields that are set will be updated.
 input CategoryPatch {
   name: String
   id: Uuid
+  dataType: String
 }
 
 # A connection to a list of `Taxonomy` values.
@@ -187,6 +198,9 @@ type CreateCategoryPayload {
     # The method to use when ordering `Category`.
     orderBy: CategoriesOrderBy = PRIMARY_KEY_ASC
   ): CategoriesEdge
+
+  # Reads a single `DataType` that is related to this `Category`.
+  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -685,6 +699,31 @@ type DataType implements Node {
   name: String!
   nameGerman: String
 
+  # Reads and enables paginatation through a set of `Category`.
+  categoriesByDataType(
+    # The method to use when ordering `Category`.
+    orderBy: CategoriesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: CategoryCondition
+  ): CategoriesConnection
+
   # Reads and enables paginatation through a set of `PropertyCollection`.
   propertyCollectionsByDataType(
     # The method to use when ordering `PropertyCollection`.
@@ -845,6 +884,9 @@ type DeleteCategoryPayload {
   clientMutationId: String
   category: Category
   deletedCategoryId: ID
+
+  # Reads a single `DataType` that is related to this `Category`.
+  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -4118,6 +4160,9 @@ type UpdateCategoryPayload {
   # unchanged and unused. May be used by a client to track mutations.
   clientMutationId: String
   category: Category
+
+  # Reads a single `DataType` that is related to this `Category`.
+  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
