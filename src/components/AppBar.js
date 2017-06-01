@@ -57,12 +57,12 @@ const enhance = compose(
     onClickColumnButtonExport: props => () => {
       const mainIsVisible = props.store.ui.visibleColumns.main
       if (props.store.activeNodeArray[0] !== 'export') {
-        props.store.setActiveNodeArray('export')
+        props.store.setActiveNodeArray(['export'])
         if (!mainIsVisible) {
           props.store.ui.setColumnVisibility('main')
         }
       } else {
-        props.store.setActiveNodeArray('taxonomy')
+        props.store.setActiveNodeArray(['taxonomy'])
       }
     },
     ueberArteigenschaftenOnClick: props => () =>
