@@ -9,6 +9,8 @@ import TaxonomyLevel2 from './TreeTaxonomyLevel2'
 import TaxonomyLevel3 from './TreeTaxonomyLevel3'
 import TaxonomyLevel4 from './TreeTaxonomyLevel4'
 import TaxonomyLevel5 from './TreeTaxonomyLevel5'
+import TaxonomyLevel6 from './TreeTaxonomyLevel6'
+import TaxonomyLevel7 from './TreeTaxonomyLevel7'
 
 const enhance = compose(inject('store'), observer)
 
@@ -30,11 +32,11 @@ const TreeCategories = ({ store }: { store: Object }) => {
           return <TaxonomyLevel4 />
         case 5:
           return <TaxonomyLevel5 />
-        /*case 6:
-          return taxonomyLevel6
+        case 6:
+          return <TaxonomyLevel6 />
         case 7:
-          return taxonomyLevel7
-        case 8:
+          return <TaxonomyLevel7 />
+        /*case 8:
           return taxonomyLevel8
         case 9:
           return taxonomyLevel9
