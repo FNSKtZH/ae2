@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel1Query.graphql
- * @generated SignedSource<<412c4b93e7f85f7faf2955f2578d54ec>>
- * @relayHash 9cf793630087f54c51829e65d0a7e224
+ * @generated SignedSource<<acab9529af7cec95ad71ddc41c69c2bc>>
+ * @relayHash 706f3464ea92dd88b3bdaaa6a102b74a
  * @flow
  * @nogrep
  */
@@ -24,6 +24,7 @@ query TreeTaxonomyLevel1Query {
   allDataTypes {
     nodes {
       nameGerman
+      name
       propertyCollectionsByDataType {
         totalCount
       }
@@ -73,6 +74,13 @@ const batch /*: ConcreteBatch*/ = {
                 "alias": null,
                 "args": null,
                 "name": "nameGerman",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "name",
                 "storageKey": null
               },
               {
@@ -215,6 +223,13 @@ const batch /*: ConcreteBatch*/ = {
                 "storageKey": null
               },
               {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "name",
+                "storageKey": null
+              },
+              {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
@@ -319,7 +334,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel1Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomiesByCategory {\n            totalCount\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel1Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomiesByCategory {\n            totalCount\n          }\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

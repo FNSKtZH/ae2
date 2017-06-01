@@ -19,6 +19,7 @@ const TreeTaxonomyLevel1 = ({ store }: { store: Object }) => (
         allDataTypes {
           nodes {
             nameGerman
+            name
             propertyCollectionsByDataType {
               totalCount
             }
