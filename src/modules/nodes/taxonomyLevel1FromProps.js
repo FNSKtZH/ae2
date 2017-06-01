@@ -13,6 +13,6 @@ export default (store: Object, props: Object): Array<Object> => {
     id: n.id,
     url: [taxonomy.name, n.id],
     label: n.name,
-    childrenCount: n.totalCount,
+    childrenCount: n.taxonomiesByCategory.totalCount,
   }))
 }
