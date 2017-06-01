@@ -9,10 +9,6 @@ export default (store: Object): void => {
   extendObservable(store, {
     manipulateActiveNodeArray: autorun('manipulateActiveNodeArray', () => {
       const activeNodeArray = toJS(store.activeNodeArray)
-      console.log(
-        'manipulateActiveNodeArray, activeNodeArray:',
-        activeNodeArray
-      )
       // forward root to taxonomy
       if (activeNodeArray.length === 0) {
         return store.setActiveNodeArray(['taxonomy'])
