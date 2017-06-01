@@ -4,6 +4,7 @@ import { QueryRenderer, graphql } from 'react-relay'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
+import level0FromProps from '../modules/nodes/level0FromProps'
 
 const TreeLevel0 = () => (
   <QueryRenderer
@@ -13,6 +14,7 @@ const TreeLevel0 = () => (
         allDataTypes {
           nodes {
             nameGerman
+            name
             propertyCollectionsByDataType {
               totalCount
             }
@@ -26,12 +28,7 @@ const TreeLevel0 = () => (
         }
       }
     `}
-    render={({ error, props }) => {
-      if (props) {
-        console.log('TreeLevel0: props:', props)
-      }
-      return <Tree />
-    }}
+    render={({ error, props }) => <Tree nodes={level0FromProps(props)} />}
   />
 )
 

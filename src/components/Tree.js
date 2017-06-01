@@ -40,12 +40,13 @@ const LoadingDiv = styled.div`
 `
 const enhance = compose(inject('store'), observer)
 
-class TreeColumn extends Component {
-  props: { store: Object }
+class Tree extends Component {
+  props: { store: Object, nodes: Array<Object> }
 
-  rowRenderer = ({ key, index, style }) => (
-    <Row key={key} index={index} style={style} />
-  )
+  rowRenderer = ({ key, index, style }) => {
+    const { nodes } = this.props
+    return <Row key={key} index={index} style={style} nodes={nodes} />
+  }
 
   noRowsRenderer = () => (
     <Container>
@@ -56,7 +57,7 @@ class TreeColumn extends Component {
   )
 
   render() {
-    const { store } = this.props
+    const { nodes } = this.props
 
     return (
       <Container>
@@ -64,7 +65,7 @@ class TreeColumn extends Component {
           {({ height, width }) => (
             <ListContainer
               height={height}
-              rowCount={store.nodes.nodes.length}
+              rowCount={nodes.length}
               rowHeight={singleRowHeight}
               rowRenderer={this.rowRenderer}
               noRowsRenderer={this.noRowsRenderer}
@@ -77,4 +78,4 @@ class TreeColumn extends Component {
   }
 }
 
-export default enhance(TreeColumn)
+export default enhance(Tree)

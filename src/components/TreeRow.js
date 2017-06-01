@@ -59,7 +59,7 @@ const Row = ({
   store: Object,
   nodes: Array<Object>,
 }) => {
-  const node = store.nodes.nodes[index]
+  const node = nodes[index]
   const onClickNode = event => {
     console.log('todo')
   }

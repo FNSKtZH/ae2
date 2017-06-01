@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeLevel0Query.graphql
- * @generated SignedSource<<59819cf934ba133e3a0ed031de725a76>>
- * @relayHash f8afa1afbc21bc4ab9e215154f60011f
+ * @generated SignedSource<<def584ca4a556644399225c58ad37d1a>>
+ * @relayHash 2282d728449daa837af9499dc243ab73
  * @flow
  * @nogrep
  */
@@ -24,6 +24,7 @@ query TreeLevel0Query {
   allDataTypes {
     nodes {
       nameGerman
+      name
       propertyCollectionsByDataType {
         totalCount
       }
@@ -66,6 +67,13 @@ const batch /*: ConcreteBatch*/ = {
                 "alias": null,
                 "args": null,
                 "name": "nameGerman",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "name",
                 "storageKey": null
               },
               {
@@ -165,6 +173,13 @@ const batch /*: ConcreteBatch*/ = {
                 "storageKey": null
               },
               {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "name",
+                "storageKey": null
+              },
+              {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
@@ -226,7 +241,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeLevel0Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n      }\n    }\n  }\n}\n"
+  "text": "query TreeLevel0Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;
