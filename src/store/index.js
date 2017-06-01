@@ -7,6 +7,8 @@ function Store(): void {
   this.nodes = {
     topLevel: topLevelNodes,
   }
+  this.activeNodeArray = []
+  this.setActiveNodeArray = () => {}
 }
 
 const MyStore = new Store()

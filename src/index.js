@@ -14,10 +14,16 @@ import './index.css'
 import 'react-reflex/styles.css'
 import constants from './modules/constants'
 import store from './store'
+import getActiveNodeArrayFromPathname
+  from './store/action/getActiveNodeArrayFromPathname'
 
 // Needed for onTouchTap and material-ui
 // //stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
+
+// initiate activeNodeArray
+const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
+store.setActiveNodeArray(activeNodeArrayFromUrl)
 
 const theme = Object.assign({}, myTtheme, {
   appBar: {
