@@ -18,7 +18,7 @@ const TreeTaxonomyLevel3 = ({ store }: { store: Object }) => (
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel3Query {
+      query TreeTaxonomyLevel3Query($taxId: Uuid) {
         allDataTypes {
           nodes {
             nameGerman
@@ -34,13 +34,13 @@ const TreeTaxonomyLevel3 = ({ store }: { store: Object }) => (
               nodes {
                 id
                 name
-                taxonomiesByCategory {
+                taxonomiesByCategory(condition: {id: $taxId}) {
                   totalCount
                   nodes {
                     id
                     name
                     isCategoryStandard
-                    taxonomyObjectsByTaxonomyId(condition: {level: 1, taxonomyId: "5444e7eb-177f-4faf-ba44-0e3da1b391e0"}) {
+                    taxonomyObjectsByTaxonomyId(condition: {level: 1}) {
                       totalCount
                       nodes {
                         id
@@ -58,6 +58,7 @@ const TreeTaxonomyLevel3 = ({ store }: { store: Object }) => (
         }
       }
     `}
+    variables={{ taxId: store.activeNodeArray[2] || '' }}
     render={({ error, props }) => (
       <Tree
         nodes={sort([
