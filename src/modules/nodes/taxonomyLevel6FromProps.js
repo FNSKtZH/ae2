@@ -1,5 +1,6 @@
 // @flow
 export default (store: Object, props: Object): Array<Object> => {
+  console.log('taxonomyLevel6FromProps: props:', props)
   if (!props) return []
   if (!props.allDataTypes) return []
   if (!props.allDataTypes.nodes) return []
@@ -50,12 +51,22 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!level4.taxonomyObjectsByParentId) return []
   if (!level4.taxonomyObjectsByParentId.nodes) return []
 
-  return level4.taxonomyObjectsByParentId.nodes.map(level5 => {
-    const childrenCount = level5.taxonomyObjectsByParentId.totalCount
+  // find level5
+  const level5Id = store.activeNodeArray[5]
+  if (!level5Id) return []
+  const level5 = level4.taxonomyObjectsByParentId.nodes.find(
+    n => n.id === level5Id
+  )
+  if (!level5) return []
+  if (!level5.taxonomyObjectsByParentId) return []
+  if (!level5.taxonomyObjectsByParentId.nodes) return []
+
+  return level5.taxonomyObjectsByParentId.nodes.map(level6 => {
+    const childrenCount = level6.taxonomyObjectsByParentId.totalCount
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
 
     return {
-      id: level5.id,
+      id: level6.id,
       url: [
         dataType.name,
         category.id,
@@ -63,8 +74,9 @@ export default (store: Object, props: Object): Array<Object> => {
         level3.id,
         level4.id,
         level5.id,
+        level6.id,
       ],
-      label: `${level5.name}${labelCount}`,
+      label: `${level6.name}${labelCount}`,
       childrenCount,
     }
   })
