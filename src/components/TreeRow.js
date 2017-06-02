@@ -71,13 +71,9 @@ const Row = ({
   let useSymbolIcon = true
   let useSymbolSpan = false
   let symbolIcon
-  if (
-    node.hasChildren ||
-    (node.childrenCount &&
-      node.childrenCount > 0) /* && isNodeOpen(toJS(tree.openNodes), node.url)*/
-  ) {
+  if (node.childrenCount /* && isNodeOpen(toJS(tree.openNodes), node.url)*/) {
     symbolIcon = 'expand_more'
-  } else if (node.hasChildren) {
+  } else if (node.childrenCount) {
     symbolIcon = 'chevron_right'
   } else if (node.label === 'lade Daten...') {
     symbolIcon = 'more_horiz'
@@ -91,7 +87,7 @@ const Row = ({
   return (
     <div key={key} style={style}>
       <ContextMenuTrigger
-        id={`${node.menuType}`}
+        id={node.id}
         collect={props => myProps}
         nodeId={node.id}
         nodeLabel={node.label}
