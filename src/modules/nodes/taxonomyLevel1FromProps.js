@@ -10,10 +10,16 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!dataType.categoriesByDataType) return []
   if (!dataType.categoriesByDataType.nodes) return []
 
-  return dataType.categoriesByDataType.nodes.map(category => ({
-    id: category.id,
-    url: [dataType.name, category.id],
-    label: category.name,
-    childrenCount: category.taxonomiesByCategory.totalCount,
-  }))
+  return dataType.categoriesByDataType.nodes.map(category => {
+    const childrenCount = category.taxonomiesByCategory.totalCount
+    const taxonomyText = childrenCount !== 1 ? 'Taxonomien' : 'Taxonomie'
+    const labelCount = ` (${childrenCount} ${taxonomyText})`
+
+    return {
+      id: category.id,
+      url: [dataType.name, category.id],
+      label: `${category.name}${labelCount}`,
+      childrenCount,
+    }
+  })
 }

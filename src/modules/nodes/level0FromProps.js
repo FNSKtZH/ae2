@@ -9,9 +9,9 @@ export default (props: Object): Array<Object> => {
       dataType.propertyCollectionsByDataType.totalCount ||
       dataType.relationCollectionsByDataType.totalCount ||
       dataType.categoriesByDataType.totalCount
-    let labelCount = ''
-    if (dataType.name !== 'taxonomy') {
-      labelCount = ` (${childrenCount})`
+    let labelCount = ` (${childrenCount})`
+    if (dataType.name === 'taxonomy') {
+      labelCount = ` nach Gruppen (${childrenCount} Gruppen)`
     }
 
     return {

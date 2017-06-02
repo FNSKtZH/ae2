@@ -1,11 +1,15 @@
 // @flow
 import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
+import { inject } from 'mobx-react'
+import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
 
-const TreeTaxonomyLevel5 = () => (
+const enhance = compose(inject('store'))
+
+const TreeTaxonomyLevel5 = ({ store }: { store: Object }) => (
   <QueryRenderer
     environment={environment}
     query={graphql`
@@ -13,6 +17,7 @@ const TreeTaxonomyLevel5 = () => (
         allDataTypes {
           nodes {
             nameGerman
+            name
             propertyCollectionsByDataType {
               totalCount
             }
@@ -71,4 +76,4 @@ const TreeTaxonomyLevel5 = () => (
   />
 )
 
-export default TreeTaxonomyLevel5
+export default enhance(TreeTaxonomyLevel5)
