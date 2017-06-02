@@ -6,6 +6,7 @@ import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
+import sort from '../modules/nodes/sort'
 import level0FromProps from '../modules/nodes/level0FromProps'
 import taxonomyLevel1FromProps from '../modules/nodes/taxonomyLevel1FromProps'
 
@@ -42,10 +43,10 @@ const TreeTaxonomyLevel1 = ({ store }: { store: Object }) => (
     `}
     render={({ error, props }) => (
       <Tree
-        nodes={[
+        nodes={sort([
           ...level0FromProps(props),
           ...taxonomyLevel1FromProps(store, props),
-        ]}
+        ])}
       />
     )}
   />

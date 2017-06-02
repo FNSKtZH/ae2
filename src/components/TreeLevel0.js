@@ -4,6 +4,7 @@ import { QueryRenderer, graphql } from 'react-relay'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
+import sort from '../modules/nodes/sort'
 import level0FromProps from '../modules/nodes/level0FromProps'
 
 const TreeLevel0 = () => (
@@ -28,7 +29,7 @@ const TreeLevel0 = () => (
         }
       }
     `}
-    render={({ error, props }) => <Tree nodes={level0FromProps(props)} />}
+    render={({ error, props }) => <Tree nodes={sort(level0FromProps(props))} />}
   />
 )
 

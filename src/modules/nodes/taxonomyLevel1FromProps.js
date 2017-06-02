@@ -1,18 +1,19 @@
 // @flow
 export default (store: Object, props: Object): Array<Object> => {
-  console.log('taxonomyLevel1: props:', props)
   if (!props) return []
+  if (!props.allDataTypes) return []
+  if (!props.allDataTypes.nodes) return []
 
-  // find taxonomy
-  const taxonomy = props.allDataTypes.nodes.find(n => n.name === 'taxonomy')
-  if (!taxonomy) return []
-  if (!taxonomy.categoriesByDataType) return []
-  if (!taxonomy.categoriesByDataType.nodes) return []
+  // find dataType
+  const dataType = props.allDataTypes.nodes.find(n => n.name === 'taxonomy')
+  if (!dataType) return []
+  if (!dataType.categoriesByDataType) return []
+  if (!dataType.categoriesByDataType.nodes) return []
 
-  return taxonomy.categoriesByDataType.nodes.map((n, index) => ({
-    id: n.id,
-    url: [taxonomy.name, n.id],
-    label: n.name,
-    childrenCount: n.taxonomiesByCategory.totalCount,
+  return dataType.categoriesByDataType.nodes.map(category => ({
+    id: category.id,
+    url: [dataType.name, category.id],
+    label: category.name,
+    childrenCount: category.taxonomiesByCategory.totalCount,
   }))
 }
