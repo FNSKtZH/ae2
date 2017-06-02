@@ -20,6 +20,10 @@ import getActiveNodeArrayFromPathname
 // //stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
 
+window.app = {
+  store,
+}
+
 // initiate activeNodeArray
 const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
 store.setActiveNodeArray(activeNodeArrayFromUrl)
