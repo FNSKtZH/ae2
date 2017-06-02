@@ -47,6 +47,13 @@ export default (store: Object, props: Object): Array<Object> => {
     return {
       id: level4.id,
       url: [dataType.name, category.id, taxonomy.id, level3.id, level4.id],
+      sort: [
+        dataType.name,
+        category.name,
+        taxonomy.name,
+        level3.name,
+        level4.name,
+      ],
       label: `${level4.name}${labelCount}`,
       childrenCount,
     }

@@ -17,6 +17,7 @@ export default (props: Object): Array<Object> => {
     return {
       id: dataType.name,
       url: [dataType.name],
+      sort: [dataType.name],
       label: `${dataType.nameGerman}${labelCount}`,
       childrenCount,
     }

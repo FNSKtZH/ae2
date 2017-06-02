@@ -39,21 +39,21 @@ export default (nodes: Array<Object>): Array<Object> => {
      * this may be speed critical
      * try not to have to use toJS
      */
-    const aUrl = toJS(a.url)
-    const bUrl = toJS(b.url)
+    const aSort = toJS(a.sort)
+    const bSort = toJS(b.sort)
 
     return (
-      compare(aUrl[0], bUrl[0]) ||
-      compare(aUrl[1], bUrl[1]) ||
-      compare(aUrl[2], bUrl[2]) ||
-      compare(aUrl[3], bUrl[3]) ||
-      compare(aUrl[4], bUrl[4]) ||
-      compare(aUrl[5], bUrl[5]) ||
-      compare(aUrl[6], bUrl[6]) ||
-      compare(aUrl[7], bUrl[7]) ||
-      compare(aUrl[8], bUrl[8]) ||
-      compare(aUrl[9], bUrl[9]) ||
-      compare(aUrl[10], bUrl[10])
+      compare(aSort[0], bSort[0]) ||
+      compare(aSort[1], bSort[1]) ||
+      compare(aSort[2], bSort[2]) ||
+      compare(aSort[3], bSort[3]) ||
+      compare(aSort[4], bSort[4]) ||
+      compare(aSort[5], bSort[5]) ||
+      compare(aSort[6], bSort[6]) ||
+      compare(aSort[7], bSort[7]) ||
+      compare(aSort[8], bSort[8]) ||
+      compare(aSort[9], bSort[9]) ||
+      compare(aSort[10], bSort[10])
     )
   })
 }

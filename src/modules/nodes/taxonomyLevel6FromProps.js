@@ -1,6 +1,5 @@
 // @flow
 export default (store: Object, props: Object): Array<Object> => {
-  console.log('taxonomyLevel6FromProps: props:', props)
   if (!props) return []
   if (!props.allDataTypes) return []
   if (!props.allDataTypes.nodes) return []
@@ -75,6 +74,15 @@ export default (store: Object, props: Object): Array<Object> => {
         level4.id,
         level5.id,
         level6.id,
+      ],
+      sort: [
+        dataType.name,
+        category.name,
+        taxonomy.name,
+        level3.name,
+        level4.name,
+        level5.name,
+        level6.name,
       ],
       label: `${level6.name}${labelCount}`,
       childrenCount,
