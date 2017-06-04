@@ -62,18 +62,7 @@ const Row = ({
 }) => {
   const node = nodes[index]
   const onClickNode = event => {
-    console.log('node id clicked:', node.id)
-    const activeNodeArray = toJS(store.activeNodeArray)
-    console.log('activeNodeArray:', activeNodeArray)
-    // if id is contained in url, shorten url
-    // else add it
-    const idIndex = activeNodeArray.indexOf(node.id)
-    console.log('idIndex:', idIndex)
-    if (idIndex === -1) {
-      store.setActiveNodeArray([...activeNodeArray, node.id])
-    } else {
-      store.setActiveNodeArray(activeNodeArray.slice(0, idIndex))
-    }
+    store.setActiveNodeArray(node.url)
   }
   const onClickNodeSymbol = event => {
     console.log('todo')
