@@ -57,15 +57,13 @@ class Tree extends Component {
   )
 
   render() {
-    const { nodes } = this.props
-
     return (
       <Container>
         <AutoSizer>
           {({ height, width }) => (
             <ListContainer
               height={height}
-              rowCount={nodes.length}
+              rowCount={this.props.nodes.length}
               rowHeight={singleRowHeight}
               rowRenderer={this.rowRenderer}
               noRowsRenderer={this.noRowsRenderer}
