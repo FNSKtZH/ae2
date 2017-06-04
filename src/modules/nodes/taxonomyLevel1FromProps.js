@@ -17,7 +17,7 @@ export default (store: Object, props: Object): Array<Object> => {
 
     return {
       id: category.id,
-      url: [dataType.name, category.id],
+      url: [dataType.name, category.name],
       sort: [dataType.name, category.name],
       label: `${category.name}${labelCount}`,
       childrenCount,
