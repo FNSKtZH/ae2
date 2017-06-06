@@ -90,7 +90,7 @@ const TreeTaxonomyLevel6 = ({ store }: { store: Object }) =>
     render={({ error, props }) =>
       <Tree
         nodes={sort([
-          ...level0FromProps(props),
+          ...level0FromProps(store, props),
           ...taxonomyLevel1FromProps(store, props),
           ...taxonomyLevel2FromProps(store, props),
           ...taxonomyLevel3FromProps(store, props),

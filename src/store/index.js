@@ -5,6 +5,7 @@ import ObservableHistory from './ObservableHistory'
 function Store(): void {
   this.ui = {}
   this.nodes = []
+  this.activeDataType = {}
   this.history = ObservableHistory
   this.activeNodeArray = []
   this.setActiveNodeArray = () => {}

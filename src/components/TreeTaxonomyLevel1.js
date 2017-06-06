@@ -47,7 +47,7 @@ const TreeTaxonomyLevel1 = ({
       } else if (props) {
         if (store.activeNodeArray.length === 1) {
           store.setNodes([
-            ...level0FromProps(level0Props),
+            ...level0FromProps(store, level0Props),
             ...taxonomyLevel1FromProps(store, props),
           ])
           return <Tree />

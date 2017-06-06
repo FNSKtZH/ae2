@@ -1,5 +1,5 @@
 // @flow
-export default (props: Object): Array<Object> => {
+export default (store: Object, props: ?Object): Array<Object> => {
   if (!props) return []
   if (!props.allDataTypes) return []
   if (!props.allDataTypes.nodes) return []
@@ -12,6 +12,14 @@ export default (props: Object): Array<Object> => {
     let labelCount = ` (${childrenCount})`
     if (dataType.name === 'taxonomy') {
       labelCount = ` nach Gruppen (${childrenCount} Gruppen)`
+    }
+    console.log(
+      'level0FromProps: store.activeNodeArray[0]:',
+      store.activeNodeArray[0]
+    )
+    if (store.activeNodeArray[0] === dataType.name) {
+      console.log('level0FromProps: dataType.name:', dataType.name)
+      store.setActiveDataType(dataType)
     }
 
     return {

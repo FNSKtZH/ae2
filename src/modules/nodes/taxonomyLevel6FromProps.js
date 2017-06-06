@@ -67,7 +67,7 @@ export default (store: Object, props: Object): Array<Object> => {
     return {
       id: level6.id,
       url: [
-        dataType.name,
+        store.activeDataType.name,
         category.name,
         taxonomy.id,
         level3.id,
@@ -76,7 +76,7 @@ export default (store: Object, props: Object): Array<Object> => {
         level6.id,
       ],
       sort: [
-        dataType.name,
+        store.activeDataType.name,
         category.name,
         taxonomy.name,
         level3.name,

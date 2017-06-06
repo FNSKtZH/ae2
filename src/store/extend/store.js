@@ -7,6 +7,9 @@ export default (store: Object): void => {
     setNodes: action('setNodes', nodes => {
       store.nodes = nodes
     }),
+    setActiveDataType: action('setActiveDataType', activeDataType => {
+      store.activeDataType = activeDataType
+    }),
     activeNodeArray: [],
     setActiveNodeArray: action(
       'setActiveNodeArray',

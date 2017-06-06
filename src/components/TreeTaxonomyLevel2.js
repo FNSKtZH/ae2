@@ -58,7 +58,7 @@ const TreeTaxonomyLevel2 = ({
       } else if (props) {
         if (store.activeNodeArray.length === 2) {
           store.setNodes([
-            ...level0FromProps(props),
+            ...level0FromProps(store, props),
             ...taxonomyLevel1FromProps(store, props),
             ...taxonomyLevel2FromProps(store, props),
           ])
