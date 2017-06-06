@@ -1,16 +1,10 @@
 // @flow
-export default (
-  store: Object,
-  props: Object,
-  dataType: Object,
-  category: Object,
-  taxonomy: Object
-): Array<Object> => {
+export default (store: Object, props: Object): Array<Object> => {
   console.log('taxonomyLevel3FromProps: props:', props)
   if (!props) return []
-  if (!dataType) return []
-  if (!category) return []
-  if (!taxonomy) return []
+  if (!store.dataType) return []
+  if (!store.category) return []
+  if (!store.taxonomy) return []
   if (!taxonomy.taxonomyObjectLevel1) return []
   if (!taxonomy.taxonomyObjectLevel1.nodes) return []
 
@@ -20,10 +14,15 @@ export default (
 
     return {
       id: level3.id,
-      url: [store.activeDataType.name, category.name, taxonomy.id, level3.id],
+      url: [
+        store.activeDataType.name,
+        store.activeCategory.name,
+        taxonomy.id,
+        level3.id,
+      ],
       sort: [
         store.activeDataType.name,
-        category.name,
+        store.activeCategory.name,
         taxonomy.name,
         level3.name,
       ],

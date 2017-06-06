@@ -2,14 +2,10 @@
 export default (store: Object, props: Object): Array<Object> => {
   console.log('taxonomyLevel2FromProps: props:', props)
   if (!props) return []
-  if (!props.allDataTypes) return []
-  if (!props.allDataTypes.nodes) return []
 
   // find dataType
   const dataType = props.allDataTypes.nodes.find(n => n.name === 'taxonomy')
-  if (!dataType) return []
-  if (!dataType.categoriesByDataType) return []
-  if (!dataType.categoriesByDataType.nodes) return []
+  if (!store.activeDataType) return []
 
   // find category
   const categoryName = store.activeNodeArray[1]
@@ -24,11 +20,18 @@ export default (store: Object, props: Object): Array<Object> => {
   return category.taxonomyByCategory.nodes.map(taxonomy => {
     const childrenCount = taxonomy.taxonomyObjectLevel1.totalCount
     const labelCount = ` (${childrenCount})`
+    if (store.activeNodeArray[2] === taxonomy.name) {
+      store.setActiveTaxonomy(taxonomy)
+    }
 
     return {
       id: taxonomy.id,
-      url: [store.activeDataType.name, category.name, taxonomy.id],
-      sort: [store.activeDataType.name, category.name, taxonomy.name],
+      url: [store.activeDataType.name, store.activeCategory.name, taxonomy.id],
+      sort: [
+        store.activeDataType.name,
+        store.activeCategory.name,
+        taxonomy.name,
+      ],
       label: `${taxonomy.name}${labelCount}`,
       childrenCount,
     }

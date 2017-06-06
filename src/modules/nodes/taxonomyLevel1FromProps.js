@@ -14,6 +14,9 @@ export default (store: Object, props: Object): Array<Object> => {
     const childrenCount = category.taxonomyByCategory.totalCount
     const taxonomyText = childrenCount !== 1 ? 'Taxonomien' : 'Taxonomie'
     const labelCount = ` (${childrenCount} ${taxonomyText})`
+    if (store.activeNodeArray[1] === category.name) {
+      store.setActiveCategory(category)
+    }
 
     return {
       id: category.id,

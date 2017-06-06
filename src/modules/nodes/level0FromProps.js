@@ -13,12 +13,7 @@ export default (store: Object, props: ?Object): Array<Object> => {
     if (dataType.name === 'taxonomy') {
       labelCount = ` nach Gruppen (${childrenCount} Gruppen)`
     }
-    console.log(
-      'level0FromProps: store.activeNodeArray[0]:',
-      store.activeNodeArray[0]
-    )
     if (store.activeNodeArray[0] === dataType.name) {
-      console.log('level0FromProps: dataType.name:', dataType.name)
       store.setActiveDataType(dataType)
     }
 

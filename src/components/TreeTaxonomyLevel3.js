@@ -69,9 +69,9 @@ const TreeTaxonomyLevel3 = ({
       } else if (props) {
         if (store.activeNodeArray.length === 3) {
           store.setNodes([
-            ...level0FromProps(store, props),
-            ...taxonomyLevel1FromProps(store, props),
-            ...taxonomyLevel2FromProps(store, props),
+            ...level0FromProps(store, level0Props),
+            ...taxonomyLevel1FromProps(store, level1Props),
+            ...taxonomyLevel2FromProps(store, level2Props),
             ...taxonomyLevel3FromProps(store, props),
           ])
           return <Tree />

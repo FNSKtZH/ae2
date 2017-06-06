@@ -10,6 +10,12 @@ export default (store: Object): void => {
     setActiveDataType: action('setActiveDataType', activeDataType => {
       store.activeDataType = activeDataType
     }),
+    setActiveCategory: action('setActiveCategory', activeCategory => {
+      store.activeCategory = activeCategory
+    }),
+    setActiveTaxonomy: action('setActiveTaxonomy', activeTaxonomy => {
+      store.activeTaxonomy = activeTaxonomy
+    }),
     activeNodeArray: [],
     setActiveNodeArray: action(
       'setActiveNodeArray',
