@@ -13,7 +13,7 @@ const TreeTaxonomyLevel9 = ({ store }: { store: Object }) =>
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel9Query($categoryname: String) {
+      query TreeTaxonomyLevel9Query($level1: Uuid) {
         allDataTypes {
           nodes {
             nameGerman
@@ -29,43 +29,43 @@ const TreeTaxonomyLevel9 = ({ store }: { store: Object }) =>
               nodes {
                 id
                 name
-                taxonomyByCategory(categoryname: $categoryname) {
+                taxonomyByCategory {
                   totalCount
                   nodes {
                     id
                     name
                     isCategoryStandard
-                    taxonomyObjectLevel1(taxonomyId: "5444e7eb-177f-4faf-ba44-0e3da1b391e0") {
+                    taxonomyObjectLevel1(taxonomyId: $level1) {
                       totalCount
                       nodes {
                         id
                         name
-                        taxonomyObjectsByParentId(condition: {parentId: "5f8f6fac-fe63-49c5-a143-f2e6e2174602"}) {
+                        taxonomyObjectsByParentId {
                           totalCount
                           nodes {
                             id
                             name
-                            taxonomyObjectsByParentId(condition: {parentId: "75839957-4706-40d6-bf72-7ad13906ab5f"}) {
+                            taxonomyObjectsByParentId {
                               totalCount
                               nodes {
                                 id
                                 name
-                                taxonomyObjectsByParentId(condition: {parentId: "a011dc29-dc05-4540-a791-1a4976905290"}) {
+                                taxonomyObjectsByParentId {
                                   totalCount
                                   nodes {
                                     id
                                     name
-                                    taxonomyObjectsByParentId(condition: {parentId: "310212c8-2f89-43c5-9db8-d3c3f6ca8b0b"}) {
+                                    taxonomyObjectsByParentId {
                                       totalCount
                                       nodes {
                                         id
                                         name
-                                        taxonomyObjectsByParentId(condition: {parentId: "310212c8-2f89-43c5-9db8-d3c3f6ca8b0b"}) {
+                                        taxonomyObjectsByParentId {
                                           totalCount
                                           nodes {
                                             id
                                             name
-                                            taxonomyObjectsByParentId(condition: {parentId: "310212c8-2f89-43c5-9db8-d3c3f6ca8b0b"}) {
+                                            taxonomyObjectsByParentId {
                                               totalCount
                                               nodes {
                                                 id
@@ -99,7 +99,7 @@ const TreeTaxonomyLevel9 = ({ store }: { store: Object }) =>
         }
       }
     `}
-    variables={{ categoryname: store.activeNodeArray[1] }}
+    variables={{ level1: store.activeNodeArray[2] }}
     render={({ error, props }) => {
       if (props) {
         console.log('TreeTaxonomyLevel9: props:', props)

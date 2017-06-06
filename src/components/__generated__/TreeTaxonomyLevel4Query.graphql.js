@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel4Query.graphql
- * @generated SignedSource<<f4c7b83489f67af3e24150c4cca9ede8>>
- * @relayHash 7543eb7073cdb019ab3be3e21e8ac780
+ * @generated SignedSource<<232f441d0679d796e59a12eec30bc398>>
+ * @relayHash ea8d1fa43f01619db0b48fff3756a92b
  * @flow
  * @nogrep
  */
@@ -21,7 +21,7 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 /*
 query TreeTaxonomyLevel4Query(
-  $categoryname: String
+  $level1: Uuid
 ) {
   allDataTypes {
     nodes {
@@ -38,18 +38,18 @@ query TreeTaxonomyLevel4Query(
         nodes {
           id
           name
-          taxonomyByCategory(categoryname: $categoryname) {
+          taxonomyByCategory {
             totalCount
             nodes {
               id
               name
               isCategoryStandard
-              taxonomyObjectLevel1(taxonomyId: "5444e7eb-177f-4faf-ba44-0e3da1b391e0") {
+              taxonomyObjectLevel1(taxonomyId: $level1) {
                 totalCount
                 nodes {
                   id
                   name
-                  taxonomyObjectsByParentId(condition: {parentId: "5f8f6fac-fe63-49c5-a143-f2e6e2174602"}) {
+                  taxonomyObjectsByParentId {
                     totalCount
                     nodes {
                       id
@@ -75,8 +75,8 @@ const batch /*: ConcreteBatch*/ = {
     "argumentDefinitions": [
       {
         "kind": "LocalArgument",
-        "name": "categoryname",
-        "type": "String",
+        "name": "level1",
+        "type": "Uuid",
         "defaultValue": null
       }
     ],
@@ -190,14 +190,7 @@ const batch /*: ConcreteBatch*/ = {
                       {
                         "kind": "LinkedField",
                         "alias": null,
-                        "args": [
-                          {
-                            "kind": "Variable",
-                            "name": "categoryname",
-                            "variableName": "categoryname",
-                            "type": "String"
-                          }
-                        ],
+                        "args": null,
                         "concreteType": "CategoryTaxonomyByCategoryConnection",
                         "name": "taxonomyByCategory",
                         "plural": false,
@@ -243,9 +236,9 @@ const batch /*: ConcreteBatch*/ = {
                                 "alias": null,
                                 "args": [
                                   {
-                                    "kind": "Literal",
+                                    "kind": "Variable",
                                     "name": "taxonomyId",
-                                    "value": "5444e7eb-177f-4faf-ba44-0e3da1b391e0",
+                                    "variableName": "level1",
                                     "type": "Uuid"
                                   }
                                 ],
@@ -285,16 +278,7 @@ const batch /*: ConcreteBatch*/ = {
                                       {
                                         "kind": "LinkedField",
                                         "alias": null,
-                                        "args": [
-                                          {
-                                            "kind": "Literal",
-                                            "name": "condition",
-                                            "value": {
-                                              "parentId": "5f8f6fac-fe63-49c5-a143-f2e6e2174602"
-                                            },
-                                            "type": "TaxonomyObjectCondition"
-                                          }
-                                        ],
+                                        "args": null,
                                         "concreteType": "TaxonomyObjectsConnection",
                                         "name": "taxonomyObjectsByParentId",
                                         "plural": false,
@@ -350,13 +334,13 @@ const batch /*: ConcreteBatch*/ = {
                                             "storageKey": null
                                           }
                                         ],
-                                        "storageKey": "taxonomyObjectsByParentId{\"condition\":{\"parentId\":\"5f8f6fac-fe63-49c5-a143-f2e6e2174602\"}}"
+                                        "storageKey": null
                                       }
                                     ],
                                     "storageKey": null
                                   }
                                 ],
-                                "storageKey": "taxonomyObjectLevel1{\"taxonomyId\":\"5444e7eb-177f-4faf-ba44-0e3da1b391e0\"}"
+                                "storageKey": null
                               }
                             ],
                             "storageKey": null
@@ -387,8 +371,8 @@ const batch /*: ConcreteBatch*/ = {
     "argumentDefinitions": [
       {
         "kind": "LocalArgument",
-        "name": "categoryname",
-        "type": "String",
+        "name": "level1",
+        "type": "Uuid",
         "defaultValue": null
       }
     ],
@@ -502,14 +486,7 @@ const batch /*: ConcreteBatch*/ = {
                       {
                         "kind": "LinkedField",
                         "alias": null,
-                        "args": [
-                          {
-                            "kind": "Variable",
-                            "name": "categoryname",
-                            "variableName": "categoryname",
-                            "type": "String"
-                          }
-                        ],
+                        "args": null,
                         "concreteType": "CategoryTaxonomyByCategoryConnection",
                         "name": "taxonomyByCategory",
                         "plural": false,
@@ -555,9 +532,9 @@ const batch /*: ConcreteBatch*/ = {
                                 "alias": null,
                                 "args": [
                                   {
-                                    "kind": "Literal",
+                                    "kind": "Variable",
                                     "name": "taxonomyId",
-                                    "value": "5444e7eb-177f-4faf-ba44-0e3da1b391e0",
+                                    "variableName": "level1",
                                     "type": "Uuid"
                                   }
                                 ],
@@ -597,16 +574,7 @@ const batch /*: ConcreteBatch*/ = {
                                       {
                                         "kind": "LinkedField",
                                         "alias": null,
-                                        "args": [
-                                          {
-                                            "kind": "Literal",
-                                            "name": "condition",
-                                            "value": {
-                                              "parentId": "5f8f6fac-fe63-49c5-a143-f2e6e2174602"
-                                            },
-                                            "type": "TaxonomyObjectCondition"
-                                          }
-                                        ],
+                                        "args": null,
                                         "concreteType": "TaxonomyObjectsConnection",
                                         "name": "taxonomyObjectsByParentId",
                                         "plural": false,
@@ -662,13 +630,13 @@ const batch /*: ConcreteBatch*/ = {
                                             "storageKey": null
                                           }
                                         ],
-                                        "storageKey": "taxonomyObjectsByParentId{\"condition\":{\"parentId\":\"5f8f6fac-fe63-49c5-a143-f2e6e2174602\"}}"
+                                        "storageKey": null
                                       }
                                     ],
                                     "storageKey": null
                                   }
                                 ],
-                                "storageKey": "taxonomyObjectLevel1{\"taxonomyId\":\"5444e7eb-177f-4faf-ba44-0e3da1b391e0\"}"
+                                "storageKey": null
                               }
                             ],
                             "storageKey": null
@@ -690,7 +658,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel4Query(\n  $categoryname: String\n) {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory(categoryname: $categoryname) {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1(taxonomyId: \"5444e7eb-177f-4faf-ba44-0e3da1b391e0\") {\n                totalCount\n                nodes {\n                  id\n                  name\n                  taxonomyObjectsByParentId(condition: {parentId: \"5f8f6fac-fe63-49c5-a143-f2e6e2174602\"}) {\n                    totalCount\n                    nodes {\n                      id\n                      name\n                      taxonomyObjectsByParentId {\n                        totalCount\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel4Query(\n  $level1: Uuid\n) {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1(taxonomyId: $level1) {\n                totalCount\n                nodes {\n                  id\n                  name\n                  taxonomyObjectsByParentId {\n                    totalCount\n                    nodes {\n                      id\n                      name\n                      taxonomyObjectsByParentId {\n                        totalCount\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;
