@@ -31,71 +31,46 @@ const TreeTaxonomyLevel4 = ({
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel4Query($level1: Uuid) {
-        allDataTypes {
-          nodes {
-            nameGerman
-            name
-            categoriesByDataType {
-              totalCount
-              nodes {
-                id
-                name
-                taxonomyByCategory {
-                  totalCount
-                  nodes {
-                    id
-                    name
-                    isCategoryStandard
-                    taxonomyObjectLevel1(taxonomyId: $level1) {
-                      totalCount
-                      nodes {
-                        id
-                        name
-                        taxonomyObjectsByParentId {
-                          totalCount
-                          nodes {
-                            id
-                            name
-                            taxonomyObjectsByParentId {
-                              totalCount
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
+      query TreeTaxonomyLevel4Query($level4: Uuid!) {
+        taxonomyObjectById(id: $level4) {
+          taxonomyObjectsByParentId {
+            totalCount
+            nodes {
+              id
+              name
+              taxonomyObjectsByParentId {
+                totalCount
               }
             }
           }
         }
       }
     `}
-    variables={{ level1: store.activeNodeArray[2] }}
+    variables={{ level4: store.activeNodeArray[3] }}
     render={({ error, props }) => {
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
         if (store.activeNodeArray.length === 4) {
           store.setNodes([
-            ...level0FromProps(store, props),
-            ...taxonomyLevel1FromProps(store, props),
-            ...taxonomyLevel2FromProps(store, props),
-            ...taxonomyLevel3FromProps(store, props),
+            ...level0FromProps(store, level0Props),
+            ...taxonomyLevel1FromProps(store, level1Props),
+            ...taxonomyLevel2FromProps(store, level2Props),
+            ...taxonomyLevel3FromProps(store, level3Props),
             ...taxonomyLevel4FromProps(store, props),
           ])
           return <Tree />
+        } else if (store.activeNodeArray.length > 4) {
+          return (
+            <TreeTaxonomyLevel5
+              level0Props={level0Props}
+              level1Props={level1Props}
+              level2Props={level2Props}
+              level3Props={level3Props}
+              level4Props={props}
+            />
+          )
         }
-        return (
-          <TreeTaxonomyLevel5
-            level0Props={level0Props}
-            level1Props={level1Props}
-            level2Props={level2Props}
-            level3Props={level3Props}
-            level4Props={props}
-          />
-        )
       }
       return <div>Loading</div>
     }}

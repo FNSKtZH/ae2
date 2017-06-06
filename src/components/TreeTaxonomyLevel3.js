@@ -57,15 +57,16 @@ const TreeTaxonomyLevel3 = ({
             ...taxonomyLevel3FromProps(store, props),
           ])
           return <Tree />
+        } else if (store.activeNodeArray.length > 3) {
+          return (
+            <TreeTaxonomyLevel4
+              level0Props={level0Props}
+              level1Props={level1Props}
+              level2Props={level2Props}
+              level3Props={props}
+            />
+          )
         }
-        return (
-          <TreeTaxonomyLevel4
-            level0Props={level0Props}
-            level1Props={level1Props}
-            level2Props={level2Props}
-            level3Props={props}
-          />
-        )
       }
       return <div>Loading</div>
     }}

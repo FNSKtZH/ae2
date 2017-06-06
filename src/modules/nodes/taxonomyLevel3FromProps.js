@@ -1,6 +1,5 @@
 // @flow
 export default (store: Object, props: Object): Array<Object> => {
-  console.log('taxonomyLevel3FromProps: props:', props)
   if (!props) return []
   if (!props.taxonomyById) return []
   if (!props.taxonomyById.taxonomyObjectLevel1) return []
@@ -9,6 +8,9 @@ export default (store: Object, props: Object): Array<Object> => {
   return props.taxonomyById.taxonomyObjectLevel1.nodes.map(level3 => {
     const childrenCount = level3.taxonomyObjectsByParentId.totalCount
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
+    if (store.activeNodeArray[3] === level3.id) {
+      store.setActiveLevel3(level3)
+    }
 
     return {
       id: level3.id,

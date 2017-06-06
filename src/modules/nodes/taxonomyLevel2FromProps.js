@@ -9,7 +9,7 @@ export default (store: Object, props: Object): Array<Object> => {
   return props.categoryByName.taxonomiesByCategory.nodes.map(taxonomy => {
     const childrenCount = taxonomy.taxonomyObjectLevel1.totalCount
     const labelCount = ` (${childrenCount})`
-    if (store.activeNodeArray[2] === taxonomy.name) {
+    if (store.activeNodeArray[2] === taxonomy.id) {
       store.setActiveTaxonomy(taxonomy)
     }
 

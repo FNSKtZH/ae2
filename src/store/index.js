@@ -8,6 +8,8 @@ function Store(): void {
   this.activeDataType = {}
   this.activeCategory = {}
   this.activeTaxonomy = {}
+  this.activeLevel3 = {}
+  this.activeLevel4 = {}
   this.history = ObservableHistory
   this.activeNodeArray = []
   this.setActiveNodeArray = () => {}

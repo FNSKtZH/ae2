@@ -41,20 +41,17 @@ const TreeTaxonomyLevel1 = ({
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
-        console.log(
-          'TreeLevel1: store.activeNodeArray.length:',
-          store.activeNodeArray.length
-        )
         if (store.activeNodeArray.length === 1) {
           store.setNodes([
             ...level0FromProps(store, level0Props),
             ...taxonomyLevel1FromProps(store, props),
           ])
           return <Tree />
+        } else if (store.activeNodeArray.length > 1) {
+          return (
+            <TreeTaxonomyLevel2 level0Props={level0Props} level1Props={props} />
+          )
         }
-        return (
-          <TreeTaxonomyLevel2 level0Props={level0Props} level1Props={props} />
-        )
       }
       return <div>Loading</div>
     }}

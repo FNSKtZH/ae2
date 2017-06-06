@@ -16,6 +16,12 @@ export default (store: Object): void => {
     setActiveTaxonomy: action('setActiveTaxonomy', activeTaxonomy => {
       store.activeTaxonomy = activeTaxonomy
     }),
+    setActiveLevel3: action('setActiveLevel3', activeLevel3 => {
+      store.activeLevel3 = activeLevel3
+    }),
+    setActiveLevel4: action('setActiveLevel4', activeLevel4 => {
+      store.activeLevel4 = activeLevel4
+    }),
     activeNodeArray: [],
     setActiveNodeArray: action(
       'setActiveNodeArray',

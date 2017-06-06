@@ -37,10 +37,6 @@ const TreeLevel0 = ({ store }: { store: Object }) =>
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
-        console.log(
-          'TreeLevel0: store.activeNodeArray.length:',
-          store.activeNodeArray.length
-        )
         if (store.activeNodeArray.length === 0) {
           store.setNodes(level0FromProps(store, props.allDataTypes.nodes))
           return <Tree />
