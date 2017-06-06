@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
-import { inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
@@ -14,7 +14,7 @@ import taxonomyLevel3FromProps from '../modules/nodes/taxonomyLevel3FromProps'
 import taxonomyLevel4FromProps from '../modules/nodes/taxonomyLevel4FromProps'
 import taxonomyLevel5FromProps from '../modules/nodes/taxonomyLevel5FromProps'
 
-const enhance = compose(inject('store'))
+const enhance = compose(inject('store'), observer)
 
 const TreeTaxonomyLevel5 = ({ store }: { store: Object }) =>
   <QueryRenderer

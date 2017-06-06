@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react'
 import { AutoSizer, List } from 'react-virtualized'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
+import sort from '../modules/nodes/sort'
 
 import Row from './TreeRow'
 
@@ -43,33 +44,34 @@ const enhance = compose(inject('store'), observer)
 class Tree extends Component {
   props: { store: Object, nodes: Array<Object> }
 
-  rowRenderer = ({ key, index, style }) => {
-    const { nodes } = this.props
-    return <Row key={key} index={index} style={style} nodes={nodes} />
-  }
+  rowRenderer = ({ key, index, style }) =>
+    <Row
+      key={key}
+      index={index}
+      style={style}
+      nodes={sort(this.props.store.nodes)}
+    />
 
-  noRowsRenderer = () => (
+  noRowsRenderer = () =>
     <Container>
       <LoadingDiv>
-        {this.props.projektLoading ? 'lade Daten...' : 'keine Daten'}
+        lade Daten
       </LoadingDiv>
     </Container>
-  )
 
   render() {
     return (
       <Container>
         <AutoSizer>
-          {({ height, width }) => (
+          {({ height, width }) =>
             <ListContainer
               height={height}
-              rowCount={this.props.nodes.length}
+              rowCount={this.props.store.nodes.length}
               rowHeight={singleRowHeight}
               rowRenderer={this.rowRenderer}
               noRowsRenderer={this.noRowsRenderer}
               width={width}
-            />
-          )}
+            />}
         </AutoSizer>
       </Container>
     )

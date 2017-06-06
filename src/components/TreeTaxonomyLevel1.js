@@ -1,17 +1,16 @@
 // @flow
 import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
-import { inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
 import TreeTaxonomyLevel2 from './TreeTaxonomyLevel2'
-import sort from '../modules/nodes/sort'
 import level0FromProps from '../modules/nodes/level0FromProps'
 import taxonomyLevel1FromProps from '../modules/nodes/taxonomyLevel1FromProps'
 
-const enhance = compose(inject('store'))
+const enhance = compose(inject('store'), observer)
 
 const TreeTaxonomyLevel1 = ({
   store,
@@ -47,14 +46,11 @@ const TreeTaxonomyLevel1 = ({
         return <div>{error.message}</div>
       } else if (props) {
         if (store.activeNodeArray.length === 1) {
-          return (
-            <Tree
-              nodes={sort([
-                ...level0FromProps(level0Props),
-                ...taxonomyLevel1FromProps(store, props),
-              ])}
-            />
-          )
+          store.setNodes([
+            ...level0FromProps(level0Props),
+            ...taxonomyLevel1FromProps(store, props),
+          ])
+          return <Tree />
         }
         return (
           <TreeTaxonomyLevel2 level0Props={level0Props} level1Props={props} />
