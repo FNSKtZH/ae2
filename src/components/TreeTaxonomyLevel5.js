@@ -74,7 +74,7 @@ const TreeTaxonomyLevel5 = ({ store }: { store: Object }) =>
         }
       }
     `}
-    variables={{ categoryName: store.activeNodeArray[1] }}
+    variables={{ categoryname: store.activeNodeArray[1] }}
     render={({ error, props }) =>
       <Tree
         nodes={sort([

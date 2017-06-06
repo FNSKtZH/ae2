@@ -106,7 +106,7 @@ const TreeTaxonomyLevel10 = ({ store }: { store: Object }) =>
         }
       }
     `}
-    variables={{ categoryName: store.activeNodeArray[1] }}
+    variables={{ categoryname: store.activeNodeArray[1] }}
     render={({ error, props }) => {
       if (props) {
         console.log('TreeTaxonomyLevel10: props:', props)

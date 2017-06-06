@@ -12,29 +12,29 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!dataType.categoriesByDataType.nodes) return []
 
   // find category
-  const categoryId = store.activeNodeArray[1]
-  if (!categoryId) return []
+  const categoryName = store.activeNodeArray[1]
+  if (!categoryName) return []
   const category = dataType.categoriesByDataType.nodes.find(
-    n => n.id === categoryId
+    n => n.name === categoryName
   )
   if (!category) return []
-  if (!category.taxonomiesByCategory) return []
-  if (!category.taxonomiesByCategory.nodes) return []
+  if (!category.taxonomyByCategory) return []
+  if (!category.taxonomyByCategory.nodes) return []
 
   // find taxonomy
   const taxonomyId = store.activeNodeArray[2]
   if (!taxonomyId) return []
-  const taxonomy = category.taxonomiesByCategory.nodes.find(
+  const taxonomy = category.taxonomyByCategory.nodes.find(
     n => n.id === taxonomyId
   )
   if (!taxonomy) return []
-  if (!taxonomy.taxonomyObjectsByTaxonomyId) return []
-  if (!taxonomy.taxonomyObjectsByTaxonomyId.nodes) return []
+  if (!taxonomy.taxonomyObjectLevel1) return []
+  if (!taxonomy.taxonomyObjectLevel1.nodes) return []
 
   // find level3
   const level3Id = store.activeNodeArray[3]
   if (!level3Id) return []
-  const level3 = taxonomy.taxonomyObjectsByTaxonomyId.nodes.find(
+  const level3 = taxonomy.taxonomyObjectLevel1.nodes.find(
     n => n.id === level3Id
   )
   if (!level3) return []
@@ -47,7 +47,7 @@ export default (store: Object, props: Object): Array<Object> => {
 
     return {
       id: level4.id,
-      url: [dataType.name, category.id, taxonomy.id, level3.id, level4.id],
+      url: [dataType.name, category.name, taxonomy.id, level3.id, level4.id],
       sort: [
         dataType.name,
         category.name,

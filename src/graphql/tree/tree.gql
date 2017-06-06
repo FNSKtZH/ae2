@@ -27,7 +27,7 @@
         nodes {
           id
           name
-          taxonomiesByCategory {
+          taxonomyByCategory {
             totalCount
             nodes {
               id

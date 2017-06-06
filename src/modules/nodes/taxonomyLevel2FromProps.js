@@ -12,22 +12,22 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!dataType.categoriesByDataType.nodes) return []
 
   // find category
-  const categoryId = store.activeNodeArray[1]
-  if (!categoryId) return []
+  const categoryName = store.activeNodeArray[1]
+  if (!categoryName) return []
   const category = dataType.categoriesByDataType.nodes.find(
-    n => n.id === categoryId
+    n => n.name === categoryName
   )
   if (!category) return []
-  if (!category.taxonomiesByCategory) return []
-  if (!category.taxonomiesByCategory.nodes) return []
+  if (!category.taxonomyByCategory) return []
+  if (!category.taxonomyByCategory.nodes) return []
 
-  return category.taxonomiesByCategory.nodes.map(taxonomy => {
-    const childrenCount = taxonomy.taxonomyObjectsByTaxonomyId.totalCount
+  return category.taxonomyByCategory.nodes.map(taxonomy => {
+    const childrenCount = taxonomy.taxonomyObjectLevel1.totalCount
     const labelCount = ` (${childrenCount})`
 
     return {
       id: taxonomy.id,
-      url: [dataType.name, category.id, taxonomy.id],
+      url: [dataType.name, category.name, taxonomy.id],
       sort: [dataType.name, category.name, taxonomy.name],
       label: `${taxonomy.name}${labelCount}`,
       childrenCount,

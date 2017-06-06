@@ -32,7 +32,7 @@ const TreeTaxonomyLevel1 = ({ store }: { store: Object }) => (
               nodes {
                 id
                 name
-                taxonomiesByCategory {
+                taxonomyByCategory {
                   totalCount
                 }
               }

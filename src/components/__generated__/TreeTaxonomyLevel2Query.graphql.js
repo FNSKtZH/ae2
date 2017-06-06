@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel2Query.graphql
- * @generated SignedSource<<5fd2268bcb9504ca476e5399940052b2>>
- * @relayHash c4fc29de35579cdb54c658329fa21b22
+ * @generated SignedSource<<40d90ee39986e0bc3b2d883522468ce2>>
+ * @relayHash 2c0fa6f63e22d6ee5a789a111288ddeb
  * @flow
  * @nogrep
  */
@@ -20,9 +20,7 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 
 /*
-query TreeTaxonomyLevel2Query(
-  $categoryname: String
-) {
+query TreeTaxonomyLevel2Query {
   allDataTypes {
     nodes {
       nameGerman
@@ -38,7 +36,7 @@ query TreeTaxonomyLevel2Query(
         nodes {
           id
           name
-          taxonomyByCategory(categoryname: $categoryname) {
+          taxonomyByCategory {
             totalCount
             nodes {
               id
@@ -58,14 +56,7 @@ query TreeTaxonomyLevel2Query(
 
 const batch /*: ConcreteBatch*/ = {
   "fragment": {
-    "argumentDefinitions": [
-      {
-        "kind": "LocalArgument",
-        "name": "categoryname",
-        "type": "String",
-        "defaultValue": null
-      }
-    ],
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "TreeTaxonomyLevel2Query",
@@ -176,14 +167,7 @@ const batch /*: ConcreteBatch*/ = {
                       {
                         "kind": "LinkedField",
                         "alias": null,
-                        "args": [
-                          {
-                            "kind": "Variable",
-                            "name": "categoryname",
-                            "variableName": "categoryname",
-                            "type": "String"
-                          }
-                        ],
+                        "args": null,
                         "concreteType": "CategoryTaxonomyByCategoryConnection",
                         "name": "taxonomyByCategory",
                         "plural": false,
@@ -268,14 +252,7 @@ const batch /*: ConcreteBatch*/ = {
   "metadata": {},
   "name": "TreeTaxonomyLevel2Query",
   "query": {
-    "argumentDefinitions": [
-      {
-        "kind": "LocalArgument",
-        "name": "categoryname",
-        "type": "String",
-        "defaultValue": null
-      }
-    ],
+    "argumentDefinitions": [],
     "kind": "Root",
     "name": "TreeTaxonomyLevel2Query",
     "operation": "query",
@@ -386,14 +363,7 @@ const batch /*: ConcreteBatch*/ = {
                       {
                         "kind": "LinkedField",
                         "alias": null,
-                        "args": [
-                          {
-                            "kind": "Variable",
-                            "name": "categoryname",
-                            "variableName": "categoryname",
-                            "type": "String"
-                          }
-                        ],
+                        "args": null,
                         "concreteType": "CategoryTaxonomyByCategoryConnection",
                         "name": "taxonomyByCategory",
                         "plural": false,
@@ -472,7 +442,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel2Query(\n  $categoryname: String\n) {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory(categoryname: $categoryname) {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1 {\n                totalCount\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel2Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1 {\n                totalCount\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

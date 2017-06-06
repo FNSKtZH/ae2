@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel3Query.graphql
- * @generated SignedSource<<6a03af47fea45f94d2e51518318fdcdb>>
- * @relayHash ff86b19edb1154639d607e27cd0f838a
+ * @generated SignedSource<<5a88e142816f7091c437ba548f057166>>
+ * @relayHash 904fd469cb8eff22538020721ac940e7
  * @flow
  * @nogrep
  */
@@ -20,9 +20,7 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 
 /*
-query TreeTaxonomyLevel3Query(
-  $categoryname: String
-) {
+query TreeTaxonomyLevel3Query {
   allDataTypes {
     nodes {
       nameGerman
@@ -38,7 +36,7 @@ query TreeTaxonomyLevel3Query(
         nodes {
           id
           name
-          taxonomyByCategory(categoryname: $categoryname) {
+          taxonomyByCategory {
             totalCount
             nodes {
               id
@@ -65,14 +63,7 @@ query TreeTaxonomyLevel3Query(
 
 const batch /*: ConcreteBatch*/ = {
   "fragment": {
-    "argumentDefinitions": [
-      {
-        "kind": "LocalArgument",
-        "name": "categoryname",
-        "type": "String",
-        "defaultValue": null
-      }
-    ],
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "TreeTaxonomyLevel3Query",
@@ -183,14 +174,7 @@ const batch /*: ConcreteBatch*/ = {
                       {
                         "kind": "LinkedField",
                         "alias": null,
-                        "args": [
-                          {
-                            "kind": "Variable",
-                            "name": "categoryname",
-                            "variableName": "categoryname",
-                            "type": "String"
-                          }
-                        ],
+                        "args": null,
                         "concreteType": "CategoryTaxonomyByCategoryConnection",
                         "name": "taxonomyByCategory",
                         "plural": false,
@@ -318,14 +302,7 @@ const batch /*: ConcreteBatch*/ = {
   "metadata": {},
   "name": "TreeTaxonomyLevel3Query",
   "query": {
-    "argumentDefinitions": [
-      {
-        "kind": "LocalArgument",
-        "name": "categoryname",
-        "type": "String",
-        "defaultValue": null
-      }
-    ],
+    "argumentDefinitions": [],
     "kind": "Root",
     "name": "TreeTaxonomyLevel3Query",
     "operation": "query",
@@ -436,14 +413,7 @@ const batch /*: ConcreteBatch*/ = {
                       {
                         "kind": "LinkedField",
                         "alias": null,
-                        "args": [
-                          {
-                            "kind": "Variable",
-                            "name": "categoryname",
-                            "variableName": "categoryname",
-                            "type": "String"
-                          }
-                        ],
+                        "args": null,
                         "concreteType": "CategoryTaxonomyByCategoryConnection",
                         "name": "taxonomyByCategory",
                         "plural": false,
@@ -565,7 +535,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel3Query(\n  $categoryname: String\n) {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory(categoryname: $categoryname) {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1 {\n                totalCount\n                nodes {\n                  id\n                  name\n                  taxonomyObjectsByParentId {\n                    totalCount\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel3Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1 {\n                totalCount\n                nodes {\n                  id\n                  name\n                  taxonomyObjectsByParentId {\n                    totalCount\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

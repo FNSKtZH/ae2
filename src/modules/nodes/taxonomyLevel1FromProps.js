@@ -11,7 +11,7 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!dataType.categoriesByDataType.nodes) return []
 
   return dataType.categoriesByDataType.nodes.map(category => {
-    const childrenCount = category.taxonomiesByCategory.totalCount
+    const childrenCount = category.taxonomyByCategory.totalCount
     const taxonomyText = childrenCount !== 1 ? 'Taxonomien' : 'Taxonomie'
     const labelCount = ` (${childrenCount} ${taxonomyText})`
 
