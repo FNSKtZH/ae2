@@ -22,25 +22,21 @@ const TreeTaxonomyLevel1 = ({
   <QueryRenderer
     environment={environment}
     query={graphql`
-          query TreeTaxonomyLevel1Query {
-            allDataTypes {
-              nodes {
-                nameGerman
-                name
-                categoriesByDataType {
-                  totalCount
-                  nodes {
-                    id
-                    name
-                    taxonomyByCategory {
-                      totalCount
-                    }
-                  }
-                }
+    query TreeTaxonomyLevel2Query($datatypename: String!) {
+        dataTypeByName(name: $datatypename) {
+          categoryByDataType {
+            nodes {
+              id
+              name
+              taxonomyByCategory {
+                totalCount
               }
             }
           }
-        `}
+        }
+      }
+    `}
+    variables={{ datatypename: store.activeNodeArray[0] }}
     render={({ error, props }) => {
       if (error) {
         return <div>{error.message}</div>

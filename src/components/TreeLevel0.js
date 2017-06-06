@@ -26,7 +26,7 @@ const TreeLevel0 = ({ store }: { store: Object }) =>
             relationCollectionsByDataType {
               totalCount
             }
-            categoriesByDataType {
+            categoryByDataType {
               totalCount
             }
           }
