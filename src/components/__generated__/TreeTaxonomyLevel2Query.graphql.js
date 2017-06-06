@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel2Query.graphql
- * @generated SignedSource<<40d90ee39986e0bc3b2d883522468ce2>>
- * @relayHash 2c0fa6f63e22d6ee5a789a111288ddeb
+ * @generated SignedSource<<8de3268e6dee9c9710eb9474966927f5>>
+ * @relayHash 71c078a9fe0a62625ce0b4d621bd3d7c
  * @flow
  * @nogrep
  */
@@ -20,33 +20,18 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 
 /*
-query TreeTaxonomyLevel2Query {
-  allDataTypes {
-    nodes {
-      nameGerman
-      name
-      propertyCollectionsByDataType {
-        totalCount
-      }
-      relationCollectionsByDataType {
-        totalCount
-      }
-      categoriesByDataType {
-        totalCount
-        nodes {
-          id
-          name
-          taxonomyByCategory {
-            totalCount
-            nodes {
-              id
-              name
-              isCategoryStandard
-              taxonomyObjectLevel1 {
-                totalCount
-              }
-            }
-          }
+query TreeTaxonomyLevel2Query(
+  $categoryname: String!
+) {
+  categoryByName(name: $categoryname) {
+    taxonomiesByCategory {
+      totalCount
+      nodes {
+        id
+        name
+        isCategoryStandard
+        taxonomyObjectLevel1 {
+          totalCount
         }
       }
     }
@@ -56,7 +41,14 @@ query TreeTaxonomyLevel2Query {
 
 const batch /*: ConcreteBatch*/ = {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": [
+      {
+        "kind": "LocalArgument",
+        "name": "categoryname",
+        "type": "String!",
+        "defaultValue": null
+      }
+    ],
     "kind": "Fragment",
     "metadata": null,
     "name": "TreeTaxonomyLevel2Query",
@@ -64,172 +56,75 @@ const batch /*: ConcreteBatch*/ = {
       {
         "kind": "LinkedField",
         "alias": null,
-        "args": null,
-        "concreteType": "DataTypesConnection",
-        "name": "allDataTypes",
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "name",
+            "variableName": "categoryname",
+            "type": "String!"
+          }
+        ],
+        "concreteType": "Category",
+        "name": "categoryByName",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "DataType",
-            "name": "nodes",
-            "plural": true,
+            "concreteType": "TaxonomiesConnection",
+            "name": "taxonomiesByCategory",
+            "plural": false,
             "selections": [
               {
                 "kind": "ScalarField",
                 "alias": null,
                 "args": null,
-                "name": "nameGerman",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
+                "name": "totalCount",
                 "storageKey": null
               },
               {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "PropertyCollectionsConnection",
-                "name": "propertyCollectionsByDataType",
-                "plural": false,
+                "concreteType": "Taxonomy",
+                "name": "nodes",
+                "plural": true,
                 "selections": [
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
+                    "name": "id",
                     "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "RelationCollectionsConnection",
-                "name": "relationCollectionsByDataType",
-                "plural": false,
-                "selections": [
+                  },
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
+                    "name": "name",
                     "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "CategoriesConnection",
-                "name": "categoriesByDataType",
-                "plural": false,
-                "selections": [
+                  },
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
+                    "name": "isCategoryStandard",
                     "storageKey": null
                   },
                   {
                     "kind": "LinkedField",
                     "alias": null,
                     "args": null,
-                    "concreteType": "Category",
-                    "name": "nodes",
-                    "plural": true,
+                    "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+                    "name": "taxonomyObjectLevel1",
+                    "plural": false,
                     "selections": [
                       {
                         "kind": "ScalarField",
                         "alias": null,
                         "args": null,
-                        "name": "id",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "name",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "LinkedField",
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "CategoryTaxonomyByCategoryConnection",
-                        "name": "taxonomyByCategory",
-                        "plural": false,
-                        "selections": [
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "args": null,
-                            "name": "totalCount",
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "LinkedField",
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Taxonomy",
-                            "name": "nodes",
-                            "plural": true,
-                            "selections": [
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "id",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "name",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "isCategoryStandard",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "LinkedField",
-                                "alias": null,
-                                "args": null,
-                                "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-                                "name": "taxonomyObjectLevel1",
-                                "plural": false,
-                                "selections": [
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "args": null,
-                                    "name": "totalCount",
-                                    "storageKey": null
-                                  }
-                                ],
-                                "storageKey": null
-                              }
-                            ],
-                            "storageKey": null
-                          }
-                        ],
+                        "name": "totalCount",
                         "storageKey": null
                       }
                     ],
@@ -252,7 +147,14 @@ const batch /*: ConcreteBatch*/ = {
   "metadata": {},
   "name": "TreeTaxonomyLevel2Query",
   "query": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": [
+      {
+        "kind": "LocalArgument",
+        "name": "categoryname",
+        "type": "String!",
+        "defaultValue": null
+      }
+    ],
     "kind": "Root",
     "name": "TreeTaxonomyLevel2Query",
     "operation": "query",
@@ -260,172 +162,75 @@ const batch /*: ConcreteBatch*/ = {
       {
         "kind": "LinkedField",
         "alias": null,
-        "args": null,
-        "concreteType": "DataTypesConnection",
-        "name": "allDataTypes",
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "name",
+            "variableName": "categoryname",
+            "type": "String!"
+          }
+        ],
+        "concreteType": "Category",
+        "name": "categoryByName",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "DataType",
-            "name": "nodes",
-            "plural": true,
+            "concreteType": "TaxonomiesConnection",
+            "name": "taxonomiesByCategory",
+            "plural": false,
             "selections": [
               {
                 "kind": "ScalarField",
                 "alias": null,
                 "args": null,
-                "name": "nameGerman",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
+                "name": "totalCount",
                 "storageKey": null
               },
               {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "PropertyCollectionsConnection",
-                "name": "propertyCollectionsByDataType",
-                "plural": false,
+                "concreteType": "Taxonomy",
+                "name": "nodes",
+                "plural": true,
                 "selections": [
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
+                    "name": "id",
                     "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "RelationCollectionsConnection",
-                "name": "relationCollectionsByDataType",
-                "plural": false,
-                "selections": [
+                  },
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
+                    "name": "name",
                     "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "CategoriesConnection",
-                "name": "categoriesByDataType",
-                "plural": false,
-                "selections": [
+                  },
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
+                    "name": "isCategoryStandard",
                     "storageKey": null
                   },
                   {
                     "kind": "LinkedField",
                     "alias": null,
                     "args": null,
-                    "concreteType": "Category",
-                    "name": "nodes",
-                    "plural": true,
+                    "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+                    "name": "taxonomyObjectLevel1",
+                    "plural": false,
                     "selections": [
                       {
                         "kind": "ScalarField",
                         "alias": null,
                         "args": null,
-                        "name": "id",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "name",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "LinkedField",
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "CategoryTaxonomyByCategoryConnection",
-                        "name": "taxonomyByCategory",
-                        "plural": false,
-                        "selections": [
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "args": null,
-                            "name": "totalCount",
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "LinkedField",
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Taxonomy",
-                            "name": "nodes",
-                            "plural": true,
-                            "selections": [
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "id",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "name",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "isCategoryStandard",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "LinkedField",
-                                "alias": null,
-                                "args": null,
-                                "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-                                "name": "taxonomyObjectLevel1",
-                                "plural": false,
-                                "selections": [
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "args": null,
-                                    "name": "totalCount",
-                                    "storageKey": null
-                                  }
-                                ],
-                                "storageKey": null
-                              }
-                            ],
-                            "storageKey": null
-                          }
-                        ],
+                        "name": "totalCount",
                         "storageKey": null
                       }
                     ],
@@ -442,7 +247,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel2Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1 {\n                totalCount\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel2Query(\n  $categoryname: String!\n) {\n  categoryByName(name: $categoryname) {\n    taxonomiesByCategory {\n      totalCount\n      nodes {\n        id\n        name\n        isCategoryStandard\n        taxonomyObjectLevel1 {\n          totalCount\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

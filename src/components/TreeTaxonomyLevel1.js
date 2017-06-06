@@ -22,7 +22,7 @@ const TreeTaxonomyLevel1 = ({
   <QueryRenderer
     environment={environment}
     query={graphql`
-    query TreeTaxonomyLevel2Query($datatypename: String!) {
+      query TreeTaxonomyLevel1Query($datatypename: String!) {
         dataTypeByName(name: $datatypename) {
           categoryByDataType {
             nodes {
@@ -41,6 +41,10 @@ const TreeTaxonomyLevel1 = ({
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
+        console.log(
+          'TreeLevel1: store.activeNodeArray.length:',
+          store.activeNodeArray.length
+        )
         if (store.activeNodeArray.length === 1) {
           store.setNodes([
             ...level0FromProps(store, level0Props),

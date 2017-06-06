@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeLevel0Query.graphql
- * @generated SignedSource<<def584ca4a556644399225c58ad37d1a>>
- * @relayHash 2282d728449daa837af9499dc243ab73
+ * @generated SignedSource<<22a2247e3b1250a7d80513c8b84c4a1d>>
+ * @relayHash 8875b85fc3e91ee3a11bbc965031702d
  * @flow
  * @nogrep
  */
@@ -31,7 +31,7 @@ query TreeLevel0Query {
       relationCollectionsByDataType {
         totalCount
       }
-      categoriesByDataType {
+      categoryByDataType {
         totalCount
       }
     }
@@ -116,8 +116,8 @@ const batch /*: ConcreteBatch*/ = {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "CategoriesConnection",
-                "name": "categoriesByDataType",
+                "concreteType": "DataTypeCategoryByDataTypeConnection",
+                "name": "categoryByDataType",
                 "plural": false,
                 "selections": [
                   {
@@ -219,8 +219,8 @@ const batch /*: ConcreteBatch*/ = {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "CategoriesConnection",
-                "name": "categoriesByDataType",
+                "concreteType": "DataTypeCategoryByDataTypeConnection",
+                "name": "categoryByDataType",
                 "plural": false,
                 "selections": [
                   {
@@ -241,7 +241,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeLevel0Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n      }\n    }\n  }\n}\n"
+  "text": "query TreeLevel0Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoryByDataType {\n        totalCount\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

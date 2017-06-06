@@ -8,7 +8,7 @@ export default (store: Object, props: ?Object): Array<Object> => {
     const childrenCount =
       dataType.propertyCollectionsByDataType.totalCount ||
       dataType.relationCollectionsByDataType.totalCount ||
-      dataType.categoriesByDataType.totalCount
+      dataType.categoryByDataType.totalCount
     let labelCount = ` (${childrenCount})`
     if (dataType.name === 'taxonomy') {
       labelCount = ` nach Gruppen (${childrenCount} Gruppen)`

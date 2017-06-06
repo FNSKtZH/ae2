@@ -700,6 +700,29 @@ type DataType implements Node {
   nameGerman: String
 
   # Reads and enables paginatation through a set of `Category`.
+  categoryByDataType(
+    # The method to use when ordering `Category`.
+    orderBy: DataTypeCategoryByDataTypeOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    datatypename: String
+  ): DataTypeCategoryByDataTypeConnection
+
+  # Reads and enables paginatation through a set of `Category`.
   categoriesByDataType(
     # The method to use when ordering `Category`.
     orderBy: CategoriesOrderBy = PRIMARY_KEY_ASC
@@ -798,6 +821,35 @@ type DataType implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: TaxonomyCondition
   ): TaxonomiesConnection
+}
+
+# A connection to a list of `Category` values.
+type DataTypeCategoryByDataTypeConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Category` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Category` and cursor to aid in pagination.
+  edges: [DataTypeCategoryByDataTypeEdge]
+
+  # A list of `Category` objects.
+  nodes: [Category]
+}
+
+# A `Category` edge in the connection.
+type DataTypeCategoryByDataTypeEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Category` at the end of the edge.
+  node: Category
+}
+
+# Methods to use when ordering `Category`.
+enum DataTypeCategoryByDataTypeOrderBy {
+  NATURAL
 }
 
 # A condition to be used against `DataType` object types. All fields are tested

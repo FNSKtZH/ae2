@@ -28,7 +28,7 @@ const TreeTaxonomyLevel3 = ({
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel3Query($taxonomyId: Uuid) {
+      query TreeTaxonomyLevel3Query($taxonomyId: Uuid!) {
         taxonomyById(id: $taxonomyId) {
           name
           taxonomyObjectLevel1 {
@@ -44,7 +44,7 @@ const TreeTaxonomyLevel3 = ({
         }
       }
     `}
-    variables={{ taxonomyId: store.activeNodeArray[3] }}
+    variables={{ taxonomyId: store.activeNodeArray[2] }}
     render={({ error, props }) => {
       if (error) {
         return <div>{error.message}</div>
