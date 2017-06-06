@@ -33,12 +33,6 @@ const TreeTaxonomyLevel3 = ({
           nodes {
             nameGerman
             name
-            propertyCollectionsByDataType {
-              totalCount
-            }
-            relationCollectionsByDataType {
-              totalCount
-            }
             categoriesByDataType {
               totalCount
               nodes {
