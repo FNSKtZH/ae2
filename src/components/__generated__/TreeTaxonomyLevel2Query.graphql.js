@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel2Query.graphql
- * @generated SignedSource<<70ee5db9c896d1e8a2f60b2aa9d78586>>
- * @relayHash 67e7a2e8f96ab965cee2f88159f8cfe8
+ * @generated SignedSource<<5fd2268bcb9504ca476e5399940052b2>>
+ * @relayHash c4fc29de35579cdb54c658329fa21b22
  * @flow
  * @nogrep
  */
@@ -20,7 +20,9 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 
 /*
-query TreeTaxonomyLevel2Query {
+query TreeTaxonomyLevel2Query(
+  $categoryname: String
+) {
   allDataTypes {
     nodes {
       nameGerman
@@ -36,13 +38,13 @@ query TreeTaxonomyLevel2Query {
         nodes {
           id
           name
-          taxonomiesByCategory {
+          taxonomyByCategory(categoryname: $categoryname) {
             totalCount
             nodes {
               id
               name
               isCategoryStandard
-              taxonomyObjectsByTaxonomyId(condition: {level: 1}) {
+              taxonomyObjectLevel1 {
                 totalCount
               }
             }
@@ -56,7 +58,14 @@ query TreeTaxonomyLevel2Query {
 
 const batch /*: ConcreteBatch*/ = {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": [
+      {
+        "kind": "LocalArgument",
+        "name": "categoryname",
+        "type": "String",
+        "defaultValue": null
+      }
+    ],
     "kind": "Fragment",
     "metadata": null,
     "name": "TreeTaxonomyLevel2Query",
@@ -167,9 +176,16 @@ const batch /*: ConcreteBatch*/ = {
                       {
                         "kind": "LinkedField",
                         "alias": null,
-                        "args": null,
-                        "concreteType": "TaxonomiesConnection",
-                        "name": "taxonomiesByCategory",
+                        "args": [
+                          {
+                            "kind": "Variable",
+                            "name": "categoryname",
+                            "variableName": "categoryname",
+                            "type": "String"
+                          }
+                        ],
+                        "concreteType": "CategoryTaxonomyByCategoryConnection",
+                        "name": "taxonomyByCategory",
                         "plural": false,
                         "selections": [
                           {
@@ -211,18 +227,9 @@ const batch /*: ConcreteBatch*/ = {
                               {
                                 "kind": "LinkedField",
                                 "alias": null,
-                                "args": [
-                                  {
-                                    "kind": "Literal",
-                                    "name": "condition",
-                                    "value": {
-                                      "level": 1
-                                    },
-                                    "type": "TaxonomyObjectCondition"
-                                  }
-                                ],
-                                "concreteType": "TaxonomyObjectsConnection",
-                                "name": "taxonomyObjectsByTaxonomyId",
+                                "args": null,
+                                "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+                                "name": "taxonomyObjectLevel1",
                                 "plural": false,
                                 "selections": [
                                   {
@@ -233,7 +240,7 @@ const batch /*: ConcreteBatch*/ = {
                                     "storageKey": null
                                   }
                                 ],
-                                "storageKey": "taxonomyObjectsByTaxonomyId{\"condition\":{\"level\":1}}"
+                                "storageKey": null
                               }
                             ],
                             "storageKey": null
@@ -261,7 +268,14 @@ const batch /*: ConcreteBatch*/ = {
   "metadata": {},
   "name": "TreeTaxonomyLevel2Query",
   "query": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": [
+      {
+        "kind": "LocalArgument",
+        "name": "categoryname",
+        "type": "String",
+        "defaultValue": null
+      }
+    ],
     "kind": "Root",
     "name": "TreeTaxonomyLevel2Query",
     "operation": "query",
@@ -372,9 +386,16 @@ const batch /*: ConcreteBatch*/ = {
                       {
                         "kind": "LinkedField",
                         "alias": null,
-                        "args": null,
-                        "concreteType": "TaxonomiesConnection",
-                        "name": "taxonomiesByCategory",
+                        "args": [
+                          {
+                            "kind": "Variable",
+                            "name": "categoryname",
+                            "variableName": "categoryname",
+                            "type": "String"
+                          }
+                        ],
+                        "concreteType": "CategoryTaxonomyByCategoryConnection",
+                        "name": "taxonomyByCategory",
                         "plural": false,
                         "selections": [
                           {
@@ -416,18 +437,9 @@ const batch /*: ConcreteBatch*/ = {
                               {
                                 "kind": "LinkedField",
                                 "alias": null,
-                                "args": [
-                                  {
-                                    "kind": "Literal",
-                                    "name": "condition",
-                                    "value": {
-                                      "level": 1
-                                    },
-                                    "type": "TaxonomyObjectCondition"
-                                  }
-                                ],
-                                "concreteType": "TaxonomyObjectsConnection",
-                                "name": "taxonomyObjectsByTaxonomyId",
+                                "args": null,
+                                "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+                                "name": "taxonomyObjectLevel1",
                                 "plural": false,
                                 "selections": [
                                   {
@@ -438,7 +450,7 @@ const batch /*: ConcreteBatch*/ = {
                                     "storageKey": null
                                   }
                                 ],
-                                "storageKey": "taxonomyObjectsByTaxonomyId{\"condition\":{\"level\":1}}"
+                                "storageKey": null
                               }
                             ],
                             "storageKey": null
@@ -460,7 +472,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel2Query {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomiesByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectsByTaxonomyId(condition: {level: 1}) {\n                totalCount\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel2Query(\n  $categoryname: String\n) {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory(categoryname: $categoryname) {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1 {\n                totalCount\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

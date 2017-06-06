@@ -9,11 +9,11 @@ import Tree from './Tree'
 
 const enhance = compose(inject('store'))
 
-const TreeTaxonomyLevel8 = ({ store }: { store: Object }) => (
+const TreeTaxonomyLevel8 = ({ store }: { store: Object }) =>
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel8Query {
+      query TreeTaxonomyLevel8Query($categoryname: String) {
         allDataTypes {
           nodes {
             nameGerman
@@ -29,13 +29,13 @@ const TreeTaxonomyLevel8 = ({ store }: { store: Object }) => (
               nodes {
                 id
                 name
-                taxonomiesByCategory {
+                taxonomyByCategory(categoryname: $categoryname) {
                   totalCount
                   nodes {
                     id
                     name
                     isCategoryStandard
-                    taxonomyObjectsByTaxonomyId(condition: {level: 1, taxonomyId: "5444e7eb-177f-4faf-ba44-0e3da1b391e0"}) {
+                    taxonomyObjectLevel1(taxonomyId: "5444e7eb-177f-4faf-ba44-0e3da1b391e0") {
                       totalCount
                       nodes {
                         id
@@ -92,6 +92,7 @@ const TreeTaxonomyLevel8 = ({ store }: { store: Object }) => (
         }
       }
     `}
+    variables={{ categoryName: store.activeNodeArray[1] }}
     render={({ error, props }) => {
       if (props) {
         console.log('TreeTaxonomyLevel8: props:', props)
@@ -99,6 +100,5 @@ const TreeTaxonomyLevel8 = ({ store }: { store: Object }) => (
       return <Tree />
     }}
   />
-)
 
 export default enhance(TreeTaxonomyLevel8)

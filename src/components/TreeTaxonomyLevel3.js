@@ -14,11 +14,11 @@ import taxonomyLevel3FromProps from '../modules/nodes/taxonomyLevel3FromProps'
 
 const enhance = compose(inject('store'))
 
-const TreeTaxonomyLevel3 = ({ store }: { store: Object }) => (
+const TreeTaxonomyLevel3 = ({ store }: { store: Object }) =>
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel3Query($taxId: Uuid) {
+      query TreeTaxonomyLevel3Query($categoryname: String) {
         allDataTypes {
           nodes {
             nameGerman
@@ -34,13 +34,13 @@ const TreeTaxonomyLevel3 = ({ store }: { store: Object }) => (
               nodes {
                 id
                 name
-                taxonomiesByCategory(condition: {id: $taxId}) {
+                taxonomyByCategory(categoryname: $categoryname) {
                   totalCount
                   nodes {
                     id
                     name
                     isCategoryStandard
-                    taxonomyObjectsByTaxonomyId(condition: {level: 1}) {
+                    taxonomyObjectLevel1 {
                       totalCount
                       nodes {
                         id
@@ -58,8 +58,8 @@ const TreeTaxonomyLevel3 = ({ store }: { store: Object }) => (
         }
       }
     `}
-    variables={{ taxId: store.activeNodeArray[2] }}
-    render={({ error, props }) => (
+    variables={{ categoryName: store.activeNodeArray[1] }}
+    render={({ error, props }) =>
       <Tree
         nodes={sort([
           ...level0FromProps(props),
@@ -67,9 +67,7 @@ const TreeTaxonomyLevel3 = ({ store }: { store: Object }) => (
           ...taxonomyLevel2FromProps(store, props),
           ...taxonomyLevel3FromProps(store, props),
         ])}
-      />
-    )}
+      />}
   />
-)
 
 export default enhance(TreeTaxonomyLevel3)
