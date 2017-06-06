@@ -6,7 +6,7 @@ import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
 import AppBar from './AppBar'
-import TreeChooser from './TreeChooser'
+import TreeLevel0 from './TreeLevel0'
 import Main from './Main'
 
 const Container = styled.div`
@@ -32,7 +32,7 @@ class App extends Component {
         <AppBar />
         <ReflexContainer orientation="vertical">
           {store.ui.visibleColumns.tree &&
-            <ReflexElement><TreeChooser /></ReflexElement>}
+            <ReflexElement><TreeLevel0 /></ReflexElement>}
           {store.ui.visibleColumns.tree &&
             store.ui.visibleColumns.main &&
             <ReflexSplitter key="treeSplitter" />}

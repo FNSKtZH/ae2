@@ -17,7 +17,7 @@ import TaxonomyLevel10 from './TreeTaxonomyLevel10'
 
 const enhance = compose(inject('store'), observer)
 
-const TreeCategories = ({ store }: { store: Object }) => {
+const TreeChooser = ({ store }: { store: Object }) => {
   const { activeNodeArray } = store
 
   switch (activeNodeArray[0]) {
@@ -57,4 +57,4 @@ const TreeCategories = ({ store }: { store: Object }) => {
   }
 }
 
-export default enhance(TreeCategories)
+export default enhance(TreeChooser)
