@@ -59,7 +59,7 @@ const TreeTaxonomyLevel4 = ({
             ...taxonomyLevel3FromProps(store, level3Props),
             ...taxonomyLevel4FromProps(store, props),
           ])
-          return <Tree />
+          return <Tree nodes={store.nodes} />
         } else if (store.activeNodeArray.length > 4) {
           return (
             <TreeTaxonomyLevel5

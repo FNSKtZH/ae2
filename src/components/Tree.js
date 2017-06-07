@@ -45,12 +45,7 @@ class Tree extends Component {
   props: { store: Object, nodes: Array<Object> }
 
   rowRenderer = ({ key, index, style }) =>
-    <Row
-      key={key}
-      index={index}
-      style={style}
-      nodes={sort(this.props.store.nodes)}
-    />
+    <Row key={key} index={index} style={style} nodes={sort(this.props.nodes)} />
 
   noRowsRenderer = () =>
     <Container>
@@ -66,7 +61,7 @@ class Tree extends Component {
           {({ height, width }) =>
             <ListContainer
               height={height}
-              rowCount={this.props.store.nodes.length}
+              rowCount={this.props.nodes.length}
               rowHeight={singleRowHeight}
               rowRenderer={this.rowRenderer}
               noRowsRenderer={this.noRowsRenderer}

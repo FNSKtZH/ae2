@@ -54,7 +54,7 @@ const TreeTaxonomyLevel3 = ({
             ...taxonomyLevel2FromProps(store, level2Props),
             ...taxonomyLevel3FromProps(store, props),
           ])
-          return <Tree />
+          return <Tree nodes={store.nodes} />
         } else if (store.activeNodeArray.length > 3) {
           return (
             <TreeTaxonomyLevel4
@@ -65,8 +65,36 @@ const TreeTaxonomyLevel3 = ({
             />
           )
         }
+      } else {
+        const level0Nodes = level0FromProps(store, level0Props)
+        const level1Nodes = taxonomyLevel1FromProps(store, level1Props)
+        const level2Nodes = taxonomyLevel2FromProps(store, level2Props)
+        const loadingLevel3Node = {
+          id: 'level3Loading',
+          url: [
+            store.activeDataType,
+            store.activeCategory.name,
+            store.activeTaxonomy.id,
+            'level3Loading',
+          ],
+          sort: [
+            store.activeDataType,
+            store.activeCategory.name,
+            store.activeTaxonomy.name,
+            'aaa',
+          ],
+          label: 'lade Daten...',
+          childrenCount: 0,
+        }
+        store.setActiveLevel3(loadingLevel3Node)
+        store.setNodes([
+          ...level0Nodes,
+          ...level1Nodes,
+          ...level2Nodes,
+          loadingLevel3Node,
+        ])
+        return <Tree nodes={store.nodes} />
       }
-      return <div>Loading</div>
     }}
   />
 

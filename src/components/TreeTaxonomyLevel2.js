@@ -50,7 +50,7 @@ const TreeTaxonomyLevel2 = ({
             ...taxonomyLevel1FromProps(store, level1Props),
             ...taxonomyLevel2FromProps(store, props),
           ])
-          return <Tree />
+          return <Tree nodes={store.nodes} />
         } else if (store.activeNodeArray.length > 2) {
           return (
             <TreeTaxonomyLevel3
@@ -63,7 +63,7 @@ const TreeTaxonomyLevel2 = ({
       }
       return <div>Loading</div>
       // why does this not work?
-      // return <Tree />
+      // return <Tree nodes={store.nodes} />
     }}
   />
 

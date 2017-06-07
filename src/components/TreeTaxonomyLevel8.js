@@ -75,7 +75,7 @@ const TreeTaxonomyLevel8 = ({
             ...taxonomyLevel7FromProps(store, level7Props),
             ...taxonomyLevel8FromProps(store, props),
           ])
-          return <Tree />
+          return <Tree nodes={store.nodes} />
         } else if (store.activeNodeArray.length > 8) {
           return (
             <TreeTaxonomyLevel9

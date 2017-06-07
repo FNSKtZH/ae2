@@ -33,7 +33,7 @@ const TreeLevel0 = ({ store }: { store: Object }) =>
       } else if (props) {
         if (store.activeNodeArray.length === 0) {
           store.setNodes(level0FromProps(store, props.allDataTypes.nodes))
-          return <Tree />
+          return <Tree nodes={store.nodes} />
         }
         return <TreeTaxonomyLevel1 level0Props={props} />
       }

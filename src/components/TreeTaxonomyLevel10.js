@@ -81,7 +81,7 @@ const TreeTaxonomyLevel10 = ({
           ...taxonomyLevel9FromProps(store, level9Props),
           ...taxonomyLevel10FromProps(store, props),
         ])
-        return <Tree />
+        return <Tree nodes={store.nodes} />
       }
       return <div>Loading</div>
     }}
