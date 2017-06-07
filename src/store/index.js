@@ -10,6 +10,7 @@ function Store(): void {
   this.activeTaxonomy = {}
   this.activeLevel3 = {}
   this.activeLevel4 = {}
+  this.activeLevel5 = {}
   this.history = ObservableHistory
   this.activeNodeArray = []
   this.setActiveNodeArray = () => {}

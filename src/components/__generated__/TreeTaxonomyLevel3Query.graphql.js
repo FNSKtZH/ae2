@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel3Query.graphql
- * @generated SignedSource<<396f878cd85a3ba8e9d5a9dc8b95fec3>>
- * @relayHash 5bea97a7830c112c00e9cd2b03435f62
+ * @generated SignedSource<<66c0f6a63a33a6314109330ea6151916>>
+ * @relayHash c5984f23fd4fe93d77bd9024152283b7
  * @flow
  * @nogrep
  */
@@ -24,9 +24,7 @@ query TreeTaxonomyLevel3Query(
   $taxonomyId: Uuid!
 ) {
   taxonomyById(id: $taxonomyId) {
-    name
     taxonomyObjectLevel1 {
-      totalCount
       nodes {
         id
         name
@@ -69,13 +67,6 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "name",
-            "storageKey": null
-          },
-          {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
@@ -83,13 +74,6 @@ const batch /*: ConcreteBatch*/ = {
             "name": "taxonomyObjectLevel1",
             "plural": false,
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
               {
                 "kind": "LinkedField",
                 "alias": null,
@@ -175,13 +159,6 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "name",
-            "storageKey": null
-          },
-          {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
@@ -189,13 +166,6 @@ const batch /*: ConcreteBatch*/ = {
             "name": "taxonomyObjectLevel1",
             "plural": false,
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
               {
                 "kind": "LinkedField",
                 "alias": null,
@@ -247,7 +217,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel3Query(\n  $taxonomyId: Uuid!\n) {\n  taxonomyById(id: $taxonomyId) {\n    name\n    taxonomyObjectLevel1 {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel3Query(\n  $taxonomyId: Uuid!\n) {\n  taxonomyById(id: $taxonomyId) {\n    taxonomyObjectLevel1 {\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

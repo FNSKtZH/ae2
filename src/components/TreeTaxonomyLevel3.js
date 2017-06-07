@@ -30,9 +30,7 @@ const TreeTaxonomyLevel3 = ({
     query={graphql`
       query TreeTaxonomyLevel3Query($taxonomyId: Uuid!) {
         taxonomyById(id: $taxonomyId) {
-          name
           taxonomyObjectLevel1 {
-            totalCount
             nodes {
               id
               name
