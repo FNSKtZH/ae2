@@ -67,4 +67,4 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 - Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
   - Entwicklungsumgebung ist gebaut
   - Layout und Navigation bestehen im Entwurf
-  - Der Struktur- und Navigationsbaum ist im Aufbau. Die Abfragen dafür sind gebaut.
+  - Der Struktur- und Navigationsbaum existiert im Entwurf. Das ist zusammen mit Ex- und Importen der anspruchsvollste Teil der Anwendung.
