@@ -82,7 +82,45 @@ const TreeTaxonomyLevel6 = ({
           )
         }
       }
-      return <div>Loading</div>
+      const level0Nodes = level0FromProps(store, level0Props)
+      const level1Nodes = taxonomyLevel1FromProps(store, level1Props)
+      const level2Nodes = taxonomyLevel2FromProps(store, level2Props)
+      const level3Nodes = taxonomyLevel3FromProps(store, level3Props)
+      const level4Nodes = taxonomyLevel4FromProps(store, level4Props)
+      const level5Nodes = taxonomyLevel5FromProps(store, level5Props)
+      const loadingLevel6Node = {
+        id: 'level6Loading',
+        url: [
+          store.activeDataType,
+          store.activeCategory.name,
+          store.activeTaxonomy.id,
+          store.activeLevel3.id,
+          store.activeLevel4.id,
+          store.activeLevel5.id,
+        ],
+        sort: [
+          store.activeDataType,
+          store.activeCategory.name,
+          store.activeTaxonomy.name,
+          store.activeLevel3.name,
+          store.activeLevel4.name,
+          store.activeLevel5.name,
+          'aaa',
+        ],
+        label: 'lade Daten',
+        childrenCount: 0,
+      }
+      store.setActiveLevel6(loadingLevel6Node)
+      store.setNodes([
+        ...level0Nodes,
+        ...level1Nodes,
+        ...level2Nodes,
+        ...level3Nodes,
+        ...level4Nodes,
+        ...level5Nodes,
+        loadingLevel6Node,
+      ])
+      return <Tree nodes={store.nodes} />
     }}
   />
 
