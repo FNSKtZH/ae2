@@ -1,6 +1,5 @@
 // @flow
 export default (store: Object, props: Object): Array<Object> => {
-  console.log('taxonomyLevel2FromProps: props:', props)
   if (!props) return []
   if (!props.categoryByName) return []
   if (!props.categoryByName.taxonomiesByCategory) return []
@@ -16,11 +15,7 @@ export default (store: Object, props: Object): Array<Object> => {
     return {
       id: taxonomy.id,
       url: [store.activeDataType, store.activeCategory.name, taxonomy.id],
-      sort: [
-        store.activeDataType,
-        store.activeCategory.name,
-        taxonomy.name,
-      ],
+      sort: [store.activeDataType, store.activeCategory.name, taxonomy.name],
       label: `${taxonomy.name}${labelCount}`,
       childrenCount,
     }
