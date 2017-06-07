@@ -23,7 +23,7 @@ const TreeChooser = ({ store }: { store: Object }) => {
   switch (activeNodeArray[0]) {
     case undefined:
       return <Level0 />
-    case 'taxonomy': {
+    case 'Taxonomien': {
       switch (activeNodeArray.length) {
         case 1:
           return <TaxonomyLevel1 />
@@ -49,8 +49,8 @@ const TreeChooser = ({ store }: { store: Object }) => {
           return <Level0 />
       }
     }
-    case 'property_collection':
-    case 'relation_collection':
+    case 'Eigenschaften-Sammlungen':
+    case 'Beziehungs-Sammlungen':
     case 'export':
     default:
       return <Level0 />

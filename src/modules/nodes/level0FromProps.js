@@ -8,24 +8,24 @@ export default (store: Object, props: ?Object): Array<Object> => {
 
   return [
     {
-      id: 'property_collection',
-      url: ['property_collection'],
+      id: 'Eigenschaften-Sammlungen',
+      url: ['Eigenschaften-Sammlungen'],
       sort: ['Eigenschaften-Sammlungen'],
       label: `Eigenschaften-Sammlungen (${props.allPropertyCollections
         .totalCount})`,
       childrenCount: props.allPropertyCollections.totalCount,
     },
     {
-      id: 'relation_collection',
-      url: ['relation_collection'],
+      id: 'Beziehungs-Sammlungen',
+      url: ['Beziehungs-Sammlungen'],
       sort: ['Beziehungs-Sammlungen'],
       label: `Beziehungs-Sammlungen (${props.allRelationCollections
         .totalCount})`,
       childrenCount: props.allRelationCollections.totalCount,
     },
     {
-      id: 'taxonomy',
-      url: ['taxonomy'],
+      id: 'Taxonomien',
+      url: ['Taxonomien'],
       sort: ['Taxonomien'],
       label: `Taxonomien (${props.allCategories.totalCount} Gruppen)`,
       childrenCount: props.allCategories.totalCount,

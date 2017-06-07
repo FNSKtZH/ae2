@@ -23,14 +23,12 @@ const TreeTaxonomyLevel1 = ({
     environment={environment}
     query={graphql`
       query TreeTaxonomyLevel1Query($datatypename: String!) {
-        dataTypeByName(name: $datatypename) {
-          categoryByDataType {
-            nodes {
-              id
-              name
-              taxonomyByCategory {
-                totalCount
-              }
+        categoryByDataType(datatype: $datatypename) {
+          nodes {
+            id
+            name
+            taxonomyByCategory {
+              totalCount
             }
           }
         }

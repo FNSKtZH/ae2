@@ -14,16 +14,16 @@ const enhance = compose(inject('store'), observer)
 const Main = ({ store }: { store: Object }) => {
   const primaryUrl = store.activeNodeArray[0]
   const show404 = ![
-    'taxonomy',
-    'property_collection',
-    'relation_collection',
+    'Taxonomien',
+    'Eigenschaften-Sammlungen',
+    'Beziehungs-Sammlungen',
     'export',
   ].includes(primaryUrl)
   return (
     <div>
-      {primaryUrl === 'taxonomy' && <Taxonomy />}
-      {primaryUrl === 'property_collection' && <PropertyCollection />}
-      {primaryUrl === 'relation_collection' && <RelationCollection />}
+      {primaryUrl === 'Taxonomien' && <Taxonomy />}
+      {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
+      {primaryUrl === 'Beziehungs-Sammlungen' && <RelationCollection />}
       {primaryUrl === 'export' && <Exporte />}
       {show404 && <FourOhFour />}
     </div>

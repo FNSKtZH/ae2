@@ -2,8 +2,7 @@
 import { extendObservable, autorun, toJS } from 'mobx'
 import isEqual from 'lodash/isEqual'
 
-import getActiveNodeArrayFromPathname
-  from '../action/getActiveNodeArrayFromPathname'
+import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
 
 export default (store: Object): void => {
   extendObservable(store, {
@@ -11,7 +10,7 @@ export default (store: Object): void => {
       const activeNodeArray = toJS(store.activeNodeArray)
       // forward root to taxonomy
       if (activeNodeArray.length === 0) {
-        return store.setActiveNodeArray(['taxonomy'])
+        return store.setActiveNodeArray(['Taxonomien'])
       }
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, activeNodeArray)) {

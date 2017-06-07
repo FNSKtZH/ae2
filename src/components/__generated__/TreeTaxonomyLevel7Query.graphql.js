@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel7Query.graphql
- * @generated SignedSource<<04461ffc78eb049b6cb0bc4521f3b2ce>>
- * @relayHash a26cef2984562d68dbb0e9218ddba22e
+ * @generated SignedSource<<1e1c8b148b0d380aff0634c90aa99c83>>
+ * @relayHash d08545b9c65ee5b90c525c65b0ea5c92
  * @flow
  * @nogrep
  */
@@ -25,7 +25,6 @@ query TreeTaxonomyLevel7Query(
 ) {
   allDataTypes {
     nodes {
-      nameGerman
       name
       propertyCollectionsByDataType {
         totalCount
@@ -125,13 +124,6 @@ const batch /*: ConcreteBatch*/ = {
             "name": "nodes",
             "plural": true,
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "nameGerman",
-                "storageKey": null
-              },
               {
                 "kind": "ScalarField",
                 "alias": null,
@@ -579,13 +571,6 @@ const batch /*: ConcreteBatch*/ = {
                 "kind": "ScalarField",
                 "alias": null,
                 "args": null,
-                "name": "nameGerman",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
                 "name": "name",
                 "storageKey": null
               },
@@ -991,7 +976,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel7Query(\n  $level1: Uuid\n) {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1(taxonomyId: $level1) {\n                totalCount\n                nodes {\n                  id\n                  name\n                  taxonomyObjectsByParentId {\n                    totalCount\n                    nodes {\n                      id\n                      name\n                      taxonomyObjectsByParentId {\n                        totalCount\n                        nodes {\n                          id\n                          name\n                          taxonomyObjectsByParentId {\n                            totalCount\n                            nodes {\n                              id\n                              name\n                              taxonomyObjectsByParentId {\n                                totalCount\n                                nodes {\n                                  id\n                                  name\n                                  taxonomyObjectsByParentId {\n                                    totalCount\n                                    nodes {\n                                      id\n                                      name\n                                    }\n                                  }\n                                }\n                              }\n                            }\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel7Query(\n  $level1: Uuid\n) {\n  allDataTypes {\n    nodes {\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1(taxonomyId: $level1) {\n                totalCount\n                nodes {\n                  id\n                  name\n                  taxonomyObjectsByParentId {\n                    totalCount\n                    nodes {\n                      id\n                      name\n                      taxonomyObjectsByParentId {\n                        totalCount\n                        nodes {\n                          id\n                          name\n                          taxonomyObjectsByParentId {\n                            totalCount\n                            nodes {\n                              id\n                              name\n                              taxonomyObjectsByParentId {\n                                totalCount\n                                nodes {\n                                  id\n                                  name\n                                  taxonomyObjectsByParentId {\n                                    totalCount\n                                    nodes {\n                                      id\n                                      name\n                                    }\n                                  }\n                                }\n                              }\n                            }\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

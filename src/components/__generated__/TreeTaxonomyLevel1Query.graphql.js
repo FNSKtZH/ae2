@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel1Query.graphql
- * @generated SignedSource<<8e1932f8b7eb7ba168ab41263a5196b1>>
- * @relayHash 2468a6cd51c1524e5a6731a18d5d75f4
+ * @generated SignedSource<<a1dc1b31510aa30d6730fded979bf702>>
+ * @relayHash dde5c66860d87cd54ba9a11a00469f8d
  * @flow
  * @nogrep
  */
@@ -23,14 +23,12 @@ import type {ConcreteBatch} from 'relay-runtime';
 query TreeTaxonomyLevel1Query(
   $datatypename: String!
 ) {
-  dataTypeByName(name: $datatypename) {
-    categoryByDataType {
-      nodes {
-        id
-        name
-        taxonomyByCategory {
-          totalCount
-        }
+  categoryByDataType(datatype: $datatypename) {
+    nodes {
+      id
+      name
+      taxonomyByCategory {
+        totalCount
       }
     }
   }
@@ -57,61 +55,50 @@ const batch /*: ConcreteBatch*/ = {
         "args": [
           {
             "kind": "Variable",
-            "name": "name",
+            "name": "datatype",
             "variableName": "datatypename",
-            "type": "String!"
+            "type": "String"
           }
         ],
-        "concreteType": "DataType",
-        "name": "dataTypeByName",
+        "concreteType": "CategoryByDataTypeConnection",
+        "name": "categoryByDataType",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "DataTypeCategoryByDataTypeConnection",
-            "name": "categoryByDataType",
-            "plural": false,
+            "concreteType": "Category",
+            "name": "nodes",
+            "plural": true,
             "selections": [
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "id",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "name",
+                "storageKey": null
+              },
               {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "Category",
-                "name": "nodes",
-                "plural": true,
+                "concreteType": "CategoryTaxonomyByCategoryConnection",
+                "name": "taxonomyByCategory",
+                "plural": false,
                 "selections": [
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "CategoryTaxonomyByCategoryConnection",
-                    "name": "taxonomyByCategory",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
+                    "name": "totalCount",
                     "storageKey": null
                   }
                 ],
@@ -149,61 +136,50 @@ const batch /*: ConcreteBatch*/ = {
         "args": [
           {
             "kind": "Variable",
-            "name": "name",
+            "name": "datatype",
             "variableName": "datatypename",
-            "type": "String!"
+            "type": "String"
           }
         ],
-        "concreteType": "DataType",
-        "name": "dataTypeByName",
+        "concreteType": "CategoryByDataTypeConnection",
+        "name": "categoryByDataType",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "DataTypeCategoryByDataTypeConnection",
-            "name": "categoryByDataType",
-            "plural": false,
+            "concreteType": "Category",
+            "name": "nodes",
+            "plural": true,
             "selections": [
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "id",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "name",
+                "storageKey": null
+              },
               {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "Category",
-                "name": "nodes",
-                "plural": true,
+                "concreteType": "CategoryTaxonomyByCategoryConnection",
+                "name": "taxonomyByCategory",
+                "plural": false,
                 "selections": [
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "CategoryTaxonomyByCategoryConnection",
-                    "name": "taxonomyByCategory",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
+                    "name": "totalCount",
                     "storageKey": null
                   }
                 ],
@@ -217,7 +193,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel1Query(\n  $datatypename: String!\n) {\n  dataTypeByName(name: $datatypename) {\n    categoryByDataType {\n      nodes {\n        id\n        name\n        taxonomyByCategory {\n          totalCount\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel1Query(\n  $datatypename: String!\n) {\n  categoryByDataType(datatype: $datatypename) {\n    nodes {\n      id\n      name\n      taxonomyByCategory {\n        totalCount\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

@@ -16,7 +16,6 @@ const TreeTaxonomyLevel8 = ({ store }: { store: Object }) =>
       query TreeTaxonomyLevel8Query($level1: Uuid) {
         allDataTypes {
           nodes {
-            nameGerman
             name
             propertyCollectionsByDataType {
               totalCount

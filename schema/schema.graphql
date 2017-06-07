@@ -119,6 +119,35 @@ type Category implements Node {
   ): TaxonomiesConnection
 }
 
+# A connection to a list of `Category` values.
+type CategoryByDataTypeConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Category` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Category` and cursor to aid in pagination.
+  edges: [CategoryByDataTypeEdge]
+
+  # A list of `Category` objects.
+  nodes: [Category]
+}
+
+# A `Category` edge in the connection.
+type CategoryByDataTypeEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Category` at the end of the edge.
+  node: Category
+}
+
+# Methods to use when ordering `Category`.
+enum CategoryByDataTypeOrderBy {
+  NATURAL
+}
+
 # A condition to be used against `Category` object types. All fields are tested
 # for equality and combined with a logical ‘and.’
 input CategoryCondition {
@@ -697,7 +726,6 @@ type DataType implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   name: String!
-  nameGerman: String
 
   # Reads and enables paginatation through a set of `Category`.
   categoryByDataType(
@@ -857,20 +885,15 @@ enum DataTypeCategoryByDataTypeOrderBy {
 input DataTypeCondition {
   # Checks for equality with the object’s `name` field.
   name: String
-
-  # Checks for equality with the object’s `nameGerman` field.
-  nameGerman: String
 }
 
 input DataTypeInput {
   name: String!
-  nameGerman: String
 }
 
 # Represents an update to a `DataType`. Fields that are set will be updated.
 input DataTypePatch {
   name: String
-  nameGerman: String
 }
 
 # A connection to a list of `DataType` values.
@@ -904,8 +927,6 @@ enum DataTypesOrderBy {
   NATURAL
   NAME_ASC
   NAME_DESC
-  NAME_GERMAN_ASC
-  NAME_GERMAN_DESC
 }
 
 # The day, does not include a time.
@@ -2758,6 +2779,29 @@ type Query implements Node {
     # The globally unique `ID`.
     nodeId: ID!
   ): Node
+
+  # Reads and enables paginatation through a set of `Category`.
+  categoryByDataType(
+    # The method to use when ordering `Category`.
+    orderBy: CategoryByDataTypeOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    datatype: String
+  ): CategoryByDataTypeConnection
 
   # Reads and enables paginatation through a set of `Category`.
   allCategories(

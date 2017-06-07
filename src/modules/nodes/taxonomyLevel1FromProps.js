@@ -2,11 +2,10 @@
 export default (store: Object, props: Object): Array<Object> => {
   console.log('taxonomyLevel1FromProps: props:', props)
   if (!props) return []
-  if (!props.dataTypeByName) return []
-  if (!props.dataTypeByName.categoryByDataType) return []
-  if (!props.dataTypeByName.categoryByDataType.nodes) return []
+  if (!props.categoryByDataType) return []
+  if (!props.categoryByDataType.nodes) return []
 
-  return props.dataTypeByName.categoryByDataType.nodes.map(category => {
+  return props.categoryByDataType.nodes.map(category => {
     const childrenCount = category.taxonomyByCategory.totalCount
     const taxonomyText = childrenCount !== 1 ? 'Taxonomien' : 'Taxonomie'
     const labelCount = ` (${childrenCount} ${taxonomyText})`

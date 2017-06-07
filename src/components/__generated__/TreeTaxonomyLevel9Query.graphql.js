@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel9Query.graphql
- * @generated SignedSource<<394d26ee1feb043f2fc4fa7392d37262>>
- * @relayHash b057daecca9991affcf03e9bd54975e7
+ * @generated SignedSource<<ec2e45b9253b8d73fa5470261bedeb3b>>
+ * @relayHash 3d1662b3535407d8ccfb7e433ed50bfe
  * @flow
  * @nogrep
  */
@@ -25,7 +25,6 @@ query TreeTaxonomyLevel9Query(
 ) {
   allDataTypes {
     nodes {
-      nameGerman
       name
       propertyCollectionsByDataType {
         totalCount
@@ -139,13 +138,6 @@ const batch /*: ConcreteBatch*/ = {
             "name": "nodes",
             "plural": true,
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "nameGerman",
-                "storageKey": null
-              },
               {
                 "kind": "ScalarField",
                 "alias": null,
@@ -679,13 +671,6 @@ const batch /*: ConcreteBatch*/ = {
                 "kind": "ScalarField",
                 "alias": null,
                 "args": null,
-                "name": "nameGerman",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
                 "name": "name",
                 "storageKey": null
               },
@@ -1177,7 +1162,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel9Query(\n  $level1: Uuid\n) {\n  allDataTypes {\n    nodes {\n      nameGerman\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1(taxonomyId: $level1) {\n                totalCount\n                nodes {\n                  id\n                  name\n                  taxonomyObjectsByParentId {\n                    totalCount\n                    nodes {\n                      id\n                      name\n                      taxonomyObjectsByParentId {\n                        totalCount\n                        nodes {\n                          id\n                          name\n                          taxonomyObjectsByParentId {\n                            totalCount\n                            nodes {\n                              id\n                              name\n                              taxonomyObjectsByParentId {\n                                totalCount\n                                nodes {\n                                  id\n                                  name\n                                  taxonomyObjectsByParentId {\n                                    totalCount\n                                    nodes {\n                                      id\n                                      name\n                                      taxonomyObjectsByParentId {\n                                        totalCount\n                                        nodes {\n                                          id\n                                          name\n                                          taxonomyObjectsByParentId {\n                                            totalCount\n                                            nodes {\n                                              id\n                                              name\n                                            }\n                                          }\n                                        }\n                                      }\n                                    }\n                                  }\n                                }\n                              }\n                            }\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel9Query(\n  $level1: Uuid\n) {\n  allDataTypes {\n    nodes {\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1(taxonomyId: $level1) {\n                totalCount\n                nodes {\n                  id\n                  name\n                  taxonomyObjectsByParentId {\n                    totalCount\n                    nodes {\n                      id\n                      name\n                      taxonomyObjectsByParentId {\n                        totalCount\n                        nodes {\n                          id\n                          name\n                          taxonomyObjectsByParentId {\n                            totalCount\n                            nodes {\n                              id\n                              name\n                              taxonomyObjectsByParentId {\n                                totalCount\n                                nodes {\n                                  id\n                                  name\n                                  taxonomyObjectsByParentId {\n                                    totalCount\n                                    nodes {\n                                      id\n                                      name\n                                      taxonomyObjectsByParentId {\n                                        totalCount\n                                        nodes {\n                                          id\n                                          name\n                                          taxonomyObjectsByParentId {\n                                            totalCount\n                                            nodes {\n                                              id\n                                              name\n                                            }\n                                          }\n                                        }\n                                      }\n                                    }\n                                  }\n                                }\n                              }\n                            }\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

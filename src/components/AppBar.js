@@ -17,7 +17,10 @@ const StyledAppBar = styled(AppBar)`
   }
 `
 const Button = styled(({ visible, ...rest }) => <FlatButton {...rest} />)`
-  color: ${props => (props.visible ? 'rgb(255, 255, 255) !important' : 'rgba(255, 255, 255, 0.298039) !important')};
+  color: ${props =>
+    props.visible
+      ? 'rgb(255, 255, 255) !important'
+      : 'rgba(255, 255, 255, 0.298039) !important'};
 `
 const MenuDiv = styled.div`
   display: flex;
@@ -40,9 +43,9 @@ const enhance = compose(
       ),
     onClickColumnButtonData: props => () => {
       const pathIsMain = [
-        '/taxonomy',
-        '/property_collection',
-        '/relation_collection',
+        '/Taxonomien',
+        '/Eigenschaften-Sammlungen',
+        '/Beziehungs-Sammlungen',
       ].includes(props.store.activeNodeArray[0])
       const mainIsVisible = props.store.ui.visibleColumns.main
       if (!mainIsVisible) {
@@ -62,7 +65,7 @@ const enhance = compose(
           props.store.ui.setColumnVisibility('main')
         }
       } else {
-        props.store.setActiveNodeArray(['taxonomy'])
+        props.store.setActiveNodeArray(['Taxonomien'])
       }
     },
     ueberArteigenschaftenOnClick: props => () =>
@@ -83,7 +86,7 @@ const MyAppBar = ({
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
   ueberArteigenschaftenOnClick: () => void,
-}) => (
+}) =>
   <StyledAppBar
     title="Arteigenschaften"
     iconElementRight={
@@ -97,11 +100,11 @@ const MyAppBar = ({
           label="Daten"
           visible={
             store.ui.visibleColumns.main &&
-              [
-                '/taxonomy',
-                '/property_collection',
-                '/relation_collection',
-              ].includes(store.activeNodeArray[0])
+            [
+              '/Taxonomien',
+              '/Eigenschaften-Sammlungen',
+              '/Beziehungs-Sammlungen',
+            ].includes(store.activeNodeArray[0])
           }
           onClick={onClickColumnButtonData}
         />
@@ -129,6 +132,5 @@ const MyAppBar = ({
     }
     showMenuIconButton={false}
   />
-)
 
 export default enhance(MyAppBar)
