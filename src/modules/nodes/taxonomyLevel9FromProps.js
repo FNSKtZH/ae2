@@ -1,20 +1,21 @@
 // @flow
 export default (store: Object, props: Object): Array<Object> => {
+  console.log('taxonomyLevel9FromProps: props:', props)
   if (!props) return []
   if (!props.taxonomyObjectById) return []
   if (!props.taxonomyObjectById.taxonomyObjectsByParentId) return []
   if (!props.taxonomyObjectById.taxonomyObjectsByParentId.nodes) return []
 
   return props.taxonomyObjectById.taxonomyObjectsByParentId.nodes.map(
-    level8 => {
-      const childrenCount = level8.taxonomyObjectsByParentId.totalCount
+    level9 => {
+      const childrenCount = level9.taxonomyObjectsByParentId.totalCount
       const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
-      if (store.activeNodeArray[8] === level8.id) {
-        store.setActiveLevel8(level8)
+      if (store.activeNodeArray[9] === level9.id) {
+        store.setActiveLevel9(level9)
       }
 
       return {
-        id: level8.id,
+        id: level9.id,
         url: [
           store.activeDataType,
           store.activeCategory.name,
@@ -24,7 +25,8 @@ export default (store: Object, props: Object): Array<Object> => {
           store.activeLevel5.id,
           store.activeLevel6.id,
           store.activeLevel7.id,
-          level8.id,
+          store.activeLevel8.id,
+          level9.id,
         ],
         sort: [
           store.activeDataType,
@@ -35,9 +37,10 @@ export default (store: Object, props: Object): Array<Object> => {
           store.activeLevel5.name,
           store.activeLevel6.name,
           store.activeLevel7.name,
-          level8.name,
+          store.activeLevel8.name,
+          level9.name,
         ],
-        label: `${level8.name}${labelCount}`,
+        label: `${level9.name}${labelCount}`,
         childrenCount,
       }
     }
