@@ -1,35 +1,34 @@
 // @flow
 export default (store: Object, props: ?Object): Array<Object> => {
   if (!props) return []
-  if (!props.allDataTypes) return []
-  if (!props.allDataTypes.nodes) return []
+  if (!props.allPropertyCollections) return []
+  if (!props.allRelationCollections) return []
+  if (!props.allCategories) return []
+  store.setActiveDataType(store.activeNodeArray[0])
 
-  return props.allDataTypes.nodes.map(dataType => {
-    let childrenCount = 0
-    if (
-      dataType.propertyCollectionsByDataType &&
-      (dataType.propertyCollectionsByDataType.totalCount ||
-        dataType.propertyCollectionsByDataType.totalCount === 0)
-    ) {
-      childrenCount =
-        dataType.propertyCollectionsByDataType.totalCount ||
-        dataType.relationCollectionsByDataType.totalCount ||
-        dataType.categoryByDataType.totalCount
-    }
-    let labelCount = ` (${childrenCount})`
-    if (dataType.name === 'taxonomy') {
-      labelCount = ` nach Gruppen (${childrenCount} Gruppen)`
-    }
-    if (store.activeNodeArray[0] === dataType.name) {
-      store.setActiveDataType(dataType)
-    }
-
-    return {
-      id: dataType.name,
-      url: [dataType.name],
-      sort: [dataType.name],
-      label: `${dataType.nameGerman}${labelCount}`,
-      childrenCount,
-    }
-  })
+  return [
+    {
+      id: 'property_collection',
+      url: ['property_collection'],
+      sort: ['Eigenschaften-Sammlungen'],
+      label: `Eigenschaften-Sammlungen (${props.allPropertyCollections
+        .totalCount})`,
+      childrenCount: props.allPropertyCollections.totalCount,
+    },
+    {
+      id: 'relation_collection',
+      url: ['relation_collection'],
+      sort: ['Beziehungs-Sammlungen'],
+      label: `Beziehungs-Sammlungen (${props.allRelationCollections
+        .totalCount})`,
+      childrenCount: props.allRelationCollections.totalCount,
+    },
+    {
+      id: 'taxonomy',
+      url: ['taxonomy'],
+      sort: ['Taxonomien'],
+      label: `Taxonomien (${props.allCategories.totalCount} Gruppen)`,
+      childrenCount: props.allCategories.totalCount,
+    },
+  ]
 }

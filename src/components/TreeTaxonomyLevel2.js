@@ -28,11 +28,9 @@ const TreeTaxonomyLevel2 = ({
       query TreeTaxonomyLevel2Query($categoryname: String!) {
         categoryByName(name: $categoryname) {
           taxonomiesByCategory {
-            totalCount
             nodes {
               id
               name
-              isCategoryStandard
               taxonomyObjectLevel1 {
                 totalCount
               }
@@ -64,6 +62,8 @@ const TreeTaxonomyLevel2 = ({
         }
       }
       return <div>Loading</div>
+      // why does this not work?
+      // return <Tree />
     }}
   />
 

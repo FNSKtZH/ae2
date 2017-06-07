@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel2Query.graphql
- * @generated SignedSource<<8de3268e6dee9c9710eb9474966927f5>>
- * @relayHash 71c078a9fe0a62625ce0b4d621bd3d7c
+ * @generated SignedSource<<3264c201bbc3e9620365fd51378e1235>>
+ * @relayHash ad589578ce9d83aee6d9a950d69368b9
  * @flow
  * @nogrep
  */
@@ -25,11 +25,9 @@ query TreeTaxonomyLevel2Query(
 ) {
   categoryByName(name: $categoryname) {
     taxonomiesByCategory {
-      totalCount
       nodes {
         id
         name
-        isCategoryStandard
         taxonomyObjectLevel1 {
           totalCount
         }
@@ -77,13 +75,6 @@ const batch /*: ConcreteBatch*/ = {
             "plural": false,
             "selections": [
               {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
@@ -103,13 +94,6 @@ const batch /*: ConcreteBatch*/ = {
                     "alias": null,
                     "args": null,
                     "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "isCategoryStandard",
                     "storageKey": null
                   },
                   {
@@ -183,13 +167,6 @@ const batch /*: ConcreteBatch*/ = {
             "plural": false,
             "selections": [
               {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
@@ -209,13 +186,6 @@ const batch /*: ConcreteBatch*/ = {
                     "alias": null,
                     "args": null,
                     "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "isCategoryStandard",
                     "storageKey": null
                   },
                   {
@@ -247,7 +217,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel2Query(\n  $categoryname: String!\n) {\n  categoryByName(name: $categoryname) {\n    taxonomiesByCategory {\n      totalCount\n      nodes {\n        id\n        name\n        isCategoryStandard\n        taxonomyObjectLevel1 {\n          totalCount\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel2Query(\n  $categoryname: String!\n) {\n  categoryByName(name: $categoryname) {\n    taxonomiesByCategory {\n      nodes {\n        id\n        name\n        taxonomyObjectLevel1 {\n          totalCount\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

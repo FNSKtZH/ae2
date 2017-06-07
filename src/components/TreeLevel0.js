@@ -16,20 +16,14 @@ const TreeLevel0 = ({ store }: { store: Object }) =>
     environment={environment}
     query={graphql`
       query TreeLevel0Query {
-        allDataTypes {
-          nodes {
-            nameGerman
-            name
-            propertyCollectionsByDataType {
-              totalCount
-            }
-            relationCollectionsByDataType {
-              totalCount
-            }
-            categoryByDataType {
-              totalCount
-            }
-          }
+        allPropertyCollections {
+          totalCount
+        }
+        allRelationCollections {
+          totalCount
+        }
+        allCategories {
+          totalCount
         }
       }
     `}

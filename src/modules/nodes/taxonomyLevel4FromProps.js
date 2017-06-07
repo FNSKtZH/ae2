@@ -17,14 +17,14 @@ export default (store: Object, props: Object): Array<Object> => {
       return {
         id: level4.id,
         url: [
-          store.activeDataType.name,
+          store.activeDataType,
           store.activeCategory.name,
           store.activeTaxonomy.id,
           store.activeLevel3.id,
           level4.id,
         ],
         sort: [
-          store.activeDataType.name,
+          store.activeDataType,
           store.activeCategory.name,
           store.activeTaxonomy.name,
           store.activeLevel3.name,

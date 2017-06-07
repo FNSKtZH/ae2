@@ -15,9 +15,9 @@ export default (store: Object, props: Object): Array<Object> => {
 
     return {
       id: taxonomy.id,
-      url: [store.activeDataType.name, store.activeCategory.name, taxonomy.id],
+      url: [store.activeDataType, store.activeCategory.name, taxonomy.id],
       sort: [
-        store.activeDataType.name,
+        store.activeDataType,
         store.activeCategory.name,
         taxonomy.name,
       ],

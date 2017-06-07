@@ -15,13 +15,13 @@ export default (store: Object, props: Object): Array<Object> => {
     return {
       id: level3.id,
       url: [
-        store.activeDataType.name,
+        store.activeDataType,
         store.activeCategory.name,
         store.activeTaxonomy.id,
         level3.id,
       ],
       sort: [
-        store.activeDataType.name,
+        store.activeDataType,
         store.activeCategory.name,
         store.activeTaxonomy.name,
         level3.name,
