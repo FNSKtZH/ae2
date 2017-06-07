@@ -1,6 +1,5 @@
 // @flow
 export default (store: Object, props: Object): Array<Object> => {
-  console.log('taxonomyLevel6FromProps: props:', props)
   if (!props) return []
   if (!props.taxonomyObjectById) return []
   if (!props.taxonomyObjectById.taxonomyObjectsByParentId) return []

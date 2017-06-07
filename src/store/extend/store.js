@@ -28,6 +28,9 @@ export default (store: Object): void => {
     setActiveLevel6: action('setActiveLevel6', activeLevel6 => {
       store.activeLevel6 = activeLevel6
     }),
+    setActiveLevel7: action('setActiveLevel7', activeLevel7 => {
+      store.activeLevel7 = activeLevel7
+    }),
     activeNodeArray: [],
     setActiveNodeArray: action(
       'setActiveNodeArray',
