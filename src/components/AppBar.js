@@ -39,7 +39,7 @@ const enhance = compose(
     onClickColumnButtonTree: props => () =>
       props.store.ui.setColumnVisibility(
         'tree',
-        !props.store.ui.visibleColumns.tree
+        !props.store.ui.visibleColumns.tree,
       ),
     onClickColumnButtonData: props => () => {
       const pathIsMain = [
@@ -52,7 +52,7 @@ const enhance = compose(
         props.store.ui.setColumnVisibility('main', true)
       }
       if (!pathIsMain) {
-        props.history.push('/Taxonomien')
+        props.store.history.push('/Taxonomien')
       } else {
         props.store.ui.setColumnVisibility('main')
       }
@@ -71,7 +71,7 @@ const enhance = compose(
     ueberArteigenschaftenOnClick: props => () =>
       window.open('https://github.com/barbalex/ae2'),
   }),
-  observer
+  observer,
 )
 
 const MyAppBar = ({

@@ -1,13 +1,18 @@
 // @flow
 import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
+import { observer, inject } from 'mobx-react'
+import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
 
-const Taxonomy = () => (
-  <QueryRenderer
-    environment={environment}
-    query={graphql`
+const enhance = compose(inject('store'), observer)
+
+const Taxonomy = ({ store }: { store: Object }) => {
+  return (
+    <QueryRenderer
+      environment={environment}
+      query={graphql`
         query TaxonomyQuery {
           allCategories {
             nodes {
@@ -16,8 +21,9 @@ const Taxonomy = () => (
           }
         }
       `}
-    render={({ error, props }) => <div>Taxonomy</div>}
-  />
-)
+      render={({ error, props }) => <div>Taxonomy</div>}
+    />
+  )
+}
 
-export default Taxonomy
+export default enhance(Taxonomy)
