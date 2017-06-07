@@ -8,7 +8,8 @@ export default (store: Object, props: ?Object): Array<Object> => {
     let childrenCount = 0
     if (
       dataType.propertyCollectionsByDataType &&
-      dataType.propertyCollectionsByDataType.totalCount
+      (dataType.propertyCollectionsByDataType.totalCount ||
+        dataType.propertyCollectionsByDataType.totalCount === 0)
     ) {
       childrenCount =
         dataType.propertyCollectionsByDataType.totalCount ||
