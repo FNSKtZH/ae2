@@ -76,7 +76,7 @@ const Row = ({
     symbolIcon = 'expand_more'
   } else if (node.childrenCount) {
     symbolIcon = 'chevron_right'
-  } else if (node.label === 'lade Daten...') {
+  } else if (node.label === 'lade Daten') {
     symbolIcon = 'more_horiz'
   } else {
     useSymbolSpan = true

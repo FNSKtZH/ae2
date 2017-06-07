@@ -45,11 +45,13 @@ const TreeTaxonomyLevel2 = ({
         return <div>{error.message}</div>
       } else if (props) {
         if (store.activeNodeArray.length === 2) {
-          store.setNodes([
+          console.log('TreeTaxonomyLevel2, returning all nodes')
+          const nodes = [
             ...level0FromProps(store, level0Props),
             ...taxonomyLevel1FromProps(store, level1Props),
             ...taxonomyLevel2FromProps(store, props),
-          ])
+          ]
+          store.setNodes(nodes)
           return <Tree nodes={store.nodes} />
         } else if (store.activeNodeArray.length > 2) {
           return (
@@ -61,9 +63,20 @@ const TreeTaxonomyLevel2 = ({
           )
         }
       }
-      return <div>Loading</div>
-      // why does this not work?
-      // return <Tree nodes={store.nodes} />
+      console.log('TreeTaxonomyLevel2, returning loading node')
+      const level0Nodes = level0FromProps(store, level0Props)
+      const level1Nodes = taxonomyLevel1FromProps(store, level1Props)
+      const loadingLevel2Node = {
+        id: 'level2Loading',
+        url: [store.activeDataType, store.activeCategory.name, 'level2Loading'],
+        sort: [store.activeDataType, store.activeCategory.name, 'aaa'],
+        label: 'lade Daten',
+        childrenCount: 0,
+      }
+      store.setActiveTaxonomy(loadingLevel2Node)
+      const nodes = [...level0Nodes, ...level1Nodes, loadingLevel2Node]
+      store.setNodes(nodes)
+      return <Tree nodes={store.nodes} />
     }}
   />
 
