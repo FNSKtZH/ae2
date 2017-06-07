@@ -14,6 +14,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
+const Column = styled.div`
+  padding: 5px;
+  height: 100%;
+`
 
 const enhance = compose(inject('store'), observer)
 
@@ -32,12 +36,12 @@ class App extends Component {
         <AppBar />
         <ReflexContainer orientation="vertical">
           {store.ui.visibleColumns.tree &&
-            <ReflexElement><TreeLevel0 /></ReflexElement>}
+            <ReflexElement><Column><TreeLevel0 /></Column></ReflexElement>}
           {store.ui.visibleColumns.tree &&
             store.ui.visibleColumns.main &&
             <ReflexSplitter key="treeSplitter" />}
           {store.ui.visibleColumns.main &&
-            <ReflexElement><Main /></ReflexElement>}
+            <ReflexElement><Column><Main /></Column></ReflexElement>}
         </ReflexContainer>
       </Container>
     )
