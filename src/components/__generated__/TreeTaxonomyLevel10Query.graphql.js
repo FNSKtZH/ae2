@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeTaxonomyLevel10Query.graphql
- * @generated SignedSource<<4f7579f8db43337e400bfb84d8bbf6f6>>
- * @relayHash 4674dbda6823e5321993f6b70eaa12d6
+ * @generated SignedSource<<76850f75f436fbdc20c55d63ffca097b>>
+ * @relayHash c908457ef934f6f8452e5b35e9d6724e
  * @flow
  * @nogrep
  */
@@ -21,93 +21,16 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 /*
 query TreeTaxonomyLevel10Query(
-  $level1: Uuid
+  $level10: Uuid!
 ) {
-  allDataTypes {
-    nodes {
-      name
-      propertyCollectionsByDataType {
-        totalCount
-      }
-      relationCollectionsByDataType {
-        totalCount
-      }
-      categoriesByDataType {
-        totalCount
-        nodes {
-          id
-          name
-          taxonomyByCategory {
-            totalCount
-            nodes {
-              id
-              name
-              isCategoryStandard
-              taxonomyObjectLevel1(taxonomyId: $level1) {
-                totalCount
-                nodes {
-                  id
-                  name
-                  taxonomyObjectsByParentId {
-                    totalCount
-                    nodes {
-                      id
-                      name
-                      taxonomyObjectsByParentId {
-                        totalCount
-                        nodes {
-                          id
-                          name
-                          taxonomyObjectsByParentId {
-                            totalCount
-                            nodes {
-                              id
-                              name
-                              taxonomyObjectsByParentId {
-                                totalCount
-                                nodes {
-                                  id
-                                  name
-                                  taxonomyObjectsByParentId {
-                                    totalCount
-                                    nodes {
-                                      id
-                                      name
-                                      taxonomyObjectsByParentId {
-                                        totalCount
-                                        nodes {
-                                          id
-                                          name
-                                          taxonomyObjectsByParentId {
-                                            totalCount
-                                            nodes {
-                                              id
-                                              name
-                                              taxonomyObjectsByParentId {
-                                                totalCount
-                                                nodes {
-                                                  id
-                                                  name
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+  taxonomyObjectById(id: $level10) {
+    taxonomyObjectsByParentId {
+      totalCount
+      nodes {
+        id
+        name
+        taxonomyObjectsByParentId {
+          totalCount
         }
       }
     }
@@ -120,8 +43,8 @@ const batch /*: ConcreteBatch*/ = {
     "argumentDefinitions": [
       {
         "kind": "LocalArgument",
-        "name": "level1",
-        "type": "Uuid",
+        "name": "level10",
+        "type": "Uuid!",
         "defaultValue": null
       }
     ],
@@ -132,541 +55,68 @@ const batch /*: ConcreteBatch*/ = {
       {
         "kind": "LinkedField",
         "alias": null,
-        "args": null,
-        "concreteType": "DataTypesConnection",
-        "name": "allDataTypes",
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "id",
+            "variableName": "level10",
+            "type": "Uuid!"
+          }
+        ],
+        "concreteType": "TaxonomyObject",
+        "name": "taxonomyObjectById",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "DataType",
-            "name": "nodes",
-            "plural": true,
+            "concreteType": "TaxonomyObjectsConnection",
+            "name": "taxonomyObjectsByParentId",
+            "plural": false,
             "selections": [
               {
                 "kind": "ScalarField",
                 "alias": null,
                 "args": null,
-                "name": "name",
+                "name": "totalCount",
                 "storageKey": null
               },
               {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "PropertyCollectionsConnection",
-                "name": "propertyCollectionsByDataType",
-                "plural": false,
+                "concreteType": "TaxonomyObject",
+                "name": "nodes",
+                "plural": true,
                 "selections": [
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
+                    "name": "id",
                     "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "RelationCollectionsConnection",
-                "name": "relationCollectionsByDataType",
-                "plural": false,
-                "selections": [
+                  },
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "CategoriesConnection",
-                "name": "categoriesByDataType",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
+                    "name": "name",
                     "storageKey": null
                   },
                   {
                     "kind": "LinkedField",
                     "alias": null,
                     "args": null,
-                    "concreteType": "Category",
-                    "name": "nodes",
-                    "plural": true,
+                    "concreteType": "TaxonomyObjectsConnection",
+                    "name": "taxonomyObjectsByParentId",
+                    "plural": false,
                     "selections": [
                       {
                         "kind": "ScalarField",
                         "alias": null,
                         "args": null,
-                        "name": "id",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "name",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "LinkedField",
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "CategoryTaxonomyByCategoryConnection",
-                        "name": "taxonomyByCategory",
-                        "plural": false,
-                        "selections": [
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "args": null,
-                            "name": "totalCount",
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "LinkedField",
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Taxonomy",
-                            "name": "nodes",
-                            "plural": true,
-                            "selections": [
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "id",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "name",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "isCategoryStandard",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "LinkedField",
-                                "alias": null,
-                                "args": [
-                                  {
-                                    "kind": "Variable",
-                                    "name": "taxonomyId",
-                                    "variableName": "level1",
-                                    "type": "Uuid"
-                                  }
-                                ],
-                                "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-                                "name": "taxonomyObjectLevel1",
-                                "plural": false,
-                                "selections": [
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "args": null,
-                                    "name": "totalCount",
-                                    "storageKey": null
-                                  },
-                                  {
-                                    "kind": "LinkedField",
-                                    "alias": null,
-                                    "args": null,
-                                    "concreteType": "TaxonomyObject",
-                                    "name": "nodes",
-                                    "plural": true,
-                                    "selections": [
-                                      {
-                                        "kind": "ScalarField",
-                                        "alias": null,
-                                        "args": null,
-                                        "name": "id",
-                                        "storageKey": null
-                                      },
-                                      {
-                                        "kind": "ScalarField",
-                                        "alias": null,
-                                        "args": null,
-                                        "name": "name",
-                                        "storageKey": null
-                                      },
-                                      {
-                                        "kind": "LinkedField",
-                                        "alias": null,
-                                        "args": null,
-                                        "concreteType": "TaxonomyObjectsConnection",
-                                        "name": "taxonomyObjectsByParentId",
-                                        "plural": false,
-                                        "selections": [
-                                          {
-                                            "kind": "ScalarField",
-                                            "alias": null,
-                                            "args": null,
-                                            "name": "totalCount",
-                                            "storageKey": null
-                                          },
-                                          {
-                                            "kind": "LinkedField",
-                                            "alias": null,
-                                            "args": null,
-                                            "concreteType": "TaxonomyObject",
-                                            "name": "nodes",
-                                            "plural": true,
-                                            "selections": [
-                                              {
-                                                "kind": "ScalarField",
-                                                "alias": null,
-                                                "args": null,
-                                                "name": "id",
-                                                "storageKey": null
-                                              },
-                                              {
-                                                "kind": "ScalarField",
-                                                "alias": null,
-                                                "args": null,
-                                                "name": "name",
-                                                "storageKey": null
-                                              },
-                                              {
-                                                "kind": "LinkedField",
-                                                "alias": null,
-                                                "args": null,
-                                                "concreteType": "TaxonomyObjectsConnection",
-                                                "name": "taxonomyObjectsByParentId",
-                                                "plural": false,
-                                                "selections": [
-                                                  {
-                                                    "kind": "ScalarField",
-                                                    "alias": null,
-                                                    "args": null,
-                                                    "name": "totalCount",
-                                                    "storageKey": null
-                                                  },
-                                                  {
-                                                    "kind": "LinkedField",
-                                                    "alias": null,
-                                                    "args": null,
-                                                    "concreteType": "TaxonomyObject",
-                                                    "name": "nodes",
-                                                    "plural": true,
-                                                    "selections": [
-                                                      {
-                                                        "kind": "ScalarField",
-                                                        "alias": null,
-                                                        "args": null,
-                                                        "name": "id",
-                                                        "storageKey": null
-                                                      },
-                                                      {
-                                                        "kind": "ScalarField",
-                                                        "alias": null,
-                                                        "args": null,
-                                                        "name": "name",
-                                                        "storageKey": null
-                                                      },
-                                                      {
-                                                        "kind": "LinkedField",
-                                                        "alias": null,
-                                                        "args": null,
-                                                        "concreteType": "TaxonomyObjectsConnection",
-                                                        "name": "taxonomyObjectsByParentId",
-                                                        "plural": false,
-                                                        "selections": [
-                                                          {
-                                                            "kind": "ScalarField",
-                                                            "alias": null,
-                                                            "args": null,
-                                                            "name": "totalCount",
-                                                            "storageKey": null
-                                                          },
-                                                          {
-                                                            "kind": "LinkedField",
-                                                            "alias": null,
-                                                            "args": null,
-                                                            "concreteType": "TaxonomyObject",
-                                                            "name": "nodes",
-                                                            "plural": true,
-                                                            "selections": [
-                                                              {
-                                                                "kind": "ScalarField",
-                                                                "alias": null,
-                                                                "args": null,
-                                                                "name": "id",
-                                                                "storageKey": null
-                                                              },
-                                                              {
-                                                                "kind": "ScalarField",
-                                                                "alias": null,
-                                                                "args": null,
-                                                                "name": "name",
-                                                                "storageKey": null
-                                                              },
-                                                              {
-                                                                "kind": "LinkedField",
-                                                                "alias": null,
-                                                                "args": null,
-                                                                "concreteType": "TaxonomyObjectsConnection",
-                                                                "name": "taxonomyObjectsByParentId",
-                                                                "plural": false,
-                                                                "selections": [
-                                                                  {
-                                                                    "kind": "ScalarField",
-                                                                    "alias": null,
-                                                                    "args": null,
-                                                                    "name": "totalCount",
-                                                                    "storageKey": null
-                                                                  },
-                                                                  {
-                                                                    "kind": "LinkedField",
-                                                                    "alias": null,
-                                                                    "args": null,
-                                                                    "concreteType": "TaxonomyObject",
-                                                                    "name": "nodes",
-                                                                    "plural": true,
-                                                                    "selections": [
-                                                                      {
-                                                                        "kind": "ScalarField",
-                                                                        "alias": null,
-                                                                        "args": null,
-                                                                        "name": "id",
-                                                                        "storageKey": null
-                                                                      },
-                                                                      {
-                                                                        "kind": "ScalarField",
-                                                                        "alias": null,
-                                                                        "args": null,
-                                                                        "name": "name",
-                                                                        "storageKey": null
-                                                                      },
-                                                                      {
-                                                                        "kind": "LinkedField",
-                                                                        "alias": null,
-                                                                        "args": null,
-                                                                        "concreteType": "TaxonomyObjectsConnection",
-                                                                        "name": "taxonomyObjectsByParentId",
-                                                                        "plural": false,
-                                                                        "selections": [
-                                                                          {
-                                                                            "kind": "ScalarField",
-                                                                            "alias": null,
-                                                                            "args": null,
-                                                                            "name": "totalCount",
-                                                                            "storageKey": null
-                                                                          },
-                                                                          {
-                                                                            "kind": "LinkedField",
-                                                                            "alias": null,
-                                                                            "args": null,
-                                                                            "concreteType": "TaxonomyObject",
-                                                                            "name": "nodes",
-                                                                            "plural": true,
-                                                                            "selections": [
-                                                                              {
-                                                                                "kind": "ScalarField",
-                                                                                "alias": null,
-                                                                                "args": null,
-                                                                                "name": "id",
-                                                                                "storageKey": null
-                                                                              },
-                                                                              {
-                                                                                "kind": "ScalarField",
-                                                                                "alias": null,
-                                                                                "args": null,
-                                                                                "name": "name",
-                                                                                "storageKey": null
-                                                                              },
-                                                                              {
-                                                                                "kind": "LinkedField",
-                                                                                "alias": null,
-                                                                                "args": null,
-                                                                                "concreteType": "TaxonomyObjectsConnection",
-                                                                                "name": "taxonomyObjectsByParentId",
-                                                                                "plural": false,
-                                                                                "selections": [
-                                                                                  {
-                                                                                    "kind": "ScalarField",
-                                                                                    "alias": null,
-                                                                                    "args": null,
-                                                                                    "name": "totalCount",
-                                                                                    "storageKey": null
-                                                                                  },
-                                                                                  {
-                                                                                    "kind": "LinkedField",
-                                                                                    "alias": null,
-                                                                                    "args": null,
-                                                                                    "concreteType": "TaxonomyObject",
-                                                                                    "name": "nodes",
-                                                                                    "plural": true,
-                                                                                    "selections": [
-                                                                                      {
-                                                                                        "kind": "ScalarField",
-                                                                                        "alias": null,
-                                                                                        "args": null,
-                                                                                        "name": "id",
-                                                                                        "storageKey": null
-                                                                                      },
-                                                                                      {
-                                                                                        "kind": "ScalarField",
-                                                                                        "alias": null,
-                                                                                        "args": null,
-                                                                                        "name": "name",
-                                                                                        "storageKey": null
-                                                                                      },
-                                                                                      {
-                                                                                        "kind": "LinkedField",
-                                                                                        "alias": null,
-                                                                                        "args": null,
-                                                                                        "concreteType": "TaxonomyObjectsConnection",
-                                                                                        "name": "taxonomyObjectsByParentId",
-                                                                                        "plural": false,
-                                                                                        "selections": [
-                                                                                          {
-                                                                                            "kind": "ScalarField",
-                                                                                            "alias": null,
-                                                                                            "args": null,
-                                                                                            "name": "totalCount",
-                                                                                            "storageKey": null
-                                                                                          },
-                                                                                          {
-                                                                                            "kind": "LinkedField",
-                                                                                            "alias": null,
-                                                                                            "args": null,
-                                                                                            "concreteType": "TaxonomyObject",
-                                                                                            "name": "nodes",
-                                                                                            "plural": true,
-                                                                                            "selections": [
-                                                                                              {
-                                                                                                "kind": "ScalarField",
-                                                                                                "alias": null,
-                                                                                                "args": null,
-                                                                                                "name": "id",
-                                                                                                "storageKey": null
-                                                                                              },
-                                                                                              {
-                                                                                                "kind": "ScalarField",
-                                                                                                "alias": null,
-                                                                                                "args": null,
-                                                                                                "name": "name",
-                                                                                                "storageKey": null
-                                                                                              },
-                                                                                              {
-                                                                                                "kind": "LinkedField",
-                                                                                                "alias": null,
-                                                                                                "args": null,
-                                                                                                "concreteType": "TaxonomyObjectsConnection",
-                                                                                                "name": "taxonomyObjectsByParentId",
-                                                                                                "plural": false,
-                                                                                                "selections": [
-                                                                                                  {
-                                                                                                    "kind": "ScalarField",
-                                                                                                    "alias": null,
-                                                                                                    "args": null,
-                                                                                                    "name": "totalCount",
-                                                                                                    "storageKey": null
-                                                                                                  },
-                                                                                                  {
-                                                                                                    "kind": "LinkedField",
-                                                                                                    "alias": null,
-                                                                                                    "args": null,
-                                                                                                    "concreteType": "TaxonomyObject",
-                                                                                                    "name": "nodes",
-                                                                                                    "plural": true,
-                                                                                                    "selections": [
-                                                                                                      {
-                                                                                                        "kind": "ScalarField",
-                                                                                                        "alias": null,
-                                                                                                        "args": null,
-                                                                                                        "name": "id",
-                                                                                                        "storageKey": null
-                                                                                                      },
-                                                                                                      {
-                                                                                                        "kind": "ScalarField",
-                                                                                                        "alias": null,
-                                                                                                        "args": null,
-                                                                                                        "name": "name",
-                                                                                                        "storageKey": null
-                                                                                                      }
-                                                                                                    ],
-                                                                                                    "storageKey": null
-                                                                                                  }
-                                                                                                ],
-                                                                                                "storageKey": null
-                                                                                              }
-                                                                                            ],
-                                                                                            "storageKey": null
-                                                                                          }
-                                                                                        ],
-                                                                                        "storageKey": null
-                                                                                      }
-                                                                                    ],
-                                                                                    "storageKey": null
-                                                                                  }
-                                                                                ],
-                                                                                "storageKey": null
-                                                                              }
-                                                                            ],
-                                                                            "storageKey": null
-                                                                          }
-                                                                        ],
-                                                                        "storageKey": null
-                                                                      }
-                                                                    ],
-                                                                    "storageKey": null
-                                                                  }
-                                                                ],
-                                                                "storageKey": null
-                                                              }
-                                                            ],
-                                                            "storageKey": null
-                                                          }
-                                                        ],
-                                                        "storageKey": null
-                                                      }
-                                                    ],
-                                                    "storageKey": null
-                                                  }
-                                                ],
-                                                "storageKey": null
-                                              }
-                                            ],
-                                            "storageKey": null
-                                          }
-                                        ],
-                                        "storageKey": null
-                                      }
-                                    ],
-                                    "storageKey": null
-                                  }
-                                ],
-                                "storageKey": null
-                              }
-                            ],
-                            "storageKey": null
-                          }
-                        ],
+                        "name": "totalCount",
                         "storageKey": null
                       }
                     ],
@@ -692,8 +142,8 @@ const batch /*: ConcreteBatch*/ = {
     "argumentDefinitions": [
       {
         "kind": "LocalArgument",
-        "name": "level1",
-        "type": "Uuid",
+        "name": "level10",
+        "type": "Uuid!",
         "defaultValue": null
       }
     ],
@@ -704,541 +154,68 @@ const batch /*: ConcreteBatch*/ = {
       {
         "kind": "LinkedField",
         "alias": null,
-        "args": null,
-        "concreteType": "DataTypesConnection",
-        "name": "allDataTypes",
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "id",
+            "variableName": "level10",
+            "type": "Uuid!"
+          }
+        ],
+        "concreteType": "TaxonomyObject",
+        "name": "taxonomyObjectById",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "DataType",
-            "name": "nodes",
-            "plural": true,
+            "concreteType": "TaxonomyObjectsConnection",
+            "name": "taxonomyObjectsByParentId",
+            "plural": false,
             "selections": [
               {
                 "kind": "ScalarField",
                 "alias": null,
                 "args": null,
-                "name": "name",
+                "name": "totalCount",
                 "storageKey": null
               },
               {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "PropertyCollectionsConnection",
-                "name": "propertyCollectionsByDataType",
-                "plural": false,
+                "concreteType": "TaxonomyObject",
+                "name": "nodes",
+                "plural": true,
                 "selections": [
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
+                    "name": "id",
                     "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "RelationCollectionsConnection",
-                "name": "relationCollectionsByDataType",
-                "plural": false,
-                "selections": [
+                  },
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "totalCount",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "CategoriesConnection",
-                "name": "categoriesByDataType",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
+                    "name": "name",
                     "storageKey": null
                   },
                   {
                     "kind": "LinkedField",
                     "alias": null,
                     "args": null,
-                    "concreteType": "Category",
-                    "name": "nodes",
-                    "plural": true,
+                    "concreteType": "TaxonomyObjectsConnection",
+                    "name": "taxonomyObjectsByParentId",
+                    "plural": false,
                     "selections": [
                       {
                         "kind": "ScalarField",
                         "alias": null,
                         "args": null,
-                        "name": "id",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "name",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "LinkedField",
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "CategoryTaxonomyByCategoryConnection",
-                        "name": "taxonomyByCategory",
-                        "plural": false,
-                        "selections": [
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "args": null,
-                            "name": "totalCount",
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "LinkedField",
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Taxonomy",
-                            "name": "nodes",
-                            "plural": true,
-                            "selections": [
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "id",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "name",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
-                                "name": "isCategoryStandard",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "LinkedField",
-                                "alias": null,
-                                "args": [
-                                  {
-                                    "kind": "Variable",
-                                    "name": "taxonomyId",
-                                    "variableName": "level1",
-                                    "type": "Uuid"
-                                  }
-                                ],
-                                "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-                                "name": "taxonomyObjectLevel1",
-                                "plural": false,
-                                "selections": [
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "args": null,
-                                    "name": "totalCount",
-                                    "storageKey": null
-                                  },
-                                  {
-                                    "kind": "LinkedField",
-                                    "alias": null,
-                                    "args": null,
-                                    "concreteType": "TaxonomyObject",
-                                    "name": "nodes",
-                                    "plural": true,
-                                    "selections": [
-                                      {
-                                        "kind": "ScalarField",
-                                        "alias": null,
-                                        "args": null,
-                                        "name": "id",
-                                        "storageKey": null
-                                      },
-                                      {
-                                        "kind": "ScalarField",
-                                        "alias": null,
-                                        "args": null,
-                                        "name": "name",
-                                        "storageKey": null
-                                      },
-                                      {
-                                        "kind": "LinkedField",
-                                        "alias": null,
-                                        "args": null,
-                                        "concreteType": "TaxonomyObjectsConnection",
-                                        "name": "taxonomyObjectsByParentId",
-                                        "plural": false,
-                                        "selections": [
-                                          {
-                                            "kind": "ScalarField",
-                                            "alias": null,
-                                            "args": null,
-                                            "name": "totalCount",
-                                            "storageKey": null
-                                          },
-                                          {
-                                            "kind": "LinkedField",
-                                            "alias": null,
-                                            "args": null,
-                                            "concreteType": "TaxonomyObject",
-                                            "name": "nodes",
-                                            "plural": true,
-                                            "selections": [
-                                              {
-                                                "kind": "ScalarField",
-                                                "alias": null,
-                                                "args": null,
-                                                "name": "id",
-                                                "storageKey": null
-                                              },
-                                              {
-                                                "kind": "ScalarField",
-                                                "alias": null,
-                                                "args": null,
-                                                "name": "name",
-                                                "storageKey": null
-                                              },
-                                              {
-                                                "kind": "LinkedField",
-                                                "alias": null,
-                                                "args": null,
-                                                "concreteType": "TaxonomyObjectsConnection",
-                                                "name": "taxonomyObjectsByParentId",
-                                                "plural": false,
-                                                "selections": [
-                                                  {
-                                                    "kind": "ScalarField",
-                                                    "alias": null,
-                                                    "args": null,
-                                                    "name": "totalCount",
-                                                    "storageKey": null
-                                                  },
-                                                  {
-                                                    "kind": "LinkedField",
-                                                    "alias": null,
-                                                    "args": null,
-                                                    "concreteType": "TaxonomyObject",
-                                                    "name": "nodes",
-                                                    "plural": true,
-                                                    "selections": [
-                                                      {
-                                                        "kind": "ScalarField",
-                                                        "alias": null,
-                                                        "args": null,
-                                                        "name": "id",
-                                                        "storageKey": null
-                                                      },
-                                                      {
-                                                        "kind": "ScalarField",
-                                                        "alias": null,
-                                                        "args": null,
-                                                        "name": "name",
-                                                        "storageKey": null
-                                                      },
-                                                      {
-                                                        "kind": "LinkedField",
-                                                        "alias": null,
-                                                        "args": null,
-                                                        "concreteType": "TaxonomyObjectsConnection",
-                                                        "name": "taxonomyObjectsByParentId",
-                                                        "plural": false,
-                                                        "selections": [
-                                                          {
-                                                            "kind": "ScalarField",
-                                                            "alias": null,
-                                                            "args": null,
-                                                            "name": "totalCount",
-                                                            "storageKey": null
-                                                          },
-                                                          {
-                                                            "kind": "LinkedField",
-                                                            "alias": null,
-                                                            "args": null,
-                                                            "concreteType": "TaxonomyObject",
-                                                            "name": "nodes",
-                                                            "plural": true,
-                                                            "selections": [
-                                                              {
-                                                                "kind": "ScalarField",
-                                                                "alias": null,
-                                                                "args": null,
-                                                                "name": "id",
-                                                                "storageKey": null
-                                                              },
-                                                              {
-                                                                "kind": "ScalarField",
-                                                                "alias": null,
-                                                                "args": null,
-                                                                "name": "name",
-                                                                "storageKey": null
-                                                              },
-                                                              {
-                                                                "kind": "LinkedField",
-                                                                "alias": null,
-                                                                "args": null,
-                                                                "concreteType": "TaxonomyObjectsConnection",
-                                                                "name": "taxonomyObjectsByParentId",
-                                                                "plural": false,
-                                                                "selections": [
-                                                                  {
-                                                                    "kind": "ScalarField",
-                                                                    "alias": null,
-                                                                    "args": null,
-                                                                    "name": "totalCount",
-                                                                    "storageKey": null
-                                                                  },
-                                                                  {
-                                                                    "kind": "LinkedField",
-                                                                    "alias": null,
-                                                                    "args": null,
-                                                                    "concreteType": "TaxonomyObject",
-                                                                    "name": "nodes",
-                                                                    "plural": true,
-                                                                    "selections": [
-                                                                      {
-                                                                        "kind": "ScalarField",
-                                                                        "alias": null,
-                                                                        "args": null,
-                                                                        "name": "id",
-                                                                        "storageKey": null
-                                                                      },
-                                                                      {
-                                                                        "kind": "ScalarField",
-                                                                        "alias": null,
-                                                                        "args": null,
-                                                                        "name": "name",
-                                                                        "storageKey": null
-                                                                      },
-                                                                      {
-                                                                        "kind": "LinkedField",
-                                                                        "alias": null,
-                                                                        "args": null,
-                                                                        "concreteType": "TaxonomyObjectsConnection",
-                                                                        "name": "taxonomyObjectsByParentId",
-                                                                        "plural": false,
-                                                                        "selections": [
-                                                                          {
-                                                                            "kind": "ScalarField",
-                                                                            "alias": null,
-                                                                            "args": null,
-                                                                            "name": "totalCount",
-                                                                            "storageKey": null
-                                                                          },
-                                                                          {
-                                                                            "kind": "LinkedField",
-                                                                            "alias": null,
-                                                                            "args": null,
-                                                                            "concreteType": "TaxonomyObject",
-                                                                            "name": "nodes",
-                                                                            "plural": true,
-                                                                            "selections": [
-                                                                              {
-                                                                                "kind": "ScalarField",
-                                                                                "alias": null,
-                                                                                "args": null,
-                                                                                "name": "id",
-                                                                                "storageKey": null
-                                                                              },
-                                                                              {
-                                                                                "kind": "ScalarField",
-                                                                                "alias": null,
-                                                                                "args": null,
-                                                                                "name": "name",
-                                                                                "storageKey": null
-                                                                              },
-                                                                              {
-                                                                                "kind": "LinkedField",
-                                                                                "alias": null,
-                                                                                "args": null,
-                                                                                "concreteType": "TaxonomyObjectsConnection",
-                                                                                "name": "taxonomyObjectsByParentId",
-                                                                                "plural": false,
-                                                                                "selections": [
-                                                                                  {
-                                                                                    "kind": "ScalarField",
-                                                                                    "alias": null,
-                                                                                    "args": null,
-                                                                                    "name": "totalCount",
-                                                                                    "storageKey": null
-                                                                                  },
-                                                                                  {
-                                                                                    "kind": "LinkedField",
-                                                                                    "alias": null,
-                                                                                    "args": null,
-                                                                                    "concreteType": "TaxonomyObject",
-                                                                                    "name": "nodes",
-                                                                                    "plural": true,
-                                                                                    "selections": [
-                                                                                      {
-                                                                                        "kind": "ScalarField",
-                                                                                        "alias": null,
-                                                                                        "args": null,
-                                                                                        "name": "id",
-                                                                                        "storageKey": null
-                                                                                      },
-                                                                                      {
-                                                                                        "kind": "ScalarField",
-                                                                                        "alias": null,
-                                                                                        "args": null,
-                                                                                        "name": "name",
-                                                                                        "storageKey": null
-                                                                                      },
-                                                                                      {
-                                                                                        "kind": "LinkedField",
-                                                                                        "alias": null,
-                                                                                        "args": null,
-                                                                                        "concreteType": "TaxonomyObjectsConnection",
-                                                                                        "name": "taxonomyObjectsByParentId",
-                                                                                        "plural": false,
-                                                                                        "selections": [
-                                                                                          {
-                                                                                            "kind": "ScalarField",
-                                                                                            "alias": null,
-                                                                                            "args": null,
-                                                                                            "name": "totalCount",
-                                                                                            "storageKey": null
-                                                                                          },
-                                                                                          {
-                                                                                            "kind": "LinkedField",
-                                                                                            "alias": null,
-                                                                                            "args": null,
-                                                                                            "concreteType": "TaxonomyObject",
-                                                                                            "name": "nodes",
-                                                                                            "plural": true,
-                                                                                            "selections": [
-                                                                                              {
-                                                                                                "kind": "ScalarField",
-                                                                                                "alias": null,
-                                                                                                "args": null,
-                                                                                                "name": "id",
-                                                                                                "storageKey": null
-                                                                                              },
-                                                                                              {
-                                                                                                "kind": "ScalarField",
-                                                                                                "alias": null,
-                                                                                                "args": null,
-                                                                                                "name": "name",
-                                                                                                "storageKey": null
-                                                                                              },
-                                                                                              {
-                                                                                                "kind": "LinkedField",
-                                                                                                "alias": null,
-                                                                                                "args": null,
-                                                                                                "concreteType": "TaxonomyObjectsConnection",
-                                                                                                "name": "taxonomyObjectsByParentId",
-                                                                                                "plural": false,
-                                                                                                "selections": [
-                                                                                                  {
-                                                                                                    "kind": "ScalarField",
-                                                                                                    "alias": null,
-                                                                                                    "args": null,
-                                                                                                    "name": "totalCount",
-                                                                                                    "storageKey": null
-                                                                                                  },
-                                                                                                  {
-                                                                                                    "kind": "LinkedField",
-                                                                                                    "alias": null,
-                                                                                                    "args": null,
-                                                                                                    "concreteType": "TaxonomyObject",
-                                                                                                    "name": "nodes",
-                                                                                                    "plural": true,
-                                                                                                    "selections": [
-                                                                                                      {
-                                                                                                        "kind": "ScalarField",
-                                                                                                        "alias": null,
-                                                                                                        "args": null,
-                                                                                                        "name": "id",
-                                                                                                        "storageKey": null
-                                                                                                      },
-                                                                                                      {
-                                                                                                        "kind": "ScalarField",
-                                                                                                        "alias": null,
-                                                                                                        "args": null,
-                                                                                                        "name": "name",
-                                                                                                        "storageKey": null
-                                                                                                      }
-                                                                                                    ],
-                                                                                                    "storageKey": null
-                                                                                                  }
-                                                                                                ],
-                                                                                                "storageKey": null
-                                                                                              }
-                                                                                            ],
-                                                                                            "storageKey": null
-                                                                                          }
-                                                                                        ],
-                                                                                        "storageKey": null
-                                                                                      }
-                                                                                    ],
-                                                                                    "storageKey": null
-                                                                                  }
-                                                                                ],
-                                                                                "storageKey": null
-                                                                              }
-                                                                            ],
-                                                                            "storageKey": null
-                                                                          }
-                                                                        ],
-                                                                        "storageKey": null
-                                                                      }
-                                                                    ],
-                                                                    "storageKey": null
-                                                                  }
-                                                                ],
-                                                                "storageKey": null
-                                                              }
-                                                            ],
-                                                            "storageKey": null
-                                                          }
-                                                        ],
-                                                        "storageKey": null
-                                                      }
-                                                    ],
-                                                    "storageKey": null
-                                                  }
-                                                ],
-                                                "storageKey": null
-                                              }
-                                            ],
-                                            "storageKey": null
-                                          }
-                                        ],
-                                        "storageKey": null
-                                      }
-                                    ],
-                                    "storageKey": null
-                                  }
-                                ],
-                                "storageKey": null
-                              }
-                            ],
-                            "storageKey": null
-                          }
-                        ],
+                        "name": "totalCount",
                         "storageKey": null
                       }
                     ],
@@ -1255,7 +232,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query TreeTaxonomyLevel10Query(\n  $level1: Uuid\n) {\n  allDataTypes {\n    nodes {\n      name\n      propertyCollectionsByDataType {\n        totalCount\n      }\n      relationCollectionsByDataType {\n        totalCount\n      }\n      categoriesByDataType {\n        totalCount\n        nodes {\n          id\n          name\n          taxonomyByCategory {\n            totalCount\n            nodes {\n              id\n              name\n              isCategoryStandard\n              taxonomyObjectLevel1(taxonomyId: $level1) {\n                totalCount\n                nodes {\n                  id\n                  name\n                  taxonomyObjectsByParentId {\n                    totalCount\n                    nodes {\n                      id\n                      name\n                      taxonomyObjectsByParentId {\n                        totalCount\n                        nodes {\n                          id\n                          name\n                          taxonomyObjectsByParentId {\n                            totalCount\n                            nodes {\n                              id\n                              name\n                              taxonomyObjectsByParentId {\n                                totalCount\n                                nodes {\n                                  id\n                                  name\n                                  taxonomyObjectsByParentId {\n                                    totalCount\n                                    nodes {\n                                      id\n                                      name\n                                      taxonomyObjectsByParentId {\n                                        totalCount\n                                        nodes {\n                                          id\n                                          name\n                                          taxonomyObjectsByParentId {\n                                            totalCount\n                                            nodes {\n                                              id\n                                              name\n                                              taxonomyObjectsByParentId {\n                                                totalCount\n                                                nodes {\n                                                  id\n                                                  name\n                                                }\n                                              }\n                                            }\n                                          }\n                                        }\n                                      }\n                                    }\n                                  }\n                                }\n                              }\n                            }\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query TreeTaxonomyLevel10Query(\n  $level10: Uuid!\n) {\n  taxonomyObjectById(id: $level10) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;
