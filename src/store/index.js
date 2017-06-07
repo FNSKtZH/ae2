@@ -11,6 +11,7 @@ function Store(): void {
   this.activeLevel3 = {}
   this.activeLevel4 = {}
   this.activeLevel5 = {}
+  this.activeLevel6 = {}
   this.history = ObservableHistory
   this.activeNodeArray = []
   this.setActiveNodeArray = () => {}
