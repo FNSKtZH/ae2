@@ -75,7 +75,6 @@ const TreeTaxonomyLevel3 = ({
           store.activeDataType,
           store.activeCategory.name,
           store.activeTaxonomy.id,
-          'level3Loading',
         ],
         sort: [
           store.activeDataType,
