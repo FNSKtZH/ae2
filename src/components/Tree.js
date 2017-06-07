@@ -39,6 +39,7 @@ const LoadingDiv = styled.div`
   padding-left: 15px;
   font-size: 14px;
 `
+const listContainerStyle = { padding: '5px' }
 const enhance = compose(inject('store'), observer)
 
 class Tree extends Component {
@@ -66,6 +67,7 @@ class Tree extends Component {
               rowRenderer={this.rowRenderer}
               noRowsRenderer={this.noRowsRenderer}
               width={width}
+              style={listContainerStyle}
             />}
         </AutoSizer>
       </Container>
