@@ -21,7 +21,7 @@ const TreeTaxonomyLevel2 = ({
   store: Object,
   level0Props: Object,
   level1Props: Object,
-}) => (
+}) =>
   <QueryRenderer
     environment={environment}
     query={graphql`
@@ -45,7 +45,7 @@ const TreeTaxonomyLevel2 = ({
         return <div>{error.message}</div>
       } else if (props) {
         if (store.activeNodeArray.length === 2) {
-          console.log('TreeTaxonomyLevel2, returning all nodes')
+          // console.log('TreeTaxonomyLevel2, returning all nodes')
           const nodes = [
             ...level0FromProps(store, level0Props),
             ...taxonomyLevel1FromProps(store, level1Props),
@@ -83,6 +83,5 @@ const TreeTaxonomyLevel2 = ({
       return <Tree nodes={store.nodes} />*/
     }}
   />
-)
 
 export default enhance(TreeTaxonomyLevel2)
