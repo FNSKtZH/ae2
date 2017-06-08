@@ -39,20 +39,23 @@ const enhance = compose(
     onClickColumnButtonTree: props => () =>
       props.store.ui.setColumnVisibility(
         'tree',
-        !props.store.ui.visibleColumns.tree,
+        !props.store.ui.visibleColumns.tree
       ),
     onClickColumnButtonData: props => () => {
+      console.log('AppBar: clicked column button data')
       const pathIsMain = [
-        '/Taxonomien',
-        '/Eigenschaften-Sammlungen',
-        '/Beziehungs-Sammlungen',
+        'Taxonomien',
+        'Eigenschaften-Sammlungen',
+        'Beziehungs-Sammlungen',
       ].includes(props.store.activeNodeArray[0])
+      console.log('AppBar: pathIsMain:', pathIsMain)
       const mainIsVisible = props.store.ui.visibleColumns.main
+      console.log('AppBar: mainIsVisible:', mainIsVisible)
       if (!mainIsVisible) {
         props.store.ui.setColumnVisibility('main', true)
       }
       if (!pathIsMain) {
-        props.store.history.push('/Taxonomien')
+        props.store.setActiveNodeArray(['Taxonomien'])
       } else {
         props.store.ui.setColumnVisibility('main')
       }
@@ -71,7 +74,7 @@ const enhance = compose(
     ueberArteigenschaftenOnClick: props => () =>
       window.open('https://github.com/barbalex/ae2'),
   }),
-  observer,
+  observer
 )
 
 const MyAppBar = ({
@@ -101,9 +104,9 @@ const MyAppBar = ({
           visible={
             store.ui.visibleColumns.main &&
             [
-              '/Taxonomien',
-              '/Eigenschaften-Sammlungen',
-              '/Beziehungs-Sammlungen',
+              'Taxonomien',
+              'Eigenschaften-Sammlungen',
+              'Beziehungs-Sammlungen',
             ].includes(store.activeNodeArray[0])
           }
           onClick={onClickColumnButtonData}
