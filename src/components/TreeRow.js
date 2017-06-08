@@ -9,7 +9,7 @@ import FontIcon from 'material-ui/FontIcon'
 import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
 
-import isNodeInActiveNodePath from '../modules/isNodeInActiveNodePath'
+import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -66,7 +66,9 @@ const Row = ({
 }) => {
   const node = nodes[index]
   const onClickNode = event => {
+    // do nothing when loading indicator is clicked
     if (!node.loadingNode) {
+      // if active node is clicked, make it's parent active
       if (isEqual(toJS(node.url), toJS(store.activeNodeArray))) {
         const newUrl = clone(toJS(node.url))
         newUrl.pop()
@@ -83,7 +85,7 @@ const Row = ({
   let symbolIcon
   if (
     node.childrenCount &&
-    isNodeInActiveNodePath(toJS(node.url), toJS(store.activeNodeArray))
+    isUrlInActiveNodePath(toJS(node.url), toJS(store.activeNodeArray))
   ) {
     symbolIcon = 'expand_more'
   } else if (node.childrenCount) {
