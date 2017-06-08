@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { ContextMenuTrigger } from 'react-contextmenu'
 import FontIcon from 'material-ui/FontIcon'
+import isEqual from 'lodash/isEqual'
+import clone from 'lodash/clone'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -63,7 +65,13 @@ const Row = ({
   const node = nodes[index]
   const onClickNode = event => {
     if (!node.loadingNode) {
-      store.setActiveNodeArray(node.url)
+      if (isEqual(toJS(node.url), toJS(store.activeNodeArray))) {
+        const newUrl = clone(toJS(node.url))
+        newUrl.pop()
+        store.setActiveNodeArray(newUrl)
+      } else {
+        store.setActiveNodeArray(node.url)
+      }
     }
   }
   const onClickNodeSymbol = event => {
@@ -104,6 +112,7 @@ const Row = ({
           data-nodeType={node.nodeType}
           data-label={node.label}
           data-menuType={node.menuType}
+          onClick={onClickNode}
         >
           {useSymbolIcon &&
             <SymbolIcon
@@ -117,7 +126,7 @@ const Row = ({
             <SymbolSpan>
               {'-'}
             </SymbolSpan>}
-          <TextSpan node={node} onClick={onClickNode}>
+          <TextSpan node={node}>
             {node.label}
           </TextSpan>
         </StyledNode>
