@@ -87,6 +87,7 @@ const TreeTaxonomyLevel7 = ({
           )
         }
       }
+      /*
       const level0Nodes = level0FromProps(store, level0Props)
       const level1Nodes = taxonomyLevel1FromProps(store, level1Props)
       const level2Nodes = taxonomyLevel2FromProps(store, level2Props)
@@ -95,6 +96,7 @@ const TreeTaxonomyLevel7 = ({
       const level5Nodes = taxonomyLevel5FromProps(store, level5Props)
       const level6Nodes = taxonomyLevel6FromProps(store, level6Props)
       const loadingLevel7Node = {
+        loadingNode: true,
         id: 'level7Loading',
         url: [
           store.activeDataType,
@@ -104,6 +106,7 @@ const TreeTaxonomyLevel7 = ({
           store.activeLevel4.id,
           store.activeLevel5.id,
           store.activeLevel6.id,
+          'level7Loading'
         ],
         sort: [
           store.activeDataType,
@@ -128,7 +131,7 @@ const TreeTaxonomyLevel7 = ({
         ...level5Nodes,
         ...level6Nodes,
         loadingLevel7Node,
-      ])
+      ])*/
       return <Tree nodes={store.nodes} />
     }}
   />

@@ -70,11 +70,13 @@ const TreeTaxonomyLevel3 = ({
       const level1Nodes = taxonomyLevel1FromProps(store, level1Props)
       const level2Nodes = taxonomyLevel2FromProps(store, level2Props)
       const loadingLevel3Node = {
+        loadingNode: true,
         id: 'level3Loading',
         url: [
           store.activeDataType,
           store.activeCategory.name,
           store.activeTaxonomy.id,
+          'level3Loading',
         ],
         sort: [
           store.activeDataType,

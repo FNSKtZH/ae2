@@ -62,7 +62,9 @@ const Row = ({
 }) => {
   const node = nodes[index]
   const onClickNode = event => {
-    store.setActiveNodeArray(node.url)
+    if (!node.loadingNode) {
+      store.setActiveNodeArray(node.url)
+    }
   }
   const onClickNodeSymbol = event => {
     console.log('todo')

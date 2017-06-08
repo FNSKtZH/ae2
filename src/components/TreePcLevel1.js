@@ -6,9 +6,8 @@ import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
-import TreeTaxonomyLevel2 from './TreeTaxonomyLevel2'
 import level0FromProps from '../modules/nodes/level0FromProps'
-import taxonomyLevel1FromProps from '../modules/nodes/taxonomyLevel1FromProps'
+import pcLevel1FromProps from '../modules/nodes/pcLevel1FromProps'
 
 const enhance = compose(inject('store'), observer)
 
@@ -22,34 +21,28 @@ const TreeTaxonomyLevel1 = ({
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel1Query($datatypename: String!) {
-        categoryByDataType(datatype: $datatypename) {
+      query TreePcLevel1Query {
+        allPropertyCollections {
           nodes {
             id
             name
-            taxonomyByCategory {
+            propertyCollectionObjectsByPropertyCollectionId {
               totalCount
             }
           }
         }
       }
     `}
-    variables={{ datatypename: store.activeNodeArray[0] }}
     render={({ error, props }) => {
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
-        if (store.activeNodeArray.length === 1) {
-          store.setNodes([
-            ...level0FromProps(store, level0Props),
-            ...taxonomyLevel1FromProps(store, props),
-          ])
-          return <Tree nodes={store.nodes} />
-        } else if (store.activeNodeArray.length > 1) {
-          return (
-            <TreeTaxonomyLevel2 level0Props={level0Props} level1Props={props} />
-          )
-        }
+        console.log('TreePcLevel1: props:', props)
+        store.setNodes([
+          ...level0FromProps(store, level0Props),
+          ...pcLevel1FromProps(store, props),
+        ])
+        return <Tree nodes={store.nodes} />
       }
       return <Tree nodes={store.nodes} />
     }}

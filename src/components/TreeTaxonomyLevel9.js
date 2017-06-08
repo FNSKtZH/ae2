@@ -97,7 +97,7 @@ const TreeTaxonomyLevel9 = ({
           )
         }
       }
-      return <div>Loading</div>
+      return <Tree nodes={store.nodes} />
     }}
   />
 
