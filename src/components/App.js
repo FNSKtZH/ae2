@@ -37,7 +37,20 @@ class App extends Component {
         <ReflexContainer orientation="vertical">
           {store.ui.visibleColumns.tree &&
             <ReflexElement flex={0.35}>
-              <TreeLevel0 activeNodeArray={store.activeNodeArray} />
+              <TreeLevel0
+                activeNodeArray={store.activeNodeArray}
+                activeDataType={store.activeDataType}
+                activeCategory={store.activeCategory}
+                activeTaxonomy={store.activeTaxonomy}
+                activeLevel3={store.activeLevel3}
+                activeLevel4={store.activeLevel4}
+                activeLevel5={store.activeLevel5}
+                activeLevel6={store.activeLevel6}
+                activeLevel7={store.activeLevel7}
+                activeLevel8={store.activeLevel8}
+                activeLevel9={store.activeLevel9}
+                activeLevel10={store.activeLevel10}
+              />
             </ReflexElement>}
           {store.ui.visibleColumns.tree &&
             store.ui.visibleColumns.main &&

@@ -63,7 +63,23 @@ const TreeTaxonomyLevel5 = ({
             ...taxonomyLevel4FromProps(store, level4Props),
             ...taxonomyLevel5FromProps(store, props),
           ])
-          return <Tree nodes={store.nodes} />
+          return (
+            <Tree
+              nodes={store.nodes}
+              activeNodeArray={store.activeNodeArray}
+              activeDataType={store.activeDataType}
+              activeCategory={store.activeCategory}
+              activeTaxonomy={store.activeTaxonomy}
+              activeLevel3={store.activeLevel3}
+              activeLevel4={store.activeLevel4}
+              activeLevel5={store.activeLevel5}
+              activeLevel6={store.activeLevel6}
+              activeLevel7={store.activeLevel7}
+              activeLevel8={store.activeLevel8}
+              activeLevel9={store.activeLevel9}
+              activeLevel10={store.activeLevel10}
+            />
+          )
         } else if (store.activeNodeArray.length > 5) {
           return (
             <TreeTaxonomyLevel6
