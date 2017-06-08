@@ -9,6 +9,8 @@ import FontIcon from 'material-ui/FontIcon'
 import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
 
+import isNodeInActiveNodePath from '../modules/isNodeInActiveNodePath'
+
 const singleRowHeight = 23
 const StyledNode = styled.div`
   padding-left: ${props => `${Number(props.level) * 17 - 10}px`};
@@ -74,15 +76,15 @@ const Row = ({
       }
     }
   }
-  const onClickNodeSymbol = event => {
-    console.log('todo')
-  }
   const myProps = { key: index }
   // build symbols
   let useSymbolIcon = true
   let useSymbolSpan = false
   let symbolIcon
-  if (node.childrenCount /* && isNodeOpen(toJS(tree.openNodes), node.url)*/) {
+  if (
+    node.childrenCount &&
+    isNodeInActiveNodePath(toJS(node.url), toJS(store.activeNodeArray))
+  ) {
     symbolIcon = 'expand_more'
   } else if (node.childrenCount) {
     symbolIcon = 'chevron_right'
@@ -115,11 +117,7 @@ const Row = ({
           onClick={onClickNode}
         >
           {useSymbolIcon &&
-            <SymbolIcon
-              id="symbol"
-              className="material-icons"
-              onClick={onClickNodeSymbol}
-            >
+            <SymbolIcon id="symbol" className="material-icons">
               {symbolIcon}
             </SymbolIcon>}
           {useSymbolSpan &&
