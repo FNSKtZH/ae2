@@ -10,7 +10,7 @@ export default (store: Object, props: Object): Array<Object> => {
       url: [store.activeDataType, pc.id],
       sort: [store.activeDataType, pc.name],
       label: `${pc.name}: ${pc.propertyCollectionObjectsByPropertyCollectionId
-        .totalCount} Datensätze`,
+        .totalCount} Objekte`,
       childrenCount: 0,
     }
   })

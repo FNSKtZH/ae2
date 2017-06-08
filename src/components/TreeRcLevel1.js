@@ -7,7 +7,7 @@ import compose from 'recompose/compose'
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
 import level0FromProps from '../modules/nodes/level0FromProps'
-import pcLevel1FromProps from '../modules/nodes/pcLevel1FromProps'
+import rcLevel1FromProps from '../modules/nodes/rcLevel1FromProps'
 
 const enhance = compose(inject('store'), observer)
 
@@ -21,12 +21,12 @@ const TreeTaxonomyLevel1 = ({
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreePcLevel1Query {
-        allPropertyCollections {
+      query TreeRcLevel1Query {
+        allRelationCollections {
           nodes {
             id
             name
-            propertyCollectionObjectsByPropertyCollectionId {
+            relationCollectionObjectsByRelationCollectionId {
               totalCount
             }
           }
@@ -39,7 +39,7 @@ const TreeTaxonomyLevel1 = ({
       } else if (props) {
         store.setNodes([
           ...level0FromProps(store, level0Props),
-          ...pcLevel1FromProps(store, props),
+          ...rcLevel1FromProps(store, props),
         ])
         return <Tree nodes={store.nodes} />
       }
