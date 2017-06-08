@@ -36,7 +36,9 @@ class App extends Component {
         <AppBar />
         <ReflexContainer orientation="vertical">
           {store.ui.visibleColumns.tree &&
-            <ReflexElement flex={0.35}><TreeLevel0 /></ReflexElement>}
+            <ReflexElement flex={0.35}>
+              <TreeLevel0 activeNodeArray={store.activeNodeArray} />
+            </ReflexElement>}
           {store.ui.visibleColumns.tree &&
             store.ui.visibleColumns.main &&
             <ReflexSplitter key="treeSplitter" />}

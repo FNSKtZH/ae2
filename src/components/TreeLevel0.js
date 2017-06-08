@@ -38,12 +38,18 @@ const TreeLevel0 = ({ store }: { store: Object }) =>
           return <Tree nodes={store.nodes} />
         }
         switch (store.activeNodeArray[0]) {
-          case 'Taxonomien':
+          case 'Taxonomien': {
+            store.setActiveDataType('Taxonomien')
             return <TreeTaxonomyLevel1 level0Props={props} />
-          case 'Eigenschaften-Sammlungen':
+          }
+          case 'Eigenschaften-Sammlungen': {
+            store.setActiveDataType('Eigenschaften-Sammlungen')
             return <TreePcLevel1 level0Props={props} />
-          case 'Beziehungs-Sammlungen':
+          }
+          case 'Beziehungs-Sammlungen': {
+            store.setActiveDataType('Beziehungs-Sammlungen')
             return <TreeRcLevel1 level0Props={props} />
+          }
           default:
             return <Tree nodes={store.nodes} />
         }
