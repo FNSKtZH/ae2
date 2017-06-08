@@ -7,8 +7,8 @@ export default (store: Object, props: Object): Array<Object> => {
   return props.allPropertyCollections.nodes.map(pc => {
     return {
       id: pc.id,
-      url: [store.activeDataType, pc.id],
-      sort: [store.activeDataType, pc.name],
+      url: [store.tree.activeDataType, pc.id],
+      sort: [store.tree.activeDataType, pc.name],
       label: `${pc.name}: ${pc.propertyCollectionObjectsByPropertyCollectionId
         .totalCount} Objekte`,
       childrenCount: 0,

@@ -52,7 +52,7 @@ const TreeTaxonomyLevel4 = ({
         return <div>{error.message}</div>
       } else if (props) {
         if (store.activeNodeArray.length === 4) {
-          store.setNodes([
+          store.tree.setNodes([
             ...level0FromProps(store, level0Props),
             ...taxonomyLevel1FromProps(store, level1Props),
             ...taxonomyLevel2FromProps(store, level2Props),
@@ -61,19 +61,19 @@ const TreeTaxonomyLevel4 = ({
           ])
           return (
             <Tree
-              nodes={store.nodes}
+              nodes={store.tree.nodes}
               activeNodeArray={store.activeNodeArray}
-              activeDataType={store.activeDataType}
-              activeCategory={store.activeCategory}
-              activeTaxonomy={store.activeTaxonomy}
-              activeLevel3={store.activeLevel3}
-              activeLevel4={store.activeLevel4}
-              activeLevel5={store.activeLevel5}
-              activeLevel6={store.activeLevel6}
-              activeLevel7={store.activeLevel7}
-              activeLevel8={store.activeLevel8}
-              activeLevel9={store.activeLevel9}
-              activeLevel10={store.activeLevel10}
+              activeDataType={store.tree.activeDataType}
+              activeCategory={store.tree.activeCategory}
+              activeTaxonomy={store.tree.activeTaxonomy}
+              activeLevel3={store.tree.activeLevel3}
+              activeLevel4={store.tree.activeLevel4}
+              activeLevel5={store.tree.activeLevel5}
+              activeLevel6={store.tree.activeLevel6}
+              activeLevel7={store.tree.activeLevel7}
+              activeLevel8={store.tree.activeLevel8}
+              activeLevel9={store.tree.activeLevel9}
+              activeLevel10={store.tree.activeLevel10}
             />
           )
         } else if (store.activeNodeArray.length > 4) {
@@ -97,30 +97,30 @@ const TreeTaxonomyLevel4 = ({
         loadingNode: true,
         id: 'level4Loading',
         url: [
-          store.activeDataType,
-          store.activeCategory.name,
-          store.activeTaxonomy.id,
-          store.activeLevel3.id,
+          store.tree.activeDataType,
+          store.tree.activeCategory.name,
+          store.tree.activeTaxonomy.id,
+          store.tree.activeLevel3.id,
         ],
         sort: [
-          store.activeDataType,
-          store.activeCategory.name,
-          store.activeTaxonomy.name,
-          store.activeLevel3.name,
+          store.tree.activeDataType,
+          store.tree.activeCategory.name,
+          store.tree.activeTaxonomy.name,
+          store.tree.activeLevel3.name,
           'aaa',
         ],
         label: 'lade Daten',
         childrenCount: 0,
       }
-      store.setActiveLevel4(loadingLevel4Node)
-      store.setNodes([
+      store.tree.setActiveLevel4(loadingLevel4Node)
+      store.tree.setNodes([
         ...level0Nodes,
         ...level1Nodes,
         ...level2Nodes,
         ...level3Nodes,
         loadingLevel4Node,
       ])*/
-      return <Tree nodes={store.nodes} />
+      return <Tree nodes={store.tree.nodes} />
     }}
   />
 

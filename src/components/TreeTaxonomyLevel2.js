@@ -51,22 +51,22 @@ const TreeTaxonomyLevel2 = ({
             ...taxonomyLevel1FromProps(store, level1Props),
             ...taxonomyLevel2FromProps(store, props),
           ]
-          store.setNodes(nodes)
+          store.tree.setNodes(nodes)
           return (
             <Tree
-              nodes={store.nodes}
+              nodes={store.tree.nodes}
               activeNodeArray={store.activeNodeArray}
-              activeDataType={store.activeDataType}
-              activeCategory={store.activeCategory}
-              activeTaxonomy={store.activeTaxonomy}
-              activeLevel3={store.activeLevel3}
-              activeLevel4={store.activeLevel4}
-              activeLevel5={store.activeLevel5}
-              activeLevel6={store.activeLevel6}
-              activeLevel7={store.activeLevel7}
-              activeLevel8={store.activeLevel8}
-              activeLevel9={store.activeLevel9}
-              activeLevel10={store.activeLevel10}
+              activeDataType={store.tree.activeDataType}
+              activeCategory={store.tree.activeCategory}
+              activeTaxonomy={store.tree.activeTaxonomy}
+              activeLevel3={store.tree.activeLevel3}
+              activeLevel4={store.tree.activeLevel4}
+              activeLevel5={store.tree.activeLevel5}
+              activeLevel6={store.tree.activeLevel6}
+              activeLevel7={store.tree.activeLevel7}
+              activeLevel8={store.tree.activeLevel8}
+              activeLevel9={store.tree.activeLevel9}
+              activeLevel10={store.tree.activeLevel10}
             />
           )
         } else if (store.activeNodeArray.length > 2) {
@@ -79,7 +79,7 @@ const TreeTaxonomyLevel2 = ({
           )
         }
       }
-      return <Tree nodes={store.nodes} />
+      return <Tree nodes={store.tree.nodes} />
     }}
   />
 

@@ -10,23 +10,23 @@ export default (store: Object, props: Object): Array<Object> => {
       const childrenCount = level4.taxonomyObjectsByParentId.totalCount
       const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
       if (store.activeNodeArray[4] === level4.id) {
-        store.setActiveLevel4(level4)
+        store.tree.setActiveLevel4(level4)
       }
 
       return {
         id: level4.id,
         url: [
-          store.activeDataType,
-          store.activeCategory.name,
-          store.activeTaxonomy.id,
-          store.activeLevel3.id,
+          store.tree.activeDataType,
+          store.tree.activeCategory.name,
+          store.tree.activeTaxonomy.id,
+          store.tree.activeLevel3.id,
           level4.id,
         ],
         sort: [
-          store.activeDataType,
-          store.activeCategory.name,
-          store.activeTaxonomy.name,
-          store.activeLevel3.name,
+          store.tree.activeDataType,
+          store.tree.activeCategory.name,
+          store.tree.activeTaxonomy.name,
+          store.tree.activeLevel3.name,
           level4.name,
         ],
         label: `${level4.name}${labelCount}`,

@@ -58,7 +58,7 @@ const TreeTaxonomyLevel6 = ({
         return <div>{error.message}</div>
       } else if (props) {
         if (store.activeNodeArray.length === 6) {
-          store.setNodes([
+          store.tree.setNodes([
             ...level0FromProps(store, level0Props),
             ...taxonomyLevel1FromProps(store, level1Props),
             ...taxonomyLevel2FromProps(store, level2Props),
@@ -67,7 +67,7 @@ const TreeTaxonomyLevel6 = ({
             ...taxonomyLevel5FromProps(store, level5Props),
             ...taxonomyLevel6FromProps(store, props),
           ])
-          return <Tree nodes={store.nodes} />
+          return <Tree nodes={store.tree.nodes} />
         } else if (store.activeNodeArray.length > 6) {
           return (
             <TreeTaxonomyLevel7
@@ -93,28 +93,28 @@ const TreeTaxonomyLevel6 = ({
         loadingNode: true,
         id: 'level6Loading',
         url: [
-          store.activeDataType,
-          store.activeCategory.name,
-          store.activeTaxonomy.id,
-          store.activeLevel3.id,
-          store.activeLevel4.id,
-          store.activeLevel5.id,
+          store.tree.activeDataType,
+          store.tree.activeCategory.name,
+          store.tree.activeTaxonomy.id,
+          store.tree.activeLevel3.id,
+          store.tree.activeLevel4.id,
+          store.tree.activeLevel5.id,
           'level6Loading'
         ],
         sort: [
-          store.activeDataType,
-          store.activeCategory.name,
-          store.activeTaxonomy.name,
-          store.activeLevel3.name,
-          store.activeLevel4.name,
-          store.activeLevel5.name,
+          store.tree.activeDataType,
+          store.tree.activeCategory.name,
+          store.tree.activeTaxonomy.name,
+          store.tree.activeLevel3.name,
+          store.tree.activeLevel4.name,
+          store.tree.activeLevel5.name,
           'aaa',
         ],
         label: 'lade Daten',
         childrenCount: 0,
       }
-      store.setActiveLevel6(loadingLevel6Node)
-      store.setNodes([
+      store.tree.setActiveLevel6(loadingLevel6Node)
+      store.tree.setNodes([
         ...level0Nodes,
         ...level1Nodes,
         ...level2Nodes,
@@ -123,7 +123,7 @@ const TreeTaxonomyLevel6 = ({
         ...level5Nodes,
         loadingLevel6Node,
       ])*/
-      return <Tree nodes={store.nodes} />
+      return <Tree nodes={store.tree.nodes} />
     }}
   />
 

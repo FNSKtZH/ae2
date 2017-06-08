@@ -4,18 +4,21 @@ import ObservableHistory from './ObservableHistory'
 
 function Store(): void {
   this.ui = {}
-  this.nodes = []
-  this.activeDataType = {}
-  this.activeCategory = {}
-  this.activeTaxonomy = {}
-  this.activeLevel3 = {}
-  this.activeLevel4 = {}
-  this.activeLevel5 = {}
-  this.activeLevel6 = {}
-  this.activeLevel7 = {}
-  this.activeLevel8 = {}
-  this.activeLevel9 = {}
-  this.activeLevel10 = {}
+  this.tree = {
+    nodes: [],
+    setNodes: () => {},
+    activeDataType: {},
+    activeCategory: {},
+    activeTaxonomy: {},
+    activeLevel3: {},
+    activeLevel4: {},
+    activeLevel5: {},
+    activeLevel6: {},
+    activeLevel7: {},
+    activeLevel8: {},
+    activeLevel9: {},
+    activeLevel10: {},
+  }
   this.history = ObservableHistory
   this.activeNodeArray = []
   this.setActiveNodeArray = () => {}

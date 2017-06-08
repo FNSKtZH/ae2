@@ -24,8 +24,6 @@ const enhance = compose(inject('store'), observer)
 class App extends Component {
   props: {
     store: Object,
-    location: Object,
-    history: Object,
   }
 
   render() {
@@ -39,17 +37,17 @@ class App extends Component {
             <ReflexElement flex={0.35}>
               <TreeLevel0
                 activeNodeArray={store.activeNodeArray}
-                activeDataType={store.activeDataType}
-                activeCategory={store.activeCategory}
-                activeTaxonomy={store.activeTaxonomy}
-                activeLevel3={store.activeLevel3}
-                activeLevel4={store.activeLevel4}
-                activeLevel5={store.activeLevel5}
-                activeLevel6={store.activeLevel6}
-                activeLevel7={store.activeLevel7}
-                activeLevel8={store.activeLevel8}
-                activeLevel9={store.activeLevel9}
-                activeLevel10={store.activeLevel10}
+                activeDataType={store.tree.activeDataType}
+                activeCategory={store.tree.activeCategory}
+                activeTaxonomy={store.tree.activeTaxonomy}
+                activeLevel3={store.tree.activeLevel3}
+                activeLevel4={store.tree.activeLevel4}
+                activeLevel5={store.tree.activeLevel5}
+                activeLevel6={store.tree.activeLevel6}
+                activeLevel7={store.tree.activeLevel7}
+                activeLevel8={store.tree.activeLevel8}
+                activeLevel9={store.tree.activeLevel9}
+                activeLevel10={store.tree.activeLevel10}
               />
             </ReflexElement>}
           {store.ui.visibleColumns.tree &&

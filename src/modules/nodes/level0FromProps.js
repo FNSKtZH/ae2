@@ -4,7 +4,7 @@ export default (store: Object, props: ?Object): Array<Object> => {
   if (!props.allPropertyCollections) return []
   if (!props.allRelationCollections) return []
   if (!props.allCategories) return []
-  store.setActiveDataType(store.activeNodeArray[0])
+  store.tree.setActiveDataType(store.activeNodeArray[0])
 
   return [
     {

@@ -68,7 +68,7 @@ const TreeTaxonomyLevel10 = ({
       if (error) {
         return <div>{error.message}</div>
       } else if (props && store.activeNodeArray.length === 10) {
-        store.setNodes([
+        store.tree.setNodes([
           ...level0FromProps(store, level0Props),
           ...taxonomyLevel1FromProps(store, level1Props),
           ...taxonomyLevel2FromProps(store, level2Props),
@@ -81,9 +81,9 @@ const TreeTaxonomyLevel10 = ({
           ...taxonomyLevel9FromProps(store, level9Props),
           ...taxonomyLevel10FromProps(store, props),
         ])
-        return <Tree nodes={store.nodes} />
+        return <Tree nodes={store.tree.nodes} />
       }
-      return <Tree nodes={store.nodes} />
+      return <Tree nodes={store.tree.nodes} />
     }}
   />
 

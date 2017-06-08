@@ -34,24 +34,24 @@ const TreeLevel0 = ({ store }: { store: Object }) =>
         return <div>{error.message}</div>
       } else if (props) {
         if (store.activeNodeArray.length === 0) {
-          store.setNodes(level0FromProps(store, props.allDataTypes.nodes))
-          return <Tree nodes={store.nodes} />
+          store.tree.setNodes(level0FromProps(store, props))
+          return <Tree nodes={store.tree.nodes} />
         }
         switch (store.activeNodeArray[0]) {
           case 'Taxonomien': {
-            store.setActiveDataType('Taxonomien')
+            store.tree.setActiveDataType('Taxonomien')
             return <TreeTaxonomyLevel1 level0Props={props} />
           }
           case 'Eigenschaften-Sammlungen': {
-            store.setActiveDataType('Eigenschaften-Sammlungen')
+            store.tree.setActiveDataType('Eigenschaften-Sammlungen')
             return <TreePcLevel1 level0Props={props} />
           }
           case 'Beziehungs-Sammlungen': {
-            store.setActiveDataType('Beziehungs-Sammlungen')
+            store.tree.setActiveDataType('Beziehungs-Sammlungen')
             return <TreeRcLevel1 level0Props={props} />
           }
           default:
-            return <Tree nodes={store.nodes} />
+            return <Tree nodes={store.tree.nodes} />
         }
       }
       return <div>Lade Daten</div>

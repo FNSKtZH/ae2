@@ -37,13 +37,13 @@ const TreeTaxonomyLevel1 = ({
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
-        store.setNodes([
+        store.tree.setNodes([
           ...level0FromProps(store, level0Props),
           ...pcLevel1FromProps(store, props),
         ])
-        return <Tree nodes={store.nodes} />
+        return <Tree nodes={store.tree.nodes} />
       }
-      return <Tree nodes={store.nodes} />
+      return <Tree nodes={store.tree.nodes} />
     }}
   />
 
