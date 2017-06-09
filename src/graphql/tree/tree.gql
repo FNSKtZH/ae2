@@ -1,4 +1,4 @@
-query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $level4: Uuid!, $level5: Uuid!) {
+query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $level4: Uuid!, $level5: Uuid!, $level6: Uuid!, $level7: Uuid!, $level8: Uuid!, $level9: Uuid!, $level10: Uuid!) {
   level1Pc: allPropertyCollections {
     totalCount
   }
@@ -8,7 +8,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
   level1Tax: allCategories {
     totalCount
   }
-  level2To: categoryByDataType(datatype: $datatypename) {
+  level1Taxonomy: categoryByDataType(datatype: $datatypename) {
     nodes {
       id
       name
@@ -17,7 +17,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level3Tax: categoryByName(name: $categoryname) {
+  level2Taxonomy: categoryByName(name: $categoryname) {
     taxonomiesByCategory {
       nodes {
         id
@@ -28,7 +28,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level4Tax: taxonomyById(id: $taxonomyId) {
+  level3Taxonomy: taxonomyById(id: $taxonomyId) {
     taxonomyObjectLevel1 {
       nodes {
         id
@@ -39,7 +39,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level5Tax: taxonomyObjectById(id: $level4) {
+  level4Taxonomy: taxonomyObjectById(id: $level4) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -51,7 +51,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level6Tax: taxonomyObjectById(id: $level5) {
+  level5Taxonomy: taxonomyObjectById(id: $level5) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -63,4 +63,77 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
+  level6Taxonomy: taxonomyObjectById(id: $level6) {
+    taxonomyObjectsByParentId {
+      totalCount
+      nodes {
+        id
+        name
+        taxonomyObjectsByParentId {
+          totalCount
+        }
+      }
+    }
+  }
+  level7Taxonomy: taxonomyObjectById(id: $level7) {
+    taxonomyObjectsByParentId {
+      totalCount
+      nodes {
+        id
+        name
+        taxonomyObjectsByParentId {
+          totalCount
+        }
+      }
+    }
+  }
+  level8Taxonomy: taxonomyObjectById(id: $level8) {
+    taxonomyObjectsByParentId {
+      totalCount
+      nodes {
+        id
+        name
+        taxonomyObjectsByParentId {
+          totalCount
+        }
+      }
+    }
+  }
+  level9Taxonomy: taxonomyObjectById(id: $level9) {
+    taxonomyObjectsByParentId {
+      totalCount
+      nodes {
+        id
+        name
+        taxonomyObjectsByParentId {
+          totalCount
+        }
+      }
+    }
+  }
+  level10Taxonomy: taxonomyObjectById(id: $level10) {
+    taxonomyObjectsByParentId {
+      totalCount
+      nodes {
+        id
+        name
+        taxonomyObjectsByParentId {
+          totalCount
+        }
+      }
+    }
+  }
+}
+
+{
+  "datatypename": "Taxonomien",
+  "categoryname": "Fauna",
+  "taxonomyId": "5444e7eb-177f-4faf-ba44-0e3da1b391e0",
+  "level4": "5f8f6fac-fe63-49c5-a143-f2e6e2174602",
+  "level5": "b2142119-081d-4f2c-97ee-adbb735ecbfa",
+  "level6": "99999999-9999-9999-9999-999999999999",
+  "level7": "99999999-9999-9999-9999-999999999999",
+  "level8": "99999999-9999-9999-9999-999999999999",
+  "level9": "99999999-9999-9999-9999-999999999999",
+  "level10": "99999999-9999-9999-9999-999999999999"
 }
