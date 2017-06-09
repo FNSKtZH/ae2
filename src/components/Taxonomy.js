@@ -3,15 +3,14 @@ import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
-
-import environment from '../modules/createRelayEnvironment'
+import app from 'ampersand-app'
 
 const enhance = compose(inject('store'), observer)
 
 const Taxonomy = ({ store }: { store: Object }) => {
   return (
     <QueryRenderer
-      environment={environment}
+      environment={app.environment}
       query={graphql`
         query TaxonomyQuery {
           allCategories {

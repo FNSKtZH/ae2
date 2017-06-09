@@ -3,8 +3,8 @@ import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
+import app from 'ampersand-app'
 
-import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
 import TreeLevel2Taxonomy from './TreeLevel2Taxonomy'
 import TreeLevel2Rc from './TreeLevel2Rc'
@@ -15,7 +15,7 @@ const enhance = compose(inject('store'), observer)
 
 const TreeLevel1 = ({ store }: { store: Object }) =>
   <QueryRenderer
-    environment={environment}
+    environment={app.environment}
     query={graphql`
       query TreeLevel1Query {
         allPropertyCollections {
@@ -30,7 +30,6 @@ const TreeLevel1 = ({ store }: { store: Object }) =>
       }
     `}
     render={({ error, props }) => {
-      console.log('TreeLevel1: environment:', environment)
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {

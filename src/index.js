@@ -6,6 +6,7 @@ import myTtheme from './styling/theme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Provider } from 'mobx-react'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import app from 'ampersand-app'
 
 import App from './components/App'
 import registerServiceWorker from './registerServiceWorker'
@@ -13,16 +14,22 @@ import './index.css'
 import 'react-reflex/styles.css'
 import constants from './modules/constants'
 import store from './store'
-import getActiveNodeArrayFromPathname
-  from './store/action/getActiveNodeArrayFromPathname'
+import getActiveNodeArrayFromPathname from './store/action/getActiveNodeArrayFromPathname'
+import environment from './modules/createRelayEnvironment'
 
 // Needed for onTouchTap and material-ui
 // //stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
 
-window.app = {
-  store,
-}
+app.extend({
+  init() {
+    this.environment = environment
+    this.store = store
+  },
+})
+app.init()
+// make app accessible in console
+window.app = app
 
 // initiate activeNodeArray
 const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()

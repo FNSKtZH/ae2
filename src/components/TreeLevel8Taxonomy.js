@@ -3,8 +3,8 @@ import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
+import app from 'ampersand-app'
 
-import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
 import TreeLevel9Taxonomy from './TreeLevel9Taxonomy'
 import level1FromProps from '../modules/nodes/level1FromProps'
@@ -38,7 +38,7 @@ const TreeLevel8Taxonomy = ({
   level7Props: Object,
 }) =>
   <QueryRenderer
-    environment={environment}
+    environment={app.environment}
     query={graphql`
       query TreeLevel8TaxonomyQuery($level7: Uuid!) {
         taxonomyObjectById(id: $level7) {
