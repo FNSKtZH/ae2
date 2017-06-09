@@ -6,18 +6,18 @@ import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
-import TreeTaxonomyLevel1 from './TreeTaxonomyLevel1'
+import TreeLevel2Taxonomy from './TreeLevel2Taxonomy'
 import TreePcLevel1 from './TreePcLevel1'
 import TreeRcLevel1 from './TreeRcLevel1'
 import level0FromProps from '../modules/nodes/level0FromProps'
 
 const enhance = compose(inject('store'), observer)
 
-const TreeLevel0 = ({ store }: { store: Object }) =>
+const TreeLevel1 = ({ store }: { store: Object }) =>
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeLevel0Query {
+      query TreeLevel1Query {
         allPropertyCollections {
           totalCount
         }
@@ -40,7 +40,7 @@ const TreeLevel0 = ({ store }: { store: Object }) =>
         switch (store.activeNodeArray[0]) {
           case 'Taxonomien': {
             store.tree.setActiveDataType('Taxonomien')
-            return <TreeTaxonomyLevel1 level0Props={props} />
+            return <TreeLevel2Taxonomy level0Props={props} />
           }
           case 'Eigenschaften-Sammlungen': {
             store.tree.setActiveDataType('Eigenschaften-Sammlungen')
@@ -58,4 +58,4 @@ const TreeLevel0 = ({ store }: { store: Object }) =>
     }}
   />
 
-export default enhance(TreeLevel0)
+export default enhance(TreeLevel1)

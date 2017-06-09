@@ -14,7 +14,7 @@ import taxonomyLevel3FromProps from '../modules/nodes/taxonomyLevel3FromProps'
 
 const enhance = compose(inject('store'), observer)
 
-const TreeTaxonomyLevel3 = ({
+const TreeLevel4Taxonomy = ({
   store,
   level0Props,
   level1Props,
@@ -28,7 +28,7 @@ const TreeTaxonomyLevel3 = ({
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel3Query($taxonomyId: Uuid!) {
+      query TreeLevel4TaxonomyQuery($taxonomyId: Uuid!) {
         taxonomyById(id: $taxonomyId) {
           taxonomyObjectLevel1 {
             nodes {
@@ -61,7 +61,6 @@ const TreeTaxonomyLevel3 = ({
               activeDataType={store.tree.activeDataType}
               activeCategory={store.tree.activeCategory}
               activeTaxonomy={store.tree.activeTaxonomy}
-              activeLevel3={store.tree.activeLevel3}
               activeLevel4={store.tree.activeLevel4}
               activeLevel5={store.tree.activeLevel5}
               activeLevel6={store.tree.activeLevel6}
@@ -114,4 +113,4 @@ const TreeTaxonomyLevel3 = ({
     }}
   />
 
-export default enhance(TreeTaxonomyLevel3)
+export default enhance(TreeLevel4Taxonomy)

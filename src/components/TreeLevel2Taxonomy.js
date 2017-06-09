@@ -6,52 +6,44 @@ import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
-import TreeTaxonomyLevel3 from './TreeTaxonomyLevel3'
+import TreeLevel3Taxonomy from './TreeLevel3Taxonomy'
 import level0FromProps from '../modules/nodes/level0FromProps'
 import taxonomyLevel1FromProps from '../modules/nodes/taxonomyLevel1FromProps'
-import taxonomyLevel2FromProps from '../modules/nodes/taxonomyLevel2FromProps'
 
 const enhance = compose(inject('store'), observer)
 
-const TreeTaxonomyLevel2 = ({
+const TreeLevel2Taxonomy = ({
   store,
   level0Props,
-  level1Props,
 }: {
   store: Object,
   level0Props: Object,
-  level1Props: Object,
 }) =>
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel2Query($categoryname: String!) {
-        categoryByName(name: $categoryname) {
-          taxonomiesByCategory {
-            nodes {
-              id
-              name
-              taxonomyObjectLevel1 {
-                totalCount
-              }
+      query TreeLevel2TaxonomyQuery($datatypename: String!) {
+        categoryByDataType(datatype: $datatypename) {
+          nodes {
+            id
+            name
+            taxonomyByCategory {
+              totalCount
             }
           }
         }
       }
     `}
-    variables={{ categoryname: store.activeNodeArray[1] }}
+    variables={{ datatypename: store.activeNodeArray[0] }}
     render={({ error, props }) => {
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
-        if (store.activeNodeArray.length === 2) {
-          // console.log('TreeTaxonomyLevel2, returning all nodes')
-          const nodes = [
+        if (store.activeNodeArray.length === 1) {
+          store.tree.setNodes([
             ...level0FromProps(store, level0Props),
-            ...taxonomyLevel1FromProps(store, level1Props),
-            ...taxonomyLevel2FromProps(store, props),
-          ]
-          store.tree.setNodes(nodes)
+            ...taxonomyLevel1FromProps(store, props),
+          ])
           return (
             <Tree
               nodes={store.tree.nodes}
@@ -69,13 +61,9 @@ const TreeTaxonomyLevel2 = ({
               activeLevel10={store.tree.activeLevel10}
             />
           )
-        } else if (store.activeNodeArray.length > 2) {
+        } else if (store.activeNodeArray.length > 1) {
           return (
-            <TreeTaxonomyLevel3
-              level0Props={level0Props}
-              level1Props={level1Props}
-              level2Props={props}
-            />
+            <TreeLevel3Taxonomy level0Props={level0Props} level1Props={props} />
           )
         }
       }
@@ -83,4 +71,4 @@ const TreeTaxonomyLevel2 = ({
     }}
   />
 
-export default enhance(TreeTaxonomyLevel2)
+export default enhance(TreeLevel2Taxonomy)

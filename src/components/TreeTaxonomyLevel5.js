@@ -70,7 +70,6 @@ const TreeTaxonomyLevel5 = ({
               activeDataType={store.tree.activeDataType}
               activeCategory={store.tree.activeCategory}
               activeTaxonomy={store.tree.activeTaxonomy}
-              activeLevel3={store.tree.activeLevel3}
               activeLevel4={store.tree.activeLevel4}
               activeLevel5={store.tree.activeLevel5}
               activeLevel6={store.tree.activeLevel6}
@@ -93,43 +92,6 @@ const TreeTaxonomyLevel5 = ({
           )
         }
       }
-      /*
-      const level0Nodes = level0FromProps(store, level0Props)
-      const level1Nodes = taxonomyLevel1FromProps(store, level1Props)
-      const level2Nodes = taxonomyLevel2FromProps(store, level2Props)
-      const level3Nodes = taxonomyLevel3FromProps(store, level3Props)
-      const level4Nodes = taxonomyLevel4FromProps(store, level4Props)
-      const loadingLevel5Node = {
-        loadingNode: true,
-        id: 'level5Loading',
-        url: [
-          store.tree.activeDataType,
-          store.tree.activeCategory.name,
-          store.tree.activeTaxonomy.id,
-          store.tree.activeLevel3.id,
-          store.tree.activeLevel4.id,
-          'level5Loading'
-        ],
-        sort: [
-          store.tree.activeDataType,
-          store.tree.activeCategory.name,
-          store.tree.activeTaxonomy.name,
-          store.tree.activeLevel3.name,
-          store.tree.activeLevel4.name,
-          'aaa',
-        ],
-        label: 'lade Daten',
-        childrenCount: 0,
-      }
-      store.tree.setActiveLevel5(loadingLevel5Node)
-      store.tree.setNodes([
-        ...level0Nodes,
-        ...level1Nodes,
-        ...level2Nodes,
-        ...level3Nodes,
-        ...level4Nodes,
-        loadingLevel5Node,
-      ])*/
       return <Tree nodes={store.tree.nodes} />
     }}
   />

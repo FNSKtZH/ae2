@@ -11,7 +11,7 @@ import rcLevel1FromProps from '../modules/nodes/rcLevel1FromProps'
 
 const enhance = compose(inject('store'), observer)
 
-const TreeTaxonomyLevel1 = ({
+const TreeLevel2Taxonomy = ({
   store,
   level0Props,
 }: {
@@ -47,4 +47,4 @@ const TreeTaxonomyLevel1 = ({
     }}
   />
 
-export default enhance(TreeTaxonomyLevel1)
+export default enhance(TreeLevel2Taxonomy)
