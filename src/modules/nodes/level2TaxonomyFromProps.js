@@ -1,6 +1,10 @@
 // @flow
-export default (store: Object, props: Object): Array<Object> =>
-  props.level2Taxonomy.nodes.map(node => {
+export default (store: Object, props: Object): Array<Object> => {
+  if (!props) return []
+  if (!props.level2Taxonomy) return []
+  if (!props.level2Taxonomy.nodes) return []
+
+  return props.level2Taxonomy.nodes.map(node => {
     const childrenCount = node.taxonomyByCategory.totalCount
 
     return {
@@ -11,3 +15,4 @@ export default (store: Object, props: Object): Array<Object> =>
       childrenCount,
     }
   })
+}

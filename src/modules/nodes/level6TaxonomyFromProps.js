@@ -1,19 +1,24 @@
 // @flow
-export default (store: Object, props: Object): Array<Object> =>
-  props.level6Taxonomy.taxonomyObjectsByParentId.nodes.map(node => {
+export default (store: Object, props: Object): Array<Object> => {
+  if (!props) return []
+  if (!props.level6Taxonomy) return []
+  if (!props.level6Taxonomy.taxonomyObjectsByParentId) return []
+  if (!props.level6Taxonomy.taxonomyObjectsByParentId.nodes) return []
+
+  return props.level6Taxonomy.taxonomyObjectsByParentId.nodes.map(node => {
     const childrenCount = node.taxonomyObjectsByParentId.totalCount
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
     const activeLevel2Taxonomy = props.level1Taxonomy.nodes.find(
-      n => n.id === store.activeNodeArray[1],
+      n => n.id === store.activeNodeArray[1]
     )
     const activeLevel3Taxonomy = props.level2Taxonomy.nodes.find(
-      n => n.id === store.activeNodeArray[2],
+      n => n.id === store.activeNodeArray[2]
     )
     const activeLevel4Taxonomy = props.level3Taxonomy.nodes.find(
-      n => n.id === store.activeNodeArray[3],
+      n => n.id === store.activeNodeArray[3]
     )
     const activeLevel5Taxonomy = props.level4Taxonomy.nodes.find(
-      n => n.id === store.activeNodeArray[4],
+      n => n.id === store.activeNodeArray[4]
     )
 
     return {
@@ -38,3 +43,4 @@ export default (store: Object, props: Object): Array<Object> =>
       childrenCount,
     }
   })
+}
