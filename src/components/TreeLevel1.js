@@ -9,7 +9,7 @@ import Tree from './Tree'
 import TreeLevel2Taxonomy from './TreeLevel2Taxonomy'
 import TreePcLevel1 from './TreePcLevel1'
 import TreeRcLevel1 from './TreeRcLevel1'
-import level0FromProps from '../modules/nodes/level0FromProps'
+import level1FromProps from '../modules/nodes/level1FromProps'
 
 const enhance = compose(inject('store'), observer)
 
@@ -34,7 +34,7 @@ const TreeLevel1 = ({ store }: { store: Object }) =>
         return <div>{error.message}</div>
       } else if (props) {
         if (store.activeNodeArray.length === 0) {
-          store.tree.setNodes(level0FromProps(store, props))
+          store.tree.setNodes(level1FromProps(store, props))
           return <Tree nodes={store.tree.nodes} />
         }
         switch (store.activeNodeArray[0]) {

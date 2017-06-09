@@ -7,11 +7,11 @@ import compose from 'recompose/compose'
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
 import TreeLevel6Taxonomy from './TreeLevel6Taxonomy'
-import level0FromProps from '../modules/nodes/level0FromProps'
-import taxonomyLevel1FromProps from '../modules/nodes/taxonomyLevel1FromProps'
-import taxonomyLevel2FromProps from '../modules/nodes/taxonomyLevel2FromProps'
-import taxonomyLevel3FromProps from '../modules/nodes/taxonomyLevel3FromProps'
-import taxonomyLevel4FromProps from '../modules/nodes/taxonomyLevel4FromProps'
+import level1FromProps from '../modules/nodes/level1FromProps'
+import level2TaxonomyFromProps from '../modules/nodes/level2TaxonomyFromProps'
+import level3TaxonomyFromProps from '../modules/nodes/level3TaxonomyFromProps'
+import level4TaxonomyFromProps from '../modules/nodes/level4TaxonomyFromProps'
+import level5TaxonomyFromProps from '../modules/nodes/level5TaxonomyFromProps'
 
 const enhance = compose(inject('store'), observer)
 
@@ -53,11 +53,11 @@ const TreeLevel5Taxonomy = ({
       } else if (props) {
         if (store.activeNodeArray.length === 4) {
           store.tree.setNodes([
-            ...level0FromProps(store, level0Props),
-            ...taxonomyLevel1FromProps(store, level1Props),
-            ...taxonomyLevel2FromProps(store, level2Props),
-            ...taxonomyLevel3FromProps(store, level3Props),
-            ...taxonomyLevel4FromProps(store, props),
+            ...level1FromProps(store, level0Props),
+            ...level2TaxonomyFromProps(store, level1Props),
+            ...level3TaxonomyFromProps(store, level2Props),
+            ...level4TaxonomyFromProps(store, level3Props),
+            ...level5TaxonomyFromProps(store, props),
           ])
           return (
             <Tree

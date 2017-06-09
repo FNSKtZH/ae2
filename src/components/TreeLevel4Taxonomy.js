@@ -7,10 +7,10 @@ import compose from 'recompose/compose'
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
 import TreeLevel5Taxonomy from './TreeLevel5Taxonomy'
-import level0FromProps from '../modules/nodes/level0FromProps'
-import taxonomyLevel1FromProps from '../modules/nodes/taxonomyLevel1FromProps'
-import taxonomyLevel2FromProps from '../modules/nodes/taxonomyLevel2FromProps'
-import taxonomyLevel3FromProps from '../modules/nodes/taxonomyLevel3FromProps'
+import level1FromProps from '../modules/nodes/level1FromProps'
+import level2TaxonomyFromProps from '../modules/nodes/level2TaxonomyFromProps'
+import level3TaxonomyFromProps from '../modules/nodes/level3TaxonomyFromProps'
+import level4TaxonomyFromProps from '../modules/nodes/level4TaxonomyFromProps'
 
 const enhance = compose(inject('store'), observer)
 
@@ -49,10 +49,10 @@ const TreeLevel4Taxonomy = ({
       } else if (props) {
         if (store.activeNodeArray.length === 3) {
           store.tree.setNodes([
-            ...level0FromProps(store, level0Props),
-            ...taxonomyLevel1FromProps(store, level1Props),
-            ...taxonomyLevel2FromProps(store, level2Props),
-            ...taxonomyLevel3FromProps(store, props),
+            ...level1FromProps(store, level0Props),
+            ...level2TaxonomyFromProps(store, level1Props),
+            ...level3TaxonomyFromProps(store, level2Props),
+            ...level4TaxonomyFromProps(store, props),
           ])
           return (
             <Tree
@@ -81,9 +81,9 @@ const TreeLevel4Taxonomy = ({
           )
         }
       }
-      const level0Nodes = level0FromProps(store, level0Props)
-      const level1Nodes = taxonomyLevel1FromProps(store, level1Props)
-      const level2Nodes = taxonomyLevel2FromProps(store, level2Props)
+      const level0Nodes = level1FromProps(store, level0Props)
+      const level1Nodes = level2TaxonomyFromProps(store, level1Props)
+      const level2Nodes = level3TaxonomyFromProps(store, level2Props)
       const loadingLevel3Node = {
         loadingNode: true,
         id: 'level3Loading',
