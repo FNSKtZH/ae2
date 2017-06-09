@@ -215,17 +215,189 @@ const App = ({ store }: { store: Object }) => {
           return <div>{error.message}</div>
         } else if (props) {
           console.log('App: props:', props)
+          const activeLevel2Taxonomy = props.level2Taxonomy.taxonomiesByCategory.nodes.find(
+            n => n.id === store.activeNodeArray[1],
+          )
+          const activeLevel2TaxonomyName = activeLevel2Taxonomy &&
+            activeLevel2Taxonomy.name
+            ? activeLevel2Taxonomy.name
+            : null
+          const activeLevel3Taxonomy = props.level3Taxonomy.taxonomyObjectLevel1.nodes.find(
+            n => n.id === store.activeNodeArray[2],
+          )
+          const activeLevel3TaxonomyName = activeLevel3Taxonomy &&
+            activeLevel3Taxonomy.name
+            ? activeLevel3Taxonomy.name
+            : null
+          const activeLevel3TaxonomyId = activeLevel3Taxonomy &&
+            activeLevel3Taxonomy.id
+            ? activeLevel3Taxonomy.id
+            : null
+          const activeLevel4Taxonomy = props.level4Taxonomy.taxonomyObjectsByParentId.nodes.find(
+            n => n.id === store.activeNodeArray[3],
+          )
+          const activeLevel4TaxonomyName = activeLevel4Taxonomy &&
+            activeLevel4Taxonomy.name
+            ? activeLevel4Taxonomy.name
+            : null
+          const activeLevel4TaxonomyId = activeLevel4Taxonomy &&
+            activeLevel4Taxonomy.id
+            ? activeLevel4Taxonomy.id
+            : null
+          const activeLevel5Taxonomy = props.level5Taxonomy.taxonomyObjectsByParentId.nodes.find(
+            n => n.id === store.activeNodeArray[4],
+          )
+          const activeLevel5TaxonomyName = activeLevel5Taxonomy &&
+            activeLevel5Taxonomy.name
+            ? activeLevel5Taxonomy.name
+            : null
+          const activeLevel5TaxonomyId = activeLevel5Taxonomy &&
+            activeLevel5Taxonomy.id
+            ? activeLevel5Taxonomy.id
+            : null
+          const activeLevel6Taxonomy = props.level6Taxonomy.taxonomyObjectsByParentId.nodes.find(
+            n => n.id === store.activeNodeArray[5],
+          )
+          const activeLevel6TaxonomyName = activeLevel6Taxonomy &&
+            activeLevel6Taxonomy.name
+            ? activeLevel6Taxonomy.name
+            : null
+          const activeLevel6TaxonomyId = activeLevel6Taxonomy &&
+            activeLevel6Taxonomy.id
+            ? activeLevel6Taxonomy.id
+            : null
+          const activeLevel7Taxonomy = props.level7Taxonomy.taxonomyObjectsByParentId.nodes.find(
+            n => n.id === store.activeNodeArray[6],
+          )
+          const activeLevel7TaxonomyName = activeLevel7Taxonomy &&
+            activeLevel7Taxonomy.name
+            ? activeLevel7Taxonomy.name
+            : null
+          const activeLevel7TaxonomyId = activeLevel7Taxonomy &&
+            activeLevel7Taxonomy.id
+            ? activeLevel7Taxonomy.id
+            : null
+          const activeLevel8Taxonomy = props.level8Taxonomy.taxonomyObjectsByParentId.nodes.find(
+            n => n.id === store.activeNodeArray[7],
+          )
+          const activeLevel8TaxonomyName = activeLevel8Taxonomy &&
+            activeLevel8Taxonomy.name
+            ? activeLevel8Taxonomy.name
+            : null
+          const activeLevel8TaxonomyId = activeLevel8Taxonomy &&
+            activeLevel8Taxonomy.id
+            ? activeLevel8Taxonomy.id
+            : null
+          const activeLevel9Taxonomy = props.level9Taxonomy.taxonomyObjectsByParentId.nodes.find(
+            n => n.id === store.activeNodeArray[8],
+          )
+          const activeLevel9TaxonomyName = activeLevel9Taxonomy &&
+            activeLevel9Taxonomy.name
+            ? activeLevel9Taxonomy.name
+            : null
+          const activeLevel9TaxonomyId = activeLevel9Taxonomy &&
+            activeLevel9Taxonomy.id
+            ? activeLevel9Taxonomy.id
+            : null
           const nodes = [
             ...level1FromProps(store, props),
             ...level2TaxonomyFromProps(store, props),
-            ...level3TaxonomyFromProps(store, props),
-            ...level4TaxonomyFromProps(store, props),
-            ...level5TaxonomyFromProps(store, props),
-            ...level6TaxonomyFromProps(store, props),
-            ...level7TaxonomyFromProps(store, props),
-            ...level8TaxonomyFromProps(store, props),
-            ...level9TaxonomyFromProps(store, props),
-            ...level10TaxonomyFromProps(store, props),
+            ...level3TaxonomyFromProps({
+              store,
+              props,
+              activeLevel2TaxonomyName,
+            }),
+            ...level4TaxonomyFromProps({
+              store,
+              props,
+              activeLevel2TaxonomyName,
+              activeLevel3TaxonomyName,
+              activeLevel3TaxonomyId,
+            }),
+            ...level5TaxonomyFromProps({
+              store,
+              props,
+              activeLevel2TaxonomyName,
+              activeLevel3TaxonomyName,
+              activeLevel3TaxonomyId,
+              activeLevel4TaxonomyName,
+              activeLevel4TaxonomyId,
+            }),
+            ...level6TaxonomyFromProps({
+              store,
+              props,
+              activeLevel2TaxonomyName,
+              activeLevel3TaxonomyName,
+              activeLevel3TaxonomyId,
+              activeLevel4TaxonomyName,
+              activeLevel4TaxonomyId,
+              activeLevel5TaxonomyName,
+              activeLevel5TaxonomyId,
+            }),
+            ...level7TaxonomyFromProps({
+              store,
+              props,
+              activeLevel2TaxonomyName,
+              activeLevel3TaxonomyName,
+              activeLevel3TaxonomyId,
+              activeLevel4TaxonomyName,
+              activeLevel4TaxonomyId,
+              activeLevel5TaxonomyName,
+              activeLevel5TaxonomyId,
+              activeLevel6TaxonomyName,
+              activeLevel6TaxonomyId,
+            }),
+            ...level8TaxonomyFromProps({
+              store,
+              props,
+              activeLevel2TaxonomyName,
+              activeLevel3TaxonomyName,
+              activeLevel3TaxonomyId,
+              activeLevel4TaxonomyName,
+              activeLevel4TaxonomyId,
+              activeLevel5TaxonomyName,
+              activeLevel5TaxonomyId,
+              activeLevel6TaxonomyName,
+              activeLevel6TaxonomyId,
+              activeLevel7TaxonomyName,
+              activeLevel7TaxonomyId,
+            }),
+            ...level9TaxonomyFromProps({
+              store,
+              props,
+              activeLevel2TaxonomyName,
+              activeLevel3TaxonomyName,
+              activeLevel3TaxonomyId,
+              activeLevel4TaxonomyName,
+              activeLevel4TaxonomyId,
+              activeLevel5TaxonomyName,
+              activeLevel5TaxonomyId,
+              activeLevel6TaxonomyName,
+              activeLevel6TaxonomyId,
+              activeLevel7TaxonomyName,
+              activeLevel7TaxonomyId,
+              activeLevel8TaxonomyName,
+              activeLevel8TaxonomyId,
+            }),
+            ...level10TaxonomyFromProps({
+              store,
+              props,
+              activeLevel2TaxonomyName,
+              activeLevel3TaxonomyName,
+              activeLevel3TaxonomyId,
+              activeLevel4TaxonomyName,
+              activeLevel4TaxonomyId,
+              activeLevel5TaxonomyName,
+              activeLevel5TaxonomyId,
+              activeLevel6TaxonomyName,
+              activeLevel6TaxonomyId,
+              activeLevel7TaxonomyName,
+              activeLevel7TaxonomyId,
+              activeLevel8TaxonomyName,
+              activeLevel8TaxonomyId,
+              activeLevel9TaxonomyName,
+              activeLevel9TaxonomyId,
+            }),
           ]
           return (
             <Container>

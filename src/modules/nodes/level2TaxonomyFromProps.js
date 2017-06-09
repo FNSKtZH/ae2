@@ -2,10 +2,13 @@
 export default (store: Object, props: Object): Array<Object> => {
   if (!props) return []
   if (!props.level2Taxonomy) return []
-  if (!props.level2Taxonomy.nodes) return []
+  if (!props.level2Taxonomy.taxonomiesByCategory.nodes) return []
 
-  return props.level2Taxonomy.nodes.map(node => {
-    const childrenCount = node.taxonomyByCategory.totalCount
+  return props.level2Taxonomy.taxonomiesByCategory.nodes.map(node => {
+    const childrenCount = node.taxonomyByCategory &&
+      node.taxonomyByCategory.totalCount
+      ? node.taxonomyByCategory.totalCount
+      : 0
 
     return {
       id: node.id,
