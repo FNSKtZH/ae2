@@ -231,7 +231,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel3Taxonomy =
             activeLevel3TaxonomyNodes &&
             activeLevel3TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[1]
+              n => n.id === store.activeNodeArray[2]
             )
           const activeLevel3TaxonomyName =
             activeLevel3Taxonomy && activeLevel3Taxonomy.name
@@ -244,7 +244,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel4Taxonomy =
             activeLevel4TaxonomyNodes &&
             activeLevel4TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[2]
+              n => n.id === store.activeNodeArray[3]
             )
           const activeLevel4TaxonomyName =
             activeLevel4Taxonomy && activeLevel4Taxonomy.name
@@ -257,7 +257,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel5Taxonomy =
             activeLevel5TaxonomyNodes &&
             activeLevel5TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[3]
+              n => n.id === store.activeNodeArray[4]
             )
           const activeLevel5TaxonomyName =
             activeLevel5Taxonomy && activeLevel5Taxonomy.name
@@ -271,7 +271,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel6Taxonomy =
             activeLevel6TaxonomyNodes &&
             activeLevel6TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[4]
+              n => n.id === store.activeNodeArray[5]
             )
           const activeLevel6TaxonomyName =
             activeLevel6Taxonomy && activeLevel6Taxonomy.name
@@ -284,7 +284,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel7Taxonomy =
             activeLevel7TaxonomyNodes &&
             activeLevel7TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[5]
+              n => n.id === store.activeNodeArray[6]
             )
           const activeLevel7TaxonomyName =
             activeLevel7Taxonomy && activeLevel7Taxonomy.name
@@ -297,7 +297,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel8Taxonomy =
             activeLevel8TaxonomyNodes &&
             activeLevel8TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[6]
+              n => n.id === store.activeNodeArray[7]
             )
           const activeLevel8TaxonomyName =
             activeLevel8Taxonomy && activeLevel8Taxonomy.name
@@ -310,7 +310,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel9Taxonomy =
             activeLevel9TaxonomyNodes &&
             activeLevel9TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[7]
+              n => n.id === store.activeNodeArray[8]
             )
           const activeLevel9TaxonomyName =
             activeLevel9Taxonomy && activeLevel9Taxonomy.name
@@ -321,6 +321,14 @@ const App = ({ store }: { store: Object }) => {
             nodes = nodes.concat(level2TaxonomyFromProps(store, props))
           }
           if (store.activeNodeArray.length > 1) {
+            console.log(
+              'App: level3TaxonomyFromProps:',
+              level3TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+              })
+            )
             nodes = nodes.concat(
               level3TaxonomyFromProps({
                 store,
@@ -330,6 +338,16 @@ const App = ({ store }: { store: Object }) => {
             )
           }
           if (store.activeNodeArray.length > 2) {
+            console.log(
+              'App, level4TaxonomyFromProps:',
+              level4TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+                activeLevel3TaxonomyName,
+                activeLevel3TaxonomyId,
+              })
+            )
             nodes = nodes.concat(
               level4TaxonomyFromProps({
                 store,
