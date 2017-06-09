@@ -192,24 +192,36 @@ const App = ({ store }: { store: Object }) => {
         }
       `}
       variables={{
-        level1: store.activeNodeArray[0],
-        level2Taxonomy: store.activeNodeArray[1] || 'none',
-        level3Taxonomy:
-          store.activeNodeArray[2] || '99999999-9999-9999-9999-999999999999',
-        level4Taxonomy:
-          store.activeNodeArray[3] || '99999999-9999-9999-9999-999999999999',
-        level5Taxonomy:
-          store.activeNodeArray[4] || '99999999-9999-9999-9999-999999999999',
-        level6Taxonomy:
-          store.activeNodeArray[5] || '99999999-9999-9999-9999-999999999999',
-        level7Taxonomy:
-          store.activeNodeArray[6] || '99999999-9999-9999-9999-999999999999',
-        level8Taxonomy:
-          store.activeNodeArray[7] || '99999999-9999-9999-9999-999999999999',
-        level9Taxonomy:
-          store.activeNodeArray[8] || '99999999-9999-9999-9999-999999999999',
-        level10Taxonomy:
-          store.activeNodeArray[9] || '99999999-9999-9999-9999-999999999999',
+        level1: store.activeNodeArray.length > 0
+          ? store.activeNodeArray[0]
+          : 'none',
+        level2Taxonomy: store.activeNodeArray.length > 1
+          ? store.activeNodeArray[1]
+          : 'none',
+        level3Taxonomy: store.activeNodeArray.length > 2
+          ? store.activeNodeArray[2]
+          : '99999999-9999-9999-9999-999999999999',
+        level4Taxonomy: store.activeNodeArray.length > 3
+          ? store.activeNodeArray[3]
+          : '99999999-9999-9999-9999-999999999999',
+        level5Taxonomy: store.activeNodeArray.length > 4
+          ? store.activeNodeArray[4]
+          : '99999999-9999-9999-9999-999999999999',
+        level6Taxonomy: store.activeNodeArray.length > 5
+          ? store.activeNodeArray[5]
+          : '99999999-9999-9999-9999-999999999999',
+        level7Taxonomy: store.activeNodeArray.length > 6
+          ? store.activeNodeArray[6]
+          : '99999999-9999-9999-9999-999999999999',
+        level8Taxonomy: store.activeNodeArray.length > 7
+          ? store.activeNodeArray[7]
+          : '99999999-9999-9999-9999-999999999999',
+        level9Taxonomy: store.activeNodeArray.length > 8
+          ? store.activeNodeArray[8]
+          : '99999999-9999-9999-9999-999999999999',
+        level10Taxonomy: store.activeNodeArray.length > 9
+          ? store.activeNodeArray[9]
+          : '99999999-9999-9999-9999-999999999999',
       }}
       render={({ error, props }) => {
         if (error) {
@@ -318,106 +330,141 @@ const App = ({ store }: { store: Object }) => {
             activeLevel9Taxonomy && activeLevel9Taxonomy.name
           const activeLevel9TaxonomyId =
             activeLevel9Taxonomy && activeLevel9Taxonomy.id
-          const nodes = [
-            ...level1FromProps(store, props),
-            ...level2TaxonomyFromProps(store, props),
-            ...level3TaxonomyFromProps({
-              store,
-              props,
-              activeLevel2TaxonomyName,
-            }),
-            ...level4TaxonomyFromProps({
-              store,
-              props,
-              activeLevel2TaxonomyName,
-              activeLevel3TaxonomyName,
-              activeLevel3TaxonomyId,
-            }),
-            ...level5TaxonomyFromProps({
-              store,
-              props,
-              activeLevel2TaxonomyName,
-              activeLevel3TaxonomyName,
-              activeLevel3TaxonomyId,
-              activeLevel4TaxonomyName,
-              activeLevel4TaxonomyId,
-            }),
-            ...level6TaxonomyFromProps({
-              store,
-              props,
-              activeLevel2TaxonomyName,
-              activeLevel3TaxonomyName,
-              activeLevel3TaxonomyId,
-              activeLevel4TaxonomyName,
-              activeLevel4TaxonomyId,
-              activeLevel5TaxonomyName,
-              activeLevel5TaxonomyId,
-            }),
-            ...level7TaxonomyFromProps({
-              store,
-              props,
-              activeLevel2TaxonomyName,
-              activeLevel3TaxonomyName,
-              activeLevel3TaxonomyId,
-              activeLevel4TaxonomyName,
-              activeLevel4TaxonomyId,
-              activeLevel5TaxonomyName,
-              activeLevel5TaxonomyId,
-              activeLevel6TaxonomyName,
-              activeLevel6TaxonomyId,
-            }),
-            ...level8TaxonomyFromProps({
-              store,
-              props,
-              activeLevel2TaxonomyName,
-              activeLevel3TaxonomyName,
-              activeLevel3TaxonomyId,
-              activeLevel4TaxonomyName,
-              activeLevel4TaxonomyId,
-              activeLevel5TaxonomyName,
-              activeLevel5TaxonomyId,
-              activeLevel6TaxonomyName,
-              activeLevel6TaxonomyId,
-              activeLevel7TaxonomyName,
-              activeLevel7TaxonomyId,
-            }),
-            ...level9TaxonomyFromProps({
-              store,
-              props,
-              activeLevel2TaxonomyName,
-              activeLevel3TaxonomyName,
-              activeLevel3TaxonomyId,
-              activeLevel4TaxonomyName,
-              activeLevel4TaxonomyId,
-              activeLevel5TaxonomyName,
-              activeLevel5TaxonomyId,
-              activeLevel6TaxonomyName,
-              activeLevel6TaxonomyId,
-              activeLevel7TaxonomyName,
-              activeLevel7TaxonomyId,
-              activeLevel8TaxonomyName,
-              activeLevel8TaxonomyId,
-            }),
-            ...level10TaxonomyFromProps({
-              store,
-              props,
-              activeLevel2TaxonomyName,
-              activeLevel3TaxonomyName,
-              activeLevel3TaxonomyId,
-              activeLevel4TaxonomyName,
-              activeLevel4TaxonomyId,
-              activeLevel5TaxonomyName,
-              activeLevel5TaxonomyId,
-              activeLevel6TaxonomyName,
-              activeLevel6TaxonomyId,
-              activeLevel7TaxonomyName,
-              activeLevel7TaxonomyId,
-              activeLevel8TaxonomyName,
-              activeLevel8TaxonomyId,
-              activeLevel9TaxonomyName,
-              activeLevel9TaxonomyId,
-            }),
-          ]
+          let nodes = []
+          if (store.activeNodeArray.length > 0) {
+            nodes = nodes.concat(level1FromProps(store, props))
+          }
+          if (store.activeNodeArray.length > 1) {
+            nodes = nodes.concat(level2TaxonomyFromProps(store, props))
+          }
+          if (store.activeNodeArray.length > 2) {
+            nodes = nodes.concat(
+              level3TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+              })
+            )
+          }
+          if (store.activeNodeArray.length > 3) {
+            nodes = nodes.concat(
+              level4TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+                activeLevel3TaxonomyName,
+                activeLevel3TaxonomyId,
+              })
+            )
+          }
+          if (store.activeNodeArray.length > 4) {
+            nodes = nodes.concat(
+              level5TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+                activeLevel3TaxonomyName,
+                activeLevel3TaxonomyId,
+                activeLevel4TaxonomyName,
+                activeLevel4TaxonomyId,
+              })
+            )
+          }
+          if (store.activeNodeArray.length > 5) {
+            nodes = nodes.concat(
+              level6TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+                activeLevel3TaxonomyName,
+                activeLevel3TaxonomyId,
+                activeLevel4TaxonomyName,
+                activeLevel4TaxonomyId,
+                activeLevel5TaxonomyName,
+                activeLevel5TaxonomyId,
+              })
+            )
+          }
+          if (store.activeNodeArray.length > 6) {
+            nodes = nodes.concat(
+              level7TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+                activeLevel3TaxonomyName,
+                activeLevel3TaxonomyId,
+                activeLevel4TaxonomyName,
+                activeLevel4TaxonomyId,
+                activeLevel5TaxonomyName,
+                activeLevel5TaxonomyId,
+                activeLevel6TaxonomyName,
+                activeLevel6TaxonomyId,
+              })
+            )
+          }
+          if (store.activeNodeArray.length > 7) {
+            nodes = nodes.concat(
+              level8TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+                activeLevel3TaxonomyName,
+                activeLevel3TaxonomyId,
+                activeLevel4TaxonomyName,
+                activeLevel4TaxonomyId,
+                activeLevel5TaxonomyName,
+                activeLevel5TaxonomyId,
+                activeLevel6TaxonomyName,
+                activeLevel6TaxonomyId,
+                activeLevel7TaxonomyName,
+                activeLevel7TaxonomyId,
+              })
+            )
+          }
+          if (store.activeNodeArray.length > 8) {
+            nodes = nodes.concat(
+              level9TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+                activeLevel3TaxonomyName,
+                activeLevel3TaxonomyId,
+                activeLevel4TaxonomyName,
+                activeLevel4TaxonomyId,
+                activeLevel5TaxonomyName,
+                activeLevel5TaxonomyId,
+                activeLevel6TaxonomyName,
+                activeLevel6TaxonomyId,
+                activeLevel7TaxonomyName,
+                activeLevel7TaxonomyId,
+                activeLevel8TaxonomyName,
+                activeLevel8TaxonomyId,
+              })
+            )
+          }
+          if (store.activeNodeArray.length > 9) {
+            nodes = nodes.concat(
+              level10TaxonomyFromProps({
+                store,
+                props,
+                activeLevel2TaxonomyName,
+                activeLevel3TaxonomyName,
+                activeLevel3TaxonomyId,
+                activeLevel4TaxonomyName,
+                activeLevel4TaxonomyId,
+                activeLevel5TaxonomyName,
+                activeLevel5TaxonomyId,
+                activeLevel6TaxonomyName,
+                activeLevel6TaxonomyId,
+                activeLevel7TaxonomyName,
+                activeLevel7TaxonomyId,
+                activeLevel8TaxonomyName,
+                activeLevel8TaxonomyId,
+                activeLevel9TaxonomyName,
+                activeLevel9TaxonomyId,
+              })
+            )
+          }
           return (
             <Container>
               <AppBar />
