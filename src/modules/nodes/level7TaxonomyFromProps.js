@@ -10,7 +10,7 @@ export default (store: Object, props: Object): Array<Object> => {
       const childrenCount = level6.taxonomyObjectsByParentId.totalCount
       const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
       if (store.activeNodeArray[6] === level6.id) {
-        store.tree.setActiveLevel6(level6)
+        store.tree.setActiveLevel7(level6)
       }
 
       return {
@@ -19,18 +19,18 @@ export default (store: Object, props: Object): Array<Object> => {
           store.tree.activeDataType,
           store.tree.activeCategory.name,
           store.tree.activeTaxonomy.id,
-          store.tree.activeLevel3.id,
           store.tree.activeLevel4.id,
           store.tree.activeLevel5.id,
+          store.tree.activeLevel6.id,
           level6.id,
         ],
         sort: [
           store.tree.activeDataType,
           store.tree.activeCategory.name,
           store.tree.activeTaxonomy.name,
-          store.tree.activeLevel3.name,
           store.tree.activeLevel4.name,
           store.tree.activeLevel5.name,
+          store.tree.activeLevel6.name,
           level6.name,
         ],
         label: `${level6.name}${labelCount}`,

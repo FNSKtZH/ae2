@@ -40,7 +40,6 @@ class App extends Component {
                 activeDataType={store.tree.activeDataType}
                 activeCategory={store.tree.activeCategory}
                 activeTaxonomy={store.tree.activeTaxonomy}
-                activeLevel3={store.tree.activeLevel3}
                 activeLevel4={store.tree.activeLevel4}
                 activeLevel5={store.tree.activeLevel5}
                 activeLevel6={store.tree.activeLevel6}

@@ -13,8 +13,6 @@ function Store(): void {
     setActiveCategory: () => {},
     activeTaxonomy: {},
     setActiveTaxonomy: () => {},
-    activeLevel3: {},
-    setActiveLevel3: () => {},
     activeLevel4: {},
     setActiveLevel4: () => {},
     activeLevel5: {},

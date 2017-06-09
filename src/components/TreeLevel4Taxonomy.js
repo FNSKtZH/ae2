@@ -61,7 +61,6 @@ const TreeLevel4Taxonomy = ({
               activeDataType={store.tree.activeDataType}
               activeCategory={store.tree.activeCategory}
               activeTaxonomy={store.tree.activeTaxonomy}
-              activeLevel4={store.tree.activeLevel4}
               activeLevel5={store.tree.activeLevel5}
               activeLevel6={store.tree.activeLevel6}
               activeLevel7={store.tree.activeLevel7}
@@ -102,7 +101,7 @@ const TreeLevel4Taxonomy = ({
         label: 'lade Daten',
         childrenCount: 0,
       }
-      store.tree.setActiveLevel3(loadingLevel3Node)
+      store.tree.setActiveLevel4(loadingLevel3Node)
       store.tree.setNodes([
         ...level0Nodes,
         ...level1Nodes,

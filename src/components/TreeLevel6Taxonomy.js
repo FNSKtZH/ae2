@@ -70,7 +70,6 @@ const TreeLevel6Taxonomy = ({
               activeDataType={store.tree.activeDataType}
               activeCategory={store.tree.activeCategory}
               activeTaxonomy={store.tree.activeTaxonomy}
-              activeLevel4={store.tree.activeLevel4}
               activeLevel5={store.tree.activeLevel5}
               activeLevel6={store.tree.activeLevel6}
               activeLevel7={store.tree.activeLevel7}
