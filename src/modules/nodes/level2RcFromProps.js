@@ -4,12 +4,13 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!props.allRelationCollections) return []
   if (!props.allRelationCollections.nodes) return []
 
-  return props.allRelationCollections.nodes.map(rc => {
+  return props.allRelationCollections.nodes.map(node => {
     return {
-      id: rc.id,
-      url: [store.tree.activeLevel1, rc.id],
-      sort: [store.tree.activeLevel1, rc.name],
-      label: `${rc.name}: ${rc.relationCollectionObjectsByRelationCollectionId
+      id: node.id,
+      url: [store.tree.activeLevel1, node.id],
+      sort: [store.tree.activeLevel1, node.name],
+      label: `${node.name}: ${node
+        .relationCollectionObjectsByRelationCollectionId
         .totalCount} Objekte mit Beziehungen`,
       childrenCount: 0,
     }

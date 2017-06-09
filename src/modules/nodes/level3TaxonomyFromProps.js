@@ -5,18 +5,26 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!props.categoryByName.taxonomiesByCategory) return []
   if (!props.categoryByName.taxonomiesByCategory.nodes) return []
 
-  return props.categoryByName.taxonomiesByCategory.nodes.map(taxonomy => {
-    const childrenCount = taxonomy.taxonomyObjectLevel1.totalCount
+  return props.categoryByName.taxonomiesByCategory.nodes.map(node => {
+    const childrenCount = node.taxonomyObjectLevel1.totalCount
     const labelCount = ` (${childrenCount})`
-    if (store.activeNodeArray[2] === taxonomy.id) {
-      store.tree.setActiveLevel3Taxonomy(taxonomy)
+    if (store.activeNodeArray[2] === node.id) {
+      store.tree.setActiveLevel3Taxonomy(node)
     }
 
     return {
-      id: taxonomy.id,
-      url: [store.tree.activeLevel1, store.tree.activeLevel2Taxonomy.name, taxonomy.id],
-      sort: [store.tree.activeLevel1, store.tree.activeLevel2Taxonomy.name, taxonomy.name],
-      label: `${taxonomy.name}${labelCount}`,
+      id: node.id,
+      url: [
+        store.tree.activeLevel1,
+        store.tree.activeLevel2Taxonomy.name,
+        node.id,
+      ],
+      sort: [
+        store.tree.activeLevel1,
+        store.tree.activeLevel2Taxonomy.name,
+        node.name,
+      ],
+      label: `${node.name}${labelCount}`,
       childrenCount,
     }
   })

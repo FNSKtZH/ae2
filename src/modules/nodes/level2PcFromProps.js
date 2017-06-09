@@ -4,13 +4,13 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!props.allPropertyCollections) return []
   if (!props.allPropertyCollections.nodes) return []
 
-  return props.allPropertyCollections.nodes.map(pc => {
+  return props.allPropertyCollections.nodes.map(node => {
     return {
-      id: pc.id,
-      url: [store.tree.activeLevel1, pc.id],
-      sort: [store.tree.activeLevel1, pc.name],
-      label: `${pc.name}: ${pc.propertyCollectionObjectsByPropertyCollectionId
-        .totalCount} Objekte`,
+      id: node.id,
+      url: [store.tree.activeLevel1, node.id],
+      sort: [store.tree.activeLevel1, node.name],
+      label: `${node.name}: ${node
+        .propertyCollectionObjectsByPropertyCollectionId.totalCount} Objekte`,
       childrenCount: 0,
     }
   })

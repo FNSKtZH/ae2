@@ -5,37 +5,35 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!props.taxonomyObjectById.taxonomyObjectsByParentId) return []
   if (!props.taxonomyObjectById.taxonomyObjectsByParentId.nodes) return []
 
-  return props.taxonomyObjectById.taxonomyObjectsByParentId.nodes.map(
-    level6 => {
-      const childrenCount = level6.taxonomyObjectsByParentId.totalCount
-      const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
-      if (store.activeNodeArray[6] === level6.id) {
-        store.tree.setActiveLevel7Taxonomy(level6)
-      }
-
-      return {
-        id: level6.id,
-        url: [
-          store.tree.activeLevel1,
-          store.tree.activeLevel2Taxonomy.name,
-          store.tree.activeLevel3Taxonomy.id,
-          store.tree.activeLevel4Taxonomy.id,
-          store.tree.activeLevel5Taxonomy.id,
-          store.tree.activeLevel6Taxonomy.id,
-          level6.id,
-        ],
-        sort: [
-          store.tree.activeLevel1,
-          store.tree.activeLevel2Taxonomy.name,
-          store.tree.activeLevel3Taxonomy.name,
-          store.tree.activeLevel4Taxonomy.name,
-          store.tree.activeLevel5Taxonomy.name,
-          store.tree.activeLevel6Taxonomy.name,
-          level6.name,
-        ],
-        label: `${level6.name}${labelCount}`,
-        childrenCount,
-      }
+  return props.taxonomyObjectById.taxonomyObjectsByParentId.nodes.map(node => {
+    const childrenCount = node.taxonomyObjectsByParentId.totalCount
+    const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
+    if (store.activeNodeArray[6] === node.id) {
+      store.tree.setActiveLevel7Taxonomy(node)
     }
-  )
+
+    return {
+      id: node.id,
+      url: [
+        store.tree.activeLevel1,
+        store.tree.activeLevel2Taxonomy.name,
+        store.tree.activeLevel3Taxonomy.id,
+        store.tree.activeLevel4Taxonomy.id,
+        store.tree.activeLevel5Taxonomy.id,
+        store.tree.activeLevel6Taxonomy.id,
+        node.id,
+      ],
+      sort: [
+        store.tree.activeLevel1,
+        store.tree.activeLevel2Taxonomy.name,
+        store.tree.activeLevel3Taxonomy.name,
+        store.tree.activeLevel4Taxonomy.name,
+        store.tree.activeLevel5Taxonomy.name,
+        store.tree.activeLevel6Taxonomy.name,
+        node.name,
+      ],
+      label: `${node.name}${labelCount}`,
+      childrenCount,
+    }
+  })
 }

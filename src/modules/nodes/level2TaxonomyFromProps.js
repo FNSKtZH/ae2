@@ -4,20 +4,20 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!props.categoryByDataType) return []
   if (!props.categoryByDataType.nodes) return []
 
-  return props.categoryByDataType.nodes.map(category => {
-    const childrenCount = category.taxonomyByCategory.totalCount
+  return props.categoryByDataType.nodes.map(node => {
+    const childrenCount = node.taxonomyByCategory.totalCount
     // const taxonomyText = childrenCount !== 1 ? 'Taxonomien' : 'Taxonomie'
     // const labelCount = ` (${childrenCount} ${taxonomyText})`
     const labelCount = ` (${childrenCount})`
-    if (store.activeNodeArray[1] === category.name) {
-      store.tree.setActiveLevel2Taxonomy(category)
+    if (store.activeNodeArray[1] === node.name) {
+      store.tree.setActiveLevel2Taxonomy(node)
     }
 
     return {
-      id: category.id,
-      url: [store.tree.activeLevel1, category.name],
-      sort: [store.tree.activeLevel1, category.name],
-      label: `${category.name}${labelCount}`,
+      id: node.id,
+      url: [store.tree.activeLevel1, node.name],
+      sort: [store.tree.activeLevel1, node.name],
+      label: `${node.name}${labelCount}`,
       childrenCount,
     }
   })
