@@ -59,13 +59,13 @@ const TreeLevel3Taxonomy = ({
               activeDataType={store.tree.activeDataType}
               activeCategory={store.tree.activeCategory}
               activeTaxonomy={store.tree.activeTaxonomy}
-              activeLevel4={store.tree.activeLevel4}
-              activeLevel5={store.tree.activeLevel5}
-              activeLevel6={store.tree.activeLevel6}
-              activeLevel7={store.tree.activeLevel7}
-              activeLevel8={store.tree.activeLevel8}
-              activeLevel9={store.tree.activeLevel9}
-              activeLevel10={store.tree.activeLevel10}
+              activeLevel4Taxonomy={store.tree.activeLevel4Taxonomy}
+              activeLevel5Taxonomy={store.tree.activeLevel5Taxonomy}
+              activeLevel6Taxonomy={store.tree.activeLevel6Taxonomy}
+              activeLevel7Taxonomy={store.tree.activeLevel7Taxonomy}
+              activeLevel8Taxonomy={store.tree.activeLevel8Taxonomy}
+              activeLevel9Taxonomy={store.tree.activeLevel9Taxonomy}
+              activeLevel10Taxonomy={store.tree.activeLevel10Taxonomy}
             />
           )
         } else if (store.activeNodeArray.length > 2) {

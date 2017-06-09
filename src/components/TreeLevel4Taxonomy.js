@@ -61,12 +61,12 @@ const TreeLevel4Taxonomy = ({
               activeDataType={store.tree.activeDataType}
               activeCategory={store.tree.activeCategory}
               activeTaxonomy={store.tree.activeTaxonomy}
-              activeLevel5={store.tree.activeLevel5}
-              activeLevel6={store.tree.activeLevel6}
-              activeLevel7={store.tree.activeLevel7}
-              activeLevel8={store.tree.activeLevel8}
-              activeLevel9={store.tree.activeLevel9}
-              activeLevel10={store.tree.activeLevel10}
+              activeLevel5Taxonomy={store.tree.activeLevel5Taxonomy}
+              activeLevel6Taxonomy={store.tree.activeLevel6Taxonomy}
+              activeLevel7Taxonomy={store.tree.activeLevel7Taxonomy}
+              activeLevel8Taxonomy={store.tree.activeLevel8Taxonomy}
+              activeLevel9Taxonomy={store.tree.activeLevel9Taxonomy}
+              activeLevel10Taxonomy={store.tree.activeLevel10Taxonomy}
             />
           )
         } else if (store.activeNodeArray.length > 3) {
@@ -101,7 +101,7 @@ const TreeLevel4Taxonomy = ({
         label: 'lade Daten',
         childrenCount: 0,
       }
-      store.tree.setActiveLevel4(loadingLevel3Node)
+      store.tree.setActiveLevel4Taxonomy(loadingLevel3Node)
       store.tree.setNodes([
         ...level0Nodes,
         ...level1Nodes,

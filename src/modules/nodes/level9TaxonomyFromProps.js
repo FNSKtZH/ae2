@@ -10,7 +10,7 @@ export default (store: Object, props: Object): Array<Object> => {
       const childrenCount = level8.taxonomyObjectsByParentId.totalCount
       const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
       if (store.activeNodeArray[8] === level8.id) {
-        store.tree.setActiveLevel9(level8)
+        store.tree.setActiveLevel9Taxonomy(level8)
       }
 
       return {
@@ -19,22 +19,22 @@ export default (store: Object, props: Object): Array<Object> => {
           store.tree.activeDataType,
           store.tree.activeCategory.name,
           store.tree.activeTaxonomy.id,
-          store.tree.activeLevel4.id,
-          store.tree.activeLevel5.id,
-          store.tree.activeLevel6.id,
-          store.tree.activeLevel7.id,
-          store.tree.activeLevel8.id,
+          store.tree.activeLevel4Taxonomy.id,
+          store.tree.activeLevel5Taxonomy.id,
+          store.tree.activeLevel6Taxonomy.id,
+          store.tree.activeLevel7Taxonomy.id,
+          store.tree.activeLevel8Taxonomy.id,
           level8.id,
         ],
         sort: [
           store.tree.activeDataType,
           store.tree.activeCategory.name,
           store.tree.activeTaxonomy.name,
-          store.tree.activeLevel4.name,
-          store.tree.activeLevel5.name,
-          store.tree.activeLevel6.name,
-          store.tree.activeLevel7.name,
-          store.tree.activeLevel8.name,
+          store.tree.activeLevel4Taxonomy.name,
+          store.tree.activeLevel5Taxonomy.name,
+          store.tree.activeLevel6Taxonomy.name,
+          store.tree.activeLevel7Taxonomy.name,
+          store.tree.activeLevel8Taxonomy.name,
           level8.name,
         ],
         label: `${level8.name}${labelCount}`,
