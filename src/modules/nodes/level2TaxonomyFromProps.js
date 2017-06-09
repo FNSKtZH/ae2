@@ -1,6 +1,6 @@
 // @flow
 export default (store: Object, props: Object): Array<Object> =>
-  props.level1Taxonomy.nodes.map(node => {
+  props.level2Taxonomy.nodes.map(node => {
     const childrenCount = node.taxonomyByCategory.totalCount
 
     return {

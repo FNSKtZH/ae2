@@ -1,37 +1,40 @@
 // @flow
-export default (store: Object, props: Object): Array<Object> => {
-  if (!props) return []
-  if (!props.taxonomyObjectById) return []
-  if (!props.taxonomyObjectById.taxonomyObjectsByParentId) return []
-  if (!props.taxonomyObjectById.taxonomyObjectsByParentId.nodes) return []
-
-  return props.taxonomyObjectById.taxonomyObjectsByParentId.nodes.map(node => {
+export default (store: Object, props: Object): Array<Object> =>
+  props.level6Taxonomy.taxonomyObjectsByParentId.nodes.map(node => {
     const childrenCount = node.taxonomyObjectsByParentId.totalCount
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
-    if (store.activeNodeArray[5] === node.id) {
-      store.tree.setActiveLevel6Taxonomy(node)
-    }
+    const activeLevel2Taxonomy = props.level1Taxonomy.nodes.find(
+      n => n.id === store.activeNodeArray[1],
+    )
+    const activeLevel3Taxonomy = props.level2Taxonomy.nodes.find(
+      n => n.id === store.activeNodeArray[2],
+    )
+    const activeLevel4Taxonomy = props.level3Taxonomy.nodes.find(
+      n => n.id === store.activeNodeArray[3],
+    )
+    const activeLevel5Taxonomy = props.level4Taxonomy.nodes.find(
+      n => n.id === store.activeNodeArray[4],
+    )
 
     return {
       id: node.id,
       url: [
         'Taxonomien',
-        store.tree.activeLevel2Taxonomy.name,
-        store.tree.activeLevel3Taxonomy.id,
-        store.tree.activeLevel4Taxonomy.id,
-        store.tree.activeLevel5Taxonomy.id,
+        activeLevel2Taxonomy.name,
+        activeLevel3Taxonomy.id,
+        activeLevel4Taxonomy.id,
+        activeLevel5Taxonomy.id,
         node.id,
       ],
       sort: [
         1,
-        store.tree.activeLevel2Taxonomy.name,
-        store.tree.activeLevel3Taxonomy.name,
-        store.tree.activeLevel4Taxonomy.name,
-        store.tree.activeLevel5Taxonomy.name,
+        activeLevel2Taxonomy.name,
+        activeLevel3Taxonomy.name,
+        activeLevel4Taxonomy.name,
+        activeLevel5Taxonomy.name,
         node.name,
       ],
       label: `${node.name}${labelCount}`,
       childrenCount,
     }
   })
-}
