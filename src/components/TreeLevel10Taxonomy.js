@@ -21,7 +21,6 @@ const enhance = compose(inject('store'), observer)
 
 const TreeLevel10Taxonomy = ({
   store,
-  level0Props,
   level1Props,
   level2Props,
   level3Props,
@@ -30,9 +29,9 @@ const TreeLevel10Taxonomy = ({
   level6Props,
   level7Props,
   level8Props,
+  level9Props,
 }: {
   store: Object,
-  level0Props: Object,
   level1Props: Object,
   level2Props: Object,
   level3Props: Object,
@@ -41,6 +40,7 @@ const TreeLevel10Taxonomy = ({
   level6Props: Object,
   level7Props: Object,
   level8Props: Object,
+  level9Props: Object,
 }) =>
   <QueryRenderer
     environment={environment}
@@ -66,15 +66,15 @@ const TreeLevel10Taxonomy = ({
         return <div>{error.message}</div>
       } else if (props && store.activeNodeArray.length === 9) {
         store.tree.setNodes([
-          ...level1FromProps(store, level0Props),
-          ...level2TaxonomyFromProps(store, level1Props),
-          ...level3TaxonomyFromProps(store, level2Props),
-          ...level4TaxonomyFromProps(store, level3Props),
-          ...level5TaxonomyFromProps(store, level4Props),
-          ...level6TaxonomyFromProps(store, level5Props),
-          ...level7TaxonomyFromProps(store, level6Props),
-          ...level8TaxonomyFromProps(store, level7Props),
-          ...level9TaxonomyFromProps(store, level8Props),
+          ...level1FromProps(store, level1Props),
+          ...level2TaxonomyFromProps(store, level2Props),
+          ...level3TaxonomyFromProps(store, level3Props),
+          ...level4TaxonomyFromProps(store, level4Props),
+          ...level5TaxonomyFromProps(store, level5Props),
+          ...level6TaxonomyFromProps(store, level6Props),
+          ...level7TaxonomyFromProps(store, level7Props),
+          ...level8TaxonomyFromProps(store, level8Props),
+          ...level9TaxonomyFromProps(store, level9Props),
           ...level10TaxonomyFromProps(store, props),
         ])
         return <Tree nodes={store.tree.nodes} />

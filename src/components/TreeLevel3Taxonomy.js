@@ -15,12 +15,12 @@ const enhance = compose(inject('store'), observer)
 
 const TreeLevel3Taxonomy = ({
   store,
-  level0Props,
   level1Props,
+  level2Props,
 }: {
   store: Object,
-  level0Props: Object,
   level1Props: Object,
+  level2Props: Object,
 }) =>
   <QueryRenderer
     environment={environment}
@@ -47,8 +47,8 @@ const TreeLevel3Taxonomy = ({
         if (store.activeNodeArray.length === 2) {
           // console.log('TreeLevel3Taxonomy, returning all nodes')
           const nodes = [
-            ...level1FromProps(store, level0Props),
-            ...level2TaxonomyFromProps(store, level1Props),
+            ...level1FromProps(store, level1Props),
+            ...level2TaxonomyFromProps(store, level2Props),
             ...level3TaxonomyFromProps(store, props),
           ]
           store.tree.setNodes(nodes)
@@ -72,9 +72,9 @@ const TreeLevel3Taxonomy = ({
         } else if (store.activeNodeArray.length > 2) {
           return (
             <TreeLevel4Taxonomy
-              level0Props={level0Props}
               level1Props={level1Props}
-              level2Props={props}
+              level2Props={level2Props}
+              level3Props={props}
             />
           )
         }

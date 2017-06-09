@@ -20,22 +20,22 @@ const enhance = compose(inject('store'), observer)
 
 const TreeLevel8Taxonomy = ({
   store,
-  level0Props,
   level1Props,
   level2Props,
   level3Props,
   level4Props,
   level5Props,
   level6Props,
+  level7Props,
 }: {
   store: Object,
-  level0Props: Object,
   level1Props: Object,
   level2Props: Object,
   level3Props: Object,
   level4Props: Object,
   level5Props: Object,
   level6Props: Object,
+  level7Props: Object,
 }) =>
   <QueryRenderer
     environment={environment}
@@ -62,27 +62,27 @@ const TreeLevel8Taxonomy = ({
       } else if (props) {
         if (store.activeNodeArray.length === 7) {
           store.tree.setNodes([
-            ...level1FromProps(store, level0Props),
-            ...level2TaxonomyFromProps(store, level1Props),
-            ...level3TaxonomyFromProps(store, level2Props),
-            ...level4TaxonomyFromProps(store, level3Props),
-            ...level5TaxonomyFromProps(store, level4Props),
-            ...level6TaxonomyFromProps(store, level5Props),
-            ...level7TaxonomyFromProps(store, level6Props),
+            ...level1FromProps(store, level1Props),
+            ...level2TaxonomyFromProps(store, level2Props),
+            ...level3TaxonomyFromProps(store, level3Props),
+            ...level4TaxonomyFromProps(store, level4Props),
+            ...level5TaxonomyFromProps(store, level5Props),
+            ...level6TaxonomyFromProps(store, level6Props),
+            ...level7TaxonomyFromProps(store, level7Props),
             ...level8TaxonomyFromProps(store, props),
           ])
           return <Tree nodes={store.tree.nodes} />
         } else if (store.activeNodeArray.length > 7) {
           return (
             <TreeLevel9Taxonomy
-              level0Props={level0Props}
               level1Props={level1Props}
               level2Props={level2Props}
               level3Props={level3Props}
               level4Props={level4Props}
               level5Props={level5Props}
               level6Props={level6Props}
-              level7Props={props}
+              level7Props={level7Props}
+              level8Props={props}
             />
           )
         }
