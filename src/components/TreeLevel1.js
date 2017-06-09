@@ -7,8 +7,8 @@ import compose from 'recompose/compose'
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
 import TreeLevel2Taxonomy from './TreeLevel2Taxonomy'
-import TreePcLevel1 from './TreePcLevel1'
-import TreeRcLevel1 from './TreeRcLevel1'
+import TreeLevel2Rc from './TreeLevel2Rc'
+import TreeLevel2Pc from './TreeLevel2Pc'
 import level1FromProps from '../modules/nodes/level1FromProps'
 
 const enhance = compose(inject('store'), observer)
@@ -44,11 +44,11 @@ const TreeLevel1 = ({ store }: { store: Object }) =>
           }
           case 'Eigenschaften-Sammlungen': {
             store.tree.setActiveDataType('Eigenschaften-Sammlungen')
-            return <TreePcLevel1 level0Props={props} />
+            return <TreeLevel2Rc level0Props={props} />
           }
           case 'Beziehungs-Sammlungen': {
             store.tree.setActiveDataType('Beziehungs-Sammlungen')
-            return <TreeRcLevel1 level0Props={props} />
+            return <TreeLevel2Pc level0Props={props} />
           }
           default:
             return <Tree nodes={store.tree.nodes} />

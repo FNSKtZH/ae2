@@ -7,7 +7,7 @@ import compose from 'recompose/compose'
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
 import level1FromProps from '../modules/nodes/level1FromProps'
-import rcLevel1FromProps from '../modules/nodes/rcLevel1FromProps'
+import level2RcFromProps from '../modules/nodes/level2RcFromProps'
 
 const enhance = compose(inject('store'), observer)
 
@@ -21,7 +21,7 @@ const TreeLevel2Taxonomy = ({
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeRcLevel1Query {
+      query TreeLevel2RcQuery {
         allRelationCollections {
           nodes {
             id
@@ -39,7 +39,7 @@ const TreeLevel2Taxonomy = ({
       } else if (props) {
         store.tree.setNodes([
           ...level1FromProps(store, level0Props),
-          ...rcLevel1FromProps(store, props),
+          ...level2RcFromProps(store, props),
         ])
         return <Tree nodes={store.tree.nodes} />
       }

@@ -13,7 +13,6 @@ import TaxonomyLevel6 from './TreeLevel7Taxonomy'
 import TaxonomyLevel7 from './TreeLevel8Taxonomy'
 import TaxonomyLevel8 from './TreeLevel9Taxonomy'
 import TaxonomyLevel9 from './TreeLevel10Taxonomy'
-import TaxonomyLevel10 from './TreeTaxonomyLevel10'
 
 const enhance = compose(inject('store'), observer)
 
@@ -43,8 +42,6 @@ const TreeChooser = ({ store }: { store: Object }) => {
           return <TaxonomyLevel8 />
         case 9:
           return <TaxonomyLevel9 />
-        case 10:
-          return <TaxonomyLevel10 />
         default:
           return <Level0 />
       }
