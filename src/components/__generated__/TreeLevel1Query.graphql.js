@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule TreeLevel1Query.graphql
- * @generated SignedSource<<ddb2b42432466f355c436559bd085d6e>>
- * @relayHash f1aa37681438ff6a4ad9e92d56cb392f
+ * @generated SignedSource<<5f4646687604515dcd308fb207ea1dc1>>
+ * @relayHash 24e12c09b86d4ed7bddb5db80c2e20b7
  * @flow
  * @nogrep
  */
@@ -21,13 +21,13 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 /*
 query TreeLevel1Query {
+  allCategories {
+    totalCount
+  }
   allPropertyCollections {
     totalCount
   }
   allRelationCollections {
-    totalCount
-  }
-  allCategories {
     totalCount
   }
 }
@@ -40,6 +40,24 @@ const batch /*: ConcreteBatch*/ = {
     "metadata": null,
     "name": "TreeLevel1Query",
     "selections": [
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "CategoriesConnection",
+        "name": "allCategories",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
       {
         "kind": "LinkedField",
         "alias": null,
@@ -64,24 +82,6 @@ const batch /*: ConcreteBatch*/ = {
         "args": null,
         "concreteType": "RelationCollectionsConnection",
         "name": "allRelationCollections",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "totalCount",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "CategoriesConnection",
-        "name": "allCategories",
         "plural": false,
         "selections": [
           {
@@ -111,6 +111,24 @@ const batch /*: ConcreteBatch*/ = {
         "kind": "LinkedField",
         "alias": null,
         "args": null,
+        "concreteType": "CategoriesConnection",
+        "name": "allCategories",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
         "concreteType": "PropertyCollectionsConnection",
         "name": "allPropertyCollections",
         "plural": false,
@@ -142,28 +160,10 @@ const batch /*: ConcreteBatch*/ = {
           }
         ],
         "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "CategoriesConnection",
-        "name": "allCategories",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "totalCount",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
       }
     ]
   },
-  "text": "query TreeLevel1Query {\n  allPropertyCollections {\n    totalCount\n  }\n  allRelationCollections {\n    totalCount\n  }\n  allCategories {\n    totalCount\n  }\n}\n"
+  "text": "query TreeLevel1Query {\n  allCategories {\n    totalCount\n  }\n  allPropertyCollections {\n    totalCount\n  }\n  allRelationCollections {\n    totalCount\n  }\n}\n"
 };
 
 module.exports = batch;

@@ -8,8 +8,18 @@ import compose from 'recompose/compose'
 import app from 'ampersand-app'
 
 import AppBar from './AppBar'
-import TreeLevel1 from './TreeLevel1'
+import Tree from './Tree'
 import Main from './Main'
+import level1FromProps from '../modules/nodes/level1FromProps'
+import level2TaxonomyFromProps from '../modules/nodes/level2TaxonomyFromProps'
+import level3TaxonomyFromProps from '../modules/nodes/level3TaxonomyFromProps'
+import level4TaxonomyFromProps from '../modules/nodes/level4TaxonomyFromProps'
+import level5TaxonomyFromProps from '../modules/nodes/level5TaxonomyFromProps'
+import level6TaxonomyFromProps from '../modules/nodes/level6TaxonomyFromProps'
+import level7TaxonomyFromProps from '../modules/nodes/level7TaxonomyFromProps'
+import level8TaxonomyFromProps from '../modules/nodes/level8TaxonomyFromProps'
+import level9TaxonomyFromProps from '../modules/nodes/level9TaxonomyFromProps'
+import level10TaxonomyFromProps from '../modules/nodes/level10TaxonomyFromProps'
 
 const Container = styled.div`
   height: 100%;
@@ -28,7 +38,7 @@ const App = ({ store }: { store: Object }) => {
     <QueryRenderer
       environment={app.environment}
       query={graphql`
-        query Tree(
+        query AppQuery(
           $level1: String,
           $level2Taxonomy: String!,
           $level3Taxonomy: Uuid!,
@@ -204,24 +214,28 @@ const App = ({ store }: { store: Object }) => {
         if (error) {
           return <div>{error.message}</div>
         } else if (props) {
+          console.log('App: props:', props)
+          const nodes = [
+            ...level1FromProps(store, props),
+            ...level2TaxonomyFromProps(store, props),
+            ...level3TaxonomyFromProps(store, props),
+            ...level4TaxonomyFromProps(store, props),
+            ...level5TaxonomyFromProps(store, props),
+            ...level6TaxonomyFromProps(store, props),
+            ...level7TaxonomyFromProps(store, props),
+            ...level8TaxonomyFromProps(store, props),
+            ...level9TaxonomyFromProps(store, props),
+            ...level10TaxonomyFromProps(store, props),
+          ]
           return (
             <Container>
               <AppBar />
               <ReflexContainer orientation="vertical">
                 {store.ui.visibleColumns.tree &&
                   <ReflexElement flex={0.35}>
-                    <TreeLevel1
+                    <Tree
                       activeNodeArray={store.activeNodeArray}
-                      activeLevel1={store.tree.activeLevel1}
-                      activeLevel2Taxonomy={store.tree.activeLevel2Taxonomy}
-                      activeLevel3Taxonomy={store.tree.activeLevel3Taxonomy}
-                      activeLevel4Taxonomy={store.tree.activeLevel4Taxonomy}
-                      activeLevel5Taxonomy={store.tree.activeLevel5Taxonomy}
-                      activeLevel6Taxonomy={store.tree.activeLevel6Taxonomy}
-                      activeLevel7Taxonomy={store.tree.activeLevel7Taxonomy}
-                      activeLevel8Taxonomy={store.tree.activeLevel8Taxonomy}
-                      activeLevel9Taxonomy={store.tree.activeLevel9Taxonomy}
-                      activeLevel10Taxonomy={store.tree.activeLevel10Taxonomy}
+                      nodes={nodes}
                     />
                   </ReflexElement>}
                 {store.ui.visibleColumns.tree &&
