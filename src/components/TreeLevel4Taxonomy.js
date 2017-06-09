@@ -58,9 +58,9 @@ const TreeLevel4Taxonomy = ({
             <Tree
               nodes={store.tree.nodes}
               activeNodeArray={store.activeNodeArray}
-              activeDataType={store.tree.activeDataType}
-              activeCategory={store.tree.activeCategory}
-              activeTaxonomy={store.tree.activeTaxonomy}
+              activeLevel1={store.tree.activeLevel1}
+              activeLevel2Taxonomy={store.tree.activeLevel2Taxonomy}
+              activeLevel3Taxonomy={store.tree.activeLevel3Taxonomy}
               activeLevel5Taxonomy={store.tree.activeLevel5Taxonomy}
               activeLevel6Taxonomy={store.tree.activeLevel6Taxonomy}
               activeLevel7Taxonomy={store.tree.activeLevel7Taxonomy}
@@ -87,15 +87,15 @@ const TreeLevel4Taxonomy = ({
         loadingNode: true,
         id: 'level3Loading',
         url: [
-          store.tree.activeDataType,
-          store.tree.activeCategory.name,
-          store.tree.activeTaxonomy.id,
+          store.tree.activeLevel1,
+          store.tree.activeLevel2Taxonomy.name,
+          store.tree.activeLevel3Taxonomy.id,
           'level3Loading',
         ],
         sort: [
-          store.tree.activeDataType,
-          store.tree.activeCategory.name,
-          store.tree.activeTaxonomy.name,
+          store.tree.activeLevel1,
+          store.tree.activeLevel2Taxonomy.name,
+          store.tree.activeLevel3Taxonomy.name,
           'aaa',
         ],
         label: 'lade Daten',

@@ -15,15 +15,15 @@ export default (store: Object, props: Object): Array<Object> => {
     return {
       id: level3.id,
       url: [
-        store.tree.activeDataType,
-        store.tree.activeCategory.name,
-        store.tree.activeTaxonomy.id,
+        store.tree.activeLevel1,
+        store.tree.activeLevel2Taxonomy.name,
+        store.tree.activeLevel3Taxonomy.id,
         level3.id,
       ],
       sort: [
-        store.tree.activeDataType,
-        store.tree.activeCategory.name,
-        store.tree.activeTaxonomy.name,
+        store.tree.activeLevel1,
+        store.tree.activeLevel2Taxonomy.name,
+        store.tree.activeLevel3Taxonomy.name,
         level3.name,
       ],
       label: `${level3.name}${labelCount}`,

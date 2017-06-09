@@ -16,17 +16,17 @@ export default (store: Object, props: Object): Array<Object> => {
       return {
         id: level5.id,
         url: [
-          store.tree.activeDataType,
-          store.tree.activeCategory.name,
-          store.tree.activeTaxonomy.id,
+          store.tree.activeLevel1,
+          store.tree.activeLevel2Taxonomy.name,
+          store.tree.activeLevel3Taxonomy.id,
           store.tree.activeLevel4Taxonomy.id,
           store.tree.activeLevel5Taxonomy.id,
           level5.id,
         ],
         sort: [
-          store.tree.activeDataType,
-          store.tree.activeCategory.name,
-          store.tree.activeTaxonomy.name,
+          store.tree.activeLevel1,
+          store.tree.activeLevel2Taxonomy.name,
+          store.tree.activeLevel3Taxonomy.name,
           store.tree.activeLevel4Taxonomy.name,
           store.tree.activeLevel5Taxonomy.name,
           level5.name,

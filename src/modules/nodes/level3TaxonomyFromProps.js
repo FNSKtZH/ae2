@@ -9,13 +9,13 @@ export default (store: Object, props: Object): Array<Object> => {
     const childrenCount = taxonomy.taxonomyObjectLevel1.totalCount
     const labelCount = ` (${childrenCount})`
     if (store.activeNodeArray[2] === taxonomy.id) {
-      store.tree.setActiveTaxonomy(taxonomy)
+      store.tree.setActiveLevel3Taxonomy(taxonomy)
     }
 
     return {
       id: taxonomy.id,
-      url: [store.tree.activeDataType, store.tree.activeCategory.name, taxonomy.id],
-      sort: [store.tree.activeDataType, store.tree.activeCategory.name, taxonomy.name],
+      url: [store.tree.activeLevel1, store.tree.activeLevel2Taxonomy.name, taxonomy.id],
+      sort: [store.tree.activeLevel1, store.tree.activeLevel2Taxonomy.name, taxonomy.name],
       label: `${taxonomy.name}${labelCount}`,
       childrenCount,
     }

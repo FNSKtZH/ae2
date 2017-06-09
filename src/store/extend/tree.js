@@ -8,17 +8,17 @@ export default (store: Object): void => {
       store.tree.nodes = nodes
     }),
     activeLevel: null,
-    activeDataType: {},
-    setActiveDataType: action('setActiveDataType', activeDataType => {
-      store.tree.activeDataType = activeDataType
+    activeLevel1: {},
+    setActiveLevel1: action('setActiveLevel1', activeLevel1 => {
+      store.tree.activeLevel1 = activeLevel1
     }),
-    activeCategory: {},
-    setActiveCategory: action('setActiveCategory', activeCategory => {
-      store.tree.activeCategory = activeCategory
+    activeLevel2Taxonomy: {},
+    setActiveLevel2Taxonomy: action('setActiveLevel2Taxonomy', activeLevel2Taxonomy => {
+      store.tree.activeLevel2Taxonomy = activeLevel2Taxonomy
     }),
-    activeTaxonomy: {},
-    setActiveTaxonomy: action('setActiveTaxonomy', activeTaxonomy => {
-      store.tree.activeTaxonomy = activeTaxonomy
+    activeLevel3Taxonomy: {},
+    setActiveLevel3Taxonomy: action('setActiveLevel3Taxonomy', activeLevel3Taxonomy => {
+      store.tree.activeLevel3Taxonomy = activeLevel3Taxonomy
     }),
     activeLevel4Taxonomy: {},
     setActiveLevel4Taxonomy: action('setActiveLevel4Taxonomy', activeLevel4Taxonomy => {

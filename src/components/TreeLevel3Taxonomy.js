@@ -56,9 +56,9 @@ const TreeLevel3Taxonomy = ({
             <Tree
               nodes={store.tree.nodes}
               activeNodeArray={store.activeNodeArray}
-              activeDataType={store.tree.activeDataType}
-              activeCategory={store.tree.activeCategory}
-              activeTaxonomy={store.tree.activeTaxonomy}
+              activeLevel1={store.tree.activeLevel1}
+              activeLevel2Taxonomy={store.tree.activeLevel2Taxonomy}
+              activeLevel3Taxonomy={store.tree.activeLevel3Taxonomy}
               activeLevel4Taxonomy={store.tree.activeLevel4Taxonomy}
               activeLevel5Taxonomy={store.tree.activeLevel5Taxonomy}
               activeLevel6Taxonomy={store.tree.activeLevel6Taxonomy}
