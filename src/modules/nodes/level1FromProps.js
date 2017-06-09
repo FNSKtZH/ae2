@@ -3,6 +3,9 @@ import get from 'lodash'
 
 export default (store: Object, props: ?Object): Array<Object> => {
   if (!props) return []
+  console.log('level1FromProps: props:', props)
+  const pcCount = get(props, 'allPropertyCollections.totalCount')
+  console.log('level1FromProps: pcCount:', pcCount)
 
   return [
     {
@@ -13,7 +16,7 @@ export default (store: Object, props: ?Object): Array<Object> => {
         props,
         'allPropertyCollections.totalCount'
       ) || 0})`,
-      childrenCount: get(props, 'allPropertyCollections.totalCount' || 0),
+      childrenCount: get(props, 'allPropertyCollections.totalCount') || 0,
     },
     {
       id: 'Beziehungs-Sammlungen',
