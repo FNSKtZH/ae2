@@ -6,8 +6,9 @@ export default (store: Object, props: Object): Array<Object> => {
 
   return props.categoryByDataType.nodes.map(category => {
     const childrenCount = category.taxonomyByCategory.totalCount
-    const taxonomyText = childrenCount !== 1 ? 'Taxonomien' : 'Taxonomie'
-    const labelCount = ` (${childrenCount} ${taxonomyText})`
+    // const taxonomyText = childrenCount !== 1 ? 'Taxonomien' : 'Taxonomie'
+    // const labelCount = ` (${childrenCount} ${taxonomyText})`
+    const labelCount = ` (${childrenCount})`
     if (store.activeNodeArray[1] === category.name) {
       store.tree.setActiveCategory(category)
     }
