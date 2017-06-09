@@ -6,7 +6,7 @@ export default ({
 }: {
   store: Object,
   props: Object,
-  activeLevel2TaxonomyName: String,
+  activeLevel2TaxonomyName: ?String,
 }): Array<Object> => {
   if (!props) return []
   if (!props.level3Taxonomy) return []

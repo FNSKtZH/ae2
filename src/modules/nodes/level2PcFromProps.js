@@ -1,6 +1,5 @@
 // @flow
-import get from 'lodash'
-import { toJS } from 'mobx'
+import get from 'lodash/get'
 
 export default (store: Object, props: Object): Array<Object> => {
   if (!props) return []
@@ -8,14 +7,16 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!props.allPropertyCollections.nodes) return []
 
   return props.allPropertyCollections.nodes.map(node => {
+    const count = get(
+      node,
+      'propertyCollectionObjectsByPropertyCollectionId.totalCount',
+      0
+    )
     return {
       id: node.id,
       url: ['Eigenschaften-Sammlungen', node.id],
       sort: [2, node.name],
-      label: `${node.name}: ${get(
-        toJS(node),
-        'propertyCollectionObjectsByPropertyCollectionId.totalCount'
-      ) || 0} Objekte`,
+      label: `${node.name}: ${count} Objekte`,
       childrenCount: 0,
     }
   })

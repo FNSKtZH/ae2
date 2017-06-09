@@ -10,11 +10,11 @@ export default ({
 }: {
   store: Object,
   props: Object,
-  activeLevel2TaxonomyName: String,
-  activeLevel3TaxonomyName: String,
-  activeLevel3TaxonomyId: Uuid,
-  activeLevel4TaxonomyName: String,
-  activeLevel4TaxonomyId: Uuid,
+  activeLevel2TaxonomyName: ?String,
+  activeLevel3TaxonomyName: ?String,
+  activeLevel3TaxonomyId: ?String,
+  activeLevel4TaxonomyName: ?String,
+  activeLevel4TaxonomyId: ?String,
 }): Array<Object> => {
   if (!props) return []
   if (!props.level5Taxonomy) return []

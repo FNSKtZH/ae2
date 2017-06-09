@@ -12,13 +12,13 @@ export default ({
 }: {
   store: Object,
   props: Object,
-  activeLevel2TaxonomyName: String,
-  activeLevel3TaxonomyName: String,
-  activeLevel3TaxonomyId: Uuid,
-  activeLevel4TaxonomyName: String,
-  activeLevel4TaxonomyId: Uuid,
-  activeLevel5TaxonomyName: String,
-  activeLevel5TaxonomyId: Uuid,
+  activeLevel2TaxonomyName: ?String,
+  activeLevel3TaxonomyName: ?String,
+  activeLevel3TaxonomyId: ?String,
+  activeLevel4TaxonomyName: ?String,
+  activeLevel4TaxonomyId: ?String,
+  activeLevel5TaxonomyName: ?String,
+  activeLevel5TaxonomyId: ?String,
 }): Array<Object> => {
   if (!props) return []
   if (!props.level6Taxonomy) return []
