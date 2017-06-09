@@ -30,6 +30,7 @@ const TreeLevel1 = ({ store }: { store: Object }) =>
       }
     `}
     render={({ error, props }) => {
+      console.log('TreeLevel1: environment:', environment)
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
@@ -39,15 +40,21 @@ const TreeLevel1 = ({ store }: { store: Object }) =>
         }
         switch (store.activeNodeArray[0]) {
           case 'Taxonomien': {
-            store.tree.setActiveLevel1('Taxonomien')
+            store.tree.setActiveLevel1({ name: 'Taxonomien', sort: 1 })
             return <TreeLevel2Taxonomy level1Props={props} />
           }
           case 'Eigenschaften-Sammlungen': {
-            store.tree.setActiveLevel1('Eigenschaften-Sammlungen')
+            store.tree.setActiveLevel1({
+              name: 'Eigenschaften-Sammlungen',
+              sort: 2,
+            })
             return <TreeLevel2Rc level1Props={props} />
           }
           case 'Beziehungs-Sammlungen': {
-            store.tree.setActiveLevel1('Beziehungs-Sammlungen')
+            store.tree.setActiveLevel1({
+              name: 'Beziehungs-Sammlungen',
+              sort: 3,
+            })
             return <TreeLevel2Pc level1Props={props} />
           }
           default:

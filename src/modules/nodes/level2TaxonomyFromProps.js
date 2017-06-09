@@ -15,8 +15,8 @@ export default (store: Object, props: Object): Array<Object> => {
 
     return {
       id: node.id,
-      url: [store.tree.activeLevel1, node.name],
-      sort: [store.tree.activeLevel1, node.name],
+      url: [store.tree.activeLevel1.name, node.name],
+      sort: [store.tree.activeLevel1.sort, node.name],
       label: `${node.name}${labelCount}`,
       childrenCount,
     }

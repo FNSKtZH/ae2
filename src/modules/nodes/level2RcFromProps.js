@@ -7,8 +7,8 @@ export default (store: Object, props: Object): Array<Object> => {
   return props.allRelationCollections.nodes.map(node => {
     return {
       id: node.id,
-      url: [store.tree.activeLevel1, node.id],
-      sort: [store.tree.activeLevel1, node.name],
+      url: [store.tree.activeLevel1.name, node.id],
+      sort: [store.tree.activeLevel1.sort, node.name],
       label: `${node.name}: ${node
         .relationCollectionObjectsByRelationCollectionId
         .totalCount} Objekte mit Beziehungen`,
