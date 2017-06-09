@@ -6,7 +6,7 @@ import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
-import TreeTaxonomyLevel4 from './TreeTaxonomyLevel4'
+import TreeLevel5Taxonomy from './TreeLevel5Taxonomy'
 import level0FromProps from '../modules/nodes/level0FromProps'
 import taxonomyLevel1FromProps from '../modules/nodes/taxonomyLevel1FromProps'
 import taxonomyLevel2FromProps from '../modules/nodes/taxonomyLevel2FromProps'
@@ -72,7 +72,7 @@ const TreeLevel4Taxonomy = ({
           )
         } else if (store.activeNodeArray.length > 3) {
           return (
-            <TreeTaxonomyLevel4
+            <TreeLevel5Taxonomy
               level0Props={level0Props}
               level1Props={level1Props}
               level2Props={level2Props}

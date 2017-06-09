@@ -6,7 +6,7 @@ import compose from 'recompose/compose'
 
 import environment from '../modules/createRelayEnvironment'
 import Tree from './Tree'
-import TreeTaxonomyLevel8 from './TreeTaxonomyLevel8'
+import TreeLevel8Taxonomy from './TreeLevel8Taxonomy'
 import level0FromProps from '../modules/nodes/level0FromProps'
 import taxonomyLevel1FromProps from '../modules/nodes/taxonomyLevel1FromProps'
 import taxonomyLevel2FromProps from '../modules/nodes/taxonomyLevel2FromProps'
@@ -14,11 +14,10 @@ import taxonomyLevel3FromProps from '../modules/nodes/taxonomyLevel3FromProps'
 import taxonomyLevel4FromProps from '../modules/nodes/taxonomyLevel4FromProps'
 import taxonomyLevel5FromProps from '../modules/nodes/taxonomyLevel5FromProps'
 import taxonomyLevel6FromProps from '../modules/nodes/taxonomyLevel6FromProps'
-import taxonomyLevel7FromProps from '../modules/nodes/taxonomyLevel7FromProps'
 
 const enhance = compose(inject('store'), observer)
 
-const TreeTaxonomyLevel7 = ({
+const TreeLevel7Taxonomy = ({
   store,
   level0Props,
   level1Props,
@@ -26,7 +25,6 @@ const TreeTaxonomyLevel7 = ({
   level3Props,
   level4Props,
   level5Props,
-  level6Props,
 }: {
   store: Object,
   level0Props: Object,
@@ -35,13 +33,12 @@ const TreeTaxonomyLevel7 = ({
   level3Props: Object,
   level4Props: Object,
   level5Props: Object,
-  level6Props: Object,
 }) =>
   <QueryRenderer
     environment={environment}
     query={graphql`
-      query TreeTaxonomyLevel7Query($level7: Uuid!) {
-        taxonomyObjectById(id: $level7) {
+      query TreeLevel7TaxonomyQuery($level6: Uuid!) {
+        taxonomyObjectById(id: $level6) {
           taxonomyObjectsByParentId {
             totalCount
             nodes {
@@ -55,12 +52,12 @@ const TreeTaxonomyLevel7 = ({
         }
       }
     `}
-    variables={{ level7: store.activeNodeArray[6] }}
+    variables={{ level6: store.activeNodeArray[5] }}
     render={({ error, props }) => {
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
-        if (store.activeNodeArray.length === 7) {
+        if (store.activeNodeArray.length === 6) {
           store.tree.setNodes([
             ...level0FromProps(store, level0Props),
             ...taxonomyLevel1FromProps(store, level1Props),
@@ -68,21 +65,19 @@ const TreeTaxonomyLevel7 = ({
             ...taxonomyLevel3FromProps(store, level3Props),
             ...taxonomyLevel4FromProps(store, level4Props),
             ...taxonomyLevel5FromProps(store, level5Props),
-            ...taxonomyLevel6FromProps(store, level6Props),
-            ...taxonomyLevel7FromProps(store, props),
+            ...taxonomyLevel6FromProps(store, props),
           ])
           return <Tree nodes={store.tree.nodes} />
-        } else if (store.activeNodeArray.length > 7) {
+        } else if (store.activeNodeArray.length > 6) {
           return (
-            <TreeTaxonomyLevel8
+            <TreeLevel8Taxonomy
               level0Props={level0Props}
               level1Props={level1Props}
               level2Props={level2Props}
               level3Props={level3Props}
               level4Props={level4Props}
               level5Props={level5Props}
-              level6Props={level6Props}
-              level7Props={props}
+              level6Props={props}
             />
           )
         }
@@ -91,4 +86,4 @@ const TreeTaxonomyLevel7 = ({
     }}
   />
 
-export default enhance(TreeTaxonomyLevel7)
+export default enhance(TreeLevel7Taxonomy)
