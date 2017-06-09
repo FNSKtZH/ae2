@@ -316,14 +316,11 @@ const App = ({ store }: { store: Object }) => {
             activeLevel9Taxonomy && activeLevel9Taxonomy.name
           const activeLevel9TaxonomyId =
             activeLevel9Taxonomy && activeLevel9Taxonomy.id
-          let nodes = []
+          let nodes = level1FromProps(store, props)
           if (store.activeNodeArray.length > 0) {
-            nodes = nodes.concat(level1FromProps(store, props))
-          }
-          if (store.activeNodeArray.length > 1) {
             nodes = nodes.concat(level2TaxonomyFromProps(store, props))
           }
-          if (store.activeNodeArray.length > 2) {
+          if (store.activeNodeArray.length > 1) {
             nodes = nodes.concat(
               level3TaxonomyFromProps({
                 store,
@@ -332,7 +329,7 @@ const App = ({ store }: { store: Object }) => {
               })
             )
           }
-          if (store.activeNodeArray.length > 3) {
+          if (store.activeNodeArray.length > 2) {
             nodes = nodes.concat(
               level4TaxonomyFromProps({
                 store,
@@ -343,7 +340,7 @@ const App = ({ store }: { store: Object }) => {
               })
             )
           }
-          if (store.activeNodeArray.length > 4) {
+          if (store.activeNodeArray.length > 3) {
             nodes = nodes.concat(
               level5TaxonomyFromProps({
                 store,
@@ -356,7 +353,7 @@ const App = ({ store }: { store: Object }) => {
               })
             )
           }
-          if (store.activeNodeArray.length > 5) {
+          if (store.activeNodeArray.length > 4) {
             nodes = nodes.concat(
               level6TaxonomyFromProps({
                 store,
@@ -371,7 +368,7 @@ const App = ({ store }: { store: Object }) => {
               })
             )
           }
-          if (store.activeNodeArray.length > 6) {
+          if (store.activeNodeArray.length > 5) {
             nodes = nodes.concat(
               level7TaxonomyFromProps({
                 store,
@@ -388,7 +385,7 @@ const App = ({ store }: { store: Object }) => {
               })
             )
           }
-          if (store.activeNodeArray.length > 7) {
+          if (store.activeNodeArray.length > 6) {
             nodes = nodes.concat(
               level8TaxonomyFromProps({
                 store,
@@ -407,7 +404,7 @@ const App = ({ store }: { store: Object }) => {
               })
             )
           }
-          if (store.activeNodeArray.length > 8) {
+          if (store.activeNodeArray.length > 7) {
             nodes = nodes.concat(
               level9TaxonomyFromProps({
                 store,
@@ -428,7 +425,7 @@ const App = ({ store }: { store: Object }) => {
               })
             )
           }
-          if (store.activeNodeArray.length > 9) {
+          if (store.activeNodeArray.length > 8) {
             nodes = nodes.concat(
               level10TaxonomyFromProps({
                 store,
