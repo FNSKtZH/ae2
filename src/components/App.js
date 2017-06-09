@@ -40,9 +40,8 @@ const App = ({ store }: { store: Object }) => {
       environment={app.environment}
       query={graphql`
         query AppQuery(
-          $level1: String,
           $level2Taxonomy: String!,
-          $level3Taxonomy: Uuid!,
+          $level3Taxonomy: String!,
           $level4Taxonomy: Uuid!,
           $level5Taxonomy: Uuid!,
           $level6Taxonomy: Uuid!,
@@ -74,7 +73,7 @@ const App = ({ store }: { store: Object }) => {
               }
             }
           }
-          level1Taxonomy: categoryByDataType(datatype: $level1) {
+          level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) {
             nodes {
               id
               name
@@ -83,7 +82,7 @@ const App = ({ store }: { store: Object }) => {
               }
             }
           }
-          level2Taxonomy: categoryByName(name: $level2Taxonomy) {
+          level3Taxonomy: categoryByName(name: $level3Taxonomy) {
             taxonomiesByCategory {
               nodes {
                 id
@@ -94,20 +93,8 @@ const App = ({ store }: { store: Object }) => {
               }
             }
           }
-          level3Taxonomy: taxonomyById(id: $level3Taxonomy) {
+          level4Taxonomy: taxonomyById(id: $level4Taxonomy) {
             taxonomyObjectLevel1 {
-              nodes {
-                id
-                name
-                taxonomyObjectsByParentId {
-                  totalCount
-                }
-              }
-            }
-          }
-          level4Taxonomy: taxonomyObjectById(id: $level4Taxonomy) {
-            taxonomyObjectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -192,35 +179,32 @@ const App = ({ store }: { store: Object }) => {
         }
       `}
       variables={{
-        level1: store.activeNodeArray.length > 0
+        level2Taxonomy: store.activeNodeArray.length > 0
           ? store.activeNodeArray[0]
           : 'none',
-        level2Taxonomy: store.activeNodeArray.length > 1
+        level3Taxonomy: store.activeNodeArray.length > 1
           ? store.activeNodeArray[1]
           : 'none',
-        level3Taxonomy: store.activeNodeArray.length > 2
+        level4Taxonomy: store.activeNodeArray.length > 2
           ? store.activeNodeArray[2]
           : '99999999-9999-9999-9999-999999999999',
-        level4Taxonomy: store.activeNodeArray.length > 3
+        level5Taxonomy: store.activeNodeArray.length > 3
           ? store.activeNodeArray[3]
           : '99999999-9999-9999-9999-999999999999',
-        level5Taxonomy: store.activeNodeArray.length > 4
+        level6Taxonomy: store.activeNodeArray.length > 4
           ? store.activeNodeArray[4]
           : '99999999-9999-9999-9999-999999999999',
-        level6Taxonomy: store.activeNodeArray.length > 5
+        level7Taxonomy: store.activeNodeArray.length > 5
           ? store.activeNodeArray[5]
           : '99999999-9999-9999-9999-999999999999',
-        level7Taxonomy: store.activeNodeArray.length > 6
+        level8Taxonomy: store.activeNodeArray.length > 6
           ? store.activeNodeArray[6]
           : '99999999-9999-9999-9999-999999999999',
-        level8Taxonomy: store.activeNodeArray.length > 7
+        level9Taxonomy: store.activeNodeArray.length > 7
           ? store.activeNodeArray[7]
           : '99999999-9999-9999-9999-999999999999',
-        level9Taxonomy: store.activeNodeArray.length > 8
+        level10Taxonomy: store.activeNodeArray.length > 8
           ? store.activeNodeArray[8]
-          : '99999999-9999-9999-9999-999999999999',
-        level10Taxonomy: store.activeNodeArray.length > 9
-          ? store.activeNodeArray[9]
           : '99999999-9999-9999-9999-999999999999',
       }}
       render={({ error, props }) => {
@@ -228,25 +212,26 @@ const App = ({ store }: { store: Object }) => {
           return <div>{error.message}</div>
         } else if (props) {
           console.log('App: props:', props)
-          const activeLevel2TaxonomyNodes = get(
-            props,
-            'level2Taxonomy.taxonomiesByCategory.nodes'
+          const activeLevel2TaxonomyNodes = get(props, 'level2Taxonomy.nodes')
+          console.log(
+            'App: activeLevel2TaxonomyNodes:',
+            activeLevel2TaxonomyNodes
           )
           const activeLevel2Taxonomy =
             activeLevel2TaxonomyNodes &&
             activeLevel2TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[1]
+              n => n.name === store.activeNodeArray[1]
             )
           const activeLevel2TaxonomyName =
             activeLevel2Taxonomy && activeLevel2Taxonomy.name
           const activeLevel3TaxonomyNodes = get(
             props,
-            'level3Taxonomy.taxonomyObjectLevel1.nodes'
+            'level3Taxonomy.taxonomiesByCategory.nodes'
           )
           const activeLevel3Taxonomy =
             activeLevel3TaxonomyNodes &&
             activeLevel3TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[2]
+              n => n.id === store.activeNodeArray[1]
             )
           const activeLevel3TaxonomyName =
             activeLevel3Taxonomy && activeLevel3Taxonomy.name
@@ -254,12 +239,12 @@ const App = ({ store }: { store: Object }) => {
             activeLevel3Taxonomy && activeLevel3Taxonomy.id
           const activeLevel4TaxonomyNodes = get(
             props,
-            'level4Taxonomy.taxonomyObjectsByParentId.nodes'
+            'level4Taxonomy.taxonomyObjectLevel1.nodes'
           )
           const activeLevel4Taxonomy =
             activeLevel4TaxonomyNodes &&
             activeLevel4TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[3]
+              n => n.id === store.activeNodeArray[2]
             )
           const activeLevel4TaxonomyName =
             activeLevel4Taxonomy && activeLevel4Taxonomy.name
@@ -272,12 +257,13 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel5Taxonomy =
             activeLevel5TaxonomyNodes &&
             activeLevel5TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[4]
+              n => n.id === store.activeNodeArray[3]
             )
           const activeLevel5TaxonomyName =
             activeLevel5Taxonomy && activeLevel5Taxonomy.name
           const activeLevel5TaxonomyId =
             activeLevel5Taxonomy && activeLevel5Taxonomy.id
+
           const activeLevel6TaxonomyNodes = get(
             props,
             'level6Taxonomy.taxonomyObjectsByParentId.nodes'
@@ -285,7 +271,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel6Taxonomy =
             activeLevel6TaxonomyNodes &&
             activeLevel6TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[5]
+              n => n.id === store.activeNodeArray[4]
             )
           const activeLevel6TaxonomyName =
             activeLevel6Taxonomy && activeLevel6Taxonomy.name
@@ -298,7 +284,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel7Taxonomy =
             activeLevel7TaxonomyNodes &&
             activeLevel7TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[6]
+              n => n.id === store.activeNodeArray[5]
             )
           const activeLevel7TaxonomyName =
             activeLevel7Taxonomy && activeLevel7Taxonomy.name
@@ -311,7 +297,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel8Taxonomy =
             activeLevel8TaxonomyNodes &&
             activeLevel8TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[7]
+              n => n.id === store.activeNodeArray[6]
             )
           const activeLevel8TaxonomyName =
             activeLevel8Taxonomy && activeLevel8Taxonomy.name
@@ -324,7 +310,7 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel9Taxonomy =
             activeLevel9TaxonomyNodes &&
             activeLevel9TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[8]
+              n => n.id === store.activeNodeArray[7]
             )
           const activeLevel9TaxonomyName =
             activeLevel9Taxonomy && activeLevel9Taxonomy.name
