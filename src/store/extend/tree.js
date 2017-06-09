@@ -7,6 +7,7 @@ export default (store: Object): void => {
     setNodes: action('setNodes', nodes => {
       store.tree.nodes = nodes
     }),
+    activeLevel: null,
     activeDataType: {},
     setActiveDataType: action('setActiveDataType', activeDataType => {
       store.tree.activeDataType = activeDataType
