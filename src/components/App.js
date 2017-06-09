@@ -211,12 +211,7 @@ const App = ({ store }: { store: Object }) => {
         if (error) {
           return <div>{error.message}</div>
         } else if (props) {
-          console.log('App: props:', props)
           const activeLevel2TaxonomyNodes = get(props, 'level2Taxonomy.nodes')
-          console.log(
-            'App: activeLevel2TaxonomyNodes:',
-            activeLevel2TaxonomyNodes
-          )
           const activeLevel2Taxonomy =
             activeLevel2TaxonomyNodes &&
             activeLevel2TaxonomyNodes.find(
@@ -321,14 +316,6 @@ const App = ({ store }: { store: Object }) => {
             nodes = nodes.concat(level2TaxonomyFromProps(store, props))
           }
           if (store.activeNodeArray.length > 1) {
-            console.log(
-              'App: level3TaxonomyFromProps:',
-              level3TaxonomyFromProps({
-                store,
-                props,
-                activeLevel2TaxonomyName,
-              })
-            )
             nodes = nodes.concat(
               level3TaxonomyFromProps({
                 store,
@@ -338,16 +325,6 @@ const App = ({ store }: { store: Object }) => {
             )
           }
           if (store.activeNodeArray.length > 2) {
-            console.log(
-              'App, level4TaxonomyFromProps:',
-              level4TaxonomyFromProps({
-                store,
-                props,
-                activeLevel2TaxonomyName,
-                activeLevel3TaxonomyName,
-                activeLevel3TaxonomyId,
-              })
-            )
             nodes = nodes.concat(
               level4TaxonomyFromProps({
                 store,
@@ -486,7 +463,23 @@ const App = ({ store }: { store: Object }) => {
             </Container>
           )
         }
-        return <div>Lade Daten</div>
+        return (
+          <Container>
+            <AppBar />
+            <ReflexContainer orientation="vertical">
+              {store.ui.visibleColumns.tree &&
+                <ReflexElement flex={0.35}>
+                  <Tree activeNodeArray={store.activeNodeArray} nodes={[]} />
+                </ReflexElement>}
+              {store.ui.visibleColumns.tree &&
+                store.ui.visibleColumns.main &&
+                <ReflexSplitter key="treeSplitter" />}
+              {store.ui.visibleColumns.main &&
+                <ReflexElement><Column><Main /></Column></ReflexElement>}
+            </ReflexContainer>
+          </Container>
+        )
+        // return <div>Lade Daten</div>
       }}
     />
   )
