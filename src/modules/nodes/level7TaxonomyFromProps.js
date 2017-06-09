@@ -15,7 +15,7 @@ export default (store: Object, props: Object): Array<Object> => {
     return {
       id: node.id,
       url: [
-        store.tree.activeLevel1.name,
+        'Taxonomien',
         store.tree.activeLevel2Taxonomy.name,
         store.tree.activeLevel3Taxonomy.id,
         store.tree.activeLevel4Taxonomy.id,
@@ -24,7 +24,7 @@ export default (store: Object, props: Object): Array<Object> => {
         node.id,
       ],
       sort: [
-        store.tree.activeLevel1.sort,
+        1,
         store.tree.activeLevel2Taxonomy.name,
         store.tree.activeLevel3Taxonomy.name,
         store.tree.activeLevel4Taxonomy.name,

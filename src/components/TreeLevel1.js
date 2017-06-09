@@ -18,13 +18,13 @@ const TreeLevel1 = ({ store }: { store: Object }) =>
     environment={app.environment}
     query={graphql`
       query TreeLevel1Query {
+        allCategories {
+          totalCount
+        }
         allPropertyCollections {
           totalCount
         }
         allRelationCollections {
-          totalCount
-        }
-        allCategories {
           totalCount
         }
       }

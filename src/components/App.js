@@ -40,14 +40,28 @@ const App = ({ store }: { store: Object }) => {
           $level9Taxonomy: Uuid!,
           $level10Taxonomy: Uuid!
         ) {
-          level1Pc: allPropertyCollections {
+          allCategories {
             totalCount
           }
-          level1Rc: allRelationCollections {
+          allPropertyCollections {
             totalCount
+            nodes {
+              id
+              name
+              propertyCollectionObjectsByPropertyCollectionId {
+                totalCount
+              }
+            }
           }
-          level1Tax: allCategories {
+          allRelationCollections {
             totalCount
+            nodes {
+              id
+              name
+              relationCollectionObjectsByRelationCollectionId {
+                totalCount
+              }
+            }
           }
           level1Taxonomy: categoryByDataType(datatype: $level1) {
             nodes {
