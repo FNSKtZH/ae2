@@ -55,6 +55,8 @@ const App = ({ store }: { store: Object }) => {
           }
           allPropertyCollections {
             totalCount
+          }
+          propertyCollectionByDataType(datatype: $level2Taxonomy) {
             nodes {
               id
               name
@@ -208,6 +210,7 @@ const App = ({ store }: { store: Object }) => {
           : '99999999-9999-9999-9999-999999999999',
       }}
       render={({ error, props }) => {
+        console.log('App: props:', props)
         if (error) {
           return <div>{error.message}</div>
         } else if (props) {
@@ -215,18 +218,18 @@ const App = ({ store }: { store: Object }) => {
           const activeLevel2Taxonomy =
             activeLevel2TaxonomyNodes &&
             activeLevel2TaxonomyNodes.find(
-              n => n.name === store.activeNodeArray[1]
+              n => n.name === store.activeNodeArray[1],
             )
           const activeLevel2TaxonomyName =
             activeLevel2Taxonomy && activeLevel2Taxonomy.name
           const activeLevel3TaxonomyNodes = get(
             props,
-            'level3Taxonomy.taxonomiesByCategory.nodes'
+            'level3Taxonomy.taxonomiesByCategory.nodes',
           )
           const activeLevel3Taxonomy =
             activeLevel3TaxonomyNodes &&
             activeLevel3TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[2]
+              n => n.id === store.activeNodeArray[2],
             )
           const activeLevel3TaxonomyName =
             activeLevel3Taxonomy && activeLevel3Taxonomy.name
@@ -234,12 +237,12 @@ const App = ({ store }: { store: Object }) => {
             activeLevel3Taxonomy && activeLevel3Taxonomy.id
           const activeLevel4TaxonomyNodes = get(
             props,
-            'level4Taxonomy.taxonomyObjectLevel1.nodes'
+            'level4Taxonomy.taxonomyObjectLevel1.nodes',
           )
           const activeLevel4Taxonomy =
             activeLevel4TaxonomyNodes &&
             activeLevel4TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[3]
+              n => n.id === store.activeNodeArray[3],
             )
           const activeLevel4TaxonomyName =
             activeLevel4Taxonomy && activeLevel4Taxonomy.name
@@ -247,12 +250,12 @@ const App = ({ store }: { store: Object }) => {
             activeLevel4Taxonomy && activeLevel4Taxonomy.id
           const activeLevel5TaxonomyNodes = get(
             props,
-            'level5Taxonomy.taxonomyObjectsByParentId.nodes'
+            'level5Taxonomy.taxonomyObjectsByParentId.nodes',
           )
           const activeLevel5Taxonomy =
             activeLevel5TaxonomyNodes &&
             activeLevel5TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[4]
+              n => n.id === store.activeNodeArray[4],
             )
           const activeLevel5TaxonomyName =
             activeLevel5Taxonomy && activeLevel5Taxonomy.name
@@ -261,12 +264,12 @@ const App = ({ store }: { store: Object }) => {
 
           const activeLevel6TaxonomyNodes = get(
             props,
-            'level6Taxonomy.taxonomyObjectsByParentId.nodes'
+            'level6Taxonomy.taxonomyObjectsByParentId.nodes',
           )
           const activeLevel6Taxonomy =
             activeLevel6TaxonomyNodes &&
             activeLevel6TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[5]
+              n => n.id === store.activeNodeArray[5],
             )
           const activeLevel6TaxonomyName =
             activeLevel6Taxonomy && activeLevel6Taxonomy.name
@@ -274,12 +277,12 @@ const App = ({ store }: { store: Object }) => {
             activeLevel6Taxonomy && activeLevel6Taxonomy.id
           const activeLevel7TaxonomyNodes = get(
             props,
-            'level7Taxonomy.taxonomyObjectsByParentId.nodes'
+            'level7Taxonomy.taxonomyObjectsByParentId.nodes',
           )
           const activeLevel7Taxonomy =
             activeLevel7TaxonomyNodes &&
             activeLevel7TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[6]
+              n => n.id === store.activeNodeArray[6],
             )
           const activeLevel7TaxonomyName =
             activeLevel7Taxonomy && activeLevel7Taxonomy.name
@@ -287,12 +290,12 @@ const App = ({ store }: { store: Object }) => {
             activeLevel7Taxonomy && activeLevel7Taxonomy.id
           const activeLevel8TaxonomyNodes = get(
             props,
-            'level8Taxonomy.taxonomyObjectsByParentId.nodes'
+            'level8Taxonomy.taxonomyObjectsByParentId.nodes',
           )
           const activeLevel8Taxonomy =
             activeLevel8TaxonomyNodes &&
             activeLevel8TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[7]
+              n => n.id === store.activeNodeArray[7],
             )
           const activeLevel8TaxonomyName =
             activeLevel8Taxonomy && activeLevel8Taxonomy.name
@@ -300,12 +303,12 @@ const App = ({ store }: { store: Object }) => {
             activeLevel8Taxonomy && activeLevel8Taxonomy.id
           const activeLevel9TaxonomyNodes = get(
             props,
-            'level9Taxonomy.taxonomyObjectsByParentId.nodes'
+            'level9Taxonomy.taxonomyObjectsByParentId.nodes',
           )
           const activeLevel9Taxonomy =
             activeLevel9TaxonomyNodes &&
             activeLevel9TaxonomyNodes.find(
-              n => n.id === store.activeNodeArray[8]
+              n => n.id === store.activeNodeArray[8],
             )
           const activeLevel9TaxonomyName =
             activeLevel9Taxonomy && activeLevel9Taxonomy.name
@@ -321,7 +324,7 @@ const App = ({ store }: { store: Object }) => {
                 store,
                 props,
                 activeLevel2TaxonomyName,
-              })
+              }),
             )
           }
           if (store.activeNodeArray.length > 2) {
@@ -332,7 +335,7 @@ const App = ({ store }: { store: Object }) => {
                 activeLevel2TaxonomyName,
                 activeLevel3TaxonomyName,
                 activeLevel3TaxonomyId,
-              })
+              }),
             )
           }
           if (store.activeNodeArray.length > 3) {
@@ -345,7 +348,7 @@ const App = ({ store }: { store: Object }) => {
                 activeLevel3TaxonomyId,
                 activeLevel4TaxonomyName,
                 activeLevel4TaxonomyId,
-              })
+              }),
             )
           }
           if (store.activeNodeArray.length > 4) {
@@ -360,7 +363,7 @@ const App = ({ store }: { store: Object }) => {
                 activeLevel4TaxonomyId,
                 activeLevel5TaxonomyName,
                 activeLevel5TaxonomyId,
-              })
+              }),
             )
           }
           if (store.activeNodeArray.length > 5) {
@@ -377,7 +380,7 @@ const App = ({ store }: { store: Object }) => {
                 activeLevel5TaxonomyId,
                 activeLevel6TaxonomyName,
                 activeLevel6TaxonomyId,
-              })
+              }),
             )
           }
           if (store.activeNodeArray.length > 6) {
@@ -396,7 +399,7 @@ const App = ({ store }: { store: Object }) => {
                 activeLevel6TaxonomyId,
                 activeLevel7TaxonomyName,
                 activeLevel7TaxonomyId,
-              })
+              }),
             )
           }
           if (store.activeNodeArray.length > 7) {
@@ -417,7 +420,7 @@ const App = ({ store }: { store: Object }) => {
                 activeLevel7TaxonomyId,
                 activeLevel8TaxonomyName,
                 activeLevel8TaxonomyId,
-              })
+              }),
             )
           }
           if (store.activeNodeArray.length > 8) {
@@ -440,7 +443,7 @@ const App = ({ store }: { store: Object }) => {
                 activeLevel8TaxonomyId,
                 activeLevel9TaxonomyName,
                 activeLevel9TaxonomyId,
-              })
+              }),
             )
           }
           return (

@@ -38,7 +38,7 @@
     "eslint-config-react-app": "1.0.4",
     "eslint-loader": "1.7.1",
     "eslint-plugin-flowtype": "2.34.0",
-    "eslint-plugin-import": "2.4.0",
+    "eslint-plugin-import": "2.3.0",
     "eslint-plugin-jsx-a11y": "5.0.3",
     "eslint-plugin-react": "7.0.1",
     "extract-text-webpack-plugin": "2.1.2",

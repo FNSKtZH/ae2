@@ -6,11 +6,11 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!props.allPropertyCollections) return []
   if (!props.allPropertyCollections.nodes) return []
 
-  return props.allPropertyCollections.nodes.map(node => {
+  return props.propertyCollectionByDataType.nodes.map(node => {
     const count = get(
       node,
       'propertyCollectionObjectsByPropertyCollectionId.totalCount',
-      0
+      0,
     )
     return {
       id: node.id,
