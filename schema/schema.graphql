@@ -2803,6 +2803,29 @@ type Query implements Node {
     datatype: String
   ): PropertyCollectionByDataTypeConnection
 
+  # Reads and enables paginatation through a set of `RelationCollection`.
+  relationCollectionByDataType(
+    # The method to use when ordering `RelationCollection`.
+    orderBy: RelationCollectionByDataTypeOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    datatype: String
+  ): RelationCollectionByDataTypeConnection
+
   # Reads and enables paginatation through a set of `Category`.
   allCategories(
     # The method to use when ordering `Category`.
@@ -3413,6 +3436,35 @@ type RelationCollection implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionObjectCondition
   ): RelationCollectionObjectsConnection
+}
+
+# A connection to a list of `RelationCollection` values.
+type RelationCollectionByDataTypeConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `RelationCollection` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `RelationCollection` and cursor to aid in pagination.
+  edges: [RelationCollectionByDataTypeEdge]
+
+  # A list of `RelationCollection` objects.
+  nodes: [RelationCollection]
+}
+
+# A `RelationCollection` edge in the connection.
+type RelationCollectionByDataTypeEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `RelationCollection` at the end of the edge.
+  node: RelationCollection
+}
+
+# Methods to use when ordering `RelationCollection`.
+enum RelationCollectionByDataTypeOrderBy {
+  NATURAL
 }
 
 # A condition to be used against `RelationCollection` object types. All fields are

@@ -13,6 +13,7 @@ import Tree from './Tree'
 import Main from './Main'
 import level1FromProps from '../modules/nodes/level1FromProps'
 import level2PcFromProps from '../modules/nodes/level2PcFromProps'
+import level2RcFromProps from '../modules/nodes/level2RcFromProps'
 import level2TaxonomyFromProps from '../modules/nodes/level2TaxonomyFromProps'
 import level3TaxonomyFromProps from '../modules/nodes/level3TaxonomyFromProps'
 import level4TaxonomyFromProps from '../modules/nodes/level4TaxonomyFromProps'
@@ -68,6 +69,8 @@ const App = ({ store }: { store: Object }) => {
           }
           allRelationCollections {
             totalCount
+          }
+          relationCollectionByDataType(datatype: $level2Taxonomy) {
             nodes {
               id
               name
@@ -216,6 +219,10 @@ const App = ({ store }: { store: Object }) => {
           return <div>{error.message}</div>
         } else if (props) {
           const activeLevel2TaxonomyNodes = get(props, 'level2Taxonomy.nodes')
+          console.log(
+            'App: activeLevel2TaxonomyNodes:',
+            activeLevel2TaxonomyNodes
+          )
           const activeLevel2Taxonomy =
             activeLevel2TaxonomyNodes &&
             activeLevel2TaxonomyNodes.find(
@@ -326,6 +333,15 @@ const App = ({ store }: { store: Object }) => {
                 )
                 break
               }
+              case 'Beziehungs-Sammlungen': {
+                nodes = nodes.concat(
+                  level2RcFromProps({
+                    store,
+                    props,
+                  })
+                )
+                break
+              }
               default:
               case 'Taxonomien': {
                 nodes = nodes.concat(level2TaxonomyFromProps(store, props))
@@ -333,7 +349,10 @@ const App = ({ store }: { store: Object }) => {
               }
             }
           }
-          if (store.activeNodeArray.length > 1) {
+          if (
+            store.activeNodeArray.length > 1 &&
+            store.activeNodeArray[0] === 'Taxonomien'
+          ) {
             nodes = nodes.concat(
               level3TaxonomyFromProps({
                 store,
