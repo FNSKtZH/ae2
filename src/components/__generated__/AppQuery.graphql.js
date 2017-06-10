@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule AppQuery.graphql
- * @generated SignedSource<<2294870f824cc1660f739f09c4812d5e>>
- * @relayHash 6d6127fc78e1f3b5299f67fb841cc961
+ * @generated SignedSource<<8690ce408a915652d8b218cfc89573e0>>
+ * @relayHash eb81283eed2f3e58ec5135bb9984a5ee
  * @flow
  * @nogrep
  */
@@ -36,6 +36,8 @@ query AppQuery(
   }
   allPropertyCollections {
     totalCount
+  }
+  propertyCollectionByDataType(datatype: $level2Taxonomy) {
     nodes {
       id
       name
@@ -224,34 +226,27 @@ const batch /*: ConcreteBatch*/ = {
     "selections": [
       {
         "kind": "LinkedField",
-        "alias": "level5Taxonomy",
+        "alias": "level4Taxonomy",
         "args": [
           {
             "kind": "Variable",
             "name": "id",
-            "variableName": "level5Taxonomy",
+            "variableName": "level4Taxonomy",
             "type": "Uuid!"
           }
         ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
+        "concreteType": "Taxonomy",
+        "name": "taxonomyById",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
+            "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+            "name": "taxonomyObjectLevel1",
             "plural": false,
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
               {
                 "kind": "LinkedField",
                 "alias": null,
@@ -314,6 +309,67 @@ const batch /*: ConcreteBatch*/ = {
             "alias": null,
             "args": null,
             "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "datatype",
+            "variableName": "level2Taxonomy",
+            "type": "String"
+          }
+        ],
+        "concreteType": "PropertyCollectionByDataTypeConnection",
+        "name": "propertyCollectionByDataType",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": null,
+            "args": null,
+            "concreteType": "PropertyCollection",
+            "name": "nodes",
+            "plural": true,
+            "selections": [
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "id",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "name",
+                "storageKey": null
+              },
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "PropertyCollectionObjectsConnection",
+                "name": "propertyCollectionObjectsByPropertyCollectionId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
             "storageKey": null
           }
         ],
@@ -515,27 +571,52 @@ const batch /*: ConcreteBatch*/ = {
       },
       {
         "kind": "LinkedField",
-        "alias": "level4Taxonomy",
+        "alias": null,
+        "args": null,
+        "concreteType": "PropertyCollectionsConnection",
+        "name": "allPropertyCollections",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": "level5Taxonomy",
         "args": [
           {
             "kind": "Variable",
             "name": "id",
-            "variableName": "level4Taxonomy",
+            "variableName": "level5Taxonomy",
             "type": "Uuid!"
           }
         ],
-        "concreteType": "Taxonomy",
-        "name": "taxonomyById",
+        "concreteType": "TaxonomyObject",
+        "name": "taxonomyObjectById",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-            "name": "taxonomyObjectLevel1",
+            "concreteType": "TaxonomyObjectsConnection",
+            "name": "taxonomyObjectsByParentId",
             "plural": false,
             "selections": [
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "totalCount",
+                "storageKey": null
+              },
               {
                 "kind": "LinkedField",
                 "alias": null,
@@ -574,67 +655,6 @@ const batch /*: ConcreteBatch*/ = {
                         "storageKey": null
                       }
                     ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "PropertyCollectionsConnection",
-        "name": "allPropertyCollections",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "totalCount",
-            "storageKey": null
-          },
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "PropertyCollection",
-            "name": "nodes",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "PropertyCollectionObjectsConnection",
-                "name": "propertyCollectionObjectsByPropertyCollectionId",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
                     "storageKey": null
                   }
                 ],
@@ -1111,34 +1131,27 @@ const batch /*: ConcreteBatch*/ = {
     "selections": [
       {
         "kind": "LinkedField",
-        "alias": "level5Taxonomy",
+        "alias": "level4Taxonomy",
         "args": [
           {
             "kind": "Variable",
             "name": "id",
-            "variableName": "level5Taxonomy",
+            "variableName": "level4Taxonomy",
             "type": "Uuid!"
           }
         ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
+        "concreteType": "Taxonomy",
+        "name": "taxonomyById",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
+            "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+            "name": "taxonomyObjectLevel1",
             "plural": false,
             "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
               {
                 "kind": "LinkedField",
                 "alias": null,
@@ -1201,6 +1214,67 @@ const batch /*: ConcreteBatch*/ = {
             "alias": null,
             "args": null,
             "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "datatype",
+            "variableName": "level2Taxonomy",
+            "type": "String"
+          }
+        ],
+        "concreteType": "PropertyCollectionByDataTypeConnection",
+        "name": "propertyCollectionByDataType",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": null,
+            "args": null,
+            "concreteType": "PropertyCollection",
+            "name": "nodes",
+            "plural": true,
+            "selections": [
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "id",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "name",
+                "storageKey": null
+              },
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "PropertyCollectionObjectsConnection",
+                "name": "propertyCollectionObjectsByPropertyCollectionId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
             "storageKey": null
           }
         ],
@@ -1402,27 +1476,52 @@ const batch /*: ConcreteBatch*/ = {
       },
       {
         "kind": "LinkedField",
-        "alias": "level4Taxonomy",
+        "alias": null,
+        "args": null,
+        "concreteType": "PropertyCollectionsConnection",
+        "name": "allPropertyCollections",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": "level5Taxonomy",
         "args": [
           {
             "kind": "Variable",
             "name": "id",
-            "variableName": "level4Taxonomy",
+            "variableName": "level5Taxonomy",
             "type": "Uuid!"
           }
         ],
-        "concreteType": "Taxonomy",
-        "name": "taxonomyById",
+        "concreteType": "TaxonomyObject",
+        "name": "taxonomyObjectById",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-            "name": "taxonomyObjectLevel1",
+            "concreteType": "TaxonomyObjectsConnection",
+            "name": "taxonomyObjectsByParentId",
             "plural": false,
             "selections": [
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "totalCount",
+                "storageKey": null
+              },
               {
                 "kind": "LinkedField",
                 "alias": null,
@@ -1461,67 +1560,6 @@ const batch /*: ConcreteBatch*/ = {
                         "storageKey": null
                       }
                     ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "PropertyCollectionsConnection",
-        "name": "allPropertyCollections",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "totalCount",
-            "storageKey": null
-          },
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "PropertyCollection",
-            "name": "nodes",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "PropertyCollectionObjectsConnection",
-                "name": "propertyCollectionObjectsByPropertyCollectionId",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
                     "storageKey": null
                   }
                 ],
@@ -1930,7 +1968,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query AppQuery(\n  $level2Taxonomy: String!\n  $level3Taxonomy: String!\n  $level4Taxonomy: Uuid!\n  $level5Taxonomy: Uuid!\n  $level6Taxonomy: Uuid!\n  $level7Taxonomy: Uuid!\n  $level8Taxonomy: Uuid!\n  $level9Taxonomy: Uuid!\n  $level10Taxonomy: Uuid!\n) {\n  allCategories {\n    totalCount\n  }\n  allPropertyCollections {\n    totalCount\n    nodes {\n      id\n      name\n      propertyCollectionObjectsByPropertyCollectionId {\n        totalCount\n      }\n    }\n  }\n  allRelationCollections {\n    totalCount\n    nodes {\n      id\n      name\n      relationCollectionObjectsByRelationCollectionId {\n        totalCount\n      }\n    }\n  }\n  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) {\n    nodes {\n      id\n      name\n      taxonomyByCategory {\n        totalCount\n      }\n    }\n  }\n  level3Taxonomy: categoryByName(name: $level3Taxonomy) {\n    taxonomiesByCategory {\n      nodes {\n        id\n        name\n        taxonomyObjectLevel1 {\n          totalCount\n        }\n      }\n    }\n  }\n  level4Taxonomy: taxonomyById(id: $level4Taxonomy) {\n    taxonomyObjectLevel1 {\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query AppQuery(\n  $level2Taxonomy: String!\n  $level3Taxonomy: String!\n  $level4Taxonomy: Uuid!\n  $level5Taxonomy: Uuid!\n  $level6Taxonomy: Uuid!\n  $level7Taxonomy: Uuid!\n  $level8Taxonomy: Uuid!\n  $level9Taxonomy: Uuid!\n  $level10Taxonomy: Uuid!\n) {\n  allCategories {\n    totalCount\n  }\n  allPropertyCollections {\n    totalCount\n  }\n  propertyCollectionByDataType(datatype: $level2Taxonomy) {\n    nodes {\n      id\n      name\n      propertyCollectionObjectsByPropertyCollectionId {\n        totalCount\n      }\n    }\n  }\n  allRelationCollections {\n    totalCount\n    nodes {\n      id\n      name\n      relationCollectionObjectsByRelationCollectionId {\n        totalCount\n      }\n    }\n  }\n  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) {\n    nodes {\n      id\n      name\n      taxonomyByCategory {\n        totalCount\n      }\n    }\n  }\n  level3Taxonomy: categoryByName(name: $level3Taxonomy) {\n    taxonomiesByCategory {\n      nodes {\n        id\n        name\n        taxonomyObjectLevel1 {\n          totalCount\n        }\n      }\n    }\n  }\n  level4Taxonomy: taxonomyById(id: $level4Taxonomy) {\n    taxonomyObjectLevel1 {\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;
