@@ -25,6 +25,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           $level8Taxonomy: Uuid!,
           $level9Taxonomy: Uuid!,
           $level10Taxonomy: Uuid!
+          $activeTaxonomy: Uuid!
         ) {
           allCategories {
             totalCount
@@ -156,6 +157,57 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
+          taxonomyObjectById(id: $activeTaxonomy) {
+            objectByObjectId {
+              id
+              taxonomyObjectsByObjectId {
+                totalCount
+                nodes {
+                  taxonomyByTaxonomyId {
+                    name
+                    description
+                    links
+                    lastUpdated
+                    organizationByOrganizationId {
+                      name
+                    }
+                  }
+                  name
+                }
+              }
+              propertyCollectionObjectsByObjectId {
+                totalCount
+                nodes {
+                  properties
+                }
+              }
+              relationCollectionObjectsByObjectId {
+                totalCount
+                nodes {
+                  relationsByObjectIdAndRelationCollectionId {
+                    totalCount
+                    nodes {
+                      properties
+                      relationPartnersByRelationId {
+                        totalCount
+                        nodes {
+                          objectByObjectId {
+                            taxonomyObjectsByObjectId {
+                              totalCount
+                              nodes {
+                                id
+                                name
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       `}
       variables={{
@@ -186,6 +238,12 @@ const AppQuery = ({ store }: { store: Object }) => {
         level10Taxonomy: store.activeNodeArray.length > 8
           ? store.activeNodeArray[8]
           : '99999999-9999-9999-9999-999999999999',
+        activeTaxonomy:
+          store.activeNodeArray[
+            store.activeNodeArray.length > 2
+              ? store.activeNodeArray.length - 1
+              : '99999999-9999-9999-9999-999999999999'
+          ],
       }}
       render={({ error, props }) => {
         if (error) {
