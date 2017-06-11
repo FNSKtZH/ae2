@@ -8,7 +8,7 @@ import { Provider } from 'mobx-react'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import app from 'ampersand-app'
 
-import App from './components/App'
+import AppQuery from './components/AppQuery'
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
 import 'react-reflex/styles.css'
@@ -43,7 +43,9 @@ const theme = Object.assign({}, myTtheme, {
 
 ReactDOM.render(
   <Provider store={store}>
-    <MuiThemeProvider muiTheme={getMuiTheme(theme)}><App /></MuiThemeProvider>
+    <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+      <AppQuery />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root')
 )
