@@ -23,7 +23,7 @@ export default (store: Object, props: ?Object): Array<Object> => {
   if (!props) {
     return store.nodes
   }
-  console.log('buildNodesFromAppQuery: props:', props)
+  // console.log('buildNodesFromAppQuery: props:', props)
   const activeLevel2TaxonomyNodes = get(props, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
@@ -260,6 +260,9 @@ export default (store: Object, props: ?Object): Array<Object> => {
     )
   }
   nodes = sort(nodes)
+  // cache nodes in store to use at next query
+  // reason: Relay returns props = null first, then the query result
+  // that leads to rebuilding of the tree which is not nice
   store.setNodes(nodes)
   return nodes
 }
