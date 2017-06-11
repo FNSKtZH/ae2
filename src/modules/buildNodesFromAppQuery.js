@@ -17,6 +17,7 @@ import level7TaxonomyFromProps from './nodes/level7TaxonomyFromProps'
 import level8TaxonomyFromProps from './nodes/level8TaxonomyFromProps'
 import level9TaxonomyFromProps from './nodes/level9TaxonomyFromProps'
 import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
+import sort from './nodes/sort'
 
 export default (store: Object, props: ?Object): void => {
   if (!props) {
@@ -258,5 +259,5 @@ export default (store: Object, props: ?Object): void => {
       })
     )
   }
-  store.setNodes(nodes)
+  store.setNodes(sort(nodes))
 }

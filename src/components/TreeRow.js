@@ -77,15 +77,13 @@ const Row = ({
   index,
   style,
   store,
-  nodes,
 }: {
   key?: number,
   index: number,
   style: Object,
   store: Object,
-  nodes: Array<Object>,
 }) => {
-  const node = nodes[index]
+  const node = store.nodes[index]
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     toJS(node.url),
     toJS(store.activeNodeArray)

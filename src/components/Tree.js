@@ -4,7 +4,6 @@ import { observer, inject } from 'mobx-react'
 import { AutoSizer, List } from 'react-virtualized'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import sort from '../modules/nodes/sort'
 
 import Row from './TreeRow'
 
@@ -40,44 +39,32 @@ const LoadingDiv = styled.div`
   font-size: 14px;
 `
 const listContainerStyle = { padding: '5px' }
+
+const noRowsRenderer = () =>
+  <Container>
+    <LoadingDiv>
+      lade Daten...
+    </LoadingDiv>
+  </Container>
+const rowRenderer = ({ key, index, style }) =>
+  <Row key={key} index={index} style={style} />
+
 const enhance = compose(inject('store'), observer)
 
-class Tree extends Component {
-  props: { store: Object }
-
-  rowRenderer = ({ key, index, style }) =>
-    <Row
-      key={key}
-      index={index}
-      style={style}
-      nodes={sort(this.props.store.nodes)}
-    />
-
-  noRowsRenderer = () =>
-    <Container>
-      <LoadingDiv>
-        lade Daten...
-      </LoadingDiv>
-    </Container>
-
-  render() {
-    return (
-      <Container>
-        <AutoSizer>
-          {({ height, width }) =>
-            <ListContainer
-              height={height}
-              rowCount={this.props.store.nodes.length}
-              rowHeight={singleRowHeight}
-              rowRenderer={this.rowRenderer}
-              noRowsRenderer={this.noRowsRenderer}
-              width={width}
-              style={listContainerStyle}
-            />}
-        </AutoSizer>
-      </Container>
-    )
-  }
-}
+const Tree = ({ store }: { store: Object }) =>
+  <Container>
+    <AutoSizer>
+      {({ height, width }) =>
+        <ListContainer
+          height={height}
+          rowCount={store.nodes.length}
+          rowHeight={singleRowHeight}
+          rowRenderer={rowRenderer}
+          noRowsRenderer={noRowsRenderer}
+          width={width}
+          style={listContainerStyle}
+        />}
+    </AutoSizer>
+  </Container>
 
 export default enhance(Tree)
