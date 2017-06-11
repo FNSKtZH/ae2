@@ -40,31 +40,35 @@ const LoadingDiv = styled.div`
 `
 const listContainerStyle = { padding: '5px' }
 
-const noRowsRenderer = () =>
+const noRowsRenderer = nodes =>
   <Container>
     <LoadingDiv>
       lade Daten...
     </LoadingDiv>
   </Container>
-const rowRenderer = ({ key, index, style }) =>
-  <Row key={key} index={index} style={style} />
 
 const enhance = compose(inject('store'), observer)
 
-const Tree = ({ store }: { store: Object }) =>
-  <Container>
-    <AutoSizer>
-      {({ height, width }) =>
-        <ListContainer
-          height={height}
-          rowCount={store.nodes.length}
-          rowHeight={singleRowHeight}
-          rowRenderer={rowRenderer}
-          noRowsRenderer={noRowsRenderer}
-          width={width}
-          style={listContainerStyle}
-        />}
-    </AutoSizer>
-  </Container>
+const Tree = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
+  const rowRenderer = ({ key, index, style }) =>
+    <Row key={key} index={index} style={style} nodes={nodes} />
+
+  return (
+    <Container>
+      <AutoSizer>
+        {({ height, width }) =>
+          <ListContainer
+            height={height}
+            rowCount={nodes.length}
+            rowHeight={singleRowHeight}
+            rowRenderer={rowRenderer}
+            noRowsRenderer={noRowsRenderer}
+            width={width}
+            style={listContainerStyle}
+          />}
+      </AutoSizer>
+    </Container>
+  )
+}
 
 export default enhance(Tree)

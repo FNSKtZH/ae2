@@ -19,9 +19,9 @@ import level9TaxonomyFromProps from './nodes/level9TaxonomyFromProps'
 import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
 import sort from './nodes/sort'
 
-export default (store: Object, props: ?Object): void => {
+export default (store: Object, props: ?Object): Array<Object> => {
   if (!props) {
-    return
+    return store.nodes
   }
   console.log('buildNodesFromAppQuery: props:', props)
   const activeLevel2TaxonomyNodes = get(props, 'level2Taxonomy.nodes')
@@ -259,5 +259,7 @@ export default (store: Object, props: ?Object): void => {
       })
     )
   }
-  store.setNodes(sort(nodes))
+  nodes = sort(nodes)
+  store.setNodes(nodes)
+  return nodes
 }

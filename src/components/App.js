@@ -21,13 +21,13 @@ const Column = styled.div`
 
 const enhance = compose(inject('store'), observer)
 
-const App = ({ store }: { store: Object }) =>
+const App = ({ store, nodes }: { store: Object, nodes: Array<Object> }) =>
   <Container>
     <AppBar />
     <ReflexContainer orientation="vertical">
       {store.ui.visibleColumns.tree &&
         <ReflexElement flex={0.35}>
-          <Tree activeNodeArray={store.activeNodeArray} nodes={store.nodes} />
+          <Tree activeNodeArray={store.activeNodeArray} nodes={nodes} />
         </ReflexElement>}
       {store.ui.visibleColumns.tree &&
         store.ui.visibleColumns.main &&

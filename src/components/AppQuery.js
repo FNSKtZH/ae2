@@ -191,8 +191,18 @@ const AppQuery = ({ store }: { store: Object }) => {
         if (error) {
           return <div>{error.message}</div>
         }
-        buildNodesFromAppQuery(store, props)
-        return <App />
+        if (props) buildNodesFromAppQuery(store, props)
+        /**
+         * need to pass nodes down through all components,
+         * not via mobx
+         * reason: passing via mobx causes side effect error in this render method!
+         * At the same time need to store nodes in mobx because
+         * relay passes props = null every time it requeries
+         * This causes rebuild of entire tree every time a user clicks
+         * through the tree.
+         * This can be prevented if nodes are fetched from mobx when props are null
+         */
+        return <App nodes={store.nodes} />
       }}
     />
   )
