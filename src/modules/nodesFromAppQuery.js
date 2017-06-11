@@ -20,7 +20,6 @@ import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
 
 export default (store: Object, props: Object): Array<Object> => {
   const activeLevel2TaxonomyNodes = get(props, 'level2Taxonomy.nodes')
-  console.log('App: activeLevel2TaxonomyNodes:', activeLevel2TaxonomyNodes)
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
     activeLevel2TaxonomyNodes.find(n => n.name === store.activeNodeArray[1])

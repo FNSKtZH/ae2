@@ -17,7 +17,7 @@ export default (store: Object): void => {
         store.history.push(`/${activeNodeArray.join('/')}`)
       }
       // set activeLevel
-      store.tree.activeLevel = activeNodeArray.length
+      store.activeTreeLevel = activeNodeArray.length
     }),
   })
 }

@@ -8,5 +8,10 @@ export default (store: Object): void => {
       'setActiveNodeArray',
       nodeArray => (store.activeNodeArray = nodeArray)
     ),
+    nodes: [],
+    setNodes: action('setNodes', nodes => {
+      store.nodes = nodes
+    }),
+    activeTreeLevel: null,
   })
 }
