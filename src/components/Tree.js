@@ -56,7 +56,7 @@ class Tree extends Component {
   noRowsRenderer = () =>
     <Container>
       <LoadingDiv>
-        lade Daten
+        lade Daten...
       </LoadingDiv>
     </Container>
 

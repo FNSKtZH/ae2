@@ -188,7 +188,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           : '99999999-9999-9999-9999-999999999999',
       }}
       render={({ error, props }) => {
-        console.log('App: props:', props)
         if (error) {
           return <div>{error.message}</div>
         }
