@@ -8,7 +8,6 @@ import compose from 'recompose/compose'
 import AppBar from './AppBar'
 import Tree from './Tree'
 import Main from './Main'
-import nodesFromAppQuery from '../modules/nodesFromAppQuery'
 
 const Container = styled.div`
   height: 100%;
@@ -22,53 +21,20 @@ const Column = styled.div`
 
 const enhance = compose(inject('store'), observer)
 
-const App = ({
-  store,
-  props,
-  error,
-}: {
-  store: Object,
-  props: Object,
-  error: Object,
-}) => {
-  console.log('App: props:', props)
-  if (error) {
-    return <div>{error.message}</div>
-  } else if (props) {
-    const nodes = nodesFromAppQuery(store, props)
-    return (
-      <Container>
-        <AppBar />
-        <ReflexContainer orientation="vertical">
-          {store.ui.visibleColumns.tree &&
-            <ReflexElement flex={0.35}>
-              <Tree activeNodeArray={store.activeNodeArray} nodes={nodes} />
-            </ReflexElement>}
-          {store.ui.visibleColumns.tree &&
-            store.ui.visibleColumns.main &&
-            <ReflexSplitter key="treeSplitter" />}
-          {store.ui.visibleColumns.main &&
-            <ReflexElement><Column><Main /></Column></ReflexElement>}
-        </ReflexContainer>
-      </Container>
-    )
-  }
-  return (
-    <Container>
-      <AppBar />
-      <ReflexContainer orientation="vertical">
-        {store.ui.visibleColumns.tree &&
-          <ReflexElement flex={0.35}>
-            <Tree activeNodeArray={store.activeNodeArray} nodes={[]} />
-          </ReflexElement>}
-        {store.ui.visibleColumns.tree &&
-          store.ui.visibleColumns.main &&
-          <ReflexSplitter key="treeSplitter" />}
-        {store.ui.visibleColumns.main &&
-          <ReflexElement><Column><Main /></Column></ReflexElement>}
-      </ReflexContainer>
-    </Container>
-  )
-}
+const App = ({ store }: { store: Object }) =>
+  <Container>
+    <AppBar />
+    <ReflexContainer orientation="vertical">
+      {store.ui.visibleColumns.tree &&
+        <ReflexElement flex={0.35}>
+          <Tree activeNodeArray={store.activeNodeArray} nodes={store.nodes} />
+        </ReflexElement>}
+      {store.ui.visibleColumns.tree &&
+        store.ui.visibleColumns.main &&
+        <ReflexSplitter key="treeSplitter" />}
+      {store.ui.visibleColumns.main &&
+        <ReflexElement><Column><Main /></Column></ReflexElement>}
+    </ReflexContainer>
+  </Container>
 
 export default enhance(App)

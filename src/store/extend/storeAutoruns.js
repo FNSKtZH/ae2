@@ -16,7 +16,7 @@ export default (store: Object): void => {
       if (!isEqual(activeNodeArrayFromUrl, activeNodeArray)) {
         store.history.push(`/${activeNodeArray.join('/')}`)
       }
-      // set activeLevel
+      // set activeTreeLevel
       store.activeTreeLevel = activeNodeArray.length
     }),
   })

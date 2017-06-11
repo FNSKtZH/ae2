@@ -6,6 +6,7 @@ import compose from 'recompose/compose'
 import app from 'ampersand-app'
 
 import App from './App'
+import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
 
 const enhance = compose(inject('store'), observer)
 
@@ -186,7 +187,16 @@ const AppQuery = ({ store }: { store: Object }) => {
           ? store.activeNodeArray[8]
           : '99999999-9999-9999-9999-999999999999',
       }}
-      render={({ error, props }) => <App error={error} props={props} />}
+      render={({ error, props }) => {
+        console.log('App: props:', props)
+        if (error) {
+          return <div>{error.message}</div>
+        }
+        if (props) {
+          buildNodesFromAppQuery(store, props)
+        }
+        return <App />
+      }}
     />
   )
 }

@@ -43,10 +43,15 @@ const listContainerStyle = { padding: '5px' }
 const enhance = compose(inject('store'), observer)
 
 class Tree extends Component {
-  props: { store: Object, nodes: Array<Object> }
+  props: { store: Object }
 
   rowRenderer = ({ key, index, style }) =>
-    <Row key={key} index={index} style={style} nodes={sort(this.props.nodes)} />
+    <Row
+      key={key}
+      index={index}
+      style={style}
+      nodes={sort(this.props.store.nodes)}
+    />
 
   noRowsRenderer = () =>
     <Container>
@@ -62,7 +67,7 @@ class Tree extends Component {
           {({ height, width }) =>
             <ListContainer
               height={height}
-              rowCount={this.props.nodes.length}
+              rowCount={this.props.store.nodes.length}
               rowHeight={singleRowHeight}
               rowRenderer={this.rowRenderer}
               noRowsRenderer={this.noRowsRenderer}

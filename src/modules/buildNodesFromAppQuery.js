@@ -18,7 +18,7 @@ import level8TaxonomyFromProps from './nodes/level8TaxonomyFromProps'
 import level9TaxonomyFromProps from './nodes/level9TaxonomyFromProps'
 import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
 
-export default (store: Object, props: Object): Array<Object> => {
+export default (store: Object, props: Object): void => {
   const activeLevel2TaxonomyNodes = get(props, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
@@ -254,5 +254,5 @@ export default (store: Object, props: Object): Array<Object> => {
       })
     )
   }
-  return nodes
+  store.setNodes(nodes)
 }
