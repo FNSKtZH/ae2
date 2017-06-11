@@ -8,7 +8,7 @@ import compose from 'recompose/compose'
 import AppBar from './AppBar'
 import Tree from './Tree'
 import Main from './Main'
-import nodesFromProps from '../modules/nodesFromProps'
+import nodesFromAppQuery from '../modules/nodesFromAppQuery'
 
 const Container = styled.div`
   height: 100%;
@@ -35,7 +35,7 @@ const App = ({
   if (error) {
     return <div>{error.message}</div>
   } else if (props) {
-    const nodes = nodesFromProps(store, props)
+    const nodes = nodesFromAppQuery(store, props)
     return (
       <Container>
         <AppBar />
