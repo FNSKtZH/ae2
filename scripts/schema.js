@@ -11,10 +11,6 @@ const {
   introspectionQuery,
 } = require('graphql/utilities')
 
-console.log(
-  'schema: process.env.REACT_APP_GRAPHQL_ENDPOINT:',
-  process.env.REACT_APP_GRAPHQL_ENDPOINT
-)
 fetch(process.env.REACT_APP_GRAPHQL_ENDPOINT, {
   method: 'POST',
   headers: {
