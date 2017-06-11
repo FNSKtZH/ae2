@@ -192,9 +192,7 @@ const AppQuery = ({ store }: { store: Object }) => {
         if (error) {
           return <div>{error.message}</div>
         }
-        if (props) {
-          buildNodesFromAppQuery(store, props)
-        }
+        buildNodesFromAppQuery(store, props)
         return <App />
       }}
     />
