@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react'
+import React from 'react'
 import { observer, inject } from 'mobx-react'
 import { AutoSizer, List } from 'react-virtualized'
 import styled from 'styled-components'
