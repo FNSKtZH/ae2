@@ -191,7 +191,15 @@ const AppQuery = ({ store }: { store: Object }) => {
         if (error) {
           return <div>{error.message}</div>
         }
-        if (props) buildNodesFromAppQuery(store, props)
+        if (props) {
+          buildNodesFromAppQuery(store, props)
+        } else {
+          /**
+           * TODO:
+           * Add loading node to lowest level
+           * but only if there are children for this layer
+           */
+        }
         /**
          * need to pass nodes down through all components,
          * not via mobx
@@ -201,6 +209,7 @@ const AppQuery = ({ store }: { store: Object }) => {
          * This causes rebuild of entire tree every time a user clicks
          * through the tree.
          * This can be prevented if nodes are fetched from mobx when props are null
+         * TODO: use other cache method? look up relay docs
          */
         return <App nodes={store.nodes} />
       }}
