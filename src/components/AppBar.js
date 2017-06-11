@@ -29,6 +29,9 @@ const MenuDiv = styled.div`
     padding-top: 4px !important;
   }
 `
+const StyledMoreVertIcon = styled(MoreVertIcon)`
+  color: white !important;
+`
 const iconMenuAnchorOrigin = { horizontal: 'left', vertical: 'bottom' }
 const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
@@ -119,7 +122,7 @@ const MyAppBar = ({
         <IconMenu
           iconButtonElement={
             <IconButton>
-              <MoreVertIcon />
+              <StyledMoreVertIcon />
             </IconButton>
           }
           anchorOrigin={iconMenuAnchorOrigin}
