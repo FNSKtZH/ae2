@@ -7,6 +7,7 @@ import app from 'ampersand-app'
 
 import App from './App'
 import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
+import getActiveTaxonomyId from '../modules/getActiveTaxonomyId'
 
 const enhance = compose(inject('store'), observer)
 
@@ -238,18 +239,14 @@ const AppQuery = ({ store }: { store: Object }) => {
         level10Taxonomy: store.activeNodeArray.length > 8
           ? store.activeNodeArray[8]
           : '99999999-9999-9999-9999-999999999999',
-        activeTaxonomy:
-          store.activeNodeArray[
-            store.activeNodeArray.length > 2
-              ? store.activeNodeArray.length - 1
-              : '99999999-9999-9999-9999-999999999999'
-          ],
+        activeTaxonomy: getActiveTaxonomyId(store),
       }}
       render={({ error, props }) => {
         if (error) {
           return <div>{error.message}</div>
         }
         if (props) {
+          // console.log('AppQuery: props:', props)
           buildNodesFromAppQuery(store, props)
         } else {
           /**
