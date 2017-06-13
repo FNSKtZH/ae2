@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule AppQueryQuery.graphql
- * @generated SignedSource<<54728cdb66a0fcc611d5aade95c94fc3>>
- * @relayHash eba3c48d2323f647e875bc661ef48585
+ * @generated SignedSource<<f38e0d7e489943eb0cd341333b2c8349>>
+ * @relayHash de9d6ed955b8df5bbf1be9b4964cabd9
  * @flow
  * @nogrep
  */
@@ -21,14 +21,23 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 /*
 query AppQueryQuery(
+  $existsLevel2: Boolean!
   $level2Taxonomy: String!
+  $existsLevel3: Boolean!
   $level3Taxonomy: String!
+  $existsLevel4: Boolean!
   $level4Taxonomy: Uuid!
+  $existsLevel5: Boolean!
   $level5Taxonomy: Uuid!
+  $existsLevel6: Boolean!
   $level6Taxonomy: Uuid!
+  $existsLevel7: Boolean!
   $level7Taxonomy: Uuid!
+  $existsLevel8: Boolean!
   $level8Taxonomy: Uuid!
+  $existsLevel9: Boolean!
   $level9Taxonomy: Uuid!
+  $existsLevel10: Boolean!
   $level10Taxonomy: Uuid!
   $activeTaxonomy: Uuid!
 ) {
@@ -38,7 +47,7 @@ query AppQueryQuery(
   allPropertyCollections {
     totalCount
   }
-  propertyCollectionByDataType(datatype: $level2Taxonomy) {
+  propertyCollectionByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {
     nodes {
       id
       name
@@ -47,10 +56,7 @@ query AppQueryQuery(
       }
     }
   }
-  allRelationCollections {
-    totalCount
-  }
-  relationCollectionByDataType(datatype: $level2Taxonomy) {
+  relationCollectionByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {
     nodes {
       id
       name
@@ -59,7 +65,7 @@ query AppQueryQuery(
       }
     }
   }
-  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) {
+  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {
     nodes {
       id
       name
@@ -68,7 +74,10 @@ query AppQueryQuery(
       }
     }
   }
-  level3Taxonomy: categoryByName(name: $level3Taxonomy) {
+  allRelationCollections {
+    totalCount
+  }
+  level3Taxonomy: categoryByName(name: $level3Taxonomy) @include(if: $existsLevel3) {
     taxonomiesByCategory {
       nodes {
         id
@@ -79,7 +88,7 @@ query AppQueryQuery(
       }
     }
   }
-  level4Taxonomy: taxonomyById(id: $level4Taxonomy) {
+  level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {
     taxonomyObjectLevel1 {
       nodes {
         id
@@ -90,7 +99,7 @@ query AppQueryQuery(
       }
     }
   }
-  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) {
+  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) @include(if: $existsLevel5) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -102,7 +111,7 @@ query AppQueryQuery(
       }
     }
   }
-  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) {
+  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) @include(if: $existsLevel6) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -114,7 +123,7 @@ query AppQueryQuery(
       }
     }
   }
-  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) {
+  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) @include(if: $existsLevel7) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -126,7 +135,7 @@ query AppQueryQuery(
       }
     }
   }
-  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) {
+  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) @include(if: $existsLevel8) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -138,7 +147,7 @@ query AppQueryQuery(
       }
     }
   }
-  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) {
+  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) @include(if: $existsLevel9) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -150,7 +159,7 @@ query AppQueryQuery(
       }
     }
   }
-  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) {
+  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) @include(if: $existsLevel10) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -164,6 +173,7 @@ query AppQueryQuery(
   }
   taxonomyObjectById(id: $activeTaxonomy) {
     objectByObjectId {
+      ...Objekt
       id
       taxonomyObjectsByObjectId {
         totalCount
@@ -214,6 +224,56 @@ query AppQueryQuery(
     }
   }
 }
+
+fragment Objekt on Object {
+  id
+  taxonomyObjectsByObjectId {
+    totalCount
+    nodes {
+      taxonomyByTaxonomyId {
+        name
+        description
+        links
+        lastUpdated
+        organizationByOrganizationId {
+          name
+        }
+      }
+      name
+    }
+  }
+  propertyCollectionObjectsByObjectId {
+    totalCount
+    nodes {
+      properties
+    }
+  }
+  relationCollectionObjectsByObjectId {
+    totalCount
+    nodes {
+      relationsByObjectIdAndRelationCollectionId {
+        totalCount
+        nodes {
+          properties
+          relationPartnersByRelationId {
+            totalCount
+            nodes {
+              objectByObjectId {
+                taxonomyObjectsByObjectId {
+                  totalCount
+                  nodes {
+                    id
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 */
 
 const batch /*: ConcreteBatch*/ = {
@@ -221,8 +281,20 @@ const batch /*: ConcreteBatch*/ = {
     "argumentDefinitions": [
       {
         "kind": "LocalArgument",
+        "name": "existsLevel2",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level2Taxonomy",
         "type": "String!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "existsLevel3",
+        "type": "Boolean!",
         "defaultValue": null
       },
       {
@@ -233,8 +305,20 @@ const batch /*: ConcreteBatch*/ = {
       },
       {
         "kind": "LocalArgument",
+        "name": "existsLevel4",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level4Taxonomy",
         "type": "Uuid!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "existsLevel5",
+        "type": "Boolean!",
         "defaultValue": null
       },
       {
@@ -245,8 +329,20 @@ const batch /*: ConcreteBatch*/ = {
       },
       {
         "kind": "LocalArgument",
+        "name": "existsLevel6",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level6Taxonomy",
         "type": "Uuid!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "existsLevel7",
+        "type": "Boolean!",
         "defaultValue": null
       },
       {
@@ -257,14 +353,32 @@ const batch /*: ConcreteBatch*/ = {
       },
       {
         "kind": "LocalArgument",
+        "name": "existsLevel8",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level8Taxonomy",
         "type": "Uuid!",
         "defaultValue": null
       },
       {
         "kind": "LocalArgument",
+        "name": "existsLevel9",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level9Taxonomy",
         "type": "Uuid!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "existsLevel10",
+        "type": "Boolean!",
         "defaultValue": null
       },
       {
@@ -286,78 +400,6 @@ const batch /*: ConcreteBatch*/ = {
     "selections": [
       {
         "kind": "LinkedField",
-        "alias": "level4Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level4Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "Taxonomy",
-        "name": "taxonomyById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-            "name": "taxonomyObjectLevel1",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
         "alias": null,
         "args": null,
         "concreteType": "CategoriesConnection",
@@ -369,771 +411,6 @@ const batch /*: ConcreteBatch*/ = {
             "alias": null,
             "args": null,
             "name": "totalCount",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "datatype",
-            "variableName": "level2Taxonomy",
-            "type": "String"
-          }
-        ],
-        "concreteType": "PropertyCollectionByDataTypeConnection",
-        "name": "propertyCollectionByDataType",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "PropertyCollection",
-            "name": "nodes",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "PropertyCollectionObjectsConnection",
-                "name": "propertyCollectionObjectsByPropertyCollectionId",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "RelationCollectionsConnection",
-        "name": "allRelationCollections",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "totalCount",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "datatype",
-            "variableName": "level2Taxonomy",
-            "type": "String"
-          }
-        ],
-        "concreteType": "RelationCollectionByDataTypeConnection",
-        "name": "relationCollectionByDataType",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "RelationCollection",
-            "name": "nodes",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "RelationCollectionObjectsConnection",
-                "name": "relationCollectionObjectsByRelationCollectionId",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level2Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "datatype",
-            "variableName": "level2Taxonomy",
-            "type": "String"
-          }
-        ],
-        "concreteType": "CategoryByDataTypeConnection",
-        "name": "categoryByDataType",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "Category",
-            "name": "nodes",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "CategoryTaxonomyByCategoryConnection",
-                "name": "taxonomyByCategory",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level3Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "name",
-            "variableName": "level3Taxonomy",
-            "type": "String!"
-          }
-        ],
-        "concreteType": "Category",
-        "name": "categoryByName",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomiesConnection",
-            "name": "taxonomiesByCategory",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "Taxonomy",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-                    "name": "taxonomyObjectLevel1",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "PropertyCollectionsConnection",
-        "name": "allPropertyCollections",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "totalCount",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level5Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level5Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level6Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level6Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level7Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level7Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level8Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level8Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level9Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level9Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level10Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level10Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
             "storageKey": null
           }
         ],
@@ -1162,6 +439,11 @@ const batch /*: ConcreteBatch*/ = {
             "name": "objectByObjectId",
             "plural": false,
             "selections": [
+              {
+                "kind": "FragmentSpread",
+                "name": "Objekt",
+                "args": null
+              },
               {
                 "kind": "ScalarField",
                 "alias": null,
@@ -1451,6 +733,906 @@ const batch /*: ConcreteBatch*/ = {
           }
         ],
         "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "PropertyCollectionsConnection",
+        "name": "allPropertyCollections",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "RelationCollectionsConnection",
+        "name": "allRelationCollections",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel5",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level5Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level5Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel10",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level10Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level10Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel9",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level9Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level9Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel8",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level8Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level8Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel7",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level7Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level7Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel6",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level6Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level6Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel2",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": null,
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "datatype",
+                "variableName": "level2Taxonomy",
+                "type": "String"
+              }
+            ],
+            "concreteType": "PropertyCollectionByDataTypeConnection",
+            "name": "propertyCollectionByDataType",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "PropertyCollection",
+                "name": "nodes",
+                "plural": true,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "id",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "name",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "PropertyCollectionObjectsConnection",
+                    "name": "propertyCollectionObjectsByPropertyCollectionId",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "totalCount",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          {
+            "kind": "LinkedField",
+            "alias": null,
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "datatype",
+                "variableName": "level2Taxonomy",
+                "type": "String"
+              }
+            ],
+            "concreteType": "RelationCollectionByDataTypeConnection",
+            "name": "relationCollectionByDataType",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "RelationCollection",
+                "name": "nodes",
+                "plural": true,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "id",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "name",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "RelationCollectionObjectsConnection",
+                    "name": "relationCollectionObjectsByRelationCollectionId",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "totalCount",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          {
+            "kind": "LinkedField",
+            "alias": "level2Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "datatype",
+                "variableName": "level2Taxonomy",
+                "type": "String"
+              }
+            ],
+            "concreteType": "CategoryByDataTypeConnection",
+            "name": "categoryByDataType",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "Category",
+                "name": "nodes",
+                "plural": true,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "id",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "name",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "CategoryTaxonomyByCategoryConnection",
+                    "name": "taxonomyByCategory",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "totalCount",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel4",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level4Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level4Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "Taxonomy",
+            "name": "taxonomyById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+                "name": "taxonomyObjectLevel1",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel3",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level3Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "name",
+                "variableName": "level3Taxonomy",
+                "type": "String!"
+              }
+            ],
+            "concreteType": "Category",
+            "name": "categoryByName",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomiesConnection",
+                "name": "taxonomiesByCategory",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Taxonomy",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+                        "name": "taxonomyObjectLevel1",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
       }
     ],
     "type": "Query"
@@ -1463,8 +1645,20 @@ const batch /*: ConcreteBatch*/ = {
     "argumentDefinitions": [
       {
         "kind": "LocalArgument",
+        "name": "existsLevel2",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level2Taxonomy",
         "type": "String!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "existsLevel3",
+        "type": "Boolean!",
         "defaultValue": null
       },
       {
@@ -1475,8 +1669,20 @@ const batch /*: ConcreteBatch*/ = {
       },
       {
         "kind": "LocalArgument",
+        "name": "existsLevel4",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level4Taxonomy",
         "type": "Uuid!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "existsLevel5",
+        "type": "Boolean!",
         "defaultValue": null
       },
       {
@@ -1487,8 +1693,20 @@ const batch /*: ConcreteBatch*/ = {
       },
       {
         "kind": "LocalArgument",
+        "name": "existsLevel6",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level6Taxonomy",
         "type": "Uuid!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "existsLevel7",
+        "type": "Boolean!",
         "defaultValue": null
       },
       {
@@ -1499,14 +1717,32 @@ const batch /*: ConcreteBatch*/ = {
       },
       {
         "kind": "LocalArgument",
+        "name": "existsLevel8",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level8Taxonomy",
         "type": "Uuid!",
         "defaultValue": null
       },
       {
         "kind": "LocalArgument",
+        "name": "existsLevel9",
+        "type": "Boolean!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
         "name": "level9Taxonomy",
         "type": "Uuid!",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "existsLevel10",
+        "type": "Boolean!",
         "defaultValue": null
       },
       {
@@ -1528,78 +1764,6 @@ const batch /*: ConcreteBatch*/ = {
     "selections": [
       {
         "kind": "LinkedField",
-        "alias": "level4Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level4Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "Taxonomy",
-        "name": "taxonomyById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-            "name": "taxonomyObjectLevel1",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
         "alias": null,
         "args": null,
         "concreteType": "CategoriesConnection",
@@ -1611,771 +1775,6 @@ const batch /*: ConcreteBatch*/ = {
             "alias": null,
             "args": null,
             "name": "totalCount",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "datatype",
-            "variableName": "level2Taxonomy",
-            "type": "String"
-          }
-        ],
-        "concreteType": "PropertyCollectionByDataTypeConnection",
-        "name": "propertyCollectionByDataType",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "PropertyCollection",
-            "name": "nodes",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "PropertyCollectionObjectsConnection",
-                "name": "propertyCollectionObjectsByPropertyCollectionId",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "RelationCollectionsConnection",
-        "name": "allRelationCollections",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "totalCount",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "datatype",
-            "variableName": "level2Taxonomy",
-            "type": "String"
-          }
-        ],
-        "concreteType": "RelationCollectionByDataTypeConnection",
-        "name": "relationCollectionByDataType",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "RelationCollection",
-            "name": "nodes",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "RelationCollectionObjectsConnection",
-                "name": "relationCollectionObjectsByRelationCollectionId",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level2Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "datatype",
-            "variableName": "level2Taxonomy",
-            "type": "String"
-          }
-        ],
-        "concreteType": "CategoryByDataTypeConnection",
-        "name": "categoryByDataType",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "Category",
-            "name": "nodes",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "CategoryTaxonomyByCategoryConnection",
-                "name": "taxonomyByCategory",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "totalCount",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level3Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "name",
-            "variableName": "level3Taxonomy",
-            "type": "String!"
-          }
-        ],
-        "concreteType": "Category",
-        "name": "categoryByName",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomiesConnection",
-            "name": "taxonomiesByCategory",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "Taxonomy",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
-                    "name": "taxonomyObjectLevel1",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "PropertyCollectionsConnection",
-        "name": "allPropertyCollections",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "totalCount",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level5Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level5Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level6Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level6Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level7Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level7Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level8Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level8Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level9Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level9Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      },
-      {
-        "kind": "LinkedField",
-        "alias": "level10Taxonomy",
-        "args": [
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "level10Taxonomy",
-            "type": "Uuid!"
-          }
-        ],
-        "concreteType": "TaxonomyObject",
-        "name": "taxonomyObjectById",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "args": null,
-            "concreteType": "TaxonomyObjectsConnection",
-            "name": "taxonomyObjectsByParentId",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "TaxonomyObject",
-                "name": "nodes",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "name",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "TaxonomyObjectsConnection",
-                    "name": "taxonomyObjectsByParentId",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "totalCount",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
             "storageKey": null
           }
         ],
@@ -2693,10 +2092,910 @@ const batch /*: ConcreteBatch*/ = {
           }
         ],
         "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "PropertyCollectionsConnection",
+        "name": "allPropertyCollections",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "LinkedField",
+        "alias": null,
+        "args": null,
+        "concreteType": "RelationCollectionsConnection",
+        "name": "allRelationCollections",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "totalCount",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel5",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level5Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level5Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel10",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level10Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level10Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel9",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level9Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level9Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel8",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level8Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level8Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel7",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level7Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level7Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel6",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level6Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level6Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "TaxonomyObject",
+            "name": "taxonomyObjectById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyObjectsConnection",
+                "name": "taxonomyObjectsByParentId",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "totalCount",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel2",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": null,
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "datatype",
+                "variableName": "level2Taxonomy",
+                "type": "String"
+              }
+            ],
+            "concreteType": "PropertyCollectionByDataTypeConnection",
+            "name": "propertyCollectionByDataType",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "PropertyCollection",
+                "name": "nodes",
+                "plural": true,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "id",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "name",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "PropertyCollectionObjectsConnection",
+                    "name": "propertyCollectionObjectsByPropertyCollectionId",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "totalCount",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          {
+            "kind": "LinkedField",
+            "alias": null,
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "datatype",
+                "variableName": "level2Taxonomy",
+                "type": "String"
+              }
+            ],
+            "concreteType": "RelationCollectionByDataTypeConnection",
+            "name": "relationCollectionByDataType",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "RelationCollection",
+                "name": "nodes",
+                "plural": true,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "id",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "name",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "RelationCollectionObjectsConnection",
+                    "name": "relationCollectionObjectsByRelationCollectionId",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "totalCount",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          {
+            "kind": "LinkedField",
+            "alias": "level2Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "datatype",
+                "variableName": "level2Taxonomy",
+                "type": "String"
+              }
+            ],
+            "concreteType": "CategoryByDataTypeConnection",
+            "name": "categoryByDataType",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "Category",
+                "name": "nodes",
+                "plural": true,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "id",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "name",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "CategoryTaxonomyByCategoryConnection",
+                    "name": "taxonomyByCategory",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "totalCount",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel4",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level4Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "level4Taxonomy",
+                "type": "Uuid!"
+              }
+            ],
+            "concreteType": "Taxonomy",
+            "name": "taxonomyById",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+                "name": "taxonomyObjectLevel1",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TaxonomyObject",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyObjectsConnection",
+                        "name": "taxonomyObjectsByParentId",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
+      },
+      {
+        "kind": "Condition",
+        "passingValue": true,
+        "condition": "existsLevel3",
+        "selections": [
+          {
+            "kind": "LinkedField",
+            "alias": "level3Taxonomy",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "name",
+                "variableName": "level3Taxonomy",
+                "type": "String!"
+              }
+            ],
+            "concreteType": "Category",
+            "name": "categoryByName",
+            "plural": false,
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "TaxonomiesConnection",
+                "name": "taxonomiesByCategory",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Taxonomy",
+                    "name": "nodes",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "id",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "name",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "TaxonomyTaxonomyObjectLevel1Connection",
+                        "name": "taxonomyObjectLevel1",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
       }
     ]
   },
-  "text": "query AppQueryQuery(\n  $level2Taxonomy: String!\n  $level3Taxonomy: String!\n  $level4Taxonomy: Uuid!\n  $level5Taxonomy: Uuid!\n  $level6Taxonomy: Uuid!\n  $level7Taxonomy: Uuid!\n  $level8Taxonomy: Uuid!\n  $level9Taxonomy: Uuid!\n  $level10Taxonomy: Uuid!\n  $activeTaxonomy: Uuid!\n) {\n  allCategories {\n    totalCount\n  }\n  allPropertyCollections {\n    totalCount\n  }\n  propertyCollectionByDataType(datatype: $level2Taxonomy) {\n    nodes {\n      id\n      name\n      propertyCollectionObjectsByPropertyCollectionId {\n        totalCount\n      }\n    }\n  }\n  allRelationCollections {\n    totalCount\n  }\n  relationCollectionByDataType(datatype: $level2Taxonomy) {\n    nodes {\n      id\n      name\n      relationCollectionObjectsByRelationCollectionId {\n        totalCount\n      }\n    }\n  }\n  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) {\n    nodes {\n      id\n      name\n      taxonomyByCategory {\n        totalCount\n      }\n    }\n  }\n  level3Taxonomy: categoryByName(name: $level3Taxonomy) {\n    taxonomiesByCategory {\n      nodes {\n        id\n        name\n        taxonomyObjectLevel1 {\n          totalCount\n        }\n      }\n    }\n  }\n  level4Taxonomy: taxonomyById(id: $level4Taxonomy) {\n    taxonomyObjectLevel1 {\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  taxonomyObjectById(id: $activeTaxonomy) {\n    objectByObjectId {\n      id\n      taxonomyObjectsByObjectId {\n        totalCount\n        nodes {\n          taxonomyByTaxonomyId {\n            name\n            description\n            links\n            lastUpdated\n            organizationByOrganizationId {\n              name\n            }\n          }\n          name\n        }\n      }\n      propertyCollectionObjectsByObjectId {\n        totalCount\n        nodes {\n          properties\n        }\n      }\n      relationCollectionObjectsByObjectId {\n        totalCount\n        nodes {\n          relationsByObjectIdAndRelationCollectionId {\n            totalCount\n            nodes {\n              properties\n              relationPartnersByRelationId {\n                totalCount\n                nodes {\n                  objectByObjectId {\n                    taxonomyObjectsByObjectId {\n                      totalCount\n                      nodes {\n                        id\n                        name\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+  "text": "query AppQueryQuery(\n  $existsLevel2: Boolean!\n  $level2Taxonomy: String!\n  $existsLevel3: Boolean!\n  $level3Taxonomy: String!\n  $existsLevel4: Boolean!\n  $level4Taxonomy: Uuid!\n  $existsLevel5: Boolean!\n  $level5Taxonomy: Uuid!\n  $existsLevel6: Boolean!\n  $level6Taxonomy: Uuid!\n  $existsLevel7: Boolean!\n  $level7Taxonomy: Uuid!\n  $existsLevel8: Boolean!\n  $level8Taxonomy: Uuid!\n  $existsLevel9: Boolean!\n  $level9Taxonomy: Uuid!\n  $existsLevel10: Boolean!\n  $level10Taxonomy: Uuid!\n  $activeTaxonomy: Uuid!\n) {\n  allCategories {\n    totalCount\n  }\n  allPropertyCollections {\n    totalCount\n  }\n  propertyCollectionByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {\n    nodes {\n      id\n      name\n      propertyCollectionObjectsByPropertyCollectionId {\n        totalCount\n      }\n    }\n  }\n  relationCollectionByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {\n    nodes {\n      id\n      name\n      relationCollectionObjectsByRelationCollectionId {\n        totalCount\n      }\n    }\n  }\n  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {\n    nodes {\n      id\n      name\n      taxonomyByCategory {\n        totalCount\n      }\n    }\n  }\n  allRelationCollections {\n    totalCount\n  }\n  level3Taxonomy: categoryByName(name: $level3Taxonomy) @include(if: $existsLevel3) {\n    taxonomiesByCategory {\n      nodes {\n        id\n        name\n        taxonomyObjectLevel1 {\n          totalCount\n        }\n      }\n    }\n  }\n  level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {\n    taxonomyObjectLevel1 {\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) @include(if: $existsLevel5) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) @include(if: $existsLevel6) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) @include(if: $existsLevel7) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) @include(if: $existsLevel8) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) @include(if: $existsLevel9) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) @include(if: $existsLevel10) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  taxonomyObjectById(id: $activeTaxonomy) {\n    objectByObjectId {\n      ...Objekt\n      id\n      taxonomyObjectsByObjectId {\n        totalCount\n        nodes {\n          taxonomyByTaxonomyId {\n            name\n            description\n            links\n            lastUpdated\n            organizationByOrganizationId {\n              name\n            }\n          }\n          name\n        }\n      }\n      propertyCollectionObjectsByObjectId {\n        totalCount\n        nodes {\n          properties\n        }\n      }\n      relationCollectionObjectsByObjectId {\n        totalCount\n        nodes {\n          relationsByObjectIdAndRelationCollectionId {\n            totalCount\n            nodes {\n              properties\n              relationPartnersByRelationId {\n                totalCount\n                nodes {\n                  objectByObjectId {\n                    taxonomyObjectsByObjectId {\n                      totalCount\n                      nodes {\n                        id\n                        name\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n\nfragment Objekt on Object {\n  id\n  taxonomyObjectsByObjectId {\n    totalCount\n    nodes {\n      taxonomyByTaxonomyId {\n        name\n        description\n        links\n        lastUpdated\n        organizationByOrganizationId {\n          name\n        }\n      }\n      name\n    }\n  }\n  propertyCollectionObjectsByObjectId {\n    totalCount\n    nodes {\n      properties\n    }\n  }\n  relationCollectionObjectsByObjectId {\n    totalCount\n    nodes {\n      relationsByObjectIdAndRelationCollectionId {\n        totalCount\n        nodes {\n          properties\n          relationPartnersByRelationId {\n            totalCount\n            nodes {\n              objectByObjectId {\n                taxonomyObjectsByObjectId {\n                  totalCount\n                  nodes {\n                    id\n                    name\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

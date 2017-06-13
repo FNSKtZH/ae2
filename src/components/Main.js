@@ -3,7 +3,7 @@ import React from 'react'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
-import Object from './Object'
+import Objekt from './Objekt'
 import PropertyCollection from './PropertyCollection'
 import RelationCollection from './RelationCollection'
 import Exporte from './Exporte'
@@ -21,7 +21,7 @@ const Main = ({ store }: { store: Object }) => {
   ].includes(primaryUrl)
   return (
     <div>
-      {primaryUrl === 'Taxonomien' && <Object />}
+      {primaryUrl === 'Taxonomien' && <Objekt />}
       {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
       {primaryUrl === 'Beziehungs-Sammlungen' && <RelationCollection />}
       {primaryUrl === 'export' && <Exporte />}

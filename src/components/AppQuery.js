@@ -17,14 +17,23 @@ const AppQuery = ({ store }: { store: Object }) => {
       environment={app.environment}
       query={graphql`
         query AppQueryQuery(
+          $existsLevel2: Boolean!,
           $level2Taxonomy: String!,
+          $existsLevel3: Boolean!,
           $level3Taxonomy: String!,
+          $existsLevel4: Boolean!,
           $level4Taxonomy: Uuid!,
+          $existsLevel5: Boolean!,
           $level5Taxonomy: Uuid!,
+          $existsLevel6: Boolean!,
           $level6Taxonomy: Uuid!,
+          $existsLevel7: Boolean!,
           $level7Taxonomy: Uuid!,
+          $existsLevel8: Boolean!,
           $level8Taxonomy: Uuid!,
+          $existsLevel9: Boolean!,
           $level9Taxonomy: Uuid!,
+          $existsLevel10: Boolean!,
           $level10Taxonomy: Uuid!
           $activeTaxonomy: Uuid!
         ) {
@@ -34,7 +43,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           allPropertyCollections {
             totalCount
           }
-          propertyCollectionByDataType(datatype: $level2Taxonomy) {
+          propertyCollectionByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {
             nodes {
               id
               name
@@ -46,7 +55,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           allRelationCollections {
             totalCount
           }
-          relationCollectionByDataType(datatype: $level2Taxonomy) {
+          relationCollectionByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {
             nodes {
               id
               name
@@ -55,7 +64,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) {
+          level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {
             nodes {
               id
               name
@@ -64,7 +73,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level3Taxonomy: categoryByName(name: $level3Taxonomy) {
+          level3Taxonomy: categoryByName(name: $level3Taxonomy) @include(if: $existsLevel3) {
             taxonomiesByCategory {
               nodes {
                 id
@@ -75,7 +84,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level4Taxonomy: taxonomyById(id: $level4Taxonomy) {
+          level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {
             taxonomyObjectLevel1 {
               nodes {
                 id
@@ -86,7 +95,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) {
+          level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) @include(if: $existsLevel5) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -98,7 +107,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) {
+          level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) @include(if: $existsLevel6) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -110,7 +119,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) {
+          level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) @include(if: $existsLevel7) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -122,7 +131,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) {
+          level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) @include(if: $existsLevel8) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -134,7 +143,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) {
+          level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) @include(if: $existsLevel9) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -146,7 +155,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) {
+          level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) @include(if: $existsLevel10) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -160,6 +169,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           }
           taxonomyObjectById(id: $activeTaxonomy) {
             objectByObjectId {
+              ...Objekt
               id
               taxonomyObjectsByObjectId {
                 totalCount
@@ -212,30 +222,39 @@ const AppQuery = ({ store }: { store: Object }) => {
         }
       `}
       variables={{
+        existsLevel2: store.activeNodeArray.length > 0,
         level2Taxonomy: store.activeNodeArray.length > 0
           ? store.activeNodeArray[0]
           : 'none',
+        existsLevel3: store.activeNodeArray.length > 1,
         level3Taxonomy: store.activeNodeArray.length > 1
           ? store.activeNodeArray[1]
           : 'none',
+        existsLevel4: store.activeNodeArray.length > 2,
         level4Taxonomy: store.activeNodeArray.length > 2
           ? store.activeNodeArray[2]
           : '99999999-9999-9999-9999-999999999999',
+        existsLevel5: store.activeNodeArray.length > 3,
         level5Taxonomy: store.activeNodeArray.length > 3
           ? store.activeNodeArray[3]
           : '99999999-9999-9999-9999-999999999999',
+        existsLevel6: store.activeNodeArray.length > 4,
         level6Taxonomy: store.activeNodeArray.length > 4
           ? store.activeNodeArray[4]
           : '99999999-9999-9999-9999-999999999999',
+        existsLevel7: store.activeNodeArray.length > 5,
         level7Taxonomy: store.activeNodeArray.length > 5
           ? store.activeNodeArray[5]
           : '99999999-9999-9999-9999-999999999999',
+        existsLevel8: store.activeNodeArray.length > 6,
         level8Taxonomy: store.activeNodeArray.length > 6
           ? store.activeNodeArray[6]
           : '99999999-9999-9999-9999-999999999999',
+        existsLevel9: store.activeNodeArray.length > 7,
         level9Taxonomy: store.activeNodeArray.length > 7
           ? store.activeNodeArray[7]
           : '99999999-9999-9999-9999-999999999999',
+        existsLevel10: store.activeNodeArray.length > 8,
         level10Taxonomy: store.activeNodeArray.length > 8
           ? store.activeNodeArray[8]
           : '99999999-9999-9999-9999-999999999999',
@@ -246,7 +265,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           return <div>{error.message}</div>
         }
         if (props) {
-          // console.log('AppQuery: props:', props)
+          console.log('AppQuery: props:', props)
           buildNodesFromAppQuery(store, props)
         } else {
           /**
