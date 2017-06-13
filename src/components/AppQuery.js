@@ -12,8 +12,24 @@ import getActiveTaxonomyId from '../modules/getActiveTaxonomyId'
 const enhance = compose(inject('store'), observer)
 
 const AppQuery = ({ store }: { store: Object }) => {
-  const existsLevel2 = store.activeNodeArray.length > 0
-  const level2Taxonomy = existsLevel2 ? store.activeNodeArray[0] : 'none'
+  const existsLevel1 = store.activeNodeArray.length > 0
+  const existsLevel2Taxonomy =
+    existsLevel1 &&
+    store.activeNodeArray[0] === 'Taxonomien' &&
+    store.activeNodeArray.length > 0
+  const level2Taxonomy = existsLevel2Taxonomy
+    ? store.activeNodeArray[0]
+    : 'none'
+  const existsLevel2Pc =
+    existsLevel1 &&
+    store.activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
+    store.activeNodeArray.length > 0
+  const level2Pc = existsLevel2Pc ? store.activeNodeArray[0] : 'none'
+  const existsLevel2Rc =
+    existsLevel1 &&
+    store.activeNodeArray[0] === 'Beziehungs-Sammlungen' &&
+    store.activeNodeArray.length > 0
+  const level2Rc = existsLevel2Rc ? store.activeNodeArray[0] : 'none'
   const existsLevel3 = store.activeNodeArray.length > 1
   const level3Taxonomy = existsLevel3 ? store.activeNodeArray[1] : 'none'
   const existsLevel4 = store.activeNodeArray.length > 2
@@ -45,12 +61,18 @@ const AppQuery = ({ store }: { store: Object }) => {
     ? store.activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
   const activeTaxonomy = getActiveTaxonomyId(store)
+  const existsActiveTaxonomy = !!activeTaxonomy
+
   return (
     <QueryRenderer
       environment={app.environment}
       query={graphql`
         query AppQueryQuery(
-          $existsLevel2: Boolean!,
+          $existsLevel2Pc: Boolean!,
+          $level2Pc: String!,
+          $existsLevel2Rc: Boolean!,
+          $level2Rc: String!,
+          $existsLevel2Taxonomy: Boolean!,
           $level2Taxonomy: String!,
           $existsLevel3: Boolean!,
           $level3Taxonomy: String!,
@@ -69,6 +91,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           $existsLevel10: Boolean!,
           $level10Taxonomy: Uuid!
           $activeTaxonomy: Uuid!
+          $existsActiveTaxonomy: Boolean!
         ) {
           allCategories {
             totalCount
@@ -76,7 +99,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           allPropertyCollections {
             totalCount
           }
-          propertyCollectionByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {
+          propertyCollectionByDataType(datatype: $level2Pc) @include(if: $existsLevel2Pc) {
             nodes {
               id
               name
@@ -88,7 +111,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           allRelationCollections {
             totalCount
           }
-          relationCollectionByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {
+          relationCollectionByDataType(datatype: $level2Rc) @include(if: $existsLevel2Rc) {
             nodes {
               id
               name
@@ -97,7 +120,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2) {
+          level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2Taxonomy) {
             nodes {
               id
               name
@@ -200,7 +223,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          taxonomyObjectById(id: $activeTaxonomy) {
+          taxonomyObjectById(id: $activeTaxonomy) @include(if: $existsActiveTaxonomy) {
             objectByObjectId {
               ...Objekt
               id
@@ -255,7 +278,11 @@ const AppQuery = ({ store }: { store: Object }) => {
         }
       `}
       variables={{
-        existsLevel2,
+        existsLevel2Pc,
+        level2Pc,
+        existsLevel2Rc,
+        level2Rc,
+        existsLevel2Taxonomy,
         level2Taxonomy,
         existsLevel3,
         level3Taxonomy,
@@ -274,6 +301,7 @@ const AppQuery = ({ store }: { store: Object }) => {
         existsLevel10,
         level10Taxonomy,
         activeTaxonomy,
+        existsActiveTaxonomy,
       }}
       render={({ error, props }) => {
         if (error) {
