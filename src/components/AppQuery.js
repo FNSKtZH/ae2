@@ -225,7 +225,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           }
           taxonomyObjectById(id: $activeTaxonomy) @include(if: $existsActiveTaxonomy) {
             objectByObjectId {
-              ...Objekt
               id
               taxonomyObjectsByObjectId {
                 totalCount
