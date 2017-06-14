@@ -14,10 +14,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Column = styled.div`
-  padding: 5px;
-  height: 100%;
-`
 
 const enhance = compose(inject('store'), observer)
 
@@ -32,8 +28,7 @@ const App = ({ store, nodes }: { store: Object, nodes: Array<Object> }) =>
       {store.ui.visibleColumns.tree &&
         store.ui.visibleColumns.main &&
         <ReflexSplitter key="treeSplitter" />}
-      {store.ui.visibleColumns.main &&
-        <ReflexElement><Column><Main /></Column></ReflexElement>}
+      {store.ui.visibleColumns.main && <ReflexElement><Main /></ReflexElement>}
     </ReflexContainer>
   </Container>
 
