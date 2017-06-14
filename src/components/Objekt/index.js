@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 
 import TaxonomyObject from './TaxonomyObject'
+import PropertyCollectionObject from './PropertyCollectionObject'
 
 const Container = styled.div`
   padding: 5px;
@@ -14,7 +15,10 @@ const Container = styled.div`
   overflow: auto !important;
 `
 const Title = styled.h3`
-
+  margin: 15px 0 -5px 0;
+`
+const FirstTitle = styled(Title)`
+  margin: 5px 0 -5px 0;
 `
 
 const enhance = compose(inject('store'), observer)
@@ -37,6 +41,11 @@ const Objekt = ({ store }: { store: Object }) => {
     'propertyCollectionObjectsByObjectId.totalCount',
     0
   )
+  const propertyCollectionObjects = get(
+    activeTaxonomyObject,
+    'propertyCollectionObjectsByObjectId.nodes',
+    []
+  )
   const rcCount = get(
     activeTaxonomyObject,
     'relationCollectionObjectsByObjectId.totalCount',
@@ -45,15 +54,21 @@ const Objekt = ({ store }: { store: Object }) => {
 
   return (
     <Container>
-      <Title>{`Taxonomien (${taxCount}):`}</Title>
+      <FirstTitle>{`Taxonomien (${taxCount})`}</FirstTitle>
       {taxonomyObjects.map(taxonomyObject =>
         <TaxonomyObject
           key={taxonomyObject.id}
           taxonomyObject={taxonomyObject}
         />
       )}
-      <Title>{`Eigenschaften-Sammlungen (${pcCount}):`}</Title>
-      <Title>{`Beziehungs-Sammlungen (${rcCount}):`}</Title>
+      <Title>{`Eigenschaften-Sammlungen (${pcCount})`}</Title>
+      {propertyCollectionObjects.map((pCO, index) =>
+        <PropertyCollectionObject
+          key={`${pCO.propertyCollectionId}`}
+          pCO={pCO}
+        />
+      )}
+      <Title>{`Beziehungs-Sammlungen (${rcCount})`}</Title>
     </Container>
   )
 }

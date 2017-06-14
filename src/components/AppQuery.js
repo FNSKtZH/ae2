@@ -248,7 +248,25 @@ const AppQuery = ({ store }: { store: Object }) => {
               propertyCollectionObjectsByObjectId {
                 totalCount
                 nodes {
+                  objectId
+                  propertyCollectionId
                   properties
+                  propertyCollectionByPropertyCollectionId{
+                    name
+                    description
+                    links
+                    combining
+                    lastUpdated
+                    termsOfUse
+                    importedBy
+                    organizationByOrganizationId{
+                      name
+                    }
+                    userByImportedBy{
+                      name
+                      email
+                    }
+                  }
                 }
               }
               relationCollectionObjectsByObjectId {

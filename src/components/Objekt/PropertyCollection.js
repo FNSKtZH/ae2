@@ -31,24 +31,40 @@ const Value = styled.p`
   margin: 2px 0;
 `
 
-const Taxonomy = ({ taxonomy }: { taxonomy: Object }) =>
+const PropertyCollection = ({ pC }: { pC: Object }) =>
   <Container>
-    <Description>{get(taxonomy, 'description', '')}</Description>
+    <Description>{get(pC, 'description', '')}</Description>
     <DataContainer>
       <Row>
-        <Label>{'Stand:'}</Label>
-        <Value>{get(taxonomy, 'lastUpdated', '')}</Value>
+        <Label>{'Zusammenfassend:'}</Label>
+        <Value>{pC.combining ? 'ja' : 'nein'}</Value>
       </Row>
       <Row>
-        <Label>{'Link:'}</Label><Value>{get(taxonomy, 'links', '')}</Value>
+        <Label>{'Stand:'}</Label>
+        <Value>{get(pC, 'lastUpdated', '')}</Value>
+      </Row>
+      <Row>
+        <Label>{'Link:'}</Label><Value>{get(pC, 'links', '')}</Value>
+      </Row>
+      <Row>
+        <Label>{'Nutzungsbedingungen:'}</Label>
+        <Value>{get(pC, 'termsOfUse', '')}</Value>
+      </Row>
+      <Row>
+        <Label>{'Importiert von:'}</Label>
+        <Value>{`${get(pC, 'userByImportedBy.name', '')} (${get(
+          pC,
+          'userByImportedBy.email',
+          ''
+        )})`}</Value>
       </Row>
       <Row>
         <Label>{'Organisation mit Schreibrecht:'}</Label>
         <Value>
-          {get(taxonomy, 'organizationByOrganizationId.name', '')}
+          {get(pC, 'organizationByOrganizationId.name', '')}
         </Value>
       </Row>
     </DataContainer>
   </Container>
 
-export default Taxonomy
+export default PropertyCollection
