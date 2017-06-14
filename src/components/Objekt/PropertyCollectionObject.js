@@ -1,18 +1,25 @@
 // @flow
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
-// import styled from 'styled-components'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import PropertyCollection from './PropertyCollection'
 
-const cardStyle = { margin: '10px 0' }
-const titleStyle = { fontWeight: 'bold' }
-const cardHeaderStyle = { backgroundColor: '#FFCC80' }
-const firstCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
-const cardTextStyle = { padding: '5px 16px' }
+const pCOCardStyle = { margin: '10px 0' }
+const taxCardStyle = {
+  backgroundColor: '#FFE0B2',
+}
+const pCOTitleStyle = { fontWeight: 'bold' }
+const pCTitleStyle = { fontWeight: 'normal' }
+const pCOCardHeaderStyle = { backgroundColor: '#FFCC80' }
+const pCCardHeaderStyle = {
+  backgroundColor: '#FFE0B2',
+  borderBottom: '1px solid rgba(0,0,0,0.06)',
+}
+const pCCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
+const pCOCardTextStyle = { padding: '5px 16px' }
 
 const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
   console.log('PropertyCollectionObject: pCO:', pCO)
@@ -21,18 +28,27 @@ const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
   const properties = JSON.parse(pCO.properties)
 
   return (
-    <Card style={cardStyle}>
+    <Card style={pCOCardStyle}>
       <CardHeader
         title={pCName}
         actAsExpander={true}
         showExpandableButton={true}
-        titleStyle={titleStyle}
-        style={cardHeaderStyle}
+        titleStyle={pCOTitleStyle}
+        style={pCOCardHeaderStyle}
       />
-      <CardText expandable={true} style={firstCardTextStyle}>
-        <PropertyCollection pC={pC} />
-      </CardText>
-      <CardText expandable={true} style={cardTextStyle}>
+      <Card expandable={true} style={taxCardStyle}>
+        <CardHeader
+          title={get(pC, 'description', '')}
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={pCTitleStyle}
+          style={pCCardHeaderStyle}
+        />
+        <CardText expandable={true} style={pCCardTextStyle}>
+          <PropertyCollection pC={pC} />
+        </CardText>
+      </Card>
+      <CardText expandable={true} style={pCOCardTextStyle}>
         {sortBy(Object.entries(properties), e => e[0]).map(([key, value]) =>
           <PropertyReadOnly key={key} value={value} label={key} />
         )}

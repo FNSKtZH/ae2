@@ -5,6 +5,7 @@ import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import sortBy from 'lodash/sortBy'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
@@ -55,14 +56,22 @@ const Objekt = ({ store }: { store: Object }) => {
   return (
     <Container>
       <FirstTitle>{`Taxonomien (${taxCount})`}</FirstTitle>
-      {taxonomyObjects.map(taxonomyObject =>
+      {sortBy(taxonomyObjects, tO =>
+        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
+      ).map(taxonomyObject =>
         <TaxonomyObject
           key={taxonomyObject.id}
           taxonomyObject={taxonomyObject}
         />
       )}
       <Title>{`Eigenschaften-Sammlungen (${pcCount})`}</Title>
-      {propertyCollectionObjects.map((pCO, index) =>
+      {sortBy(propertyCollectionObjects, pCO =>
+        get(
+          pCO,
+          'propertyCollectionByPropertyCollectionId.name',
+          '(Name fehlt)'
+        )
+      ).map((pCO, index) =>
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
