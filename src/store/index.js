@@ -10,6 +10,8 @@ function Store(): void {
   this.activeNodeArray = []
   this.setActiveNodeArray = () => {}
   this.activeTreeLevel = null
+  this.activeTaxonomyObject = null
+  this.setActiveTaxonomyObject = () => {}
 }
 
 const MyStore = new Store()

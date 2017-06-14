@@ -13,5 +13,10 @@ export default (store: Object): void => {
       store.nodes = nodes
     }),
     activeTreeLevel: null,
+    activeTaxonomyObject: null,
+    setActiveTaxonomyObject: action(
+      'setActiveTaxonomyObject',
+      to => (store.setActiveTaxonomyObject = to)
+    ),
   })
 }
