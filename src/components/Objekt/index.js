@@ -6,6 +6,8 @@ import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
+import Taxonomy from './Taxonomy'
+
 const Container = styled.div`
   padding: 5px;
   height: calc(100% - 48px);
@@ -25,6 +27,11 @@ const Objekt = ({ store }: { store: Object }) => {
     'taxonomyObjectsByObjectId.totalCount',
     0,
   )
+  const taxonomies = get(
+    activeTaxonomyObject,
+    'taxonomyObjectsByObjectId.nodes',
+    [],
+  )
   const pcCount = get(
     activeTaxonomyObject,
     'propertyCollectionObjectsByObjectId.totalCount',
@@ -39,6 +46,9 @@ const Objekt = ({ store }: { store: Object }) => {
   return (
     <Container>
       <Title>{`Taxonomien (${taxCount}):`}</Title>
+      {taxonomies.map(taxonomy =>
+        <Taxonomy key={taxonomy.id} taxonomy={taxonomy} />,
+      )}
       <Title>{`Eigenschaften-Sammlungen (${pcCount}):`}</Title>
       <Title>{`Beziehungs-Sammlungen (${rcCount}):`}</Title>
     </Container>

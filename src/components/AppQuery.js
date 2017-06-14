@@ -231,6 +231,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                 totalCount
                 nodes {
                   taxonomyByTaxonomyId {
+                    id
                     name
                     description
                     links
@@ -239,6 +240,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                       name
                     }
                   }
+                  id
                   name
                 }
               }
