@@ -1,43 +1,53 @@
 // @flow
 import React from 'react'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
-import Paper from 'material-ui/Paper'
-// import styled from 'styled-components'
+import styled from 'styled-components'
 import get from 'lodash/get'
-import sortBy from 'lodash/sortBy'
 
-import PropertyReadOnly from './PropertyReadOnly'
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const DataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const Description = styled.p`
+  margin: 5px 0;
+`
+const Row = styled.div`
+  display: flex;
+`
+const Label = styled.p`
+  flex-basis: 200px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  text-align: right;
+  padding-right: 5px;
+  margin: 5px 0;
+  color: grey;
+`
+const Value = styled.p`
+  margin: 5px 0;
+`
 
-const titleStyle = { fontWeight: 'bold' }
-const cardHeaderStyle = { backgroundColor: '#FFCC80' }
+const Taxonomy = ({ taxonomy }: { taxonomy: Object }) =>
+  <Container>
+    <Description>{get(taxonomy, 'description', '')}</Description>
+    <DataContainer>
+      <Row>
+        <Label>{'Stand:'}</Label>
+        <Value>{get(taxonomy, 'lastUpdated', '')}</Value>
+      </Row>
+      <Row>
+        <Label>{'Link:'}</Label><Value>{get(taxonomy, 'links', '')}</Value>
+      </Row>
+      <Row>
+        <Label>{'Organisation mit Schreibrecht:'}</Label>
+        <Value>
+          {get(taxonomy, 'organizationByOrganizationId.name', '')}
+        </Value>
+      </Row>
+    </DataContainer>
+  </Container>
 
-const enhance = compose(inject('store'), observer)
-
-const Taxonomy = ({ store, taxonomy }: { store: Object, taxonomy: Object }) => {
-  console.log('Taxonomy: taxonomy:', taxonomy)
-  const tax = get(taxonomy, 'taxonomyByTaxonomyId', {})
-  const taxName = tax.name || '(Name fehlt)'
-  const properties = JSON.parse(taxonomy.properties)
-
-  return (
-    <Card>
-      <CardHeader
-        title={taxName}
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={titleStyle}
-        style={cardHeaderStyle}
-      />
-      <CardText expandable={true}>
-        <Paper zDepth={1}>test</Paper>
-        {sortBy(Object.entries(properties), e => e[0]).map(([key, value]) =>
-          <PropertyReadOnly key={key} value={value} label={key} />
-        )}
-      </CardText>
-    </Card>
-  )
-}
-
-export default enhance(Taxonomy)
+export default Taxonomy

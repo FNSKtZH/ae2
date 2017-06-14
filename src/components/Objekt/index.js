@@ -6,7 +6,7 @@ import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
-import Taxonomy from './Taxonomy'
+import TaxonomyObject from './TaxonomyObject'
 
 const Container = styled.div`
   padding: 5px;
@@ -25,29 +25,32 @@ const Objekt = ({ store }: { store: Object }) => {
   const taxCount = get(
     activeTaxonomyObject,
     'taxonomyObjectsByObjectId.totalCount',
-    0,
+    0
   )
-  const taxonomies = get(
+  const taxonomyObjects = get(
     activeTaxonomyObject,
     'taxonomyObjectsByObjectId.nodes',
-    [],
+    []
   )
   const pcCount = get(
     activeTaxonomyObject,
     'propertyCollectionObjectsByObjectId.totalCount',
-    0,
+    0
   )
   const rcCount = get(
     activeTaxonomyObject,
     'relationCollectionObjectsByObjectId.totalCount',
-    0,
+    0
   )
 
   return (
     <Container>
       <Title>{`Taxonomien (${taxCount}):`}</Title>
-      {taxonomies.map(taxonomy =>
-        <Taxonomy key={taxonomy.id} taxonomy={taxonomy} />,
+      {taxonomyObjects.map(taxonomyObject =>
+        <TaxonomyObject
+          key={taxonomyObject.id}
+          taxonomyObject={taxonomyObject}
+        />
       )}
       <Title>{`Eigenschaften-Sammlungen (${pcCount}):`}</Title>
       <Title>{`Beziehungs-Sammlungen (${rcCount}):`}</Title>
