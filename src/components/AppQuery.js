@@ -242,6 +242,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                   }
                   id
                   name
+                  properties
                 }
               }
               propertyCollectionObjectsByObjectId {
