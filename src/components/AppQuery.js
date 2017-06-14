@@ -4,6 +4,7 @@ import { QueryRenderer, graphql } from 'react-relay'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import app from 'ampersand-app'
+import get from 'lodash/get'
 
 import App from './App'
 import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
@@ -307,8 +308,10 @@ const AppQuery = ({ store }: { store: Object }) => {
           return <div>{error.message}</div>
         }
         if (props) {
-          console.log('AppQuery: props:', props)
+          // console.log('AppQuery: props:', props)
           buildNodesFromAppQuery(store, props)
+          const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
+          store.setActiveTaxonomyObject(objekt)
         } else {
           /**
            * TODO:
