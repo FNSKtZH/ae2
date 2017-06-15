@@ -22,7 +22,6 @@ const pCCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
 const pCOCardTextStyle = { padding: '5px 16px' }
 
 const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
-  console.log('PropertyCollectionObject: pCO:', pCO)
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
   const pCName = get(pC, 'name', '(Name fehlt)')
   const properties = JSON.parse(pCO.properties)

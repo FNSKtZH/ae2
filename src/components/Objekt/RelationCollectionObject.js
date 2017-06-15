@@ -2,10 +2,9 @@
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import get from 'lodash/get'
-import sortBy from 'lodash/sortBy'
 
-import PropertyReadOnly from './PropertyReadOnly'
 import RelationCollection from './RelationCollection'
+import Relation from './Relation'
 
 const rCOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {
@@ -22,11 +21,14 @@ const rCCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
 const rCOCardTextStyle = { padding: '5px 16px' }
 
 const RelationCollectionObject = ({ rCO }: { rCO: Object }) => {
-  console.log('RelationCollectionObject: rCO:', rCO)
   const rC = get(rCO, 'relationCollectionByRelationCollectionId', {})
   const rCName = get(rC, 'name', '(Name fehlt)')
-  const relations = get(rC, 'relationsByObjectIdAndRelationCollectionId', [])
-  // const properties = JSON.parse(rCO.properties)
+  const relations = get(
+    rCO,
+    'relationsByObjectIdAndRelationCollectionId.nodes',
+    []
+  )
+  console.log('RelationCollectionObject: relations:', relations)
 
   return (
     <Card style={rCOCardStyle}>
@@ -50,9 +52,9 @@ const RelationCollectionObject = ({ rCO }: { rCO: Object }) => {
         </CardText>
       </Card>
       <CardText expandable={true} style={rCOCardTextStyle}>
-        {/*sortBy(Object.entries(properties), e => e[0]).map(([key, value]) =>
-          <PropertyReadOnly key={key} value={value} label={key} />
-        )*/}
+        {relations.map(relation =>
+          <Relation key={relation.id} relation={relation} />
+        )}
       </CardText>
     </Card>
   )

@@ -293,6 +293,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                   relationsByObjectIdAndRelationCollectionId {
                     totalCount
                     nodes {
+                      id
                       properties
                       relationPartnersByRelationId {
                         totalCount
