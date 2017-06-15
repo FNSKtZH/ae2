@@ -9,6 +9,7 @@ import sortBy from 'lodash/sortBy'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
+import RelationCollectionObject from './RelationCollectionObject'
 
 const Container = styled.div`
   padding: 5px;
@@ -52,6 +53,11 @@ const Objekt = ({ store }: { store: Object }) => {
     'relationCollectionObjectsByObjectId.totalCount',
     0
   )
+  const relationCollectionObjects = get(
+    activeTaxonomyObject,
+    'relationCollectionObjectsByObjectId.nodes',
+    []
+  )
 
   return (
     <Container>
@@ -78,6 +84,18 @@ const Objekt = ({ store }: { store: Object }) => {
         />
       )}
       <Title>{`Beziehungs-Sammlungen (${rcCount})`}</Title>
+      {sortBy(relationCollectionObjects, rCO =>
+        get(
+          rCO,
+          'relationCollectionByRelationCollectionId.name',
+          '(Name fehlt)'
+        )
+      ).map((rCO, index) =>
+        <RelationCollectionObject
+          key={`${rCO.relationCollectionId}`}
+          rCO={rCO}
+        />
+      )}
     </Container>
   )
 }
