@@ -8,7 +8,7 @@ import get from 'lodash/get'
 
 import App from './App'
 import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
-import getActiveTaxonomyId from '../modules/getActiveTaxonomyId'
+import getActiveTaxonomyObjectId from '../modules/getActiveTaxonomyObjectId'
 
 const enhance = compose(inject('store'), observer)
 
@@ -61,8 +61,8 @@ const AppQuery = ({ store }: { store: Object }) => {
   const level10Taxonomy = existsLevel10
     ? store.activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
-  const activeTaxonomy = getActiveTaxonomyId(store)
-  const existsActiveTaxonomy = !!activeTaxonomy
+  const activeTaxonomyObject = getActiveTaxonomyObjectId(store)
+  const existsActiveTaxonomyObject = !!activeTaxonomyObject
 
   return (
     <QueryRenderer
@@ -91,8 +91,8 @@ const AppQuery = ({ store }: { store: Object }) => {
           $level9Taxonomy: Uuid!,
           $existsLevel10: Boolean!,
           $level10Taxonomy: Uuid!
-          $activeTaxonomy: Uuid!
-          $existsActiveTaxonomy: Boolean!
+          $activeTaxonomyObject: Uuid!
+          $existsActiveTaxonomyObject: Boolean!
         ) {
           allCategories {
             totalCount
@@ -224,7 +224,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          taxonomyObjectById(id: $activeTaxonomy) @include(if: $existsActiveTaxonomy) {
+          taxonomyObjectById(id: $activeTaxonomyObject) @include(if: $existsActiveTaxonomyObject) {
             objectByObjectId {
               id
               taxonomyObjectsByObjectId {
@@ -272,6 +272,23 @@ const AppQuery = ({ store }: { store: Object }) => {
               relationCollectionObjectsByObjectId {
                 totalCount
                 nodes {
+                  relationCollectionByRelationCollectionId {
+                    id
+                    name
+                    description
+                    links
+                    lastUpdated
+                    natureOfRelation
+                    combining
+                    termsOfUse
+                    organizationByOrganizationId {
+                      name
+                    }
+                    userByImportedBy {
+                      name
+                      email
+                    }
+                  }
                   relationsByObjectIdAndRelationCollectionId {
                     totalCount
                     nodes {
@@ -321,8 +338,8 @@ const AppQuery = ({ store }: { store: Object }) => {
         level9Taxonomy,
         existsLevel10,
         level10Taxonomy,
-        activeTaxonomy,
-        existsActiveTaxonomy,
+        activeTaxonomyObject,
+        existsActiveTaxonomyObject,
       }}
       render={({ error, props }) => {
         if (error) {
