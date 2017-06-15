@@ -21,7 +21,7 @@ const Main = ({ store }: { store: Object }) => {
   ].includes(primaryUrl)
   return (
     <div>
-      {primaryUrl === 'Taxonomien' && <Objekt />}
+      {primaryUrl === 'Taxonomien' && store.activeTaxonomyObject && <Objekt />}
       {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
       {primaryUrl === 'Beziehungs-Sammlungen' && <RelationCollection />}
       {primaryUrl === 'export' && <Exporte />}

@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import Linkify from 'react-linkify'
 
 const Container = styled.div`
   display: flex;
@@ -23,22 +24,34 @@ const Label = styled.p`
 const Value = styled.p`
   margin: 2px 0;
 `
+const linkifyProperties = {
+  target: '_blank',
+  style: {
+    color: 'inherit',
+    fontWeight: 100,
+    cursor: 'pointer',
+  },
+}
 
 const Taxonomy = ({ taxonomy }: { taxonomy: Object }) =>
-  <Container>
-    <Row>
-      <Label>{'Stand:'}</Label>
-      <Value>{get(taxonomy, 'lastUpdated', '')}</Value>
-    </Row>
-    <Row>
-      <Label>{'Link:'}</Label><Value>{get(taxonomy, 'links', '')}</Value>
-    </Row>
-    <Row>
-      <Label>{'Organisation mit Schreibrecht:'}</Label>
-      <Value>
-        {get(taxonomy, 'organizationByOrganizationId.name', '')}
-      </Value>
-    </Row>
-  </Container>
+  <Linkify properties={linkifyProperties}>
+    <Container>
+      <Row>
+        <Label>{'Stand:'}</Label>
+        <Value>{get(taxonomy, 'lastUpdated', '')}</Value>
+      </Row>
+      <Row>
+
+        <Label>{'Link:'}</Label><Value>{get(taxonomy, 'links', '')}</Value>
+
+      </Row>
+      <Row>
+        <Label>{'Organisation mit Schreibrecht:'}</Label>
+        <Value>
+          {get(taxonomy, 'organizationByOrganizationId.name', '')}
+        </Value>
+      </Row>
+    </Container>
+  </Linkify>
 
 export default Taxonomy
