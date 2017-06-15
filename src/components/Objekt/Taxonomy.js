@@ -13,7 +13,7 @@ const Row = styled.div`
   display: flex;
 `
 const Label = styled.p`
-  flex-basis: 200px;
+  flex-basis: 230px;
   flex-shrink: 0;
   flex-grow: 0;
   text-align: right;
