@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { observer, inject } from 'mobx-react'
-import { createFragmentContainer, graphql } from 'react-relay'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
@@ -77,28 +76,4 @@ const Tree = ({
   )
 }
 
-export default createFragmentContainer(
-  enhance(Tree),
-  graphql`
-    fragment TreeFilter on Query {
-      propertyCollectionByPropertyName(propertyName: "rot") {
-        nodes {
-          id
-          name
-        }
-      }
-      relationCollectionByRelationName(relationName: "2010") {
-        nodes {
-          id
-          name
-        }
-      }
-      taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: "hyla") {
-        nodes {
-          id
-          name
-        }
-      }
-    }
-  `
-)
+export default enhance(Tree)

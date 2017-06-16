@@ -63,8 +63,16 @@ const AppQuery = ({ store }: { store: Object }) => {
     : '99999999-9999-9999-9999-999999999999'
   const activeTaxonomyObject = getActiveTaxonomyObjectId(store)
   const existsActiveTaxonomyObject = !!activeTaxonomyObject
+  const existsTreeFilterTaxonomyObjectId = !!store.treeFilterTaxonomyObjectId
   const treeFilterTaxonomyObjectId =
     store.treeFilterTaxonomyObjectId || '99999999-9999-9999-9999-999999999999'
+  const existsTreeFilterTaxonomyObjectText =
+    store.treeFilter.type === 'taxonomyObject' && !!store.treeFilter.text
+  const existsTreeFilterPCText =
+    store.treeFilter.type === 'propertyCollection' && !!store.treeFilter.text
+  const existsTreeFilterRCText =
+    store.treeFilter.type === 'relationCollection' && !!store.treeFilter.text
+  const treeFilterText = store.treeFilter.text || 'ZZZZ'
 
   return (
     <QueryRenderer
@@ -95,7 +103,12 @@ const AppQuery = ({ store }: { store: Object }) => {
           $level10Taxonomy: Uuid!
           $activeTaxonomyObject: Uuid!
           $existsActiveTaxonomyObject: Boolean!
+          $existsTreeFilterTaxonomyObjectId: Boolean!
           $treeFilterTaxonomyObjectId: Uuid!
+          $existsTreeFilterTaxonomyObjectText: Boolean!
+          $existsTreeFilterPCText: Boolean!
+          $existsTreeFilterRCText: Boolean!
+          $treeFilterText: String!
         ) {
           allCategories {
             totalCount
@@ -318,7 +331,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          treeFilterTaxonomyObject: taxonomyObjectById(id: $treeFilterTaxonomyObjectId) {
+          treeFilterTaxonomyObject: taxonomyObjectById(id: $treeFilterTaxonomyObjectId) @include(if: $existsTreeFilterTaxonomyObjectId) {
             id
             taxonomyObjectByParentId {
               id
@@ -346,7 +359,24 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          ...TreeFilter
+          propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterPCText) {
+            nodes {
+              id
+              name
+            }
+          }
+          relationCollectionByRelationName(relationName: $treeFilterText) @include(if: $existsTreeFilterRCText) {
+            nodes {
+              id
+              name
+            }
+          }
+          taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterTaxonomyObjectText) {
+            nodes {
+              id
+              name
+            }
+          }
         }
       `}
       variables={{
@@ -374,7 +404,12 @@ const AppQuery = ({ store }: { store: Object }) => {
         level10Taxonomy,
         activeTaxonomyObject,
         existsActiveTaxonomyObject,
+        existsTreeFilterTaxonomyObjectId,
         treeFilterTaxonomyObjectId,
+        existsTreeFilterTaxonomyObjectText,
+        existsTreeFilterPCText,
+        existsTreeFilterRCText,
+        treeFilterText,
       }}
       render={({ error, props }) => {
         if (error) {
@@ -382,6 +417,11 @@ const AppQuery = ({ store }: { store: Object }) => {
         }
         if (props) {
           console.log('AppQuery: props:', props)
+          console.log(
+            'AppQuery: existsTreeFilterTaxonomyObjectText:',
+            existsTreeFilterTaxonomyObjectText
+          )
+          console.log('AppQuery: treeFilterText:', treeFilterText)
           buildNodesFromAppQuery(store, props)
           const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
           store.setActiveTaxonomyObject(objekt)
