@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { observer, inject } from 'mobx-react'
+import { createFragmentContainer, graphql } from 'react-relay'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
@@ -38,11 +39,13 @@ const Tree = ({
   suggestions,
   changeSuggestions,
   onChange,
+  data,
 }: {
   store: Object,
   suggestions: Array<Object>,
   changeSuggestions: () => {},
   onChange: () => {},
+  data: Object,
 }) => {
   const inputProps = {
     value: store.treeFilter.text,
@@ -50,6 +53,7 @@ const Tree = ({
     type: 'search',
     placeholder: 'suchen',
   }
+  console.log('TreeFilter: data:', data)
 
   return (
     <Container>
@@ -73,4 +77,28 @@ const Tree = ({
   )
 }
 
-export default enhance(Tree)
+export default createFragmentContainer(
+  enhance(Tree),
+  graphql`
+    fragment TreeFilter on Query {
+      propertyCollectionByPropertyName(propertyName: "rot") {
+        nodes {
+          id
+          name
+        }
+      }
+      relationCollectionByRelationName(relationName: "2010") {
+        nodes {
+          id
+          name
+        }
+      }
+      taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: "hyla") {
+        nodes {
+          id
+          name
+        }
+      }
+    }
+  `
+)

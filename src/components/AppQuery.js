@@ -346,6 +346,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
+          ...TreeFilter
         }
       `}
       variables={{
