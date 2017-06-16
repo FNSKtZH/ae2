@@ -411,7 +411,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           return <div>{error.message}</div>
         }
         if (props) {
-          console.log('AppQuery: props:', props)
+          // console.log('AppQuery: props:', props)
           buildNodesFromAppQuery(store, props)
           const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
           store.setActiveTaxonomyObject(objekt)

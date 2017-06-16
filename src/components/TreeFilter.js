@@ -142,9 +142,8 @@ const Tree = ({
           store.treeFilter.setSuggestionsRC([])
         }}
         getSuggestionValue={suggestion => {
-          console.log('getting suggestion id:', suggestion.id)
-          console.log('getting suggestion type:', suggestion.type)
-          // TODO: change url based on id and type
+          // change url based on id and type
+          // TOTO: add pC and rC
           switch (suggestion.type) {
             case 'pC':
             case 'rC':
