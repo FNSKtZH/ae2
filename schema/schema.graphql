@@ -2560,6 +2560,35 @@ enum PropertyCollectionByDataTypeOrderBy {
   NATURAL
 }
 
+# A connection to a list of `PropertyCollection` values.
+type PropertyCollectionByPropertyNameConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `PropertyCollection` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `PropertyCollection` and cursor to aid in pagination.
+  edges: [PropertyCollectionByPropertyNameEdge]
+
+  # A list of `PropertyCollection` objects.
+  nodes: [PropertyCollection]
+}
+
+# A `PropertyCollection` edge in the connection.
+type PropertyCollectionByPropertyNameEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `PropertyCollection` at the end of the edge.
+  node: PropertyCollection
+}
+
+# Methods to use when ordering `PropertyCollection`.
+enum PropertyCollectionByPropertyNameOrderBy {
+  NATURAL
+}
+
 # A condition to be used against `PropertyCollection` object types. All fields are
 # tested for equality and combined with a logical ‘and.’
 input PropertyCollectionCondition {
@@ -2803,6 +2832,29 @@ type Query implements Node {
     datatype: String
   ): PropertyCollectionByDataTypeConnection
 
+  # Reads and enables paginatation through a set of `PropertyCollection`.
+  propertyCollectionByPropertyName(
+    # The method to use when ordering `PropertyCollection`.
+    orderBy: PropertyCollectionByPropertyNameOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    propertyName: String
+  ): PropertyCollectionByPropertyNameConnection
+
   # Reads and enables paginatation through a set of `RelationCollection`.
   relationCollectionByDataType(
     # The method to use when ordering `RelationCollection`.
@@ -2825,6 +2877,52 @@ type Query implements Node {
     offset: Int
     datatype: String
   ): RelationCollectionByDataTypeConnection
+
+  # Reads and enables paginatation through a set of `RelationCollection`.
+  relationCollectionByRelationName(
+    # The method to use when ordering `RelationCollection`.
+    orderBy: RelationCollectionByRelationNameOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    relationName: String
+  ): RelationCollectionByRelationNameConnection
+
+  # Reads and enables paginatation through a set of `TaxonomyObject`.
+  taxonomyObjectByTaxonomyObjectName(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyObjectByTaxonomyObjectNameOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    taxonomyObjectName: String
+  ): TaxonomyObjectByTaxonomyObjectNameConnection
 
   # Reads and enables paginatation through a set of `Category`.
   allCategories(
@@ -3464,6 +3562,35 @@ type RelationCollectionByDataTypeEdge {
 
 # Methods to use when ordering `RelationCollection`.
 enum RelationCollectionByDataTypeOrderBy {
+  NATURAL
+}
+
+# A connection to a list of `RelationCollection` values.
+type RelationCollectionByRelationNameConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `RelationCollection` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `RelationCollection` and cursor to aid in pagination.
+  edges: [RelationCollectionByRelationNameEdge]
+
+  # A list of `RelationCollection` objects.
+  nodes: [RelationCollection]
+}
+
+# A `RelationCollection` edge in the connection.
+type RelationCollectionByRelationNameEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `RelationCollection` at the end of the edge.
+  node: RelationCollection
+}
+
+# Methods to use when ordering `RelationCollection`.
+enum RelationCollectionByRelationNameOrderBy {
   NATURAL
 }
 
@@ -4158,6 +4285,35 @@ type TaxonomyObject implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: TaxonomyObjectCondition
   ): TaxonomyObjectsConnection
+}
+
+# A connection to a list of `TaxonomyObject` values.
+type TaxonomyObjectByTaxonomyObjectNameConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `TaxonomyObject` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
+  edges: [TaxonomyObjectByTaxonomyObjectNameEdge]
+
+  # A list of `TaxonomyObject` objects.
+  nodes: [TaxonomyObject]
+}
+
+# A `TaxonomyObject` edge in the connection.
+type TaxonomyObjectByTaxonomyObjectNameEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `TaxonomyObject` at the end of the edge.
+  node: TaxonomyObject
+}
+
+# Methods to use when ordering `TaxonomyObject`.
+enum TaxonomyObjectByTaxonomyObjectNameOrderBy {
+  NATURAL
 }
 
 # A condition to be used against `TaxonomyObject` object types. All fields are
