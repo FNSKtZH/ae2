@@ -11,11 +11,6 @@ export default (store: Object): void => {
     setId: action('setId', (id: string) => {
       store.treeFilter.id = id
     }),
-    // taxonomyObject, propertyCollection or relationCollection
-    type: 'taxonomyObject',
-    setType: action('setType', (type: string) => {
-      store.treeFilter.type = type
-    }),
     taxonomyObjectId: computed(
       () => {
         const { treeFilter } = store
@@ -46,5 +41,17 @@ export default (store: Object): void => {
       },
       { name: 'relationCollectionObjectId' }
     ),
+    suggestionsTO: [],
+    setSuggestionsTO: action('setSuggestionsTO', (suggestions: Object) => {
+      store.treeFilter.suggestionsTO = suggestions
+    }),
+    suggestionsPC: [],
+    setSuggestionsPC: action('setSuggestionsPC', (suggestions: Object) => {
+      store.treeFilter.suggestionsPC = suggestions
+    }),
+    suggestionsRC: [],
+    setSuggestionsRC: action('setSuggestionsRC', (suggestions: Object) => {
+      store.treeFilter.suggestionsRC = suggestions
+    }),
   })
 }

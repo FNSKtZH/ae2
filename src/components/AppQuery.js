@@ -66,12 +66,7 @@ const AppQuery = ({ store }: { store: Object }) => {
   const existsTreeFilterTaxonomyObjectId = !!store.treeFilterTaxonomyObjectId
   const treeFilterTaxonomyObjectId =
     store.treeFilterTaxonomyObjectId || '99999999-9999-9999-9999-999999999999'
-  const existsTreeFilterTaxonomyObjectText =
-    store.treeFilter.type === 'taxonomyObject' && !!store.treeFilter.text
-  const existsTreeFilterPCText =
-    store.treeFilter.type === 'propertyCollection' && !!store.treeFilter.text
-  const existsTreeFilterRCText =
-    store.treeFilter.type === 'relationCollection' && !!store.treeFilter.text
+  const existsTreeFilterText = !!store.treeFilter.text
   const treeFilterText = store.treeFilter.text || 'ZZZZ'
 
   return (
@@ -105,9 +100,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           $existsActiveTaxonomyObject: Boolean!
           $existsTreeFilterTaxonomyObjectId: Boolean!
           $treeFilterTaxonomyObjectId: Uuid!
-          $existsTreeFilterTaxonomyObjectText: Boolean!
-          $existsTreeFilterPCText: Boolean!
-          $existsTreeFilterRCText: Boolean!
+          $existsTreeFilterText: Boolean!
           $treeFilterText: String!
         ) {
           allCategories {
@@ -359,19 +352,22 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterPCText) {
+          filterSuggestionsPC: propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterText) {
+            totalCount
             nodes {
               id
               name
             }
           }
-          relationCollectionByRelationName(relationName: $treeFilterText) @include(if: $existsTreeFilterRCText) {
+          filterSuggestionsRC: relationCollectionByRelationName(relationName: $treeFilterText) @include(if: $existsTreeFilterText) {
+            totalCount
             nodes {
               id
               name
             }
           }
-          taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterTaxonomyObjectText) {
+          filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterText) {
+            totalCount
             nodes {
               id
               name
@@ -406,9 +402,7 @@ const AppQuery = ({ store }: { store: Object }) => {
         existsActiveTaxonomyObject,
         existsTreeFilterTaxonomyObjectId,
         treeFilterTaxonomyObjectId,
-        existsTreeFilterTaxonomyObjectText,
-        existsTreeFilterPCText,
-        existsTreeFilterRCText,
+        existsTreeFilterText,
         treeFilterText,
       }}
       render={({ error, props }) => {
@@ -417,14 +411,12 @@ const AppQuery = ({ store }: { store: Object }) => {
         }
         if (props) {
           console.log('AppQuery: props:', props)
-          console.log(
-            'AppQuery: existsTreeFilterTaxonomyObjectText:',
-            existsTreeFilterTaxonomyObjectText
-          )
-          console.log('AppQuery: treeFilterText:', treeFilterText)
           buildNodesFromAppQuery(store, props)
           const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
           store.setActiveTaxonomyObject(objekt)
+          store.treeFilter.setSuggestionsTO(props.filterSuggestionsTO || [])
+          store.treeFilter.setSuggestionsPC(props.filterSuggestionsPC || [])
+          store.treeFilter.setSuggestionsRC(props.filterSuggestionsRC || [])
         } else {
           /**
            * TODO:

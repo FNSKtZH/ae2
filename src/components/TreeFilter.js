@@ -23,7 +23,6 @@ const Container = styled.div`
 
 const enhance = compose(
   inject('store'),
-  withState('suggestions', 'changeSuggestions', []),
   withHandlers({
     onChange: props => (event, { newValue }) => {
       props.store.treeFilter.setText(newValue)
@@ -33,31 +32,20 @@ const enhance = compose(
   observer
 )
 
-const Tree = ({
-  store,
-  suggestions,
-  changeSuggestions,
-  onChange,
-  data,
-}: {
-  store: Object,
-  suggestions: Array<Object>,
-  changeSuggestions: () => {},
-  onChange: () => {},
-  data: Object,
-}) => {
+const Tree = ({ store, onChange }: { store: Object, onChange: () => {} }) => {
   const inputProps = {
     value: store.treeFilter.text,
     onChange,
     type: 'search',
     placeholder: 'suchen',
   }
-  console.log('TreeFilter: data:', data)
+  const { suggestionsTO, suggestionsPC, suggestionsRC } = store.treeFilter
+  console.log('TreeFilter: suggestionsTO:', suggestionsTO)
 
   return (
     <Container>
       <Autosuggest
-        suggestions={suggestions}
+        suggestions={[]}
         onSuggestionsFetchRequested={() => {
           /* TODO */
         }}
