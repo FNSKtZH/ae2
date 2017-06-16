@@ -63,6 +63,8 @@ const AppQuery = ({ store }: { store: Object }) => {
     : '99999999-9999-9999-9999-999999999999'
   const activeTaxonomyObject = getActiveTaxonomyObjectId(store)
   const existsActiveTaxonomyObject = !!activeTaxonomyObject
+  const treeFilterTaxonomyObjectId =
+    store.treeFilterTaxonomyObjectId || '99999999-9999-9999-9999-999999999999'
 
   return (
     <QueryRenderer
@@ -93,6 +95,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           $level10Taxonomy: Uuid!
           $activeTaxonomyObject: Uuid!
           $existsActiveTaxonomyObject: Boolean!
+          $treeFilterTaxonomyObjectId: Uuid!
         ) {
           allCategories {
             totalCount
@@ -315,6 +318,34 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
+          treeFilterTaxonomyObject: taxonomyObjectById(id: $treeFilterTaxonomyObjectId) {
+            id
+            taxonomyObjectByParentId {
+              id
+              taxonomyObjectByParentId {
+                id
+                taxonomyObjectByParentId {
+                  id
+                  taxonomyObjectByParentId {
+                    id
+                    taxonomyObjectByParentId {
+                      id
+                      taxonomyObjectByParentId {
+                        id
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            taxonomyByTaxonomyId {
+              id
+              categoryByCategory {
+                name
+                dataType
+              }
+            }
+          }
         }
       `}
       variables={{
@@ -342,13 +373,14 @@ const AppQuery = ({ store }: { store: Object }) => {
         level10Taxonomy,
         activeTaxonomyObject,
         existsActiveTaxonomyObject,
+        treeFilterTaxonomyObjectId,
       }}
       render={({ error, props }) => {
         if (error) {
           return <div>{error.message}</div>
         }
         if (props) {
-          // console.log('AppQuery: props:', props)
+          console.log('AppQuery: props:', props)
           buildNodesFromAppQuery(store, props)
           const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
           store.setActiveTaxonomyObject(objekt)

@@ -1,19 +1,50 @@
 // @flow
-import { extendObservable, action } from 'mobx'
+import { extendObservable, action, computed } from 'mobx'
 
 export default (store: Object): void => {
   extendObservable(store.treeFilter, {
-    text: null,
-    setTreeFilterText: action('setTreeFilterText', (text: string) => {
+    text: '',
+    setText: action('setText', (text: string) => {
       store.treeFilter.text = text
     }),
     id: null,
-    setTreeFilterId: action('setTreeFilterId', (id: string) => {
+    setId: action('setId', (id: string) => {
       store.treeFilter.id = id
     }),
-    type: null,
-    setTreeFilterType: action('setTreeFilterType', (type: string) => {
+    // taxonomyObject, propertyCollection or relationCollection
+    type: 'taxonomyObject',
+    setType: action('setType', (type: string) => {
       store.treeFilter.type = type
     }),
+    taxonomyObjectId: computed(
+      () => {
+        const { treeFilter } = store
+        if (treeFilter.id && treeFilter.type === 'taxonomyObject') {
+          return treeFilter.id
+        }
+        return null
+      },
+      { name: 'taxonomyObjectId' }
+    ),
+    propertyCollectionObjectId: computed(
+      () => {
+        const { treeFilter } = store
+        if (treeFilter.id && treeFilter.type === 'propertyCollection') {
+          return treeFilter.id
+        }
+        return null
+      },
+      { name: 'propertyCollectionObjectId' }
+    ),
+    relationCollectionObjectId: computed(
+      () => {
+        const { treeFilter } = store
+        if (treeFilter.id && treeFilter.type === 'relationCollection') {
+          return treeFilter.id
+        }
+        return null
+      },
+      { name: 'relationCollectionObjectId' }
+    ),
   })
 }

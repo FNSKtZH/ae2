@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 
 import Row from './TreeRow'
+import TreeFilter from './TreeFilter'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -55,6 +56,7 @@ const Tree = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
 
   return (
     <Container>
+      <TreeFilter />
       <AutoSizer>
         {({ height, width }) =>
           <ListContainer
