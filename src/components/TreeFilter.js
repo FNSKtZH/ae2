@@ -97,6 +97,11 @@ const Tree = ({
     placeholder: 'suchen',
   }
   let { suggestionsTO, suggestionsPC, suggestionsRC } = store.treeFilter
+  /**
+   * need add type:
+   * when suggistion is clicked,
+   * url is calculated by id depending on type
+   */
   suggestionsTO = suggestionsTO.map(s => {
     s.type = 'tO'
     return s
@@ -139,7 +144,14 @@ const Tree = ({
         getSuggestionValue={suggestion => {
           console.log('getting suggestion id:', suggestion.id)
           console.log('getting suggestion type:', suggestion.type)
-          // TODO: change url based on id
+          // TODO: change url based on id and type
+          switch (suggestion.type) {
+            case 'pC':
+            case 'rC':
+            case 'tO':
+            default:
+              store.setUrlFromTOId(suggestion.id)
+          }
           return suggestion.name
         }}
         renderSuggestion={suggestion => <span>{suggestion.name}</span>}

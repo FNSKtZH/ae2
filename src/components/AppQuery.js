@@ -9,6 +9,7 @@ import get from 'lodash/get'
 import App from './App'
 import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
 import getActiveTaxonomyObjectId from '../modules/getActiveTaxonomyObjectId'
+import getUrlFromTOId from '../modules/getUrlFromTOId'
 
 const enhance = compose(inject('store'), observer)
 
@@ -423,6 +424,14 @@ const AppQuery = ({ store }: { store: Object }) => {
           store.treeFilter.setSuggestionsRC(
             get(props, 'filterSuggestionsRC.nodes', [])
           )
+          /**
+           * if existsUrlFromTOId:
+           * set new url and reset store.urlFromTOId
+           */
+          if (existsUrlFromTOId && props.urlFromTO) {
+            store.setUrlFromTOId(null)
+            store.setActiveNodeArray(getUrlFromTOId(props.urlFromTO))
+          }
         } else {
           /**
            * TODO:
