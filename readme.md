@@ -65,6 +65,8 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 - Der Anwendungs-API-Server ist bereit ([postgraphql](https://github.com/postgraphql/postgraphql))
 - Der API-Server für abhängige Anwendungen [existiert im Entwurf](https://github.com/barbalex/ae_api). Braucht aber noch etwas Liebe
 - Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
-  - Entwicklungsumgebung ist gebaut
-  - Layout und Navigation bestehen im Entwurf
-  - Der Struktur- und Navigationsbaum besteht im Entwurf. Das ist zusammen mit Ex- und Importen der anspruchsvollste Teil der Anwendung.
+  - Die Entwicklungsumgebung ist gebaut
+  - Layout und Navigation sind entworfen
+  - Der Struktur- und Navigationsbaum ist implementiert
+  - Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten werden angezeigt
+  - Die Suche nach Objekten, Eigenschaften- und Beziehungs-Sammlungen ist teilweise implementiert
