@@ -28,7 +28,6 @@ const RelationCollectionObject = ({ rCO }: { rCO: Object }) => {
     'relationsByObjectIdAndRelationCollectionId.nodes',
     []
   )
-  console.log('RelationCollectionObject: relations:', relations)
 
   return (
     <Card style={rCOCardStyle}>

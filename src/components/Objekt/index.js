@@ -27,7 +27,6 @@ const enhance = compose(inject('store'), observer)
 
 const Objekt = ({ store }: { store: Object }) => {
   const { activeTaxonomyObject } = store
-  console.log('activeTaxonomyObject:', toJS(store.activeTaxonomyObject))
   const taxCount = get(
     activeTaxonomyObject,
     'taxonomyObjectsByObjectId.totalCount',
