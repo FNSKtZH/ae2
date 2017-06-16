@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
+import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import app from 'ampersand-app'
@@ -414,9 +415,15 @@ const AppQuery = ({ store }: { store: Object }) => {
           buildNodesFromAppQuery(store, props)
           const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
           store.setActiveTaxonomyObject(objekt)
-          store.treeFilter.setSuggestionsTO(props.filterSuggestionsTO || [])
-          store.treeFilter.setSuggestionsPC(props.filterSuggestionsPC || [])
-          store.treeFilter.setSuggestionsRC(props.filterSuggestionsRC || [])
+          store.treeFilter.setSuggestionsTO(
+            get(props, 'filterSuggestionsTO.nodes', [])
+          )
+          store.treeFilter.setSuggestionsPC(
+            get(props, 'filterSuggestionsPC.nodes', [])
+          )
+          store.treeFilter.setSuggestionsRC(
+            get(props, 'filterSuggestionsRC.nodes', [])
+          )
         } else {
           /**
            * TODO:
