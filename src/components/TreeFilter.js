@@ -99,12 +99,33 @@ const Tree = ({
     type: 'search',
     placeholder: 'suchen',
   }
-  const { suggestionsTO, suggestionsPC, suggestionsRC } = store.treeFilter
-  const suggestions = toJS([
-    ...suggestionsTO,
-    ...suggestionsPC,
-    ...suggestionsRC,
-  ])
+  let { suggestionsTO, suggestionsPC, suggestionsRC } = store.treeFilter
+  suggestionsTO = suggestionsTO.map(s => {
+    s.title = 'Objekte'
+    return s
+  })
+  suggestionsPC = suggestionsPC.map(s => {
+    s.title = 'Eigenschaften-Sammlungen'
+    return s
+  })
+  suggestionsRC = suggestionsRC.map(s => {
+    s.title = 'Beziehungs-Sammlungen'
+    return s
+  })
+  const suggestions = [
+    {
+      title: `Objekte (${suggestionsTO.length})`,
+      suggestions: suggestionsTO,
+    },
+    {
+      title: `Eigenschaften-Sammlungen (${suggestionsPC.length})`,
+      suggestions: suggestionsPC,
+    },
+    {
+      title: `Beziehungs-Sammlungen (${suggestionsRC.length})`,
+      suggestions: suggestionsRC,
+    },
+  ]
   console.log('TreeFilter: suggestions:', suggestions)
 
   return (
@@ -119,21 +140,16 @@ const Tree = ({
           store.treeFilter.setSuggestionsPC([])
           store.treeFilter.setSuggestionsRC([])
         }}
-        getSuggestionValue={suggestion => suggestion.name}
-        renderSuggestion={suggestion => <span>{suggestion.name}</span>}
-        renderSectionTitle={section => <strong>{section.title}</strong>}
-        getSectionSuggestions={section => {
-          switch (section) {
-            case 'taxonomyObject':
-              return suggestionsTO.map(s => s.name)
-            case 'propertyCollection':
-              return store.suggestionsPC.map(s => s.name)
-            case 'relationCollection':
-              return store.suggestionsRC.map(s => s.name)
-            default:
-              return suggestionsTO.map(s => s.name)
-          }
+        getSuggestionValue={suggestion => {
+          console.log('getting suggestion name:', suggestion.name)
+          console.log('getting suggestion id:', suggestion.id)
+          // TODO: change url based on id
+          return suggestion.name
         }}
+        renderSuggestion={suggestion => <span>{suggestion.name}</span>}
+        multiSection={true}
+        renderSectionTitle={section => <strong>{section.title}</strong>}
+        getSectionSuggestions={section => section.suggestions}
         inputProps={inputProps}
       />
     </Container>
