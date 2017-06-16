@@ -11,17 +11,20 @@ import TreeFilter from './TreeFilter'
 const singleRowHeight = 23
 const Container = styled.div`
   height: 100%;
+  display: flex;
+  flex-direction: column;
   ul {
     margin: 0;
     list-style: none;
     padding: 0 0 0 1.1em;
   }
-  /* need this because react-virtualized scrolls to far down, see
-   * https://github.com/bvaughn/react-virtualized/issues/543
-   */
-  .ReactVirtualized__Grid {
-    overflow-x: hidden !important;
-  }
+ .ReactVirtualized__Grid:focus {
+   outline-style: none;
+ }
+`
+const AutoSizerContainer = styled.div`
+  height: 100%;
+  padding: 5px 0;
 `
 const ListContainer = styled(List)`
   font-size: 14px;
@@ -57,18 +60,20 @@ const Tree = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
   return (
     <Container>
       <TreeFilter />
-      <AutoSizer>
-        {({ height, width }) =>
-          <ListContainer
-            height={height}
-            rowCount={nodes.length}
-            rowHeight={singleRowHeight}
-            rowRenderer={rowRenderer}
-            noRowsRenderer={noRowsRenderer}
-            width={width}
-            style={listContainerStyle}
-          />}
-      </AutoSizer>
+      <AutoSizerContainer>
+        <AutoSizer>
+          {({ height, width }) =>
+            <ListContainer
+              height={height}
+              rowCount={nodes.length}
+              rowHeight={singleRowHeight}
+              rowRenderer={rowRenderer}
+              noRowsRenderer={noRowsRenderer}
+              width={width}
+              style={listContainerStyle}
+            />}
+        </AutoSizer>
+      </AutoSizerContainer>
     </Container>
   )
 }
