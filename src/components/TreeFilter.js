@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -11,7 +10,6 @@ const Container = styled.div`
   padding: 5px 13px 0 13px;
   .react-autosuggest__container {
     width: 100%;
-    color: red;
   }
   .react-autosuggest__input {
     width: 100%;
@@ -32,13 +30,13 @@ const Container = styled.div`
   .react-autosuggest__suggestions-container--open {
     display: block;
     position: absolute;
-    top: 51px;
-    width: 280px;
+    top: 36px;
+    width: 380px;
     border: 1px solid #aaa;
     background-color: #fff;
     font-family: Helvetica, sans-serif;
     font-weight: 300;
-    font-size: 16px;
+    font-size: 14px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     z-index: 2;
@@ -50,7 +48,7 @@ const Container = styled.div`
   }
   .react-autosuggest__suggestion {
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 5px 20px;
   }
   .react-autosuggest__suggestion--highlighted {
     background-color: #ddd;
@@ -62,7 +60,7 @@ const Container = styled.div`
     border-top: 0;
   }
   .react-autosuggest__section-title {
-    padding: 10px 0 0 10px;
+    padding: 5px 0 5px 10px;
     font-size: 12px;
     color: #777;
   }
@@ -73,7 +71,6 @@ const enhance = compose(
   withHandlers({
     onChange: props => (event, { newValue }) => {
       props.store.treeFilter.setText(newValue)
-      console.log('changed, value:', newValue)
     },
     onBlur: props => (event, { newValue }) => {
       // props.store.treeFilter.setText(newValue)
@@ -101,20 +98,20 @@ const Tree = ({
   }
   let { suggestionsTO, suggestionsPC, suggestionsRC } = store.treeFilter
   suggestionsTO = suggestionsTO.map(s => {
-    s.title = 'Objekte'
+    s.type = 'tO'
     return s
   })
   suggestionsPC = suggestionsPC.map(s => {
-    s.title = 'Eigenschaften-Sammlungen'
+    s.type = 'pC'
     return s
   })
   suggestionsRC = suggestionsRC.map(s => {
-    s.title = 'Beziehungs-Sammlungen'
+    s.type = 'rC'
     return s
   })
   const suggestions = [
     {
-      title: `Objekte (${suggestionsTO.length})`,
+      title: `Arten und Lebensräume (${suggestionsTO.length})`,
       suggestions: suggestionsTO,
     },
     {
@@ -126,7 +123,6 @@ const Tree = ({
       suggestions: suggestionsRC,
     },
   ]
-  console.log('TreeFilter: suggestions:', suggestions)
 
   return (
     <Container>
@@ -141,8 +137,8 @@ const Tree = ({
           store.treeFilter.setSuggestionsRC([])
         }}
         getSuggestionValue={suggestion => {
-          console.log('getting suggestion name:', suggestion.name)
           console.log('getting suggestion id:', suggestion.id)
+          console.log('getting suggestion type:', suggestion.type)
           // TODO: change url based on id
           return suggestion.name
         }}

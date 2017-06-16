@@ -18,5 +18,7 @@ export default (store: Object): void => {
       'setActiveTaxonomyObject',
       to => (store.activeTaxonomyObject = to)
     ),
+    urlFromTOId: null,
+    setUrlFromTOId: action('setUrlFromTOId', id => (store.urlFromTOId = id)),
   })
 }

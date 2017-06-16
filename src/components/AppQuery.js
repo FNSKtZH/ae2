@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
-import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import app from 'ampersand-app'
@@ -64,9 +63,9 @@ const AppQuery = ({ store }: { store: Object }) => {
     : '99999999-9999-9999-9999-999999999999'
   const activeTaxonomyObject = getActiveTaxonomyObjectId(store)
   const existsActiveTaxonomyObject = !!activeTaxonomyObject
-  const existsTreeFilterTaxonomyObjectId = !!store.treeFilterTaxonomyObjectId
-  const treeFilterTaxonomyObjectId =
-    store.treeFilterTaxonomyObjectId || '99999999-9999-9999-9999-999999999999'
+  const existsUrlFromTOId = !!store.urlFromTOId
+  const urlFromTOId =
+    store.urlFromTOId || '99999999-9999-9999-9999-999999999999'
   const existsTreeFilterText = !!store.treeFilter.text
   const treeFilterText = store.treeFilter.text || 'ZZZZ'
 
@@ -99,8 +98,8 @@ const AppQuery = ({ store }: { store: Object }) => {
           $level10Taxonomy: Uuid!
           $activeTaxonomyObject: Uuid!
           $existsActiveTaxonomyObject: Boolean!
-          $existsTreeFilterTaxonomyObjectId: Boolean!
-          $treeFilterTaxonomyObjectId: Uuid!
+          $existsUrlFromTOId: Boolean!
+          $urlFromTOId: Uuid!
           $existsTreeFilterText: Boolean!
           $treeFilterText: String!
         ) {
@@ -325,7 +324,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          treeFilterTaxonomyObject: taxonomyObjectById(id: $treeFilterTaxonomyObjectId) @include(if: $existsTreeFilterTaxonomyObjectId) {
+          urlFromTO: taxonomyObjectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
             id
             taxonomyObjectByParentId {
               id
@@ -401,8 +400,8 @@ const AppQuery = ({ store }: { store: Object }) => {
         level10Taxonomy,
         activeTaxonomyObject,
         existsActiveTaxonomyObject,
-        existsTreeFilterTaxonomyObjectId,
-        treeFilterTaxonomyObjectId,
+        existsUrlFromTOId,
+        urlFromTOId,
         existsTreeFilterText,
         treeFilterText,
       }}
