@@ -12,6 +12,7 @@ function Store(): void {
   this.activeTreeLevel = null
   this.activeTaxonomyObject = null
   this.setActiveTaxonomyObject = () => {}
+  this.treeFilter = {}
 }
 
 const MyStore = new Store()

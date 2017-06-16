@@ -6,7 +6,7 @@ export default (store: Object): void => {
     activeNodeArray: [],
     setActiveNodeArray: action(
       'setActiveNodeArray',
-      nodeArray => (store.activeNodeArray = nodeArray),
+      nodeArray => (store.activeNodeArray = nodeArray)
     ),
     nodes: [],
     setNodes: action('setNodes', nodes => {
@@ -16,7 +16,7 @@ export default (store: Object): void => {
     activeTaxonomyObject: null,
     setActiveTaxonomyObject: action(
       'setActiveTaxonomyObject',
-      to => (store.activeTaxonomyObject = to),
+      to => (store.activeTaxonomyObject = to)
     ),
   })
 }
