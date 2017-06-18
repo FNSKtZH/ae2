@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -10,12 +10,14 @@ const Container = styled.div`
   padding: 5px 13px 0 13px;
   .react-autosuggest__container {
     width: 100%;
+    border-bottom: 1px solid #c6c6c6;
   }
   .react-autosuggest__input {
     width: 100%;
-    border-radius: 3px;
+    border: none;
     font-size: 14px;
     padding: 5px;
+    background-color: rgba(0,0,0,0);
   }
   .react-autosuggest__input--focused {
     outline: none;
@@ -77,90 +79,93 @@ const enhance = compose(
       console.log('blured, value:', newValue)
     },
   }),
-  observer
+  observer,
 )
 
-const Tree = ({
-  store,
-  onChange,
-  onBlur,
-}: {
-  store: Object,
-  onChange: () => {},
-  onBlur: () => {},
-}) => {
-  const inputProps = {
-    value: store.treeFilter.text,
-    onChange,
-    onBlur,
-    type: 'search',
-    placeholder: 'suchen',
+class Tree extends Component {
+  props: {
+    store: Object,
+    onChange: () => {},
+    onBlur: () => {},
   }
-  let { suggestionsTO, suggestionsPC, suggestionsRC } = store.treeFilter
-  /**
-   * need add type:
-   * when suggistion is clicked,
-   * url is calculated by id depending on type
-   */
-  suggestionsTO = suggestionsTO.map(s => {
-    s.type = 'tO'
-    return s
-  })
-  suggestionsPC = suggestionsPC.map(s => {
-    s.type = 'pC'
-    return s
-  })
-  suggestionsRC = suggestionsRC.map(s => {
-    s.type = 'rC'
-    return s
-  })
-  const suggestions = [
-    {
-      title: `Arten und Lebensräume (${suggestionsTO.length})`,
-      suggestions: suggestionsTO,
-    },
-    {
-      title: `Eigenschaften-Sammlungen (${suggestionsPC.length})`,
-      suggestions: suggestionsPC,
-    },
-    {
-      title: `Beziehungs-Sammlungen (${suggestionsRC.length})`,
-      suggestions: suggestionsRC,
-    },
-  ]
 
-  return (
-    <Container>
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={() => {
-          // Autosuggest wants this function
-        }}
-        onSuggestionsClearRequested={() => {
-          store.treeFilter.setSuggestionsTO([])
-          store.treeFilter.setSuggestionsPC([])
-          store.treeFilter.setSuggestionsRC([])
-        }}
-        getSuggestionValue={suggestion => {
-          // change url based on id and type
-          // TOTO: add pC and rC
-          switch (suggestion.type) {
-            case 'pC':
-            case 'rC':
-            case 'tO':
-            default:
-              store.setUrlFromTOId(suggestion.id)
-          }
-          return suggestion.name
-        }}
-        renderSuggestion={suggestion => <span>{suggestion.name}</span>}
-        multiSection={true}
-        renderSectionTitle={section => <strong>{section.title}</strong>}
-        getSectionSuggestions={section => section.suggestions}
-        inputProps={inputProps}
-      />
-    </Container>
-  )
+  render() {
+    const { store, onChange, onBlur } = this.props
+
+    const inputProps = {
+      value: store.treeFilter.text,
+      onChange,
+      onBlur,
+      type: 'search',
+      placeholder: 'suchen',
+    }
+    let { suggestionsTO, suggestionsPC, suggestionsRC } = store.treeFilter
+    /**
+       * need add type:
+       * when suggistion is clicked,
+       * url is calculated by id depending on type
+       */
+    suggestionsTO = suggestionsTO.map(s => {
+      s.type = 'tO'
+      return s
+    })
+    suggestionsPC = suggestionsPC.map(s => {
+      s.type = 'pC'
+      return s
+    })
+    suggestionsRC = suggestionsRC.map(s => {
+      s.type = 'rC'
+      return s
+    })
+    const suggestions = [
+      {
+        title: `Arten und Lebensräume (${suggestionsTO.length})`,
+        suggestions: suggestionsTO,
+      },
+      {
+        title: `Eigenschaften-Sammlungen (${suggestionsPC.length})`,
+        suggestions: suggestionsPC,
+      },
+      {
+        title: `Beziehungs-Sammlungen (${suggestionsRC.length})`,
+        suggestions: suggestionsRC,
+      },
+    ]
+
+    return (
+      <Container>
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={() => {
+            // Autosuggest wants this function
+          }}
+          onSuggestionsClearRequested={() => {
+            store.treeFilter.setSuggestionsTO([])
+            store.treeFilter.setSuggestionsPC([])
+            store.treeFilter.setSuggestionsRC([])
+          }}
+          getSuggestionValue={suggestion => {
+            // change url based on id and type
+            // TOTO: add pC and rC
+            switch (suggestion.type) {
+              case 'pC':
+              case 'rC':
+              case 'tO':
+              default:
+                store.setUrlFromTOId(suggestion.id)
+            }
+            return suggestion.name
+          }}
+          renderSuggestion={suggestion => <span>{suggestion.name}</span>}
+          multiSection={true}
+          renderSectionTitle={section => <strong>{section.title}</strong>}
+          getSectionSuggestions={section => section.suggestions}
+          inputProps={inputProps}
+          ref={c => (this.autosuggest = c)}
+        />
+      </Container>
+    )
+  }
 }
 
 export default enhance(Tree)
