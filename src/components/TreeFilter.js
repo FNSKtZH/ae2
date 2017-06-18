@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -131,10 +132,17 @@ class Tree extends Component {
         suggestions: suggestionsRC,
       },
     ]
+    const autosuggestDomNode =
+      this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
+    console.log(
+      'autosuggestDomNode.clientWidth:',
+      autosuggestDomNode && autosuggestDomNode.clientWidth,
+    )
 
     return (
-      <Container>
+      <Container ref={c => (this.container = c)}>
         <Autosuggest
+          ref={c => (this.autosuggest = c)}
           suggestions={suggestions}
           onSuggestionsFetchRequested={() => {
             // Autosuggest wants this function
