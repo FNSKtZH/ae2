@@ -140,7 +140,7 @@ class Tree extends Component {
     )
 
     return (
-      <Container ref={c => (this.container = c)}>
+      <Container>
         <Autosuggest
           ref={c => (this.autosuggest = c)}
           suggestions={suggestions}
