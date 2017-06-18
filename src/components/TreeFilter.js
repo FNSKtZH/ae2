@@ -5,10 +5,11 @@ import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
+import withState from 'recompose/withState'
 import Autosuggest from 'react-autosuggest'
 
-const Container = styled.div`
-  padding: 5px 13px 0 13px;
+const Container = styled(({ autosuggestWidth, ...rest }) => <div {...rest} />)`
+  padding: 5px 16px 0 13px;
   .react-autosuggest__container {
     width: 100%;
     border-bottom: 1px solid #c6c6c6;
@@ -33,8 +34,8 @@ const Container = styled.div`
   .react-autosuggest__suggestions-container--open {
     display: block;
     position: absolute;
-    top: 36px;
-    width: 380px;
+    top: 32px;
+    width: ${props => `${props.autosuggestWidth}px`};
     border: 1px solid #aaa;
     background-color: #fff;
     font-family: Helvetica, sans-serif;
@@ -71,6 +72,7 @@ const Container = styled.div`
 
 const enhance = compose(
   inject('store'),
+  withState('autosuggestWidth', 'changeAutosuggestWidth', 380),
   withHandlers({
     onChange: props => (event, { newValue }) => {
       props.store.treeFilter.setText(newValue)
@@ -88,10 +90,32 @@ class Tree extends Component {
     store: Object,
     onChange: () => {},
     onBlur: () => {},
+    autosuggestWidth: number,
+    changeAutosuggestWidth: () => {},
+  }
+
+  componentDidMount() {
+    const { changeAutosuggestWidth } = this.props
+    const autosuggestDomNode =
+      this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
+    const autosuggestWidth = autosuggestDomNode
+      ? autosuggestDomNode.clientWidth
+      : 380
+    changeAutosuggestWidth(autosuggestWidth)
+  }
+
+  componentDidUpdate() {
+    const { changeAutosuggestWidth } = this.props
+    const autosuggestDomNode =
+      this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
+    const autosuggestWidth = autosuggestDomNode
+      ? autosuggestDomNode.clientWidth
+      : 380
+    changeAutosuggestWidth(autosuggestWidth)
   }
 
   render() {
-    const { store, onChange, onBlur } = this.props
+    const { store, onChange, onBlur, autosuggestWidth } = this.props
 
     const inputProps = {
       value: store.treeFilter.text,
@@ -132,15 +156,9 @@ class Tree extends Component {
         suggestions: suggestionsRC,
       },
     ]
-    const autosuggestDomNode =
-      this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
-    console.log(
-      'autosuggestDomNode.clientWidth:',
-      autosuggestDomNode && autosuggestDomNode.clientWidth,
-    )
 
     return (
-      <Container>
+      <Container autosuggestWidth={autosuggestWidth}>
         <Autosuggest
           ref={c => (this.autosuggest = c)}
           suggestions={suggestions}
@@ -155,6 +173,18 @@ class Tree extends Component {
           getSuggestionValue={suggestion => {
             // change url based on id and type
             // TOTO: add pC and rC
+            /*
+            switch (suggestion.type) {
+              case 'pC':
+              case 'rC':
+              case 'tO':
+              default:
+                store.setUrlFromTOId(suggestion.id)
+            }*/
+            return suggestion.name
+          }}
+          onSuggestionSelected={(event, { suggestion }) => {
+            console.log('onSuggestionSelected, suggestion:', suggestion)
             switch (suggestion.type) {
               case 'pC':
               case 'rC':
@@ -162,14 +192,12 @@ class Tree extends Component {
               default:
                 store.setUrlFromTOId(suggestion.id)
             }
-            return suggestion.name
           }}
           renderSuggestion={suggestion => <span>{suggestion.name}</span>}
           multiSection={true}
           renderSectionTitle={section => <strong>{section.title}</strong>}
           getSectionSuggestions={section => section.suggestions}
           inputProps={inputProps}
-          ref={c => (this.autosuggest = c)}
         />
       </Container>
     )
