@@ -20,7 +20,7 @@
 ### Funktionale Ziele:
 Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaften- und Beziehungssammlungen beschrieben werden kann. Das ermöglicht:
 -	Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaften- und Beziehungssammlungen
--	Alle Daten bleiben langfristig erhalten
+-	Alle Taxonomien bleiben langfristig erhalten
 -	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
 -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
 -	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
@@ -61,7 +61,7 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 ### Aktueller Stand
 
 - Es besteht ein [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren. Status: ca. zu 90% bereit. Das Ergebnis des Imports muss noch kontrolliert werden, taxonomy_object's von Lebensräumen werden noch nicht exportiert
-- Datenstruktur: ![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
+- Datenstruktur in PostgreSQL: ![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
 - Der Anwendungs-API-Server ist bereit ([postgraphql](https://github.com/postgraphql/postgraphql))
 - Der API-Server für abhängige Anwendungen [existiert im Entwurf](https://github.com/barbalex/ae_api). Braucht aber noch etwas Liebe
 - Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
@@ -69,4 +69,4 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
   - Layout und Navigation sind entworfen
   - Der Struktur- und Navigationsbaum ist implementiert
   - Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten werden angezeigt
-  - Die Suche nach Objekten, Eigenschaften- und Beziehungs-Sammlungen ist implementiert
+  - Die Suche nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen ist implementiert
