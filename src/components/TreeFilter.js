@@ -166,7 +166,8 @@ class TreeFilter extends Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={() => {
             // Autosuggest wants this function
-            console.log('fetch requested')
+            // could maybe be used to indicate loading?
+            // console.log('fetch requested')
           }}
           onSuggestionsClearRequested={() => {
             store.treeFilter.setSuggestionsTO([])
