@@ -173,10 +173,13 @@ class TreeFilter extends Component {
           }}
           getSuggestionValue={suggestion => suggestion.name}
           onSuggestionSelected={(event, { suggestion }) => {
-            console.log('onSuggestionSelected, suggestion:', suggestion)
             switch (suggestion.type) {
               case 'pC':
+                store.setUrlFromPCId(suggestion.id)
+                break
               case 'rC':
+                store.setUrlFromRCId(suggestion.id)
+                break
               case 'tO':
               default:
                 store.setUrlFromTOId(suggestion.id)
@@ -187,6 +190,7 @@ class TreeFilter extends Component {
           renderSectionTitle={section => <strong>{section.title}</strong>}
           getSectionSuggestions={section => section.suggestions}
           inputProps={inputProps}
+          focusInputOnSuggestionClick={false}
         />
       </Container>
     )
