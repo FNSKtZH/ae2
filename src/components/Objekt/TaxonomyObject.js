@@ -33,8 +33,11 @@ const TaxonomyObject = ({
   taxonomyObject: Object,
 }) => {
   const taxonomy = get(taxonomyObject, 'taxonomyByTaxonomyId', {})
-  const taxName = get(taxonomy, 'name', '(Name fehlt)')
+  let taxName = get(taxonomy, 'name', '(Name fehlt)')
   const properties = JSON.parse(taxonomyObject.properties)
+  if (properties['Artname vollständig']) {
+    taxName = `${taxName}: ${properties['Artname vollständig']}`
+  }
 
   return (
     <Card style={tOCardStyle}>
