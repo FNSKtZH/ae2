@@ -5,7 +5,7 @@
 ### Grundlage
 ...sind folgende Erkenntnisse:
 
--	Die Anwendung ist nützlich und es gibt bisher keine echte Alternative. Es ist daher davon auszugehen, dass sie noch ein paar Jahre weiterverwendet wird
+-	Die Anwendung ist nützlich und es gibt bisher keine echte Alternative. Es ist daher davon auszugehen, dass sie noch ein paar Jahre benutzt wird
 -	Es gibt einige aktuelle Erweiterungs-Wünsche. Das dürften nicht die letzten sein
 -	Anpassungen an der aktuellen Anwendung sind anspruchsvoll und Nebenwirkungen schwierig zu vermeiden
 -	Web- und Datenbanktechnologie entwickeln sich rasant weiter. Daher stehen heute viel [besser geeignete Mittel](#diese-technologien-werden-verwendet) zur Verfügung, um eine solche Anwendung aufzubauen
@@ -18,12 +18,12 @@
 -	Datenintegrität besser gewährleisten
 
 ### Funktionale Ziele:
-Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaften- und Beziehungssammlungen beschrieben werden kann. Das ermöglicht folgende Features:
+Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaften- und Beziehungssammlungen beschrieben werden kann. Das ermöglicht:
 -	Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaften- und Beziehungssammlungen
--	Damit bleiben alle Daten langfristig erhalten
+-	Alle Daten bleiben langfristig erhalten
+-	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
 -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
 -	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
--	Mögliche spätere Erweiterung: Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
 
 Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
 
@@ -33,9 +33,9 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 - Als Datenbank [PostgreSQL](https://www.postgresql.org)
   - Benutzer können wo nötig dank [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) weiterhin eigene Datenstrukturen importieren
   - Alle übrigen Datenstrukturen sind relational und ermöglichen damit:
-     - Einfachere Verwaltung
-     - Einfachere Datenauswertung
-     - Bessere Gewährleistung der Datenintegrität
+     - Einfachere Verwaltung,
+     - Datenauswertung
+     - und Gewährleistung der Datenintegrität
 - [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [Relay](https://facebook.github.io/relay)
   - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!!!
   - Weniger Code = weniger Fehler :-)
