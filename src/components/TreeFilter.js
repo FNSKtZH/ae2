@@ -124,6 +124,7 @@ class TreeFilter extends Component {
       onBlur,
       type: 'search',
       placeholder: 'suchen',
+      spellCheck: false,
     }
     let { suggestionsTO, suggestionsPC, suggestionsRC } = store.treeFilter
     /**
@@ -165,6 +166,7 @@ class TreeFilter extends Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={() => {
             // Autosuggest wants this function
+            console.log('fetch requested')
           }}
           onSuggestionsClearRequested={() => {
             store.treeFilter.setSuggestionsTO([])
