@@ -173,7 +173,7 @@ class TreeFilter extends Component {
             store.treeFilter.setSuggestionsPC([])
             store.treeFilter.setSuggestionsRC([])
           }}
-          getSuggestionValue={suggestion => suggestion.name}
+          getSuggestionValue={suggestion => suggestion && suggestion.name}
           onSuggestionSelected={(event, { suggestion }) => {
             switch (suggestion.type) {
               case 'pC':
