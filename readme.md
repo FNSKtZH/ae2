@@ -69,4 +69,4 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
   - Layout und Navigation sind entworfen
   - Der Struktur- und Navigationsbaum ist implementiert
   - Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten werden angezeigt
-  - Die Suche nach Objekten, Eigenschaften- und Beziehungs-Sammlungen ist teilweise implementiert
+  - Die Suche nach Objekten, Eigenschaften- und Beziehungs-Sammlungen ist implementiert
