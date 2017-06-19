@@ -1,9 +1,12 @@
 // @flow
 import React from 'react'
+import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import { AutoSizer, List } from 'react-virtualized'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
+import findIndex from 'lodash/findIndex'
+import isEqual from 'lodash/isEqual'
 
 import Row from './TreeRow'
 import TreeFilter from './TreeFilter'
@@ -56,6 +59,9 @@ const enhance = compose(inject('store'), observer)
 const Tree = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
   const rowRenderer = ({ key, index, style }) =>
     <Row key={key} index={index} style={style} nodes={nodes} />
+  const activeNodeIndex = findIndex(nodes, node =>
+    isEqual(toJS(node.url), toJS(store.activeNodeArray))
+  )
 
   return (
     <Container>
@@ -69,6 +75,7 @@ const Tree = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
               rowHeight={singleRowHeight}
               rowRenderer={rowRenderer}
               noRowsRenderer={noRowsRenderer}
+              scrollToIndex={activeNodeIndex}
               width={width}
               style={listContainerStyle}
             />}
