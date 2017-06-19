@@ -17,7 +17,7 @@ const Container = styled(({ autosuggestWidth, ...rest }) => <div {...rest} />)`
   .react-autosuggest__input {
     width: 100%;
     border: none;
-    font-size: 14px;
+    font-size: 16px;
     padding: 5px;
     background-color: rgba(0,0,0,0);
   }
@@ -82,10 +82,11 @@ const enhance = compose(
       console.log('blured, value:', newValue)
     },
   }),
-  observer,
+  observer
 )
 
-class Tree extends Component {
+// $FlowIssue
+class TreeFilter extends Component {
   props: {
     store: Object,
     onChange: () => {},
@@ -170,19 +171,7 @@ class Tree extends Component {
             store.treeFilter.setSuggestionsPC([])
             store.treeFilter.setSuggestionsRC([])
           }}
-          getSuggestionValue={suggestion => {
-            // change url based on id and type
-            // TOTO: add pC and rC
-            /*
-            switch (suggestion.type) {
-              case 'pC':
-              case 'rC':
-              case 'tO':
-              default:
-                store.setUrlFromTOId(suggestion.id)
-            }*/
-            return suggestion.name
-          }}
+          getSuggestionValue={suggestion => suggestion.name}
           onSuggestionSelected={(event, { suggestion }) => {
             console.log('onSuggestionSelected, suggestion:', suggestion)
             switch (suggestion.type) {
@@ -204,4 +193,4 @@ class Tree extends Component {
   }
 }
 
-export default enhance(Tree)
+export default enhance(TreeFilter)

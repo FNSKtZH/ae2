@@ -20,5 +20,9 @@ export default (store: Object): void => {
     ),
     urlFromTOId: null,
     setUrlFromTOId: action('setUrlFromTOId', id => (store.urlFromTOId = id)),
+    urlFromPCId: null,
+    setUrlFromPCId: action('setUrlFromPCId', id => (store.urlFromPCId = id)),
+    urlFromRCId: null,
+    setUrlFromRCId: action('setUrlFromRCId', id => (store.urlFromRCId = id)),
   })
 }
