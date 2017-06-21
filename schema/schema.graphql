@@ -42,8 +42,81 @@ type Category implements Node {
   dataType: String
   id: Uuid
 
+  # Reads and enables paginatation through a set of `Taxonomy`.
+  taxonomyByCategory(
+    # The method to use when ordering `Taxonomy`.
+    orderBy: CategoryTaxonomyByCategoryOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    categoryname: String
+  ): CategoryTaxonomyByCategoryConnection
+
   # Reads a single `DataType` that is related to this `Category`.
   dataTypeByDataType: DataType
+
+  # Reads and enables paginatation through a set of `Taxonomy`.
+  taxonomiesByCategory(
+    # The method to use when ordering `Taxonomy`.
+    orderBy: TaxonomiesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyCondition
+  ): TaxonomiesConnection
+
+  # Reads and enables paginatation through a set of `Object`.
+  objectsByCategory(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: ObjectCondition
+  ): ObjectsConnection
 }
 
 # A connection to a list of `Category` values.
@@ -99,6 +172,35 @@ input CategoryPatch {
   name: String
   dataType: String
   id: Uuid
+}
+
+# A connection to a list of `Taxonomy` values.
+type CategoryTaxonomyByCategoryConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Taxonomy` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Taxonomy` and cursor to aid in pagination.
+  edges: [CategoryTaxonomyByCategoryEdge]
+
+  # A list of `Taxonomy` objects.
+  nodes: [Taxonomy]
+}
+
+# A `Taxonomy` edge in the connection.
+type CategoryTaxonomyByCategoryEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Taxonomy` at the end of the edge.
+  node: Taxonomy
+}
+
+# Methods to use when ordering `Taxonomy`.
+enum CategoryTaxonomyByCategoryOrderBy {
+  NATURAL
 }
 
 # All input for the `createCategory` mutation.
@@ -186,6 +288,9 @@ type CreateObjectPayload {
     # The method to use when ordering `Object`.
     orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
   ): ObjectsEdge
+
+  # Reads a single `Category` that is related to this `Object`.
+  categoryByCategory: Category
 
   # Reads a single `Organization` that is related to this `Object`.
   organizationByOrganizationId: Organization
@@ -563,6 +668,12 @@ type CreateTaxonomyPayload {
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
 
+  # Reads a single `Category` that is related to this `Taxonomy`.
+  categoryByCategory: Category
+
+  # Reads a single `DataType` that is related to this `Taxonomy`.
+  dataTypeByDataType: DataType
+
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
 }
@@ -603,6 +714,56 @@ type DataType implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   name: String!
+
+  # Reads and enables paginatation through a set of `Category`.
+  categoriesByDataType(
+    # The method to use when ordering `Category`.
+    orderBy: CategoriesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: CategoryCondition
+  ): CategoriesConnection
+
+  # Reads and enables paginatation through a set of `Taxonomy`.
+  taxonomiesByDataType(
+    # The method to use when ordering `Taxonomy`.
+    orderBy: TaxonomiesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyCondition
+  ): TaxonomiesConnection
 
   # Reads and enables paginatation through a set of `PropertyCollection`.
   propertyCollectionsByDataType(
@@ -653,31 +814,6 @@ type DataType implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionCondition
   ): RelationCollectionsConnection
-
-  # Reads and enables paginatation through a set of `Category`.
-  categoriesByDataType(
-    # The method to use when ordering `Category`.
-    orderBy: CategoriesOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: CategoryCondition
-  ): CategoriesConnection
 }
 
 # A condition to be used against `DataType` object types. All fields are tested
@@ -820,6 +956,9 @@ type DeleteObjectPayload {
   clientMutationId: String
   object: Object
   deletedObjectId: ID
+
+  # Reads a single `Category` that is related to this `Object`.
+  categoryByCategory: Category
 
   # Reads a single `Organization` that is related to this `Object`.
   organizationByOrganizationId: Organization
@@ -1244,6 +1383,12 @@ type DeleteTaxonomyPayload {
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
+
+  # Reads a single `Category` that is related to this `Taxonomy`.
+  categoryByCategory: Category
+
+  # Reads a single `DataType` that is related to this `Taxonomy`.
+  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1835,6 +1980,9 @@ type Object implements Node {
   id: Uuid!
   category: String
   organizationId: Uuid!
+
+  # Reads a single `Category` that is related to this `Object`.
+  categoryByCategory: Category
 
   # Reads a single `Organization` that is related to this `Object`.
   organizationByOrganizationId: Organization
@@ -3899,6 +4047,12 @@ type Taxonomy implements Node {
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
 
+  # Reads a single `Category` that is related to this `Taxonomy`.
+  categoryByCategory: Category
+
+  # Reads a single `DataType` that is related to this `Taxonomy`.
+  dataTypeByDataType: DataType
+
   # Reads and enables paginatation through a set of `TaxonomyObject`.
   taxonomyObjectsByTaxonomyId(
     # The method to use when ordering `TaxonomyObject`.
@@ -4338,6 +4492,9 @@ type UpdateObjectPayload {
   # unchanged and unused. May be used by a client to track mutations.
   clientMutationId: String
   object: Object
+
+  # Reads a single `Category` that is related to this `Object`.
+  categoryByCategory: Category
 
   # Reads a single `Organization` that is related to this `Object`.
   organizationByOrganizationId: Organization
@@ -4829,6 +4986,12 @@ type UpdateTaxonomyPayload {
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
+
+  # Reads a single `Category` that is related to this `Taxonomy`.
+  categoryByCategory: Category
+
+  # Reads a single `DataType` that is related to this `Taxonomy`.
+  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
