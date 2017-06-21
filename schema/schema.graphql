@@ -29,94 +29,21 @@ enum CategoriesOrderBy {
   NATURAL
   NAME_ASC
   NAME_DESC
-  ID_ASC
-  ID_DESC
   DATA_TYPE_ASC
   DATA_TYPE_DESC
+  ID_ASC
+  ID_DESC
 }
 
 type Category implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   name: String!
-  id: Uuid!
   dataType: String
-
-  # Reads and enables paginatation through a set of `Taxonomy`.
-  taxonomyByCategory(
-    # The method to use when ordering `Taxonomy`.
-    orderBy: CategoryTaxonomyByCategoryOrderBy = NATURAL
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-    categoryname: String
-  ): CategoryTaxonomyByCategoryConnection
+  id: Uuid
 
   # Reads a single `DataType` that is related to this `Category`.
   dataTypeByDataType: DataType
-
-  # Reads and enables paginatation through a set of `Taxonomy`.
-  taxonomiesByCategory(
-    # The method to use when ordering `Taxonomy`.
-    orderBy: TaxonomiesOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: TaxonomyCondition
-  ): TaxonomiesConnection
-
-  # Reads and enables paginatation through a set of `Object`.
-  objectsByCategory(
-    # The method to use when ordering `Object`.
-    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: ObjectCondition
-  ): ObjectsConnection
 }
 
 # A connection to a list of `Category` values.
@@ -154,53 +81,24 @@ input CategoryCondition {
   # Checks for equality with the object’s `name` field.
   name: String
 
-  # Checks for equality with the object’s `id` field.
-  id: Uuid
-
   # Checks for equality with the object’s `dataType` field.
   dataType: String
+
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
 }
 
 input CategoryInput {
   name: String!
-  id: Uuid
   dataType: String
+  id: Uuid
 }
 
 # Represents an update to a `Category`. Fields that are set will be updated.
 input CategoryPatch {
   name: String
-  id: Uuid
   dataType: String
-}
-
-# A connection to a list of `Taxonomy` values.
-type CategoryTaxonomyByCategoryConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # The count of *all* `Taxonomy` you could get from the connection.
-  totalCount: Int
-
-  # A list of edges which contains the `Taxonomy` and cursor to aid in pagination.
-  edges: [CategoryTaxonomyByCategoryEdge]
-
-  # A list of `Taxonomy` objects.
-  nodes: [Taxonomy]
-}
-
-# A `Taxonomy` edge in the connection.
-type CategoryTaxonomyByCategoryEdge {
-  # A cursor for use in pagination.
-  cursor: Cursor
-
-  # The `Taxonomy` at the end of the edge.
-  node: Taxonomy
-}
-
-# Methods to use when ordering `Taxonomy`.
-enum CategoryTaxonomyByCategoryOrderBy {
-  NATURAL
+  id: Uuid
 }
 
 # All input for the `createCategory` mutation.
@@ -289,9 +187,6 @@ type CreateObjectPayload {
     orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
   ): ObjectsEdge
 
-  # Reads a single `Category` that is related to this `Object`.
-  categoryByCategory: Category
-
   # Reads a single `Organization` that is related to this `Object`.
   organizationByOrganizationId: Organization
 
@@ -352,15 +247,6 @@ type CreateOrganizationUserPayload {
     # The method to use when ordering `OrganizationUser`.
     orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
   ): OrganizationUsersEdge
-
-  # Reads a single `Organization` that is related to this `OrganizationUser`.
-  organizationByOrganizationId: Organization
-
-  # Reads a single `User` that is related to this `OrganizationUser`.
-  userByUserId: User
-
-  # Reads a single `Role` that is related to this `OrganizationUser`.
-  roleByRole: Role
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -426,14 +312,14 @@ type CreatePropertyCollectionPayload {
     orderBy: PropertyCollectionsOrderBy = PRIMARY_KEY_ASC
   ): PropertyCollectionsEdge
 
+  # Reads a single `DataType` that is related to this `PropertyCollection`.
+  dataTypeByDataType: DataType
+
   # Reads a single `Organization` that is related to this `PropertyCollection`.
   organizationByOrganizationId: Organization
 
   # Reads a single `User` that is related to this `PropertyCollection`.
   userByImportedBy: User
-
-  # Reads a single `DataType` that is related to this `PropertyCollection`.
-  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -499,14 +385,14 @@ type CreateRelationCollectionPayload {
     orderBy: RelationCollectionsOrderBy = PRIMARY_KEY_ASC
   ): RelationCollectionsEdge
 
+  # Reads a single `DataType` that is related to this `RelationCollection`.
+  dataTypeByDataType: DataType
+
   # Reads a single `Organization` that is related to this `RelationCollection`.
   organizationByOrganizationId: Organization
 
   # Reads a single `User` that is related to this `RelationCollection`.
   userByImportedBy: User
-
-  # Reads a single `DataType` that is related to this `RelationCollection`.
-  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -655,9 +541,6 @@ type CreateTaxonomyObjectPayload {
   # Reads a single `Object` that is related to this `TaxonomyObject`.
   objectByObjectId: Object
 
-  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
-  taxonomyObjectByParentId: TaxonomyObject
-
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
 }
@@ -679,12 +562,6 @@ type CreateTaxonomyPayload {
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
-
-  # Reads a single `Category` that is related to this `Taxonomy`.
-  categoryByCategory: Category
-
-  # Reads a single `DataType` that is related to this `Taxonomy`.
-  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -726,56 +603,6 @@ type DataType implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   name: String!
-
-  # Reads and enables paginatation through a set of `Category`.
-  categoriesByDataType(
-    # The method to use when ordering `Category`.
-    orderBy: CategoriesOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: CategoryCondition
-  ): CategoriesConnection
-
-  # Reads and enables paginatation through a set of `Taxonomy`.
-  taxonomiesByDataType(
-    # The method to use when ordering `Taxonomy`.
-    orderBy: TaxonomiesOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: TaxonomyCondition
-  ): TaxonomiesConnection
 
   # Reads and enables paginatation through a set of `PropertyCollection`.
   propertyCollectionsByDataType(
@@ -826,6 +653,31 @@ type DataType implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionCondition
   ): RelationCollectionsConnection
+
+  # Reads and enables paginatation through a set of `Category`.
+  categoriesByDataType(
+    # The method to use when ordering `Category`.
+    orderBy: CategoriesOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: CategoryCondition
+  ): CategoriesConnection
 }
 
 # A condition to be used against `DataType` object types. All fields are tested
@@ -969,9 +821,6 @@ type DeleteObjectPayload {
   object: Object
   deletedObjectId: ID
 
-  # Reads a single `Category` that is related to this `Object`.
-  categoryByCategory: Category
-
   # Reads a single `Organization` that is related to this `Object`.
   organizationByOrganizationId: Organization
 
@@ -1044,15 +893,6 @@ type DeleteOrganizationUserPayload {
   clientMutationId: String
   organizationUser: OrganizationUser
   deletedOrganizationUserId: ID
-
-  # Reads a single `Organization` that is related to this `OrganizationUser`.
-  organizationByOrganizationId: Organization
-
-  # Reads a single `User` that is related to this `OrganizationUser`.
-  userByUserId: User
-
-  # Reads a single `Role` that is related to this `OrganizationUser`.
-  roleByRole: Role
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1129,14 +969,14 @@ type DeletePropertyCollectionPayload {
   propertyCollection: PropertyCollection
   deletedPropertyCollectionId: ID
 
+  # Reads a single `DataType` that is related to this `PropertyCollection`.
+  dataTypeByDataType: DataType
+
   # Reads a single `Organization` that is related to this `PropertyCollection`.
   organizationByOrganizationId: Organization
 
   # Reads a single `User` that is related to this `PropertyCollection`.
   userByImportedBy: User
-
-  # Reads a single `DataType` that is related to this `PropertyCollection`.
-  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1221,14 +1061,14 @@ type DeleteRelationCollectionPayload {
   relationCollection: RelationCollection
   deletedRelationCollectionId: ID
 
+  # Reads a single `DataType` that is related to this `RelationCollection`.
+  dataTypeByDataType: DataType
+
   # Reads a single `Organization` that is related to this `RelationCollection`.
   organizationByOrganizationId: Organization
 
   # Reads a single `User` that is related to this `RelationCollection`.
   userByImportedBy: User
-
-  # Reads a single `DataType` that is related to this `RelationCollection`.
-  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1390,9 +1230,6 @@ type DeleteTaxonomyObjectPayload {
   # Reads a single `Object` that is related to this `TaxonomyObject`.
   objectByObjectId: Object
 
-  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
-  taxonomyObjectByParentId: TaxonomyObject
-
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
 }
@@ -1407,12 +1244,6 @@ type DeleteTaxonomyPayload {
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
-
-  # Reads a single `Category` that is related to this `Taxonomy`.
-  categoryByCategory: Category
-
-  # Reads a single `DataType` that is related to this `Taxonomy`.
-  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -2005,9 +1836,6 @@ type Object implements Node {
   category: String
   organizationId: Uuid!
 
-  # Reads a single `Category` that is related to this `Object`.
-  categoryByCategory: Category
-
   # Reads a single `Organization` that is related to this `Object`.
   organizationByOrganizationId: Organization
 
@@ -2061,31 +1889,6 @@ type Object implements Node {
     condition: PropertyCollectionObjectCondition
   ): PropertyCollectionObjectsConnection
 
-  # Reads and enables paginatation through a set of `Relation`.
-  relationsByObjectId(
-    # The method to use when ordering `Relation`.
-    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: RelationCondition
-  ): RelationsConnection
-
   # Reads and enables paginatation through a set of `RelationCollectionObject`.
   relationCollectionObjectsByObjectId(
     # The method to use when ordering `RelationCollectionObject`.
@@ -2110,6 +1913,31 @@ type Object implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionObjectCondition
   ): RelationCollectionObjectsConnection
+
+  # Reads and enables paginatation through a set of `Relation`.
+  relationsByObjectId(
+    # The method to use when ordering `Relation`.
+    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCondition
+  ): RelationsConnection
 
   # Reads and enables paginatation through a set of `RelationPartner`.
   relationPartnersByObjectId(
@@ -2230,6 +2058,31 @@ type Organization implements Node {
     condition: TaxonomyCondition
   ): TaxonomiesConnection
 
+  # Reads and enables paginatation through a set of `Object`.
+  objectsByOrganizationId(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: ObjectCondition
+  ): ObjectsConnection
+
   # Reads and enables paginatation through a set of `PropertyCollection`.
   propertyCollectionsByOrganizationId(
     # The method to use when ordering `PropertyCollection`.
@@ -2279,56 +2132,6 @@ type Organization implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionCondition
   ): RelationCollectionsConnection
-
-  # Reads and enables paginatation through a set of `Object`.
-  objectsByOrganizationId(
-    # The method to use when ordering `Object`.
-    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: ObjectCondition
-  ): ObjectsConnection
-
-  # Reads and enables paginatation through a set of `OrganizationUser`.
-  organizationUsersByOrganizationId(
-    # The method to use when ordering `OrganizationUser`.
-    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: OrganizationUserCondition
-  ): OrganizationUsersConnection
 }
 
 # A condition to be used against `Organization` object types. All fields are
@@ -2393,15 +2196,6 @@ type OrganizationUser implements Node {
   organizationId: Uuid!
   userId: Uuid!
   role: String!
-
-  # Reads a single `Organization` that is related to this `OrganizationUser`.
-  organizationByOrganizationId: Organization
-
-  # Reads a single `User` that is related to this `OrganizationUser`.
-  userByUserId: User
-
-  # Reads a single `Role` that is related to this `OrganizationUser`.
-  roleByRole: Role
 }
 
 # A condition to be used against `OrganizationUser` object types. All fields are
@@ -2486,6 +2280,7 @@ type PropertyCollection implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   id: Uuid!
+  dataType: String
   name: String!
   description: String
   links: [String]
@@ -2494,16 +2289,15 @@ type PropertyCollection implements Node {
   lastUpdated: Date
   termsOfUse: String
   importedBy: Uuid!
-  dataType: String
+
+  # Reads a single `DataType` that is related to this `PropertyCollection`.
+  dataTypeByDataType: DataType
 
   # Reads a single `Organization` that is related to this `PropertyCollection`.
   organizationByOrganizationId: Organization
 
   # Reads a single `User` that is related to this `PropertyCollection`.
   userByImportedBy: User
-
-  # Reads a single `DataType` that is related to this `PropertyCollection`.
-  dataTypeByDataType: DataType
 
   # Reads and enables paginatation through a set of `PropertyCollectionObject`.
   propertyCollectionObjectsByPropertyCollectionId(
@@ -2595,6 +2389,9 @@ input PropertyCollectionCondition {
   # Checks for equality with the object’s `id` field.
   id: Uuid
 
+  # Checks for equality with the object’s `dataType` field.
+  dataType: String
+
   # Checks for equality with the object’s `name` field.
   name: String
 
@@ -2618,13 +2415,11 @@ input PropertyCollectionCondition {
 
   # Checks for equality with the object’s `importedBy` field.
   importedBy: Uuid
-
-  # Checks for equality with the object’s `dataType` field.
-  dataType: String
 }
 
 input PropertyCollectionInput {
   id: Uuid
+  dataType: String
   name: String!
   description: String
   links: [String]
@@ -2633,7 +2428,6 @@ input PropertyCollectionInput {
   lastUpdated: Date
   termsOfUse: String
   importedBy: Uuid!
-  dataType: String
 }
 
 type PropertyCollectionObject implements Node {
@@ -2716,6 +2510,7 @@ enum PropertyCollectionObjectsOrderBy {
 # Represents an update to a `PropertyCollection`. Fields that are set will be updated.
 input PropertyCollectionPatch {
   id: Uuid
+  dataType: String
   name: String
   description: String
   links: [String]
@@ -2724,7 +2519,6 @@ input PropertyCollectionPatch {
   lastUpdated: Date
   termsOfUse: String
   importedBy: Uuid
-  dataType: String
 }
 
 # A connection to a list of `PropertyCollection` values.
@@ -2758,6 +2552,8 @@ enum PropertyCollectionsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
+  DATA_TYPE_ASC
+  DATA_TYPE_DESC
   NAME_ASC
   NAME_DESC
   DESCRIPTION_ASC
@@ -2774,8 +2570,6 @@ enum PropertyCollectionsOrderBy {
   TERMS_OF_USE_DESC
   IMPORTED_BY_ASC
   IMPORTED_BY_DESC
-  DATA_TYPE_ASC
-  DATA_TYPE_DESC
 }
 
 # The root query type which gives access points into the data universe.
@@ -3465,6 +3259,7 @@ type RelationCollection implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   id: Uuid!
+  dataType: String
   name: String!
   description: String
   links: [String]
@@ -3474,41 +3269,15 @@ type RelationCollection implements Node {
   lastUpdated: Date
   termsOfUse: String
   importedBy: Uuid!
-  dataType: String
+
+  # Reads a single `DataType` that is related to this `RelationCollection`.
+  dataTypeByDataType: DataType
 
   # Reads a single `Organization` that is related to this `RelationCollection`.
   organizationByOrganizationId: Organization
 
   # Reads a single `User` that is related to this `RelationCollection`.
   userByImportedBy: User
-
-  # Reads a single `DataType` that is related to this `RelationCollection`.
-  dataTypeByDataType: DataType
-
-  # Reads and enables paginatation through a set of `Relation`.
-  relationsByRelationCollectionId(
-    # The method to use when ordering `Relation`.
-    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: RelationCondition
-  ): RelationsConnection
 
   # Reads and enables paginatation through a set of `RelationCollectionObject`.
   relationCollectionObjectsByRelationCollectionId(
@@ -3534,6 +3303,31 @@ type RelationCollection implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionObjectCondition
   ): RelationCollectionObjectsConnection
+
+  # Reads and enables paginatation through a set of `Relation`.
+  relationsByRelationCollectionId(
+    # The method to use when ordering `Relation`.
+    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCondition
+  ): RelationsConnection
 }
 
 # A connection to a list of `RelationCollection` values.
@@ -3600,6 +3394,9 @@ input RelationCollectionCondition {
   # Checks for equality with the object’s `id` field.
   id: Uuid
 
+  # Checks for equality with the object’s `dataType` field.
+  dataType: String
+
   # Checks for equality with the object’s `name` field.
   name: String
 
@@ -3626,13 +3423,11 @@ input RelationCollectionCondition {
 
   # Checks for equality with the object’s `importedBy` field.
   importedBy: Uuid
-
-  # Checks for equality with the object’s `dataType` field.
-  dataType: String
 }
 
 input RelationCollectionInput {
   id: Uuid
+  dataType: String
   name: String!
   description: String
   links: [String]
@@ -3642,7 +3437,6 @@ input RelationCollectionInput {
   lastUpdated: Date
   termsOfUse: String
   importedBy: Uuid!
-  dataType: String
 }
 
 type RelationCollectionObject implements Node {
@@ -3742,6 +3536,7 @@ enum RelationCollectionObjectsOrderBy {
 # Represents an update to a `RelationCollection`. Fields that are set will be updated.
 input RelationCollectionPatch {
   id: Uuid
+  dataType: String
   name: String
   description: String
   links: [String]
@@ -3751,7 +3546,6 @@ input RelationCollectionPatch {
   lastUpdated: Date
   termsOfUse: String
   importedBy: Uuid
-  dataType: String
 }
 
 # A connection to a list of `RelationCollection` values.
@@ -3785,6 +3579,8 @@ enum RelationCollectionsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
+  DATA_TYPE_ASC
+  DATA_TYPE_DESC
   NAME_ASC
   NAME_DESC
   DESCRIPTION_ASC
@@ -3803,8 +3599,6 @@ enum RelationCollectionsOrderBy {
   TERMS_OF_USE_DESC
   IMPORTED_BY_ASC
   IMPORTED_BY_DESC
-  DATA_TYPE_ASC
-  DATA_TYPE_DESC
 }
 
 # A condition to be used against `Relation` object types. All fields are tested
@@ -3950,31 +3744,6 @@ type Role implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   name: String!
-
-  # Reads and enables paginatation through a set of `OrganizationUser`.
-  organizationUsersByRole(
-    # The method to use when ordering `OrganizationUser`.
-    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: OrganizationUserCondition
-  ): OrganizationUsersConnection
 }
 
 # A condition to be used against `Role` object types. All fields are tested for equality and combined with a logical ‘and.’
@@ -4078,6 +3847,8 @@ enum TaxonomiesOrderBy {
   HABITAT_NR_FNS_MIN_DESC
   HABITAT_NR_FNS_MAX_ASC
   HABITAT_NR_FNS_MAX_DESC
+  PREVIOUS_ID_ASC
+  PREVIOUS_ID_DESC
   DATA_TYPE_ASC
   DATA_TYPE_DESC
 }
@@ -4097,6 +3868,9 @@ type Taxonomy implements Node {
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
+
+  # _id in artendb v1. Provisorisch, kann nach Import gelöscht werden
+  previousId: Uuid
   dataType: String
 
   # Reads and enables paginatation through a set of `TaxonomyObject`.
@@ -4124,12 +3898,6 @@ type Taxonomy implements Node {
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
-
-  # Reads a single `Category` that is related to this `Taxonomy`.
-  categoryByCategory: Category
-
-  # Reads a single `DataType` that is related to this `Taxonomy`.
-  dataTypeByDataType: DataType
 
   # Reads and enables paginatation through a set of `TaxonomyObject`.
   taxonomyObjectsByTaxonomyId(
@@ -4196,6 +3964,9 @@ input TaxonomyCondition {
   # Checks for equality with the object’s `habitatNrFnsMax` field.
   habitatNrFnsMax: Int
 
+  # Checks for equality with the object’s `previousId` field.
+  previousId: Uuid
+
   # Checks for equality with the object’s `dataType` field.
   dataType: String
 }
@@ -4213,6 +3984,9 @@ input TaxonomyInput {
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
+
+  # _id in artendb v1. Provisorisch, kann nach Import gelöscht werden
+  previousId: Uuid
   dataType: String
 }
 
@@ -4257,34 +4031,6 @@ type TaxonomyObject implements Node {
 
   # Reads a single `Object` that is related to this `TaxonomyObject`.
   objectByObjectId: Object
-
-  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
-  taxonomyObjectByParentId: TaxonomyObject
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObjectsByParentId(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: TaxonomyObjectCondition
-  ): TaxonomyObjectsConnection
 }
 
 # A connection to a list of `TaxonomyObject` values.
@@ -4454,6 +4200,9 @@ input TaxonomyPatch {
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
+
+  # _id in artendb v1. Provisorisch, kann nach Import gelöscht werden
+  previousId: Uuid
   dataType: String
 }
 
@@ -4590,9 +4339,6 @@ type UpdateObjectPayload {
   clientMutationId: String
   object: Object
 
-  # Reads a single `Category` that is related to this `Object`.
-  categoryByCategory: Category
-
   # Reads a single `Organization` that is related to this `Object`.
   organizationByOrganizationId: Organization
 
@@ -4678,15 +4424,6 @@ type UpdateOrganizationUserPayload {
   # unchanged and unused. May be used by a client to track mutations.
   clientMutationId: String
   organizationUser: OrganizationUser
-
-  # Reads a single `Organization` that is related to this `OrganizationUser`.
-  organizationByOrganizationId: Organization
-
-  # Reads a single `User` that is related to this `OrganizationUser`.
-  userByUserId: User
-
-  # Reads a single `Role` that is related to this `OrganizationUser`.
-  roleByRole: Role
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -4776,14 +4513,14 @@ type UpdatePropertyCollectionPayload {
   clientMutationId: String
   propertyCollection: PropertyCollection
 
+  # Reads a single `DataType` that is related to this `PropertyCollection`.
+  dataTypeByDataType: DataType
+
   # Reads a single `Organization` that is related to this `PropertyCollection`.
   organizationByOrganizationId: Organization
 
   # Reads a single `User` that is related to this `PropertyCollection`.
   userByImportedBy: User
-
-  # Reads a single `DataType` that is related to this `PropertyCollection`.
-  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -4884,14 +4621,14 @@ type UpdateRelationCollectionPayload {
   clientMutationId: String
   relationCollection: RelationCollection
 
+  # Reads a single `DataType` that is related to this `RelationCollection`.
+  dataTypeByDataType: DataType
+
   # Reads a single `Organization` that is related to this `RelationCollection`.
   organizationByOrganizationId: Organization
 
   # Reads a single `User` that is related to this `RelationCollection`.
   userByImportedBy: User
-
-  # Reads a single `DataType` that is related to this `RelationCollection`.
-  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -5079,9 +4816,6 @@ type UpdateTaxonomyObjectPayload {
   # Reads a single `Object` that is related to this `TaxonomyObject`.
   objectByObjectId: Object
 
-  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
-  taxonomyObjectByParentId: TaxonomyObject
-
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
 }
@@ -5095,12 +4829,6 @@ type UpdateTaxonomyPayload {
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
-
-  # Reads a single `Category` that is related to this `Taxonomy`.
-  categoryByCategory: Category
-
-  # Reads a single `DataType` that is related to this `Taxonomy`.
-  dataTypeByDataType: DataType
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -5220,31 +4948,6 @@ type User implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionCondition
   ): RelationCollectionsConnection
-
-  # Reads and enables paginatation through a set of `OrganizationUser`.
-  organizationUsersByUserId(
-    # The method to use when ordering `OrganizationUser`.
-    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: OrganizationUserCondition
-  ): OrganizationUsersConnection
 }
 
 # A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’

@@ -1,6 +1,3 @@
--- needed because
--- can't filter for null in graphql (yet)
--- trick: passing name is optional
 CREATE OR REPLACE FUNCTION ae.category_by_data_type(datatype text)
   RETURNS setof ae.category AS
   $$

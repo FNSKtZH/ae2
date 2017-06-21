@@ -1,6 +1,3 @@
--- needed because
--- can't filter for null in graphql (yet)
--- trick: passing name is optional
 CREATE OR REPLACE FUNCTION ae.property_collection_by_data_type(datatype text)
   RETURNS setof ae.property_collection AS
   $$
