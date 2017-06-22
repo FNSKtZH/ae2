@@ -7,6 +7,7 @@ import Objekt from './Objekt/index'
 import PropertyCollection from './PropertyCollection'
 import RelationCollection from './RelationCollection'
 import Exporte from './Exporte'
+import Login from './Login'
 import FourOhFour from './FourOhFour'
 
 const enhance = compose(inject('store') /*, observer*/)
@@ -17,7 +18,10 @@ const Main = ({ store }: { store: Object }) => {
     'Taxonomien',
     'Eigenschaften-Sammlungen',
     'Beziehungs-Sammlungen',
+    'Organisationen',
     'export',
+    'import',
+    'login',
   ].includes(primaryUrl)
   return (
     <div>
@@ -25,6 +29,7 @@ const Main = ({ store }: { store: Object }) => {
       {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
       {primaryUrl === 'Beziehungs-Sammlungen' && <RelationCollection />}
       {primaryUrl === 'export' && <Exporte />}
+      {primaryUrl === 'login' && <Login />}
       {show404 && <FourOhFour />}
     </div>
   )
