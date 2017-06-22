@@ -67,13 +67,13 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
 
-  - [x] Entwicklungsumgebung gebaut
-  - [x] Layout und Navigation entworfen (verbesserungsbedürftig)
-  - [x] Struktur- und Navigationsbaum implementiert
-  - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten werden angezeigt
-  - [x] Die Suche nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen ist implementiert
+  - [x] Entwicklungsumgebung aufbauen
+  - [x] Layout und Navigation entwerfen (verbesserungsbedürftig)
+  - [x] Struktur- und Navigationsbaum aufbauen
+  - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten anzeigen
+  - [x] nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen suchen
   - [ ] Daten exportieren
-  - [ ] Login
+  - [ ] Login ermöglichen
   - [ ] Organisationen und Benutzer verwalten
   - [ ] Eigenschaften- und Beziehungs-Sammlungen importieren
   - [ ] Lebensräume bearbeiten
