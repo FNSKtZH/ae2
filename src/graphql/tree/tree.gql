@@ -1,14 +1,61 @@
-query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $level4: Uuid!, $level5: Uuid!, $level6: Uuid!, $level7: Uuid!, $level8: Uuid!, $level9: Uuid!, $level10: Uuid!) {
-  level1Pc: allPropertyCollections {
+query AppQueryQuery(
+  $existsLevel2Pc: Boolean!,
+  $level2Pc: String!,
+  $existsLevel2Rc: Boolean!,
+  $level2Rc: String!,
+  $existsLevel2Taxonomy: Boolean!,
+  $level2Taxonomy: String!,
+  $existsLevel3: Boolean!,
+  $level3Taxonomy: String!,
+  $existsLevel4: Boolean!,
+  $level4Taxonomy: Uuid!,
+  $existsLevel5: Boolean!,
+  $level5Taxonomy: Uuid!,
+  $existsLevel6: Boolean!,
+  $level6Taxonomy: Uuid!,
+  $existsLevel7: Boolean!,
+  $level7Taxonomy: Uuid!,
+  $existsLevel8: Boolean!,
+  $level8Taxonomy: Uuid!,
+  $existsLevel9: Boolean!,
+  $level9Taxonomy: Uuid!,
+  $existsLevel10: Boolean!,
+  $level10Taxonomy: Uuid!
+  $activeTaxonomyObject: Uuid!
+  $existsActiveTaxonomyObject: Boolean!
+  $existsUrlFromTOId: Boolean!
+  $urlFromTOId: Uuid!
+  $existsTreeFilterText: Boolean!
+  $treeFilterText: String!
+) {
+  allCategories {
     totalCount
   }
-  level1Rc: allRelationCollections {
+  allPropertyCollections {
     totalCount
   }
-  level1Tax: allCategories {
+  propertyCollectionByDataType(datatype: $level2Pc) @include(if: $existsLevel2Pc) {
+    nodes {
+      id
+      name
+      propertyCollectionObjectsByPropertyCollectionId {
+        totalCount
+      }
+    }
+  }
+  allRelationCollections {
     totalCount
   }
-  level1Taxonomy: categoryByDataType(datatype: $datatypename) {
+  relationCollectionByDataType(datatype: $level2Rc) @include(if: $existsLevel2Rc) {
+    nodes {
+      id
+      name
+      relationCollectionObjectsByRelationCollectionId {
+        totalCount
+      }
+    }
+  }
+  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2Taxonomy) {
     nodes {
       id
       name
@@ -17,7 +64,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level2Taxonomy: categoryByName(name: $categoryname) {
+  level3Taxonomy: categoryByName(name: $level3Taxonomy) @include(if: $existsLevel3) {
     taxonomiesByCategory {
       nodes {
         id
@@ -28,7 +75,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level3Taxonomy: taxonomyById(id: $taxonomyId) {
+  level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {
     taxonomyObjectLevel1 {
       nodes {
         id
@@ -39,7 +86,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level4Taxonomy: taxonomyObjectById(id: $level4) {
+  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) @include(if: $existsLevel5) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -51,7 +98,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level5Taxonomy: taxonomyObjectById(id: $level5) {
+  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) @include(if: $existsLevel6) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -63,7 +110,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level6Taxonomy: taxonomyObjectById(id: $level6) {
+  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) @include(if: $existsLevel7) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -75,7 +122,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level7Taxonomy: taxonomyObjectById(id: $level7) {
+  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) @include(if: $existsLevel8) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -87,7 +134,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level8Taxonomy: taxonomyObjectById(id: $level8) {
+  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) @include(if: $existsLevel9) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -99,7 +146,7 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level9Taxonomy: taxonomyObjectById(id: $level9) {
+  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) @include(if: $existsLevel10) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -111,29 +158,208 @@ query Tree($datatypename: String, $categoryname: String!, $taxonomyId: Uuid!, $l
       }
     }
   }
-  level10Taxonomy: taxonomyObjectById(id: $level10) {
-    taxonomyObjectsByParentId {
-      totalCount
-      nodes {
-        id
-        name
-        taxonomyObjectsByParentId {
-          totalCount
+  taxonomyObjectById(id: $activeTaxonomyObject) @include(if: $existsActiveTaxonomyObject) {
+    objectByObjectId {
+      id
+      taxonomyObjectsByObjectId {
+        totalCount
+        nodes {
+          taxonomyByTaxonomyId {
+            id
+            name
+            description
+            links
+            lastUpdated
+            organizationByOrganizationId {
+              name
+            }
+          }
+          id
+          name
+          properties
         }
       }
+      propertyCollectionObjectsByObjectId {
+        totalCount
+        nodes {
+          objectId
+          propertyCollectionId
+          properties
+          propertyCollectionByPropertyCollectionId{
+            name
+            description
+            links
+            combining
+            lastUpdated
+            termsOfUse
+            importedBy
+            organizationByOrganizationId{
+              name
+            }
+            userByImportedBy{
+              name
+              email
+            }
+          }
+        }
+      }
+      relationCollectionObjectsByObjectId {
+        totalCount
+        nodes {
+          relationCollectionId
+          relationCollectionByRelationCollectionId {
+            id
+            name
+            description
+            links
+            lastUpdated
+            natureOfRelation
+            combining
+            termsOfUse
+            organizationByOrganizationId {
+              name
+            }
+            userByImportedBy {
+              name
+              email
+            }
+          }
+          relationsByObjectIdAndRelationCollectionId {
+            totalCount
+            nodes {
+              id
+              properties
+              relationPartnersByRelationId {
+                totalCount
+                nodes {
+                  objectByObjectId {
+                    taxonomyObjectsByObjectId {
+                      totalCount
+                      nodes {
+                        id
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  urlFromTO: taxonomyObjectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
+    id
+    taxonomyObjectByParentId {
+      id
+      taxonomyObjectByParentId {
+        id
+        taxonomyObjectByParentId {
+          id
+          taxonomyObjectByParentId {
+            id
+            taxonomyObjectByParentId {
+              id
+              taxonomyObjectByParentId {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+    taxonomyByTaxonomyId {
+      id
+      categoryByCategory {
+        name
+        dataType
+      }
+    }
+  }
+  filterSuggestionsPC: propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterText) {
+    totalCount
+    nodes {
+      id
+      name
+    }
+  }
+  filterSuggestionsRC: relationCollectionByRelationName(relationName: $treeFilterText) @include(if: $existsTreeFilterText) {
+    totalCount
+    nodes {
+      id
+      name
+    }
+  }
+  filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterText) {
+    totalCount
+    nodes {
+      id
+      name
     }
   }
 }
 
+// Beispiel Hyla arborea:
 {
-  "datatypename": "Taxonomien",
-  "categoryname": "Fauna",
-  "taxonomyId": "5444e7eb-177f-4faf-ba44-0e3da1b391e0",
-  "level4": "5f8f6fac-fe63-49c5-a143-f2e6e2174602",
-  "level5": "b2142119-081d-4f2c-97ee-adbb735ecbfa",
-  "level6": "99999999-9999-9999-9999-999999999999",
-  "level7": "99999999-9999-9999-9999-999999999999",
-  "level8": "99999999-9999-9999-9999-999999999999",
-  "level9": "99999999-9999-9999-9999-999999999999",
-  "level10": "99999999-9999-9999-9999-999999999999"
+  "existsLevel2Pc": false,
+  "level2Pc": "99999999-9999-9999-9999-999999999999",
+  "existsLevel2Rc": false,
+  "level2Rc": "99999999-9999-9999-9999-999999999999",
+  "existsLevel2Taxonomy": true,
+  "level2Taxonomy": "Taxonomien",
+  "existsLevel3": true,
+  "level3Taxonomy": "Fauna",
+  "existsLevel4": true,
+  "level4Taxonomy": "893f2760-56bb-11e7-95e1-7338d9fb04be",
+  "existsLevel5": true,
+  "level5Taxonomy": "89d9b9b1-56bb-11e7-95e1-7338d9fb04be",
+  "existsLevel6": false,
+  "level6Taxonomy": "89e356aa-56bb-11e7-95e1-7338d9fb04be",
+  "existsLevel7": false,
+  "level7Taxonomy": "89f13965-56bb-11e7-95e1-7338d9fb04be",
+  "existsLevel8": false,
+  "level8Taxonomy": "8a61d570-56bb-11e7-95e1-7338d9fb04be",
+  "existsLevel9": false,
+  "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "existsLevel10": false,
+  "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "activeTaxonomyObject": "99999999-9999-9999-9999-999999999999",
+  "existsActiveTaxonomyObject": false,
+  "existsUrlFromTOId": false,
+  "urlFromTOId": "99999999-9999-9999-9999-999999999999",
+  "existsTreeFilterText": false,
+  "treeFilterText": "ZZZZ"
+}
+
+// Beispiel Lebensraum:
+{
+  "existsLevel2Pc": false,
+  "level2Pc": "99999999-9999-9999-9999-999999999999",
+  "existsLevel2Rc": false,
+  "level2Rc": "99999999-9999-9999-9999-999999999999",
+  "existsLevel2Taxonomy": true,
+  "level2Taxonomy": "Taxonomien",
+  "existsLevel3": true,
+  "level3Taxonomy": "Lebensräume",
+  "existsLevel4": true,
+  "level4Taxonomy": "8946c88f-56bb-11e7-95e1-7338d9fb04be",
+  "existsLevel5": true,
+  "level5Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "existsLevel6": false,
+  "level6Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "existsLevel7": false,
+  "level7Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "existsLevel8": false,
+  "level8Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "existsLevel9": false,
+  "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "existsLevel10": false,
+  "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "activeTaxonomyObject": "99999999-9999-9999-9999-999999999999",
+  "existsActiveTaxonomyObject": false,
+  "existsUrlFromTOId": false,
+  "urlFromTOId": "99999999-9999-9999-9999-999999999999",
+  "existsTreeFilterText": false,
+  "treeFilterText": "ZZZZ"
 }
