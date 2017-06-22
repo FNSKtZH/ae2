@@ -6,6 +6,7 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FlatButton from 'material-ui/FlatButton'
+import DropDownMenu from 'material-ui/DropDownMenu'
 import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -50,7 +51,15 @@ const enhance = compose(
       }
     },
     onClickColumnButtonExport: props => () => {
-      props.store.setActiveNodeArray(['export'])
+      props.store.setActiveNodeArray(['Export'])
+    },
+    onClickColumnButtonLogin: props => () => {
+      props.store.setActiveNodeArray(['Login'])
+    },
+    onChangeImportButton: props => (event, key, value) => {
+      console.log('event:', event)
+      console.log('value:', value)
+      props.store.setActiveNodeArray(['Import', value])
     },
     ueberArteigenschaftenOnClick: props => () =>
       window.open('https://github.com/barbalex/ae2'),
@@ -62,15 +71,25 @@ const MyAppBar = ({
   store,
   onClickColumnButtonData,
   onClickColumnButtonExport,
+  onChangeImportButton,
+  onClickColumnButtonLogin,
   ueberArteigenschaftenOnClick,
 }: {
   store: Object,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
+  onChangeImportButton: () => void,
+  onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
 }) => {
   const url0 =
     store.activeNodeArray[0] && store.activeNodeArray[0].toLowerCase()
+  const url1 =
+    store.activeNodeArray[1] && store.activeNodeArray[1].toLowerCase()
+  let importDropdownValue = 'Import'
+  if (url1 && url0 === 'import') importDropdownValue = store.activeNodeArray[1]
+  const showImportDropdownValue = importDropdownValue === 'Import'
+
   return (
     <StyledAppBar
       title="Arteigenschaften"
@@ -88,9 +107,29 @@ const MyAppBar = ({
             onClick={onClickColumnButtonData}
           />
           <Button
-            label="Exporte"
+            label="Export"
             visible={url0 !== 'export'}
             onClick={onClickColumnButtonExport}
+          />
+          <DropDownMenu
+            value={importDropdownValue}
+            onChange={onChangeImportButton}
+          >
+            {showImportDropdownValue &&
+              <MenuItem value={'Import'} primaryText="Import" />}
+            <MenuItem
+              value={'Eigenschaften-Sammlungen'}
+              primaryText="Eigenschaften-Sammlungen"
+            />
+            <MenuItem
+              value={'Beziehungs-Sammlungen'}
+              primaryText="Beziehungs-Sammlungen"
+            />
+          </DropDownMenu>
+          <Button
+            label="Login"
+            visible={url0 !== 'login'}
+            onClick={onClickColumnButtonLogin}
           />
           <IconMenu
             iconButtonElement={
