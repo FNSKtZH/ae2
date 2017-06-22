@@ -72,8 +72,8 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Struktur- und Navigationsbaum implementiert
   - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten werden angezeigt
   - [x] Die Suche nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen ist implementiert
-  - [] Login
-  - [] Organisationen und Benutzer verwalten
-  - [] Eigenschaften- und Beziehungs-Sammlungen importieren
-  - [] Daten exportieren
-  - [] Lebensräume bearbeiten
+  - [ ] Login
+  - [ ] Organisationen und Benutzer verwalten
+  - [ ] Eigenschaften- und Beziehungs-Sammlungen importieren
+  - [ ] Daten exportieren
+  - [ ] Lebensräume bearbeiten
