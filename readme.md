@@ -68,7 +68,7 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
 
   - [x] Entwicklungsumgebung aufbauen
-  - [x] Layout und Navigation entwerfen (verbesserungsbedürftig)
+  - [x] Layout und Navigation entwerfen
   - [x] Struktur- und Navigationsbaum aufbauen
   - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten anzeigen: ![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
   - [x] nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen suchen
