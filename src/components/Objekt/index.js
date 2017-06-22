@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
@@ -46,10 +45,6 @@ const Objekt = ({ store }: { store: Object }) => {
     activeTaxonomyObject,
     'propertyCollectionObjectsByObjectId.nodes',
     []
-  )
-  console.log(
-    'Object: propertyCollectionObjects:',
-    toJS(propertyCollectionObjects)
   )
   const rcCount = get(
     activeTaxonomyObject,

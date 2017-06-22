@@ -63,7 +63,6 @@ const AppQuery = ({ store }: { store: Object }) => {
     ? store.activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
   const activeTaxonomyObject = getActiveTaxonomyObjectId(store)
-  console.log('AppQuery: activeTaxonomyObject:', activeTaxonomyObject)
   const existsActiveTaxonomyObject = !!activeTaxonomyObject
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =

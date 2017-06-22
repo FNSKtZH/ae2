@@ -32,10 +32,17 @@ const PropertyReadOnly = ({
   value,
 }: {
   label: string,
-  value: string | number,
-}) =>
-  <Linkify properties={linkifyProperties}>
-    <Container><Label>{`${label}:`}</Label><Value>{value}</Value></Container>
-  </Linkify>
+  value: string | number | Boolean,
+}) => {
+  let val = value
+  if (val === true) val = 'ja'
+  if (val === false) val = 'nein'
+
+  return (
+    <Linkify properties={linkifyProperties}>
+      <Container><Label>{`${label}:`}</Label><Value>{val}</Value></Container>
+    </Linkify>
+  )
+}
 
 export default PropertyReadOnly

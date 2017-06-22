@@ -25,6 +25,11 @@ const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
   const pCName = get(pC, 'name', '(Name fehlt)')
   const properties = JSON.parse(pCO.properties)
+  let propertiesArray = Object.entries(properties)
+  propertiesArray = propertiesArray.filter(
+    o => o[1] || o[1] === 0 || o[1] === false
+  )
+  propertiesArray = sortBy(propertiesArray, e => e[0])
 
   return (
     <Card style={pCOCardStyle}>
@@ -48,7 +53,7 @@ const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
         </CardText>
       </Card>
       <CardText expandable={true} style={pCOCardTextStyle}>
-        {sortBy(Object.entries(properties), e => e[0]).map(([key, value]) =>
+        {propertiesArray.map(([key, value]) =>
           <PropertyReadOnly key={key} value={value} label={key} />
         )}
       </CardText>
