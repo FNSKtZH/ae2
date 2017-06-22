@@ -5,7 +5,7 @@ import { /*observer,*/ inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
 import Tree from './Tree'
-import Main from './Main'
+import DataType from './DataType'
 
 const enhance = compose(inject('store') /*, observer*/)
 
@@ -18,7 +18,8 @@ const Data = ({ store, nodes }: { store: Object, nodes: Array<Object> }) =>
     {store.ui.visibleColumns.tree &&
       store.ui.visibleColumns.main &&
       <ReflexSplitter key="treeSplitter" />}
-    {store.ui.visibleColumns.main && <ReflexElement><Main /></ReflexElement>}
+    {store.ui.visibleColumns.main &&
+      <ReflexElement><DataType /></ReflexElement>}
   </ReflexContainer>
 
 export default enhance(Data)
