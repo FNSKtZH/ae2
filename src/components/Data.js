@@ -11,15 +11,11 @@ const enhance = compose(inject('store') /*, observer*/)
 
 const Data = ({ store, nodes }: { store: Object, nodes: Array<Object> }) =>
   <ReflexContainer orientation="vertical">
-    {store.ui.visibleColumns.tree &&
-      <ReflexElement flex={0.35}>
-        <Tree activeNodeArray={store.activeNodeArray} nodes={nodes} />
-      </ReflexElement>}
-    {store.ui.visibleColumns.tree &&
-      store.ui.visibleColumns.main &&
-      <ReflexSplitter key="treeSplitter" />}
-    {store.ui.visibleColumns.main &&
-      <ReflexElement><DataType /></ReflexElement>}
+    <ReflexElement flex={0.35}>
+      <Tree activeNodeArray={store.activeNodeArray} nodes={nodes} />
+    </ReflexElement>
+    <ReflexSplitter key="treeSplitter" />
+    <ReflexElement><DataType /></ReflexElement>
   </ReflexContainer>
 
 export default enhance(Data)
