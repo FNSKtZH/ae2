@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FlatButton from 'material-ui/FlatButton'
 import DropDownMenu from 'material-ui/DropDownMenu'
+import FontIcon from 'material-ui/FontIcon'
 import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -33,6 +34,11 @@ const MenuDiv = styled.div`
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
 `
+const SymbolIcon = styled(({ children, ...rest }) =>
+  <FontIcon {...rest}>{children}</FontIcon>
+)`
+  color: white !important;
+`
 const iconMenuAnchorOrigin = { horizontal: 'left', vertical: 'bottom' }
 const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
@@ -53,6 +59,11 @@ const enhance = compose(
     onClickColumnButtonExport: props => () => {
       props.store.setActiveNodeArray(['Export'])
     },
+    onClickColumnButtonImport: props => () => {
+      // TODO
+      // open floating menu
+      // props.store.setActiveNodeArray(['Export'])
+    },
     onClickColumnButtonLogin: props => () => {
       props.store.setActiveNodeArray(['Login'])
     },
@@ -71,6 +82,7 @@ const MyAppBar = ({
   store,
   onClickColumnButtonData,
   onClickColumnButtonExport,
+  onClickColumnButtonImport,
   onChangeImportButton,
   onClickColumnButtonLogin,
   ueberArteigenschaftenOnClick,
@@ -78,6 +90,7 @@ const MyAppBar = ({
   store: Object,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
+  onClickColumnButtonImport: () => void,
   onChangeImportButton: () => void,
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
@@ -110,6 +123,17 @@ const MyAppBar = ({
             label="Export"
             visible={url0 !== 'export'}
             onClick={onClickColumnButtonExport}
+          />
+          <Button
+            label={importDropdownValue}
+            labelPosition="before"
+            visible={url0 !== 'import'}
+            onClick={onClickColumnButtonImport}
+            icon={
+              <SymbolIcon id="dropdownButtonSymbol" className="material-icons">
+                expand_more
+              </SymbolIcon>
+            }
           />
           <DropDownMenu
             value={importDropdownValue}
