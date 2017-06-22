@@ -6,7 +6,6 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FlatButton from 'material-ui/FlatButton'
-import DropDownMenu from 'material-ui/DropDownMenu'
 import FontIcon from 'material-ui/FontIcon'
 import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
@@ -34,14 +33,19 @@ const MenuDiv = styled.div`
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
 `
-const SymbolIcon = styled(({ children, ...rest }) =>
+const SymbolIcon = styled(({ visible, children, ...rest }) =>
   <FontIcon {...rest}>{children}</FontIcon>
 )`
-  color: white !important;
+  color: ${props =>
+    props.visible
+      ? 'rgb(255, 255, 255) !important'
+      : 'rgba(255, 255, 255, 0.298039) !important'};
+  margin-left: -5px !important;
 `
 const iconMenuAnchorOrigin = { horizontal: 'left', vertical: 'bottom' }
 const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
+const importMenuStyle = { paddingTop: 4 }
 
 const enhance = compose(
   inject('store'),
@@ -59,10 +63,11 @@ const enhance = compose(
     onClickColumnButtonExport: props => () => {
       props.store.setActiveNodeArray(['Export'])
     },
-    onClickColumnButtonImport: props => () => {
-      // TODO
-      // open floating menu
-      // props.store.setActiveNodeArray(['Export'])
+    onClickImportPc: props => () => {
+      props.store.setActiveNodeArray(['Import', 'Eigenschaften-Sammlungen'])
+    },
+    onClickImportRc: props => () => {
+      props.store.setActiveNodeArray(['Import', 'Beziehungs-Sammlungen'])
     },
     onClickColumnButtonLogin: props => () => {
       props.store.setActiveNodeArray(['Login'])
@@ -82,7 +87,8 @@ const MyAppBar = ({
   store,
   onClickColumnButtonData,
   onClickColumnButtonExport,
-  onClickColumnButtonImport,
+  onClickImportPc,
+  onClickImportRc,
   onChangeImportButton,
   onClickColumnButtonLogin,
   ueberArteigenschaftenOnClick,
@@ -90,7 +96,8 @@ const MyAppBar = ({
   store: Object,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
-  onClickColumnButtonImport: () => void,
+  onClickImportPc: () => void,
+  onClickImportRc: () => void,
   onChangeImportButton: () => void,
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
@@ -100,8 +107,8 @@ const MyAppBar = ({
   const url1 =
     store.activeNodeArray[1] && store.activeNodeArray[1].toLowerCase()
   let importDropdownValue = 'Import'
-  if (url1 && url0 === 'import') importDropdownValue = store.activeNodeArray[1]
-  const showImportDropdownValue = importDropdownValue === 'Import'
+  if (url1 && url0 === 'import')
+    importDropdownValue = `Import ${store.activeNodeArray[1]}`
 
   return (
     <StyledAppBar
@@ -124,32 +131,36 @@ const MyAppBar = ({
             visible={url0 !== 'export'}
             onClick={onClickColumnButtonExport}
           />
-          <Button
-            label={importDropdownValue}
-            labelPosition="before"
-            visible={url0 !== 'import'}
-            onClick={onClickColumnButtonImport}
-            icon={
-              <SymbolIcon id="dropdownButtonSymbol" className="material-icons">
-                expand_more
-              </SymbolIcon>
+          <IconMenu
+            iconButtonElement={
+              <Button
+                label={importDropdownValue}
+                labelPosition="before"
+                visible={url0 !== 'import'}
+                icon={
+                  <SymbolIcon
+                    id="dropdownButtonSymbol"
+                    className="material-icons"
+                    visible={url0 !== 'import'}
+                  >
+                    expand_more
+                  </SymbolIcon>
+                }
+              />
             }
-          />
-          <DropDownMenu
-            value={importDropdownValue}
-            onChange={onChangeImportButton}
+            anchorOrigin={iconMenuAnchorOrigin}
+            targetOrigin={iconMenuTargetOrigin}
+            style={importMenuStyle}
           >
-            {showImportDropdownValue &&
-              <MenuItem value={'Import'} primaryText="Import" />}
             <MenuItem
-              value={'Eigenschaften-Sammlungen'}
               primaryText="Eigenschaften-Sammlungen"
+              onTouchTap={onClickImportPc}
             />
             <MenuItem
-              value={'Beziehungs-Sammlungen'}
               primaryText="Beziehungs-Sammlungen"
+              onTouchTap={onClickImportRc}
             />
-          </DropDownMenu>
+          </IconMenu>
           <Button
             label="Login"
             visible={url0 !== 'login'}
