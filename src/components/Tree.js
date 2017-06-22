@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { toJS } from 'mobx'
-import { observer, inject } from 'mobx-react'
+import { /*observer,*/ inject } from 'mobx-react'
 import { AutoSizer, List } from 'react-virtualized'
 import styled from 'styled-components'
 import compose from 'recompose/compose'

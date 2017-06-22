@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { observer, inject } from 'mobx-react'
+import { /*observer,*/ inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import get from 'lodash/get'

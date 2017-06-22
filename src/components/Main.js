@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { observer, inject } from 'mobx-react'
+import { /*observer,*/ inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
 import Objekt from './Objekt/index'
