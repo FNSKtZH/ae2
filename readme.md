@@ -70,7 +70,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Entwicklungsumgebung aufbauen
   - [x] Layout und Navigation entwerfen (verbesserungsbedürftig)
   - [x] Struktur- und Navigationsbaum aufbauen
-  - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten anzeigen
+  - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten anzeigen: ![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
   - [x] nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen suchen
   - [ ] Daten exportieren
   - [ ] Login ermöglichen
