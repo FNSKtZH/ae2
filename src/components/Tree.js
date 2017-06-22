@@ -21,6 +21,10 @@ const Container = styled.div`
     list-style: none;
     padding: 0 0 0 1.1em;
   }
+ .ReactVirtualized__Grid {
+   /* try to prevent overflow shivering */
+   overflow-x: hidden !important;
+ }
  .ReactVirtualized__Grid:focus {
    outline-style: none;
  }
