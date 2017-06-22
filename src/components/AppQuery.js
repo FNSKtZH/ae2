@@ -63,6 +63,7 @@ const AppQuery = ({ store }: { store: Object }) => {
     ? store.activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
   const activeTaxonomyObject = getActiveTaxonomyObjectId(store)
+  console.log('AppQuery: activeTaxonomyObject:', activeTaxonomyObject)
   const existsActiveTaxonomyObject = !!activeTaxonomyObject
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =
@@ -432,13 +433,19 @@ const AppQuery = ({ store }: { store: Object }) => {
             store.setUrlFromTOId(null)
             store.setActiveNodeArray(getUrlFromTOId(props.urlFromTO))
           }
-         if (store.urlFromPCId) {
-           store.setActiveNodeArray(['Eigenschaften-Sammlungen', store.urlFromPCId])
-             store.setUrlFromPCId(null)
-         }
+          if (store.urlFromPCId) {
+            store.setActiveNodeArray([
+              'Eigenschaften-Sammlungen',
+              store.urlFromPCId,
+            ])
+            store.setUrlFromPCId(null)
+          }
           if (store.urlFromRCId) {
-            store.setActiveNodeArray(['Beziehungs-Sammlungen', store.urlFromRCId])
-              store.setUrlFromRCId(null)
+            store.setActiveNodeArray([
+              'Beziehungs-Sammlungen',
+              store.urlFromRCId,
+            ])
+            store.setUrlFromRCId(null)
           }
         } else {
           /**

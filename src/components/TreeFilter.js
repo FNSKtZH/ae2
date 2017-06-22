@@ -98,9 +98,11 @@ class TreeFilter extends Component {
   componentDidMount() {
     const { changeAutosuggestWidth } = this.props
     const autosuggestDomNode =
+      // $FlowIssue
       this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
     const autosuggestWidth = autosuggestDomNode
-      ? autosuggestDomNode.clientWidth
+      ? // $FlowIssue
+        autosuggestDomNode.clientWidth
       : 380
     changeAutosuggestWidth(autosuggestWidth)
   }
@@ -108,9 +110,11 @@ class TreeFilter extends Component {
   componentDidUpdate() {
     const { changeAutosuggestWidth } = this.props
     const autosuggestDomNode =
+      // $FlowIssue
       this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
     const autosuggestWidth = autosuggestDomNode
-      ? autosuggestDomNode.clientWidth
+      ? // $FlowIssue
+        autosuggestDomNode.clientWidth
       : 380
     changeAutosuggestWidth(autosuggestWidth)
   }
