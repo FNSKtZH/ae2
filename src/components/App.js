@@ -22,31 +22,32 @@ const Container = styled.div`
 const enhance = compose(inject('store') /*, observer*/)
 
 const App = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
-  const url0 = store.activeNodeArray[0]
-  const url1 = store.activeNodeArray[1]
-  const show404 = ![
-    'taxonomien',
-    'eigenschaften-sammlungen',
-    'beziehungs-sammlungen',
-    'organisationen',
-    'export',
-    'import',
-    'login',
-  ].includes(url0.toLowerCase())
+  const url0 =
+    store.activeNodeArray[0] && store.activeNodeArray[0].toLowerCase()
+  const url1 =
+    store.activeNodeArray[1] && store.activeNodeArray[1].toLowerCase()
+  const show404 =
+    ![
+      'taxonomien',
+      'eigenschaften-sammlungen',
+      'beziehungs-sammlungen',
+      'organisationen',
+      'export',
+      'import',
+      'login',
+    ].includes(url0) ||
+    (url0 === 'import' &&
+      !['eigenschaften-sammlungen', 'beziehungs-sammlungen'].includes(url1))
   const showData = [
     'taxonomien',
     'eigenschaften-sammlungen',
     'beziehungs-sammlungen',
-  ].includes(url0.toLowerCase())
-  const showExport = url0.toLowerCase() === 'export'
-  const showOrganisation = url0.toLowerCase() === 'organisationen'
-  const showLogin = url0.toLowerCase() === 'login'
-  const showImportPc =
-    url0.toLowerCase() === 'import' &&
-    url1.toLowerCase() === 'eigenschaften-sammlungen'
-  const showImportRc =
-    url0.toLowerCase() === 'import' &&
-    url1.toLowerCase() === 'beziehungs-sammlungen'
+  ].includes(url0)
+  const showExport = url0 === 'export'
+  const showOrganisation = url0 === 'organisationen'
+  const showLogin = url0 === 'login'
+  const showImportPc = url0 === 'import' && url1 === 'eigenschaften-sammlungen'
+  const showImportRc = url0 === 'import' && url1 === 'beziehungs-sammlungen'
 
   return (
     <Container>
