@@ -58,7 +58,7 @@ const noRowsRenderer = nodes =>
     </LoadingDiv>
   </Container>
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(inject('store') /*, observer*/)
 
 const Tree = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
   const rowRenderer = ({ key, index, style }) =>

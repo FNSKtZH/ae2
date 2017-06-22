@@ -22,7 +22,7 @@ const FirstTitle = styled(Title)`
   margin: 5px 0 -5px 0;
 `
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(inject('store') /*, observer*/)
 
 const Objekt = ({ store }: { store: Object }) => {
   const { activeTaxonomyObject } = store

@@ -70,7 +70,7 @@ const TextSpan = styled(({ nodeIsInActiveNodePath, children, ...rest }) =>
     props.nodeIsInActiveNodePath ? '700 !important' : 'inherit'};
 `
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(inject('store') /*, observer*/)
 
 const Row = ({
   key,

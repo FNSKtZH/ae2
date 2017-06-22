@@ -9,7 +9,7 @@ import RelationCollection from './RelationCollection'
 import Exporte from './Exporte'
 import FourOhFour from './FourOhFour'
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(inject('store') /*, observer*/)
 
 const Main = ({ store }: { store: Object }) => {
   const primaryUrl = store.activeNodeArray[0]

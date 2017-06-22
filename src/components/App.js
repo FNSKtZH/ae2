@@ -15,7 +15,7 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(inject('store') /*, observer*/)
 
 const App = ({ store, nodes }: { store: Object, nodes: Array<Object> }) =>
   <Container>

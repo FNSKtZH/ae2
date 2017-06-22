@@ -23,7 +23,7 @@ const taxCardHeaderStyle = {
 const taxCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
 const tOCardTextStyle = { padding: '5px 16px' }
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(inject('store') /*, observer*/)
 
 const TaxonomyObject = ({
   store,
