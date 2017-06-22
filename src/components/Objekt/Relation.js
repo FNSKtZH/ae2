@@ -2,15 +2,30 @@
 import React from 'react'
 import sortBy from 'lodash/sortBy'
 import get from 'lodash/get'
+import styled from 'styled-components'
 
 import PropertyReadOnly from './PropertyReadOnly'
 
-const Relation = ({ relation }: { relation: Object }) => {
+const Container = styled(({ intermediateRelation, ...rest }) =>
+  <div {...rest} />
+)`
+  border-bottom: ${props =>
+    `${props.intermediateRelation ? '1px solid #c6c6c6' : 'none'}`};
+  padding: ${props => `${props.intermediateRelation ? '7px 0' : 0}`};
+`
+
+const Relation = ({
+  relation,
+  intermediateRelation,
+}: {
+  relation: Object,
+  intermediateRelation: boolean,
+}) => {
   const properties = JSON.parse(relation.properties)
   const rPartners = get(relation, 'relationPartnersByRelationId.nodes', [])
 
   return (
-    <div>
+    <Container intermediateRelation={intermediateRelation}>
       {properties &&
         sortBy(Object.entries(properties), e => e[0]).map(([key, value]) =>
           <PropertyReadOnly key={key} value={value} label={key} />
@@ -35,7 +50,7 @@ const Relation = ({ relation }: { relation: Object }) => {
           />
         )
       })}
-    </div>
+    </Container>
   )
 }
 

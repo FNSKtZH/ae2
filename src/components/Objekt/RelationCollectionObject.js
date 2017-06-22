@@ -51,8 +51,12 @@ const RelationCollectionObject = ({ rCO }: { rCO: Object }) => {
         </CardText>
       </Card>
       <CardText expandable={true} style={rCOCardTextStyle}>
-        {relations.map(relation =>
-          <Relation key={relation.id} relation={relation} />
+        {relations.map((relation, index) =>
+          <Relation
+            key={relation.id}
+            relation={relation}
+            intermediateRelation={index < relations.length - 1}
+          />
         )}
       </CardText>
     </Card>
