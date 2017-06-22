@@ -61,9 +61,9 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 ### Aktueller Stand
 
 - [x] Datenstruktur in PostgreSQL: ![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
-- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren.
+- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren
 - [x] Anwendungs-API-Server ([postgraphql](https://github.com/postgraphql/postgraphql))
-- [x] [API-Server für abhängige Anwendungen](https://github.com/barbalex/ae_api). Braucht noch etwas Liebe
+- [x] [API-Server für abhängige Anwendungen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
 
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
 
