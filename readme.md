@@ -60,13 +60,20 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 
 ### Aktueller Stand
 
-- Es besteht ein [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren.
-- Datenstruktur in PostgreSQL: ![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
-- Der Anwendungs-API-Server ist bereit ([postgraphql](https://github.com/postgraphql/postgraphql))
-- Der API-Server für abhängige Anwendungen [existiert im Entwurf](https://github.com/barbalex/ae_api). Braucht aber noch etwas Liebe
-- Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
-  - Die Entwicklungsumgebung ist gebaut
-  - Layout und Navigation sind entworfen
-  - Der Struktur- und Navigationsbaum ist implementiert
-  - Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten werden angezeigt
-  - Die Suche nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen ist implementiert
+- [x] Datenstruktur in PostgreSQL: ![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
+- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren.
+- [x] Anwendungs-API-Server ([postgraphql](https://github.com/postgraphql/postgraphql))
+- [x] [API-Server für abhängige Anwendungen](https://github.com/barbalex/ae_api). Braucht noch etwas Liebe
+
+Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
+
+  - [x] Entwicklungsumgebung gebaut
+  - [x] Layout und Navigation entworfen (verbesserungsbedürftig)
+  - [x] Struktur- und Navigationsbaum implementiert
+  - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten werden angezeigt
+  - [x] Die Suche nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen ist implementiert
+  - [] Login
+  - [] Organisationen und Benutzer verwalten
+  - [] Eigenschaften- und Beziehungs-Sammlungen importieren
+  - [] Daten exportieren
+  - [] Lebensräume bearbeiten
