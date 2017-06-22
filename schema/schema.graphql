@@ -563,14 +563,8 @@ type CreateRelationPayload {
     orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
   ): RelationsEdge
 
-  # Reads a single `Object` that is related to this `Relation`.
-  objectByObjectId: Object
-
   # Reads a single `RelationCollectionObject` that is related to this `Relation`.
   relationCollectionObjectByObjectIdAndRelationCollectionId: RelationCollectionObject
-
-  # Reads a single `RelationCollection` that is related to this `Relation`.
-  relationCollectionByRelationCollectionId: RelationCollection
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -645,6 +639,9 @@ type CreateTaxonomyObjectPayload {
 
   # Reads a single `Object` that is related to this `TaxonomyObject`.
   objectByObjectId: Object
+
+  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
+  taxonomyObjectByParentId: TaxonomyObject
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1268,14 +1265,8 @@ type DeleteRelationPayload {
   relation: Relation
   deletedRelationId: ID
 
-  # Reads a single `Object` that is related to this `Relation`.
-  objectByObjectId: Object
-
   # Reads a single `RelationCollectionObject` that is related to this `Relation`.
   relationCollectionObjectByObjectIdAndRelationCollectionId: RelationCollectionObject
-
-  # Reads a single `RelationCollection` that is related to this `Relation`.
-  relationCollectionByRelationCollectionId: RelationCollection
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1368,6 +1359,9 @@ type DeleteTaxonomyObjectPayload {
 
   # Reads a single `Object` that is related to this `TaxonomyObject`.
   objectByObjectId: Object
+
+  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
+  taxonomyObjectByParentId: TaxonomyObject
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -2061,31 +2055,6 @@ type Object implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionObjectCondition
   ): RelationCollectionObjectsConnection
-
-  # Reads and enables paginatation through a set of `Relation`.
-  relationsByObjectId(
-    # The method to use when ordering `Relation`.
-    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: RelationCondition
-  ): RelationsConnection
 
   # Reads and enables paginatation through a set of `RelationPartner`.
   relationPartnersByObjectId(
@@ -3368,14 +3337,8 @@ type Relation implements Node {
   relationCollectionId: Uuid!
   properties: Json
 
-  # Reads a single `Object` that is related to this `Relation`.
-  objectByObjectId: Object
-
   # Reads a single `RelationCollectionObject` that is related to this `Relation`.
   relationCollectionObjectByObjectIdAndRelationCollectionId: RelationCollectionObject
-
-  # Reads a single `RelationCollection` that is related to this `Relation`.
-  relationCollectionByRelationCollectionId: RelationCollection
 
   # Reads and enables paginatation through a set of `RelationPartner`.
   relationPartnersByRelationId(
@@ -3451,31 +3414,6 @@ type RelationCollection implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionObjectCondition
   ): RelationCollectionObjectsConnection
-
-  # Reads and enables paginatation through a set of `Relation`.
-  relationsByRelationCollectionId(
-    # The method to use when ordering `Relation`.
-    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: RelationCondition
-  ): RelationsConnection
 }
 
 # A connection to a list of `RelationCollection` values.
@@ -3995,10 +3933,10 @@ enum TaxonomiesOrderBy {
   HABITAT_NR_FNS_MIN_DESC
   HABITAT_NR_FNS_MAX_ASC
   HABITAT_NR_FNS_MAX_DESC
-  PREVIOUS_ID_ASC
-  PREVIOUS_ID_DESC
   DATA_TYPE_ASC
   DATA_TYPE_DESC
+  PREVIOUS_ID_ASC
+  PREVIOUS_ID_DESC
 }
 
 type Taxonomy implements Node {
@@ -4016,10 +3954,10 @@ type Taxonomy implements Node {
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
-
-  # _id in artendb v1. Provisorisch, kann nach Import gelöscht werden
-  previousId: Uuid
   dataType: String
+
+  # object._id in artendb v1. Provisorisch, kann nach Import gelöscht werden
+  previousId: Uuid
 
   # Reads and enables paginatation through a set of `TaxonomyObject`.
   taxonomyObjectLevel1(
@@ -4118,11 +4056,11 @@ input TaxonomyCondition {
   # Checks for equality with the object’s `habitatNrFnsMax` field.
   habitatNrFnsMax: Int
 
-  # Checks for equality with the object’s `previousId` field.
-  previousId: Uuid
-
   # Checks for equality with the object’s `dataType` field.
   dataType: String
+
+  # Checks for equality with the object’s `previousId` field.
+  previousId: Uuid
 }
 
 input TaxonomyInput {
@@ -4138,10 +4076,10 @@ input TaxonomyInput {
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
-
-  # _id in artendb v1. Provisorisch, kann nach Import gelöscht werden
-  previousId: Uuid
   dataType: String
+
+  # object._id in artendb v1. Provisorisch, kann nach Import gelöscht werden
+  previousId: Uuid
 }
 
 type TaxonomyObject implements Node {
@@ -4185,6 +4123,34 @@ type TaxonomyObject implements Node {
 
   # Reads a single `Object` that is related to this `TaxonomyObject`.
   objectByObjectId: Object
+
+  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
+  taxonomyObjectByParentId: TaxonomyObject
+
+  # Reads and enables paginatation through a set of `TaxonomyObject`.
+  taxonomyObjectsByParentId(
+    # The method to use when ordering `TaxonomyObject`.
+    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TaxonomyObjectCondition
+  ): TaxonomyObjectsConnection
 }
 
 # A connection to a list of `TaxonomyObject` values.
@@ -4354,10 +4320,10 @@ input TaxonomyPatch {
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
-
-  # _id in artendb v1. Provisorisch, kann nach Import gelöscht werden
-  previousId: Uuid
   dataType: String
+
+  # object._id in artendb v1. Provisorisch, kann nach Import gelöscht werden
+  previousId: Uuid
 }
 
 # A connection to a list of `TaxonomyObject` values.
@@ -4853,14 +4819,8 @@ type UpdateRelationPayload {
   clientMutationId: String
   relation: Relation
 
-  # Reads a single `Object` that is related to this `Relation`.
-  objectByObjectId: Object
-
   # Reads a single `RelationCollectionObject` that is related to this `Relation`.
   relationCollectionObjectByObjectIdAndRelationCollectionId: RelationCollectionObject
-
-  # Reads a single `RelationCollection` that is related to this `Relation`.
-  relationCollectionByRelationCollectionId: RelationCollection
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -4972,6 +4932,9 @@ type UpdateTaxonomyObjectPayload {
 
   # Reads a single `Object` that is related to this `TaxonomyObject`.
   objectByObjectId: Object
+
+  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
+  taxonomyObjectByParentId: TaxonomyObject
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
