@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
 
-const EigenschaftenSammlung = () => <div>EigenschaftenSammlung</div>
+const PropertyCollection = () => <div>EigenschaftenSammlung</div>
 
-export default EigenschaftenSammlung
+export default PropertyCollection
