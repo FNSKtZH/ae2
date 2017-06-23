@@ -60,20 +60,20 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 
 ### Aktueller Stand
 
-- [x] Datenstruktur in PostgreSQL entworfen: ![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
-- [x] [Projekt](https://github.com/barbalex/ae_import) gebaut, um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren
-- [x] Anwendungs-API-Server gebaut ([postgraphql](https://github.com/postgraphql/postgraphql))
-- [x] [API-Server für abhängige Anwendungen](https://github.com/barbalex/ae_api) gebaut (braucht noch etwas Liebe)
+- [x] Datenstruktur: ![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
+- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren
+- [x] Anwendungs-API-Server ([postgraphql](https://github.com/postgraphql/postgraphql))
+- [x] [API-Server für abhängige Anwendungen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
 
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
 
-  - [x] Entwicklungsumgebung gebaut
-  - [x] Layout und Navigation entworfen
-  - [x] Struktur- und Navigationsbaum gebaut
-  - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten gebaut: ![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
-  - [x] Suche nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen gebaut
-  - [ ] Daten-Export gebaut
-  - [ ] Login gebaut
-  - [ ] Organisationen und Benutzer gebaut
-  - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen gebaut
-  - [ ] Lebensräume bearbeiten gebaut
+  - [x] Entwicklungsumgebung
+  - [x] Layout und Navigation
+  - [x] Struktur- und Navigationsbaum
+  - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten: ![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
+  - [x] Suche nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen
+  - [ ] Daten-Export
+  - [ ] Login
+  - [ ] Organisationen und Benutzer
+  - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
+  - [ ] Lebensräume bearbeiten
