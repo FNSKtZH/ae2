@@ -70,9 +70,9 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Entwicklungsumgebung
   - [x] Layout und Navigation
   - [x] Struktur- und Navigationsbaum
-  - [x] Suche nach Taxonomie-Objekten, Eigenschaften- und Beziehungs-Sammlungen: ![Datenstruktur](/etc/grasfrosch_suchen.png?raw=true "Grasfrosch suchen")
-  - [x] Taxonomien, Eigenschaften- und Beziehungs-Sammlungen von Objekten anzeigen: ![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
-  - [ ] Daten-Export
+  - [x] Suche: ![Datenstruktur](/etc/grasfrosch_suchen.png?raw=true "Grasfrosch suchen")
+  - [x] Arten und Lebensräume anzeigen: ![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
+  - [ ] Daten exportieren
   - [ ] Login
   - [ ] Organisationen und Benutzer
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
