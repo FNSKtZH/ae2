@@ -3,6 +3,8 @@ import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import styled from 'styled-components'
 
+import Categories from './Categories'
+
 const level1CardStyle = { margin: '10px 0' }
 const level1CardTitleStyle = { fontWeight: 'bold' }
 const level1CardHeaderStyle = { backgroundColor: '#FFCC80' }
@@ -17,7 +19,7 @@ const StyledH3 = styled.h3`
   margin: 5px 0;
 `
 
-const Export = () =>
+const Export = ({ categories }: { categories: Array<Object> }) =>
   <Container>
     <StyledH3>Export</StyledH3>
     <Card style={level1CardStyle}>
@@ -29,7 +31,7 @@ const Export = () =>
         style={level1CardHeaderStyle}
       />
       <CardText expandable={true} style={level1CardTextStyle}>
-        card text Gruppe wählen
+        <Categories categories={categories} />
       </CardText>
     </Card>
     <Card style={level1CardStyle}>

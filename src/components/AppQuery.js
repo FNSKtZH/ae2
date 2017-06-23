@@ -69,6 +69,7 @@ const AppQuery = ({ store }: { store: Object }) => {
     store.urlFromTOId || '99999999-9999-9999-9999-999999999999'
   const existsTreeFilterText = !!store.treeFilter.text
   const treeFilterText = store.treeFilter.text || 'ZZZZ'
+  const queryGroups = store.activeNodeArray[0].toLowerCase() === 'export'
 
   return (
     <QueryRenderer
@@ -103,6 +104,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           $urlFromTOId: Uuid!
           $existsTreeFilterText: Boolean!
           $treeFilterText: String!
+          $queryGroups: Boolean!
         ) {
           allCategories {
             totalCount
@@ -374,6 +376,11 @@ const AppQuery = ({ store }: { store: Object }) => {
               name
             }
           }
+          allCategories @include(if: $queryGroups) {
+            nodes {
+              name
+            }
+          }
         }
       `}
       variables={{
@@ -405,6 +412,7 @@ const AppQuery = ({ store }: { store: Object }) => {
         urlFromTOId,
         existsTreeFilterText,
         treeFilterText,
+        queryGroups,
       }}
       render={({ error, props }) => {
         if (error) {
@@ -464,7 +472,12 @@ const AppQuery = ({ store }: { store: Object }) => {
          * This can be prevented if nodes are fetched from mobx when props are null
          * TODO: use other cache method? look up relay docs
          */
-        return <App nodes={store.nodes} />
+        return (
+          <App
+            nodes={store.nodes}
+            categories={get(props, 'allCategories.nodes', [])}
+          />
+        )
       }}
     />
   )

@@ -21,7 +21,15 @@ const Container = styled.div`
 
 const enhance = compose(inject('store') /*, observer*/)
 
-const App = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
+const App = ({
+  store,
+  nodes,
+  categories,
+}: {
+  store: Object,
+  nodes: Array<Object>,
+  categories: Array<Object>,
+}) => {
   const url0 =
     store.activeNodeArray[0] && store.activeNodeArray[0].toLowerCase()
   const url1 =
@@ -53,7 +61,7 @@ const App = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
     <Container>
       <AppBar />
       {showData && <Data nodes={nodes} />}
-      {showExport && <Export />}
+      {showExport && <Export categories={categories} />}
       {showImportPc && <ImportPc />}
       {showImportRc && <ImportRc />}
       {showOrganisation && <Organisation />}

@@ -3,7 +3,6 @@ import extendStore from './extend'
 import ObservableHistory from './ObservableHistory'
 
 function Store(): void {
-  this.ui = {}
   this.nodes = []
   this.setNodes = () => {}
   this.history = ObservableHistory
@@ -13,6 +12,7 @@ function Store(): void {
   this.activeTaxonomyObject = null
   this.setActiveTaxonomyObject = () => {}
   this.treeFilter = {}
+  this.export = {}
 }
 
 const MyStore = new Store()
