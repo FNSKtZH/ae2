@@ -8,5 +8,10 @@ export default (store: Object): void => {
       'setCategories',
       categories => (store.export.categories = categories)
     ),
+    combineTaxonomies: false,
+    setCombineTaxonomies: action(
+      'setCombineTaxonomies',
+      combineTaxonomies => (store.export.combineTaxonomies = combineTaxonomies)
+    ),
   })
 }

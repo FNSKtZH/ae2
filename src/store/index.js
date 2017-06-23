@@ -15,6 +15,8 @@ function Store(): void {
   this.export = {
     categories: [],
     setCategories: () => {},
+    combineTaxonomies: false,
+    setCombineTaxonomies: () => {},
   }
   this.categories = []
 }

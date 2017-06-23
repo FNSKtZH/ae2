@@ -7,6 +7,7 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 
 import HowTo from './HowTo'
+import CombineTaxonomies from './CombineTaxonomies'
 
 const enhance = compose(
   inject('store'),
@@ -51,6 +52,7 @@ const Categories = ({
         onCheck={onCheck}
       />
     )}
+    <CombineTaxonomies />
   </Container>
 
 export default enhance(Categories)
