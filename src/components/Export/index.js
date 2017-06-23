@@ -19,7 +19,7 @@ const StyledH3 = styled.h3`
   margin: 5px 0;
 `
 
-const Export = ({ categories }: { categories: Array<Object> }) =>
+const Export = () =>
   <Container>
     <StyledH3>Export</StyledH3>
     <Card style={level1CardStyle}>
@@ -31,7 +31,7 @@ const Export = ({ categories }: { categories: Array<Object> }) =>
         style={level1CardHeaderStyle}
       />
       <CardText expandable={true} style={level1CardTextStyle}>
-        <Categories categories={categories} />
+        <Categories />
       </CardText>
     </Card>
     <Card style={level1CardStyle}>

@@ -454,6 +454,10 @@ const AppQuery = ({ store }: { store: Object }) => {
             ])
             store.setUrlFromRCId(null)
           }
+          const categoryNames = get(props, 'allCategories.nodes', []).map(
+            c => c.name
+          )
+          store.setCategories(categoryNames)
         } else {
           /**
            * TODO:
@@ -472,12 +476,7 @@ const AppQuery = ({ store }: { store: Object }) => {
          * This can be prevented if nodes are fetched from mobx when props are null
          * TODO: use other cache method? look up relay docs
          */
-        return (
-          <App
-            nodes={store.nodes}
-            categories={get(props, 'allCategories.nodes', [])}
-          />
-        )
+        return <App nodes={store.nodes} />
       }}
     />
   )

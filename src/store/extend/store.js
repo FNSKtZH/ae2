@@ -24,5 +24,10 @@ export default (store: Object): void => {
     setUrlFromPCId: action('setUrlFromPCId', id => (store.urlFromPCId = id)),
     urlFromRCId: null,
     setUrlFromRCId: action('setUrlFromRCId', id => (store.urlFromRCId = id)),
+    categories: [],
+    setCategories: action(
+      'setCategories',
+      categories => (store.categories = categories)
+    ),
   })
 }

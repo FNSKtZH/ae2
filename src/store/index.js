@@ -12,7 +12,11 @@ function Store(): void {
   this.activeTaxonomyObject = null
   this.setActiveTaxonomyObject = () => {}
   this.treeFilter = {}
-  this.export = {}
+  this.export = {
+    categories: [],
+    setCategories: () => {},
+  }
+  this.categories = []
 }
 
 const MyStore = new Store()
