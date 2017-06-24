@@ -45,7 +45,6 @@ body {
 .reflex-element {
   border-right: 0 !important;
   border-left: 0 !important;
-  /*overflow: hidden !important;*/
 }
 
 .reflex-element.tree-reflex-element {
