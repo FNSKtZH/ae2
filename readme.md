@@ -77,3 +77,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [ ] Organisationen und Benutzer
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
   - [ ] Lebensräume bearbeiten
+
+### Was kann arteigenschaften.ch?
+
+Siehe [hier](https://github.com/FNSKtZH/artendb_v1/blob/master/README.md).
