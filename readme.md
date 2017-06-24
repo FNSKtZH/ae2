@@ -60,7 +60,7 @@ Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Be
 
 ### Aktueller Stand
 
-- [x] Datenstruktur: ![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
+- [x] Datenstruktur:<br/>![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
 - [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren
 - [x] Anwendungs-API-Server ([postgraphql](https://github.com/postgraphql/postgraphql))
 - [x] [API-Server für abhängige Anwendungen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
@@ -70,8 +70,8 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Entwicklungsumgebung
   - [x] Layout und Navigation
   - [x] Struktur- und Navigationsbaum
-  - [x] Suche: ![Datenstruktur](/etc/grasfrosch_suchen.png?raw=true "Grasfrosch suchen")
-  - [x] Arten und Lebensräume anzeigen: ![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
+  - [x] Suche:<br/>![Datenstruktur](/etc/grasfrosch_suchen.png?raw=true "Grasfrosch suchen")
+  - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
   - [ ] Daten exportieren
   - [ ] Login
   - [ ] Organisationen und Benutzer
