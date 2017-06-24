@@ -255,6 +255,85 @@ const AppQuery = ({ store }: { store: Object }) => {
                   id
                   name
                   properties
+                  synonymsByTaxonomyObjectId {
+                    totalCount
+                    nodes {
+                      taxonomyObjectIdSynonym
+                      taxonomyObjectByTaxonomyObjectIdSynonym {
+                        objectByObjectId {
+                          id
+                          propertyCollectionObjectsByObjectId {
+                            totalCount
+                            nodes {
+                              objectId
+                              propertyCollectionId
+                              properties
+                              propertyCollectionByPropertyCollectionId {
+                                name
+                                description
+                                links
+                                combining
+                                lastUpdated
+                                termsOfUse
+                                importedBy
+                                organizationByOrganizationId {
+                                  name
+                                }
+                                userByImportedBy {
+                                  name
+                                  email
+                                }
+                              }
+                            }
+                          }
+                          relationCollectionObjectsByObjectId {
+                            totalCount
+                            nodes {
+                              relationCollectionId
+                              relationCollectionByRelationCollectionId {
+                                id
+                                name
+                                description
+                                links
+                                lastUpdated
+                                natureOfRelation
+                                combining
+                                termsOfUse
+                                organizationByOrganizationId {
+                                  name
+                                }
+                                userByImportedBy {
+                                  name
+                                  email
+                                }
+                              }
+                              relationsByObjectIdAndRelationCollectionId {
+                                totalCount
+                                nodes {
+                                  id
+                                  properties
+                                  relationPartnersByRelationId {
+                                    totalCount
+                                    nodes {
+                                      objectByObjectId {
+                                        taxonomyObjectsByObjectId {
+                                          totalCount
+                                          nodes {
+                                            id
+                                            name
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
               propertyCollectionObjectsByObjectId {

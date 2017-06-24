@@ -27,6 +27,7 @@ query AppQueryQuery(
   $urlFromTOId: Uuid!
   $existsTreeFilterText: Boolean!
   $treeFilterText: String!
+  $queryGroups: Boolean!
 ) {
   allCategories {
     totalCount
@@ -177,6 +178,85 @@ query AppQueryQuery(
           id
           name
           properties
+          synonymsByTaxonomyObjectId {
+            totalCount
+            nodes {
+              taxonomyObjectIdSynonym
+              taxonomyObjectByTaxonomyObjectIdSynonym {
+                objectByObjectId {
+                  id
+                  propertyCollectionObjectsByObjectId {
+                    totalCount
+                    nodes {
+                      objectId
+                      propertyCollectionId
+                      properties
+                      propertyCollectionByPropertyCollectionId {
+                        name
+                        description
+                        links
+                        combining
+                        lastUpdated
+                        termsOfUse
+                        importedBy
+                        organizationByOrganizationId {
+                          name
+                        }
+                        userByImportedBy {
+                          name
+                          email
+                        }
+                      }
+                    }
+                  }
+                  relationCollectionObjectsByObjectId {
+                    totalCount
+                    nodes {
+                      relationCollectionId
+                      relationCollectionByRelationCollectionId {
+                        id
+                        name
+                        description
+                        links
+                        lastUpdated
+                        natureOfRelation
+                        combining
+                        termsOfUse
+                        organizationByOrganizationId {
+                          name
+                        }
+                        userByImportedBy {
+                          name
+                          email
+                        }
+                      }
+                      relationsByObjectIdAndRelationCollectionId {
+                        totalCount
+                        nodes {
+                          id
+                          properties
+                          relationPartnersByRelationId {
+                            totalCount
+                            nodes {
+                              objectByObjectId {
+                                taxonomyObjectsByObjectId {
+                                  totalCount
+                                  nodes {
+                                    id
+                                    name
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
       propertyCollectionObjectsByObjectId {
@@ -298,9 +378,14 @@ query AppQueryQuery(
       name
     }
   }
+  allCategories @include(if: $queryGroups) {
+    nodes {
+      name
+    }
+  }
 }
 
-// Beispiel Hyla arborea:
+// Beispiel Achillea moschata Wulfen:
 {
   "existsLevel2Pc": false,
   "level2Pc": "99999999-9999-9999-9999-999999999999",
@@ -309,27 +394,28 @@ query AppQueryQuery(
   "existsLevel2Taxonomy": true,
   "level2Taxonomy": "Taxonomien",
   "existsLevel3": true,
-  "level3Taxonomy": "Fauna",
+  "level3Taxonomy": "Flora",
   "existsLevel4": true,
-  "level4Taxonomy": "dc200990-5765-11e7-80fe-ab930d4fe43a",
+  "level4Taxonomy": "8e86fda1-58f6-11e7-ad9a-b1b34e71b922",
   "existsLevel5": true,
-  "level5Taxonomy": "dcd290b1-5765-11e7-80fe-ab930d4fe43a",
+  "level5Taxonomy": "9e8317d3-58f6-11e7-ad9a-b1b34e71b922",
   "existsLevel6": false,
-  "level6Taxonomy": "5765-11e7-80fe-ab930d4fe43a",
+  "level6Taxonomy": "9e8f2654-58f6-11e7-ad9a-b1b34e71b922",
   "existsLevel7": false,
-  "level7Taxonomy": "dce0e8a5-5765-11e7-80fe-ab930d4fe43a",
+  "level7Taxonomy": "9f178f90-58f6-11e7-ad9a-b1b34e71b922",
   "existsLevel8": false,
-  "level8Taxonomy": "dd55a367-5765-11e7-80fe-ab930d4fe43a",
+  "level8Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel9": false,
   "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel10": false,
   "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "activeTaxonomyObject": "dd55a367-5765-11e7-80fe-ab930d4fe43a",
+  "activeTaxonomyObject": "9f178f90-58f6-11e7-ad9a-b1b34e71b922",
   "existsActiveTaxonomyObject": true,
   "existsUrlFromTOId": false,
   "urlFromTOId": "99999999-9999-9999-9999-999999999999",
   "existsTreeFilterText": false,
-  "treeFilterText": "ZZZZ"
+  "treeFilterText": "ZZZZ",
+  "queryGroups": false
 }
 
 // Beispiel Lebensraum:
@@ -361,5 +447,6 @@ query AppQueryQuery(
   "existsUrlFromTOId": false,
   "urlFromTOId": "99999999-9999-9999-9999-999999999999",
   "existsTreeFilterText": false,
-  "treeFilterText": "ZZZZ"
+  "treeFilterText": "ZZZZ",
+  "queryGroups": false
 }

@@ -2277,6 +2277,31 @@ type Organization implements Node {
     condition: TaxonomyCondition
   ): TaxonomiesConnection
 
+  # Reads and enables paginatation through a set of `Object`.
+  objectsByOrganizationId(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: ObjectCondition
+  ): ObjectsConnection
+
   # Reads and enables paginatation through a set of `PropertyCollection`.
   propertyCollectionsByOrganizationId(
     # The method to use when ordering `PropertyCollection`.
@@ -2326,31 +2351,6 @@ type Organization implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionCondition
   ): RelationCollectionsConnection
-
-  # Reads and enables paginatation through a set of `Object`.
-  objectsByOrganizationId(
-    # The method to use when ordering `Object`.
-    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: ObjectCondition
-  ): ObjectsConnection
 }
 
 # A condition to be used against `Organization` object types. All fields are
