@@ -46,6 +46,17 @@ const Objekt = ({ store }: { store: Object }) => {
     'propertyCollectionObjectsByObjectId.nodes',
     []
   )
+  const synonyms = get(
+    activeTaxonomyObject,
+    'taxonomyObjectsByObjectId.nodes[0].synonymsByTaxonomyObjectId.nodes',
+    []
+  )
+  const propertyCollectionObjectsOfSynonyms = get(
+    synonyms,
+    'taxonomyObjectByTaxonomyObjectIdSynonym.objectByObjectId.propertyCollectionObjectsByObjectId.nodes',
+    []
+  )
+  // TODO: filter to pcs not yet shown
   const rcCount = get(
     activeTaxonomyObject,
     'relationCollectionObjectsByObjectId.totalCount',
@@ -56,6 +67,12 @@ const Objekt = ({ store }: { store: Object }) => {
     'relationCollectionObjectsByObjectId.nodes',
     []
   )
+  const relationCollectionObjectsOfSynonyms = get(
+    synonyms,
+    'taxonomyObjectByTaxonomyObjectIdSynonym.objectByObjectId.relationCollectionObjectsByObjectId.nodes',
+    []
+  )
+  // TODO: filter to pcs not yet shown
 
   return (
     <Container>
@@ -69,6 +86,19 @@ const Objekt = ({ store }: { store: Object }) => {
         />
       )}
       <Title>{`Eigenschaften-Sammlungen (${pcCount})`}</Title>
+      {sortBy(propertyCollectionObjects, pCO =>
+        get(
+          pCO,
+          'propertyCollectionByPropertyCollectionId.name',
+          '(Name fehlt)'
+        )
+      ).map((pCO, index) =>
+        <PropertyCollectionObject
+          key={`${pCO.propertyCollectionId}`}
+          pCO={pCO}
+        />
+      )}
+      <Title>{`Eigenschaften-Sammlungen von Synonymen (${pcCount})`}</Title>
       {sortBy(propertyCollectionObjects, pCO =>
         get(
           pCO,
