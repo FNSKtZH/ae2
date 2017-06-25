@@ -353,6 +353,15 @@ type CreateOrganizationUserPayload {
     orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
   ): OrganizationUsersEdge
 
+  # Reads a single `Organization` that is related to this `OrganizationUser`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `OrganizationUser`.
+  userByUserId: User
+
+  # Reads a single `Role` that is related to this `OrganizationUser`.
+  roleByRole: Role
+
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
 }
@@ -1064,6 +1073,15 @@ type DeleteOrganizationUserPayload {
   clientMutationId: String
   organizationUser: OrganizationUser
   deletedOrganizationUserId: ID
+
+  # Reads a single `Organization` that is related to this `OrganizationUser`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `OrganizationUser`.
+  userByUserId: User
+
+  # Reads a single `Role` that is related to this `OrganizationUser`.
+  roleByRole: Role
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -2351,6 +2369,31 @@ type Organization implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionCondition
   ): RelationCollectionsConnection
+
+  # Reads and enables paginatation through a set of `OrganizationUser`.
+  organizationUsersByOrganizationId(
+    # The method to use when ordering `OrganizationUser`.
+    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: OrganizationUserCondition
+  ): OrganizationUsersConnection
 }
 
 # A condition to be used against `Organization` object types. All fields are
@@ -2415,6 +2458,15 @@ type OrganizationUser implements Node {
   organizationId: Uuid!
   userId: Uuid!
   role: String!
+
+  # Reads a single `Organization` that is related to this `OrganizationUser`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `OrganizationUser`.
+  userByUserId: User
+
+  # Reads a single `Role` that is related to this `OrganizationUser`.
+  roleByRole: Role
 }
 
 # A condition to be used against `OrganizationUser` object types. All fields are
@@ -3972,6 +4024,31 @@ type Role implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   name: String!
+
+  # Reads and enables paginatation through a set of `OrganizationUser`.
+  organizationUsersByRole(
+    # The method to use when ordering `OrganizationUser`.
+    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: OrganizationUserCondition
+  ): OrganizationUsersConnection
 }
 
 # A condition to be used against `Role` object types. All fields are tested for equality and combined with a logical ‘and.’
@@ -4808,6 +4885,15 @@ type UpdateOrganizationUserPayload {
   clientMutationId: String
   organizationUser: OrganizationUser
 
+  # Reads a single `Organization` that is related to this `OrganizationUser`.
+  organizationByOrganizationId: Organization
+
+  # Reads a single `User` that is related to this `OrganizationUser`.
+  userByUserId: User
+
+  # Reads a single `Role` that is related to this `OrganizationUser`.
+  roleByRole: Role
+
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
 }
@@ -5376,6 +5462,31 @@ type User implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionCondition
   ): RelationCollectionsConnection
+
+  # Reads and enables paginatation through a set of `OrganizationUser`.
+  organizationUsersByUserId(
+    # The method to use when ordering `OrganizationUser`.
+    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: OrganizationUserCondition
+  ): OrganizationUsersConnection
 }
 
 # A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
