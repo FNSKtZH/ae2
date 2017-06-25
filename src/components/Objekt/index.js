@@ -87,6 +87,15 @@ const Objekt = ({ store }: { store: Object }) => {
   const relationCollectionObjects = toJS(
     get(activeTaxonomyObject, 'relationCollectionObjectsByObjectId.nodes', [])
   )
+  console.log('Objekt: relationCollectionObjects:', relationCollectionObjects)
+  const rCOsTaxonomic = relationCollectionObjects.filter(rco =>
+    get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
+  )
+  console.log('Objekt: rCOsTaxonomic:', rCOsTaxonomic)
+  const rCOs = relationCollectionObjects.filter(
+    rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
+  )
+  console.log('Objekt: rCOs:', rCOs)
   const relationCollectionIds = relationCollectionObjects.map(
     rco => rco.relationCollectionId
   )
@@ -108,10 +117,6 @@ const Objekt = ({ store }: { store: Object }) => {
   )
   relationCollectionObjectsOfSynonyms = relationCollectionObjectsOfSynonyms.filter(
     rco => !relationCollectionIds.includes(rco.relationCollectionId)
-  )
-  console.log(
-    'Objekt: relationCollectionObjectsOfSynonyms:',
-    relationCollectionObjectsOfSynonyms
   )
   relationCollectionObjectsOfSynonyms = relationCollectionObjectsOfSynonyms.filter(
     rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
@@ -136,6 +141,20 @@ const Objekt = ({ store }: { store: Object }) => {
         <TaxonomyObject
           key={taxonomyObject.id}
           taxonomyObject={taxonomyObject}
+        />
+      )}
+      {rCOsTaxonomic.length > 0 &&
+        <Title>{`Taxonomische Beziehungen (${rCOsTaxonomic.length})`}</Title>}
+      {sortBy(rCOsTaxonomic, rCO =>
+        get(
+          rCO,
+          'relationCollectionByRelationCollectionId.name',
+          '(Name fehlt)'
+        )
+      ).map((rCO, index) =>
+        <RelationCollectionObject
+          key={`${rCO.relationCollectionId}`}
+          rCO={rCO}
         />
       )}
       {pcCount > 0 && <Title>{`Eigenschaften-Sammlungen (${pcCount})`}</Title>}
@@ -167,7 +186,7 @@ const Objekt = ({ store }: { store: Object }) => {
         />
       )}
       {rcCount > 0 && <Title>{`Beziehungs-Sammlungen (${rcCount})`}</Title>}
-      {sortBy(relationCollectionObjects, rCO =>
+      {sortBy(rCOs, rCO =>
         get(
           rCO,
           'relationCollectionByRelationCollectionId.name',

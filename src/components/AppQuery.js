@@ -386,6 +386,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                     natureOfRelation
                     combining
                     termsOfUse
+                    taxonomic
                     organizationByOrganizationId {
                       name
                     }
