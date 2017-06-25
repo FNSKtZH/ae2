@@ -3505,6 +3505,7 @@ type RelationCollection implements Node {
   nodeId: ID!
   id: Uuid!
   dataType: String
+  taxonomic: Boolean
   name: String!
   description: String
   links: [String]
@@ -3617,6 +3618,9 @@ input RelationCollectionCondition {
   # Checks for equality with the object’s `dataType` field.
   dataType: String
 
+  # Checks for equality with the object’s `taxonomic` field.
+  taxonomic: Boolean
+
   # Checks for equality with the object’s `name` field.
   name: String
 
@@ -3648,6 +3652,7 @@ input RelationCollectionCondition {
 input RelationCollectionInput {
   id: Uuid
   dataType: String
+  taxonomic: Boolean
   name: String!
   description: String
   links: [String]
@@ -3757,6 +3762,7 @@ enum RelationCollectionObjectsOrderBy {
 input RelationCollectionPatch {
   id: Uuid
   dataType: String
+  taxonomic: Boolean
   name: String
   description: String
   links: [String]
@@ -3801,6 +3807,8 @@ enum RelationCollectionsOrderBy {
   ID_DESC
   DATA_TYPE_ASC
   DATA_TYPE_DESC
+  TAXONOMIC_ASC
+  TAXONOMIC_DESC
   NAME_ASC
   NAME_DESC
   DESCRIPTION_ASC
