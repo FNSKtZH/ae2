@@ -27,7 +27,6 @@ Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieb
 
 Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
 
-
 ### Diese Technologien werden verwendet:
 
 - Als Datenbank [PostgreSQL](https://www.postgresql.org)
@@ -72,6 +71,8 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Struktur- und Navigationsbaum
   - [x] Suche:<br/>![Datenstruktur](/etc/grasfrosch_suchen.png?raw=true "Grasfrosch suchen")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
+    - [x] inklusive Synonymen aus derselben Taxonomie
+    - [x] inklusive Eigenschaften und Beziehungen von Synonymen aus derselben Taxonomie
   - [ ] Daten exportieren
   - [ ] Login
   - [ ] Organisationen und Benutzer
