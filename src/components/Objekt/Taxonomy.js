@@ -41,9 +41,7 @@ const Taxonomy = ({ taxonomy }: { taxonomy: Object }) =>
         <Value>{get(taxonomy, 'lastUpdated', '')}</Value>
       </Row>
       <Row>
-
         <Label>{'Link:'}</Label><Value>{get(taxonomy, 'links', '')}</Value>
-
       </Row>
       <Row>
         <Label>{'Organisation mit Schreibrecht:'}</Label>

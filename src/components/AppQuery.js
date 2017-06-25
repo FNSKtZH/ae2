@@ -260,6 +260,18 @@ const AppQuery = ({ store }: { store: Object }) => {
                     nodes {
                       taxonomyObjectIdSynonym
                       taxonomyObjectByTaxonomyObjectIdSynonym {
+                        id
+                        name
+                        properties
+                        taxonomyByTaxonomyId {
+                          name
+                          description
+                          links
+                          lastUpdated
+                          organizationByOrganizationId {
+                            name
+                          }
+                        }
                         objectByObjectId {
                           id
                           propertyCollectionObjectsByObjectId {
