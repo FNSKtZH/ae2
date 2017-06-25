@@ -531,7 +531,9 @@ const AppQuery = ({ store }: { store: Object }) => {
           // console.log('AppQuery: props:', props)
           buildNodesFromAppQuery(store, props)
           const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
-          store.setActiveTaxonomyObject(objekt)
+          if (!isEqual(store.activeTaxonomyObject, objekt)) {
+            store.setActiveTaxonomyObject(objekt)
+          }
 
           const suggestionsTO = get(props, 'filterSuggestionsTO.nodes', [])
           if (!isEqual(store.treeFilter.suggestionsTO, suggestionsTO)) {
