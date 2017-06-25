@@ -28,20 +28,10 @@ const enhance = compose(inject('store') /*, observer*/)
 
 const Objekt = ({ store }: { store: Object }) => {
   const { activeTaxonomyObject } = store
-  const taxCount = get(
-    activeTaxonomyObject,
-    'taxonomyObjectsByObjectId.totalCount',
-    0
-  )
   const taxonomyObjects = get(
     activeTaxonomyObject,
     'taxonomyObjectsByObjectId.nodes',
     []
-  )
-  const pcCount = get(
-    activeTaxonomyObject,
-    'propertyCollectionObjectsByObjectId.totalCount',
-    0
   )
   const propertyCollectionObjects = toJS(
     get(activeTaxonomyObject, 'propertyCollectionObjectsByObjectId.nodes', [])
@@ -79,23 +69,15 @@ const Objekt = ({ store }: { store: Object }) => {
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
     pco => !propertyCollectionIds.includes(pco.propertyCollectionId)
   )
-  const rcCount = get(
-    activeTaxonomyObject,
-    'relationCollectionObjectsByObjectId.totalCount',
-    0
-  )
   const relationCollectionObjects = toJS(
     get(activeTaxonomyObject, 'relationCollectionObjectsByObjectId.nodes', [])
   )
-  console.log('Objekt: relationCollectionObjects:', relationCollectionObjects)
   const rCOsTaxonomic = relationCollectionObjects.filter(rco =>
     get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
   )
-  console.log('Objekt: rCOsTaxonomic:', rCOsTaxonomic)
   const rCOs = relationCollectionObjects.filter(
     rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
   )
-  console.log('Objekt: rCOs:', rCOs)
   const relationCollectionIds = relationCollectionObjects.map(
     rco => rco.relationCollectionId
   )
@@ -124,7 +106,7 @@ const Objekt = ({ store }: { store: Object }) => {
 
   return (
     <Container>
-      <FirstTitle>{`Taxonomien (${taxCount})`}</FirstTitle>
+      <FirstTitle>{`Taxonomien (${taxonomyObjects.length})`}</FirstTitle>
       {sortBy(taxonomyObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
       ).map(taxonomyObject =>
@@ -157,7 +139,8 @@ const Objekt = ({ store }: { store: Object }) => {
           rCO={rCO}
         />
       )}
-      {pcCount > 0 && <Title>{`Eigenschaften-Sammlungen (${pcCount})`}</Title>}
+      {propertyCollectionObjects.length > 0 &&
+        <Title>{`Eigenschaften (${propertyCollectionObjects.length})`}</Title>}
       {sortBy(propertyCollectionObjects, pCO =>
         get(
           pCO,
@@ -172,7 +155,7 @@ const Objekt = ({ store }: { store: Object }) => {
       )}
       {propertyCollectionObjectsOfSynonyms.length > 0 &&
         <Title
-        >{`Eigenschaften-Sammlungen von Synonymen (${propertyCollectionObjectsOfSynonyms.length})`}</Title>}
+        >{`Eigenschaften von Synonymen (${propertyCollectionObjectsOfSynonyms.length})`}</Title>}
       {sortBy(propertyCollectionObjectsOfSynonyms, pCO =>
         get(
           pCO,
@@ -185,7 +168,7 @@ const Objekt = ({ store }: { store: Object }) => {
           pCO={pCO}
         />
       )}
-      {rcCount > 0 && <Title>{`Beziehungs-Sammlungen (${rcCount})`}</Title>}
+      {rCOs.length > 0 && <Title>{`Beziehungen (${rCOs.length})`}</Title>}
       {sortBy(rCOs, rCO =>
         get(
           rCO,
@@ -200,7 +183,7 @@ const Objekt = ({ store }: { store: Object }) => {
       )}
       {relationCollectionObjectsOfSynonyms.length > 0 &&
         <Title
-        >{`Beziehungs-Sammlungen von Synonymen (${relationCollectionObjectsOfSynonyms.length})`}</Title>}
+        >{`Beziehungen von Synonymen (${relationCollectionObjectsOfSynonyms.length})`}</Title>}
       {sortBy(relationCollectionObjectsOfSynonyms, rCO =>
         get(
           rCO,
