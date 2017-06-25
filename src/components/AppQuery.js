@@ -310,6 +310,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                                 lastUpdated
                                 natureOfRelation
                                 combining
+                                taxonomic
                                 termsOfUse
                                 organizationByOrganizationId {
                                   name

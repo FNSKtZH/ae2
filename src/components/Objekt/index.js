@@ -109,6 +109,13 @@ const Objekt = ({ store }: { store: Object }) => {
   relationCollectionObjectsOfSynonyms = relationCollectionObjectsOfSynonyms.filter(
     rco => !relationCollectionIds.includes(rco.relationCollectionId)
   )
+  console.log(
+    'Objekt: relationCollectionObjectsOfSynonyms:',
+    relationCollectionObjectsOfSynonyms
+  )
+  relationCollectionObjectsOfSynonyms = relationCollectionObjectsOfSynonyms.filter(
+    rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
+  )
 
   return (
     <Container>
