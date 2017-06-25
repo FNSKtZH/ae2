@@ -1,10 +1,12 @@
 // @flow
 import React from 'react'
 import { QueryRenderer, graphql } from 'react-relay'
+import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import app from 'ampersand-app'
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 
 import App from './App'
 import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
@@ -70,6 +72,8 @@ const AppQuery = ({ store }: { store: Object }) => {
   const existsTreeFilterText = !!store.treeFilter.text
   const treeFilterText = store.treeFilter.text || 'ZZZZ'
   const queryGroups = store.activeNodeArray[0].toLowerCase() === 'export'
+  const exportCategories = toJS(store.export.categories)
+  const queryExportCategories = exportCategories && exportCategories.length > 0
 
   return (
     <QueryRenderer
@@ -105,6 +109,8 @@ const AppQuery = ({ store }: { store: Object }) => {
           $existsTreeFilterText: Boolean!
           $treeFilterText: String!
           $queryGroups: Boolean!
+          $queryExportCategories: Boolean!
+          $exportCategories: [String]
         ) {
           allCategories {
             totalCount
@@ -474,6 +480,14 @@ const AppQuery = ({ store }: { store: Object }) => {
               name
             }
           }
+          pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {
+          nodes {
+            propertyCollectionName
+            propertyName
+            jsontype
+            count
+          }
+        }
         }
       `}
       variables={{
@@ -506,6 +520,8 @@ const AppQuery = ({ store }: { store: Object }) => {
         existsTreeFilterText,
         treeFilterText,
         queryGroups,
+        queryExportCategories,
+        exportCategories,
       }}
       render={({ error, props }) => {
         if (error) {
@@ -516,15 +532,22 @@ const AppQuery = ({ store }: { store: Object }) => {
           buildNodesFromAppQuery(store, props)
           const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
           store.setActiveTaxonomyObject(objekt)
-          store.treeFilter.setSuggestionsTO(
-            get(props, 'filterSuggestionsTO.nodes', [])
-          )
-          store.treeFilter.setSuggestionsPC(
-            get(props, 'filterSuggestionsPC.nodes', [])
-          )
-          store.treeFilter.setSuggestionsRC(
-            get(props, 'filterSuggestionsRC.nodes', [])
-          )
+
+          const suggestionsTO = get(props, 'filterSuggestionsTO.nodes', [])
+          if (!isEqual(store.treeFilter.suggestionsTO, suggestionsTO)) {
+            store.treeFilter.setSuggestionsTO(suggestionsTO)
+          }
+
+          const sugggestionsPC = get(props, 'filterSuggestionsPC.nodes', [])
+          if (!isEqual(store.treeFilter.sugggestionsPC, sugggestionsPC)) {
+            store.treeFilter.setSuggestionsPC(sugggestionsPC)
+          }
+
+          const suggestionsRC = get(props, 'filterSuggestionsRC.nodes', [])
+          if (!isEqual(store.treeFilter.suggestionsRC, suggestionsRC)) {
+            store.treeFilter.setSuggestionsRC(suggestionsRC)
+          }
+
           /**
            * if existsUrlFromTOId:
            * set new url and reset store.urlFromTOId
@@ -547,10 +570,22 @@ const AppQuery = ({ store }: { store: Object }) => {
             ])
             store.setUrlFromRCId(null)
           }
+
           const categoryNames = get(props, 'allCategories.nodes', []).map(
             c => c.name
           )
-          store.setCategories(categoryNames)
+          if (!isEqual(store.categoryNames, categoryNames)) {
+            store.setCategories(categoryNames)
+          }
+
+          const pcoProperties = get(
+            props,
+            'pcoPropertiesByCategoriesFunction.nodes',
+            []
+          )
+          if (!isEqual(store.export.pcoProperties, pcoProperties)) {
+            store.export.setPcoProperties(pcoProperties)
+          }
         } else {
           /**
            * TODO:

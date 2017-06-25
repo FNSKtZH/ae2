@@ -1,5 +1,5 @@
-CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories(categories text[])
-  RETURNS ae.pco_properties_by_category AS
+CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories_function(categories text[])
+  RETURNS setof ae.pco_properties_by_category AS
   $$
     WITH jsontypes AS (
       SELECT
@@ -24,7 +24,7 @@ CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories(categories text[])
           ON ae.property_collection.id = ae.property_collection_object.property_collection_id,
         jsonb_each(ae.property_collection_object.properties) AS json_data
       WHERE
-        ae.object.category = ANY(ARRAY[$1])
+        ae.object.category = ANY(categories)
     )
     SELECT
       *,
@@ -41,5 +41,5 @@ CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories(categories text[])
       jsontype
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.pco_properties_by_categories(categories text[])
+ALTER FUNCTION ae.pco_properties_by_categories_function(categories text[])
   OWNER TO postgres;

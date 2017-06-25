@@ -13,5 +13,10 @@ export default (store: Object): void => {
       'setCombineTaxonomies',
       combineTaxonomies => (store.export.combineTaxonomies = combineTaxonomies)
     ),
+    pcoProperties: [],
+    setPcoProperties: action(
+      'setPcoProperties',
+      pcoProperties => (store.export.pcoProperties = pcoProperties)
+    ),
   })
 }

@@ -1,3 +1,8 @@
+# A signed eight-byte integer. The upper big integer values are greater then the
+# max value for a JavaScript number. Therefore all big integers will be output as
+# strings and not numbers.
+scalar BigInt
+
 # A connection to a list of `Category` values.
 type CategoriesConnection {
   # Information to aid in pagination.
@@ -353,14 +358,34 @@ type CreateOrganizationUserPayload {
     orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
   ): OrganizationUsersEdge
 
-  # Reads a single `Organization` that is related to this `OrganizationUser`.
-  organizationByOrganizationId: Organization
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
 
-  # Reads a single `User` that is related to this `OrganizationUser`.
-  userByUserId: User
+# All input for the `createPcoPropertiesByCategory` mutation.
+input CreatePcoPropertiesByCategoryInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
 
-  # Reads a single `Role` that is related to this `OrganizationUser`.
-  roleByRole: Role
+  # The `PcoPropertiesByCategory` to be created by this mutation.
+  pcoPropertiesByCategory: PcoPropertiesByCategoryInput!
+}
+
+# The output of our `createPcoPropertiesByCategory` mutation.
+type CreatePcoPropertiesByCategoryPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `PcoPropertiesByCategory` that was created by this mutation.
+  pcoPropertiesByCategory: PcoPropertiesByCategory
+
+  # An edge for our `PcoPropertiesByCategory`. May be used by Relay 1.
+  pcoPropertiesByCategoryEdge(
+    # The method to use when ordering `PcoPropertiesByCategory`.
+    orderBy: PcoPropertiesByCategoriesOrderBy = NATURAL
+  ): PcoPropertiesByCategoriesEdge
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1074,15 +1099,6 @@ type DeleteOrganizationUserPayload {
   organizationUser: OrganizationUser
   deletedOrganizationUserId: ID
 
-  # Reads a single `Organization` that is related to this `OrganizationUser`.
-  organizationByOrganizationId: Organization
-
-  # Reads a single `User` that is related to this `OrganizationUser`.
-  userByUserId: User
-
-  # Reads a single `Role` that is related to this `OrganizationUser`.
-  roleByRole: Role
-
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
 }
@@ -1690,6 +1706,12 @@ type Mutation {
     # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     input: DeleteOrganizationUserByOrganizationIdAndUserIdAndRoleInput!
   ): DeleteOrganizationUserPayload
+
+  # Creates a single `PcoPropertiesByCategory`.
+  createPcoPropertiesByCategory(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreatePcoPropertiesByCategoryInput!
+  ): CreatePcoPropertiesByCategoryPayload
 
   # Creates a single `PropertyCollection`.
   createPropertyCollection(
@@ -2369,31 +2391,6 @@ type Organization implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionCondition
   ): RelationCollectionsConnection
-
-  # Reads and enables paginatation through a set of `OrganizationUser`.
-  organizationUsersByOrganizationId(
-    # The method to use when ordering `OrganizationUser`.
-    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: OrganizationUserCondition
-  ): OrganizationUsersConnection
 }
 
 # A condition to be used against `Organization` object types. All fields are
@@ -2458,15 +2455,6 @@ type OrganizationUser implements Node {
   organizationId: Uuid!
   userId: Uuid!
   role: String!
-
-  # Reads a single `Organization` that is related to this `OrganizationUser`.
-  organizationByOrganizationId: Organization
-
-  # Reads a single `User` that is related to this `OrganizationUser`.
-  userByUserId: User
-
-  # Reads a single `Role` that is related to this `OrganizationUser`.
-  roleByRole: Role
 }
 
 # A condition to be used against `OrganizationUser` object types. All fields are
@@ -2545,6 +2533,102 @@ type PageInfo {
 
   # When paginating forwards, the cursor to continue.
   endCursor: Cursor
+}
+
+# A connection to a list of `PcoPropertiesByCategory` values.
+type PcoPropertiesByCategoriesConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `PcoPropertiesByCategory` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `PcoPropertiesByCategory` and cursor to aid in pagination.
+  edges: [PcoPropertiesByCategoriesEdge]
+
+  # A list of `PcoPropertiesByCategory` objects.
+  nodes: [PcoPropertiesByCategory!]
+}
+
+# A `PcoPropertiesByCategory` edge in the connection.
+type PcoPropertiesByCategoriesEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `PcoPropertiesByCategory` at the end of the edge.
+  node: PcoPropertiesByCategory!
+}
+
+# A connection to a list of `PcoPropertiesByCategory` values.
+type PcoPropertiesByCategoriesFunctionConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `PcoPropertiesByCategory` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `PcoPropertiesByCategory` and cursor to aid in pagination.
+  edges: [PcoPropertiesByCategoriesFunctionEdge]
+
+  # A list of `PcoPropertiesByCategory` objects.
+  nodes: [PcoPropertiesByCategory]
+}
+
+# A `PcoPropertiesByCategory` edge in the connection.
+type PcoPropertiesByCategoriesFunctionEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `PcoPropertiesByCategory` at the end of the edge.
+  node: PcoPropertiesByCategory
+}
+
+# Methods to use when ordering `PcoPropertiesByCategory`.
+enum PcoPropertiesByCategoriesFunctionOrderBy {
+  NATURAL
+}
+
+# Methods to use when ordering `PcoPropertiesByCategory`.
+enum PcoPropertiesByCategoriesOrderBy {
+  NATURAL
+  PROPERTY_COLLECTION_NAME_ASC
+  PROPERTY_COLLECTION_NAME_DESC
+  PROPERTY_NAME_ASC
+  PROPERTY_NAME_DESC
+  JSONTYPE_ASC
+  JSONTYPE_DESC
+  COUNT_ASC
+  COUNT_DESC
+}
+
+type PcoPropertiesByCategory {
+  propertyCollectionName: String
+  propertyName: String
+  jsontype: String
+  count: BigInt
+}
+
+# A condition to be used against `PcoPropertiesByCategory` object types. All
+# fields are tested for equality and combined with a logical ‘and.’
+input PcoPropertiesByCategoryCondition {
+  # Checks for equality with the object’s `propertyCollectionName` field.
+  propertyCollectionName: String
+
+  # Checks for equality with the object’s `propertyName` field.
+  propertyName: String
+
+  # Checks for equality with the object’s `jsontype` field.
+  jsontype: String
+
+  # Checks for equality with the object’s `count` field.
+  count: BigInt
+}
+
+input PcoPropertiesByCategoryInput {
+  propertyCollectionName: String
+  propertyName: String
+  jsontype: String
+  count: BigInt
 }
 
 type PropertyCollection implements Node {
@@ -2874,6 +2958,29 @@ type Query implements Node {
     datatype: String
   ): CategoryByDataTypeConnection
 
+  # Reads and enables paginatation through a set of `PcoPropertiesByCategory`.
+  pcoPropertiesByCategoriesFunction(
+    # The method to use when ordering `PcoPropertiesByCategory`.
+    orderBy: PcoPropertiesByCategoriesFunctionOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    categories: [String]
+  ): PcoPropertiesByCategoriesFunctionConnection
+
   # Reads and enables paginatation through a set of `PropertyCollection`.
   propertyCollectionByDataType(
     # The method to use when ordering `PropertyCollection`.
@@ -3149,6 +3256,31 @@ type Query implements Node {
     nodeId: ID!
   ): OrganizationUser
   organizationUserByOrganizationIdAndUserIdAndRole(organizationId: Uuid!, userId: Uuid!, role: String!): OrganizationUser
+
+  # Reads and enables paginatation through a set of `PcoPropertiesByCategory`.
+  allPcoPropertiesByCategories(
+    # The method to use when ordering `PcoPropertiesByCategory`.
+    orderBy: PcoPropertiesByCategoriesOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: PcoPropertiesByCategoryCondition
+  ): PcoPropertiesByCategoriesConnection
 
   # Reads and enables paginatation through a set of `PropertyCollection`.
   allPropertyCollections(
@@ -4024,31 +4156,6 @@ type Role implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   name: String!
-
-  # Reads and enables paginatation through a set of `OrganizationUser`.
-  organizationUsersByRole(
-    # The method to use when ordering `OrganizationUser`.
-    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: OrganizationUserCondition
-  ): OrganizationUsersConnection
 }
 
 # A condition to be used against `Role` object types. All fields are tested for equality and combined with a logical ‘and.’
@@ -4885,15 +4992,6 @@ type UpdateOrganizationUserPayload {
   clientMutationId: String
   organizationUser: OrganizationUser
 
-  # Reads a single `Organization` that is related to this `OrganizationUser`.
-  organizationByOrganizationId: Organization
-
-  # Reads a single `User` that is related to this `OrganizationUser`.
-  userByUserId: User
-
-  # Reads a single `Role` that is related to this `OrganizationUser`.
-  roleByRole: Role
-
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
 }
@@ -5462,31 +5560,6 @@ type User implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: RelationCollectionCondition
   ): RelationCollectionsConnection
-
-  # Reads and enables paginatation through a set of `OrganizationUser`.
-  organizationUsersByUserId(
-    # The method to use when ordering `OrganizationUser`.
-    orderBy: OrganizationUsersOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: OrganizationUserCondition
-  ): OrganizationUsersConnection
 }
 
 # A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
