@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories(categories text[])
-  RETURNS TABLE(property_collection_name text, property_name text, jsontype text, count bigint) AS
+  RETURNS pco_properties_by_category AS
   $$
     WITH jsontypes AS (
       SELECT
