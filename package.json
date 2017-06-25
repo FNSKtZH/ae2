@@ -48,7 +48,7 @@
     "flow-bin": "0.48.0",
     "fs-extra": "3.0.1",
     "hpack.js": "^2.1.6",
-    "html-webpack-plugin": "2.28.0",
+    "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
     "object-assign": "4.1.1",
     "obuf": "^1.1.1",
