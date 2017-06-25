@@ -116,7 +116,11 @@ const Objekt = ({ store }: { store: Object }) => {
         />
       )}
       {synonymTaxonomyObjects.length > 0 &&
-        <Title>{`Synonyme (${synonymTaxonomyObjects.length})`}</Title>}
+        <Title>{`Synonyme in ${get(
+          synonymTaxonomyObjects[0],
+          'taxonomyByTaxonomyId.name',
+          '(Name fehlt)'
+        )} (${synonymTaxonomyObjects.length})`}</Title>}
       {sortBy(synonymTaxonomyObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
       ).map(taxonomyObject =>
