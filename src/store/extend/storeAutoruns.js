@@ -26,11 +26,13 @@ export default (store: Object): void => {
       () => buildNodesFromAppQuery(store)
     ),
     buldObjekt: reaction(
-      () => get(store.props, 'taxonomyObjectById.objectByObjectId', null),
-      () =>
-        store.setActiveTaxonomyObject(
-          get(store.props, 'taxonomyObjectById.objectByObjectId', null)
-        )
+      () => get(store.props, 'taxonomyObjectById.objectByObjectId'),
+      (objekt: Object) => store.setActiveTaxonomyObject(objekt)
+    ),
+    setSuggestionsTO: reaction(
+      () => get(store.props, 'filterSuggestionsTO.nodes'),
+      (suggestionsTO: Array<Object>) =>
+        store.treeFilter.setSuggestionsTO(suggestionsTO)
     ),
     setSuggestionsPC: reaction(
       () => get(store.props, 'filterSuggestionsPC.nodes'),
