@@ -1,5 +1,5 @@
 // @flow
-import { extendObservable, autorun, reaction, toJS } from 'mobx'
+import { extendObservable, autorun, autorunAsync, reaction, toJS } from 'mobx'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 
@@ -25,12 +25,27 @@ export default (store: Object): void => {
       () => store.props,
       () => buildNodesFromAppQuery(store)
     ),
-    buldObjekt: reaction(
+    onChangeObject: reaction(
       () => get(store.props, 'taxonomyObjectById.objectByObjectId', null),
       () =>
         store.setActiveTaxonomyObject(
           get(store.props, 'taxonomyObjectById.objectByObjectId', null)
         )
+    ),
+    onChangeCategories: reaction(
+      () => get(store.props, 'allCategories.nodes', []),
+      (categoryNodes: Array<Object>) => {
+        const categoryNames = categoryNodes.map(c => c.name)
+        const storeCategories = toJS(store.categories)
+        if (!isEqual(storeCategories, categoryNames)) {
+          store.setCategories(categoryNames)
+        }
+      }
+    ),
+    onChangePcoPropertiesByCategories: reaction(
+      () => get(store.props, 'pcoPropertiesByCategoriesFunction.nodes', []),
+      (pcoProperties: Array<Object>) =>
+        store.export.setPcoProperties(pcoProperties)
     ),
   })
 }

@@ -566,22 +566,6 @@ const AppQuery = ({ store }: { store: Object }) => {
             ])
             store.setUrlFromRCId(null)
           }
-
-          const categoryNames = get(props, 'allCategories.nodes', []).map(
-            c => c.name
-          )
-          if (!isEqual(store.categoryNames, categoryNames)) {
-            store.setCategories(categoryNames)
-          }
-
-          const pcoProperties = get(
-            props,
-            'pcoPropertiesByCategoriesFunction.nodes',
-            []
-          )
-          if (!isEqual(store.export.pcoProperties, pcoProperties)) {
-            store.export.setPcoProperties(pcoProperties)
-          }
         } else {
           /**
            * TODO:
