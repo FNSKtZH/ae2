@@ -529,6 +529,7 @@ const AppQuery = ({ store }: { store: Object }) => {
         }
         if (props) {
           // console.log('AppQuery: props:', props)
+          store.setProps(props)
           buildNodesFromAppQuery(store, props)
           const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
           if (!isEqual(store.activeTaxonomyObject, objekt)) {

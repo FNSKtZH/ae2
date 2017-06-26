@@ -19,7 +19,8 @@ import level9TaxonomyFromProps from './nodes/level9TaxonomyFromProps'
 import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
 import sort from './nodes/sort'
 
-export default (store: Object, props: ?Object): Array<Object> => {
+export default (store: Object): Array<Object> => {
+  const { props } = store
   if (!props) {
     return store.nodes
   }

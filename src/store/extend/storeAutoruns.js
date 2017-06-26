@@ -1,8 +1,9 @@
 // @flow
-import { extendObservable, autorun, toJS } from 'mobx'
+import { extendObservable, autorun, autorunAsync, reaction, toJS } from 'mobx'
 import isEqual from 'lodash/isEqual'
 
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
+import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
 
 export default (store: Object): void => {
   extendObservable(store, {
@@ -19,5 +20,9 @@ export default (store: Object): void => {
       // set activeTreeLevel
       store.activeTreeLevel = activeNodeArray.length
     }),
+    buildNodes: reaction(
+      () => store.props,
+      () => buildNodesFromAppQuery(store)
+    ),
   })
 }
