@@ -46,8 +46,6 @@ const Objekt = ({ store }: { store: Object }) => {
       []
     )
   )
-  console.log('Objekt: store.props:', store.props)
-  console.log('Objekt: synonyms:', synonyms)
   const synonymTaxonomyObjects = synonyms.map(
     s => s.taxonomyObjectByTaxonomyObjectIdSynonym
   )
