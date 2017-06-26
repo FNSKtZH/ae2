@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
+// if observer is active, "lade daten..." remains forever
 import { /*observer,*/ inject } from 'mobx-react'
 import compose from 'recompose/compose'
 

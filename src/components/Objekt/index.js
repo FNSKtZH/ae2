@@ -20,6 +20,9 @@ const Container = styled.div`
 const Title = styled.h3`
   margin: 15px 0 -5px 0;
 `
+const TitleSpan = styled.span`
+  font-weight: normal;
+`
 const FirstTitle = styled(Title)`
   margin: 5px 0 -5px 0;
 `
@@ -106,7 +109,10 @@ const Objekt = ({ store }: { store: Object }) => {
 
   return (
     <Container>
-      <FirstTitle>{`Taxonomien (${taxonomyObjects.length})`}</FirstTitle>
+      <FirstTitle>
+        Taxonomien
+        <TitleSpan>{` (${taxonomyObjects.length})`}</TitleSpan>
+      </FirstTitle>
       {sortBy(taxonomyObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)'),
       ).map(taxonomyObject =>
@@ -116,11 +122,10 @@ const Objekt = ({ store }: { store: Object }) => {
         />,
       )}
       {synonymTaxonomyObjects.length > 0 &&
-        <Title>{`Synonyme in ${get(
-          synonymTaxonomyObjects[0],
-          'taxonomyByTaxonomyId.name',
-          '(Name fehlt)',
-        )} (${synonymTaxonomyObjects.length})`}</Title>}
+        <Title>
+          Synonyme
+          <TitleSpan>{` (${synonymTaxonomyObjects.length})`}</TitleSpan>
+        </Title>}
       {sortBy(synonymTaxonomyObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)'),
       ).map(taxonomyObject =>
@@ -130,7 +135,12 @@ const Objekt = ({ store }: { store: Object }) => {
         />,
       )}
       {rCOsTaxonomic.length > 0 &&
-        <Title>{`Taxonomische Beziehungen (${rCOsTaxonomic.length})`}</Title>}
+        <Title>
+          Taxonomische Beziehungen
+          <TitleSpan>{` (${rCOsTaxonomic.length} ${rCOsTaxonomic.length > 1
+            ? 'Sammlungen'
+            : 'Sammlung'})`}</TitleSpan>
+        </Title>}
       {sortBy(rCOsTaxonomic, rCO =>
         get(
           rCO,
@@ -144,7 +154,14 @@ const Objekt = ({ store }: { store: Object }) => {
         />,
       )}
       {propertyCollectionObjects.length > 0 &&
-        <Title>{`Eigenschaften (${propertyCollectionObjects.length})`}</Title>}
+        <Title>
+          Eigenschaften
+          <TitleSpan
+          >{` (${propertyCollectionObjects.length} ${propertyCollectionObjects.length >
+            1
+            ? 'Sammlungen'
+            : 'Sammlung'})`}</TitleSpan>
+        </Title>}
       {sortBy(propertyCollectionObjects, pCO =>
         get(
           pCO,
@@ -158,8 +175,14 @@ const Objekt = ({ store }: { store: Object }) => {
         />,
       )}
       {propertyCollectionObjectsOfSynonyms.length > 0 &&
-        <Title
-        >{`Eigenschaften von Synonymen aus anderen Objekten (${propertyCollectionObjectsOfSynonyms.length})`}</Title>}
+        <Title>
+          Eigenschaften von Synonymen aus anderen Objekten<TitleSpan>
+            ` (${propertyCollectionObjectsOfSynonyms.length} ${propertyCollectionObjectsOfSynonyms.length >
+              1
+              ? 'Sammlungen'
+              : 'Sammlung'})`
+          </TitleSpan>
+        </Title>}
       {sortBy(propertyCollectionObjectsOfSynonyms, pCO =>
         get(
           pCO,
@@ -172,7 +195,13 @@ const Objekt = ({ store }: { store: Object }) => {
           pCO={pCO}
         />,
       )}
-      {rCOs.length > 0 && <Title>{`Beziehungen (${rCOs.length})`}</Title>}
+      {rCOs.length > 0 &&
+        <Title>
+          Beziehungen
+          <TitleSpan>{` (${rCOs.length} ${rCOs.length > 1
+            ? 'Sammlungen'
+            : 'Sammlung'})`}</TitleSpan>
+        </Title>}
       {sortBy(rCOs, rCO =>
         get(
           rCO,
@@ -186,8 +215,14 @@ const Objekt = ({ store }: { store: Object }) => {
         />,
       )}
       {relationCollectionObjectsOfSynonyms.length > 0 &&
-        <Title
-        >{`Beziehungen von Synonymen aus anderen Objekten (${relationCollectionObjectsOfSynonyms.length})`}</Title>}
+        <Title>
+          Beziehungen von Synonymen aus anderen Objekten
+          <TitleSpan
+          >{` (${relationCollectionObjectsOfSynonyms.length} ${relationCollectionObjectsOfSynonyms.length >
+            1
+            ? 'Sammlungen'
+            : 'Sammlung'})`}</TitleSpan>
+        </Title>}
       {sortBy(relationCollectionObjectsOfSynonyms, rCO =>
         get(
           rCO,
