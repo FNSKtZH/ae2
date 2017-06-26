@@ -34,31 +34,32 @@ const Objekt = ({ store }: { store: Object }) => {
   const taxonomyObjects = get(
     activeTaxonomyObject,
     'taxonomyObjectsByObjectId.nodes',
-    [],
+    []
   )
   const propertyCollectionObjects = toJS(
-    get(activeTaxonomyObject, 'propertyCollectionObjectsByObjectId.nodes', []),
+    get(activeTaxonomyObject, 'propertyCollectionObjectsByObjectId.nodes', [])
   )
   const synonyms = toJS(
     get(
       activeTaxonomyObject,
       'taxonomyObjectsByObjectId.nodes[0].synonymsByTaxonomyObjectId.nodes',
-      [],
-    ),
+      []
+    )
   )
-
+  console.log('Objekt: store.props:', store.props)
+  console.log('Objekt: synonyms:', synonyms)
   const synonymTaxonomyObjects = synonyms.map(
-    s => s.taxonomyObjectByTaxonomyObjectIdSynonym,
+    s => s.taxonomyObjectByTaxonomyObjectIdSynonym
   )
   const propertyCollectionIds = propertyCollectionObjects.map(
-    pco => pco.propertyCollectionId,
+    pco => pco.propertyCollectionId
   )
   let propertyCollectionObjectsOfSynonyms = []
   synonyms.forEach(synonym => {
     const pco = get(
       synonym,
       'taxonomyObjectByTaxonomyObjectIdSynonym.objectByObjectId.propertyCollectionObjectsByObjectId.nodes',
-      [],
+      []
     )
     propertyCollectionObjectsOfSynonyms = [
       ...propertyCollectionObjectsOfSynonyms,
@@ -67,29 +68,29 @@ const Objekt = ({ store }: { store: Object }) => {
   })
   propertyCollectionObjectsOfSynonyms = uniqBy(
     propertyCollectionObjectsOfSynonyms,
-    pco => pco.propertyCollectionId,
+    pco => pco.propertyCollectionId
   )
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
-    pco => !propertyCollectionIds.includes(pco.propertyCollectionId),
+    pco => !propertyCollectionIds.includes(pco.propertyCollectionId)
   )
   const relationCollectionObjects = toJS(
-    get(activeTaxonomyObject, 'relationCollectionObjectsByObjectId.nodes', []),
+    get(activeTaxonomyObject, 'relationCollectionObjectsByObjectId.nodes', [])
   )
   const rCOsTaxonomic = relationCollectionObjects.filter(rco =>
-    get(rco, 'relationCollectionByRelationCollectionId.taxonomic'),
+    get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
   )
   const rCOs = relationCollectionObjects.filter(
-    rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic'),
+    rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
   )
   const relationCollectionIds = relationCollectionObjects.map(
-    rco => rco.relationCollectionId,
+    rco => rco.relationCollectionId
   )
   let relationCollectionObjectsOfSynonyms = []
   synonyms.forEach(synonym => {
     const rco = get(
       synonym,
       'taxonomyObjectByTaxonomyObjectIdSynonym.objectByObjectId.relationCollectionObjectsByObjectId.nodes',
-      [],
+      []
     )
     relationCollectionObjectsOfSynonyms = [
       ...relationCollectionObjectsOfSynonyms,
@@ -98,13 +99,13 @@ const Objekt = ({ store }: { store: Object }) => {
   })
   relationCollectionObjectsOfSynonyms = uniqBy(
     relationCollectionObjectsOfSynonyms,
-    'relationCollectionId',
+    'relationCollectionId'
   )
   relationCollectionObjectsOfSynonyms = relationCollectionObjectsOfSynonyms.filter(
-    rco => !relationCollectionIds.includes(rco.relationCollectionId),
+    rco => !relationCollectionIds.includes(rco.relationCollectionId)
   )
   relationCollectionObjectsOfSynonyms = relationCollectionObjectsOfSynonyms.filter(
-    rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic'),
+    rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
   )
 
   return (
@@ -114,12 +115,12 @@ const Objekt = ({ store }: { store: Object }) => {
         <TitleSpan>{` (${taxonomyObjects.length})`}</TitleSpan>
       </FirstTitle>
       {sortBy(taxonomyObjects, tO =>
-        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)'),
+        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
       ).map(taxonomyObject =>
         <TaxonomyObject
           key={taxonomyObject.id}
           taxonomyObject={taxonomyObject}
-        />,
+        />
       )}
       {synonymTaxonomyObjects.length > 0 &&
         <Title>
@@ -127,12 +128,12 @@ const Objekt = ({ store }: { store: Object }) => {
           <TitleSpan>{` (${synonymTaxonomyObjects.length})`}</TitleSpan>
         </Title>}
       {sortBy(synonymTaxonomyObjects, tO =>
-        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)'),
+        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
       ).map(taxonomyObject =>
         <TaxonomyObject
           key={taxonomyObject.id}
           taxonomyObject={taxonomyObject}
-        />,
+        />
       )}
       {rCOsTaxonomic.length > 0 &&
         <Title>
@@ -145,13 +146,13 @@ const Objekt = ({ store }: { store: Object }) => {
         get(
           rCO,
           'relationCollectionByRelationCollectionId.name',
-          '(Name fehlt)',
-        ),
+          '(Name fehlt)'
+        )
       ).map((rCO, index) =>
         <RelationCollectionObject
           key={`${rCO.relationCollectionId}`}
           rCO={rCO}
-        />,
+        />
       )}
       {propertyCollectionObjects.length > 0 &&
         <Title>
@@ -166,34 +167,35 @@ const Objekt = ({ store }: { store: Object }) => {
         get(
           pCO,
           'propertyCollectionByPropertyCollectionId.name',
-          '(Name fehlt)',
-        ),
+          '(Name fehlt)'
+        )
       ).map((pCO, index) =>
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
-        />,
+        />
       )}
       {propertyCollectionObjectsOfSynonyms.length > 0 &&
         <Title>
-          Eigenschaften von Synonymen aus anderen Objekten<TitleSpan>
-            ` (${propertyCollectionObjectsOfSynonyms.length} ${propertyCollectionObjectsOfSynonyms.length >
+          Eigenschaften von Synonymen aus anderen Objekten
+          <TitleSpan>
+            {` (${propertyCollectionObjectsOfSynonyms.length} ${propertyCollectionObjectsOfSynonyms.length >
               1
               ? 'Sammlungen'
-              : 'Sammlung'})`
+              : 'Sammlung'})`}
           </TitleSpan>
         </Title>}
       {sortBy(propertyCollectionObjectsOfSynonyms, pCO =>
         get(
           pCO,
           'propertyCollectionByPropertyCollectionId.name',
-          '(Name fehlt)',
-        ),
+          '(Name fehlt)'
+        )
       ).map((pCO, index) =>
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
-        />,
+        />
       )}
       {rCOs.length > 0 &&
         <Title>
@@ -206,13 +208,13 @@ const Objekt = ({ store }: { store: Object }) => {
         get(
           rCO,
           'relationCollectionByRelationCollectionId.name',
-          '(Name fehlt)',
-        ),
+          '(Name fehlt)'
+        )
       ).map((rCO, index) =>
         <RelationCollectionObject
           key={`${rCO.relationCollectionId}`}
           rCO={rCO}
-        />,
+        />
       )}
       {relationCollectionObjectsOfSynonyms.length > 0 &&
         <Title>
@@ -227,13 +229,13 @@ const Objekt = ({ store }: { store: Object }) => {
         get(
           rCO,
           'relationCollectionByRelationCollectionId.name',
-          '(Name fehlt)',
-        ),
+          '(Name fehlt)'
+        )
       ).map((rCO, index) =>
         <RelationCollectionObject
           key={`${rCO.relationCollectionId}`}
           rCO={rCO}
-        />,
+        />
       )}
     </Container>
   )
