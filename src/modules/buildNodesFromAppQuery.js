@@ -24,7 +24,6 @@ export default (store: Object): Array<Object> => {
   if (!props) {
     return store.nodes
   }
-  // console.log('buildNodesFromAppQuery: props:', props)
   const activeLevel2TaxonomyNodes = get(props, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&

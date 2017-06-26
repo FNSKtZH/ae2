@@ -1,6 +1,7 @@
 // @flow
-import { extendObservable, autorun, autorunAsync, reaction, toJS } from 'mobx'
+import { extendObservable, autorun, reaction, toJS } from 'mobx'
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
 import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
@@ -23,6 +24,13 @@ export default (store: Object): void => {
     buildNodes: reaction(
       () => store.props,
       () => buildNodesFromAppQuery(store)
+    ),
+    buldObjekt: reaction(
+      () => get(store.props, 'taxonomyObjectById.objectByObjectId', null),
+      () =>
+        store.setActiveTaxonomyObject(
+          get(store.props, 'taxonomyObjectById.objectByObjectId', null)
+        )
     ),
   })
 }

@@ -9,7 +9,6 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 
 import App from './App'
-import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
 import getActiveTaxonomyObjectId from '../modules/getActiveTaxonomyObjectId'
 import getUrlFromTOId from '../modules/getUrlFromTOId'
 
@@ -528,13 +527,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           return <div>{error.message}</div>
         }
         if (props) {
-          // console.log('AppQuery: props:', props)
           store.setProps(props)
-          buildNodesFromAppQuery(store, props)
-          const objekt = get(props, 'taxonomyObjectById.objectByObjectId', null)
-          if (!isEqual(store.activeTaxonomyObject, objekt)) {
-            store.setActiveTaxonomyObject(objekt)
-          }
 
           const suggestionsTO = get(props, 'filterSuggestionsTO.nodes', [])
           if (!isEqual(store.treeFilter.suggestionsTO, suggestionsTO)) {
