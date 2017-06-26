@@ -529,6 +529,16 @@ const AppQuery = ({ store }: { store: Object }) => {
         if (props) {
           store.setProps(props)
 
+          const sugggestionsPC = get(props, 'filterSuggestionsPC.nodes', [])
+          if (!isEqual(store.treeFilter.sugggestionsPC, sugggestionsPC)) {
+            store.treeFilter.setSuggestionsPC(sugggestionsPC)
+          }
+
+          const suggestionsRC = get(props, 'filterSuggestionsRC.nodes', [])
+          if (!isEqual(store.treeFilter.suggestionsRC, suggestionsRC)) {
+            store.treeFilter.setSuggestionsRC(suggestionsRC)
+          }
+
           /**
            * if existsUrlFromTOId:
            * set new url and reset store.urlFromTOId
