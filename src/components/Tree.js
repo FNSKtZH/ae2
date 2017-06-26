@@ -60,11 +60,11 @@ const noRowsRenderer = nodes =>
 
 const enhance = compose(inject('store') /*, observer*/)
 
-const Tree = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
+const Tree = ({ store }: { store: Object }) => {
   const rowRenderer = ({ key, index, style }) =>
-    <Row key={key} index={index} style={style} nodes={nodes} />
-  const activeNodeIndex = findIndex(nodes, node =>
-    isEqual(toJS(node.url), toJS(store.activeNodeArray))
+    <Row key={key} index={index} style={style} />
+  const activeNodeIndex = findIndex(store.nodes, node =>
+    isEqual(toJS(node.url), toJS(store.activeNodeArray)),
   )
 
   return (
@@ -75,7 +75,7 @@ const Tree = ({ store, nodes }: { store: Object, nodes: Array<Object> }) => {
           {({ height, width }) =>
             <ListContainer
               height={height}
-              rowCount={nodes.length}
+              rowCount={store.nodes.length}
               rowHeight={singleRowHeight}
               rowRenderer={rowRenderer}
               noRowsRenderer={noRowsRenderer}

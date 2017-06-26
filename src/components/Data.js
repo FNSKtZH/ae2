@@ -9,10 +9,10 @@ import DataType from './DataType'
 
 const enhance = compose(inject('store') /*, observer*/)
 
-const Data = ({ store, nodes }: { store: Object, nodes: Array<Object> }) =>
+const Data = ({ store }: { store: Object }) =>
   <ReflexContainer orientation="vertical">
     <ReflexElement flex={0.35} className="tree-reflex-element">
-      <Tree activeNodeArray={store.activeNodeArray} nodes={nodes} />
+      <Tree activeNodeArray={store.activeNodeArray} />
     </ReflexElement>
     <ReflexSplitter key="treeSplitter" />
     <ReflexElement><DataType /></ReflexElement>

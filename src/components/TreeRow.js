@@ -14,7 +14,7 @@ import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
 const singleRowHeight = 23
 const StyledNode = styled(
   ({ level, nodeIsInActiveNodePath, children, ...rest }) =>
-    <div {...rest}>{children}</div>
+    <div {...rest}>{children}</div>,
 )`
   padding-left: ${props => `${Number(props.level) * 17 - 17}px`};
   height: ${singleRowHeight}px;
@@ -33,7 +33,7 @@ const StyledNode = styled(
 `
 const SymbolIcon = styled(
   ({ nodeIsInActiveNodePath, node, children, ...rest }) =>
-    <FontIcon {...rest}>{children}</FontIcon>
+    <FontIcon {...rest}>{children}</FontIcon>,
 )`
   margin-top: ${({ nodeIsInActiveNodePath }) =>
     nodeIsInActiveNodePath ? '-5px !important' : '-2px !important'};
@@ -51,7 +51,7 @@ const SymbolIcon = styled(
   }
 `
 const SymbolSpan = styled(({ nodeIsInActiveNodePath, children, ...rest }) =>
-  <span {...rest}>{children}</span>
+  <span {...rest}>{children}</span>,
 )`
   padding-right: 8px !important;
   padding-left: ${props => (props.nodeIsInActiveNodePath ? '8px' : '9px')};
@@ -62,7 +62,7 @@ const SymbolSpan = styled(({ nodeIsInActiveNodePath, children, ...rest }) =>
   width: 26px;
 `
 const TextSpan = styled(({ nodeIsInActiveNodePath, children, ...rest }) =>
-  <span {...rest}>{children}</span>
+  <span {...rest}>{children}</span>,
 )`
   margin-left: 0;
   font-size: 16px !important;
@@ -77,18 +77,16 @@ const Row = ({
   index,
   style,
   store,
-  nodes,
 }: {
   key?: number,
   index: number,
   style: Object,
   store: Object,
-  nodes: Array<Object>,
 }) => {
-  const node = nodes[index]
+  const node = store.nodes[index]
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     toJS(node.url),
-    toJS(store.activeNodeArray)
+    toJS(store.activeNodeArray),
   )
   const onClickNode = event => {
     // do nothing when loading indicator is clicked
