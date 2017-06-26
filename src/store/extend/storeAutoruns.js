@@ -24,14 +24,14 @@ export default (store: Object): void => {
     }),
     buildNodes: reaction(
       () => store.props,
-      () => buildNodesFromAppQuery(store)
+      () => buildNodesFromAppQuery(store),
     ),
     onChangeObject: reaction(
       () => get(store.props, 'taxonomyObjectById.objectByObjectId', null),
       () =>
         store.setActiveTaxonomyObject(
-          get(store.props, 'taxonomyObjectById.objectByObjectId', null)
-        )
+          get(store.props, 'taxonomyObjectById.objectByObjectId', null),
+        ),
     ),
     onChangeCategories: reaction(
       () => get(store.props, 'allCategories.nodes', []),
@@ -41,12 +41,12 @@ export default (store: Object): void => {
         if (!isEqual(storeCategories, categoryNames)) {
           store.setCategories(categoryNames)
         }
-      }
+      },
     ),
     onChangePcoPropertiesByCategories: reaction(
       () => get(store.props, 'pcoPropertiesByCategoriesFunction.nodes', []),
       (pcoProperties: Array<Object>) =>
-        store.export.setPcoProperties(pcoProperties)
+        store.export.setPcoProperties(pcoProperties),
     ),
     onChangeFilterSuggestionsTOData: reaction(
       () => get(store.props, 'filterSuggestionsTO.nodes', []),
@@ -54,7 +54,7 @@ export default (store: Object): void => {
         if (!isEqual(toJS(store.treeFilter.suggestionsTO), suggestionsTO)) {
           store.treeFilter.setSuggestionsTO(suggestionsTO)
         }
-      }
+      },
     ),
     onChangeFilterSuggestionsPCData: reaction(
       () => get(store.props, 'filterSuggestionsPC.nodes', []),
@@ -62,7 +62,7 @@ export default (store: Object): void => {
         if (!isEqual(toJS(store.treeFilter.suggestionsPC), suggestionsPC)) {
           store.treeFilter.setSuggestionsPC(suggestionsPC)
         }
-      }
+      },
     ),
     onChangeFilterSuggestionsRCData: reaction(
       () => get(store.props, 'filterSuggestionsRC.nodes', []),
@@ -70,7 +70,7 @@ export default (store: Object): void => {
         if (!isEqual(toJS(store.treeFilter.suggestionsRC), suggestionsRC)) {
           store.treeFilter.setSuggestionsRC(suggestionsRC)
         }
-      }
+      },
     ),
     onChangeUrlFromTOData: reaction(
       () => store.props.urlFromTO,
@@ -80,7 +80,7 @@ export default (store: Object): void => {
           store.setActiveNodeArray(getUrlFromTOId(urlFromTO))
           store.setUrlFromTOId(null)
         }
-      }
+      },
     ),
     onChangeUrlFromPCData: reaction(
       () => store.urlFromPCId,
@@ -90,7 +90,17 @@ export default (store: Object): void => {
           store.setActiveNodeArray(['Eigenschaften-Sammlungen', urlFromPCId])
           store.setUrlFromPCId(null)
         }
-      }
+      },
+    ),
+    onChangeUrlFromRCData: reaction(
+      () => store.urlFromRCId,
+      urlFromRCId => {
+        // do nothing when filterField was emptied
+        if (urlFromRCId) {
+          store.setActiveNodeArray(['Beziehungs-Sammlungen', urlFromRCId])
+          store.setUrlFromRCId(null)
+        }
+      },
     ),
   })
 }

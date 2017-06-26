@@ -8,7 +8,6 @@ import app from 'ampersand-app'
 
 import App from './App'
 import getActiveTaxonomyObjectId from '../modules/getActiveTaxonomyObjectId'
-import getUrlFromTOId from '../modules/getUrlFromTOId'
 
 const enhance = compose(inject('store'), observer)
 
@@ -526,13 +525,6 @@ const AppQuery = ({ store }: { store: Object }) => {
         }
         if (props) {
           store.setProps(props)
-          if (store.urlFromRCId) {
-            store.setActiveNodeArray([
-              'Beziehungs-Sammlungen',
-              store.urlFromRCId,
-            ])
-            store.setUrlFromRCId(null)
-          }
         } else {
           /**
            * TODO:
