@@ -529,6 +529,11 @@ const AppQuery = ({ store }: { store: Object }) => {
         if (props) {
           store.setProps(props)
 
+          const suggestionsTO = get(props, 'filterSuggestionsTO.nodes', [])
+          if (!isEqual(store.treeFilter.suggestionsTO, suggestionsTO)) {
+            store.treeFilter.setSuggestionsTO(suggestionsTO)
+          }
+
           const sugggestionsPC = get(props, 'filterSuggestionsPC.nodes', [])
           if (!isEqual(store.treeFilter.sugggestionsPC, sugggestionsPC)) {
             store.treeFilter.setSuggestionsPC(sugggestionsPC)
