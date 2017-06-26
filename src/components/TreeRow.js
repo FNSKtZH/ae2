@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { toJS } from 'mobx'
-import { /*observer,*/ inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { ContextMenuTrigger } from 'react-contextmenu'
@@ -70,7 +70,7 @@ const TextSpan = styled(({ nodeIsInActiveNodePath, children, ...rest }) =>
     props.nodeIsInActiveNodePath ? '700 !important' : 'inherit'};
 `
 
-const enhance = compose(inject('store') /*, observer*/)
+const enhance = compose(inject('store'), observer)
 
 const Row = ({
   key,

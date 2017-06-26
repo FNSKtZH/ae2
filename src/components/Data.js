@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
+// if observer is active, "lade daten..." remains forever
 import { /*observer,*/ inject } from 'mobx-react'
 import compose from 'recompose/compose'
 

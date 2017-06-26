@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { toJS } from 'mobx'
+// if observer is active, forceUpdate during rendering happens
 import { /*observer,*/ inject } from 'mobx-react'
 import { AutoSizer, List } from 'react-virtualized'
 import styled from 'styled-components'
