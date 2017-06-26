@@ -34,5 +34,15 @@ export default (store: Object): void => {
       (suggestionsTO: Array<Object>) =>
         store.treeFilter.setSuggestionsTO(suggestionsTO)
     ),
+    setSuggestionsPC: reaction(
+      () => get(store.props, 'filterSuggestionsPC.nodes'),
+      (suggestionsPC: Array<Object>) =>
+        store.treeFilter.setSuggestionsPC(suggestionsPC)
+    ),
+    setSuggestionsRC: reaction(
+      () => get(store.props, 'filterSuggestionsRC.nodes'),
+      (suggestionsRC: Array<Object>) =>
+        store.treeFilter.setSuggestionsRC(suggestionsRC)
+    ),
   })
 }
