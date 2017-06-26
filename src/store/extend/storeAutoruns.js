@@ -5,6 +5,7 @@ import get from 'lodash/get'
 
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
 import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
+import getUrlFromTOId from '../../modules/getUrlFromTOId'
 
 export default (store: Object): void => {
   extendObservable(store, {
@@ -43,6 +44,17 @@ export default (store: Object): void => {
       () => get(store.props, 'filterSuggestionsRC.nodes'),
       (suggestionsRC: Array<Object>) =>
         store.treeFilter.setSuggestionsRC(suggestionsRC)
+    ),
+    /**
+     * if existsUrlFromTOId:
+     * set new url and reset store.urlFromTOId
+     */
+    setUrlFromTOId: reaction(
+      () => !!store.urlFromTOId && store.props.urlFromTO,
+      () => {
+        store.setUrlFromTOId(null)
+        store.setActiveNodeArray(getUrlFromTOId(store.props.urlFromTO))
+      }
     ),
   })
 }

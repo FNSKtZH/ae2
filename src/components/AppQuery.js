@@ -10,7 +10,6 @@ import isEqual from 'lodash/isEqual'
 
 import App from './App'
 import getActiveTaxonomyObjectId from '../modules/getActiveTaxonomyObjectId'
-import getUrlFromTOId from '../modules/getUrlFromTOId'
 
 const enhance = compose(inject('store'), observer)
 
@@ -529,14 +528,6 @@ const AppQuery = ({ store }: { store: Object }) => {
         if (props) {
           store.setProps(props)
 
-          /**
-           * if existsUrlFromTOId:
-           * set new url and reset store.urlFromTOId
-           */
-          if (existsUrlFromTOId && props.urlFromTO) {
-            store.setUrlFromTOId(null)
-            store.setActiveNodeArray(getUrlFromTOId(props.urlFromTO))
-          }
           if (store.urlFromPCId) {
             store.setActiveNodeArray([
               'Eigenschaften-Sammlungen',
