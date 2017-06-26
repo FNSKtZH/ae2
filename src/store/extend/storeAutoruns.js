@@ -5,6 +5,7 @@ import get from 'lodash/get'
 
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
 import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
+import getUrlFromTOId from '../../modules/getUrlFromTOId'
 
 export default (store: Object): void => {
   extendObservable(store, {
@@ -68,6 +69,26 @@ export default (store: Object): void => {
       (suggestionsRC: Array<Object>) => {
         if (!isEqual(toJS(store.treeFilter.suggestionsRC), suggestionsRC)) {
           store.treeFilter.setSuggestionsRC(suggestionsRC)
+        }
+      }
+    ),
+    onChangeUrlFromTOData: reaction(
+      () => store.props.urlFromTO,
+      urlFromTO => {
+        // do nothing when filterField was emptied
+        if (urlFromTO) {
+          store.setActiveNodeArray(getUrlFromTOId(urlFromTO))
+          store.setUrlFromTOId(null)
+        }
+      }
+    ),
+    onChangeUrlFromPCData: reaction(
+      () => store.urlFromPCId,
+      urlFromPCId => {
+        // do nothing when filterField was emptied
+        if (urlFromPCId) {
+          store.setActiveNodeArray(['Eigenschaften-Sammlungen', urlFromPCId])
+          store.setUrlFromPCId(null)
         }
       }
     ),

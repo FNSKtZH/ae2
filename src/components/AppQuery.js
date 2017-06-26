@@ -526,22 +526,6 @@ const AppQuery = ({ store }: { store: Object }) => {
         }
         if (props) {
           store.setProps(props)
-
-          /**
-           * if existsUrlFromTOId:
-           * set new url and reset store.urlFromTOId
-           */
-          if (existsUrlFromTOId && props.urlFromTO) {
-            store.setUrlFromTOId(null)
-            store.setActiveNodeArray(getUrlFromTOId(props.urlFromTO))
-          }
-          if (store.urlFromPCId) {
-            store.setActiveNodeArray([
-              'Eigenschaften-Sammlungen',
-              store.urlFromPCId,
-            ])
-            store.setUrlFromPCId(null)
-          }
           if (store.urlFromRCId) {
             store.setActiveNodeArray([
               'Beziehungs-Sammlungen',
