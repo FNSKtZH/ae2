@@ -5,8 +5,6 @@ import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import app from 'ampersand-app'
-import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
 
 import App from './App'
 import getActiveTaxonomyObjectId from '../modules/getActiveTaxonomyObjectId'
@@ -528,21 +526,6 @@ const AppQuery = ({ store }: { store: Object }) => {
         }
         if (props) {
           store.setProps(props)
-
-          const suggestionsTO = get(props, 'filterSuggestionsTO.nodes', [])
-          if (!isEqual(store.treeFilter.suggestionsTO, suggestionsTO)) {
-            store.treeFilter.setSuggestionsTO(suggestionsTO)
-          }
-
-          const sugggestionsPC = get(props, 'filterSuggestionsPC.nodes', [])
-          if (!isEqual(store.treeFilter.sugggestionsPC, sugggestionsPC)) {
-            store.treeFilter.setSuggestionsPC(sugggestionsPC)
-          }
-
-          const suggestionsRC = get(props, 'filterSuggestionsRC.nodes', [])
-          if (!isEqual(store.treeFilter.suggestionsRC, suggestionsRC)) {
-            store.treeFilter.setSuggestionsRC(suggestionsRC)
-          }
 
           /**
            * if existsUrlFromTOId:

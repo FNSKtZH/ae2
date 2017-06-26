@@ -1,5 +1,5 @@
 // @flow
-import { extendObservable, autorun, autorunAsync, reaction, toJS } from 'mobx'
+import { extendObservable, autorun, reaction, toJS } from 'mobx'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 
@@ -46,6 +46,30 @@ export default (store: Object): void => {
       () => get(store.props, 'pcoPropertiesByCategoriesFunction.nodes', []),
       (pcoProperties: Array<Object>) =>
         store.export.setPcoProperties(pcoProperties)
+    ),
+    onChangeFilterSuggestionsTOData: reaction(
+      () => get(store.props, 'filterSuggestionsTO.nodes', []),
+      (suggestionsTO: Array<Object>) => {
+        if (!isEqual(toJS(store.treeFilter.suggestionsTO), suggestionsTO)) {
+          store.treeFilter.setSuggestionsTO(suggestionsTO)
+        }
+      }
+    ),
+    onChangeFilterSuggestionsPCData: reaction(
+      () => get(store.props, 'filterSuggestionsPC.nodes', []),
+      (suggestionsPC: Array<Object>) => {
+        if (!isEqual(toJS(store.treeFilter.suggestionsPC), suggestionsPC)) {
+          store.treeFilter.setSuggestionsPC(suggestionsPC)
+        }
+      }
+    ),
+    onChangeFilterSuggestionsRCData: reaction(
+      () => get(store.props, 'filterSuggestionsRC.nodes', []),
+      (suggestionsRC: Array<Object>) => {
+        if (!isEqual(toJS(store.treeFilter.suggestionsRC), suggestionsRC)) {
+          store.treeFilter.setSuggestionsRC(suggestionsRC)
+        }
+      }
     ),
   })
 }
