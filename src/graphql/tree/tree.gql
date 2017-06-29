@@ -307,26 +307,28 @@ query AppQueryQuery(
   "existsLevel3": true,
   "level3Taxonomy": "Flora",
   "existsLevel4": true,
-  "level4Taxonomy": "8e86fda1-58f6-11e7-ad9a-b1b34e71b922",
+  "level4Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel5": true,
-  "level5Taxonomy": "9e8317d3-58f6-11e7-ad9a-b1b34e71b922",
+  "level5Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel6": false,
-  "level6Taxonomy": "9e8f2654-58f6-11e7-ad9a-b1b34e71b922",
+  "level6Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel7": false,
-  "level7Taxonomy": "9f178f90-58f6-11e7-ad9a-b1b34e71b922",
+  "level7Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel8": false,
   "level8Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel9": false,
   "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel10": false,
   "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "activeTaxonomyObject": "9f178f90-58f6-11e7-ad9a-b1b34e71b922",
+  "activeTaxonomyObject": "99999999-9999-9999-9999-999999999999",
   "existsActiveTaxonomyObject": true,
   "existsUrlFromTOId": false,
   "urlFromTOId": "99999999-9999-9999-9999-999999999999",
   "existsTreeFilterText": false,
   "treeFilterText": "ZZZZ",
-  "queryGroups": false
+  "queryGroups": false,
+  "queryExportCategories": false,
+  "exportCategories": []
 }
 
 // Beispiel Lebensraum:
@@ -357,5 +359,7 @@ query AppQueryQuery(
   "urlFromTOId": "99999999-9999-9999-9999-999999999999",
   "existsTreeFilterText": false,
   "treeFilterText": "ZZZZ",
-  "queryGroups": false
+  "queryGroups": false,
+  "queryExportCategories": false,
+  "exportCategories": []
 }
