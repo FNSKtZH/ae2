@@ -130,7 +130,7 @@ class TreeFilter extends Component {
       placeholder: 'suchen',
       spellCheck: false,
     }
-    let { suggestionsTO, suggestionsPC, suggestionsRC } = store.treeFilter
+    let { suggestionsTO, suggestionsPC } = store.treeFilter
     /**
        * need add type:
        * when suggistion is clicked,
@@ -144,10 +144,6 @@ class TreeFilter extends Component {
       s.type = 'pC'
       return s
     })
-    suggestionsRC = suggestionsRC.map(s => {
-      s.type = 'rC'
-      return s
-    })
     const suggestions = [
       {
         title: `Arten und Lebensräume (${suggestionsTO.length})`,
@@ -156,10 +152,6 @@ class TreeFilter extends Component {
       {
         title: `Eigenschaften-Sammlungen (${suggestionsPC.length})`,
         suggestions: suggestionsPC,
-      },
-      {
-        title: `Beziehungs-Sammlungen (${suggestionsRC.length})`,
-        suggestions: suggestionsRC,
       },
     ]
 
@@ -176,16 +168,12 @@ class TreeFilter extends Component {
           onSuggestionsClearRequested={() => {
             store.treeFilter.setSuggestionsTO([])
             store.treeFilter.setSuggestionsPC([])
-            store.treeFilter.setSuggestionsRC([])
           }}
           getSuggestionValue={suggestion => suggestion && suggestion.name}
           onSuggestionSelected={(event, { suggestion }) => {
             switch (suggestion.type) {
               case 'pC':
                 store.setUrlFromPCId(suggestion.id)
-                break
-              case 'rC':
-                store.setUrlFromRCId(suggestion.id)
                 break
               case 'tO':
               default:

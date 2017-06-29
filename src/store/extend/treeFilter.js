@@ -49,9 +49,5 @@ export default (store: Object): void => {
     setSuggestionsPC: action('setSuggestionsPC', (suggestions: Object) => {
       store.treeFilter.suggestionsPC = suggestions
     }),
-    suggestionsRC: [],
-    setSuggestionsRC: action('setSuggestionsRC', (suggestions: Object) => {
-      store.treeFilter.suggestionsRC = suggestions
-    }),
   })
 }

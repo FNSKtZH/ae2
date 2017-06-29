@@ -24,8 +24,6 @@ export default (store: Object): void => {
     setUrlFromTOId: action('setUrlFromTOId', id => (store.urlFromTOId = id)),
     urlFromPCId: null,
     setUrlFromPCId: action('setUrlFromPCId', id => (store.urlFromPCId = id)),
-    urlFromRCId: null,
-    setUrlFromRCId: action('setUrlFromRCId', id => (store.urlFromRCId = id)),
     categories: [],
     setCategories: action(
       'setCategories',

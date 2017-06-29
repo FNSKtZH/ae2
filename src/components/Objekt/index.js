@@ -10,7 +10,6 @@ import uniqBy from 'lodash/uniqBy'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
-import RelationCollectionObject from './RelationCollectionObject'
 
 const Container = styled.div`
   padding: 5px;
@@ -71,40 +70,6 @@ const Objekt = ({ store }: { store: Object }) => {
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
     pco => !propertyCollectionIds.includes(pco.propertyCollectionId)
   )
-  const relationCollectionObjects = toJS(
-    get(activeTaxonomyObject, 'relationCollectionObjectsByObjectId.nodes', [])
-  )
-  const rCOsTaxonomic = relationCollectionObjects.filter(rco =>
-    get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
-  )
-  const rCOs = relationCollectionObjects.filter(
-    rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
-  )
-  const relationCollectionIds = relationCollectionObjects.map(
-    rco => rco.relationCollectionId
-  )
-  let relationCollectionObjectsOfSynonyms = []
-  synonyms.forEach(synonym => {
-    const rco = get(
-      synonym,
-      'taxonomyObjectByTaxonomyObjectIdSynonym.objectByObjectId.relationCollectionObjectsByObjectId.nodes',
-      []
-    )
-    relationCollectionObjectsOfSynonyms = [
-      ...relationCollectionObjectsOfSynonyms,
-      ...rco,
-    ]
-  })
-  relationCollectionObjectsOfSynonyms = uniqBy(
-    relationCollectionObjectsOfSynonyms,
-    'relationCollectionId'
-  )
-  relationCollectionObjectsOfSynonyms = relationCollectionObjectsOfSynonyms.filter(
-    rco => !relationCollectionIds.includes(rco.relationCollectionId)
-  )
-  relationCollectionObjectsOfSynonyms = relationCollectionObjectsOfSynonyms.filter(
-    rco => !get(rco, 'relationCollectionByRelationCollectionId.taxonomic')
-  )
 
   return (
     <Container>
@@ -131,25 +96,6 @@ const Objekt = ({ store }: { store: Object }) => {
         <TaxonomyObject
           key={taxonomyObject.id}
           taxonomyObject={taxonomyObject}
-        />
-      )}
-      {rCOsTaxonomic.length > 0 &&
-        <Title>
-          Taxonomische Beziehungen
-          <TitleSpan>{` (${rCOsTaxonomic.length} ${rCOsTaxonomic.length > 1
-            ? 'Sammlungen'
-            : 'Sammlung'})`}</TitleSpan>
-        </Title>}
-      {sortBy(rCOsTaxonomic, rCO =>
-        get(
-          rCO,
-          'relationCollectionByRelationCollectionId.name',
-          '(Name fehlt)'
-        )
-      ).map((rCO, index) =>
-        <RelationCollectionObject
-          key={`${rCO.relationCollectionId}`}
-          rCO={rCO}
         />
       )}
       {propertyCollectionObjects.length > 0 &&
@@ -193,46 +139,6 @@ const Objekt = ({ store }: { store: Object }) => {
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
-        />
-      )}
-      {rCOs.length > 0 &&
-        <Title>
-          Beziehungen
-          <TitleSpan>{` (${rCOs.length} ${rCOs.length > 1
-            ? 'Sammlungen'
-            : 'Sammlung'})`}</TitleSpan>
-        </Title>}
-      {sortBy(rCOs, rCO =>
-        get(
-          rCO,
-          'relationCollectionByRelationCollectionId.name',
-          '(Name fehlt)'
-        )
-      ).map((rCO, index) =>
-        <RelationCollectionObject
-          key={`${rCO.relationCollectionId}`}
-          rCO={rCO}
-        />
-      )}
-      {relationCollectionObjectsOfSynonyms.length > 0 &&
-        <Title>
-          Beziehungen von Synonymen aus anderen Objekten
-          <TitleSpan
-          >{` (${relationCollectionObjectsOfSynonyms.length} ${relationCollectionObjectsOfSynonyms.length >
-            1
-            ? 'Sammlungen'
-            : 'Sammlung'})`}</TitleSpan>
-        </Title>}
-      {sortBy(relationCollectionObjectsOfSynonyms, rCO =>
-        get(
-          rCO,
-          'relationCollectionByRelationCollectionId.name',
-          '(Name fehlt)'
-        )
-      ).map((rCO, index) =>
-        <RelationCollectionObject
-          key={`${rCO.relationCollectionId}`}
-          rCO={rCO}
         />
       )}
     </Container>
