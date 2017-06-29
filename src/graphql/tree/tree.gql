@@ -1,8 +1,6 @@
 query AppQueryQuery(
   $existsLevel2Pc: Boolean!,
   $level2Pc: String!,
-  $existsLevel2Rc: Boolean!,
-  $level2Rc: String!,
   $existsLevel2Taxonomy: Boolean!,
   $level2Taxonomy: String!,
   $existsLevel3: Boolean!,
@@ -28,6 +26,8 @@ query AppQueryQuery(
   $existsTreeFilterText: Boolean!
   $treeFilterText: String!
   $queryGroups: Boolean!
+  $queryExportCategories: Boolean!
+  $exportCategories: [String]
 ) {
   allCategories {
     totalCount
@@ -40,18 +40,6 @@ query AppQueryQuery(
       id
       name
       propertyCollectionObjectsByPropertyCollectionId {
-        totalCount
-      }
-    }
-  }
-  allRelationCollections {
-    totalCount
-  }
-  relationCollectionByDataType(datatype: $level2Rc) @include(if: $existsLevel2Rc) {
-    nodes {
-      id
-      name
-      relationCollectionObjectsByRelationCollectionId {
         totalCount
       }
     }
@@ -183,6 +171,18 @@ query AppQueryQuery(
             nodes {
               taxonomyObjectIdSynonym
               taxonomyObjectByTaxonomyObjectIdSynonym {
+                id
+                name
+                properties
+                taxonomyByTaxonomyId {
+                  name
+                  description
+                  links
+                  lastUpdated
+                  organizationByOrganizationId {
+                    name
+                  }
+                }
                 objectByObjectId {
                   id
                   propertyCollectionObjectsByObjectId {
@@ -205,50 +205,6 @@ query AppQueryQuery(
                         userByImportedBy {
                           name
                           email
-                        }
-                      }
-                    }
-                  }
-                  relationCollectionObjectsByObjectId {
-                    totalCount
-                    nodes {
-                      relationCollectionId
-                      relationCollectionByRelationCollectionId {
-                        id
-                        name
-                        description
-                        links
-                        lastUpdated
-                        natureOfRelation
-                        combining
-                        termsOfUse
-                        organizationByOrganizationId {
-                          name
-                        }
-                        userByImportedBy {
-                          name
-                          email
-                        }
-                      }
-                      relationsByObjectIdAndRelationCollectionId {
-                        totalCount
-                        nodes {
-                          id
-                          properties
-                          relationPartnersByRelationId {
-                            totalCount
-                            nodes {
-                              objectByObjectId {
-                                taxonomyObjectsByObjectId {
-                                  totalCount
-                                  nodes {
-                                    id
-                                    name
-                                  }
-                                }
-                              }
-                            }
-                          }
                         }
                       }
                     }
@@ -279,50 +235,6 @@ query AppQueryQuery(
             userByImportedBy{
               name
               email
-            }
-          }
-        }
-      }
-      relationCollectionObjectsByObjectId {
-        totalCount
-        nodes {
-          relationCollectionId
-          relationCollectionByRelationCollectionId {
-            id
-            name
-            description
-            links
-            lastUpdated
-            natureOfRelation
-            combining
-            termsOfUse
-            organizationByOrganizationId {
-              name
-            }
-            userByImportedBy {
-              name
-              email
-            }
-          }
-          relationsByObjectIdAndRelationCollectionId {
-            totalCount
-            nodes {
-              id
-              properties
-              relationPartnersByRelationId {
-                totalCount
-                nodes {
-                  objectByObjectId {
-                    taxonomyObjectsByObjectId {
-                      totalCount
-                      nodes {
-                        id
-                        name
-                      }
-                    }
-                  }
-                }
-              }
             }
           }
         }
@@ -364,13 +276,6 @@ query AppQueryQuery(
       name
     }
   }
-  filterSuggestionsRC: relationCollectionByRelationName(relationName: $treeFilterText) @include(if: $existsTreeFilterText) {
-    totalCount
-    nodes {
-      id
-      name
-    }
-  }
   filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterText) {
     totalCount
     nodes {
@@ -383,14 +288,20 @@ query AppQueryQuery(
       name
     }
   }
+  pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {
+    nodes {
+      propertyCollectionName
+      propertyName
+      jsontype
+      count
+    }
+  }
 }
 
 // Beispiel Achillea moschata Wulfen:
 {
   "existsLevel2Pc": false,
   "level2Pc": "99999999-9999-9999-9999-999999999999",
-  "existsLevel2Rc": false,
-  "level2Rc": "99999999-9999-9999-9999-999999999999",
   "existsLevel2Taxonomy": true,
   "level2Taxonomy": "Taxonomien",
   "existsLevel3": true,
@@ -422,8 +333,6 @@ query AppQueryQuery(
 {
   "existsLevel2Pc": false,
   "level2Pc": "99999999-9999-9999-9999-999999999999",
-  "existsLevel2Rc": false,
-  "level2Rc": "99999999-9999-9999-9999-999999999999",
   "existsLevel2Taxonomy": true,
   "level2Taxonomy": "Taxonomien",
   "existsLevel3": true,

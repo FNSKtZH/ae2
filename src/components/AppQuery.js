@@ -25,11 +25,6 @@ const AppQuery = ({ store }: { store: Object }) => {
     store.activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
     store.activeNodeArray.length > 0
   const level2Pc = existsLevel2Pc ? store.activeNodeArray[0] : 'none'
-  const existsLevel2Rc =
-    existsLevel1 &&
-    store.activeNodeArray[0] === 'Beziehungs-Sammlungen' &&
-    store.activeNodeArray.length > 0
-  const level2Rc = existsLevel2Rc ? store.activeNodeArray[0] : 'none'
   const existsLevel3 = store.activeNodeArray.length > 1
   const level3Taxonomy = existsLevel3 ? store.activeNodeArray[1] : 'none'
   const existsLevel4 = store.activeNodeArray.length > 2
@@ -78,8 +73,6 @@ const AppQuery = ({ store }: { store: Object }) => {
         query AppQueryQuery(
           $existsLevel2Pc: Boolean!,
           $level2Pc: String!,
-          $existsLevel2Rc: Boolean!,
-          $level2Rc: String!,
           $existsLevel2Taxonomy: Boolean!,
           $level2Taxonomy: String!,
           $existsLevel3: Boolean!,
@@ -119,18 +112,6 @@ const AppQuery = ({ store }: { store: Object }) => {
               id
               name
               propertyCollectionObjectsByPropertyCollectionId {
-                totalCount
-              }
-            }
-          }
-          allRelationCollections {
-            totalCount
-          }
-          relationCollectionByDataType(datatype: $level2Rc) @include(if: $existsLevel2Rc) {
-            nodes {
-              id
-              name
-              relationCollectionObjectsByRelationCollectionId {
                 totalCount
               }
             }
@@ -300,51 +281,6 @@ const AppQuery = ({ store }: { store: Object }) => {
                               }
                             }
                           }
-                          relationCollectionObjectsByObjectId {
-                            totalCount
-                            nodes {
-                              relationCollectionId
-                              relationCollectionByRelationCollectionId {
-                                id
-                                name
-                                description
-                                links
-                                lastUpdated
-                                natureOfRelation
-                                combining
-                                taxonomic
-                                termsOfUse
-                                organizationByOrganizationId {
-                                  name
-                                }
-                                userByImportedBy {
-                                  name
-                                  email
-                                }
-                              }
-                              relationsByObjectIdAndRelationCollectionId {
-                                totalCount
-                                nodes {
-                                  id
-                                  properties
-                                  relationPartnersByRelationId {
-                                    totalCount
-                                    nodes {
-                                      objectByObjectId {
-                                        taxonomyObjectsByObjectId {
-                                          totalCount
-                                          nodes {
-                                            id
-                                            name
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
                         }
                       }
                     }
@@ -371,51 +307,6 @@ const AppQuery = ({ store }: { store: Object }) => {
                     userByImportedBy{
                       name
                       email
-                    }
-                  }
-                }
-              }
-              relationCollectionObjectsByObjectId {
-                totalCount
-                nodes {
-                  relationCollectionId
-                  relationCollectionByRelationCollectionId {
-                    id
-                    name
-                    description
-                    links
-                    lastUpdated
-                    natureOfRelation
-                    combining
-                    termsOfUse
-                    taxonomic
-                    organizationByOrganizationId {
-                      name
-                    }
-                    userByImportedBy {
-                      name
-                      email
-                    }
-                  }
-                  relationsByObjectIdAndRelationCollectionId {
-                    totalCount
-                    nodes {
-                      id
-                      properties
-                      relationPartnersByRelationId {
-                        totalCount
-                        nodes {
-                          objectByObjectId {
-                            taxonomyObjectsByObjectId {
-                              totalCount
-                              nodes {
-                                id
-                                name
-                              }
-                            }
-                          }
-                        }
-                      }
                     }
                   }
                 }
@@ -457,13 +348,6 @@ const AppQuery = ({ store }: { store: Object }) => {
               name
             }
           }
-          filterSuggestionsRC: relationCollectionByRelationName(relationName: $treeFilterText) @include(if: $existsTreeFilterText) {
-            totalCount
-            nodes {
-              id
-              name
-            }
-          }
           filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterText) {
             totalCount
             nodes {
@@ -477,20 +361,18 @@ const AppQuery = ({ store }: { store: Object }) => {
             }
           }
           pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {
-          nodes {
-            propertyCollectionName
-            propertyName
-            jsontype
-            count
+            nodes {
+              propertyCollectionName
+              propertyName
+              jsontype
+              count
+            }
           }
-        }
         }
       `}
       variables={{
         existsLevel2Pc,
         level2Pc,
-        existsLevel2Rc,
-        level2Rc,
         existsLevel2Taxonomy,
         level2Taxonomy,
         existsLevel3,
