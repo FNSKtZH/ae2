@@ -18,9 +18,8 @@ const Value = styled.p`
   margin: 3px 0;
   padding: 2px;
   width: 100%;
-  /*border: 1px solid rgba(0,0,0,0.04);*/
-  border-radius: 3px;
-  text-align: bottom;
+  /*border: 1px solid rgba(0,0,0,0.04);
+  border-radius: 3px;*/
 `
 const linkifyProperties = {
   target: '_blank',
