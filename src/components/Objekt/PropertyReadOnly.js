@@ -3,9 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Linkify from 'react-linkify'
 
-const Container = styled.div`
-  display: flex;
-`
+const Container = styled.div`display: flex;`
 const Label = styled.p`
   flex-basis: 230px;
   flex-shrink: 0;
@@ -15,9 +13,7 @@ const Label = styled.p`
   margin: 5px 0;
   color: grey;
 `
-const Value = styled.p`
-  margin: 5px 0;
-`
+const Value = styled.p`margin: 5px 0;`
 const linkifyProperties = {
   target: '_blank',
   style: {
@@ -40,7 +36,12 @@ const PropertyReadOnly = ({
 
   return (
     <Linkify properties={linkifyProperties}>
-      <Container><Label>{`${label}:`}</Label><Value>{val}</Value></Container>
+      <Container className="property">
+        <Label>{`${label}:`}</Label>
+        <Value>
+          {val}
+        </Value>
+      </Container>
     </Linkify>
   )
 }

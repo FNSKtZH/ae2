@@ -11,7 +11,11 @@ const Container = styled(({ intermediateRelation, ...rest }) =>
 )`
   border-bottom: ${props =>
     `${props.intermediateRelation ? '1px solid #c6c6c6' : 'none'}`};
-  padding: ${props => `${props.intermediateRelation ? '7px 0' : 0}`};
+  padding: 7px 0;
+  .property p {
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
 `
 
 const Relation = ({
