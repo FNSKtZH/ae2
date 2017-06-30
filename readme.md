@@ -71,6 +71,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Struktur- und Navigationsbaum
   - [x] Suche:<br/>![Datenstruktur](/etc/grasfrosch_suchen.png?raw=true "Grasfrosch suchen")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
+    - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>
     - [x] inklusive Synonymen aus anderen Objekten<br/>
     Hinweis: Synonyme werden normalerweise erstellt, indem das entsprechende Taxonomie-Objekt jener Taxonomie demselben Objekt zugeordnet wird.
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen aus anderen Objekten<br/>
