@@ -117,7 +117,7 @@ const Objekt = ({ store }: { store: Object }) => {
       )}
       {propertyCollectionObjectsOfSynonyms.length > 0 &&
         <Title>
-          Eigenschaften von Synonymen aus anderen Objekten
+          Eigenschaften von Synonymen
           <TitleSpan>
             {` (${propertyCollectionObjectsOfSynonyms.length} ${propertyCollectionObjectsOfSynonyms.length >
             1
