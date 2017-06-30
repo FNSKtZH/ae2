@@ -1,25 +1,25 @@
 query AppQueryQuery(
-  $existsLevel2Pc: Boolean!,
-  $level2Pc: String!,
-  $existsLevel2Taxonomy: Boolean!,
-  $level2Taxonomy: String!,
-  $existsLevel3: Boolean!,
-  $level3Taxonomy: String!,
-  $existsLevel4: Boolean!,
-  $level4Taxonomy: Uuid!,
-  $existsLevel5: Boolean!,
-  $level5Taxonomy: Uuid!,
-  $existsLevel6: Boolean!,
-  $level6Taxonomy: Uuid!,
-  $existsLevel7: Boolean!,
-  $level7Taxonomy: Uuid!,
-  $existsLevel8: Boolean!,
-  $level8Taxonomy: Uuid!,
-  $existsLevel9: Boolean!,
-  $level9Taxonomy: Uuid!,
-  $existsLevel10: Boolean!,
+  $existsLevel2Pc: Boolean!
+  $level2Pc: String!
+  $existsLevel2Taxonomy: Boolean!
+  $level2Taxonomy: String!
+  $existsLevel3: Boolean!
+  $level3Taxonomy: String!
+  $existsLevel4: Boolean!
+  $level4Taxonomy: Uuid!
+  $existsLevel5: Boolean!
+  $level5Taxonomy: Uuid!
+  $existsLevel6: Boolean!
+  $level6Taxonomy: Uuid!
+  $existsLevel7: Boolean!
+  $level7Taxonomy: Uuid!
+  $existsLevel8: Boolean!
+  $level8Taxonomy: Uuid!
+  $existsLevel9: Boolean!
+  $level9Taxonomy: Uuid!
+  $existsLevel10: Boolean!
   $level10Taxonomy: Uuid!
-  $activeTaxonomyObject: Uuid!
+  $activeTaxonomyObjectId: Uuid!
   $existsActiveTaxonomyObject: Boolean!
   $existsUrlFromTOId: Boolean!
   $urlFromTOId: Uuid!
@@ -35,7 +35,8 @@ query AppQueryQuery(
   allPropertyCollections {
     totalCount
   }
-  propertyCollectionByDataType(datatype: $level2Pc) @include(if: $existsLevel2Pc) {
+  propertyCollectionByDataType(datatype: $level2Pc)
+    @include(if: $existsLevel2Pc) {
     nodes {
       id
       name
@@ -44,7 +45,8 @@ query AppQueryQuery(
       }
     }
   }
-  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2Taxonomy) {
+  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy)
+    @include(if: $existsLevel2Taxonomy) {
     nodes {
       id
       name
@@ -53,7 +55,8 @@ query AppQueryQuery(
       }
     }
   }
-  level3Taxonomy: categoryByName(name: $level3Taxonomy) @include(if: $existsLevel3) {
+  level3Taxonomy: categoryByName(name: $level3Taxonomy)
+    @include(if: $existsLevel3) {
     taxonomiesByCategory {
       nodes {
         id
@@ -64,7 +67,8 @@ query AppQueryQuery(
       }
     }
   }
-  level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {
+  level4Taxonomy: taxonomyById(id: $level4Taxonomy)
+    @include(if: $existsLevel4) {
     taxonomyObjectLevel1 {
       nodes {
         id
@@ -75,7 +79,8 @@ query AppQueryQuery(
       }
     }
   }
-  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) @include(if: $existsLevel5) {
+  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy)
+    @include(if: $existsLevel5) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -87,7 +92,8 @@ query AppQueryQuery(
       }
     }
   }
-  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) @include(if: $existsLevel6) {
+  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy)
+    @include(if: $existsLevel6) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -99,7 +105,8 @@ query AppQueryQuery(
       }
     }
   }
-  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) @include(if: $existsLevel7) {
+  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy)
+    @include(if: $existsLevel7) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -111,7 +118,8 @@ query AppQueryQuery(
       }
     }
   }
-  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) @include(if: $existsLevel8) {
+  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy)
+    @include(if: $existsLevel8) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -123,7 +131,8 @@ query AppQueryQuery(
       }
     }
   }
-  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) @include(if: $existsLevel9) {
+  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy)
+    @include(if: $existsLevel9) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -135,7 +144,8 @@ query AppQueryQuery(
       }
     }
   }
-  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) @include(if: $existsLevel10) {
+  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy)
+    @include(if: $existsLevel10) {
     taxonomyObjectsByParentId {
       totalCount
       nodes {
@@ -147,7 +157,8 @@ query AppQueryQuery(
       }
     }
   }
-  taxonomyObjectById(id: $activeTaxonomyObject) @include(if: $existsActiveTaxonomyObject) {
+  taxonomyObjectById(id: $activeTaxonomyObjectId)
+    @include(if: $existsActiveTaxonomyObject) {
     objectByObjectId {
       id
       taxonomyObjectsByObjectId {
@@ -221,7 +232,7 @@ query AppQueryQuery(
           objectId
           propertyCollectionId
           properties
-          propertyCollectionByPropertyCollectionId{
+          propertyCollectionByPropertyCollectionId {
             name
             description
             links
@@ -229,10 +240,10 @@ query AppQueryQuery(
             lastUpdated
             termsOfUse
             importedBy
-            organizationByOrganizationId{
+            organizationByOrganizationId {
               name
             }
-            userByImportedBy{
+            userByImportedBy {
               name
               email
             }
@@ -241,7 +252,8 @@ query AppQueryQuery(
       }
     }
   }
-  urlFromTO: taxonomyObjectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
+  urlFromTO: taxonomyObjectById(id: $urlFromTOId)
+    @include(if: $existsUrlFromTOId) {
     id
     taxonomyObjectByParentId {
       id
@@ -269,14 +281,18 @@ query AppQueryQuery(
       }
     }
   }
-  filterSuggestionsPC: propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterText) {
+  filterSuggestionsPC: propertyCollectionByPropertyName(
+    propertyName: $treeFilterText
+  ) @include(if: $existsTreeFilterText) {
     totalCount
     nodes {
       id
       name
     }
   }
-  filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterText) {
+  filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(
+    taxonomyObjectName: $treeFilterText
+  ) @include(if: $existsTreeFilterText) {
     totalCount
     nodes {
       id
@@ -288,7 +304,8 @@ query AppQueryQuery(
       name
     }
   }
-  pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {
+  pcoPropertiesByCategoriesFunction(categories: $exportCategories)
+    @include(if: $queryExportCategories) {
     nodes {
       propertyCollectionName
       propertyName
@@ -307,20 +324,20 @@ query AppQueryQuery(
   "existsLevel3": true,
   "level3Taxonomy": "Flora",
   "existsLevel4": true,
-  "level4Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "level4Taxonomy": "2339fb91-5d0d-11e7-84b7-87417ccd9781",
   "existsLevel5": true,
-  "level5Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "level5Taxonomy": "326901c3-5d0d-11e7-84b7-87417ccd9781",
   "existsLevel6": false,
-  "level6Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "level6Taxonomy": "327732ce-5d0d-11e7-84b7-87417ccd9781",
   "existsLevel7": false,
-  "level7Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "level7Taxonomy": "32f82250-5d0d-11e7-84b7-87417ccd9781",
   "existsLevel8": false,
   "level8Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel9": false,
   "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel10": false,
   "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "activeTaxonomyObject": "99999999-9999-9999-9999-999999999999",
+  "activeTaxonomyObjectId": "32f82250-5d0d-11e7-84b7-87417ccd9781",
   "existsActiveTaxonomyObject": true,
   "existsUrlFromTOId": false,
   "urlFromTOId": "99999999-9999-9999-9999-999999999999",
@@ -353,7 +370,7 @@ query AppQueryQuery(
   "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel10": false,
   "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "activeTaxonomyObject": "99999999-9999-9999-9999-999999999999",
+  "activeTaxonomyObjectId": "99999999-9999-9999-9999-999999999999",
   "existsActiveTaxonomyObject": false,
   "existsUrlFromTOId": false,
   "urlFromTOId": "99999999-9999-9999-9999-999999999999",
