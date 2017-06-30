@@ -10,10 +10,16 @@ const Label = styled.p`
   flex-grow: 0;
   text-align: right;
   padding-right: 5px;
-  margin: 5px 0;
+  margin: 3px 0;
+  padding: 2px;
   color: grey;
 `
-const Value = styled.p`margin: 5px 0;`
+const Value = styled.p`
+  margin: 3px 0;
+  padding: 2px;
+  width: 100%;
+  background-color: #fff9ef;
+`
 const linkifyProperties = {
   target: '_blank',
   style: {
