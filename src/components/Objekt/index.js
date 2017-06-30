@@ -66,11 +66,6 @@ const Objekt = ({ store }: { store: Object }) => {
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
     pco => !propertyCollectionIds.includes(pco.propertyCollectionId)
   )
-  /**
-   * TODO:
-   * returns "Cannot convert undefined or null to object"
-   * Does not happen if return null
-   */
 
   return (
     <Container>

@@ -9,9 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   font-size: 0.9em;
 `
-const Row = styled.div`
-  display: flex;
-`
+const Row = styled.div`display: flex;`
 const Label = styled.p`
   flex-basis: 230px;
   flex-shrink: 0;
@@ -21,9 +19,7 @@ const Label = styled.p`
   margin: 2px 0;
   color: grey;
 `
-const Value = styled.p`
-  margin: 2px 0;
-`
+const Value = styled.p`margin: 2px 0;`
 const linkifyProperties = {
   target: '_blank',
   style: {
@@ -33,39 +29,72 @@ const linkifyProperties = {
   },
 }
 
-const PropertyCollection = ({ pC }: { pC: Object }) =>
-  <Linkify properties={linkifyProperties}>
-    <Container>
-      <Row>
-        <Label>{'Zusammenfassend:'}</Label>
-        <Value>{pC.combining ? 'ja' : 'nein'}</Value>
-      </Row>
-      <Row>
-        <Label>{'Stand:'}</Label>
-        <Value>{get(pC, 'lastUpdated', '')}</Value>
-      </Row>
-      <Row>
-        <Label>{'Link:'}</Label><Value>{get(pC, 'links', '')}</Value>
-      </Row>
-      <Row>
-        <Label>{'Nutzungsbedingungen:'}</Label>
-        <Value>{get(pC, 'termsOfUse', '')}</Value>
-      </Row>
-      <Row>
-        <Label>{'Importiert von:'}</Label>
-        <Value>{`${get(pC, 'userByImportedBy.name', '')} (${get(
-          pC,
-          'userByImportedBy.email',
-          ''
-        )})`}</Value>
-      </Row>
-      <Row>
-        <Label>{'Organisation mit Schreibrecht:'}</Label>
-        <Value>
-          {get(pC, 'organizationByOrganizationId.name', '')}
-        </Value>
-      </Row>
-    </Container>
-  </Linkify>
+const PropertyCollection = ({ pC }: { pC: Object }) => {
+  const userImportedByName = get(pC, 'userByImportedBy.name')
+  const userImportedByEmail = get(pC, 'userByImportedBy.email')
+  const organizationName = get(pC, 'organizationByOrganizationId.name')
+
+  return (
+    <Linkify properties={linkifyProperties}>
+      <Container>
+        {pC.combining &&
+          <Row>
+            <Label>
+              {'Zusammenfassend:'}
+            </Label>
+            <Value>
+              {pC.combining ? 'ja' : 'nein'}
+            </Value>
+          </Row>}
+        {pC.lastUpdated &&
+          <Row>
+            <Label>
+              {'Stand:'}
+            </Label>
+            <Value>
+              {pC.lastUpdated}
+            </Value>
+          </Row>}
+        {pC.links &&
+          pC.links.length > 0 &&
+          <Row>
+            <Label>
+              {'Link:'}
+            </Label>
+            <Value>
+              {pC.links}
+            </Value>
+          </Row>}
+        {pC.termsOfUse &&
+          <Row>
+            <Label>
+              {'Nutzungsbedingungen:'}
+            </Label>
+            <Value>
+              {pC.termsOfUse}
+            </Value>
+          </Row>}
+        {userImportedByName &&
+          <Row>
+            <Label>
+              {'Importiert von:'}
+            </Label>
+            <Value>{`${userImportedByName}${userImportedByEmail
+              ? ` (${userImportedByEmail})`
+              : ``}`}</Value>
+          </Row>}
+        {organizationName &&
+          <Row>
+            <Label>
+              {'Organisation mit Schreibrecht:'}
+            </Label>
+            <Value>
+              {organizationName}
+            </Value>
+          </Row>}
+      </Container>
+    </Linkify>
+  )
+}
 
 export default PropertyCollection

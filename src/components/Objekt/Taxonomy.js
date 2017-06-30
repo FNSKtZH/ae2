@@ -9,9 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   font-size: 0.9em;
 `
-const Row = styled.div`
-  display: flex;
-`
+const Row = styled.div`display: flex;`
 const Label = styled.p`
   flex-basis: 230px;
   flex-shrink: 0;
@@ -21,9 +19,7 @@ const Label = styled.p`
   margin: 2px 0;
   color: grey;
 `
-const Value = styled.p`
-  margin: 2px 0;
-`
+const Value = styled.p`margin: 2px 0;`
 const linkifyProperties = {
   target: '_blank',
   style: {
@@ -33,23 +29,43 @@ const linkifyProperties = {
   },
 }
 
-const Taxonomy = ({ taxonomy }: { taxonomy: Object }) =>
-  <Linkify properties={linkifyProperties}>
-    <Container>
-      <Row>
-        <Label>{'Stand:'}</Label>
-        <Value>{get(taxonomy, 'lastUpdated', '')}</Value>
-      </Row>
-      <Row>
-        <Label>{'Link:'}</Label><Value>{get(taxonomy, 'links', '')}</Value>
-      </Row>
-      <Row>
-        <Label>{'Organisation mit Schreibrecht:'}</Label>
-        <Value>
-          {get(taxonomy, 'organizationByOrganizationId.name', '')}
-        </Value>
-      </Row>
-    </Container>
-  </Linkify>
+const Taxonomy = ({ taxonomy }: { taxonomy: Object }) => {
+  const organizationName = get(taxonomy, 'organizationByOrganizationId.name')
+
+  return (
+    <Linkify properties={linkifyProperties}>
+      <Container>
+        {taxonomy.lastUpdated &&
+          <Row>
+            <Label>
+              {'Stand:'}
+            </Label>
+            <Value>
+              {taxonomy.lastUpdated}
+            </Value>
+          </Row>}
+        {taxonomy.links &&
+          taxonomy.links.length > 0 &&
+          <Row>
+            <Label>
+              {'Link:'}
+            </Label>
+            <Value>
+              {taxonomy.links}
+            </Value>
+          </Row>}
+        {organizationName &&
+          <Row>
+            <Label>
+              {'Organisation mit Schreibrecht:'}
+            </Label>
+            <Value>
+              {organizationName}
+            </Value>
+          </Row>}
+      </Container>
+    </Linkify>
+  )
+}
 
 export default Taxonomy

@@ -62,7 +62,12 @@ const TaxonomyObject = ({
         </CardText>
       </Card>
       <CardText expandable={true} style={tOCardTextStyle}>
-        {sortBy(Object.entries(properties), e => e[0]).map(([key, value]) =>
+        {sortBy(
+          Object.entries(properties).filter(
+            ([key, value]) => value || value === 0
+          ),
+          e => e[0]
+        ).map(([key, value]) =>
           <PropertyReadOnly key={key} value={value} label={key} />
         )}
       </CardText>

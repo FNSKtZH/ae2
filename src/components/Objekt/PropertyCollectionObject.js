@@ -31,7 +31,9 @@ const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
   propertiesArray = propertiesArray.filter(
     o => o[1] || o[1] === 0 || o[1] === false
   )
-  propertiesArray = sortBy(propertiesArray, e => e[0])
+  propertiesArray = sortBy(propertiesArray, e => e[0]).filter(
+    ([key, value]) => value || value === 0
+  )
 
   return (
     <Card style={pCOCardStyle}>
