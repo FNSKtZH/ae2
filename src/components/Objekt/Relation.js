@@ -24,7 +24,6 @@ const Relation = ({
   // never pass null to Object.entries!!!
   const properties = JSON.parse(relation.properties) || {}
   const category = relation.objectByRelatedObjectId.category
-  console.log('')
   const rPartnerLabel =
     category === 'Lebensräume' ? 'Lebensraum' : `${category}-Art`
   const rPartners = get(
