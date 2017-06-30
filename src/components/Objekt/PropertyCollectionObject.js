@@ -45,7 +45,7 @@ const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
     o => o[1] || o[1] === 0 || o[1] === false
   )
   propertiesArray = sortBy(propertiesArray, e => e[0]).filter(
-    ([key, value]) => value || value === 0
+    ([key, value]) => value || value === 0 || value === false
   )
   const relationsTitleText =
     relations.length > 1 ? 'Beziehungen:' : 'Beziehung:'
