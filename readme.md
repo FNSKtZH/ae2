@@ -18,14 +18,18 @@
 -	Datenintegrität besser gewährleisten
 
 ### Funktionale Ziele:
-Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaften- und Beziehungssammlungen beschrieben werden kann. Das ermöglicht:
--	Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaften- und Beziehungssammlungen
--	Alle Taxonomien bleiben langfristig erhalten
--	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
--	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
--	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
-
-Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
+1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaften- und Beziehungssammlungen beschrieben werden kann. Das ermöglicht:
+  -	Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaften- und Beziehungssammlungen
+  -	Alle Taxonomien bleiben langfristig erhalten
+  -	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
+  -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
+  -	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
+2. Beziehungs-Sammlungen werden in Eigenschaften-Sammlungen integriert: Es sind einfach Eigenschaften-Sammlungen mit Beziehungen
+  - Ist einfacher zu verstehen
+  - Beziehungen und Eigenschaften einer Eigenschaften-Sammlung werden am selben Ort angezeigt
+  - Vereinfacht die Datenstruktur
+  - Vereinfacht Im- und Exporte
+3. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
 
 ### Diese Technologien werden verwendet:
 
