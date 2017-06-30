@@ -290,6 +290,23 @@ const AppQuery = ({ store }: { store: Object }) => {
                                   email
                                 }
                               }
+                              relationsByPropertyCollectionObjectId {
+                                totalCount
+                                nodes {
+                                  id
+                                  relatedObjectId
+                                  relationType
+                                  properties
+                                  objectByRelatedObjectId {
+                                    taxonomyObjectsByObjectId {
+                                      totalCount
+                                      nodes {
+                                        name
+                                      }
+                                    }
+                                  }
+                                }
+                              }
                             }
                           }
                         }
@@ -318,6 +335,23 @@ const AppQuery = ({ store }: { store: Object }) => {
                     userByImportedBy {
                       name
                       email
+                    }
+                  }
+                  relationsByPropertyCollectionObjectId {
+                    totalCount
+                    nodes {
+                      id
+                      relatedObjectId
+                      relationType
+                      properties
+                      objectByRelatedObjectId {
+                        taxonomyObjectsByObjectId {
+                          totalCount
+                          nodes {
+                            name
+                          }
+                        }
+                      }
                     }
                   }
                 }

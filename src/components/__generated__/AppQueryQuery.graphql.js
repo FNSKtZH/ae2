@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 2527796e507118889940eb0105d3eeb2
+ * @relayHash 88ed7393e1caa551b600bb3614a941ed
  */
 
 /* eslint-disable */
@@ -191,6 +191,23 @@ export type AppQueryQueryResponse = {|
                           +email: string;
                         |};
                       |};
+                      +relationsByPropertyCollectionObjectId: ?{|
+                        +totalCount: ?number;
+                        +nodes: ?$ReadOnlyArray<{|
+                          +id: any;
+                          +relatedObjectId: any;
+                          +relationType: string;
+                          +properties: ?any;
+                          +objectByRelatedObjectId: ?{|
+                            +taxonomyObjectsByObjectId: ?{|
+                              +totalCount: ?number;
+                              +nodes: ?$ReadOnlyArray<{|
+                                +name: string;
+                              |}>;
+                            |};
+                          |};
+                        |}>;
+                      |};
                     |}>;
                   |};
                 |};
@@ -220,6 +237,23 @@ export type AppQueryQueryResponse = {|
               +name: string;
               +email: string;
             |};
+          |};
+          +relationsByPropertyCollectionObjectId: ?{|
+            +totalCount: ?number;
+            +nodes: ?$ReadOnlyArray<{|
+              +id: any;
+              +relatedObjectId: any;
+              +relationType: string;
+              +properties: ?any;
+              +objectByRelatedObjectId: ?{|
+                +taxonomyObjectsByObjectId: ?{|
+                  +totalCount: ?number;
+                  +nodes: ?$ReadOnlyArray<{|
+                    +name: string;
+                  |}>;
+                |};
+              |};
+            |}>;
           |};
         |}>;
       |};
@@ -489,6 +523,23 @@ query AppQueryQuery(
                           email
                         }
                       }
+                      relationsByPropertyCollectionObjectId {
+                        totalCount
+                        nodes {
+                          id
+                          relatedObjectId
+                          relationType
+                          properties
+                          objectByRelatedObjectId {
+                            taxonomyObjectsByObjectId {
+                              totalCount
+                              nodes {
+                                name
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -517,6 +568,23 @@ query AppQueryQuery(
             userByImportedBy {
               name
               email
+            }
+          }
+          relationsByPropertyCollectionObjectId {
+            totalCount
+            nodes {
+              id
+              relatedObjectId
+              relationType
+              properties
+              objectByRelatedObjectId {
+                taxonomyObjectsByObjectId {
+                  totalCount
+                  nodes {
+                    name
+                  }
+                }
+              }
             }
           }
         }
@@ -2014,6 +2082,110 @@ const batch /*: ConcreteBatch*/ = {
                                                       }
                                                     ],
                                                     "storageKey": null
+                                                  },
+                                                  {
+                                                    "kind": "LinkedField",
+                                                    "alias": null,
+                                                    "args": null,
+                                                    "concreteType": "RelationsConnection",
+                                                    "name": "relationsByPropertyCollectionObjectId",
+                                                    "plural": false,
+                                                    "selections": [
+                                                      {
+                                                        "kind": "ScalarField",
+                                                        "alias": null,
+                                                        "args": null,
+                                                        "name": "totalCount",
+                                                        "storageKey": null
+                                                      },
+                                                      {
+                                                        "kind": "LinkedField",
+                                                        "alias": null,
+                                                        "args": null,
+                                                        "concreteType": "Relation",
+                                                        "name": "nodes",
+                                                        "plural": true,
+                                                        "selections": [
+                                                          {
+                                                            "kind": "ScalarField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "name": "id",
+                                                            "storageKey": null
+                                                          },
+                                                          {
+                                                            "kind": "ScalarField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "name": "relatedObjectId",
+                                                            "storageKey": null
+                                                          },
+                                                          {
+                                                            "kind": "ScalarField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "name": "relationType",
+                                                            "storageKey": null
+                                                          },
+                                                          {
+                                                            "kind": "ScalarField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "name": "properties",
+                                                            "storageKey": null
+                                                          },
+                                                          {
+                                                            "kind": "LinkedField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "concreteType": "Object",
+                                                            "name": "objectByRelatedObjectId",
+                                                            "plural": false,
+                                                            "selections": [
+                                                              {
+                                                                "kind": "LinkedField",
+                                                                "alias": null,
+                                                                "args": null,
+                                                                "concreteType": "TaxonomyObjectsConnection",
+                                                                "name": "taxonomyObjectsByObjectId",
+                                                                "plural": false,
+                                                                "selections": [
+                                                                  {
+                                                                    "kind": "ScalarField",
+                                                                    "alias": null,
+                                                                    "args": null,
+                                                                    "name": "totalCount",
+                                                                    "storageKey": null
+                                                                  },
+                                                                  {
+                                                                    "kind": "LinkedField",
+                                                                    "alias": null,
+                                                                    "args": null,
+                                                                    "concreteType": "TaxonomyObject",
+                                                                    "name": "nodes",
+                                                                    "plural": true,
+                                                                    "selections": [
+                                                                      {
+                                                                        "kind": "ScalarField",
+                                                                        "alias": null,
+                                                                        "args": null,
+                                                                        "name": "name",
+                                                                        "storageKey": null
+                                                                      }
+                                                                    ],
+                                                                    "storageKey": null
+                                                                  }
+                                                                ],
+                                                                "storageKey": null
+                                                              }
+                                                            ],
+                                                            "storageKey": null
+                                                          }
+                                                        ],
+                                                        "storageKey": null
+                                                      }
+                                                    ],
+                                                    "storageKey": null
                                                   }
                                                 ],
                                                 "storageKey": null
@@ -2178,6 +2350,110 @@ const batch /*: ConcreteBatch*/ = {
                                     "alias": null,
                                     "args": null,
                                     "name": "email",
+                                    "storageKey": null
+                                  }
+                                ],
+                                "storageKey": null
+                              }
+                            ],
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "LinkedField",
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "RelationsConnection",
+                            "name": "relationsByPropertyCollectionObjectId",
+                            "plural": false,
+                            "selections": [
+                              {
+                                "kind": "ScalarField",
+                                "alias": null,
+                                "args": null,
+                                "name": "totalCount",
+                                "storageKey": null
+                              },
+                              {
+                                "kind": "LinkedField",
+                                "alias": null,
+                                "args": null,
+                                "concreteType": "Relation",
+                                "name": "nodes",
+                                "plural": true,
+                                "selections": [
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "args": null,
+                                    "name": "id",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "args": null,
+                                    "name": "relatedObjectId",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "args": null,
+                                    "name": "relationType",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "args": null,
+                                    "name": "properties",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "kind": "LinkedField",
+                                    "alias": null,
+                                    "args": null,
+                                    "concreteType": "Object",
+                                    "name": "objectByRelatedObjectId",
+                                    "plural": false,
+                                    "selections": [
+                                      {
+                                        "kind": "LinkedField",
+                                        "alias": null,
+                                        "args": null,
+                                        "concreteType": "TaxonomyObjectsConnection",
+                                        "name": "taxonomyObjectsByObjectId",
+                                        "plural": false,
+                                        "selections": [
+                                          {
+                                            "kind": "ScalarField",
+                                            "alias": null,
+                                            "args": null,
+                                            "name": "totalCount",
+                                            "storageKey": null
+                                          },
+                                          {
+                                            "kind": "LinkedField",
+                                            "alias": null,
+                                            "args": null,
+                                            "concreteType": "TaxonomyObject",
+                                            "name": "nodes",
+                                            "plural": true,
+                                            "selections": [
+                                              {
+                                                "kind": "ScalarField",
+                                                "alias": null,
+                                                "args": null,
+                                                "name": "name",
+                                                "storageKey": null
+                                              }
+                                            ],
+                                            "storageKey": null
+                                          }
+                                        ],
+                                        "storageKey": null
+                                      }
+                                    ],
                                     "storageKey": null
                                   }
                                 ],
@@ -4044,6 +4320,110 @@ const batch /*: ConcreteBatch*/ = {
                                                       }
                                                     ],
                                                     "storageKey": null
+                                                  },
+                                                  {
+                                                    "kind": "LinkedField",
+                                                    "alias": null,
+                                                    "args": null,
+                                                    "concreteType": "RelationsConnection",
+                                                    "name": "relationsByPropertyCollectionObjectId",
+                                                    "plural": false,
+                                                    "selections": [
+                                                      {
+                                                        "kind": "ScalarField",
+                                                        "alias": null,
+                                                        "args": null,
+                                                        "name": "totalCount",
+                                                        "storageKey": null
+                                                      },
+                                                      {
+                                                        "kind": "LinkedField",
+                                                        "alias": null,
+                                                        "args": null,
+                                                        "concreteType": "Relation",
+                                                        "name": "nodes",
+                                                        "plural": true,
+                                                        "selections": [
+                                                          {
+                                                            "kind": "ScalarField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "name": "id",
+                                                            "storageKey": null
+                                                          },
+                                                          {
+                                                            "kind": "ScalarField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "name": "relatedObjectId",
+                                                            "storageKey": null
+                                                          },
+                                                          {
+                                                            "kind": "ScalarField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "name": "relationType",
+                                                            "storageKey": null
+                                                          },
+                                                          {
+                                                            "kind": "ScalarField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "name": "properties",
+                                                            "storageKey": null
+                                                          },
+                                                          {
+                                                            "kind": "LinkedField",
+                                                            "alias": null,
+                                                            "args": null,
+                                                            "concreteType": "Object",
+                                                            "name": "objectByRelatedObjectId",
+                                                            "plural": false,
+                                                            "selections": [
+                                                              {
+                                                                "kind": "LinkedField",
+                                                                "alias": null,
+                                                                "args": null,
+                                                                "concreteType": "TaxonomyObjectsConnection",
+                                                                "name": "taxonomyObjectsByObjectId",
+                                                                "plural": false,
+                                                                "selections": [
+                                                                  {
+                                                                    "kind": "ScalarField",
+                                                                    "alias": null,
+                                                                    "args": null,
+                                                                    "name": "totalCount",
+                                                                    "storageKey": null
+                                                                  },
+                                                                  {
+                                                                    "kind": "LinkedField",
+                                                                    "alias": null,
+                                                                    "args": null,
+                                                                    "concreteType": "TaxonomyObject",
+                                                                    "name": "nodes",
+                                                                    "plural": true,
+                                                                    "selections": [
+                                                                      {
+                                                                        "kind": "ScalarField",
+                                                                        "alias": null,
+                                                                        "args": null,
+                                                                        "name": "name",
+                                                                        "storageKey": null
+                                                                      }
+                                                                    ],
+                                                                    "storageKey": null
+                                                                  }
+                                                                ],
+                                                                "storageKey": null
+                                                              }
+                                                            ],
+                                                            "storageKey": null
+                                                          }
+                                                        ],
+                                                        "storageKey": null
+                                                      }
+                                                    ],
+                                                    "storageKey": null
                                                   }
                                                 ],
                                                 "storageKey": null
@@ -4208,6 +4588,110 @@ const batch /*: ConcreteBatch*/ = {
                                     "alias": null,
                                     "args": null,
                                     "name": "email",
+                                    "storageKey": null
+                                  }
+                                ],
+                                "storageKey": null
+                              }
+                            ],
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "LinkedField",
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "RelationsConnection",
+                            "name": "relationsByPropertyCollectionObjectId",
+                            "plural": false,
+                            "selections": [
+                              {
+                                "kind": "ScalarField",
+                                "alias": null,
+                                "args": null,
+                                "name": "totalCount",
+                                "storageKey": null
+                              },
+                              {
+                                "kind": "LinkedField",
+                                "alias": null,
+                                "args": null,
+                                "concreteType": "Relation",
+                                "name": "nodes",
+                                "plural": true,
+                                "selections": [
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "args": null,
+                                    "name": "id",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "args": null,
+                                    "name": "relatedObjectId",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "args": null,
+                                    "name": "relationType",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "args": null,
+                                    "name": "properties",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "kind": "LinkedField",
+                                    "alias": null,
+                                    "args": null,
+                                    "concreteType": "Object",
+                                    "name": "objectByRelatedObjectId",
+                                    "plural": false,
+                                    "selections": [
+                                      {
+                                        "kind": "LinkedField",
+                                        "alias": null,
+                                        "args": null,
+                                        "concreteType": "TaxonomyObjectsConnection",
+                                        "name": "taxonomyObjectsByObjectId",
+                                        "plural": false,
+                                        "selections": [
+                                          {
+                                            "kind": "ScalarField",
+                                            "alias": null,
+                                            "args": null,
+                                            "name": "totalCount",
+                                            "storageKey": null
+                                          },
+                                          {
+                                            "kind": "LinkedField",
+                                            "alias": null,
+                                            "args": null,
+                                            "concreteType": "TaxonomyObject",
+                                            "name": "nodes",
+                                            "plural": true,
+                                            "selections": [
+                                              {
+                                                "kind": "ScalarField",
+                                                "alias": null,
+                                                "args": null,
+                                                "name": "name",
+                                                "storageKey": null
+                                              }
+                                            ],
+                                            "storageKey": null
+                                          }
+                                        ],
+                                        "storageKey": null
+                                      }
+                                    ],
                                     "storageKey": null
                                   }
                                 ],
@@ -4637,7 +5121,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query AppQueryQuery(\n  $existsLevel2Pc: Boolean!\n  $level2Pc: String!\n  $existsLevel2Taxonomy: Boolean!\n  $level2Taxonomy: String!\n  $existsLevel3: Boolean!\n  $level3Taxonomy: String!\n  $existsLevel4: Boolean!\n  $level4Taxonomy: Uuid!\n  $existsLevel5: Boolean!\n  $level5Taxonomy: Uuid!\n  $existsLevel6: Boolean!\n  $level6Taxonomy: Uuid!\n  $existsLevel7: Boolean!\n  $level7Taxonomy: Uuid!\n  $existsLevel8: Boolean!\n  $level8Taxonomy: Uuid!\n  $existsLevel9: Boolean!\n  $level9Taxonomy: Uuid!\n  $existsLevel10: Boolean!\n  $level10Taxonomy: Uuid!\n  $activeTaxonomyObjectId: Uuid!\n  $existsActiveTaxonomyObject: Boolean!\n  $existsUrlFromTOId: Boolean!\n  $urlFromTOId: Uuid!\n  $existsTreeFilterText: Boolean!\n  $treeFilterText: String!\n  $queryGroups: Boolean!\n  $queryExportCategories: Boolean!\n  $exportCategories: [String]\n) {\n  allCategories {\n    totalCount\n  }\n  allPropertyCollections {\n    totalCount\n  }\n  propertyCollectionByDataType(datatype: $level2Pc) @include(if: $existsLevel2Pc) {\n    nodes {\n      id\n      name\n      propertyCollectionObjectsByPropertyCollectionId {\n        totalCount\n      }\n    }\n  }\n  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2Taxonomy) {\n    nodes {\n      id\n      name\n      taxonomyByCategory {\n        totalCount\n      }\n    }\n  }\n  level3Taxonomy: categoryByName(name: $level3Taxonomy) @include(if: $existsLevel3) {\n    taxonomiesByCategory {\n      nodes {\n        id\n        name\n        taxonomyObjectLevel1 {\n          totalCount\n        }\n      }\n    }\n  }\n  level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {\n    taxonomyObjectLevel1 {\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) @include(if: $existsLevel5) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) @include(if: $existsLevel6) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) @include(if: $existsLevel7) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) @include(if: $existsLevel8) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) @include(if: $existsLevel9) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) @include(if: $existsLevel10) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  taxonomyObjectById(id: $activeTaxonomyObjectId) @include(if: $existsActiveTaxonomyObject) {\n    objectByObjectId {\n      id\n      taxonomyObjectsByObjectId {\n        totalCount\n        nodes {\n          taxonomyByTaxonomyId {\n            id\n            name\n            description\n            links\n            lastUpdated\n            organizationByOrganizationId {\n              name\n            }\n          }\n          id\n          name\n          properties\n          synonymsByTaxonomyObjectId {\n            totalCount\n            nodes {\n              taxonomyObjectIdSynonym\n              taxonomyObjectByTaxonomyObjectIdSynonym {\n                id\n                name\n                properties\n                taxonomyByTaxonomyId {\n                  name\n                  description\n                  links\n                  lastUpdated\n                  organizationByOrganizationId {\n                    name\n                  }\n                }\n                objectByObjectId {\n                  id\n                  propertyCollectionObjectsByObjectId {\n                    totalCount\n                    nodes {\n                      objectId\n                      propertyCollectionId\n                      properties\n                      propertyCollectionByPropertyCollectionId {\n                        name\n                        description\n                        links\n                        combining\n                        lastUpdated\n                        termsOfUse\n                        importedBy\n                        organizationByOrganizationId {\n                          name\n                        }\n                        userByImportedBy {\n                          name\n                          email\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      propertyCollectionObjectsByObjectId {\n        totalCount\n        nodes {\n          objectId\n          propertyCollectionId\n          properties\n          propertyCollectionByPropertyCollectionId {\n            name\n            description\n            links\n            combining\n            lastUpdated\n            termsOfUse\n            importedBy\n            organizationByOrganizationId {\n              name\n            }\n            userByImportedBy {\n              name\n              email\n            }\n          }\n        }\n      }\n    }\n  }\n  urlFromTO: taxonomyObjectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {\n    id\n    taxonomyObjectByParentId {\n      id\n      taxonomyObjectByParentId {\n        id\n        taxonomyObjectByParentId {\n          id\n          taxonomyObjectByParentId {\n            id\n            taxonomyObjectByParentId {\n              id\n              taxonomyObjectByParentId {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n    taxonomyByTaxonomyId {\n      id\n      categoryByCategory {\n        name\n        dataType\n      }\n    }\n  }\n  filterSuggestionsPC: propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterText) {\n    totalCount\n    nodes {\n      id\n      name\n    }\n  }\n  filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterText) {\n    totalCount\n    nodes {\n      id\n      name\n    }\n  }\n  allCategories @include(if: $queryGroups) {\n    nodes {\n      name\n    }\n  }\n  pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {\n    nodes {\n      propertyCollectionName\n      propertyName\n      jsontype\n      count\n    }\n  }\n}\n"
+  "text": "query AppQueryQuery(\n  $existsLevel2Pc: Boolean!\n  $level2Pc: String!\n  $existsLevel2Taxonomy: Boolean!\n  $level2Taxonomy: String!\n  $existsLevel3: Boolean!\n  $level3Taxonomy: String!\n  $existsLevel4: Boolean!\n  $level4Taxonomy: Uuid!\n  $existsLevel5: Boolean!\n  $level5Taxonomy: Uuid!\n  $existsLevel6: Boolean!\n  $level6Taxonomy: Uuid!\n  $existsLevel7: Boolean!\n  $level7Taxonomy: Uuid!\n  $existsLevel8: Boolean!\n  $level8Taxonomy: Uuid!\n  $existsLevel9: Boolean!\n  $level9Taxonomy: Uuid!\n  $existsLevel10: Boolean!\n  $level10Taxonomy: Uuid!\n  $activeTaxonomyObjectId: Uuid!\n  $existsActiveTaxonomyObject: Boolean!\n  $existsUrlFromTOId: Boolean!\n  $urlFromTOId: Uuid!\n  $existsTreeFilterText: Boolean!\n  $treeFilterText: String!\n  $queryGroups: Boolean!\n  $queryExportCategories: Boolean!\n  $exportCategories: [String]\n) {\n  allCategories {\n    totalCount\n  }\n  allPropertyCollections {\n    totalCount\n  }\n  propertyCollectionByDataType(datatype: $level2Pc) @include(if: $existsLevel2Pc) {\n    nodes {\n      id\n      name\n      propertyCollectionObjectsByPropertyCollectionId {\n        totalCount\n      }\n    }\n  }\n  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2Taxonomy) {\n    nodes {\n      id\n      name\n      taxonomyByCategory {\n        totalCount\n      }\n    }\n  }\n  level3Taxonomy: categoryByName(name: $level3Taxonomy) @include(if: $existsLevel3) {\n    taxonomiesByCategory {\n      nodes {\n        id\n        name\n        taxonomyObjectLevel1 {\n          totalCount\n        }\n      }\n    }\n  }\n  level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {\n    taxonomyObjectLevel1 {\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) @include(if: $existsLevel5) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) @include(if: $existsLevel6) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) @include(if: $existsLevel7) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) @include(if: $existsLevel8) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) @include(if: $existsLevel9) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) @include(if: $existsLevel10) {\n    taxonomyObjectsByParentId {\n      totalCount\n      nodes {\n        id\n        name\n        taxonomyObjectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  taxonomyObjectById(id: $activeTaxonomyObjectId) @include(if: $existsActiveTaxonomyObject) {\n    objectByObjectId {\n      id\n      taxonomyObjectsByObjectId {\n        totalCount\n        nodes {\n          taxonomyByTaxonomyId {\n            id\n            name\n            description\n            links\n            lastUpdated\n            organizationByOrganizationId {\n              name\n            }\n          }\n          id\n          name\n          properties\n          synonymsByTaxonomyObjectId {\n            totalCount\n            nodes {\n              taxonomyObjectIdSynonym\n              taxonomyObjectByTaxonomyObjectIdSynonym {\n                id\n                name\n                properties\n                taxonomyByTaxonomyId {\n                  name\n                  description\n                  links\n                  lastUpdated\n                  organizationByOrganizationId {\n                    name\n                  }\n                }\n                objectByObjectId {\n                  id\n                  propertyCollectionObjectsByObjectId {\n                    totalCount\n                    nodes {\n                      objectId\n                      propertyCollectionId\n                      properties\n                      propertyCollectionByPropertyCollectionId {\n                        name\n                        description\n                        links\n                        combining\n                        lastUpdated\n                        termsOfUse\n                        importedBy\n                        organizationByOrganizationId {\n                          name\n                        }\n                        userByImportedBy {\n                          name\n                          email\n                        }\n                      }\n                      relationsByPropertyCollectionObjectId {\n                        totalCount\n                        nodes {\n                          id\n                          relatedObjectId\n                          relationType\n                          properties\n                          objectByRelatedObjectId {\n                            taxonomyObjectsByObjectId {\n                              totalCount\n                              nodes {\n                                name\n                              }\n                            }\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      propertyCollectionObjectsByObjectId {\n        totalCount\n        nodes {\n          objectId\n          propertyCollectionId\n          properties\n          propertyCollectionByPropertyCollectionId {\n            name\n            description\n            links\n            combining\n            lastUpdated\n            termsOfUse\n            importedBy\n            organizationByOrganizationId {\n              name\n            }\n            userByImportedBy {\n              name\n              email\n            }\n          }\n          relationsByPropertyCollectionObjectId {\n            totalCount\n            nodes {\n              id\n              relatedObjectId\n              relationType\n              properties\n              objectByRelatedObjectId {\n                taxonomyObjectsByObjectId {\n                  totalCount\n                  nodes {\n                    name\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n  urlFromTO: taxonomyObjectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {\n    id\n    taxonomyObjectByParentId {\n      id\n      taxonomyObjectByParentId {\n        id\n        taxonomyObjectByParentId {\n          id\n          taxonomyObjectByParentId {\n            id\n            taxonomyObjectByParentId {\n              id\n              taxonomyObjectByParentId {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n    taxonomyByTaxonomyId {\n      id\n      categoryByCategory {\n        name\n        dataType\n      }\n    }\n  }\n  filterSuggestionsPC: propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterText) {\n    totalCount\n    nodes {\n      id\n      name\n    }\n  }\n  filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterText) {\n    totalCount\n    nodes {\n      id\n      name\n    }\n  }\n  allCategories @include(if: $queryGroups) {\n    nodes {\n      name\n    }\n  }\n  pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {\n    nodes {\n      propertyCollectionName\n      propertyName\n      jsontype\n      count\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

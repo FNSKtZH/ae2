@@ -6,6 +6,7 @@ import sortBy from 'lodash/sortBy'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import PropertyCollection from './PropertyCollection'
+import Relation from './Relation'
 
 const pCOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {
@@ -34,6 +35,9 @@ const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
   propertiesArray = sortBy(propertiesArray, e => e[0]).filter(
     ([key, value]) => value || value === 0
   )
+  const relations = get(pCO, 'relationsByPropertyCollectionObjectId.nodes', [])
+  console.log('pC.name:', pC.name)
+  console.log('relations:', relations)
 
   return (
     <Card style={pCOCardStyle}>
@@ -59,6 +63,13 @@ const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
       <CardText expandable={true} style={pCOCardTextStyle}>
         {propertiesArray.map(([key, value]) =>
           <PropertyReadOnly key={key} value={value} label={key} />
+        )}
+        {relations.map((relation, index) =>
+          <Relation
+            key={relation.id}
+            relation={relation}
+            intermediateRelation={index < relations.length - 1}
+          />
         )}
       </CardText>
     </Card>
