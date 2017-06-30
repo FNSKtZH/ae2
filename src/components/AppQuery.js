@@ -55,8 +55,8 @@ const AppQuery = ({ store }: { store: Object }) => {
   const level10Taxonomy = existsLevel10
     ? store.activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
-  const activeTaxonomyObject = getActiveTaxonomyObjectId(store)
-  const existsActiveTaxonomyObject = !!activeTaxonomyObject
+  const activeTaxonomyObjectId = getActiveTaxonomyObjectId(store)
+  const existsActiveTaxonomyObject = !!activeTaxonomyObjectId
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =
     store.urlFromTOId || '99999999-9999-9999-9999-999999999999'
@@ -71,27 +71,27 @@ const AppQuery = ({ store }: { store: Object }) => {
       environment={app.environment}
       query={graphql`
         query AppQueryQuery(
-          $existsLevel2Pc: Boolean!,
-          $level2Pc: String!,
-          $existsLevel2Taxonomy: Boolean!,
-          $level2Taxonomy: String!,
-          $existsLevel3: Boolean!,
-          $level3Taxonomy: String!,
-          $existsLevel4: Boolean!,
-          $level4Taxonomy: Uuid!,
-          $existsLevel5: Boolean!,
-          $level5Taxonomy: Uuid!,
-          $existsLevel6: Boolean!,
-          $level6Taxonomy: Uuid!,
-          $existsLevel7: Boolean!,
-          $level7Taxonomy: Uuid!,
-          $existsLevel8: Boolean!,
-          $level8Taxonomy: Uuid!,
-          $existsLevel9: Boolean!,
-          $level9Taxonomy: Uuid!,
-          $existsLevel10: Boolean!,
+          $existsLevel2Pc: Boolean!
+          $level2Pc: String!
+          $existsLevel2Taxonomy: Boolean!
+          $level2Taxonomy: String!
+          $existsLevel3: Boolean!
+          $level3Taxonomy: String!
+          $existsLevel4: Boolean!
+          $level4Taxonomy: Uuid!
+          $existsLevel5: Boolean!
+          $level5Taxonomy: Uuid!
+          $existsLevel6: Boolean!
+          $level6Taxonomy: Uuid!
+          $existsLevel7: Boolean!
+          $level7Taxonomy: Uuid!
+          $existsLevel8: Boolean!
+          $level8Taxonomy: Uuid!
+          $existsLevel9: Boolean!
+          $level9Taxonomy: Uuid!
+          $existsLevel10: Boolean!
           $level10Taxonomy: Uuid!
-          $activeTaxonomyObject: Uuid!
+          $activeTaxonomyObjectId: Uuid!
           $existsActiveTaxonomyObject: Boolean!
           $existsUrlFromTOId: Boolean!
           $urlFromTOId: Uuid!
@@ -107,7 +107,8 @@ const AppQuery = ({ store }: { store: Object }) => {
           allPropertyCollections {
             totalCount
           }
-          propertyCollectionByDataType(datatype: $level2Pc) @include(if: $existsLevel2Pc) {
+          propertyCollectionByDataType(datatype: $level2Pc)
+            @include(if: $existsLevel2Pc) {
             nodes {
               id
               name
@@ -116,7 +117,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy) @include(if: $existsLevel2Taxonomy) {
+          level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy)
+            @include(if: $existsLevel2Taxonomy) {
             nodes {
               id
               name
@@ -125,7 +127,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level3Taxonomy: categoryByName(name: $level3Taxonomy) @include(if: $existsLevel3) {
+          level3Taxonomy: categoryByName(name: $level3Taxonomy)
+            @include(if: $existsLevel3) {
             taxonomiesByCategory {
               nodes {
                 id
@@ -136,7 +139,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {
+          level4Taxonomy: taxonomyById(id: $level4Taxonomy)
+            @include(if: $existsLevel4) {
             taxonomyObjectLevel1 {
               nodes {
                 id
@@ -147,7 +151,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy) @include(if: $existsLevel5) {
+          level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy)
+            @include(if: $existsLevel5) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -159,7 +164,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy) @include(if: $existsLevel6) {
+          level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy)
+            @include(if: $existsLevel6) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -171,7 +177,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy) @include(if: $existsLevel7) {
+          level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy)
+            @include(if: $existsLevel7) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -183,7 +190,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy) @include(if: $existsLevel8) {
+          level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy)
+            @include(if: $existsLevel8) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -195,7 +203,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy) @include(if: $existsLevel9) {
+          level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy)
+            @include(if: $existsLevel9) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -207,7 +216,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy) @include(if: $existsLevel10) {
+          level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy)
+            @include(if: $existsLevel10) {
             taxonomyObjectsByParentId {
               totalCount
               nodes {
@@ -219,7 +229,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          taxonomyObjectById(id: $activeTaxonomyObject) @include(if: $existsActiveTaxonomyObject) {
+          taxonomyObjectById(id: $activeTaxonomyObjectId)
+            @include(if: $existsActiveTaxonomyObject) {
             objectByObjectId {
               id
               taxonomyObjectsByObjectId {
@@ -293,7 +304,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                   objectId
                   propertyCollectionId
                   properties
-                  propertyCollectionByPropertyCollectionId{
+                  propertyCollectionByPropertyCollectionId {
                     name
                     description
                     links
@@ -301,10 +312,10 @@ const AppQuery = ({ store }: { store: Object }) => {
                     lastUpdated
                     termsOfUse
                     importedBy
-                    organizationByOrganizationId{
+                    organizationByOrganizationId {
                       name
                     }
-                    userByImportedBy{
+                    userByImportedBy {
                       name
                       email
                     }
@@ -313,7 +324,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          urlFromTO: taxonomyObjectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
+          urlFromTO: taxonomyObjectById(id: $urlFromTOId)
+            @include(if: $existsUrlFromTOId) {
             id
             taxonomyObjectByParentId {
               id
@@ -341,14 +353,18 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          filterSuggestionsPC: propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterText) {
+          filterSuggestionsPC: propertyCollectionByPropertyName(
+            propertyName: $treeFilterText
+          ) @include(if: $existsTreeFilterText) {
             totalCount
             nodes {
               id
               name
             }
           }
-          filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(taxonomyObjectName: $treeFilterText) @include(if: $existsTreeFilterText) {
+          filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(
+            taxonomyObjectName: $treeFilterText
+          ) @include(if: $existsTreeFilterText) {
             totalCount
             nodes {
               id
@@ -360,7 +376,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               name
             }
           }
-          pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {
+          pcoPropertiesByCategoriesFunction(categories: $exportCategories)
+            @include(if: $queryExportCategories) {
             nodes {
               propertyCollectionName
               propertyName
@@ -391,7 +408,7 @@ const AppQuery = ({ store }: { store: Object }) => {
         level9Taxonomy,
         existsLevel10,
         level10Taxonomy,
-        activeTaxonomyObject,
+        activeTaxonomyObjectId,
         existsActiveTaxonomyObject,
         existsUrlFromTOId,
         urlFromTOId,
@@ -403,9 +420,14 @@ const AppQuery = ({ store }: { store: Object }) => {
       }}
       render={({ error, props }) => {
         if (error) {
-          return <div>{error.message}</div>
+          return (
+            <div>
+              {error.message}
+            </div>
+          )
         }
         if (props) {
+          console.log('AppQuery: props:', props)
           store.setProps(props)
         } else {
           /**

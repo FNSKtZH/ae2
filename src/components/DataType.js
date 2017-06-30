@@ -5,7 +5,6 @@ import compose from 'recompose/compose'
 
 import Objekt from './Objekt/index'
 import PropertyCollection from './PropertyCollection'
-import RelationCollection from './RelationCollection'
 
 const enhance = compose(inject('store') /*, observer*/)
 
@@ -16,7 +15,6 @@ const DataType = ({ store }: { store: Object }) => {
     <div>
       {primaryUrl === 'Taxonomien' && store.activeTaxonomyObject && <Objekt />}
       {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
-      {primaryUrl === 'Beziehungs-Sammlungen' && <RelationCollection />}
     </div>
   )
 }

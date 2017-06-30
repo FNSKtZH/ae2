@@ -1,4 +1,5 @@
 // @flow
+
 export default (store: Object): string => {
   if (
     store.activeNodeArray.length > 2 &&

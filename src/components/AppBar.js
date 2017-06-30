@@ -51,11 +51,9 @@ const enhance = compose(
   inject('store'),
   withHandlers({
     onClickColumnButtonData: props => () => {
-      const pathIsMain = [
-        'Taxonomien',
-        'Eigenschaften-Sammlungen',
-        'Beziehungs-Sammlungen',
-      ].includes(props.store.activeNodeArray[0])
+      const pathIsMain = ['Taxonomien', 'Eigenschaften-Sammlungen'].includes(
+        props.store.activeNodeArray[0]
+      )
       if (!pathIsMain) {
         props.store.setActiveNodeArray(['Taxonomien'])
       }
@@ -117,13 +115,7 @@ const MyAppBar = ({
         <MenuDiv>
           <Button
             label="Daten"
-            visible={
-              ![
-                'taxonomien',
-                'eigenschaften-sammlungen',
-                'beziehungs-sammlungen',
-              ].includes(url0)
-            }
+            visible={!['taxonomien', 'eigenschaften-sammlungen'].includes(url0)}
             onClick={onClickColumnButtonData}
           />
           <Button

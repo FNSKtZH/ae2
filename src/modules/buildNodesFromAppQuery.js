@@ -7,7 +7,6 @@ import get from 'lodash/get'
 
 import level1FromProps from './nodes/level1FromProps'
 import level2PcFromProps from './nodes/level2PcFromProps'
-import level2RcFromProps from './nodes/level2RcFromProps'
 import level2TaxonomyFromProps from './nodes/level2TaxonomyFromProps'
 import level3TaxonomyFromProps from './nodes/level3TaxonomyFromProps'
 import level4TaxonomyFromProps from './nodes/level4TaxonomyFromProps'
@@ -106,15 +105,6 @@ export default (store: Object): Array<Object> => {
       case 'Eigenschaften-Sammlungen': {
         nodes = nodes.concat(
           level2PcFromProps({
-            store,
-            props,
-          })
-        )
-        break
-      }
-      case 'Beziehungs-Sammlungen': {
-        nodes = nodes.concat(
-          level2RcFromProps({
             store,
             props,
           })

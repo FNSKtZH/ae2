@@ -31,16 +31,6 @@ export default (store: Object): void => {
       },
       { name: 'propertyCollectionObjectId' }
     ),
-    relationCollectionObjectId: computed(
-      () => {
-        const { treeFilter } = store
-        if (treeFilter.id && treeFilter.type === 'relationCollection') {
-          return treeFilter.id
-        }
-        return null
-      },
-      { name: 'relationCollectionObjectId' }
-    ),
     suggestionsTO: [],
     setSuggestionsTO: action('setSuggestionsTO', (suggestions: Object) => {
       store.treeFilter.suggestionsTO = suggestions

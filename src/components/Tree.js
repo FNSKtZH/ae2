@@ -65,7 +65,7 @@ const Tree = ({ store }: { store: Object }) => {
   const rowRenderer = ({ key, index, style }) =>
     <Row key={key} index={index} style={style} />
   const activeNodeIndex = findIndex(store.nodes, node =>
-    isEqual(toJS(node.url), toJS(store.activeNodeArray)),
+    isEqual(toJS(node.url), toJS(store.activeNodeArray))
   )
 
   return (

@@ -31,7 +31,6 @@ const App = ({ store }: { store: Object }) => {
     ![
       'taxonomien',
       'eigenschaften-sammlungen',
-      'beziehungs-sammlungen',
       'organisationen',
       'export',
       'import',
@@ -39,11 +38,7 @@ const App = ({ store }: { store: Object }) => {
     ].includes(url0) ||
     (url0 === 'import' &&
       !['eigenschaften-sammlungen', 'beziehungs-sammlungen'].includes(url1))
-  const showData = [
-    'taxonomien',
-    'eigenschaften-sammlungen',
-    'beziehungs-sammlungen',
-  ].includes(url0)
+  const showData = ['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
   const showExport = url0 === 'export'
   const showOrganisation = url0 === 'organisationen'
   const showLogin = url0 === 'login'
