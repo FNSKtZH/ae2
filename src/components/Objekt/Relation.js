@@ -23,36 +23,37 @@ const Relation = ({
 }) => {
   // never pass null to Object.entries!!!
   const properties = JSON.parse(relation.properties) || {}
-  const rPartners = get(relation, 'relationPartnersByRelationId.nodes', [])
+  const category = relation.objectByRelatedObjectId.category
+  console.log('')
+  const rPartnerLabel =
+    category === 'Lebensräume' ? 'Lebensraum' : `${category}-Art`
+  const rPartners = get(
+    relation,
+    'objectByRelatedObjectId.taxonomyObjectsByObjectId.nodes',
+    []
+  )
 
   return (
     <Container intermediateRelation={intermediateRelation}>
+      {sortBy(rPartners, p =>
+        get(p, 'name', '(kein Name)')
+      ).map((partner, index) => {
+        const value = get(partner, 'name', '(kein Name)')
+        return (
+          <PropertyReadOnly key={index} value={value} label={rPartnerLabel} />
+        )
+      })}
+      {relation.relationType &&
+        <PropertyReadOnly
+          value={relation.relationType}
+          label="Art der Beziehung"
+        />}
       {properties &&
         sortBy(Object.entries(properties), e => e[0])
           .filter(([key, value]) => value || value === 0)
           .map(([key, value]) =>
             <PropertyReadOnly key={key} value={value} label={key} />
           )}
-      {sortBy(rPartners, p =>
-        get(
-          p,
-          'objectByObjectId.taxonomyObjectsByObjectId.nodes[0].name',
-          '(kein Name)'
-        )
-      ).map((partner, index) => {
-        const value = get(
-          partner,
-          'objectByObjectId.taxonomyObjectsByObjectId.nodes[0].name',
-          '(kein Name)'
-        )
-        return (
-          <PropertyReadOnly
-            key={index}
-            value={value}
-            label="Beziehungspartner"
-          />
-        )
-      })}
     </Container>
   )
 }

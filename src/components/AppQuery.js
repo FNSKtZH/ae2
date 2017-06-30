@@ -298,6 +298,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                                   relationType
                                   properties
                                   objectByRelatedObjectId {
+                                    category
                                     taxonomyObjectsByObjectId {
                                       totalCount
                                       nodes {
@@ -345,6 +346,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                       relationType
                       properties
                       objectByRelatedObjectId {
+                        category
                         taxonomyObjectsByObjectId {
                           totalCount
                           nodes {

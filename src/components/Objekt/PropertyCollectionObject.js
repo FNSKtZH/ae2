@@ -3,6 +3,7 @@ import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
+import styled from 'styled-components'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import PropertyCollection from './PropertyCollection'
@@ -21,10 +22,21 @@ const pCCardHeaderStyle = {
 }
 const pCCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
 const pCOCardTextStyle = { padding: '5px 16px' }
+const RelationTitle = styled.div`
+  font-weight: bold;
+  border-bottom: 1px solid #c6c6c6;
+  padding: 5px;
+  border-radius: 4px 4px 0 0;
+`
 
 const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
+  const relations = get(pCO, 'relationsByPropertyCollectionObjectId.nodes', [])
   const pCName = get(pC, 'name', '(Name fehlt)')
+  /*
+  if (relations && relations.length > 0) {
+    pCName = `${pCName} (${relations.length})`
+  }*/
   // never pass null to object.entries!!!
   const properties = JSON.parse(pCO.properties) || {}
 
@@ -35,9 +47,9 @@ const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
   propertiesArray = sortBy(propertiesArray, e => e[0]).filter(
     ([key, value]) => value || value === 0
   )
-  const relations = get(pCO, 'relationsByPropertyCollectionObjectId.nodes', [])
-  console.log('pC.name:', pC.name)
-  console.log('relations:', relations)
+  const relationsTitleText =
+    relations.length > 1 ? 'Beziehungen:' : 'Beziehung:'
+  const relationsTitle = `${relations.length} ${relationsTitleText}`
 
   return (
     <Card style={pCOCardStyle}>
@@ -64,6 +76,11 @@ const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
         {propertiesArray.map(([key, value]) =>
           <PropertyReadOnly key={key} value={value} label={key} />
         )}
+        {relations &&
+          relations.length > 0 &&
+          <RelationTitle>
+            {relationsTitle}
+          </RelationTitle>}
         {relations.map((relation, index) =>
           <Relation
             key={relation.id}
