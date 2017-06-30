@@ -31,11 +31,9 @@ const Objekt = ({ store }: { store: Object }) => {
     'taxonomyObjectsByObjectId.nodes',
     []
   )
-  console.log('Objekt: taxonomyObjects:', taxonomyObjects)
   const propertyCollectionObjects = toJS(
     get(activeTaxonomyObject, 'propertyCollectionObjectsByObjectId.nodes', [])
   )
-  console.log('Objekt: propertyCollectionObjects:', propertyCollectionObjects)
   const synonyms = toJS(
     get(
       activeTaxonomyObject,
@@ -43,14 +41,12 @@ const Objekt = ({ store }: { store: Object }) => {
       []
     )
   )
-  console.log('Objekt: synonyms:', synonyms)
   const synonymTaxonomyObjects = synonyms.map(
     s => s.taxonomyObjectByTaxonomyObjectIdSynonym
   )
   const propertyCollectionIds = propertyCollectionObjects.map(
     pco => pco.propertyCollectionId
   )
-  console.log('Objekt: propertyCollectionIds:', propertyCollectionIds)
   let propertyCollectionObjectsOfSynonyms = []
   synonyms.forEach(synonym => {
     const pco = get(
@@ -69,10 +65,6 @@ const Objekt = ({ store }: { store: Object }) => {
   )
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
     pco => !propertyCollectionIds.includes(pco.propertyCollectionId)
-  )
-  console.log(
-    'Objekt: propertyCollectionObjectsOfSynonyms:',
-    propertyCollectionObjectsOfSynonyms
   )
   /**
    * TODO:

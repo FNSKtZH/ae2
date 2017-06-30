@@ -427,7 +427,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           )
         }
         if (props) {
-          console.log('AppQuery: props:', props)
           store.setProps(props)
         } else {
           /**

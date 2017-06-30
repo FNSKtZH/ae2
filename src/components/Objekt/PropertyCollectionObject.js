@@ -24,7 +24,9 @@ const pCOCardTextStyle = { padding: '5px 16px' }
 const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
   const pCName = get(pC, 'name', '(Name fehlt)')
-  const properties = JSON.parse(pCO.properties)
+  // never pass null to object.entries!!!
+  const properties = JSON.parse(pCO.properties) || {}
+
   let propertiesArray = Object.entries(properties)
   propertiesArray = propertiesArray.filter(
     o => o[1] || o[1] === 0 || o[1] === false

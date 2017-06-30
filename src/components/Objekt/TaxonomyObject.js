@@ -34,7 +34,8 @@ const TaxonomyObject = ({
 }) => {
   const taxonomy = get(taxonomyObject, 'taxonomyByTaxonomyId', {})
   let taxName = get(taxonomy, 'name', '(Name fehlt)')
-  const properties = JSON.parse(taxonomyObject.properties)
+  // never pass null to object.entries!!!
+  const properties = JSON.parse(taxonomyObject.properties) || {}
   if (properties['Artname vollständig']) {
     taxName = `${taxName}: ${properties['Artname vollständig']}`
   }

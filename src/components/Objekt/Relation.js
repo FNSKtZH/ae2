@@ -21,7 +21,8 @@ const Relation = ({
   relation: Object,
   intermediateRelation: boolean,
 }) => {
-  const properties = JSON.parse(relation.properties)
+  // never pass null to Object.entries!!!
+  const properties = JSON.parse(relation.properties) || {}
   const rPartners = get(relation, 'relationPartnersByRelationId.nodes', [])
 
   return (
