@@ -3,8 +3,10 @@ import React from 'react'
 import { /*observer,*/ inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
+import FontIcon from 'material-ui/FontIcon'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
+import styled from 'styled-components'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import Taxonomy from './Taxonomy'
@@ -23,6 +25,18 @@ const taxCardHeaderStyle = {
 }
 const taxCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
 const tOCardTextStyle = { padding: '5px 16px' }
+
+const SynonymContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const SynonymText = styled.div``
+const SynonymLink = styled.a``
+const SynomymLinkIcon = styled(FontIcon)`
+  :hover {
+    font-weight: 700;
+  }
+`
 
 const enhance = compose(inject('store') /*, observer*/)
 
@@ -45,15 +59,38 @@ const TaxonomyObject = ({
   let linkUrl
   let linkText
   if (showLink) {
+    // NOPE. This will return data for active node
+    // Need to use own query to get needed data, then open new window
+    // so use button or icon button instead?
     linkUrl = getUrlFromTOId(taxonomyObject.id)
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
+  }
+  let title = taxName
+  if (showLink) {
+    title = (
+      <SynonymContainer>
+        <SynonymText>
+          {taxName}
+        </SynonymText>
+        <SynonymLink
+          href={linkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={linkText}
+        >
+          <SynomymLinkIcon id="linkToSynonym" className="material-icons">
+            open_in_new
+          </SynomymLinkIcon>
+        </SynonymLink>
+      </SynonymContainer>
+    )
   }
 
   return (
     <Card style={tOCardStyle}>
       <CardHeader
-        title={taxName}
+        title={title}
         actAsExpander={true}
         showExpandableButton={true}
         titleStyle={tOTitleStyle}
