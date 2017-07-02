@@ -31,8 +31,9 @@ const SynonymContainer = styled.div`
   justify-content: space-between;
 `
 const SynonymText = styled.div``
-const SynonymLink = styled.a``
+const SynonymLink = styled.a` margin-left: 5px;`
 const SynomymLinkIcon = styled(FontIcon)`
+  font-size: 17px !important;
   :hover {
     font-weight: 700;
   }
@@ -109,10 +110,6 @@ const TaxonomyObject = ({
         </CardText>
       </Card>
       <CardText expandable={true} style={tOCardTextStyle}>
-        {showLink &&
-          <a href={linkUrl} target="_blank" rel="noopener noreferrer">
-            {linkText}
-          </a>}
         {sortBy(
           Object.entries(properties).filter(
             ([key, value]) => value || value === 0,
