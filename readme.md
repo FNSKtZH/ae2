@@ -19,17 +19,17 @@
 
 ### Funktionale Ziele:
 
-1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaften- und Beziehungssammlungen beschrieben werden kann. Das ermöglicht:
-   -	Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaften- und Beziehungssammlungen
+1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaftensammlungen beschrieben werden kann. Das ermöglicht:
+   -	Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaftensammlungen
    -	Alle Taxonomien bleiben langfristig erhalten
    -	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
    -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
-   -	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaften- und Beziehungssammlungen
-2. Beziehungs-Sammlungen werden in Eigenschaften-Sammlungen integriert: Es sind einfach Eigenschaften-Sammlungen mit Beziehungen
+   -	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaftensammlungen
+2. Beziehungssammlungen werden in Eigenschaftensammlungen integriert: Es sind einfach Eigenschaftensammlungen mit Beziehungen
    - Ist einfacher zu verstehen
    - Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
    - Vereinfacht die Datenstruktur
-   - Vereinfacht Im- und Exporte
+   - Vereinfacht Exporte und Importe
 3. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
 
 ### Diese Technologien werden verwendet:
@@ -41,13 +41,13 @@
      - Datenauswertung
      - und Gewährleistung der Datenintegrität
 - [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [Relay](https://facebook.github.io/relay)
-  - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!!!
-  - Weniger Code = weniger Fehler :-)
+  - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
+  - Weniger Code = weniger Fehler :-)
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
   - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQl und Relay kümmern sich um die Bereitstellung
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
 - [MobX](https://mobx.js.org)
-  - Vereinfacht die Architektur der anwendungs-seitigen Daten (soweit das nicht von Relay übernommen wird)
+  - Vereinfacht die Architektur der anwendungsseitigen Daten (soweit das nicht von Relay übernommen wird)
   - Ermöglicht, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
@@ -55,10 +55,10 @@
   - Rasche Installation und einfache Aktualisierung der Enwicklungsumgebung und eines grossen Teils der für die Entwicklung benötigten Fremd-Software
 - [ES6](http://www.ecma-international.org/ecma-262/6.0), [ES2016](https://www.ecma-international.org/ecma-262/7.0) und [ES2017](http://2ality.com/2016/02/ecmascript-2017.html), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript), fördern lesbaren, kurzen Code
 - [flow](https://flow.org) deckt Fehler auf, bevor der Code ausgeführt wird
-- [prettier](https://github.com/prettier/prettier) formatiert den Code. Statt sich um Stil zu kümmern, kann sich der Entwickler auf die Funktionalität konzentrieren
+- [prettier](https://github.com/prettier/prettier) formatiert den Code. Der Entwickler kann sich auf die Funktionalität konzentrieren
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser - jede Änderung ist direkt sichtbar
 - [React](https://facebook.github.io/react/index.html)
-  - Die Benutzeroberfläche ist eine Funktion der anwendungs-seitigen Daten
+  - Die Benutzeroberfläche ist eine Funktion der anwendungsseitigen Daten
   - Vereinfacht die Steuerung der Benutzeroberfläche
   - Die Benutzeroberfläche wird aus wiederverwertbaren und testbaren Komponenten aufgebaut
 
