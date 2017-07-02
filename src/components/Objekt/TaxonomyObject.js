@@ -8,6 +8,7 @@ import sortBy from 'lodash/sortBy'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import Taxonomy from './Taxonomy'
+import getUrlFromTOId from '../../modules/getUrlFromTOId'
 
 const tOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {
@@ -28,9 +29,11 @@ const enhance = compose(inject('store') /*, observer*/)
 const TaxonomyObject = ({
   store,
   taxonomyObject,
+  showLink,
 }: {
   store: Object,
   taxonomyObject: Object,
+  showLink: Boolean,
 }) => {
   const taxonomy = get(taxonomyObject, 'taxonomyByTaxonomyId', {})
   let taxName = get(taxonomy, 'name', '(Name fehlt)')
@@ -38,6 +41,13 @@ const TaxonomyObject = ({
   const properties = JSON.parse(taxonomyObject.properties) || {}
   if (properties['Artname vollständig']) {
     taxName = `${taxName}: ${properties['Artname vollständig']}`
+  }
+  let linkUrl
+  let linkText
+  if (showLink) {
+    linkUrl = getUrlFromTOId(taxonomyObject.id)
+    linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
+    linkText = `${linkText} in neuem Tab öffnen`
   }
 
   return (
@@ -62,13 +72,17 @@ const TaxonomyObject = ({
         </CardText>
       </Card>
       <CardText expandable={true} style={tOCardTextStyle}>
+        {showLink &&
+          <a href={linkUrl} target="_blank" rel="noopener noreferrer">
+            {linkText}
+          </a>}
         {sortBy(
           Object.entries(properties).filter(
-            ([key, value]) => value || value === 0
+            ([key, value]) => value || value === 0,
           ),
-          e => e[0]
+          e => e[0],
         ).map(([key, value]) =>
-          <PropertyReadOnly key={key} value={value} label={key} />
+          <PropertyReadOnly key={key} value={value} label={key} />,
         )}
       </CardText>
     </Card>
