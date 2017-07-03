@@ -29,30 +29,30 @@ const Objekt = ({ store }: { store: Object }) => {
   const taxonomyObjects = get(
     activeTaxonomyObject,
     'taxonomyObjectsByObjectId.nodes',
-    []
+    [],
   )
   const propertyCollectionObjects = toJS(
-    get(activeTaxonomyObject, 'propertyCollectionObjectsByObjectId.nodes', [])
+    get(activeTaxonomyObject, 'propertyCollectionObjectsByObjectId.nodes', []),
   )
   const synonyms = toJS(
     get(
       activeTaxonomyObject,
       'taxonomyObjectsByObjectId.nodes[0].synonymsByTaxonomyObjectId.nodes',
-      []
-    )
+      [],
+    ),
   )
   const synonymTaxonomyObjects = synonyms.map(
-    s => s.taxonomyObjectByTaxonomyObjectIdSynonym
+    s => s.taxonomyObjectByTaxonomyObjectIdSynonym,
   )
   const propertyCollectionIds = propertyCollectionObjects.map(
-    pco => pco.propertyCollectionId
+    pco => pco.propertyCollectionId,
   )
   let propertyCollectionObjectsOfSynonyms = []
   synonyms.forEach(synonym => {
     const pco = get(
       synonym,
       'taxonomyObjectByTaxonomyObjectIdSynonym.objectByObjectId.propertyCollectionObjectsByObjectId.nodes',
-      []
+      [],
     )
     propertyCollectionObjectsOfSynonyms = [
       ...propertyCollectionObjectsOfSynonyms,
@@ -61,10 +61,10 @@ const Objekt = ({ store }: { store: Object }) => {
   })
   propertyCollectionObjectsOfSynonyms = uniqBy(
     propertyCollectionObjectsOfSynonyms,
-    pco => pco.propertyCollectionId
+    pco => pco.propertyCollectionId,
   )
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
-    pco => !propertyCollectionIds.includes(pco.propertyCollectionId)
+    pco => !propertyCollectionIds.includes(pco.propertyCollectionId),
   )
 
   return (
@@ -74,12 +74,12 @@ const Objekt = ({ store }: { store: Object }) => {
         <TitleSpan>{` (${taxonomyObjects.length})`}</TitleSpan>
       </FirstTitle>
       {sortBy(taxonomyObjects, tO =>
-        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
+        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)'),
       ).map(taxonomyObject =>
         <TaxonomyObject
           key={taxonomyObject.id}
           taxonomyObject={taxonomyObject}
-        />
+        />,
       )}
       {synonymTaxonomyObjects.length > 0 &&
         <Title>
@@ -87,19 +87,20 @@ const Objekt = ({ store }: { store: Object }) => {
           <TitleSpan>{` (${synonymTaxonomyObjects.length})`}</TitleSpan>
         </Title>}
       {sortBy(synonymTaxonomyObjects, tO =>
-        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
+        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)'),
       ).map(taxonomyObject =>
         <TaxonomyObject
           key={taxonomyObject.id}
           taxonomyObject={taxonomyObject}
-        />
+          showLink
+        />,
       )}
       {propertyCollectionObjects.length > 0 &&
         <Title>
           Eigenschaften
           <TitleSpan
           >{` (${propertyCollectionObjects.length} ${propertyCollectionObjects.length >
-          1
+            1
             ? 'Sammlungen'
             : 'Sammlung'})`}</TitleSpan>
         </Title>}
@@ -107,20 +108,20 @@ const Objekt = ({ store }: { store: Object }) => {
         get(
           pCO,
           'propertyCollectionByPropertyCollectionId.name',
-          '(Name fehlt)'
-        )
+          '(Name fehlt)',
+        ),
       ).map((pCO, index) =>
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
-        />
+        />,
       )}
       {propertyCollectionObjectsOfSynonyms.length > 0 &&
         <Title>
           Eigenschaften von Synonymen
           <TitleSpan>
             {` (${propertyCollectionObjectsOfSynonyms.length} ${propertyCollectionObjectsOfSynonyms.length >
-            1
+              1
               ? 'Sammlungen'
               : 'Sammlung'})`}
           </TitleSpan>
@@ -129,13 +130,13 @@ const Objekt = ({ store }: { store: Object }) => {
         get(
           pCO,
           'propertyCollectionByPropertyCollectionId.name',
-          '(Name fehlt)'
-        )
+          '(Name fehlt)',
+        ),
       ).map((pCO, index) =>
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
-        />
+        />,
       )}
     </Container>
   )
