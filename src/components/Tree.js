@@ -3,7 +3,8 @@ import React from 'react'
 import { toJS } from 'mobx'
 // if observer is active, forceUpdate during rendering happens
 import { /*observer,*/ inject } from 'mobx-react'
-import { AutoSizer, List } from 'react-virtualized'
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
+import List from 'react-virtualized/dist/commonjs/List'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import findIndex from 'lodash/findIndex'
@@ -22,13 +23,13 @@ const Container = styled.div`
     list-style: none;
     padding: 0 0 0 1.1em;
   }
- .ReactVirtualized__Grid {
-   /* try to prevent overflow shivering */
-   overflow-x: hidden !important;
- }
- .ReactVirtualized__Grid:focus {
-   outline-style: none;
- }
+  .ReactVirtualized__Grid {
+    /* try to prevent overflow shivering */
+    overflow-x: hidden !important;
+  }
+  .ReactVirtualized__Grid:focus {
+    outline-style: none;
+  }
 `
 const AutoSizerContainer = styled.div`
   height: 100%;
@@ -54,9 +55,7 @@ const listContainerStyle = { padding: '5px' }
 
 const noRowsRenderer = nodes =>
   <Container>
-    <LoadingDiv>
-      lade Daten...
-    </LoadingDiv>
+    <LoadingDiv>lade Daten...</LoadingDiv>
   </Container>
 
 const enhance = compose(inject('store') /*, observer*/)
