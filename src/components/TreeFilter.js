@@ -8,7 +8,7 @@ import withHandlers from 'recompose/withHandlers'
 import withState from 'recompose/withState'
 import Autosuggest from 'react-autosuggest'
 
-const Container = styled(({ autosuggestWidth, ...rest }) => <div {...rest} />)`
+const Container = styled.div`
   padding: 5px 16px 0 13px;
   .react-autosuggest__container {
     width: 100%;
@@ -19,7 +19,7 @@ const Container = styled(({ autosuggestWidth, ...rest }) => <div {...rest} />)`
     border: none;
     font-size: 16px;
     padding: 5px;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
   }
   .react-autosuggest__input--focused {
     outline: none;
@@ -35,7 +35,7 @@ const Container = styled(({ autosuggestWidth, ...rest }) => <div {...rest} />)`
     display: block;
     position: absolute;
     top: 32px;
-    width: ${props => `${props.autosuggestWidth}px`};
+    width: ${props => `${props['data-autosuggestWidth']}px`};
     border: 1px solid #aaa;
     background-color: #fff;
     font-family: Helvetica, sans-serif;
@@ -156,7 +156,7 @@ class TreeFilter extends Component {
     ]
 
     return (
-      <Container autosuggestWidth={autosuggestWidth}>
+      <Container data-autosuggestWidth={autosuggestWidth}>
         <Autosuggest
           ref={c => (this.autosuggest = c)}
           suggestions={suggestions}
@@ -180,9 +180,15 @@ class TreeFilter extends Component {
                 store.setUrlFromTOId(suggestion.id)
             }
           }}
-          renderSuggestion={suggestion => <span>{suggestion.name}</span>}
+          renderSuggestion={suggestion =>
+            <span>
+              {suggestion.name}
+            </span>}
           multiSection={true}
-          renderSectionTitle={section => <strong>{section.title}</strong>}
+          renderSectionTitle={section =>
+            <strong>
+              {section.title}
+            </strong>}
           getSectionSuggestions={section => section.suggestions}
           inputProps={inputProps}
           focusInputOnSuggestionClick={false}

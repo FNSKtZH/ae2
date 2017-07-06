@@ -6,11 +6,9 @@ import styled from 'styled-components'
 
 import PropertyReadOnly from './PropertyReadOnly'
 
-const Container = styled(({ intermediateRelation, ...rest }) =>
-  <div {...rest} />
-)`
+const Container = styled.div`
   border-bottom: ${props =>
-    `${props.intermediateRelation ? '1px solid #c6c6c6' : 'none'}`};
+    `${props['data-intermediateRelation'] ? '1px solid #c6c6c6' : 'none'}`};
   padding: 7px 0;
   .property p {
     margin-top: 1px;
@@ -37,7 +35,7 @@ const Relation = ({
   )
 
   return (
-    <Container intermediateRelation={intermediateRelation}>
+    <Container data-intermediateRelation={intermediateRelation}>
       {sortBy(rPartners, p =>
         get(p, 'name', '(kein Name)')
       ).map((partner, index) => {

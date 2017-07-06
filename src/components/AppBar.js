@@ -17,9 +17,9 @@ const StyledAppBar = styled(AppBar)`
     display: none !important;
   }
 `
-const Button = styled(({ visible, ...rest }) => <FlatButton {...rest} />)`
+const Button = styled(FlatButton)`
   color: ${props =>
-    props.visible
+    props['data-visible']
       ? 'rgb(255, 255, 255) !important'
       : 'rgba(255, 255, 255, 0.298039) !important'};
 `
@@ -33,11 +33,9 @@ const MenuDiv = styled.div`
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
 `
-const SymbolIcon = styled(({ visible, children, ...rest }) =>
-  <FontIcon {...rest}>{children}</FontIcon>
-)`
+const SymbolIcon = styled(FontIcon)`
   color: ${props =>
-    props.visible
+    props['data-visible']
       ? 'rgb(255, 255, 255) !important'
       : 'rgba(255, 255, 255, 0.298039) !important'};
   margin-left: -5px !important;
@@ -115,12 +113,14 @@ const MyAppBar = ({
         <MenuDiv>
           <Button
             label="Daten"
-            visible={!['taxonomien', 'eigenschaften-sammlungen'].includes(url0)}
+            data-visible={
+              !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
+            }
             onClick={onClickColumnButtonData}
           />
           <Button
             label="Export"
-            visible={url0 !== 'export'}
+            data-visible={url0 !== 'export'}
             onClick={onClickColumnButtonExport}
           />
           <IconMenu
@@ -128,12 +128,12 @@ const MyAppBar = ({
               <Button
                 label={importDropdownValue}
                 labelPosition="before"
-                visible={url0 !== 'import'}
+                data-visible={url0 !== 'import'}
                 icon={
                   <SymbolIcon
                     id="dropdownButtonSymbol"
                     className="material-icons"
-                    visible={url0 !== 'import'}
+                    data-visible={url0 !== 'import'}
                   >
                     expand_more
                   </SymbolIcon>
@@ -155,7 +155,7 @@ const MyAppBar = ({
           </IconMenu>
           <Button
             label="Login"
-            visible={url0 !== 'login'}
+            data-visible={url0 !== 'login'}
             onClick={onClickColumnButtonLogin}
           />
           <IconMenu

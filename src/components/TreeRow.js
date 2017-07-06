@@ -12,11 +12,8 @@ import clone from 'lodash/clone'
 import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
 
 const singleRowHeight = 23
-const StyledNode = styled(
-  ({ level, nodeIsInActiveNodePath, children, ...rest }) =>
-    <div {...rest}>{children}</div>,
-)`
-  padding-left: ${props => `${Number(props.level) * 17 - 17}px`};
+const StyledNode = styled.div`
+  padding-left: ${props => `${Number(props['data-level']) * 17 - 17}px`};
   height: ${singleRowHeight}px;
   max-height: ${singleRowHeight}px;
   box-sizing: border-box;
@@ -26,48 +23,48 @@ const StyledNode = styled(
   white-space: nowrap;
   user-select: none;
   cursor: pointer;
-  color: ${props => (props.nodeIsInActiveNodePath ? '#D84315' : 'inherit')};
+  color: ${props =>
+    props['data-nodeIsInActiveNodePath'] ? '#D84315' : 'inherit'};
   &:hover {
-    color: #F57C00 !important;
+    color: #f57c00 !important;
   }
 `
-const SymbolIcon = styled(
-  ({ nodeIsInActiveNodePath, node, children, ...rest }) =>
-    <FontIcon {...rest}>{children}</FontIcon>,
-)`
-  margin-top: ${({ nodeIsInActiveNodePath }) =>
-    nodeIsInActiveNodePath ? '-5px !important' : '-2px !important'};
-  padding-left: ${({ nodeIsInActiveNodePath }) =>
-    nodeIsInActiveNodePath ? '2px' : '2px'};
-  font-size: ${({ nodeIsInActiveNodePath }) =>
-    nodeIsInActiveNodePath ? '26px !important' : '22px !important'};
-  font-weight: ${({ nodeIsInActiveNodePath }) =>
-    nodeIsInActiveNodePath ? '700 !important' : 'inherit'};
-  color: ${({ nodeIsInActiveNodePath }) =>
-    nodeIsInActiveNodePath ? '#D84315 !important' : 'inherit'};
+const SymbolIcon = styled(FontIcon)`
+  margin-top: ${props =>
+    props['data-nodeIsInActiveNodePath']
+      ? '-5px !important'
+      : '-2px !important'};
+  padding-left: ${props =>
+    props['data-nodeIsInActiveNodePath'] ? '2px' : '2px'};
+  font-size: ${props =>
+    props['data-nodeIsInActiveNodePath']
+      ? '26px !important'
+      : '22px !important'};
+  font-weight: ${props =>
+    props['data-nodeIsInActiveNodePath'] ? '700 !important' : 'inherit'};
+  color: ${props =>
+    props['data-nodeIsInActiveNodePath'] ? '#D84315 !important' : 'inherit'};
   width: 26px;
   &:hover {
     color: #F57C00 !important;
   }
 `
-const SymbolSpan = styled(({ nodeIsInActiveNodePath, children, ...rest }) =>
-  <span {...rest}>{children}</span>,
-)`
+const SymbolSpan = styled.span`
   padding-right: 8px !important;
-  padding-left: ${props => (props.nodeIsInActiveNodePath ? '8px' : '9px')};
+  padding-left: ${props =>
+    props['data-nodeIsInActiveNodePath'] ? '8px' : '9px'};
   font-weight: ${props =>
-    props.nodeIsInActiveNodePath ? '700 !important' : 'inherit'};
-  margin-top: ${props => (props.nodeIsInActiveNodePath ? '-9px' : '-9px')};
+    props['data-nodeIsInActiveNodePath'] ? '700 !important' : 'inherit'};
+  margin-top: ${props =>
+    props['data-nodeIsInActiveNodePath'] ? '-9px' : '-9px'};
   font-size: 28px !important;
   width: 26px;
 `
-const TextSpan = styled(({ nodeIsInActiveNodePath, children, ...rest }) =>
-  <span {...rest}>{children}</span>,
-)`
+const TextSpan = styled.span`
   margin-left: 0;
   font-size: 16px !important;
   font-weight: ${props =>
-    props.nodeIsInActiveNodePath ? '700 !important' : 'inherit'};
+    props['data-nodeIsInActiveNodePath'] ? '700 !important' : 'inherit'};
 `
 
 const enhance = compose(inject('store'), observer)
@@ -86,7 +83,7 @@ const Row = ({
   const node = store.nodes[index]
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     toJS(node.url),
-    toJS(store.activeNodeArray),
+    toJS(store.activeNodeArray)
   )
   const onClickNode = event => {
     // do nothing when loading indicator is clicked
@@ -129,8 +126,8 @@ const Row = ({
         key={node.id}
       >
         <StyledNode
-          level={level}
-          nodeIsInActiveNodePath={nodeIsInActiveNodePath}
+          data-level={level}
+          data-nodeIsInActiveNodePath={nodeIsInActiveNodePath}
           data-id={node.id}
           data-parentId={node.parentId}
           data-url={dataUrl}
@@ -142,16 +139,16 @@ const Row = ({
           {useSymbolIcon &&
             <SymbolIcon
               id="symbol"
-              nodeIsInActiveNodePath={nodeIsInActiveNodePath}
+              data-nodeIsInActiveNodePath={nodeIsInActiveNodePath}
               className="material-icons"
             >
               {symbolIcon}
             </SymbolIcon>}
           {useSymbolSpan &&
-            <SymbolSpan nodeIsInActiveNodePath={nodeIsInActiveNodePath}>
+            <SymbolSpan data-nodeIsInActiveNodePath={nodeIsInActiveNodePath}>
               {'-'}
             </SymbolSpan>}
-          <TextSpan nodeIsInActiveNodePath={nodeIsInActiveNodePath}>
+          <TextSpan data-nodeIsInActiveNodePath={nodeIsInActiveNodePath}>
             {node.label}
           </TextSpan>
         </StyledNode>
