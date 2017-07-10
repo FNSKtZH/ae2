@@ -290,7 +290,7 @@ query AppQueryQuery(
       name
     }
   }
-  filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(
+  filterSuggestionsTO: objectByObjectName(
     taxonomyObjectName: $treeFilterText
   ) @include(if: $existsTreeFilterText) {
     totalCount

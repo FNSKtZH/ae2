@@ -2672,7 +2672,7 @@ type Query implements Node {
   ): PropertyCollectionByPropertyNameConnection
 
   # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObjectByTaxonomyObjectName(
+  objectByObjectName(
     # The method to use when ordering `TaxonomyObject`.
     orderBy: TaxonomyObjectByTaxonomyObjectNameOrderBy = NATURAL
 

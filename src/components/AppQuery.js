@@ -133,7 +133,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               nodes {
                 id
                 name
-                taxonomyObjectLevel1 {
+                objectLevel1 {
                   totalCount
                 }
               }
@@ -141,99 +141,99 @@ const AppQuery = ({ store }: { store: Object }) => {
           }
           level4Taxonomy: taxonomyById(id: $level4Taxonomy)
             @include(if: $existsLevel4) {
-            taxonomyObjectLevel1 {
+            objectLevel1 {
               nodes {
                 id
                 name
-                taxonomyObjectsByParentId {
+                objectsByParentId {
                   totalCount
                 }
               }
             }
           }
-          level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy)
+          level5Taxonomy: objectById(id: $level5Taxonomy)
             @include(if: $existsLevel5) {
-            taxonomyObjectsByParentId {
+            objectsByParentId {
               totalCount
               nodes {
                 id
                 name
-                taxonomyObjectsByParentId {
+                objectsByParentId {
                   totalCount
                 }
               }
             }
           }
-          level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy)
+          level6Taxonomy: objectById(id: $level6Taxonomy)
             @include(if: $existsLevel6) {
-            taxonomyObjectsByParentId {
+            objectsByParentId {
               totalCount
               nodes {
                 id
                 name
-                taxonomyObjectsByParentId {
+                objectsByParentId {
                   totalCount
                 }
               }
             }
           }
-          level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy)
+          level7Taxonomy: objectById(id: $level7Taxonomy)
             @include(if: $existsLevel7) {
-            taxonomyObjectsByParentId {
+            objectsByParentId {
               totalCount
               nodes {
                 id
                 name
-                taxonomyObjectsByParentId {
+                objectsByParentId {
                   totalCount
                 }
               }
             }
           }
-          level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy)
+          level8Taxonomy: objectById(id: $level8Taxonomy)
             @include(if: $existsLevel8) {
-            taxonomyObjectsByParentId {
+            objectsByParentId {
               totalCount
               nodes {
                 id
                 name
-                taxonomyObjectsByParentId {
+                objectsByParentId {
                   totalCount
                 }
               }
             }
           }
-          level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy)
+          level9Taxonomy: objectById(id: $level9Taxonomy)
             @include(if: $existsLevel9) {
-            taxonomyObjectsByParentId {
+            objectsByParentId {
               totalCount
               nodes {
                 id
                 name
-                taxonomyObjectsByParentId {
+                objectsByParentId {
                   totalCount
                 }
               }
             }
           }
-          level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy)
+          level10Taxonomy: objectById(id: $level10Taxonomy)
             @include(if: $existsLevel10) {
-            taxonomyObjectsByParentId {
+            objectsByParentId {
               totalCount
               nodes {
                 id
                 name
-                taxonomyObjectsByParentId {
+                objectsByParentId {
                   totalCount
                 }
               }
             }
           }
-          taxonomyObjectById(id: $activeTaxonomyObjectId)
+          objectById(id: $activeTaxonomyObjectId)
             @include(if: $existsActiveTaxonomyObject) {
             objectByObjectId {
               id
-              taxonomyObjectsByObjectId {
+              objectsByObjectId {
                 totalCount
                 nodes {
                   taxonomyByTaxonomyId {
@@ -252,8 +252,8 @@ const AppQuery = ({ store }: { store: Object }) => {
                   synonymsByTaxonomyObjectId {
                     totalCount
                     nodes {
-                      taxonomyObjectIdSynonym
-                      taxonomyObjectByTaxonomyObjectIdSynonym {
+                      objectIdSynonym
+                      objectByTaxonomyObjectIdSynonym {
                         id
                         name
                         properties
@@ -300,7 +300,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                                   objectByRelatedObjectId {
                                     id
                                     category
-                                    taxonomyObjectsByObjectId {
+                                    objectsByObjectId {
                                       totalCount
                                       nodes {
                                         name
@@ -349,7 +349,7 @@ const AppQuery = ({ store }: { store: Object }) => {
                       objectByRelatedObjectId {
                         id
                         category
-                        taxonomyObjectsByObjectId {
+                        objectsByObjectId {
                           totalCount
                           nodes {
                             name
@@ -362,20 +362,20 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          urlFromTO: taxonomyObjectById(id: $urlFromTOId)
+          urlFromTO: objectById(id: $urlFromTOId)
             @include(if: $existsUrlFromTOId) {
             id
-            taxonomyObjectByParentId {
+            objectByParentId {
               id
-              taxonomyObjectByParentId {
+              objectByParentId {
                 id
-                taxonomyObjectByParentId {
+                objectByParentId {
                   id
-                  taxonomyObjectByParentId {
+                  objectByParentId {
                     id
-                    taxonomyObjectByParentId {
+                    objectByParentId {
                       id
-                      taxonomyObjectByParentId {
+                      objectByParentId {
                         id
                       }
                     }
@@ -400,9 +400,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               name
             }
           }
-          filterSuggestionsTO: taxonomyObjectByTaxonomyObjectName(
-            taxonomyObjectName: $treeFilterText
-          ) @include(if: $existsTreeFilterText) {
+          filterSuggestionsTO: objectByObjectName(objectName: $treeFilterText)
+            @include(if: $existsTreeFilterText) {
             totalCount
             nodes {
               id
