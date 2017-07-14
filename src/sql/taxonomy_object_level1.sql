@@ -7,7 +7,6 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy ae.taxonomy, taxon
       ON ae.taxonomy.id = to1.taxonomy_id
     WHERE
       to1.parent_id IS NULL AND
-      ae.taxonomy.id = to1.taxonomy_id AND
       1 = CASE
         WHEN $2 IS NULL THEN 1
         WHEN ae.taxonomy.id = $2 THEN 1
