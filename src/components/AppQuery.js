@@ -17,9 +17,6 @@ const AppQuery = ({ store }: { store: Object }) => {
     existsLevel1 &&
     store.activeNodeArray[0] === 'Taxonomien' &&
     store.activeNodeArray.length > 0
-  const level2Taxonomy = existsLevel2Taxonomy
-    ? store.activeNodeArray[0]
-    : 'none'
   const existsLevel2Pc =
     existsLevel1 &&
     store.activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
@@ -74,7 +71,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           $existsLevel2Pc: Boolean!
           $level2Pc: String!
           $existsLevel2Taxonomy: Boolean!
-          $level2Taxonomy: String!
           $existsLevel3: Boolean!
           $level3Taxonomy: String!
           $existsLevel4: Boolean!
@@ -124,15 +120,13 @@ const AppQuery = ({ store }: { store: Object }) => {
               count
             }
           }
-          level3Taxonomy: categoryByName(name: $level3Taxonomy)
+          level3Taxonomy: taxonomiesOfCategory(name: $level3Taxonomy)
             @include(if: $existsLevel3) {
-            taxonomiesByCategory {
-              nodes {
-                id
-                name
-                objectLevel1 {
-                  totalCount
-                }
+            nodes {
+              id
+              name
+              objectLevel1 {
+                totalCount
               }
             }
           }
@@ -425,7 +419,6 @@ const AppQuery = ({ store }: { store: Object }) => {
         existsLevel2Pc,
         level2Pc,
         existsLevel2Taxonomy,
-        level2Taxonomy,
         existsLevel3,
         level3Taxonomy,
         existsLevel4,
