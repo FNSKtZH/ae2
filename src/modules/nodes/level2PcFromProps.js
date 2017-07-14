@@ -9,10 +9,10 @@ export default ({
   props: Object,
 }): Array<Object> => {
   if (!props) return []
-  if (!props.propertyCollectionByDataType) return []
-  if (!props.propertyCollectionByDataType.nodes) return []
+  if (!props.allPropertyCollections) return []
+  if (!props.allPropertyCollections.nodes) return []
 
-  return props.propertyCollectionByDataType.nodes.map(node => {
+  return props.allPropertyCollections.nodes.map(node => {
     const count = get(
       node,
       'propertyCollectionObjectsByPropertyCollectionId.totalCount',

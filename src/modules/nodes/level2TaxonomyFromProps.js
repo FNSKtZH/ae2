@@ -4,18 +4,11 @@ export default (store: Object, props: Object): Array<Object> => {
   if (!props.level2Taxonomy) return []
   if (!props.level2Taxonomy.nodes) return []
 
-  return props.level2Taxonomy.nodes.map(node => {
-    const childrenCount = node.taxonomyByCategory &&
-      node.taxonomyByCategory.totalCount
-      ? node.taxonomyByCategory.totalCount
-      : 0
-
-    return {
-      id: node.id,
-      url: ['Taxonomien', node.name],
-      sort: [1, node.name],
-      label: `${node.name} (${childrenCount})`,
-      childrenCount,
-    }
-  })
+  return props.level2Taxonomy.nodes.map(node => ({
+    id: node.id,
+    url: ['Taxonomien', node.name],
+    sort: [1, node.name],
+    label: `${node.name} (${node.count})`,
+    childrenCount: node.count,
+  }))
 }

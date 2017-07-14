@@ -107,8 +107,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           allPropertyCollections {
             totalCount
           }
-          propertyCollectionByDataType(datatype: $level2Pc)
-            @include(if: $existsLevel2Pc) {
+          allPropertyCollections @include(if: $existsLevel2Pc) {
             nodes {
               id
               name
@@ -117,14 +116,12 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy)
+          level2Taxonomy: categoriesOfTaxonomiesFunction
             @include(if: $existsLevel2Taxonomy) {
             nodes {
-              id
               name
-              taxonomyByCategory {
-                totalCount
-              }
+              id
+              count
             }
           }
           level3Taxonomy: categoryByName(name: $level3Taxonomy)

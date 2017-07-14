@@ -47,56 +47,8 @@ type Category implements Node {
   dataType: String
   id: Uuid
 
-  # Reads and enables paginatation through a set of `Taxonomy`.
-  taxonomyByCategory(
-    # The method to use when ordering `Taxonomy`.
-    orderBy: CategoryTaxonomyByCategoryOrderBy = NATURAL
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-    categoryname: String
-  ): CategoryTaxonomyByCategoryConnection
-
   # Reads a single `DataType` that is related to this `Category`.
   dataTypeByDataType: DataType
-
-  # Reads and enables paginatation through a set of `Taxonomy`.
-  taxonomiesByCategory(
-    # The method to use when ordering `Taxonomy`.
-    orderBy: TaxonomiesOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: TaxonomyCondition
-  ): TaxonomiesConnection
 
   # Reads and enables paginatation through a set of `Object`.
   objectsByCategory(
@@ -177,35 +129,6 @@ input CategoryPatch {
   name: String
   dataType: String
   id: Uuid
-}
-
-# A connection to a list of `Taxonomy` values.
-type CategoryTaxonomyByCategoryConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # The count of *all* `Taxonomy` you could get from the connection.
-  totalCount: Int
-
-  # A list of edges which contains the `Taxonomy` and cursor to aid in pagination.
-  edges: [CategoryTaxonomyByCategoryEdge]
-
-  # A list of `Taxonomy` objects.
-  nodes: [Taxonomy]
-}
-
-# A `Taxonomy` edge in the connection.
-type CategoryTaxonomyByCategoryEdge {
-  # A cursor for use in pagination.
-  cursor: Cursor
-
-  # The `Taxonomy` at the end of the edge.
-  node: Taxonomy
-}
-
-# Methods to use when ordering `Taxonomy`.
-enum CategoryTaxonomyByCategoryOrderBy {
-  NATURAL
 }
 
 # All input for the `createCategory` mutation.
@@ -294,11 +217,14 @@ type CreateObjectPayload {
     orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
   ): ObjectsEdge
 
+  # Reads a single `Taxonomy` that is related to this `Object`.
+  taxonomyByTaxonomyId: Taxonomy
+
+  # Reads a single `Object` that is related to this `Object`.
+  objectByParentId: Object
+
   # Reads a single `Category` that is related to this `Object`.
   categoryByCategory: Category
-
-  # Reads a single `Organization` that is related to this `Object`.
-  organizationByOrganizationId: Organization
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -489,11 +415,14 @@ type CreateRelationPayload {
     orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
   ): RelationsEdge
 
-  # Reads a single `PropertyCollectionObject` that is related to this `Relation`.
-  propertyCollectionObjectByPropertyCollectionObjectId: PropertyCollectionObject
+  # Reads a single `PropertyCollection` that is related to this `Relation`.
+  propertyCollectionByPropertyCollectionId: PropertyCollection
 
   # Reads a single `Object` that is related to this `Relation`.
-  objectByRelatedObjectId: Object
+  objectByObjectId: Object
+
+  # Reads a single `Object` that is related to this `Relation`.
+  objectByObjectIdRelation: Object
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -553,11 +482,11 @@ type CreateSynonymPayload {
     orderBy: SynonymsOrderBy = PRIMARY_KEY_ASC
   ): SynonymsEdge
 
-  # Reads a single `TaxonomyObject` that is related to this `Synonym`.
-  taxonomyObjectByTaxonomyObjectId: TaxonomyObject
+  # Reads a single `Object` that is related to this `Synonym`.
+  objectByObjectId: Object
 
-  # Reads a single `TaxonomyObject` that is related to this `Synonym`.
-  taxonomyObjectByTaxonomyObjectIdSynonym: TaxonomyObject
+  # Reads a single `Object` that is related to this `Synonym`.
+  objectByObjectIdSynonym: Object
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -571,44 +500,6 @@ input CreateTaxonomyInput {
 
   # The `Taxonomy` to be created by this mutation.
   taxonomy: TaxonomyInput!
-}
-
-# All input for the `createTaxonomyObject` mutation.
-input CreateTaxonomyObjectInput {
-  # An arbitrary string value with no semantic meaning. Will be included in the
-  # payload verbatim. May be used to track mutations by the client.
-  clientMutationId: String
-
-  # The `TaxonomyObject` to be created by this mutation.
-  taxonomyObject: TaxonomyObjectInput!
-}
-
-# The output of our `createTaxonomyObject` mutation.
-type CreateTaxonomyObjectPayload {
-  # The exact same `clientMutationId` that was provided in the mutation input,
-  # unchanged and unused. May be used by a client to track mutations.
-  clientMutationId: String
-
-  # The `TaxonomyObject` that was created by this mutation.
-  taxonomyObject: TaxonomyObject
-
-  # An edge for our `TaxonomyObject`. May be used by Relay 1.
-  taxonomyObjectEdge(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
-  ): TaxonomyObjectsEdge
-
-  # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
-  taxonomyByTaxonomyId: Taxonomy
-
-  # Reads a single `Object` that is related to this `TaxonomyObject`.
-  objectByObjectId: Object
-
-  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
-  taxonomyObjectByParentId: TaxonomyObject
-
-  # Our root query field type. Allows us to run any query from our mutation payload.
-  query: Query
 }
 
 # The output of our `createTaxonomy` mutation.
@@ -628,9 +519,6 @@ type CreateTaxonomyPayload {
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
-
-  # Reads a single `Category` that is related to this `Taxonomy`.
-  categoryByCategory: Category
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -865,11 +753,14 @@ type DeleteObjectPayload {
   object: Object
   deletedObjectId: ID
 
+  # Reads a single `Taxonomy` that is related to this `Object`.
+  taxonomyByTaxonomyId: Taxonomy
+
+  # Reads a single `Object` that is related to this `Object`.
+  objectByParentId: Object
+
   # Reads a single `Category` that is related to this `Object`.
   categoryByCategory: Category
-
-  # Reads a single `Organization` that is related to this `Object`.
-  organizationByOrganizationId: Organization
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1045,13 +936,14 @@ input DeleteRelationByIdInput {
   id: Uuid!
 }
 
-# All input for the `deleteRelationByPropertyCollectionObjectIdAndRelatedObjectIdAndRelationType` mutation.
-input DeleteRelationByPropertyCollectionObjectIdAndRelatedObjectIdAndRelationTypeInput {
+# All input for the `deleteRelationByPropertyCollectionIdAndObjectIdAndObjectIdRelationAndRelationType` mutation.
+input DeleteRelationByPropertyCollectionIdAndObjectIdAndObjectIdRelationAndRelationTypeInput {
   # An arbitrary string value with no semantic meaning. Will be included in the
   # payload verbatim. May be used to track mutations by the client.
   clientMutationId: String
-  propertyCollectionObjectId: Uuid!
-  relatedObjectId: Uuid!
+  propertyCollectionId: Uuid!
+  objectId: Uuid!
+  objectIdRelation: Uuid!
   relationType: String!
 }
 
@@ -1073,11 +965,14 @@ type DeleteRelationPayload {
   relation: Relation
   deletedRelationId: ID
 
-  # Reads a single `PropertyCollectionObject` that is related to this `Relation`.
-  propertyCollectionObjectByPropertyCollectionObjectId: PropertyCollectionObject
+  # Reads a single `PropertyCollection` that is related to this `Relation`.
+  propertyCollectionByPropertyCollectionId: PropertyCollection
 
   # Reads a single `Object` that is related to this `Relation`.
-  objectByRelatedObjectId: Object
+  objectByObjectId: Object
+
+  # Reads a single `Object` that is related to this `Relation`.
+  objectByObjectIdRelation: Object
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1113,13 +1008,13 @@ type DeleteRolePayload {
   query: Query
 }
 
-# All input for the `deleteSynonymByTaxonomyObjectIdAndTaxonomyObjectIdSynonym` mutation.
-input DeleteSynonymByTaxonomyObjectIdAndTaxonomyObjectIdSynonymInput {
+# All input for the `deleteSynonymByObjectIdAndObjectIdSynonym` mutation.
+input DeleteSynonymByObjectIdAndObjectIdSynonymInput {
   # An arbitrary string value with no semantic meaning. Will be included in the
   # payload verbatim. May be used to track mutations by the client.
   clientMutationId: String
-  taxonomyObjectId: Uuid!
-  taxonomyObjectIdSynonym: Uuid!
+  objectId: Uuid!
+  objectIdSynonym: Uuid!
 }
 
 # All input for the `deleteSynonym` mutation.
@@ -1140,11 +1035,11 @@ type DeleteSynonymPayload {
   synonym: Synonym
   deletedSynonymId: ID
 
-  # Reads a single `TaxonomyObject` that is related to this `Synonym`.
-  taxonomyObjectByTaxonomyObjectId: TaxonomyObject
+  # Reads a single `Object` that is related to this `Synonym`.
+  objectByObjectId: Object
 
-  # Reads a single `TaxonomyObject` that is related to this `Synonym`.
-  taxonomyObjectByTaxonomyObjectIdSynonym: TaxonomyObject
+  # Reads a single `Object` that is related to this `Synonym`.
+  objectByObjectIdSynonym: Object
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1176,45 +1071,6 @@ input DeleteTaxonomyInput {
   nodeId: ID!
 }
 
-# All input for the `deleteTaxonomyObjectById` mutation.
-input DeleteTaxonomyObjectByIdInput {
-  # An arbitrary string value with no semantic meaning. Will be included in the
-  # payload verbatim. May be used to track mutations by the client.
-  clientMutationId: String
-  id: Uuid!
-}
-
-# All input for the `deleteTaxonomyObject` mutation.
-input DeleteTaxonomyObjectInput {
-  # An arbitrary string value with no semantic meaning. Will be included in the
-  # payload verbatim. May be used to track mutations by the client.
-  clientMutationId: String
-
-  # The globally unique `ID` which will identify a single `TaxonomyObject` to be deleted.
-  nodeId: ID!
-}
-
-# The output of our `deleteTaxonomyObject` mutation.
-type DeleteTaxonomyObjectPayload {
-  # The exact same `clientMutationId` that was provided in the mutation input,
-  # unchanged and unused. May be used by a client to track mutations.
-  clientMutationId: String
-  taxonomyObject: TaxonomyObject
-  deletedTaxonomyObjectId: ID
-
-  # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
-  taxonomyByTaxonomyId: Taxonomy
-
-  # Reads a single `Object` that is related to this `TaxonomyObject`.
-  objectByObjectId: Object
-
-  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
-  taxonomyObjectByParentId: TaxonomyObject
-
-  # Our root query field type. Allows us to run any query from our mutation payload.
-  query: Query
-}
-
 # The output of our `deleteTaxonomy` mutation.
 type DeleteTaxonomyPayload {
   # The exact same `clientMutationId` that was provided in the mutation input,
@@ -1225,9 +1081,6 @@ type DeleteTaxonomyPayload {
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
-
-  # Reads a single `Category` that is related to this `Taxonomy`.
-  categoryByCategory: Category
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -1555,9 +1408,9 @@ type Mutation {
   ): UpdateRelationPayload
 
   # Updates a single `Relation` using a unique key and a patch.
-  updateRelationByPropertyCollectionObjectIdAndRelatedObjectIdAndRelationType(
+  updateRelationByPropertyCollectionIdAndObjectIdAndObjectIdRelationAndRelationType(
     # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    input: UpdateRelationByPropertyCollectionObjectIdAndRelatedObjectIdAndRelationTypeInput!
+    input: UpdateRelationByPropertyCollectionIdAndObjectIdAndObjectIdRelationAndRelationTypeInput!
   ): UpdateRelationPayload
 
   # Deletes a single `Relation` using its globally unique id.
@@ -1573,9 +1426,9 @@ type Mutation {
   ): DeleteRelationPayload
 
   # Deletes a single `Relation` using a unique key.
-  deleteRelationByPropertyCollectionObjectIdAndRelatedObjectIdAndRelationType(
+  deleteRelationByPropertyCollectionIdAndObjectIdAndObjectIdRelationAndRelationType(
     # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    input: DeleteRelationByPropertyCollectionObjectIdAndRelatedObjectIdAndRelationTypeInput!
+    input: DeleteRelationByPropertyCollectionIdAndObjectIdAndObjectIdRelationAndRelationTypeInput!
   ): DeleteRelationPayload
 
   # Creates a single `Role`.
@@ -1621,9 +1474,9 @@ type Mutation {
   ): UpdateSynonymPayload
 
   # Updates a single `Synonym` using a unique key and a patch.
-  updateSynonymByTaxonomyObjectIdAndTaxonomyObjectIdSynonym(
+  updateSynonymByObjectIdAndObjectIdSynonym(
     # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    input: UpdateSynonymByTaxonomyObjectIdAndTaxonomyObjectIdSynonymInput!
+    input: UpdateSynonymByObjectIdAndObjectIdSynonymInput!
   ): UpdateSynonymPayload
 
   # Deletes a single `Synonym` using its globally unique id.
@@ -1633,9 +1486,9 @@ type Mutation {
   ): DeleteSynonymPayload
 
   # Deletes a single `Synonym` using a unique key.
-  deleteSynonymByTaxonomyObjectIdAndTaxonomyObjectIdSynonym(
+  deleteSynonymByObjectIdAndObjectIdSynonym(
     # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    input: DeleteSynonymByTaxonomyObjectIdAndTaxonomyObjectIdSynonymInput!
+    input: DeleteSynonymByObjectIdAndObjectIdSynonymInput!
   ): DeleteSynonymPayload
 
   # Creates a single `Taxonomy`.
@@ -1679,36 +1532,6 @@ type Mutation {
     # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     input: DeleteTaxonomyByNameInput!
   ): DeleteTaxonomyPayload
-
-  # Creates a single `TaxonomyObject`.
-  createTaxonomyObject(
-    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    input: CreateTaxonomyObjectInput!
-  ): CreateTaxonomyObjectPayload
-
-  # Updates a single `TaxonomyObject` using its globally unique id and a patch.
-  updateTaxonomyObject(
-    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    input: UpdateTaxonomyObjectInput!
-  ): UpdateTaxonomyObjectPayload
-
-  # Updates a single `TaxonomyObject` using a unique key and a patch.
-  updateTaxonomyObjectById(
-    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    input: UpdateTaxonomyObjectByIdInput!
-  ): UpdateTaxonomyObjectPayload
-
-  # Deletes a single `TaxonomyObject` using its globally unique id.
-  deleteTaxonomyObject(
-    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    input: DeleteTaxonomyObjectInput!
-  ): DeleteTaxonomyObjectPayload
-
-  # Deletes a single `TaxonomyObject` using a unique key.
-  deleteTaxonomyObjectById(
-    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    input: DeleteTaxonomyObjectByIdInput!
-  ): DeleteTaxonomyObjectPayload
 
   # Creates a single `User`.
   createUser(
@@ -1775,19 +1598,29 @@ type Object implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   id: Uuid!
-  category: String!
-  organizationId: Uuid!
+  taxonomyId: Uuid!
+  parentId: Uuid
+  name: String!
+  properties: Json
+  category: String
+  idOld: String
+
+  # until postgraphql can filter parent_id null
+  level: Int
+
+  # Reads a single `Taxonomy` that is related to this `Object`.
+  taxonomyByTaxonomyId: Taxonomy
+
+  # Reads a single `Object` that is related to this `Object`.
+  objectByParentId: Object
 
   # Reads a single `Category` that is related to this `Object`.
   categoryByCategory: Category
 
-  # Reads a single `Organization` that is related to this `Object`.
-  organizationByOrganizationId: Organization
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObjectsByObjectId(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
+  # Reads and enables paginatation through a set of `Object`.
+  objectsByParentId(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
 
     # Read all values in the set before (above) this cursor.
     before: Cursor
@@ -1806,8 +1639,58 @@ type Object implements Node {
     offset: Int
 
     # A condition to be used in determining which values should be returned by the collection.
-    condition: TaxonomyObjectCondition
-  ): TaxonomyObjectsConnection
+    condition: ObjectCondition
+  ): ObjectsConnection
+
+  # Reads and enables paginatation through a set of `Synonym`.
+  synonymsByObjectId(
+    # The method to use when ordering `Synonym`.
+    orderBy: SynonymsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: SynonymCondition
+  ): SynonymsConnection
+
+  # Reads and enables paginatation through a set of `Synonym`.
+  synonymsByObjectIdSynonym(
+    # The method to use when ordering `Synonym`.
+    orderBy: SynonymsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: SynonymCondition
+  ): SynonymsConnection
 
   # Reads and enables paginatation through a set of `PropertyCollectionObject`.
   propertyCollectionObjectsByObjectId(
@@ -1835,7 +1718,32 @@ type Object implements Node {
   ): PropertyCollectionObjectsConnection
 
   # Reads and enables paginatation through a set of `Relation`.
-  relationsByRelatedObjectId(
+  relationsByObjectId(
+    # The method to use when ordering `Relation`.
+    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCondition
+  ): RelationsConnection
+
+  # Reads and enables paginatation through a set of `Relation`.
+  relationsByObjectIdRelation(
     # The method to use when ordering `Relation`.
     orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
 
@@ -1860,29 +1768,87 @@ type Object implements Node {
   ): RelationsConnection
 }
 
+# A connection to a list of `Object` values.
+type ObjectByObjectNameConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Object` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Object` and cursor to aid in pagination.
+  edges: [ObjectByObjectNameEdge]
+
+  # A list of `Object` objects.
+  nodes: [Object]
+}
+
+# A `Object` edge in the connection.
+type ObjectByObjectNameEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Object` at the end of the edge.
+  node: Object
+}
+
+# Methods to use when ordering `Object`.
+enum ObjectByObjectNameOrderBy {
+  NATURAL
+}
+
 # A condition to be used against `Object` object types. All fields are tested for equality and combined with a logical ‘and.’
 input ObjectCondition {
   # Checks for equality with the object’s `id` field.
   id: Uuid
 
+  # Checks for equality with the object’s `taxonomyId` field.
+  taxonomyId: Uuid
+
+  # Checks for equality with the object’s `parentId` field.
+  parentId: Uuid
+
+  # Checks for equality with the object’s `name` field.
+  name: String
+
+  # Checks for equality with the object’s `properties` field.
+  properties: Json
+
   # Checks for equality with the object’s `category` field.
   category: String
 
-  # Checks for equality with the object’s `organizationId` field.
-  organizationId: Uuid
+  # Checks for equality with the object’s `idOld` field.
+  idOld: String
+
+  # Checks for equality with the object’s `level` field.
+  level: Int
 }
 
 input ObjectInput {
   id: Uuid
-  category: String!
-  organizationId: Uuid!
+  taxonomyId: Uuid!
+  parentId: Uuid
+  name: String!
+  properties: Json
+  category: String
+  idOld: String
+
+  # until postgraphql can filter parent_id null
+  level: Int
 }
 
 # Represents an update to a `Object`. Fields that are set will be updated.
 input ObjectPatch {
   id: Uuid
+  taxonomyId: Uuid
+  parentId: Uuid
+  name: String
+  properties: Json
   category: String
-  organizationId: Uuid
+  idOld: String
+
+  # until postgraphql can filter parent_id null
+  level: Int
 }
 
 # A connection to a list of `Object` values.
@@ -1916,10 +1882,20 @@ enum ObjectsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
+  TAXONOMY_ID_ASC
+  TAXONOMY_ID_DESC
+  PARENT_ID_ASC
+  PARENT_ID_DESC
+  NAME_ASC
+  NAME_DESC
+  PROPERTIES_ASC
+  PROPERTIES_DESC
   CATEGORY_ASC
   CATEGORY_DESC
-  ORGANIZATION_ID_ASC
-  ORGANIZATION_ID_DESC
+  ID_OLD_ASC
+  ID_OLD_DESC
+  LEVEL_ASC
+  LEVEL_DESC
 }
 
 type Organization implements Node {
@@ -1952,31 +1928,6 @@ type Organization implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: TaxonomyCondition
   ): TaxonomiesConnection
-
-  # Reads and enables paginatation through a set of `Object`.
-  objectsByOrganizationId(
-    # The method to use when ordering `Object`.
-    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: ObjectCondition
-  ): ObjectsConnection
 
   # Reads and enables paginatation through a set of `PropertyCollection`.
   propertyCollectionsByOrganizationId(
@@ -2289,6 +2240,31 @@ type PropertyCollection implements Node {
     # A condition to be used in determining which values should be returned by the collection.
     condition: PropertyCollectionObjectCondition
   ): PropertyCollectionObjectsConnection
+
+  # Reads and enables paginatation through a set of `Relation`.
+  relationsByPropertyCollectionId(
+    # The method to use when ordering `Relation`.
+    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: RelationCondition
+  ): RelationsConnection
 }
 
 # A connection to a list of `PropertyCollection` values.
@@ -2409,31 +2385,6 @@ type PropertyCollectionObject implements Node {
 
   # Reads a single `PropertyCollection` that is related to this `PropertyCollectionObject`.
   propertyCollectionByPropertyCollectionId: PropertyCollection
-
-  # Reads and enables paginatation through a set of `Relation`.
-  relationsByPropertyCollectionObjectId(
-    # The method to use when ordering `Relation`.
-    orderBy: RelationsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: RelationCondition
-  ): RelationsConnection
 }
 
 # A condition to be used against `PropertyCollectionObject` object types. All
@@ -2602,6 +2553,29 @@ type Query implements Node {
     datatype: String
   ): CategoryByDataTypeConnection
 
+  # Reads and enables paginatation through a set of `Object`.
+  objectByObjectName(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectByObjectNameOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    objectName: String
+  ): ObjectByObjectNameConnection
+
   # Reads and enables paginatation through a set of `PcoPropertiesByCategory`.
   pcoPropertiesByCategoriesFunction(
     # The method to use when ordering `PcoPropertiesByCategory`.
@@ -2670,29 +2644,6 @@ type Query implements Node {
     offset: Int
     propertyName: String
   ): PropertyCollectionByPropertyNameConnection
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  objectByObjectName(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectByTaxonomyObjectNameOrderBy = NATURAL
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-    taxonomyObjectName: String
-  ): TaxonomyObjectByTaxonomyObjectNameConnection
 
   # Reads and enables paginatation through a set of `Category`.
   allCategories(
@@ -2977,7 +2928,7 @@ type Query implements Node {
     nodeId: ID!
   ): Relation
   relationById(id: Uuid!): Relation
-  relationByPropertyCollectionObjectIdAndRelatedObjectIdAndRelationType(propertyCollectionObjectId: Uuid!, relatedObjectId: Uuid!, relationType: String!): Relation
+  relationByPropertyCollectionIdAndObjectIdAndObjectIdRelationAndRelationType(propertyCollectionId: Uuid!, objectId: Uuid!, objectIdRelation: Uuid!, relationType: String!): Relation
 
   # Reads and enables paginatation through a set of `Role`.
   allRoles(
@@ -3041,7 +2992,7 @@ type Query implements Node {
     # The globally unique `ID` to be used in selecting a single `Synonym`.
     nodeId: ID!
   ): Synonym
-  synonymByTaxonomyObjectIdAndTaxonomyObjectIdSynonym(taxonomyObjectId: Uuid!, taxonomyObjectIdSynonym: Uuid!): Synonym
+  synonymByObjectIdAndObjectIdSynonym(objectId: Uuid!, objectIdSynonym: Uuid!): Synonym
 
   # Reads and enables paginatation through a set of `Taxonomy`.
   allTaxonomies(
@@ -3075,38 +3026,6 @@ type Query implements Node {
   ): Taxonomy
   taxonomyById(id: Uuid!): Taxonomy
   taxonomyByName(name: String!): Taxonomy
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  allTaxonomyObjects(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: TaxonomyObjectCondition
-  ): TaxonomyObjectsConnection
-
-  # Reads a single `TaxonomyObject` using its globally unique `ID`.
-  taxonomyObject(
-    # The globally unique `ID` to be used in selecting a single `TaxonomyObject`.
-    nodeId: ID!
-  ): TaxonomyObject
-  taxonomyObjectById(id: Uuid!): TaxonomyObject
 
   # Reads and enables paginatation through a set of `User`.
   allUsers(
@@ -3154,16 +3073,20 @@ type Relation implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
   id: Uuid!
-  propertyCollectionObjectId: Uuid!
-  relatedObjectId: Uuid!
+  propertyCollectionId: Uuid!
+  objectId: Uuid!
+  objectIdRelation: Uuid!
   relationType: String!
   properties: Json
 
-  # Reads a single `PropertyCollectionObject` that is related to this `Relation`.
-  propertyCollectionObjectByPropertyCollectionObjectId: PropertyCollectionObject
+  # Reads a single `PropertyCollection` that is related to this `Relation`.
+  propertyCollectionByPropertyCollectionId: PropertyCollection
 
   # Reads a single `Object` that is related to this `Relation`.
-  objectByRelatedObjectId: Object
+  objectByObjectId: Object
+
+  # Reads a single `Object` that is related to this `Relation`.
+  objectByObjectIdRelation: Object
 }
 
 # A condition to be used against `Relation` object types. All fields are tested
@@ -3172,11 +3095,14 @@ input RelationCondition {
   # Checks for equality with the object’s `id` field.
   id: Uuid
 
-  # Checks for equality with the object’s `propertyCollectionObjectId` field.
-  propertyCollectionObjectId: Uuid
+  # Checks for equality with the object’s `propertyCollectionId` field.
+  propertyCollectionId: Uuid
 
-  # Checks for equality with the object’s `relatedObjectId` field.
-  relatedObjectId: Uuid
+  # Checks for equality with the object’s `objectId` field.
+  objectId: Uuid
+
+  # Checks for equality with the object’s `objectIdRelation` field.
+  objectIdRelation: Uuid
 
   # Checks for equality with the object’s `relationType` field.
   relationType: String
@@ -3187,8 +3113,9 @@ input RelationCondition {
 
 input RelationInput {
   id: Uuid
-  propertyCollectionObjectId: Uuid!
-  relatedObjectId: Uuid!
+  propertyCollectionId: Uuid!
+  objectId: Uuid!
+  objectIdRelation: Uuid!
   relationType: String!
   properties: Json
 }
@@ -3196,8 +3123,9 @@ input RelationInput {
 # Represents an update to a `Relation`. Fields that are set will be updated.
 input RelationPatch {
   id: Uuid
-  propertyCollectionObjectId: Uuid
-  relatedObjectId: Uuid
+  propertyCollectionId: Uuid
+  objectId: Uuid
+  objectIdRelation: Uuid
   relationType: String
   properties: Json
 }
@@ -3233,10 +3161,12 @@ enum RelationsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  PROPERTY_COLLECTION_OBJECT_ID_ASC
-  PROPERTY_COLLECTION_OBJECT_ID_DESC
-  RELATED_OBJECT_ID_ASC
-  RELATED_OBJECT_ID_DESC
+  PROPERTY_COLLECTION_ID_ASC
+  PROPERTY_COLLECTION_ID_DESC
+  OBJECT_ID_ASC
+  OBJECT_ID_DESC
+  OBJECT_ID_RELATION_ASC
+  OBJECT_ID_RELATION_DESC
   RELATION_TYPE_ASC
   RELATION_TYPE_DESC
   PROPERTIES_ASC
@@ -3300,34 +3230,34 @@ enum RolesOrderBy {
 type Synonym implements Node {
   # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   nodeId: ID!
-  taxonomyObjectId: Uuid!
-  taxonomyObjectIdSynonym: Uuid!
+  objectId: Uuid!
+  objectIdSynonym: Uuid!
 
-  # Reads a single `TaxonomyObject` that is related to this `Synonym`.
-  taxonomyObjectByTaxonomyObjectId: TaxonomyObject
+  # Reads a single `Object` that is related to this `Synonym`.
+  objectByObjectId: Object
 
-  # Reads a single `TaxonomyObject` that is related to this `Synonym`.
-  taxonomyObjectByTaxonomyObjectIdSynonym: TaxonomyObject
+  # Reads a single `Object` that is related to this `Synonym`.
+  objectByObjectIdSynonym: Object
 }
 
 # A condition to be used against `Synonym` object types. All fields are tested for equality and combined with a logical ‘and.’
 input SynonymCondition {
-  # Checks for equality with the object’s `taxonomyObjectId` field.
-  taxonomyObjectId: Uuid
+  # Checks for equality with the object’s `objectId` field.
+  objectId: Uuid
 
-  # Checks for equality with the object’s `taxonomyObjectIdSynonym` field.
-  taxonomyObjectIdSynonym: Uuid
+  # Checks for equality with the object’s `objectIdSynonym` field.
+  objectIdSynonym: Uuid
 }
 
 input SynonymInput {
-  taxonomyObjectId: Uuid!
-  taxonomyObjectIdSynonym: Uuid!
+  objectId: Uuid!
+  objectIdSynonym: Uuid!
 }
 
 # Represents an update to a `Synonym`. Fields that are set will be updated.
 input SynonymPatch {
-  taxonomyObjectId: Uuid
-  taxonomyObjectIdSynonym: Uuid
+  objectId: Uuid
+  objectIdSynonym: Uuid
 }
 
 # A connection to a list of `Synonym` values.
@@ -3359,10 +3289,10 @@ enum SynonymsOrderBy {
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
   NATURAL
-  TAXONOMY_OBJECT_ID_ASC
-  TAXONOMY_OBJECT_ID_DESC
-  TAXONOMY_OBJECT_ID_SYNONYM_ASC
-  TAXONOMY_OBJECT_ID_SYNONYM_DESC
+  OBJECT_ID_ASC
+  OBJECT_ID_DESC
+  OBJECT_ID_SYNONYM_ASC
+  OBJECT_ID_SYNONYM_DESC
 }
 
 # A connection to a list of `Taxonomy` values.
@@ -3406,10 +3336,12 @@ enum TaxonomiesOrderBy {
   LAST_UPDATED_DESC
   ORGANIZATION_ID_ASC
   ORGANIZATION_ID_DESC
-  CATEGORY_ASC
-  CATEGORY_DESC
   IS_CATEGORY_STANDARD_ASC
   IS_CATEGORY_STANDARD_DESC
+  IMPORTED_BY_ASC
+  IMPORTED_BY_DESC
+  TERMS_OF_USE_ASC
+  TERMS_OF_USE_DESC
   HABITAT_LABEL_ASC
   HABITAT_LABEL_DESC
   HABITAT_COMMENTS_ASC
@@ -3418,8 +3350,6 @@ enum TaxonomiesOrderBy {
   HABITAT_NR_FNS_MIN_DESC
   HABITAT_NR_FNS_MAX_ASC
   HABITAT_NR_FNS_MAX_DESC
-  PREVIOUS_ID_ASC
-  PREVIOUS_ID_DESC
 }
 
 type Taxonomy implements Node {
@@ -3431,20 +3361,18 @@ type Taxonomy implements Node {
   links: [String]
   lastUpdated: Date
   organizationId: Uuid!
-  category: String
   isCategoryStandard: Boolean
+  importedBy: Uuid!
+  termsOfUse: String
   habitatLabel: String
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
 
-  # object._id in artendb v1. Provisorisch, kann nach Import gelöscht werden
-  previousId: Uuid
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObjectLevel1(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyTaxonomyObjectLevel1OrderBy = NATURAL
+  # Reads and enables paginatation through a set of `Object`.
+  objectLevel1(
+    # The method to use when ordering `Object`.
+    orderBy: TaxonomyObjectLevel1OrderBy = NATURAL
 
     # Read all values in the set before (above) this cursor.
     before: Cursor
@@ -3462,18 +3390,15 @@ type Taxonomy implements Node {
     # based pagination. May not be used with `last`.
     offset: Int
     taxonomyId: Uuid
-  ): TaxonomyTaxonomyObjectLevel1Connection
+  ): TaxonomyObjectLevel1Connection
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
 
-  # Reads a single `Category` that is related to this `Taxonomy`.
-  categoryByCategory: Category
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObjectsByTaxonomyId(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
+  # Reads and enables paginatation through a set of `Object`.
+  objectsByTaxonomyId(
+    # The method to use when ordering `Object`.
+    orderBy: ObjectsOrderBy = PRIMARY_KEY_ASC
 
     # Read all values in the set before (above) this cursor.
     before: Cursor
@@ -3492,8 +3417,8 @@ type Taxonomy implements Node {
     offset: Int
 
     # A condition to be used in determining which values should be returned by the collection.
-    condition: TaxonomyObjectCondition
-  ): TaxonomyObjectsConnection
+    condition: ObjectCondition
+  ): ObjectsConnection
 }
 
 # A condition to be used against `Taxonomy` object types. All fields are tested
@@ -3517,11 +3442,14 @@ input TaxonomyCondition {
   # Checks for equality with the object’s `organizationId` field.
   organizationId: Uuid
 
-  # Checks for equality with the object’s `category` field.
-  category: String
-
   # Checks for equality with the object’s `isCategoryStandard` field.
   isCategoryStandard: Boolean
+
+  # Checks for equality with the object’s `importedBy` field.
+  importedBy: Uuid
+
+  # Checks for equality with the object’s `termsOfUse` field.
+  termsOfUse: String
 
   # Checks for equality with the object’s `habitatLabel` field.
   habitatLabel: String
@@ -3534,9 +3462,6 @@ input TaxonomyCondition {
 
   # Checks for equality with the object’s `habitatNrFnsMax` field.
   habitatNrFnsMax: Int
-
-  # Checks for equality with the object’s `previousId` field.
-  previousId: Uuid
 }
 
 input TaxonomyInput {
@@ -3546,288 +3471,41 @@ input TaxonomyInput {
   links: [String]
   lastUpdated: Date
   organizationId: Uuid!
-  category: String
   isCategoryStandard: Boolean
+  importedBy: Uuid!
+  termsOfUse: String
   habitatLabel: String
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
-
-  # object._id in artendb v1. Provisorisch, kann nach Import gelöscht werden
-  previousId: Uuid
 }
 
-type TaxonomyObject implements Node {
-  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  nodeId: ID!
-  id: Uuid!
-  taxonomyId: Uuid!
-  objectId: Uuid
-  parentId: Uuid
-  name: String!
-  properties: Json
-
-  # until postgraphql can filter parent_id null
-  level: Int
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObject(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectTaxonomyObjectOrderBy = NATURAL
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-    taxonomyId: Uuid
-  ): TaxonomyObjectTaxonomyObjectConnection
-
-  # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
-  taxonomyByTaxonomyId: Taxonomy
-
-  # Reads a single `Object` that is related to this `TaxonomyObject`.
-  objectByObjectId: Object
-
-  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
-  taxonomyObjectByParentId: TaxonomyObject
-
-  # Reads and enables paginatation through a set of `TaxonomyObject`.
-  taxonomyObjectsByParentId(
-    # The method to use when ordering `TaxonomyObject`.
-    orderBy: TaxonomyObjectsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: TaxonomyObjectCondition
-  ): TaxonomyObjectsConnection
-
-  # Reads and enables paginatation through a set of `Synonym`.
-  synonymsByTaxonomyObjectId(
-    # The method to use when ordering `Synonym`.
-    orderBy: SynonymsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: SynonymCondition
-  ): SynonymsConnection
-
-  # Reads and enables paginatation through a set of `Synonym`.
-  synonymsByTaxonomyObjectIdSynonym(
-    # The method to use when ordering `Synonym`.
-    orderBy: SynonymsOrderBy = PRIMARY_KEY_ASC
-
-    # Read all values in the set before (above) this cursor.
-    before: Cursor
-
-    # Read all values in the set after (below) this cursor.
-    after: Cursor
-
-    # Only read the first `n` values of the set.
-    first: Int
-
-    # Only read the last `n` values of the set.
-    last: Int
-
-    # Skip the first `n` values from our `after` cursor, an alternative to cursor
-    # based pagination. May not be used with `last`.
-    offset: Int
-
-    # A condition to be used in determining which values should be returned by the collection.
-    condition: SynonymCondition
-  ): SynonymsConnection
-}
-
-# A connection to a list of `TaxonomyObject` values.
-type TaxonomyObjectByTaxonomyObjectNameConnection {
+# A connection to a list of `Object` values.
+type TaxonomyObjectLevel1Connection {
   # Information to aid in pagination.
   pageInfo: PageInfo!
 
-  # The count of *all* `TaxonomyObject` you could get from the connection.
+  # The count of *all* `Object` you could get from the connection.
   totalCount: Int
 
-  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
-  edges: [TaxonomyObjectByTaxonomyObjectNameEdge]
+  # A list of edges which contains the `Object` and cursor to aid in pagination.
+  edges: [TaxonomyObjectLevel1Edge]
 
-  # A list of `TaxonomyObject` objects.
-  nodes: [TaxonomyObject]
+  # A list of `Object` objects.
+  nodes: [Object]
 }
 
-# A `TaxonomyObject` edge in the connection.
-type TaxonomyObjectByTaxonomyObjectNameEdge {
+# A `Object` edge in the connection.
+type TaxonomyObjectLevel1Edge {
   # A cursor for use in pagination.
   cursor: Cursor
 
-  # The `TaxonomyObject` at the end of the edge.
-  node: TaxonomyObject
+  # The `Object` at the end of the edge.
+  node: Object
 }
 
-# Methods to use when ordering `TaxonomyObject`.
-enum TaxonomyObjectByTaxonomyObjectNameOrderBy {
-  NATURAL
-}
-
-# A condition to be used against `TaxonomyObject` object types. All fields are
-# tested for equality and combined with a logical ‘and.’
-input TaxonomyObjectCondition {
-  # Checks for equality with the object’s `id` field.
-  id: Uuid
-
-  # Checks for equality with the object’s `taxonomyId` field.
-  taxonomyId: Uuid
-
-  # Checks for equality with the object’s `objectId` field.
-  objectId: Uuid
-
-  # Checks for equality with the object’s `parentId` field.
-  parentId: Uuid
-
-  # Checks for equality with the object’s `name` field.
-  name: String
-
-  # Checks for equality with the object’s `properties` field.
-  properties: Json
-
-  # Checks for equality with the object’s `level` field.
-  level: Int
-}
-
-input TaxonomyObjectInput {
-  id: Uuid
-  taxonomyId: Uuid!
-  objectId: Uuid
-  parentId: Uuid
-  name: String!
-  properties: Json
-
-  # until postgraphql can filter parent_id null
-  level: Int
-}
-
-# Represents an update to a `TaxonomyObject`. Fields that are set will be updated.
-input TaxonomyObjectPatch {
-  id: Uuid
-  taxonomyId: Uuid
-  objectId: Uuid
-  parentId: Uuid
-  name: String
-  properties: Json
-
-  # until postgraphql can filter parent_id null
-  level: Int
-}
-
-# A connection to a list of `TaxonomyObject` values.
-type TaxonomyObjectsConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # The count of *all* `TaxonomyObject` you could get from the connection.
-  totalCount: Int
-
-  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
-  edges: [TaxonomyObjectsEdge]
-
-  # A list of `TaxonomyObject` objects.
-  nodes: [TaxonomyObject!]
-}
-
-# A `TaxonomyObject` edge in the connection.
-type TaxonomyObjectsEdge {
-  # A cursor for use in pagination.
-  cursor: Cursor
-
-  # The `TaxonomyObject` at the end of the edge.
-  node: TaxonomyObject!
-}
-
-# Methods to use when ordering `TaxonomyObject`.
-enum TaxonomyObjectsOrderBy {
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-  NATURAL
-  ID_ASC
-  ID_DESC
-  TAXONOMY_ID_ASC
-  TAXONOMY_ID_DESC
-  OBJECT_ID_ASC
-  OBJECT_ID_DESC
-  PARENT_ID_ASC
-  PARENT_ID_DESC
-  NAME_ASC
-  NAME_DESC
-  PROPERTIES_ASC
-  PROPERTIES_DESC
-  LEVEL_ASC
-  LEVEL_DESC
-}
-
-# A connection to a list of `TaxonomyObject` values.
-type TaxonomyObjectTaxonomyObjectConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # The count of *all* `TaxonomyObject` you could get from the connection.
-  totalCount: Int
-
-  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
-  edges: [TaxonomyObjectTaxonomyObjectEdge]
-
-  # A list of `TaxonomyObject` objects.
-  nodes: [TaxonomyObject]
-}
-
-# A `TaxonomyObject` edge in the connection.
-type TaxonomyObjectTaxonomyObjectEdge {
-  # A cursor for use in pagination.
-  cursor: Cursor
-
-  # The `TaxonomyObject` at the end of the edge.
-  node: TaxonomyObject
-}
-
-# Methods to use when ordering `TaxonomyObject`.
-enum TaxonomyObjectTaxonomyObjectOrderBy {
+# Methods to use when ordering `Object`.
+enum TaxonomyObjectLevel1OrderBy {
   NATURAL
 }
 
@@ -3839,44 +3517,13 @@ input TaxonomyPatch {
   links: [String]
   lastUpdated: Date
   organizationId: Uuid
-  category: String
   isCategoryStandard: Boolean
+  importedBy: Uuid
+  termsOfUse: String
   habitatLabel: String
   habitatComments: String
   habitatNrFnsMin: Int
   habitatNrFnsMax: Int
-
-  # object._id in artendb v1. Provisorisch, kann nach Import gelöscht werden
-  previousId: Uuid
-}
-
-# A connection to a list of `TaxonomyObject` values.
-type TaxonomyTaxonomyObjectLevel1Connection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # The count of *all* `TaxonomyObject` you could get from the connection.
-  totalCount: Int
-
-  # A list of edges which contains the `TaxonomyObject` and cursor to aid in pagination.
-  edges: [TaxonomyTaxonomyObjectLevel1Edge]
-
-  # A list of `TaxonomyObject` objects.
-  nodes: [TaxonomyObject]
-}
-
-# A `TaxonomyObject` edge in the connection.
-type TaxonomyTaxonomyObjectLevel1Edge {
-  # A cursor for use in pagination.
-  cursor: Cursor
-
-  # The `TaxonomyObject` at the end of the edge.
-  node: TaxonomyObject
-}
-
-# Methods to use when ordering `TaxonomyObject`.
-enum TaxonomyTaxonomyObjectLevel1OrderBy {
-  NATURAL
 }
 
 # All input for the `updateCategoryByName` mutation.
@@ -3983,11 +3630,14 @@ type UpdateObjectPayload {
   clientMutationId: String
   object: Object
 
+  # Reads a single `Taxonomy` that is related to this `Object`.
+  taxonomyByTaxonomyId: Taxonomy
+
+  # Reads a single `Object` that is related to this `Object`.
+  objectByParentId: Object
+
   # Reads a single `Category` that is related to this `Object`.
   categoryByCategory: Category
-
-  # Reads a single `Organization` that is related to this `Object`.
-  organizationByOrganizationId: Organization
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -4195,13 +3845,14 @@ input UpdateRelationByIdInput {
   relationPatch: RelationPatch!
 }
 
-# All input for the `updateRelationByPropertyCollectionObjectIdAndRelatedObjectIdAndRelationType` mutation.
-input UpdateRelationByPropertyCollectionObjectIdAndRelatedObjectIdAndRelationTypeInput {
+# All input for the `updateRelationByPropertyCollectionIdAndObjectIdAndObjectIdRelationAndRelationType` mutation.
+input UpdateRelationByPropertyCollectionIdAndObjectIdAndObjectIdRelationAndRelationTypeInput {
   # An arbitrary string value with no semantic meaning. Will be included in the
   # payload verbatim. May be used to track mutations by the client.
   clientMutationId: String
-  propertyCollectionObjectId: Uuid!
-  relatedObjectId: Uuid!
+  propertyCollectionId: Uuid!
+  objectId: Uuid!
+  objectIdRelation: Uuid!
   relationType: String!
 
   # An object where the defined keys will be set on the `Relation` identified by our unique key.
@@ -4228,11 +3879,14 @@ type UpdateRelationPayload {
   clientMutationId: String
   relation: Relation
 
-  # Reads a single `PropertyCollectionObject` that is related to this `Relation`.
-  propertyCollectionObjectByPropertyCollectionObjectId: PropertyCollectionObject
+  # Reads a single `PropertyCollection` that is related to this `Relation`.
+  propertyCollectionByPropertyCollectionId: PropertyCollection
 
   # Reads a single `Object` that is related to this `Relation`.
-  objectByRelatedObjectId: Object
+  objectByObjectId: Object
+
+  # Reads a single `Object` that is related to this `Relation`.
+  objectByObjectIdRelation: Object
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -4273,13 +3927,13 @@ type UpdateRolePayload {
   query: Query
 }
 
-# All input for the `updateSynonymByTaxonomyObjectIdAndTaxonomyObjectIdSynonym` mutation.
-input UpdateSynonymByTaxonomyObjectIdAndTaxonomyObjectIdSynonymInput {
+# All input for the `updateSynonymByObjectIdAndObjectIdSynonym` mutation.
+input UpdateSynonymByObjectIdAndObjectIdSynonymInput {
   # An arbitrary string value with no semantic meaning. Will be included in the
   # payload verbatim. May be used to track mutations by the client.
   clientMutationId: String
-  taxonomyObjectId: Uuid!
-  taxonomyObjectIdSynonym: Uuid!
+  objectId: Uuid!
+  objectIdSynonym: Uuid!
 
   # An object where the defined keys will be set on the `Synonym` identified by our unique key.
   synonymPatch: SynonymPatch!
@@ -4305,11 +3959,11 @@ type UpdateSynonymPayload {
   clientMutationId: String
   synonym: Synonym
 
-  # Reads a single `TaxonomyObject` that is related to this `Synonym`.
-  taxonomyObjectByTaxonomyObjectId: TaxonomyObject
+  # Reads a single `Object` that is related to this `Synonym`.
+  objectByObjectId: Object
 
-  # Reads a single `TaxonomyObject` that is related to this `Synonym`.
-  taxonomyObjectByTaxonomyObjectIdSynonym: TaxonomyObject
+  # Reads a single `Object` that is related to this `Synonym`.
+  objectByObjectIdSynonym: Object
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
@@ -4350,50 +4004,6 @@ input UpdateTaxonomyInput {
   taxonomyPatch: TaxonomyPatch!
 }
 
-# All input for the `updateTaxonomyObjectById` mutation.
-input UpdateTaxonomyObjectByIdInput {
-  # An arbitrary string value with no semantic meaning. Will be included in the
-  # payload verbatim. May be used to track mutations by the client.
-  clientMutationId: String
-  id: Uuid!
-
-  # An object where the defined keys will be set on the `TaxonomyObject` identified by our unique key.
-  taxonomyObjectPatch: TaxonomyObjectPatch!
-}
-
-# All input for the `updateTaxonomyObject` mutation.
-input UpdateTaxonomyObjectInput {
-  # An arbitrary string value with no semantic meaning. Will be included in the
-  # payload verbatim. May be used to track mutations by the client.
-  clientMutationId: String
-
-  # The globally unique `ID` which will identify a single `TaxonomyObject` to be updated.
-  nodeId: ID!
-
-  # An object where the defined keys will be set on the `TaxonomyObject` identified by our globally unique `ID`.
-  taxonomyObjectPatch: TaxonomyObjectPatch!
-}
-
-# The output of our `updateTaxonomyObject` mutation.
-type UpdateTaxonomyObjectPayload {
-  # The exact same `clientMutationId` that was provided in the mutation input,
-  # unchanged and unused. May be used by a client to track mutations.
-  clientMutationId: String
-  taxonomyObject: TaxonomyObject
-
-  # Reads a single `Taxonomy` that is related to this `TaxonomyObject`.
-  taxonomyByTaxonomyId: Taxonomy
-
-  # Reads a single `Object` that is related to this `TaxonomyObject`.
-  objectByObjectId: Object
-
-  # Reads a single `TaxonomyObject` that is related to this `TaxonomyObject`.
-  taxonomyObjectByParentId: TaxonomyObject
-
-  # Our root query field type. Allows us to run any query from our mutation payload.
-  query: Query
-}
-
 # The output of our `updateTaxonomy` mutation.
 type UpdateTaxonomyPayload {
   # The exact same `clientMutationId` that was provided in the mutation input,
@@ -4403,9 +4013,6 @@ type UpdateTaxonomyPayload {
 
   # Reads a single `Organization` that is related to this `Taxonomy`.
   organizationByOrganizationId: Organization
-
-  # Reads a single `Category` that is related to this `Taxonomy`.
-  categoryByCategory: Category
 
   # Our root query field type. Allows us to run any query from our mutation payload.
   query: Query
