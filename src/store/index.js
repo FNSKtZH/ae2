@@ -11,8 +11,8 @@ function Store(): void {
   this.activeNodeArray = []
   this.setActiveNodeArray = () => {}
   this.activeTreeLevel = null
-  this.activeTaxonomyObject = null
-  this.setActiveTaxonomyObject = () => {}
+  this.activeObject = null
+  this.setActiveObject = () => {}
   this.treeFilter = {}
   this.export = {
     categories: [],

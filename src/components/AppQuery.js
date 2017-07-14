@@ -7,7 +7,7 @@ import compose from 'recompose/compose'
 import app from 'ampersand-app'
 
 import App from './App'
-import getActiveTaxonomyObjectId from '../modules/getActiveTaxonomyObjectId'
+import getActiveObjectId from '../modules/getActiveObjectId'
 
 const enhance = compose(inject('store'), observer)
 
@@ -21,7 +21,6 @@ const AppQuery = ({ store }: { store: Object }) => {
     existsLevel1 &&
     store.activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
     store.activeNodeArray.length > 0
-  const level2Pc = existsLevel2Pc ? store.activeNodeArray[0] : 'none'
   const existsLevel3 = store.activeNodeArray.length > 1
   const level3Taxonomy = existsLevel3 ? store.activeNodeArray[1] : 'none'
   const existsLevel4 = store.activeNodeArray.length > 2
@@ -52,8 +51,8 @@ const AppQuery = ({ store }: { store: Object }) => {
   const level10Taxonomy = existsLevel10
     ? store.activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
-  const activeTaxonomyObjectId = getActiveTaxonomyObjectId(store)
-  const existsActiveTaxonomyObject = !!activeTaxonomyObjectId
+  const activeObjectId = getActiveObjectId(store)
+  const existsActiveObject = !!activeObjectId
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =
     store.urlFromTOId || '99999999-9999-9999-9999-999999999999'
@@ -69,7 +68,6 @@ const AppQuery = ({ store }: { store: Object }) => {
       query={graphql`
         query AppQueryQuery(
           $existsLevel2Pc: Boolean!
-          $level2Pc: String!
           $existsLevel2Taxonomy: Boolean!
           $existsLevel3: Boolean!
           $level3Taxonomy: String!
@@ -87,8 +85,8 @@ const AppQuery = ({ store }: { store: Object }) => {
           $level9Taxonomy: Uuid!
           $existsLevel10: Boolean!
           $level10Taxonomy: Uuid!
-          $activeTaxonomyObjectId: Uuid!
-          $existsActiveTaxonomyObject: Boolean!
+          $activeObjectId: Uuid!
+          $existsActiveObject: Boolean!
           $existsUrlFromTOId: Boolean!
           $urlFromTOId: Uuid!
           $existsTreeFilterText: Boolean!
@@ -120,7 +118,7 @@ const AppQuery = ({ store }: { store: Object }) => {
               count
             }
           }
-          level3Taxonomy: taxonomiesOfCategory(name: $level3Taxonomy)
+          level3Taxonomy: taxonomiesOfCategory(category: $level3Taxonomy)
             @include(if: $existsLevel3) {
             nodes {
               id
@@ -220,134 +218,75 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          objectById(id: $activeTaxonomyObjectId)
-            @include(if: $existsActiveTaxonomyObject) {
-            objectByObjectId {
-              id
-              objectsByObjectId {
-                totalCount
-                nodes {
-                  taxonomyByTaxonomyId {
-                    id
-                    name
-                    description
-                    links
-                    lastUpdated
-                    organizationByOrganizationId {
-                      name
-                    }
-                  }
+          objectById(id: $activeObjectId) @include(if: $existsActiveObject) {
+            id
+            taxonomyId
+            parentId
+            name
+            properties
+            category
+            idOld
+            synonymsByObjectId {
+              totalCount
+              nodes {
+                objectByObjectIdSynonym {
                   id
+                  taxonomyId
+                  parentId
                   name
                   properties
-                  synonymsByTaxonomyObjectId {
-                    totalCount
-                    nodes {
-                      objectIdSynonym
-                      objectByTaxonomyObjectIdSynonym {
-                        id
-                        name
-                        properties
-                        taxonomyByTaxonomyId {
-                          name
-                          description
-                          links
-                          lastUpdated
-                          organizationByOrganizationId {
-                            name
-                          }
-                        }
-                        objectByObjectId {
-                          id
-                          propertyCollectionObjectsByObjectId {
-                            totalCount
-                            nodes {
-                              objectId
-                              propertyCollectionId
-                              properties
-                              propertyCollectionByPropertyCollectionId {
-                                name
-                                description
-                                links
-                                combining
-                                lastUpdated
-                                termsOfUse
-                                importedBy
-                                organizationByOrganizationId {
-                                  name
-                                }
-                                userByImportedBy {
-                                  name
-                                  email
-                                }
-                              }
-                              relationsByPropertyCollectionObjectId {
-                                totalCount
-                                nodes {
-                                  id
-                                  relatedObjectId
-                                  relationType
-                                  properties
-                                  objectByRelatedObjectId {
-                                    id
-                                    category
-                                    objectsByObjectId {
-                                      totalCount
-                                      nodes {
-                                        name
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
+                  category
+                  idOld
+                }
+              }
+            }
+            propertyCollectionObjectsByObjectId {
+              totalCount
+              nodes {
+                objectId
+                propertyCollectionId
+                properties
+                propertyCollectionByPropertyCollectionId {
+                  name
+                  description
+                  links
+                  combining
+                  lastUpdated
+                  termsOfUse
+                  importedBy
+                  organizationByOrganizationId {
+                    name
+                  }
+                  userByImportedBy {
+                    name
+                    email
                   }
                 }
               }
-              propertyCollectionObjectsByObjectId {
-                totalCount
-                nodes {
-                  objectId
-                  propertyCollectionId
-                  properties
-                  propertyCollectionByPropertyCollectionId {
+            }
+            relationsByObjectId {
+              totalCount
+              nodes {
+                id
+                propertyCollectionId
+                objectId
+                objectIdRelation
+                relationType
+                properties
+                propertyCollectionByPropertyCollectionId {
+                  name
+                  description
+                  links
+                  combining
+                  lastUpdated
+                  termsOfUse
+                  importedBy
+                  organizationByOrganizationId {
                     name
-                    description
-                    links
-                    combining
-                    lastUpdated
-                    termsOfUse
-                    importedBy
-                    organizationByOrganizationId {
-                      name
-                    }
-                    userByImportedBy {
-                      name
-                      email
-                    }
                   }
-                  relationsByPropertyCollectionObjectId {
-                    totalCount
-                    nodes {
-                      id
-                      relatedObjectId
-                      relationType
-                      properties
-                      objectByRelatedObjectId {
-                        id
-                        category
-                        objectsByObjectId {
-                          totalCount
-                          nodes {
-                            name
-                          }
-                        }
-                      }
-                    }
+                  userByImportedBy {
+                    name
+                    email
                   }
                 }
               }
@@ -417,7 +356,6 @@ const AppQuery = ({ store }: { store: Object }) => {
       `}
       variables={{
         existsLevel2Pc,
-        level2Pc,
         existsLevel2Taxonomy,
         existsLevel3,
         level3Taxonomy,
@@ -435,8 +373,8 @@ const AppQuery = ({ store }: { store: Object }) => {
         level9Taxonomy,
         existsLevel10,
         level10Taxonomy,
-        activeTaxonomyObjectId,
-        existsActiveTaxonomyObject,
+        activeObjectId,
+        existsActiveObject,
         existsUrlFromTOId,
         urlFromTOId,
         existsTreeFilterText,

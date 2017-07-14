@@ -29,7 +29,7 @@ export default (store: Object): void => {
     onChangeObject: reaction(
       () => get(store.props, 'taxonomyObjectById.objectByObjectId', null),
       () =>
-        store.setActiveTaxonomyObject(
+        store.setActiveObject(
           get(store.props, 'taxonomyObjectById.objectByObjectId', null)
         )
     ),

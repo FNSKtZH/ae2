@@ -27,6 +27,95 @@ type CategoriesEdge {
   node: Category!
 }
 
+# A connection to a list of `CategoriesOfTaxonomy` values.
+type CategoriesOfTaxonomiesConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `CategoriesOfTaxonomy` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `CategoriesOfTaxonomy` and cursor to aid in pagination.
+  edges: [CategoriesOfTaxonomiesEdge]
+
+  # A list of `CategoriesOfTaxonomy` objects.
+  nodes: [CategoriesOfTaxonomy!]
+}
+
+# A `CategoriesOfTaxonomy` edge in the connection.
+type CategoriesOfTaxonomiesEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `CategoriesOfTaxonomy` at the end of the edge.
+  node: CategoriesOfTaxonomy!
+}
+
+# A connection to a list of `CategoriesOfTaxonomy` values.
+type CategoriesOfTaxonomiesFunctionConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `CategoriesOfTaxonomy` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `CategoriesOfTaxonomy` and cursor to aid in pagination.
+  edges: [CategoriesOfTaxonomiesFunctionEdge]
+
+  # A list of `CategoriesOfTaxonomy` objects.
+  nodes: [CategoriesOfTaxonomy]
+}
+
+# A `CategoriesOfTaxonomy` edge in the connection.
+type CategoriesOfTaxonomiesFunctionEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `CategoriesOfTaxonomy` at the end of the edge.
+  node: CategoriesOfTaxonomy
+}
+
+# Methods to use when ordering `CategoriesOfTaxonomy`.
+enum CategoriesOfTaxonomiesFunctionOrderBy {
+  NATURAL
+}
+
+# Methods to use when ordering `CategoriesOfTaxonomy`.
+enum CategoriesOfTaxonomiesOrderBy {
+  NATURAL
+  NAME_ASC
+  NAME_DESC
+  ID_ASC
+  ID_DESC
+  COUNT_ASC
+  COUNT_DESC
+}
+
+type CategoriesOfTaxonomy {
+  name: String
+  id: Uuid
+  count: BigInt
+}
+
+# A condition to be used against `CategoriesOfTaxonomy` object types. All fields
+# are tested for equality and combined with a logical ‘and.’
+input CategoriesOfTaxonomyCondition {
+  # Checks for equality with the object’s `name` field.
+  name: String
+
+  # Checks for equality with the object’s `id` field.
+  id: Uuid
+
+  # Checks for equality with the object’s `count` field.
+  count: BigInt
+}
+
+input CategoriesOfTaxonomyInput {
+  name: String
+  id: Uuid
+  count: BigInt
+}
+
 # Methods to use when ordering `Category`.
 enum CategoriesOrderBy {
   PRIMARY_KEY_ASC
@@ -129,6 +218,35 @@ input CategoryPatch {
   name: String
   dataType: String
   id: Uuid
+}
+
+# All input for the `createCategoriesOfTaxonomy` mutation.
+input CreateCategoriesOfTaxonomyInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `CategoriesOfTaxonomy` to be created by this mutation.
+  categoriesOfTaxonomy: CategoriesOfTaxonomyInput!
+}
+
+# The output of our `createCategoriesOfTaxonomy` mutation.
+type CreateCategoriesOfTaxonomyPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `CategoriesOfTaxonomy` that was created by this mutation.
+  categoriesOfTaxonomy: CategoriesOfTaxonomy
+
+  # An edge for our `CategoriesOfTaxonomy`. May be used by Relay 1.
+  categoriesOfTaxonomyEdge(
+    # The method to use when ordering `CategoriesOfTaxonomy`.
+    orderBy: CategoriesOfTaxonomiesOrderBy = NATURAL
+  ): CategoriesOfTaxonomiesEdge
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
 }
 
 # All input for the `createCategory` mutation.
@@ -1137,6 +1255,12 @@ scalar Json
 
 # The root mutation type which contains root level fields which mutate data.
 type Mutation {
+  # Creates a single `CategoriesOfTaxonomy`.
+  createCategoriesOfTaxonomy(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateCategoriesOfTaxonomyInput!
+  ): CreateCategoriesOfTaxonomyPayload
+
   # Creates a single `Category`.
   createCategory(
     # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2530,6 +2654,28 @@ type Query implements Node {
     nodeId: ID!
   ): Node
 
+  # Reads and enables paginatation through a set of `CategoriesOfTaxonomy`.
+  categoriesOfTaxonomiesFunction(
+    # The method to use when ordering `CategoriesOfTaxonomy`.
+    orderBy: CategoriesOfTaxonomiesFunctionOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+  ): CategoriesOfTaxonomiesFunctionConnection
+
   # Reads and enables paginatation through a set of `Category`.
   categoryByDataType(
     # The method to use when ordering `Category`.
@@ -2644,6 +2790,54 @@ type Query implements Node {
     offset: Int
     propertyName: String
   ): PropertyCollectionByPropertyNameConnection
+
+  # Reads and enables paginatation through a set of `Taxonomy`.
+  taxonomiesOfCategory(
+    # The method to use when ordering `Taxonomy`.
+    orderBy: TaxonomiesOfCategoryOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+    category: String
+  ): TaxonomiesOfCategoryConnection
+
+  # Reads and enables paginatation through a set of `CategoriesOfTaxonomy`.
+  allCategoriesOfTaxonomies(
+    # The method to use when ordering `CategoriesOfTaxonomy`.
+    orderBy: CategoriesOfTaxonomiesOrderBy = NATURAL
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: CategoriesOfTaxonomyCondition
+  ): CategoriesOfTaxonomiesConnection
 
   # Reads and enables paginatation through a set of `Category`.
   allCategories(
@@ -3317,6 +3511,35 @@ type TaxonomiesEdge {
 
   # The `Taxonomy` at the end of the edge.
   node: Taxonomy!
+}
+
+# A connection to a list of `Taxonomy` values.
+type TaxonomiesOfCategoryConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Taxonomy` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Taxonomy` and cursor to aid in pagination.
+  edges: [TaxonomiesOfCategoryEdge]
+
+  # A list of `Taxonomy` objects.
+  nodes: [Taxonomy]
+}
+
+# A `Taxonomy` edge in the connection.
+type TaxonomiesOfCategoryEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Taxonomy` at the end of the edge.
+  node: Taxonomy
+}
+
+# Methods to use when ordering `Taxonomy`.
+enum TaxonomiesOfCategoryOrderBy {
+  NATURAL
 }
 
 # Methods to use when ordering `Taxonomy`.
