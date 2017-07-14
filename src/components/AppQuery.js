@@ -123,14 +123,14 @@ const AppQuery = ({ store }: { store: Object }) => {
             nodes {
               id
               name
-              objectLevel1 {
+              objectLevel1(taxonomyId: $level4Taxonomy) {
                 totalCount
               }
             }
           }
           level4Taxonomy: taxonomyById(id: $level4Taxonomy)
             @include(if: $existsLevel4) {
-            objectLevel1 {
+            objectLevel1(taxonomyId: $level4Taxonomy) {
               nodes {
                 id
                 name
