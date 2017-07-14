@@ -73,7 +73,7 @@ query AppQueryQuery(
       nodes {
         id
         name
-        taxonomyObjectsByParentId {
+        objectsByParentId {
           totalCount
         }
       }
@@ -81,12 +81,12 @@ query AppQueryQuery(
   }
   level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy)
     @include(if: $existsLevel5) {
-    taxonomyObjectsByParentId {
+    objectsByParentId {
       totalCount
       nodes {
         id
         name
-        taxonomyObjectsByParentId {
+        objectsByParentId {
           totalCount
         }
       }
@@ -94,12 +94,12 @@ query AppQueryQuery(
   }
   level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy)
     @include(if: $existsLevel6) {
-    taxonomyObjectsByParentId {
+    objectsByParentId {
       totalCount
       nodes {
         id
         name
-        taxonomyObjectsByParentId {
+        objectsByParentId {
           totalCount
         }
       }
@@ -107,12 +107,12 @@ query AppQueryQuery(
   }
   level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy)
     @include(if: $existsLevel7) {
-    taxonomyObjectsByParentId {
+    objectsByParentId {
       totalCount
       nodes {
         id
         name
-        taxonomyObjectsByParentId {
+        objectsByParentId {
           totalCount
         }
       }
@@ -120,12 +120,12 @@ query AppQueryQuery(
   }
   level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy)
     @include(if: $existsLevel8) {
-    taxonomyObjectsByParentId {
+    objectsByParentId {
       totalCount
       nodes {
         id
         name
-        taxonomyObjectsByParentId {
+        objectsByParentId {
           totalCount
         }
       }
@@ -133,12 +133,12 @@ query AppQueryQuery(
   }
   level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy)
     @include(if: $existsLevel9) {
-    taxonomyObjectsByParentId {
+    objectsByParentId {
       totalCount
       nodes {
         id
         name
-        taxonomyObjectsByParentId {
+        objectsByParentId {
           totalCount
         }
       }
@@ -146,12 +146,12 @@ query AppQueryQuery(
   }
   level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy)
     @include(if: $existsLevel10) {
-    taxonomyObjectsByParentId {
+    objectsByParentId {
       totalCount
       nodes {
         id
         name
-        taxonomyObjectsByParentId {
+        objectsByParentId {
           totalCount
         }
       }

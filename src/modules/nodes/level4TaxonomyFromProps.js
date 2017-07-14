@@ -14,14 +14,14 @@ export default ({
 }): Array<Object> => {
   if (!props) return []
   if (!props.level4Taxonomy) return []
-  if (!props.level4Taxonomy.taxonomyObjectLevel1) return []
-  if (!props.level4Taxonomy.taxonomyObjectLevel1.nodes) return []
+  if (!props.level4Taxonomy.objectLevel1) return []
+  if (!props.level4Taxonomy.objectLevel1.nodes) return []
 
-  return props.level4Taxonomy.taxonomyObjectLevel1.nodes.map(node => {
-    const childrenCount = node.taxonomyObjectsByParentId &&
-      node.taxonomyObjectsByParentId.totalCount
-      ? node.taxonomyObjectsByParentId.totalCount
-      : 0
+  return props.level4Taxonomy.objectLevel1.nodes.map(node => {
+    const childrenCount =
+      node.objectsByParentId && node.objectsByParentId.totalCount
+        ? node.objectsByParentId.totalCount
+        : 0
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
 
     return {

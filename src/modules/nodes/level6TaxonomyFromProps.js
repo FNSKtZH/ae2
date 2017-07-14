@@ -22,13 +22,13 @@ export default ({
 }): Array<Object> => {
   if (!props) return []
   if (!props.level6Taxonomy) return []
-  if (!props.level6Taxonomy.taxonomyObjectsByParentId) return []
-  if (!props.level6Taxonomy.taxonomyObjectsByParentId.nodes) return []
+  if (!props.level6Taxonomy.objectsByParentId) return []
+  if (!props.level6Taxonomy.objectsByParentId.nodes) return []
 
-  return props.level6Taxonomy.taxonomyObjectsByParentId.nodes.map(node => {
-    const childrenCount = node.taxonomyObjectsByParentId &&
-      node.taxonomyObjectsByParentId.totalCount
-      ? node.taxonomyObjectsByParentId.totalCount
+  return props.level6Taxonomy.objectsByParentId.nodes.map(node => {
+    const childrenCount = node.objectsByParentId &&
+      node.objectsByParentId.totalCount
+      ? node.objectsByParentId.totalCount
       : 0
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
 

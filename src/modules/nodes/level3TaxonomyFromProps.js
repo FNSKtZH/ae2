@@ -10,14 +10,14 @@ export default ({
 }): Array<Object> => {
   if (!props) return []
   if (!props.level3Taxonomy) return []
-  if (!props.level3Taxonomy.taxonomiesByCategory) return []
-  if (!props.level3Taxonomy.taxonomiesByCategory.nodes) return []
+  if (!props.level3Taxonomy) return []
+  if (!props.level3Taxonomy.nodes) return []
 
-  return props.level3Taxonomy.taxonomiesByCategory.nodes.map(node => {
-    const childrenCount = node.taxonomyObjectLevel1 &&
-      node.taxonomyObjectLevel1.totalCount
-      ? node.taxonomyObjectLevel1.totalCount
-      : 0
+  return props.level3Taxonomy.nodes.map(node => {
+    const childrenCount =
+      node.objectLevel1 && node.objectLevel1.totalCount
+        ? node.objectLevel1.totalCount
+        : 0
 
     return {
       id: node.id,

@@ -31,7 +31,7 @@ export default (store: Object): Array<Object> => {
     activeLevel2Taxonomy && activeLevel2Taxonomy.name
   const activeLevel3TaxonomyNodes = get(
     props,
-    'level3Taxonomy.taxonomiesByCategory.nodes'
+    'level3Taxonomy.nodes'
   )
   const activeLevel3Taxonomy =
     activeLevel3TaxonomyNodes &&
@@ -41,7 +41,7 @@ export default (store: Object): Array<Object> => {
   const activeLevel3TaxonomyId = activeLevel3Taxonomy && activeLevel3Taxonomy.id
   const activeLevel4TaxonomyNodes = get(
     props,
-    'level4Taxonomy.taxonomyObjectLevel1.nodes'
+    'level4Taxonomy.objectLevel1.nodes'
   )
   const activeLevel4Taxonomy =
     activeLevel4TaxonomyNodes &&
@@ -51,7 +51,7 @@ export default (store: Object): Array<Object> => {
   const activeLevel4TaxonomyId = activeLevel4Taxonomy && activeLevel4Taxonomy.id
   const activeLevel5TaxonomyNodes = get(
     props,
-    'level5Taxonomy.taxonomyObjectsByParentId.nodes'
+    'level5Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel5Taxonomy =
     activeLevel5TaxonomyNodes &&
@@ -61,7 +61,7 @@ export default (store: Object): Array<Object> => {
   const activeLevel5TaxonomyId = activeLevel5Taxonomy && activeLevel5Taxonomy.id
   const activeLevel6TaxonomyNodes = get(
     props,
-    'level6Taxonomy.taxonomyObjectsByParentId.nodes'
+    'level6Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel6Taxonomy =
     activeLevel6TaxonomyNodes &&
@@ -71,7 +71,7 @@ export default (store: Object): Array<Object> => {
   const activeLevel6TaxonomyId = activeLevel6Taxonomy && activeLevel6Taxonomy.id
   const activeLevel7TaxonomyNodes = get(
     props,
-    'level7Taxonomy.taxonomyObjectsByParentId.nodes'
+    'level7Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel7Taxonomy =
     activeLevel7TaxonomyNodes &&
@@ -81,7 +81,7 @@ export default (store: Object): Array<Object> => {
   const activeLevel7TaxonomyId = activeLevel7Taxonomy && activeLevel7Taxonomy.id
   const activeLevel8TaxonomyNodes = get(
     props,
-    'level8Taxonomy.taxonomyObjectsByParentId.nodes'
+    'level8Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel8Taxonomy =
     activeLevel8TaxonomyNodes &&
@@ -91,7 +91,7 @@ export default (store: Object): Array<Object> => {
   const activeLevel8TaxonomyId = activeLevel8Taxonomy && activeLevel8Taxonomy.id
   const activeLevel9TaxonomyNodes = get(
     props,
-    'level9Taxonomy.taxonomyObjectsByParentId.nodes'
+    'level9Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel9Taxonomy =
     activeLevel9TaxonomyNodes &&
