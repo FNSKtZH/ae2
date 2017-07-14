@@ -295,6 +295,10 @@ const AppQuery = ({ store }: { store: Object }) => {
           urlFromTO: objectById(id: $urlFromTOId)
             @include(if: $existsUrlFromTOId) {
             id
+            categoryByCategory {
+              name
+              dataType
+            }
             objectByParentId {
               id
               objectByParentId {
@@ -315,10 +319,6 @@ const AppQuery = ({ store }: { store: Object }) => {
             }
             taxonomyByTaxonomyId {
               id
-              categoryByCategory {
-                name
-                dataType
-              }
             }
           }
           filterSuggestionsPC: propertyCollectionByPropertyName(
