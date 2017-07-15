@@ -25,25 +25,16 @@ const Relation = ({
 }) => {
   // never pass null to Object.entries!!!
   const properties = JSON.parse(relation.properties) || {}
-  const category = relation.objectByRelatedObjectId.category
+  const category = relation.objectByObjectIdRelation.category
   const rPartnerLabel =
     category === 'Lebensräume' ? 'Lebensraum' : `${category}-Art`
-  const rPartners = get(
-    relation,
-    'objectByRelatedObjectId.taxonomyObjectsByObjectId.nodes',
-    []
-  )
 
   return (
     <Container data-intermediateRelation={intermediateRelation}>
-      {sortBy(rPartners, p =>
-        get(p, 'name', '(kein Name)')
-      ).map((partner, index) => {
-        const value = get(partner, 'name', '(kein Name)')
-        return (
-          <PropertyReadOnly key={index} value={value} label={rPartnerLabel} />
-        )
-      })}
+      <PropertyReadOnly
+        value={get(relation, 'objectByObjectIdRelation.name', '(kein Name)')}
+        label={rPartnerLabel}
+      />
       {relation.relationType &&
         <PropertyReadOnly
           value={relation.relationType}

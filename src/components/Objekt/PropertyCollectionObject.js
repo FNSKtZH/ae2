@@ -29,14 +29,15 @@ const RelationTitle = styled.div`
   border-radius: 4px 4px 0 0;
 `
 
-const PropertyCollectionObject = ({ pCO }: { pCO: Object }) => {
+const PropertyCollectionObject = ({
+  pCO,
+  relations,
+}: {
+  pCO: Object,
+  relations: Array<Object>,
+}) => {
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
-  const relations = get(pCO, 'relationsByPropertyCollectionObjectId.nodes', [])
   const pCName = get(pC, 'name', '(Name fehlt)')
-  /*
-  if (relations && relations.length > 0) {
-    pCName = `${pCName} (${relations.length})`
-  }*/
   // never pass null to object.entries!!!
   const properties = JSON.parse(pCO.properties) || {}
 

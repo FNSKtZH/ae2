@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash c1d19a0f5fd0451aaaedf91e2d6b9fb8
+ * @relayHash bc30fd89cda56525b9edece4cb52d651
  */
 
 /* eslint-disable */
@@ -205,6 +205,10 @@ export type AppQueryQueryResponse = {|
                   +email: string;
                 |};
               |};
+              +objectByObjectIdRelation: ?{|
+                +name: string;
+                +category: ?string;
+              |};
             |}>;
           |};
         |};
@@ -276,6 +280,10 @@ export type AppQueryQueryResponse = {|
             +name: string;
             +email: string;
           |};
+        |};
+        +objectByObjectIdRelation: ?{|
+          +name: string;
+          +category: ?string;
         |};
       |}>;
     |};
@@ -559,6 +567,10 @@ query AppQueryQuery(
                   email
                 }
               }
+              objectByObjectIdRelation {
+                name
+                category
+              }
             }
           }
         }
@@ -630,6 +642,10 @@ query AppQueryQuery(
             name
             email
           }
+        }
+        objectByObjectIdRelation {
+          name
+          category
         }
       }
     }
@@ -2256,6 +2272,31 @@ const batch /*: ConcreteBatch*/ = {
                                       }
                                     ],
                                     "storageKey": null
+                                  },
+                                  {
+                                    "kind": "LinkedField",
+                                    "alias": null,
+                                    "args": null,
+                                    "concreteType": "Object",
+                                    "name": "objectByObjectIdRelation",
+                                    "plural": false,
+                                    "selections": [
+                                      {
+                                        "kind": "ScalarField",
+                                        "alias": null,
+                                        "args": null,
+                                        "name": "name",
+                                        "storageKey": null
+                                      },
+                                      {
+                                        "kind": "ScalarField",
+                                        "alias": null,
+                                        "args": null,
+                                        "name": "category",
+                                        "storageKey": null
+                                      }
+                                    ],
+                                    "storageKey": null
                                   }
                                 ],
                                 "storageKey": null
@@ -2708,6 +2749,31 @@ const batch /*: ConcreteBatch*/ = {
                                 "storageKey": null
                               }
                             ],
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "Object",
+                        "name": "objectByObjectIdRelation",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "name",
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "category",
                             "storageKey": null
                           }
                         ],
@@ -4667,6 +4733,31 @@ const batch /*: ConcreteBatch*/ = {
                                       }
                                     ],
                                     "storageKey": null
+                                  },
+                                  {
+                                    "kind": "LinkedField",
+                                    "alias": null,
+                                    "args": null,
+                                    "concreteType": "Object",
+                                    "name": "objectByObjectIdRelation",
+                                    "plural": false,
+                                    "selections": [
+                                      {
+                                        "kind": "ScalarField",
+                                        "alias": null,
+                                        "args": null,
+                                        "name": "name",
+                                        "storageKey": null
+                                      },
+                                      {
+                                        "kind": "ScalarField",
+                                        "alias": null,
+                                        "args": null,
+                                        "name": "category",
+                                        "storageKey": null
+                                      }
+                                    ],
+                                    "storageKey": null
                                   }
                                 ],
                                 "storageKey": null
@@ -5123,6 +5214,31 @@ const batch /*: ConcreteBatch*/ = {
                           }
                         ],
                         "storageKey": null
+                      },
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "Object",
+                        "name": "objectByObjectIdRelation",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "name",
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "category",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
                       }
                     ],
                     "storageKey": null
@@ -5510,7 +5626,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query AppQueryQuery(\n  $existsLevel2Pc: Boolean!\n  $existsLevel2Taxonomy: Boolean!\n  $existsLevel3: Boolean!\n  $level3Taxonomy: String!\n  $existsLevel4: Boolean!\n  $level4Taxonomy: Uuid!\n  $level4TaxonomyPossibleNull: Uuid\n  $existsLevel5: Boolean!\n  $level5Taxonomy: Uuid!\n  $existsLevel6: Boolean!\n  $level6Taxonomy: Uuid!\n  $existsLevel7: Boolean!\n  $level7Taxonomy: Uuid!\n  $existsLevel8: Boolean!\n  $level8Taxonomy: Uuid!\n  $existsLevel9: Boolean!\n  $level9Taxonomy: Uuid!\n  $existsLevel10: Boolean!\n  $level10Taxonomy: Uuid!\n  $activeObjectId: Uuid!\n  $existsActiveObject: Boolean!\n  $existsUrlFromTOId: Boolean!\n  $urlFromTOId: Uuid!\n  $existsTreeFilterText: Boolean!\n  $treeFilterText: String!\n  $queryGroups: Boolean!\n  $queryExportCategories: Boolean!\n  $exportCategories: [String]\n) {\n  allCategories {\n    totalCount\n  }\n  allPropertyCollections {\n    totalCount\n  }\n  allPropertyCollections @include(if: $existsLevel2Pc) {\n    nodes {\n      id\n      name\n      propertyCollectionObjectsByPropertyCollectionId {\n        totalCount\n      }\n    }\n  }\n  level2Taxonomy: categoriesOfTaxonomiesFunction @include(if: $existsLevel2Taxonomy) {\n    nodes {\n      name\n      id\n      count\n    }\n  }\n  level3Taxonomy: taxonomiesOfCategory(category: $level3Taxonomy) @include(if: $existsLevel3) {\n    nodes {\n      id\n      name\n      objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {\n        totalCount\n      }\n    }\n  }\n  level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {\n    objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level5Taxonomy: objectById(id: $level5Taxonomy) @include(if: $existsLevel5) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level6Taxonomy: objectById(id: $level6Taxonomy) @include(if: $existsLevel6) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level7Taxonomy: objectById(id: $level7Taxonomy) @include(if: $existsLevel7) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level8Taxonomy: objectById(id: $level8Taxonomy) @include(if: $existsLevel8) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level9Taxonomy: objectById(id: $level9Taxonomy) @include(if: $existsLevel9) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level10Taxonomy: objectById(id: $level10Taxonomy) @include(if: $existsLevel10) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  activeObject: objectById(id: $activeObjectId) @include(if: $existsActiveObject) {\n    category\n    id\n    parentId\n    name\n    properties\n    taxonomyId\n    idOld\n    synonymsByObjectId {\n      totalCount\n      nodes {\n        objectByObjectIdSynonym {\n          id\n          taxonomyId\n          parentId\n          name\n          properties\n          category\n          idOld\n          taxonomyByTaxonomyId {\n            importedBy\n            id\n            description\n            links\n            lastUpdated\n            isCategoryStandard\n            name\n            termsOfUse\n            habitatLabel\n            habitatComments\n            habitatNrFnsMin\n            habitatNrFnsMax\n            organizationByOrganizationId {\n              id\n              name\n            }\n          }\n          propertyCollectionObjectsByObjectId {\n            totalCount\n            nodes {\n              objectId\n              propertyCollectionId\n              properties\n              propertyCollectionByPropertyCollectionId {\n                name\n                description\n                links\n                combining\n                lastUpdated\n                termsOfUse\n                importedBy\n                organizationByOrganizationId {\n                  name\n                }\n                userByImportedBy {\n                  name\n                  email\n                }\n              }\n            }\n          }\n          relationsByObjectId {\n            totalCount\n            nodes {\n              id\n              propertyCollectionId\n              objectId\n              objectIdRelation\n              relationType\n              properties\n              propertyCollectionByPropertyCollectionId {\n                name\n                description\n                links\n                combining\n                lastUpdated\n                termsOfUse\n                importedBy\n                organizationByOrganizationId {\n                  name\n                }\n                userByImportedBy {\n                  name\n                  email\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    taxonomyByTaxonomyId {\n      importedBy\n      id\n      description\n      links\n      lastUpdated\n      isCategoryStandard\n      name\n      termsOfUse\n      habitatLabel\n      habitatComments\n      habitatNrFnsMin\n      habitatNrFnsMax\n      organizationByOrganizationId {\n        id\n        name\n      }\n    }\n    propertyCollectionObjectsByObjectId {\n      totalCount\n      nodes {\n        objectId\n        propertyCollectionId\n        properties\n        propertyCollectionByPropertyCollectionId {\n          name\n          description\n          links\n          combining\n          lastUpdated\n          termsOfUse\n          importedBy\n          organizationByOrganizationId {\n            name\n          }\n          userByImportedBy {\n            name\n            email\n          }\n        }\n      }\n    }\n    relationsByObjectId {\n      totalCount\n      nodes {\n        id\n        propertyCollectionId\n        objectId\n        objectIdRelation\n        relationType\n        properties\n        propertyCollectionByPropertyCollectionId {\n          name\n          description\n          links\n          combining\n          lastUpdated\n          termsOfUse\n          importedBy\n          organizationByOrganizationId {\n            name\n          }\n          userByImportedBy {\n            name\n            email\n          }\n        }\n      }\n    }\n  }\n  urlFromTO: objectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {\n    id\n    categoryByCategory {\n      name\n      dataType\n    }\n    objectByParentId {\n      id\n      objectByParentId {\n        id\n        objectByParentId {\n          id\n          objectByParentId {\n            id\n            objectByParentId {\n              id\n              objectByParentId {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n    taxonomyByTaxonomyId {\n      id\n    }\n  }\n  filterSuggestionsPC: propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterText) {\n    totalCount\n    nodes {\n      id\n      name\n    }\n  }\n  filterSuggestionsTO: objectByObjectName(objectName: $treeFilterText) @include(if: $existsTreeFilterText) {\n    totalCount\n    nodes {\n      id\n      name\n    }\n  }\n  allCategories @include(if: $queryGroups) {\n    nodes {\n      name\n    }\n  }\n  pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {\n    nodes {\n      propertyCollectionName\n      propertyName\n      jsontype\n      count\n    }\n  }\n}\n"
+  "text": "query AppQueryQuery(\n  $existsLevel2Pc: Boolean!\n  $existsLevel2Taxonomy: Boolean!\n  $existsLevel3: Boolean!\n  $level3Taxonomy: String!\n  $existsLevel4: Boolean!\n  $level4Taxonomy: Uuid!\n  $level4TaxonomyPossibleNull: Uuid\n  $existsLevel5: Boolean!\n  $level5Taxonomy: Uuid!\n  $existsLevel6: Boolean!\n  $level6Taxonomy: Uuid!\n  $existsLevel7: Boolean!\n  $level7Taxonomy: Uuid!\n  $existsLevel8: Boolean!\n  $level8Taxonomy: Uuid!\n  $existsLevel9: Boolean!\n  $level9Taxonomy: Uuid!\n  $existsLevel10: Boolean!\n  $level10Taxonomy: Uuid!\n  $activeObjectId: Uuid!\n  $existsActiveObject: Boolean!\n  $existsUrlFromTOId: Boolean!\n  $urlFromTOId: Uuid!\n  $existsTreeFilterText: Boolean!\n  $treeFilterText: String!\n  $queryGroups: Boolean!\n  $queryExportCategories: Boolean!\n  $exportCategories: [String]\n) {\n  allCategories {\n    totalCount\n  }\n  allPropertyCollections {\n    totalCount\n  }\n  allPropertyCollections @include(if: $existsLevel2Pc) {\n    nodes {\n      id\n      name\n      propertyCollectionObjectsByPropertyCollectionId {\n        totalCount\n      }\n    }\n  }\n  level2Taxonomy: categoriesOfTaxonomiesFunction @include(if: $existsLevel2Taxonomy) {\n    nodes {\n      name\n      id\n      count\n    }\n  }\n  level3Taxonomy: taxonomiesOfCategory(category: $level3Taxonomy) @include(if: $existsLevel3) {\n    nodes {\n      id\n      name\n      objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {\n        totalCount\n      }\n    }\n  }\n  level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {\n    objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level5Taxonomy: objectById(id: $level5Taxonomy) @include(if: $existsLevel5) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level6Taxonomy: objectById(id: $level6Taxonomy) @include(if: $existsLevel6) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level7Taxonomy: objectById(id: $level7Taxonomy) @include(if: $existsLevel7) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level8Taxonomy: objectById(id: $level8Taxonomy) @include(if: $existsLevel8) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level9Taxonomy: objectById(id: $level9Taxonomy) @include(if: $existsLevel9) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  level10Taxonomy: objectById(id: $level10Taxonomy) @include(if: $existsLevel10) {\n    objectsByParentId {\n      nodes {\n        id\n        name\n        objectsByParentId {\n          totalCount\n        }\n      }\n    }\n  }\n  activeObject: objectById(id: $activeObjectId) @include(if: $existsActiveObject) {\n    category\n    id\n    parentId\n    name\n    properties\n    taxonomyId\n    idOld\n    synonymsByObjectId {\n      totalCount\n      nodes {\n        objectByObjectIdSynonym {\n          id\n          taxonomyId\n          parentId\n          name\n          properties\n          category\n          idOld\n          taxonomyByTaxonomyId {\n            importedBy\n            id\n            description\n            links\n            lastUpdated\n            isCategoryStandard\n            name\n            termsOfUse\n            habitatLabel\n            habitatComments\n            habitatNrFnsMin\n            habitatNrFnsMax\n            organizationByOrganizationId {\n              id\n              name\n            }\n          }\n          propertyCollectionObjectsByObjectId {\n            totalCount\n            nodes {\n              objectId\n              propertyCollectionId\n              properties\n              propertyCollectionByPropertyCollectionId {\n                name\n                description\n                links\n                combining\n                lastUpdated\n                termsOfUse\n                importedBy\n                organizationByOrganizationId {\n                  name\n                }\n                userByImportedBy {\n                  name\n                  email\n                }\n              }\n            }\n          }\n          relationsByObjectId {\n            totalCount\n            nodes {\n              id\n              propertyCollectionId\n              objectId\n              objectIdRelation\n              relationType\n              properties\n              propertyCollectionByPropertyCollectionId {\n                name\n                description\n                links\n                combining\n                lastUpdated\n                termsOfUse\n                importedBy\n                organizationByOrganizationId {\n                  name\n                }\n                userByImportedBy {\n                  name\n                  email\n                }\n              }\n              objectByObjectIdRelation {\n                name\n                category\n              }\n            }\n          }\n        }\n      }\n    }\n    taxonomyByTaxonomyId {\n      importedBy\n      id\n      description\n      links\n      lastUpdated\n      isCategoryStandard\n      name\n      termsOfUse\n      habitatLabel\n      habitatComments\n      habitatNrFnsMin\n      habitatNrFnsMax\n      organizationByOrganizationId {\n        id\n        name\n      }\n    }\n    propertyCollectionObjectsByObjectId {\n      totalCount\n      nodes {\n        objectId\n        propertyCollectionId\n        properties\n        propertyCollectionByPropertyCollectionId {\n          name\n          description\n          links\n          combining\n          lastUpdated\n          termsOfUse\n          importedBy\n          organizationByOrganizationId {\n            name\n          }\n          userByImportedBy {\n            name\n            email\n          }\n        }\n      }\n    }\n    relationsByObjectId {\n      totalCount\n      nodes {\n        id\n        propertyCollectionId\n        objectId\n        objectIdRelation\n        relationType\n        properties\n        propertyCollectionByPropertyCollectionId {\n          name\n          description\n          links\n          combining\n          lastUpdated\n          termsOfUse\n          importedBy\n          organizationByOrganizationId {\n            name\n          }\n          userByImportedBy {\n            name\n            email\n          }\n        }\n        objectByObjectIdRelation {\n          name\n          category\n        }\n      }\n    }\n  }\n  urlFromTO: objectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {\n    id\n    categoryByCategory {\n      name\n      dataType\n    }\n    objectByParentId {\n      id\n      objectByParentId {\n        id\n        objectByParentId {\n          id\n          objectByParentId {\n            id\n            objectByParentId {\n              id\n              objectByParentId {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n    taxonomyByTaxonomyId {\n      id\n    }\n  }\n  filterSuggestionsPC: propertyCollectionByPropertyName(propertyName: $treeFilterText) @include(if: $existsTreeFilterText) {\n    totalCount\n    nodes {\n      id\n      name\n    }\n  }\n  filterSuggestionsTO: objectByObjectName(objectName: $treeFilterText) @include(if: $existsTreeFilterText) {\n    totalCount\n    nodes {\n      id\n      name\n    }\n  }\n  allCategories @include(if: $queryGroups) {\n    nodes {\n      name\n    }\n  }\n  pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {\n    nodes {\n      propertyCollectionName\n      propertyName\n      jsontype\n      count\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { toJS } from 'mobx'
 import { /*observer,*/ inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
@@ -30,6 +31,7 @@ const Objekt = ({ store }: { store: Object }) => {
     'propertyCollectionObjectsByObjectId.nodes',
     []
   )
+  const relations = toJS(get(activeObject, 'relationsByObjectId.nodes', []))
   const synonyms = get(activeObject, 'synonymsByObjectId.nodes', [])
   const synonymObjects = synonyms.map(s => s.objectByObjectIdSynonym)
   const propertyCollectionIds = propertyCollectionObjects.map(
@@ -92,6 +94,9 @@ const Objekt = ({ store }: { store: Object }) => {
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
+          relations={relations.filter(
+            r => r.propertyCollectionId === pCO.propertyCollectionId
+          )}
         />
       )}
       {propertyCollectionObjectsOfSynonyms.length > 0 &&
@@ -114,6 +119,9 @@ const Objekt = ({ store }: { store: Object }) => {
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
+          relations={relations.filter(
+            r => r.propertyCollectionId === pCO.propertyCollectionId
+          )}
         />
       )}
     </Container>

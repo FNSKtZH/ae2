@@ -301,6 +301,10 @@ const AppQuery = ({ store }: { store: Object }) => {
                           email
                         }
                       }
+                      objectByObjectIdRelation {
+                        name
+                        category
+                      }
                     }
                   }
                 }
@@ -372,6 +376,10 @@ const AppQuery = ({ store }: { store: Object }) => {
                     name
                     email
                   }
+                }
+                objectByObjectIdRelation {
+                  name
+                  category
                 }
               }
             }
