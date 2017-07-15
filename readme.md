@@ -2,6 +2,16 @@
 
 [![js-standard-style](https://img.shields.io/badge/license-ISC-brightgreen.svg)](https://github.com/barbalex/gs/blob/master/license.md)
 
+**Inhaltsverzeichnis**
+
+- [arteigenschaften.ch, neu aufgebaut](#)
+- [Grundlage](#)
+- [Projektziele:](#)
+- [Funktionale Ziele:](#)
+- [Diese Technologien werden verwendet:](#)
+- [Aktueller Stand](#)
+- [Was kann arteigenschaften.ch?](#)
+
 ### Grundlage
 ...sind folgende Erkenntnisse:
 
