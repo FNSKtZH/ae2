@@ -27,6 +27,7 @@ const AppQuery = ({ store }: { store: Object }) => {
   const level4Taxonomy = existsLevel4
     ? store.activeNodeArray[2]
     : '99999999-9999-9999-9999-999999999999'
+  const level4TaxonomyPossibleNull = store.activeNodeArray[2] || null
   const existsLevel5 = store.activeNodeArray.length > 3
   const level5Taxonomy = existsLevel5
     ? store.activeNodeArray[3]
@@ -73,6 +74,7 @@ const AppQuery = ({ store }: { store: Object }) => {
           $level3Taxonomy: String!
           $existsLevel4: Boolean!
           $level4Taxonomy: Uuid!
+          $level4TaxonomyPossibleNull: Uuid
           $existsLevel5: Boolean!
           $level5Taxonomy: Uuid!
           $existsLevel6: Boolean!
@@ -123,14 +125,14 @@ const AppQuery = ({ store }: { store: Object }) => {
             nodes {
               id
               name
-              objectLevel1(taxonomyId: $level4Taxonomy) {
+              objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
                 totalCount
               }
             }
           }
           level4Taxonomy: taxonomyById(id: $level4Taxonomy)
             @include(if: $existsLevel4) {
-            objectLevel1(taxonomyId: $level4Taxonomy) {
+            objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
               nodes {
                 id
                 name
@@ -361,6 +363,7 @@ const AppQuery = ({ store }: { store: Object }) => {
         level3Taxonomy,
         existsLevel4,
         level4Taxonomy,
+        level4TaxonomyPossibleNull,
         existsLevel5,
         level5Taxonomy,
         existsLevel6,

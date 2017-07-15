@@ -1729,9 +1729,6 @@ type Object implements Node {
   category: String
   idOld: String
 
-  # until postgraphql can filter parent_id null
-  level: Int
-
   # Reads a single `Taxonomy` that is related to this `Object`.
   taxonomyByTaxonomyId: Taxonomy
 
@@ -1943,9 +1940,6 @@ input ObjectCondition {
 
   # Checks for equality with the object’s `idOld` field.
   idOld: String
-
-  # Checks for equality with the object’s `level` field.
-  level: Int
 }
 
 input ObjectInput {
@@ -1956,9 +1950,6 @@ input ObjectInput {
   properties: Json
   category: String
   idOld: String
-
-  # until postgraphql can filter parent_id null
-  level: Int
 }
 
 # Represents an update to a `Object`. Fields that are set will be updated.
@@ -1970,9 +1961,6 @@ input ObjectPatch {
   properties: Json
   category: String
   idOld: String
-
-  # until postgraphql can filter parent_id null
-  level: Int
 }
 
 # A connection to a list of `Object` values.
@@ -2018,8 +2006,6 @@ enum ObjectsOrderBy {
   CATEGORY_DESC
   ID_OLD_ASC
   ID_OLD_DESC
-  LEVEL_ASC
-  LEVEL_DESC
 }
 
 type Organization implements Node {
