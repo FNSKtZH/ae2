@@ -55,6 +55,7 @@
     "obuf": "^1.1.1",
     "postcss-flexbugs-fixes": "3.0.0",
     "postcss-loader": "2.0.6",
+    "postgraphql": "3.2.0",
     "promise": "8.0.1",
     "react-dev-utils": "3.0.2",
     "react-error-overlay": "1.0.9",
@@ -78,12 +79,8 @@
     "watch-relay": "npm run build-relay -- --watch"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
+    "setupFiles": ["<rootDir>/config/polyfills.js"],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.js?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
@@ -95,20 +92,14 @@
       ".+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
     "moduleNameMapper": {
       "react-native$": "react-native-web"
     }
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ],
-    "plugins": [
-      "relay"
-    ]
+    "presets": ["react-app"],
+    "plugins": ["relay"]
   },
   "eslintConfig": {
     "extends": "react-app"
