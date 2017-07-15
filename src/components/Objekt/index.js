@@ -59,8 +59,10 @@ const Objekt = ({ store }: { store: Object }) => {
       <TaxonomyObject key={activeObject.id} taxonomyObject={activeObject} />
       {synonymObjects.length > 0 &&
         <Title>
-          Synonyme
-          <TitleSpan>{` (${synonymObjects.length})`}</TitleSpan>
+          {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
+          <TitleSpan>
+            {synonymObjects.length > 1 ? ` (${synonymObjects.length})` : ''}
+          </TitleSpan>
         </Title>}
       {sortBy(synonymObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
