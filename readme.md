@@ -4,13 +4,12 @@
 
 **Inhaltsverzeichnis**
 
-- [arteigenschaften.ch, neu aufgebaut](#)
-- [Grundlage](#)
-- [Projektziele:](#)
-- [Funktionale Ziele:](#)
-- [Diese Technologien werden verwendet:](#)
-- [Aktueller Stand](#)
-- [Was kann arteigenschaften.ch?](#)
+- [Grundlage](#grundlage)
+- [Projektziele](#projektziele)
+- [Funktionale Ziele](#funktionale-ziele)
+- [Diese Technologien werden verwendet](#diese-technologien-werden-verwendet)
+- [Aktueller Stand](#aktueller-stand)
+- [Was kann arteigenschaften.ch?](#was-kann-arteigenschaftench)
 
 ### Grundlage
 ...sind folgende Erkenntnisse:
