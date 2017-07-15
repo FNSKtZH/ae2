@@ -12,19 +12,13 @@ export default ({
   if (!props.level3Taxonomy) return []
   if (!props.level3Taxonomy) return []
   if (!props.level3Taxonomy.nodes) return []
+  const { nodes } = props.level3Taxonomy
 
-  return props.level3Taxonomy.nodes.map(node => {
-    const childrenCount =
-      node.objectLevel1 && node.objectLevel1.totalCount
-        ? node.objectLevel1.totalCount
-        : 0
-
-    return {
-      id: node.id,
-      url: ['Taxonomien', activeLevel2TaxonomyName, node.id],
-      sort: [1, activeLevel2TaxonomyName, node.name],
-      label: `${node.name} (${childrenCount})`,
-      childrenCount,
-    }
-  })
+  return nodes.map(node => ({
+    id: node.id,
+    url: ['Taxonomien', activeLevel2TaxonomyName, node.id],
+    sort: [1, activeLevel2TaxonomyName, node.name],
+    label: `${node.name} (${nodes.length})`,
+    childrenCount: nodes.length,
+  }))
 }

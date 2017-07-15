@@ -145,7 +145,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level5Taxonomy: objectById(id: $level5Taxonomy)
             @include(if: $existsLevel5) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -158,7 +157,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level6Taxonomy: objectById(id: $level6Taxonomy)
             @include(if: $existsLevel6) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -171,7 +169,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level7Taxonomy: objectById(id: $level7Taxonomy)
             @include(if: $existsLevel7) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -184,7 +181,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level8Taxonomy: objectById(id: $level8Taxonomy)
             @include(if: $existsLevel8) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -197,7 +193,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level9Taxonomy: objectById(id: $level9Taxonomy)
             @include(if: $existsLevel9) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -210,7 +205,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level10Taxonomy: objectById(id: $level10Taxonomy)
             @include(if: $existsLevel10) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -387,6 +381,8 @@ const AppQuery = ({ store }: { store: Object }) => {
         exportCategories,
       }}
       render={({ error, props }) => {
+        console.log('existsLevel7:', existsLevel7)
+        console.log('level7Taxonomy:', level7Taxonomy)
         if (error) {
           return (
             <div>
