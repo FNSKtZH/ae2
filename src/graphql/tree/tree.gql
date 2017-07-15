@@ -177,11 +177,11 @@ query AppQueryQuery(
           id
           name
           properties
-          synonymsByTaxonomyObjectId {
+          synonymsByObjectId {
             totalCount
             nodes {
               taxonomyObjectIdSynonym
-              taxonomyObjectByTaxonomyObjectIdSynonym {
+              objectByObjectIdSynonym {
                 id
                 name
                 properties

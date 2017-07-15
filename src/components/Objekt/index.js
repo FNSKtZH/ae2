@@ -29,12 +29,8 @@ const Objekt = ({ store }: { store: Object }) => {
   const propertyCollectionObjects = toJS(
     get(activeObject, 'propertyCollectionObjectsByObjectId.nodes', [])
   )
-  const synonyms = toJS(
-    get(activeObject, 'synonymsByTaxonomyObjectId.nodes', [])
-  )
-  const synonymTaxonomyObjects = synonyms.map(
-    s => s.taxonomyObjectByTaxonomyObjectIdSynonym
-  )
+  const synonyms = toJS(get(activeObject, 'synonymsByObjectId.nodes', []))
+  const synonymObjects = synonyms.map(s => s.objectByObjectIdSynonym)
   const propertyCollectionIds = propertyCollectionObjects.map(
     pco => pco.propertyCollectionId
   )
@@ -61,12 +57,12 @@ const Objekt = ({ store }: { store: Object }) => {
         <TitleSpan>{` (${activeObject.name})`}</TitleSpan>
       </FirstTitle>
       <TaxonomyObject key={activeObject.id} taxonomyObject={activeObject} />
-      {synonymTaxonomyObjects.length > 0 &&
+      {synonymObjects.length > 0 &&
         <Title>
           Synonyme
-          <TitleSpan>{` (${synonymTaxonomyObjects.length})`}</TitleSpan>
+          <TitleSpan>{` (${synonymObjects.length})`}</TitleSpan>
         </Title>}
-      {sortBy(synonymTaxonomyObjects, tO =>
+      {sortBy(synonymObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
       ).map(taxonomyObject =>
         <TaxonomyObject
