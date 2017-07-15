@@ -72,7 +72,7 @@
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
 
   - [x] Entwicklungsumgebung
-  - [x] Layout und Navigation
+  - [x] Layout und Navigation![Navigation](/etc/navigation.png?raw=true "Navigation")
   - [x] Struktur- und Navigationsbaum
   - [x] Suche:<br/>![Datenstruktur](/etc/suche.png?raw=true "Suche")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
