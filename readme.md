@@ -77,8 +77,8 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Suche:<br/>![Datenstruktur](/etc/suche.png?raw=true "Suche")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Datenstruktur")
     - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaftensammlung](/etc/eigenschaftensammlung.png?raw=true "Eigenschaftensammlung")
-    - [x] inklusive Synonymen aus anderen Objekten<br/>
-    - [x] inklusive Eigenschaften und Beziehungen von Synonymen aus anderen Objekten<br/>![Synonym](/etc/synonym.png?raw=true "Synonym")
+    - [x] inklusive Synonymen<br/>
+    - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>![Synonym](/etc/synonym.png?raw=true "Synonym")
   - [ ] Daten exportieren
   - [ ] Login
   - [ ] Organisationen und Benutzer
