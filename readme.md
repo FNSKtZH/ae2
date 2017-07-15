@@ -76,11 +76,9 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Struktur- und Navigationsbaum<br/>![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
   - [x] Suche:<br/>![Datenstruktur](/etc/suche.png?raw=true "Suche")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Grasfrosch")
-    - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>
+    - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaftensammlung](/etc/eigenschaftensammlung.png?raw=true "Grasfrosch")
     - [x] inklusive Synonymen aus anderen Objekten<br/>
-    Hinweis: Synonyme werden normalerweise erstellt, indem das entsprechende Taxonomie-Objekt jener Taxonomie demselben Objekt zugeordnet wird.
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen aus anderen Objekten<br/>
-    Hinweis: Eigenschaften und Beziehungen von demselben Objekt zugeordneten synonymen Taxonomie-Objekten sind automatisch verfügbar, da sie am selben Objekt hängen.
   - [ ] Daten exportieren
   - [ ] Login
   - [ ] Organisationen und Benutzer
