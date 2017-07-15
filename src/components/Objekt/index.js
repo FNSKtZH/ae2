@@ -26,11 +26,6 @@ const enhance = compose(inject('store') /*, observer*/)
 
 const Objekt = ({ store }: { store: Object }) => {
   const { activeObject } = store
-  const taxonomyObjects = get(
-    activeObject,
-    'taxonomyObjectsByObjectId.nodes',
-    []
-  )
   const propertyCollectionObjects = toJS(
     get(activeObject, 'propertyCollectionObjectsByObjectId.nodes', [])
   )
@@ -70,17 +65,10 @@ const Objekt = ({ store }: { store: Object }) => {
   return (
     <Container>
       <FirstTitle>
-        Taxonomien
-        <TitleSpan>{` (${taxonomyObjects.length})`}</TitleSpan>
+        Taxonomie
+        <TitleSpan>{` (${activeObject.name})`}</TitleSpan>
       </FirstTitle>
-      {sortBy(taxonomyObjects, tO =>
-        get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
-      ).map(taxonomyObject =>
-        <TaxonomyObject
-          key={taxonomyObject.id}
-          taxonomyObject={taxonomyObject}
-        />
-      )}
+      <TaxonomyObject key={activeObject.id} taxonomyObject={activeObject} />
       {synonymTaxonomyObjects.length > 0 &&
         <Title>
           Synonyme

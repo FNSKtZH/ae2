@@ -27,11 +27,9 @@ export default (store: Object): void => {
       () => buildNodesFromAppQuery(store)
     ),
     onChangeObject: reaction(
-      () => get(store.props, 'taxonomyObjectById.objectByObjectId', null),
-      () =>
-        store.setActiveObject(
-          get(store.props, 'taxonomyObjectById.objectByObjectId', null)
-        )
+      () => get(store.props, 'activeObject', null),
+      // () => store.props,
+      () => store.setActiveObject(get(store.props, 'activeObject', null))
     ),
     onChangeCategories: reaction(
       () => get(store.props, 'allCategories.nodes', []),

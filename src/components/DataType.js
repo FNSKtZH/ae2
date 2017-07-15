@@ -3,7 +3,7 @@ import React from 'react'
 import { /*observer,*/ inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
-import Objekt from './Objekt/index'
+import Objekt from './Objekt'
 import PropertyCollection from './PropertyCollection'
 
 const enhance = compose(inject('store') /*, observer*/)
@@ -13,7 +13,7 @@ const DataType = ({ store }: { store: Object }) => {
 
   return (
     <div>
-      {primaryUrl === 'Taxonomien' && store.activeTaxonomyObject && <Objekt />}
+      {primaryUrl === 'Taxonomien' && store.activeObject && <Objekt />}
       {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
     </div>
   )

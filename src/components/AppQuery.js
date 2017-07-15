@@ -145,7 +145,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level5Taxonomy: objectById(id: $level5Taxonomy)
             @include(if: $existsLevel5) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -158,7 +157,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level6Taxonomy: objectById(id: $level6Taxonomy)
             @include(if: $existsLevel6) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -171,7 +169,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level7Taxonomy: objectById(id: $level7Taxonomy)
             @include(if: $existsLevel7) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -184,7 +181,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level8Taxonomy: objectById(id: $level8Taxonomy)
             @include(if: $existsLevel8) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -197,7 +193,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level9Taxonomy: objectById(id: $level9Taxonomy)
             @include(if: $existsLevel9) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -210,7 +205,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           level10Taxonomy: objectById(id: $level10Taxonomy)
             @include(if: $existsLevel10) {
             objectsByParentId {
-              totalCount
               nodes {
                 id
                 name
@@ -220,7 +214,8 @@ const AppQuery = ({ store }: { store: Object }) => {
               }
             }
           }
-          objectById(id: $activeObjectId) @include(if: $existsActiveObject) {
+          activeObject: objectById(id: $activeObjectId)
+            @include(if: $existsActiveObject) {
             id
             taxonomyId
             parentId
@@ -239,7 +234,43 @@ const AppQuery = ({ store }: { store: Object }) => {
                   properties
                   category
                   idOld
+                  taxonomyByTaxonomyId {
+                    id
+                    name
+                    description
+                    links
+                    lastUpdated
+                    isCategoryStandard
+                    importedBy
+                    termsOfUse
+                    habitatLabel
+                    habitatComments
+                    habitatNrFnsMin
+                    habitatNrFnsMax
+                    organizationByOrganizationId {
+                      id
+                      name
+                    }
+                  }
                 }
+              }
+            }
+            taxonomyByTaxonomyId {
+              id
+              name
+              description
+              links
+              lastUpdated
+              isCategoryStandard
+              importedBy
+              termsOfUse
+              habitatLabel
+              habitatComments
+              habitatNrFnsMin
+              habitatNrFnsMax
+              organizationByOrganizationId {
+                id
+                name
               }
             }
             propertyCollectionObjectsByObjectId {
