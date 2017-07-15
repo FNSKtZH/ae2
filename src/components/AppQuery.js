@@ -252,6 +252,57 @@ const AppQuery = ({ store }: { store: Object }) => {
                       name
                     }
                   }
+                  propertyCollectionObjectsByObjectId {
+                    totalCount
+                    nodes {
+                      objectId
+                      propertyCollectionId
+                      properties
+                      propertyCollectionByPropertyCollectionId {
+                        name
+                        description
+                        links
+                        combining
+                        lastUpdated
+                        termsOfUse
+                        importedBy
+                        organizationByOrganizationId {
+                          name
+                        }
+                        userByImportedBy {
+                          name
+                          email
+                        }
+                      }
+                    }
+                  }
+                  relationsByObjectId {
+                    totalCount
+                    nodes {
+                      id
+                      propertyCollectionId
+                      objectId
+                      objectIdRelation
+                      relationType
+                      properties
+                      propertyCollectionByPropertyCollectionId {
+                        name
+                        description
+                        links
+                        combining
+                        lastUpdated
+                        termsOfUse
+                        importedBy
+                        organizationByOrganizationId {
+                          name
+                        }
+                        userByImportedBy {
+                          name
+                          email
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
