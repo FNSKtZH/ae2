@@ -16,10 +16,13 @@ export default ({
   if (!props.level4Taxonomy) return []
   if (!props.level4Taxonomy.objectLevel1) return []
   if (!props.level4Taxonomy.objectLevel1.nodes) return []
-  const { nodes } = props.level4Taxonomy.objectLevel1
 
-  return nodes.map(node => {
-    const labelCount = nodes.length > 0 ? ` (${nodes.length})` : ''
+  return props.level4Taxonomy.objectLevel1.nodes.map(node => {
+    const childrenCount =
+      node.objectsByParentId && node.objectsByParentId.totalCount
+        ? node.objectsByParentId.totalCount
+        : 0
+    const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
 
     return {
       id: node.id,
@@ -31,7 +34,7 @@ export default ({
       ],
       sort: [1, activeLevel2TaxonomyName, activeLevel3TaxonomyName, node.name],
       label: `${node.name}${labelCount}`,
-      childrenCount: nodes.length,
+      childrenCount,
     }
   })
 }

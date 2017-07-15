@@ -40,10 +40,12 @@ export default ({
   if (!props.level10Taxonomy) return []
   if (!props.level10Taxonomy.objectsByParentId) return []
   if (!props.level10Taxonomy.objectsByParentId.nodes) return []
-  const { nodes } = props.level10Taxonomy.objectsByParentId
 
-  return nodes.map(node => {
-    const childrenCount = nodes.length
+  return props.level10Taxonomy.objectsByParentId.nodes.map(node => {
+    const childrenCount = node.objectsByParentId &&
+      node.objectsByParentId.totalCount
+      ? node.objectsByParentId.totalCount
+      : 0
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
 
     return {

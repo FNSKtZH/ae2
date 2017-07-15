@@ -20,10 +20,13 @@ export default ({
   if (!props.level5Taxonomy) return []
   if (!props.level5Taxonomy.objectsByParentId) return []
   if (!props.level5Taxonomy.objectsByParentId.nodes) return []
-  const { nodes } = props.level5Taxonomy.objectsByParentId
 
-  return nodes.map(node => {
-    const labelCount = nodes.length > 0 ? ` (${nodes.length})` : ''
+  return props.level5Taxonomy.objectsByParentId.nodes.map(node => {
+    const childrenCount = node.objectsByParentId &&
+      node.objectsByParentId.totalCount
+      ? node.objectsByParentId.totalCount
+      : 0
+    const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
 
     return {
       id: node.id,
@@ -42,7 +45,7 @@ export default ({
         node.name,
       ],
       label: `${node.name}${labelCount}`,
-      childrenCount: nodes.length,
+      childrenCount,
     }
   })
 }
