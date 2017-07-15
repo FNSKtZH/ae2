@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { toJS } from 'mobx'
 import { /*observer,*/ inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
@@ -26,20 +25,21 @@ const enhance = compose(inject('store') /*, observer*/)
 
 const Objekt = ({ store }: { store: Object }) => {
   const { activeObject } = store
-  const propertyCollectionObjects = toJS(
-    get(activeObject, 'propertyCollectionObjectsByObjectId.nodes', [])
+  const propertyCollectionObjects = get(
+    activeObject,
+    'propertyCollectionObjectsByObjectId.nodes',
+    []
   )
-  const synonyms = toJS(get(activeObject, 'synonymsByObjectId.nodes', []))
+  const synonyms = get(activeObject, 'synonymsByObjectId.nodes', [])
   const synonymObjects = synonyms.map(s => s.objectByObjectIdSynonym)
   const propertyCollectionIds = propertyCollectionObjects.map(
     pco => pco.propertyCollectionId
   )
   let propertyCollectionObjectsOfSynonyms = []
-  synonyms.forEach(synonym => {
-    const pco = get(synonym, 'propertyCollectionObjectsByObjectId.nodes', [])
+  synonymObjects.forEach(synonym => {
     propertyCollectionObjectsOfSynonyms = [
       ...propertyCollectionObjectsOfSynonyms,
-      ...pco,
+      ...get(synonym, 'propertyCollectionObjectsByObjectId.nodes', []),
     ]
   })
   propertyCollectionObjectsOfSynonyms = uniqBy(
