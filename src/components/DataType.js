@@ -8,12 +8,20 @@ import PropertyCollection from './PropertyCollection'
 
 const enhance = compose(inject('store') /*, observer*/)
 
-const DataType = ({ store }: { store: Object }) => {
+const DataType = ({
+  store,
+  activeObject,
+}: {
+  store: Object,
+  activeObject: Object,
+}) => {
   const primaryUrl = store.activeNodeArray[0]
 
   return (
     <div>
-      {primaryUrl === 'Taxonomien' && store.activeObject && <Objekt />}
+      {primaryUrl === 'Taxonomien' &&
+        store.activeObject &&
+        <Objekt activeObject={activeObject} />}
       {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
     </div>
   )

@@ -6,7 +6,7 @@ import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 
 import PropertyReadOnly from './PropertyReadOnly'
-import PropertyCollection from './PropertyCollection'
+import PropertyCollection from './ObjectPropertyCollection'
 import Relation from './Relation'
 
 const pCOCardStyle = { margin: '10px 0' }

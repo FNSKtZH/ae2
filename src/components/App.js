@@ -22,7 +22,13 @@ const Container = styled.div`
 
 const enhance = compose(inject('store') /*, observer*/)
 
-const App = ({ store }: { store: Object }) => {
+const App = ({
+  store,
+  activeObject,
+}: {
+  store: Object,
+  activeObject: Object,
+}) => {
   const url0 =
     store.activeNodeArray[0] && store.activeNodeArray[0].toLowerCase()
   const url1 =
@@ -48,7 +54,7 @@ const App = ({ store }: { store: Object }) => {
   return (
     <Container>
       <AppBar />
-      {showData && <Data />}
+      {showData && <Data activeObject={activeObject} />}
       {showExport && <Export />}
       {showImportPc && <ImportPc />}
       {showImportRc && <ImportRc />}

@@ -10,7 +10,7 @@ import styled from 'styled-components'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import Taxonomy from './Taxonomy'
-import getUrlFromTOId from '../../modules/getUrlFromTOId'
+import getUrlFromTOId from '../modules/getUrlFromTOId'
 
 const tOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {
@@ -31,7 +31,7 @@ const SynonymContainer = styled.div`
   justify-content: space-between;
 `
 const SynonymText = styled.div``
-const SynonymLink = styled.a` margin-left: 5px;`
+const SynonymLink = styled.a`margin-left: 5px;`
 const SynomymLinkIcon = styled(FontIcon)`
   font-size: 17px !important;
   :hover {
@@ -112,11 +112,11 @@ const TaxonomyObject = ({
       <CardText expandable={true} style={tOCardTextStyle}>
         {sortBy(
           Object.entries(properties).filter(
-            ([key, value]) => value || value === 0,
+            ([key, value]) => value || value === 0
           ),
-          e => e[0],
+          e => e[0]
         ).map(([key, value]) =>
-          <PropertyReadOnly key={key} value={value} label={key} />,
+          <PropertyReadOnly key={key} value={value} label={key} />
         )}
       </CardText>
     </Card>
