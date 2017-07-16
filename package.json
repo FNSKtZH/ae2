@@ -14,7 +14,7 @@
     "react-contextmenu": "2.6.3",
     "react-dom": "15.6.1",
     "react-linkify": "0.2.1",
-    "react-reflex": "2.0.6",
+    "react-reflex": "2.0.7",
     "react-relay": "1.1.0",
     "react-tap-event-plugin": "2.0.1",
     "react-virtualized": "9.9.0",
@@ -64,7 +64,7 @@
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.5.9",
     "wbuf": "^1.7.2",
-    "webpack": "3.2.0",
+    "webpack": "3.3.0",
     "webpack-dev-server": "2.5.1",
     "webpack-manifest-plugin": "1.1.2",
     "whatwg-fetch": "2.0.3"
@@ -79,8 +79,12 @@
     "watch-relay": "npm run build-relay -- --watch"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
-    "setupFiles": ["<rootDir>/config/polyfills.js"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.js?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
@@ -92,14 +96,20 @@
       ".+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ],
     "moduleNameMapper": {
       "react-native$": "react-native-web"
     }
   },
   "babel": {
-    "presets": ["react-app"],
-    "plugins": ["relay"]
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      "relay"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
