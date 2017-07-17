@@ -1,8 +1,6 @@
 // @flow
 import React from 'react'
 import { createFragmentContainer, graphql } from 'react-relay'
-import { /*observer,*/ inject } from 'mobx-react'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
@@ -22,16 +20,7 @@ const FirstTitle = styled(Title)`
   margin: 5px 0 -5px 0;
 `
 
-const enhance = compose(inject('store') /*, observer*/)
-
-const Objekt = ({
-  store,
-  activeObject,
-}: {
-  store: Object,
-  activeObject: Object,
-}) => {
-  // const { activeObject } = store
+const Objekt = ({ activeObject }: { activeObject: Object }) => {
   const propertyCollectionObjects = get(
     activeObject,
     'propertyCollectionObjectsByObjectId.nodes',
@@ -134,7 +123,7 @@ const Objekt = ({
   )
 }
 
-export default createFragmentContainer(enhance(Objekt), {
+export default createFragmentContainer(Objekt, {
   activeObject: graphql`
     fragment Objekt_activeObject on Object {
       id

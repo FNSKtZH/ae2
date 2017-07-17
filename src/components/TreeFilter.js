@@ -80,7 +80,7 @@ const enhance = compose(
     },
     onBlur: props => (event, { newValue }) => {
       // props.store.treeFilter.setText(newValue)
-      console.log('blured, value:', newValue)
+      // console.log('blured, value:', newValue)
     },
   }),
   observer
