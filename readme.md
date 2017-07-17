@@ -74,7 +74,7 @@
 ### Aktueller Stand
 
 - [x] Datenstruktur:<br/>![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
-- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren
+- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](/etc/import.png?raw=true "Import")
 - [x] Anwendungs-API-Server ([postgraphql](https://github.com/postgraphql/postgraphql))
 - [x] [API-Server für abhängige Anwendungen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
 
