@@ -80,7 +80,7 @@
 
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
 
-  - [x] Entwicklungsumgebung
+  - [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](/etc/dev.png?raw=true "Entwicklungsumgebung")
   - [x] Layout und Navigation![Layout & Navigation](/etc/layout.png?raw=true "Layout & Navigation")
   - [x] Struktur- und Navigationsbaum<br/>![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
   - [x] Suche:<br/>![Datenstruktur](/etc/suche.png?raw=true "Suche")
