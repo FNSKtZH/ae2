@@ -5,6 +5,7 @@ import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import app from 'ampersand-app'
+import get from 'lodash/get'
 
 import App from './App'
 import getActiveObjectId from '../modules/getActiveObjectId'
@@ -57,7 +58,6 @@ const AppQuery = ({ store }: { store: Object }) => {
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =
     store.urlFromTOId || '99999999-9999-9999-9999-999999999999'
-  const existsTreeFilterText = !!store.treeFilter.text
   const treeFilterText = store.treeFilter.text || 'ZZZZ'
   const queryGroups = store.activeNodeArray[0].toLowerCase() === 'export'
   const exportCategories = toJS(store.export.categories)
@@ -91,7 +91,6 @@ const AppQuery = ({ store }: { store: Object }) => {
           $existsActiveObject: Boolean!
           $existsUrlFromTOId: Boolean!
           $urlFromTOId: Uuid!
-          $existsTreeFilterText: Boolean!
           $treeFilterText: String!
           $queryGroups: Boolean!
           $queryExportCategories: Boolean!
@@ -249,20 +248,11 @@ const AppQuery = ({ store }: { store: Object }) => {
           }
           filterSuggestionsPC: propertyCollectionByPropertyName(
             propertyName: $treeFilterText
-          ) @include(if: $existsTreeFilterText) {
-            totalCount
-            nodes {
-              id
-              name
-            }
+          ) {
+            ...TreeFilter_filterSuggestionsPC
           }
-          filterSuggestionsTO: objectByObjectName(objectName: $treeFilterText)
-            @include(if: $existsTreeFilterText) {
-            totalCount
-            nodes {
-              id
-              name
-            }
+          filterSuggestionsTO: objectByObjectName(objectName: $treeFilterText) {
+            ...TreeFilter_filterSuggestionsTO
           }
           allCategories @include(if: $queryGroups) {
             nodes {
@@ -304,7 +294,6 @@ const AppQuery = ({ store }: { store: Object }) => {
         existsActiveObject,
         existsUrlFromTOId,
         urlFromTOId,
-        existsTreeFilterText,
         treeFilterText,
         queryGroups,
         queryExportCategories,
@@ -320,15 +309,27 @@ const AppQuery = ({ store }: { store: Object }) => {
         }
         if (props) {
           store.setProps(props)
+          return (
+            <App
+              activeObject={props.activeObject}
+              filterSuggestionsTO={get(props, 'filterSuggestionsTO', null)}
+              filterSuggestionsPC={get(props, 'filterSuggestionsPC', null)}
+            />
+          )
         } else {
           /**
            * TODO:
            * Add loading node to lowest level
            * but only if there are children for this layer
            */
+          return (
+            <App
+              activeObject={null}
+              filterSuggestionsTO={null}
+              filterSuggestionsPC={null}
+            />
+          )
         }
-
-        return <App activeObject={props ? props.activeObject : null} />
       }}
     />
   )

@@ -25,9 +25,13 @@ const enhance = compose(inject('store') /*, observer*/)
 const App = ({
   store,
   activeObject,
+  filterSuggestionsTO,
+  filterSuggestionsPC,
 }: {
   store: Object,
   activeObject: Object,
+  filterSuggestionsTO: Object,
+  filterSuggestionsPC: Object,
 }) => {
   const url0 =
     store.activeNodeArray[0] && store.activeNodeArray[0].toLowerCase()
@@ -54,7 +58,12 @@ const App = ({
   return (
     <Container>
       <AppBar />
-      {showData && <Data activeObject={activeObject} />}
+      {showData &&
+        <Data
+          activeObject={activeObject}
+          filterSuggestionsTO={filterSuggestionsTO}
+          filterSuggestionsPC={filterSuggestionsPC}
+        />}
       {showExport && <Export />}
       {showImportPc && <ImportPc />}
       {showImportRc && <ImportRc />}

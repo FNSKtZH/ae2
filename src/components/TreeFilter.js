@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { createFragmentContainer, graphql } from 'react-relay'
 import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -93,6 +94,8 @@ class TreeFilter extends Component {
     onBlur: () => {},
     autosuggestWidth: number,
     changeAutosuggestWidth: () => {},
+    filterSuggestionsTO: Object,
+    filterSuggestionsPC: Object,
   }
 
   componentDidMount() {
@@ -120,7 +123,14 @@ class TreeFilter extends Component {
   }
 
   render() {
-    const { store, onChange, onBlur, autosuggestWidth } = this.props
+    const {
+      store,
+      onChange,
+      onBlur,
+      autosuggestWidth,
+      filterSuggestionsTO,
+      filterSuggestionsPC,
+    } = this.props
 
     const inputProps = {
       value: store.treeFilter.text,
@@ -130,20 +140,35 @@ class TreeFilter extends Component {
       placeholder: 'suchen',
       spellCheck: false,
     }
-    let { suggestionsTO, suggestionsPC } = store.treeFilter
     /**
        * need add type:
-       * when suggistion is clicked,
+       * when suggestion is clicked,
        * url is calculated by id depending on type
+       * CANNOT map from filterSuggestionsTO.nodes
+       * as object is not extensible
        */
-    suggestionsTO = suggestionsTO.map(s => {
-      s.type = 'tO'
-      return s
-    })
-    suggestionsPC = suggestionsPC.map(s => {
-      s.type = 'pC'
-      return s
-    })
+    const suggestionsTO = []
+    if (filterSuggestionsTO && filterSuggestionsTO.nodes) {
+      filterSuggestionsTO.nodes.forEach(s => {
+        suggestionsTO.push({
+          ...s,
+          ...{
+            type: 't0',
+          },
+        })
+      })
+    }
+    const suggestionsPC = []
+    if (filterSuggestionsPC && filterSuggestionsPC.nodes) {
+      filterSuggestionsPC.nodes.forEach(s => {
+        suggestionsPC.push({
+          ...s,
+          ...{
+            type: 'pC',
+          },
+        })
+      })
+    }
     const suggestions = [
       {
         title: `Arten und Lebensräume (${suggestionsTO.length})`,
@@ -166,8 +191,7 @@ class TreeFilter extends Component {
             // console.log('fetch requested')
           }}
           onSuggestionsClearRequested={() => {
-            store.treeFilter.setSuggestionsTO([])
-            store.treeFilter.setSuggestionsPC([])
+            // need this?
           }}
           getSuggestionValue={suggestion => suggestion && suggestion.name}
           onSuggestionSelected={(event, { suggestion }) => {
@@ -198,4 +222,21 @@ class TreeFilter extends Component {
   }
 }
 
-export default enhance(TreeFilter)
+export default createFragmentContainer(enhance(TreeFilter), {
+  filterSuggestionsTO: graphql`
+    fragment TreeFilter_filterSuggestionsTO on ObjectByObjectNameConnection {
+      nodes {
+        id
+        name
+      }
+    }
+  `,
+  filterSuggestionsPC: graphql`
+    fragment TreeFilter_filterSuggestionsPC on PropertyCollectionByPropertyNameConnection {
+      nodes {
+        id
+        name
+      }
+    }
+  `,
+})

@@ -46,22 +46,6 @@ export default (store: Object): void => {
       (pcoProperties: Array<Object>) =>
         store.export.setPcoProperties(pcoProperties)
     ),
-    onChangeFilterSuggestionsTOData: reaction(
-      () => get(store.props, 'filterSuggestionsTO.nodes', []),
-      (suggestionsTO: Array<Object>) => {
-        if (!isEqual(toJS(store.treeFilter.suggestionsTO), suggestionsTO)) {
-          store.treeFilter.setSuggestionsTO(suggestionsTO)
-        }
-      }
-    ),
-    onChangeFilterSuggestionsPCData: reaction(
-      () => get(store.props, 'filterSuggestionsPC.nodes', []),
-      (suggestionsPC: Array<Object>) => {
-        if (!isEqual(toJS(store.treeFilter.suggestionsPC), suggestionsPC)) {
-          store.treeFilter.setSuggestionsPC(suggestionsPC)
-        }
-      }
-    ),
     onChangeUrlFromTOData: reaction(
       () => store.props.urlFromTO,
       urlFromTO => {

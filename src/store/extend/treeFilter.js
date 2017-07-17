@@ -31,13 +31,5 @@ export default (store: Object): void => {
       },
       { name: 'propertyCollectionObjectId' }
     ),
-    suggestionsTO: [],
-    setSuggestionsTO: action('setSuggestionsTO', (suggestions: Object) => {
-      store.treeFilter.suggestionsTO = suggestions
-    }),
-    suggestionsPC: [],
-    setSuggestionsPC: action('setSuggestionsPC', (suggestions: Object) => {
-      store.treeFilter.suggestionsPC = suggestions
-    }),
   })
 }

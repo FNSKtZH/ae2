@@ -20,7 +20,7 @@ const DataType = ({
   return (
     <div>
       {primaryUrl === 'Taxonomien' &&
-        store.activeObject &&
+        activeObject &&
         <Objekt activeObject={activeObject} />}
       {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
     </div>

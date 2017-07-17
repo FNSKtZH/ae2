@@ -60,7 +60,15 @@ const noRowsRenderer = nodes =>
 
 const enhance = compose(inject('store') /*, observer*/)
 
-const Tree = ({ store }: { store: Object }) => {
+const Tree = ({
+  store,
+  filterSuggestionsTO,
+  filterSuggestionsPC,
+}: {
+  store: Object,
+  filterSuggestionsTO: Object,
+  filterSuggestionsPC: Object,
+}) => {
   const rowRenderer = ({ key, index, style }) =>
     <Row key={key} index={index} style={style} />
   const activeNodeIndex = findIndex(store.nodes, node =>
@@ -69,7 +77,10 @@ const Tree = ({ store }: { store: Object }) => {
 
   return (
     <Container>
-      <TreeFilter />
+      <TreeFilter
+        filterSuggestionsTO={filterSuggestionsTO}
+        filterSuggestionsPC={filterSuggestionsPC}
+      />
       <AutoSizerContainer>
         <AutoSizer>
           {({ height, width }) =>
