@@ -17,9 +17,9 @@
     "react-reflex": "2.0.10",
     "react-relay": "1.4.1",
     "react-tap-event-plugin": "2.0.1",
-    "react-virtualized": "9.9.0",
-    "recompose": "0.24.0",
-    "styled-components": "2.1.1"
+    "react-virtualized": "9.10.1",
+    "recompose": "0.26.0",
+    "styled-components": "2.2.1"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
