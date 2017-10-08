@@ -24,26 +24,26 @@ const StyledNode = styled.div`
   user-select: none;
   cursor: pointer;
   color: ${props =>
-    props['data-nodeIsInActiveNodePath'] ? '#D84315' : 'inherit'};
+    props['data-nodeisinactivenodepath'] ? '#D84315' : 'inherit'};
   &:hover {
     color: #f57c00 !important;
   }
 `
 const SymbolIcon = styled(FontIcon)`
   margin-top: ${props =>
-    props['data-nodeIsInActiveNodePath']
+    props['data-nodeisinactivenodepath']
       ? '-5px !important'
       : '-2px !important'};
   padding-left: ${props =>
-    props['data-nodeIsInActiveNodePath'] ? '2px' : '2px'};
+    props['data-nodeisinactivenodepath'] ? '2px' : '2px'};
   font-size: ${props =>
-    props['data-nodeIsInActiveNodePath']
+    props['data-nodeisinactivenodepath']
       ? '26px !important'
       : '22px !important'};
   font-weight: ${props =>
-    props['data-nodeIsInActiveNodePath'] ? '700 !important' : 'inherit'};
+    props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
   color: ${props =>
-    props['data-nodeIsInActiveNodePath'] ? '#D84315 !important' : 'inherit'};
+    props['data-nodeisinactivenodepath'] ? '#D84315 !important' : 'inherit'};
   width: 26px;
   &:hover {
     color: #F57C00 !important;
@@ -52,11 +52,11 @@ const SymbolIcon = styled(FontIcon)`
 const SymbolSpan = styled.span`
   padding-right: 8px !important;
   padding-left: ${props =>
-    props['data-nodeIsInActiveNodePath'] ? '8px' : '9px'};
+    props['data-nodeisinactivenodepath'] ? '8px' : '9px'};
   font-weight: ${props =>
-    props['data-nodeIsInActiveNodePath'] ? '700 !important' : 'inherit'};
+    props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
   margin-top: ${props =>
-    props['data-nodeIsInActiveNodePath'] ? '-9px' : '-9px'};
+    props['data-nodeisinactivenodepath'] ? '-9px' : '-9px'};
   font-size: 28px !important;
   width: 26px;
 `
@@ -64,7 +64,7 @@ const TextSpan = styled.span`
   margin-left: 0;
   font-size: 16px !important;
   font-weight: ${props =>
-    props['data-nodeIsInActiveNodePath'] ? '700 !important' : 'inherit'};
+    props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
 `
 
 const enhance = compose(inject('store'), observer)
@@ -127,28 +127,28 @@ const Row = ({
       >
         <StyledNode
           data-level={level}
-          data-nodeIsInActiveNodePath={nodeIsInActiveNodePath}
+          data-nodeisinactivenodepath={nodeIsInActiveNodePath}
           data-id={node.id}
-          data-parentId={node.parentId}
+          data-parentid={node.parentId}
           data-url={dataUrl}
-          data-nodeType={node.nodeType}
+          data-nodetype={node.nodeType}
           data-label={node.label}
-          data-menuType={node.menuType}
+          data-menutype={node.menuType}
           onClick={onClickNode}
         >
           {useSymbolIcon &&
             <SymbolIcon
               id="symbol"
-              data-nodeIsInActiveNodePath={nodeIsInActiveNodePath}
+              data-nodeisinactivenodepath={nodeIsInActiveNodePath}
               className="material-icons"
             >
               {symbolIcon}
             </SymbolIcon>}
           {useSymbolSpan &&
-            <SymbolSpan data-nodeIsInActiveNodePath={nodeIsInActiveNodePath}>
+            <SymbolSpan data-nodeisinactivenodepath={nodeIsInActiveNodePath}>
               {'-'}
             </SymbolSpan>}
-          <TextSpan data-nodeIsInActiveNodePath={nodeIsInActiveNodePath}>
+          <TextSpan data-nodeisinactivenodepath={nodeIsInActiveNodePath}>
             {node.label}
           </TextSpan>
         </StyledNode>

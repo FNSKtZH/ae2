@@ -12,11 +12,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 
-const StyledAppBar = styled(AppBar)`
-  @media print {
-    display: none !important;
-  }
-`
+const StyledAppBar = styled(AppBar)`@media print {display: none !important;}`
 const Button = styled(FlatButton)`
   color: ${props =>
     props['data-visible']
@@ -30,9 +26,7 @@ const MenuDiv = styled.div`
     padding-top: 4px !important;
   }
 `
-const StyledMoreVertIcon = styled(MoreVertIcon)`
-  color: white !important;
-`
+const StyledMoreVertIcon = styled(MoreVertIcon)`color: white !important;`
 const SymbolIcon = styled(FontIcon)`
   color: ${props =>
     props['data-visible']
@@ -146,11 +140,11 @@ const MyAppBar = ({
           >
             <MenuItem
               primaryText="Eigenschaften-Sammlungen"
-              onTouchTap={onClickImportPc}
+              onClick={onClickImportPc}
             />
             <MenuItem
               primaryText="Beziehungs-Sammlungen"
-              onTouchTap={onClickImportRc}
+              onClick={onClickImportRc}
             />
           </IconMenu>
           <Button
@@ -170,7 +164,7 @@ const MyAppBar = ({
           >
             <MenuItem
               primaryText="über arteigenschaften.ch"
-              onTouchTap={ueberArteigenschaftenOnClick}
+              onClick={ueberArteigenschaftenOnClick}
             />
           </IconMenu>
         </MenuDiv>

@@ -36,7 +36,7 @@ const Container = styled.div`
     display: block;
     position: absolute;
     top: 32px;
-    width: ${props => `${props['data-autosuggestWidth']}px`};
+    width: ${props => `${props['data-autosuggestwidth']}px`};
     border: 1px solid #aaa;
     background-color: #fff;
     font-family: Helvetica, sans-serif;
@@ -181,7 +181,7 @@ class TreeFilter extends Component {
     ]
 
     return (
-      <Container data-autosuggestWidth={autosuggestWidth}>
+      <Container data-autosuggestwidth={autosuggestWidth}>
         <Autosuggest
           ref={c => (this.autosuggest = c)}
           suggestions={suggestions}
