@@ -74,16 +74,13 @@
     "test": "node scripts/test.js --env=jsdom",
     "flow": "flow",
     "schema": "node scripts/schema.js",
-    "build-relay": "relay-compiler --src ./src --schema ./schema/schema.graphql",
+    "build-relay":
+      "relay-compiler --src ./src --schema ./schema/schema.graphql",
     "watch-relay": "npm run build-relay -- --watch"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
+    "setupFiles": ["<rootDir>/config/polyfills.js"],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.js?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
@@ -95,23 +92,21 @@
       ".+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
     "moduleNameMapper": {
       "react-native$": "react-native-web"
     }
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ],
-    "plugins": [
-      "relay"
-    ]
+    "presets": ["react-app"],
+    "plugins": ["relay"]
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "jsx-a11y/href-no-hash": "off",
+      "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]
+    }
   },
   "graphql": {
     "request": {
