@@ -300,12 +300,14 @@ const AppQuery = ({ store }: { store: Object }) => {
         exportCategories,
       }}
       render={({ error, props }) => {
+        /**
+         * TODO:
+         * use https://github.com/mobxjs/mobx-utils#fromresource
+         * example:
+         * https://github.com/apollographql/apollo-client/issues/503#issuecomment-241101379
+         */
         if (error) {
-          return (
-            <div>
-              {error.message}
-            </div>
-          )
+          return <div>{error.message}</div>
         }
         if (props) {
           store.setProps(props)
