@@ -5,6 +5,7 @@ import { observer, inject } from 'mobx-react'
 import { toJS } from 'mobx'
 import { gql, graphql } from 'react-apollo'
 import compose from 'recompose/compose'
+import Snackbar from 'material-ui/Snackbar'
 
 import AppBar from './AppBar'
 import Data from './Data'
@@ -553,10 +554,20 @@ const App = ({ store, data }: { store: Object, data: Object }) => {
   const showLogin = url0 === 'login'
   const showImportPc = url0 === 'import' && url1 === 'eigenschaften-sammlungen'
   const showImportRc = url0 === 'import' && url1 === 'beziehungs-sammlungen'
+  // TODO: lodading indicator overlay
 
   return (
     <Container>
       <AppBar />
+      <Snackbar
+        open={loading}
+        message="lade Daten..."
+        bodyStyle={{
+          maxWidth: 100,
+          minWidth: 100,
+          backgroundColor: 'rgb(217, 78, 0)',
+        }}
+      />
       {error && <div>{error.message}</div>}
       {showData && (
         <Data
