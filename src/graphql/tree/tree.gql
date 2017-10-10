@@ -1,12 +1,12 @@
 query AppQueryQuery(
   $existsLevel2Pc: Boolean!
-  $level2Pc: String!
+  $notExistsLevel2Pc: Boolean!
   $existsLevel2Taxonomy: Boolean!
-  $level2Taxonomy: String!
   $existsLevel3: Boolean!
   $level3Taxonomy: String!
   $existsLevel4: Boolean!
   $level4Taxonomy: Uuid!
+  $level4TaxonomyPossibleNull: Uuid
   $existsLevel5: Boolean!
   $level5Taxonomy: Uuid!
   $existsLevel6: Boolean!
@@ -19,11 +19,10 @@ query AppQueryQuery(
   $level9Taxonomy: Uuid!
   $existsLevel10: Boolean!
   $level10Taxonomy: Uuid!
-  $activeTaxonomyObjectId: Uuid!
-  $existsActiveTaxonomyObject: Boolean!
+  $activeObjectId: Uuid!
+  $existsActiveObject: Boolean!
   $existsUrlFromTOId: Boolean!
   $urlFromTOId: Uuid!
-  $existsTreeFilterText: Boolean!
   $treeFilterText: String!
   $queryGroups: Boolean!
   $queryExportCategories: Boolean!
@@ -32,11 +31,11 @@ query AppQueryQuery(
   allCategories {
     totalCount
   }
-  allPropertyCollections {
+  allPropertyCollections @include(if: $notExistsLevel2Pc) {
     totalCount
   }
-  propertyCollectionByDataType(datatype: $level2Pc)
-    @include(if: $existsLevel2Pc) {
+  allPropertyCollections @include(if: $existsLevel2Pc) {
+    totalCount
     nodes {
       id
       name
@@ -45,31 +44,27 @@ query AppQueryQuery(
       }
     }
   }
-  level2Taxonomy: categoryByDataType(datatype: $level2Taxonomy)
+  level2Taxonomy: categoriesOfTaxonomiesFunction
     @include(if: $existsLevel2Taxonomy) {
     nodes {
       id
       name
-      taxonomyByCategory {
-        totalCount
-      }
+      count
     }
   }
-  level3Taxonomy: categoryByName(name: $level3Taxonomy)
+  level3Taxonomy: taxonomiesOfCategory(category: $level3Taxonomy)
     @include(if: $existsLevel3) {
-    taxonomiesByCategory {
-      nodes {
-        id
-        name
-        taxonomyObjectLevel1 {
-          totalCount
-        }
+    nodes {
+      id
+      name
+      objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
+        totalCount
       }
     }
   }
   level4Taxonomy: taxonomyById(id: $level4Taxonomy)
     @include(if: $existsLevel4) {
-    taxonomyObjectLevel1 {
+    objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
       nodes {
         id
         name
@@ -79,10 +74,9 @@ query AppQueryQuery(
       }
     }
   }
-  level5Taxonomy: taxonomyObjectById(id: $level5Taxonomy)
+  level5Taxonomy: objectById(id: $level5Taxonomy)
     @include(if: $existsLevel5) {
     objectsByParentId {
-      totalCount
       nodes {
         id
         name
@@ -92,10 +86,9 @@ query AppQueryQuery(
       }
     }
   }
-  level6Taxonomy: taxonomyObjectById(id: $level6Taxonomy)
+  level6Taxonomy: objectById(id: $level6Taxonomy)
     @include(if: $existsLevel6) {
     objectsByParentId {
-      totalCount
       nodes {
         id
         name
@@ -105,10 +98,9 @@ query AppQueryQuery(
       }
     }
   }
-  level7Taxonomy: taxonomyObjectById(id: $level7Taxonomy)
+  level7Taxonomy: objectById(id: $level7Taxonomy)
     @include(if: $existsLevel7) {
     objectsByParentId {
-      totalCount
       nodes {
         id
         name
@@ -118,10 +110,9 @@ query AppQueryQuery(
       }
     }
   }
-  level8Taxonomy: taxonomyObjectById(id: $level8Taxonomy)
+  level8Taxonomy: objectById(id: $level8Taxonomy)
     @include(if: $existsLevel8) {
     objectsByParentId {
-      totalCount
       nodes {
         id
         name
@@ -131,10 +122,9 @@ query AppQueryQuery(
       }
     }
   }
-  level9Taxonomy: taxonomyObjectById(id: $level9Taxonomy)
+  level9Taxonomy: objectById(id: $level9Taxonomy)
     @include(if: $existsLevel9) {
     objectsByParentId {
-      totalCount
       nodes {
         id
         name
@@ -144,10 +134,9 @@ query AppQueryQuery(
       }
     }
   }
-  level10Taxonomy: taxonomyObjectById(id: $level10Taxonomy)
+  level10Taxonomy: objectById(id: $level10Taxonomy)
     @include(if: $existsLevel10) {
     objectsByParentId {
-      totalCount
       nodes {
         id
         name
@@ -157,115 +146,211 @@ query AppQueryQuery(
       }
     }
   }
-  taxonomyObjectById(id: $activeTaxonomyObjectId)
-    @include(if: $existsActiveTaxonomyObject) {
-    objectByObjectId {
-      id
-      taxonomyObjectsByObjectId {
-        totalCount
-        nodes {
+  activeObject: objectById(id: $activeObjectId)
+    @include(if: $existsActiveObject) {
+    id
+    taxonomyId
+    parentId
+    name
+    properties
+    category
+    idOld
+    synonymsByObjectId {
+      totalCount
+      nodes {
+        objectId
+        objectIdSynonym
+        objectByObjectIdSynonym {
+          id
+          taxonomyId
+          parentId
+          name
+          properties
+          category
+          idOld
           taxonomyByTaxonomyId {
             id
             name
             description
             links
             lastUpdated
+            isCategoryStandard
+            importedBy
+            termsOfUse
+            habitatLabel
+            habitatComments
+            habitatNrFnsMin
+            habitatNrFnsMax
             organizationByOrganizationId {
+              id
               name
             }
           }
-          id
-          name
-          properties
-          synonymsByObjectId {
+          propertyCollectionObjectsByObjectId {
             totalCount
             nodes {
-              taxonomyObjectIdSynonym
-              objectByObjectIdSynonym {
+              id
+              objectId
+              propertyCollectionId
+              properties
+              propertyCollectionByPropertyCollectionId {
                 id
                 name
-                properties
-                taxonomyByTaxonomyId {
-                  name
-                  description
-                  links
-                  lastUpdated
-                  organizationByOrganizationId {
-                    name
-                  }
-                }
-                objectByObjectId {
+                description
+                links
+                combining
+                lastUpdated
+                termsOfUse
+                importedBy
+                organizationByOrganizationId {
                   id
-                  propertyCollectionObjectsByObjectId {
-                    totalCount
-                    nodes {
-                      objectId
-                      propertyCollectionId
-                      properties
-                      propertyCollectionByPropertyCollectionId {
-                        name
-                        description
-                        links
-                        combining
-                        lastUpdated
-                        termsOfUse
-                        importedBy
-                        organizationByOrganizationId {
-                          name
-                        }
-                        userByImportedBy {
-                          name
-                          email
-                        }
-                      }
-                    }
-                  }
+                  name
                 }
+                userByImportedBy {
+                  id
+                  name
+                  email
+                }
+              }
+            }
+          }
+          relationsByObjectId {
+            totalCount
+            nodes {
+              id
+              propertyCollectionId
+              objectId
+              objectIdRelation
+              relationType
+              properties
+              propertyCollectionByPropertyCollectionId {
+                id
+                name
+                description
+                links
+                combining
+                lastUpdated
+                termsOfUse
+                importedBy
+                organizationByOrganizationId {
+                  id
+                  name
+                }
+                userByImportedBy {
+                  id
+                  name
+                  email
+                }
+              }
+              objectByObjectIdRelation {
+                id
+                name
+                category
               }
             }
           }
         }
       }
-      propertyCollectionObjectsByObjectId {
-        totalCount
-        nodes {
-          objectId
-          propertyCollectionId
-          properties
-          propertyCollectionByPropertyCollectionId {
+    }
+    taxonomyByTaxonomyId {
+      id
+      name
+      description
+      links
+      lastUpdated
+      isCategoryStandard
+      importedBy
+      termsOfUse
+      habitatLabel
+      habitatComments
+      habitatNrFnsMin
+      habitatNrFnsMax
+      organizationByOrganizationId {
+        id
+        name
+      }
+    }
+    propertyCollectionObjectsByObjectId {
+      totalCount
+      nodes {
+        id
+        objectId
+        propertyCollectionId
+        properties
+        propertyCollectionByPropertyCollectionId {
+          id
+          name
+          description
+          links
+          combining
+          lastUpdated
+          termsOfUse
+          importedBy
+          organizationByOrganizationId {
+            id
             name
-            description
-            links
-            combining
-            lastUpdated
-            termsOfUse
-            importedBy
-            organizationByOrganizationId {
-              name
-            }
-            userByImportedBy {
-              name
-              email
-            }
+          }
+          userByImportedBy {
+            id
+            name
+            email
           }
         }
       }
     }
-  }
-  urlFromTO: taxonomyObjectById(id: $urlFromTOId)
-    @include(if: $existsUrlFromTOId) {
-    id
-    taxonomyObjectByParentId {
-      id
-      taxonomyObjectByParentId {
+    relationsByObjectId {
+      totalCount
+      nodes {
         id
-        taxonomyObjectByParentId {
-          id
-          taxonomyObjectByParentId {
+        propertyCollectionId
+        objectId
+        objectIdRelation
+        relationType
+        properties
+        propertyCollectionByPropertyCollectionId {
+          name
+          description
+          links
+          combining
+          lastUpdated
+          termsOfUse
+          importedBy
+          organizationByOrganizationId {
             id
-            taxonomyObjectByParentId {
+            name
+          }
+          userByImportedBy {
+            id
+            name
+            email
+          }
+        }
+        objectByObjectIdRelation {
+          id
+          name
+          category
+        }
+      }
+    }
+  }
+  urlFromTO: objectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
+    id
+    categoryByCategory {
+      id
+      name
+      dataType
+    }
+    objectByParentId {
+      id
+      objectByParentId {
+        id
+        objectByParentId {
+          id
+          objectByParentId {
+            id
+            objectByParentId {
               id
-              taxonomyObjectByParentId {
+              objectByParentId {
                 id
               }
             }
@@ -275,25 +360,17 @@ query AppQueryQuery(
     }
     taxonomyByTaxonomyId {
       id
-      categoryByCategory {
-        name
-        dataType
-      }
     }
   }
   filterSuggestionsPC: propertyCollectionByPropertyName(
     propertyName: $treeFilterText
-  ) @include(if: $existsTreeFilterText) {
-    totalCount
+  ) {
     nodes {
       id
       name
     }
   }
-  filterSuggestionsTO: objectByObjectName(
-    taxonomyObjectName: $treeFilterText
-  ) @include(if: $existsTreeFilterText) {
-    totalCount
+  filterSuggestionsTO: objectByObjectName(objectName: $treeFilterText) {
     nodes {
       id
       name
@@ -301,6 +378,7 @@ query AppQueryQuery(
   }
   allCategories @include(if: $queryGroups) {
     nodes {
+      id
       name
     }
   }
@@ -315,68 +393,65 @@ query AppQueryQuery(
   }
 }
 
-// Beispiel Achillea moschata Wulfen:
+// Beispiel 10: Magerwiese mit 1 Schnitt extensiv:
 {
+  "activeObjectId": "a3741a61-8147-4596-9ba4-d9ab5672f530",
+  "existsActiveObject": true,
   "existsLevel2Pc": false,
-  "level2Pc": "99999999-9999-9999-9999-999999999999",
   "existsLevel2Taxonomy": true,
-  "level2Taxonomy": "Taxonomien",
   "existsLevel3": true,
-  "level3Taxonomy": "Flora",
   "existsLevel4": true,
-  "level4Taxonomy": "2339fb91-5d0d-11e7-84b7-87417ccd9781",
   "existsLevel5": true,
-  "level5Taxonomy": "326901c3-5d0d-11e7-84b7-87417ccd9781",
   "existsLevel6": false,
-  "level6Taxonomy": "327732ce-5d0d-11e7-84b7-87417ccd9781",
   "existsLevel7": false,
-  "level7Taxonomy": "32f82250-5d0d-11e7-84b7-87417ccd9781",
   "existsLevel8": false,
-  "level8Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel9": false,
-  "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
   "existsLevel10": false,
-  "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "activeTaxonomyObjectId": "32f82250-5d0d-11e7-84b7-87417ccd9781",
-  "existsActiveTaxonomyObject": true,
   "existsUrlFromTOId": false,
-  "urlFromTOId": "99999999-9999-9999-9999-999999999999",
-  "existsTreeFilterText": false,
-  "treeFilterText": "ZZZZ",
-  "queryGroups": false,
-  "queryExportCategories": false,
-  "exportCategories": []
-}
-
-// Beispiel Lebensraum:
-{
-  "existsLevel2Pc": false,
-  "level2Pc": "99999999-9999-9999-9999-999999999999",
-  "existsLevel2Taxonomy": true,
-  "level2Taxonomy": "Taxonomien",
-  "existsLevel3": true,
+  "exportCategories": [],
   "level3Taxonomy": "Lebensräume",
-  "existsLevel4": true,
-  "level4Taxonomy": "8946c88f-56bb-11e7-95e1-7338d9fb04be",
-  "existsLevel5": true,
-  "level5Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "existsLevel6": false,
+  "level4Taxonomy": "69d34753-445b-4c55-b3b7-e570f7dc1819",
+  "level4TaxonomyPossibleNull": "69d34753-445b-4c55-b3b7-e570f7dc1819",
+  "level5Taxonomy": "a3741a61-8147-4596-9ba4-d9ab5672f530",
   "level6Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "existsLevel7": false,
   "level7Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "existsLevel8": false,
   "level8Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "existsLevel9": false,
   "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "existsLevel10": false,
   "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
-  "activeTaxonomyObjectId": "99999999-9999-9999-9999-999999999999",
-  "existsActiveTaxonomyObject": false,
-  "existsUrlFromTOId": false,
-  "urlFromTOId": "99999999-9999-9999-9999-999999999999",
-  "existsTreeFilterText": false,
-  "treeFilterText": "ZZZZ",
-  "queryGroups": false,
+  "notExistsLevel2Pc": true,
   "queryExportCategories": false,
-  "exportCategories": []
+  "queryGroups": false,
+  "treeFilterText": "Achillea moschata",
+  "urlFromTOId": "99999999-9999-9999-9999-999999999999"
+}
+// example acipensiformes
+{
+  "activeObjectId": "a9226760-696f-11e7-b712-f90bfedd3cfd",
+  "existsActiveObject": true,
+  "existsLevel2Pc": false,
+  "existsLevel2Taxonomy": true,
+  "existsLevel3": true,
+  "existsLevel4": true,
+  "existsLevel5": true,
+  "existsLevel6": true,
+  "existsLevel7": true,
+  "existsLevel8": false,
+  "existsLevel9": false,
+  "existsLevel10": false,
+  "existsUrlFromTOId": false,
+  "exportCategories": [],
+  "level3Taxonomy": "Fauna",
+  "level4Taxonomy": "a8f11e30-696f-11e7-b712-f90bfedd3cfd",
+  "level4TaxonomyPossibleNull": "a8f11e30-696f-11e7-b712-f90bfedd3cfd",
+  "level5Taxonomy": "a8f6c380-696f-11e7-b712-f90bfedd3cfd",
+  "level6Taxonomy": "a8fdc860-696f-11e7-b712-f90bfedd3cfd",
+  "level7Taxonomy": "a9226760-696f-11e7-b712-f90bfedd3cfd",
+  "level8Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
+  "notExistsLevel2Pc": true,
+  "queryExportCategories": false,
+  "queryGroups": false,
+  "treeFilterText": "ZZZZ",
+  "urlFromTOId": "99999999-9999-9999-9999-999999999999"
 }

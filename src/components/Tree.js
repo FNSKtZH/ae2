@@ -12,6 +12,7 @@ import isEqual from 'lodash/isEqual'
 
 import Row from './TreeRow'
 import TreeFilter from './TreeFilter'
+import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -53,25 +54,30 @@ const LoadingDiv = styled.div`
 `
 const listContainerStyle = { padding: '5px' }
 
-const noRowsRenderer = nodes =>
+const noRowsRenderer = nodes => (
   <Container>
     <LoadingDiv>lade Daten...</LoadingDiv>
   </Container>
+)
 
 const enhance = compose(inject('store') /*, observer*/)
 
 const Tree = ({
   store,
+  data,
   filterSuggestionsTO,
   filterSuggestionsPC,
 }: {
   store: Object,
+  data: Object,
   filterSuggestionsTO: Object,
   filterSuggestionsPC: Object,
 }) => {
-  const rowRenderer = ({ key, index, style }) =>
-    <Row key={key} index={index} style={style} />
-  const activeNodeIndex = findIndex(store.nodes, node =>
+  const nodes = buildNodesFromAppQuery({ store, data })
+  const rowRenderer = ({ key, index, style }) => (
+    <Row key={key} index={index} style={style} nodes={nodes} />
+  )
+  const activeNodeIndex = findIndex(nodes, node =>
     isEqual(toJS(node.url), toJS(store.activeNodeArray))
   )
 
@@ -83,17 +89,18 @@ const Tree = ({
       />
       <AutoSizerContainer>
         <AutoSizer>
-          {({ height, width }) =>
+          {({ height, width }) => (
             <ListContainer
               height={height}
-              rowCount={store.nodes.length}
+              rowCount={nodes.length}
               rowHeight={singleRowHeight}
               rowRenderer={rowRenderer}
               noRowsRenderer={noRowsRenderer}
               scrollToIndex={activeNodeIndex}
               width={width}
               style={listContainerStyle}
-            />}
+            />
+          )}
         </AutoSizer>
       </AutoSizerContainer>
     </Container>

@@ -1,7 +1,6 @@
 // @flow
 export default ({
-  store,
-  props,
+  data,
   activeLevel2TaxonomyName,
   activeLevel3TaxonomyName,
   activeLevel3TaxonomyId,
@@ -10,8 +9,7 @@ export default ({
   activeLevel5TaxonomyName,
   activeLevel5TaxonomyId,
 }: {
-  store: Object,
-  props: Object,
+  data: Object,
   activeLevel2TaxonomyName: ?String,
   activeLevel3TaxonomyName: ?String,
   activeLevel3TaxonomyId: ?String,
@@ -20,16 +18,16 @@ export default ({
   activeLevel5TaxonomyName: ?String,
   activeLevel5TaxonomyId: ?String,
 }): Array<Object> => {
-  if (!props) return []
-  if (!props.level6Taxonomy) return []
-  if (!props.level6Taxonomy.objectsByParentId) return []
-  if (!props.level6Taxonomy.objectsByParentId.nodes) return []
+  if (!data) return []
+  if (!data.level6Taxonomy) return []
+  if (!data.level6Taxonomy.objectsByParentId) return []
+  if (!data.level6Taxonomy.objectsByParentId.nodes) return []
 
-  return props.level6Taxonomy.objectsByParentId.nodes.map(node => {
-    const childrenCount = node.objectsByParentId &&
-      node.objectsByParentId.totalCount
-      ? node.objectsByParentId.totalCount
-      : 0
+  return data.level6Taxonomy.objectsByParentId.nodes.map(node => {
+    const childrenCount =
+      node.objectsByParentId && node.objectsByParentId.totalCount
+        ? node.objectsByParentId.totalCount
+        : 0
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
 
     return {

@@ -22,10 +22,10 @@ export default (store: Object): void => {
       // set activeTreeLevel
       store.activeTreeLevel = activeNodeArray.length
     }),
-    buildNodes: reaction(
+    /*buildNodes: reaction(
       () => store.props,
       () => buildNodesFromAppQuery(store)
-    ),
+    ),*/
     onChangeObject: reaction(
       () => get(store.props, 'activeObject', null),
       // () => store.props,

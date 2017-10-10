@@ -12,18 +12,21 @@ const enhance = compose(inject('store') /*, observer*/)
 
 const Data = ({
   store,
+  data,
   activeObject,
   filterSuggestionsTO,
   filterSuggestionsPC,
 }: {
   store: Object,
+  data: Object,
   activeObject: Object,
   filterSuggestionsTO: Object,
   filterSuggestionsPC: Object,
-}) =>
+}) => (
   <ReflexContainer orientation="vertical">
     <ReflexElement flex={0.35} className="tree-reflex-element">
       <Tree
+        data={data}
         activeNodeArray={store.activeNodeArray}
         filterSuggestionsTO={filterSuggestionsTO}
         filterSuggestionsPC={filterSuggestionsPC}
@@ -34,5 +37,6 @@ const Data = ({
       <DataType activeObject={activeObject} />
     </ReflexElement>
   </ReflexContainer>
+)
 
 export default enhance(Data)

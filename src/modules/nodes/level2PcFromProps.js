@@ -1,18 +1,12 @@
 // @flow
 import get from 'lodash/get'
 
-export default ({
-  store,
-  props,
-}: {
-  store: Object,
-  props: Object,
-}): Array<Object> => {
-  if (!props) return []
-  if (!props.allPropertyCollections) return []
-  if (!props.allPropertyCollections.nodes) return []
+export default ({ data }: { data: Object }): Array<Object> => {
+  if (!data) return []
+  if (!data.allPropertyCollections) return []
+  if (!data.allPropertyCollections.nodes) return []
 
-  return props.allPropertyCollections.nodes.map(node => {
+  return data.allPropertyCollections.nodes.map(node => {
     const count = get(
       node,
       'propertyCollectionObjectsByPropertyCollectionId.totalCount',

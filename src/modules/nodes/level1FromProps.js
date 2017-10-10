@@ -1,10 +1,10 @@
 // @flow
 import get from 'lodash/get'
 
-export default (store: Object, props: Object): Array<Object> => {
-  if (!props) return []
-  const pcCount = get(props, 'allPropertyCollections.totalCount', 0)
-  const taxCount = get(props, 'allCategories.totalCount', 0)
+export default (data: Object): Array<Object> => {
+  if (!data) return []
+  const pcCount = get(data, 'allPropertyCollections.totalCount', 0)
+  const taxCount = get(data, 'allCategories.totalCount', 0)
 
   return [
     {

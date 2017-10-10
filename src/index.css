@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: #FFF3E0;
+  background-color: #fff3e0;
 }
 
 #root {
@@ -52,10 +52,10 @@ body {
 }
 
 .reflex-splitter {
-  background-color: #FFF3E0 !important;
+  background-color: #fff3e0 !important;
 }
 .reflex-splitter:hover {
-  background-color: #FFE0B2 !important;
-  border-right: 1px solid #FFE0B2 !important;
-  border-left: 1px solid #FFE0B2 !important;
+  background-color: #ffe0b2 !important;
+  border-right: 1px solid #ffe0b2 !important;
+  border-left: 1px solid #ffe0b2 !important;
 }

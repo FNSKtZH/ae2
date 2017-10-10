@@ -1,24 +1,27 @@
-// @flow
 import React from 'react'
 import ReactDOM from 'react-dom'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import myTtheme from './styling/theme'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import {
+  ApolloClient,
+  createNetworkInterface,
+  ApolloProvider,
+} from 'react-apollo'
 import { Provider } from 'mobx-react'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import app from 'ampersand-app'
 
-import AppQuery from './components/AppQuery'
-import registerServiceWorker from './registerServiceWorker'
+import myTtheme from './styling/theme'
+import constants from './modules/constants'
 import './index.css'
 import 'react-reflex/styles.css'
-import constants from './modules/constants'
+import AppShell from './components/AppShell'
+import registerServiceWorker from './registerServiceWorker'
 import store from './store'
 import getActiveNodeArrayFromPathname from './store/action/getActiveNodeArrayFromPathname'
-import environment from './modules/createRelayEnvironment'
 
+const MobxProvider = Provider
 app.extend({
   init() {
-    this.environment = environment
     this.store = store
   },
 })
@@ -30,6 +33,11 @@ window.app = app
 const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
 store.setActiveNodeArray(activeNodeArrayFromUrl)
 
+const client = new ApolloClient({
+  networkInterface: createNetworkInterface({
+    uri: 'http://localhost:5000/graphql',
+  }),
+})
 const theme = Object.assign({}, myTtheme, {
   appBar: {
     height: constants.appBarHeight,
@@ -37,11 +45,13 @@ const theme = Object.assign({}, myTtheme, {
 })
 
 ReactDOM.render(
-  <Provider store={store}>
-    <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-      <AppQuery />
-    </MuiThemeProvider>
-  </Provider>,
+  <MobxProvider store={store}>
+    <ApolloProvider client={client}>
+      <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+        <AppShell />
+      </MuiThemeProvider>
+    </ApolloProvider>
+  </MobxProvider>,
   document.getElementById('root')
 )
 registerServiceWorker()

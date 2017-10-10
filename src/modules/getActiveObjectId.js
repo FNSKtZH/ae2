@@ -2,6 +2,7 @@
 
 export default (store: Object): string => {
   if (
+    store &&
     store.activeNodeArray.length > 2 &&
     store.activeNodeArray[0] === 'Taxonomien'
   ) {

@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { createFragmentContainer, graphql } from 'react-relay'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
@@ -16,9 +15,7 @@ const Container = styled.div`
 `
 const Title = styled.h3`margin: 15px 0 -5px 0;`
 const TitleSpan = styled.span`font-weight: normal;`
-const FirstTitle = styled(Title)`
-  margin: 5px 0 -5px 0;
-`
+const FirstTitle = styled(Title)`margin: 5px 0 -5px 0;`
 
 const Objekt = ({ activeObject }: { activeObject: Object }) => {
   const propertyCollectionObjects = get(
@@ -54,23 +51,24 @@ const Objekt = ({ activeObject }: { activeObject: Object }) => {
         <TitleSpan>{` (${activeObject.name})`}</TitleSpan>
       </FirstTitle>
       <TaxonomyObject key={activeObject.id} taxonomyObject={activeObject} />
-      {synonymObjects.length > 0 &&
+      {synonymObjects.length > 0 && (
         <Title>
           {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
           <TitleSpan>
             {synonymObjects.length > 1 ? ` (${synonymObjects.length})` : ''}
           </TitleSpan>
-        </Title>}
+        </Title>
+      )}
       {sortBy(synonymObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
-      ).map(taxonomyObject =>
+      ).map(taxonomyObject => (
         <TaxonomyObject
           key={taxonomyObject.id}
           taxonomyObject={taxonomyObject}
           showLink
         />
-      )}
-      {propertyCollectionObjects.length > 0 &&
+      ))}
+      {propertyCollectionObjects.length > 0 && (
         <Title>
           Eigenschaften
           <TitleSpan
@@ -78,14 +76,15 @@ const Objekt = ({ activeObject }: { activeObject: Object }) => {
           1
             ? 'Sammlungen'
             : 'Sammlung'})`}</TitleSpan>
-        </Title>}
+        </Title>
+      )}
       {sortBy(propertyCollectionObjects, pCO =>
         get(
           pCO,
           'propertyCollectionByPropertyCollectionId.name',
           '(Name fehlt)'
         )
-      ).map((pCO, index) =>
+      ).map((pCO, index) => (
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
@@ -93,8 +92,8 @@ const Objekt = ({ activeObject }: { activeObject: Object }) => {
             r => r.propertyCollectionId === pCO.propertyCollectionId
           )}
         />
-      )}
-      {propertyCollectionObjectsOfSynonyms.length > 0 &&
+      ))}
+      {propertyCollectionObjectsOfSynonyms.length > 0 && (
         <Title>
           Eigenschaften von Synonymen
           <TitleSpan>
@@ -103,14 +102,15 @@ const Objekt = ({ activeObject }: { activeObject: Object }) => {
               ? 'Sammlungen'
               : 'Sammlung'})`}
           </TitleSpan>
-        </Title>}
+        </Title>
+      )}
       {sortBy(propertyCollectionObjectsOfSynonyms, pCO =>
         get(
           pCO,
           'propertyCollectionByPropertyCollectionId.name',
           '(Name fehlt)'
         )
-      ).map((pCO, index) =>
+      ).map((pCO, index) => (
         <PropertyCollectionObject
           key={`${pCO.propertyCollectionId}`}
           pCO={pCO}
@@ -118,181 +118,9 @@ const Objekt = ({ activeObject }: { activeObject: Object }) => {
             r => r.propertyCollectionId === pCO.propertyCollectionId
           )}
         />
-      )}
+      ))}
     </Container>
   )
 }
 
-export default createFragmentContainer(Objekt, {
-  activeObject: graphql`
-    fragment Objekt_activeObject on Object {
-      id
-      taxonomyId
-      parentId
-      name
-      properties
-      category
-      idOld
-      synonymsByObjectId {
-        totalCount
-        nodes {
-          objectByObjectIdSynonym {
-            id
-            taxonomyId
-            parentId
-            name
-            properties
-            category
-            idOld
-            taxonomyByTaxonomyId {
-              id
-              name
-              description
-              links
-              lastUpdated
-              isCategoryStandard
-              importedBy
-              termsOfUse
-              habitatLabel
-              habitatComments
-              habitatNrFnsMin
-              habitatNrFnsMax
-              organizationByOrganizationId {
-                id
-                name
-              }
-            }
-            propertyCollectionObjectsByObjectId {
-              totalCount
-              nodes {
-                objectId
-                propertyCollectionId
-                properties
-                propertyCollectionByPropertyCollectionId {
-                  name
-                  description
-                  links
-                  combining
-                  lastUpdated
-                  termsOfUse
-                  importedBy
-                  organizationByOrganizationId {
-                    name
-                  }
-                  userByImportedBy {
-                    name
-                    email
-                  }
-                }
-              }
-            }
-            relationsByObjectId {
-              totalCount
-              nodes {
-                id
-                propertyCollectionId
-                objectId
-                objectIdRelation
-                relationType
-                properties
-                propertyCollectionByPropertyCollectionId {
-                  name
-                  description
-                  links
-                  combining
-                  lastUpdated
-                  termsOfUse
-                  importedBy
-                  organizationByOrganizationId {
-                    name
-                  }
-                  userByImportedBy {
-                    name
-                    email
-                  }
-                }
-                objectByObjectIdRelation {
-                  name
-                  category
-                }
-              }
-            }
-          }
-        }
-      }
-      taxonomyByTaxonomyId {
-        id
-        name
-        description
-        links
-        lastUpdated
-        isCategoryStandard
-        importedBy
-        termsOfUse
-        habitatLabel
-        habitatComments
-        habitatNrFnsMin
-        habitatNrFnsMax
-        organizationByOrganizationId {
-          id
-          name
-        }
-      }
-      propertyCollectionObjectsByObjectId {
-        totalCount
-        nodes {
-          objectId
-          propertyCollectionId
-          properties
-          propertyCollectionByPropertyCollectionId {
-            name
-            description
-            links
-            combining
-            lastUpdated
-            termsOfUse
-            importedBy
-            organizationByOrganizationId {
-              name
-            }
-            userByImportedBy {
-              name
-              email
-            }
-          }
-        }
-      }
-      relationsByObjectId {
-        totalCount
-        nodes {
-          id
-          propertyCollectionId
-          objectId
-          objectIdRelation
-          relationType
-          properties
-          propertyCollectionByPropertyCollectionId {
-            name
-            description
-            links
-            combining
-            lastUpdated
-            termsOfUse
-            importedBy
-            organizationByOrganizationId {
-              name
-            }
-            userByImportedBy {
-              name
-              email
-            }
-          }
-          objectByObjectIdRelation {
-            name
-            category
-          }
-        }
-      }
-    }
-  `,
-})
+export default Objekt

@@ -1,23 +1,21 @@
 // @flow
 export default ({
-  store,
-  props,
+  data,
   activeLevel2TaxonomyName,
   activeLevel3TaxonomyName,
   activeLevel3TaxonomyId,
 }: {
-  store: Object,
-  props: Object,
+  data: Object,
   activeLevel2TaxonomyName: ?String,
   activeLevel3TaxonomyName: ?String,
   activeLevel3TaxonomyId: ?String,
 }): Array<Object> => {
-  if (!props) return []
-  if (!props.level4Taxonomy) return []
-  if (!props.level4Taxonomy.objectLevel1) return []
-  if (!props.level4Taxonomy.objectLevel1.nodes) return []
+  if (!data) return []
+  if (!data.level4Taxonomy) return []
+  if (!data.level4Taxonomy.objectLevel1) return []
+  if (!data.level4Taxonomy.objectLevel1.nodes) return []
 
-  return props.level4Taxonomy.objectLevel1.nodes.map(node => {
+  return data.level4Taxonomy.objectLevel1.nodes.map(node => {
     const childrenCount =
       node.objectsByParentId && node.objectsByParentId.totalCount
         ? node.objectsByParentId.totalCount

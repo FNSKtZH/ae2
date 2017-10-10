@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { createFragmentContainer, graphql } from 'react-relay'
 import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -204,15 +203,9 @@ class TreeFilter extends Component {
                 store.setUrlFromTOId(suggestion.id)
             }
           }}
-          renderSuggestion={suggestion =>
-            <span>
-              {suggestion.name}
-            </span>}
+          renderSuggestion={suggestion => <span>{suggestion.name}</span>}
           multiSection={true}
-          renderSectionTitle={section =>
-            <strong>
-              {section.title}
-            </strong>}
+          renderSectionTitle={section => <strong>{section.title}</strong>}
           getSectionSuggestions={section => section.suggestions}
           inputProps={inputProps}
           focusInputOnSuggestionClick={false}
@@ -222,21 +215,4 @@ class TreeFilter extends Component {
   }
 }
 
-export default createFragmentContainer(enhance(TreeFilter), {
-  filterSuggestionsTO: graphql`
-    fragment TreeFilter_filterSuggestionsTO on ObjectByObjectNameConnection {
-      nodes {
-        id
-        name
-      }
-    }
-  `,
-  filterSuggestionsPC: graphql`
-    fragment TreeFilter_filterSuggestionsPC on PropertyCollectionByPropertyNameConnection {
-      nodes {
-        id
-        name
-      }
-    }
-  `,
-})
+export default enhance(TreeFilter)

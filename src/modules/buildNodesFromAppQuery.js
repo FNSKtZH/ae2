@@ -1,6 +1,6 @@
 // @flow
 /**
- * gets props from AppQuery
+ * gets data from AppQuery
  * returns nodes
  */
 import get from 'lodash/get'
@@ -18,21 +18,22 @@ import level9TaxonomyFromProps from './nodes/level9TaxonomyFromProps'
 import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
 import sort from './nodes/sort'
 
-export default (store: Object): Array<Object> => {
-  const { props } = store
-  if (!props) {
-    return store.nodes
-  }
-  const activeLevel2TaxonomyNodes = get(props, 'level2Taxonomy.nodes')
+export default ({
+  store,
+  data,
+}: {
+  store: Object,
+  data: Object,
+}): Array<Object> => {
+  console.log('buildNodesFromAppQuery: data:', data)
+  //console.log('buildNodesFromAppQuery: store:', store)
+  const activeLevel2TaxonomyNodes = get(data, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
     activeLevel2TaxonomyNodes.find(n => n.name === store.activeNodeArray[1])
   const activeLevel2TaxonomyName =
     activeLevel2Taxonomy && activeLevel2Taxonomy.name
-  const activeLevel3TaxonomyNodes = get(
-    props,
-    'level3Taxonomy.nodes'
-  )
+  const activeLevel3TaxonomyNodes = get(data, 'level3Taxonomy.nodes')
   const activeLevel3Taxonomy =
     activeLevel3TaxonomyNodes &&
     activeLevel3TaxonomyNodes.find(n => n.id === store.activeNodeArray[2])
@@ -40,7 +41,7 @@ export default (store: Object): Array<Object> => {
     activeLevel3Taxonomy && activeLevel3Taxonomy.name
   const activeLevel3TaxonomyId = activeLevel3Taxonomy && activeLevel3Taxonomy.id
   const activeLevel4TaxonomyNodes = get(
-    props,
+    data,
     'level4Taxonomy.objectLevel1.nodes'
   )
   const activeLevel4Taxonomy =
@@ -50,7 +51,7 @@ export default (store: Object): Array<Object> => {
     activeLevel4Taxonomy && activeLevel4Taxonomy.name
   const activeLevel4TaxonomyId = activeLevel4Taxonomy && activeLevel4Taxonomy.id
   const activeLevel5TaxonomyNodes = get(
-    props,
+    data,
     'level5Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel5Taxonomy =
@@ -60,7 +61,7 @@ export default (store: Object): Array<Object> => {
     activeLevel5Taxonomy && activeLevel5Taxonomy.name
   const activeLevel5TaxonomyId = activeLevel5Taxonomy && activeLevel5Taxonomy.id
   const activeLevel6TaxonomyNodes = get(
-    props,
+    data,
     'level6Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel6Taxonomy =
@@ -70,7 +71,7 @@ export default (store: Object): Array<Object> => {
     activeLevel6Taxonomy && activeLevel6Taxonomy.name
   const activeLevel6TaxonomyId = activeLevel6Taxonomy && activeLevel6Taxonomy.id
   const activeLevel7TaxonomyNodes = get(
-    props,
+    data,
     'level7Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel7Taxonomy =
@@ -80,7 +81,7 @@ export default (store: Object): Array<Object> => {
     activeLevel7Taxonomy && activeLevel7Taxonomy.name
   const activeLevel7TaxonomyId = activeLevel7Taxonomy && activeLevel7Taxonomy.id
   const activeLevel8TaxonomyNodes = get(
-    props,
+    data,
     'level8Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel8Taxonomy =
@@ -90,7 +91,7 @@ export default (store: Object): Array<Object> => {
     activeLevel8Taxonomy && activeLevel8Taxonomy.name
   const activeLevel8TaxonomyId = activeLevel8Taxonomy && activeLevel8Taxonomy.id
   const activeLevel9TaxonomyNodes = get(
-    props,
+    data,
     'level9Taxonomy.objectsByParentId.nodes'
   )
   const activeLevel9Taxonomy =
@@ -99,21 +100,20 @@ export default (store: Object): Array<Object> => {
   const activeLevel9TaxonomyName =
     activeLevel9Taxonomy && activeLevel9Taxonomy.name
   const activeLevel9TaxonomyId = activeLevel9Taxonomy && activeLevel9Taxonomy.id
-  let nodes = level1FromProps(store, props)
+  let nodes = level1FromProps(data)
   if (store.activeNodeArray.length > 0) {
     switch (store.activeNodeArray[0]) {
       case 'Eigenschaften-Sammlungen': {
         nodes = nodes.concat(
           level2PcFromProps({
-            store,
-            props,
+            data,
           })
         )
         break
       }
       default:
       case 'Taxonomien': {
-        nodes = nodes.concat(level2TaxonomyFromProps(store, props))
+        nodes = nodes.concat(level2TaxonomyFromProps({ data }))
         break
       }
     }
@@ -124,8 +124,7 @@ export default (store: Object): Array<Object> => {
   ) {
     nodes = nodes.concat(
       level3TaxonomyFromProps({
-        store,
-        props,
+        data,
         activeLevel2TaxonomyName,
       })
     )
@@ -133,8 +132,7 @@ export default (store: Object): Array<Object> => {
   if (store.activeNodeArray.length > 2) {
     nodes = nodes.concat(
       level4TaxonomyFromProps({
-        store,
-        props,
+        data,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
         activeLevel3TaxonomyId,
@@ -144,8 +142,7 @@ export default (store: Object): Array<Object> => {
   if (store.activeNodeArray.length > 3) {
     nodes = nodes.concat(
       level5TaxonomyFromProps({
-        store,
-        props,
+        data,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
         activeLevel3TaxonomyId,
@@ -157,8 +154,7 @@ export default (store: Object): Array<Object> => {
   if (store.activeNodeArray.length > 4) {
     nodes = nodes.concat(
       level6TaxonomyFromProps({
-        store,
-        props,
+        data,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
         activeLevel3TaxonomyId,
@@ -172,8 +168,7 @@ export default (store: Object): Array<Object> => {
   if (store.activeNodeArray.length > 5) {
     nodes = nodes.concat(
       level7TaxonomyFromProps({
-        store,
-        props,
+        data,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
         activeLevel3TaxonomyId,
@@ -189,8 +184,7 @@ export default (store: Object): Array<Object> => {
   if (store.activeNodeArray.length > 6) {
     nodes = nodes.concat(
       level8TaxonomyFromProps({
-        store,
-        props,
+        data,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
         activeLevel3TaxonomyId,
@@ -208,8 +202,7 @@ export default (store: Object): Array<Object> => {
   if (store.activeNodeArray.length > 7) {
     nodes = nodes.concat(
       level9TaxonomyFromProps({
-        store,
-        props,
+        data,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
         activeLevel3TaxonomyId,
@@ -229,8 +222,7 @@ export default (store: Object): Array<Object> => {
   if (store.activeNodeArray.length > 8) {
     nodes = nodes.concat(
       level10TaxonomyFromProps({
-        store,
-        props,
+        data,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
         activeLevel3TaxonomyId,
@@ -250,9 +242,6 @@ export default (store: Object): Array<Object> => {
     )
   }
   nodes = sort(nodes)
-  // cache nodes in store to use at next query
-  // reason: Relay returns props = null first, then the query result
-  // that leads to rebuilding of the tree which is not nice
-  store.setNodes(nodes)
+  //store.setNodes(nodes)
   return nodes
 }

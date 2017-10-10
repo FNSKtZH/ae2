@@ -46,7 +46,7 @@ const SymbolIcon = styled(FontIcon)`
     props['data-nodeisinactivenodepath'] ? '#D84315 !important' : 'inherit'};
   width: 26px;
   &:hover {
-    color: #F57C00 !important;
+    color: #f57c00 !important;
   }
 `
 const SymbolSpan = styled.span`
@@ -74,13 +74,15 @@ const Row = ({
   index,
   style,
   store,
+  nodes,
 }: {
   key?: number,
   index: number,
   style: Object,
   store: Object,
+  nodes: Array<Object>,
 }) => {
-  const node = store.nodes[index]
+  const node = nodes[index]
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     toJS(node.url),
     toJS(store.activeNodeArray)
@@ -88,8 +90,10 @@ const Row = ({
   const onClickNode = event => {
     // do nothing when loading indicator is clicked
     if (!node.loadingNode) {
+      const url = toJS(node.url)
+      const activeNodeArray = toJS(store.activeNodeArray)
       // if active node is clicked, make it's parent active
-      if (isEqual(toJS(node.url), toJS(store.activeNodeArray))) {
+      if (isEqual(url, activeNodeArray)) {
         const newUrl = clone(toJS(node.url))
         newUrl.pop()
         store.setActiveNodeArray(newUrl)
@@ -136,18 +140,20 @@ const Row = ({
           data-menutype={node.menuType}
           onClick={onClickNode}
         >
-          {useSymbolIcon &&
+          {useSymbolIcon && (
             <SymbolIcon
               id="symbol"
               data-nodeisinactivenodepath={nodeIsInActiveNodePath}
               className="material-icons"
             >
               {symbolIcon}
-            </SymbolIcon>}
-          {useSymbolSpan &&
+            </SymbolIcon>
+          )}
+          {useSymbolSpan && (
             <SymbolSpan data-nodeisinactivenodepath={nodeIsInActiveNodePath}>
               {'-'}
-            </SymbolSpan>}
+            </SymbolSpan>
+          )}
           <TextSpan data-nodeisinactivenodepath={nodeIsInActiveNodePath}>
             {node.label}
           </TextSpan>
