@@ -4,7 +4,6 @@ import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
-import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
 import getUrlFromTOId from '../../modules/getUrlFromTOId'
 
 export default (store: Object): void => {
@@ -22,10 +21,6 @@ export default (store: Object): void => {
       // set activeTreeLevel
       store.activeTreeLevel = activeNodeArray.length
     }),
-    /*buildNodes: reaction(
-      () => store.props,
-      () => buildNodesFromAppQuery(store)
-    ),*/
     onChangeObject: reaction(
       () => get(store.props, 'activeObject', null),
       // () => store.props,
