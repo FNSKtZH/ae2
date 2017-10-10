@@ -554,7 +554,6 @@ const App = ({ store, data }: { store: Object, data: Object }) => {
   const showLogin = url0 === 'login'
   const showImportPc = url0 === 'import' && url1 === 'eigenschaften-sammlungen'
   const showImportRc = url0 === 'import' && url1 === 'beziehungs-sammlungen'
-  // TODO: lodading indicator overlay
 
   return (
     <Container>
