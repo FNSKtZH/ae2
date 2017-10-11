@@ -75,6 +75,7 @@ const enhance = compose(
   withState('autosuggestWidth', 'changeAutosuggestWidth', 380),
   withHandlers({
     onChange: props => (event, { newValue }) => {
+      console.log('TreeFilter, value:', newValue)
       props.store.treeFilter.setText(newValue)
     },
     onBlur: props => (event, { newValue }) => {
@@ -167,6 +168,7 @@ class TreeFilter extends Component {
         suggestions: suggestionsPC,
       },
     ]
+    console.log('TreeFilter: suggestions:', suggestions)
 
     return (
       <Container data-autosuggestwidth={autosuggestWidth}>
