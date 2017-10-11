@@ -25,7 +25,8 @@
     "styled-components": "2.2.1"
   },
   "devDependencies": {
-    "flow-bin": "0.56.0"
+    "flow-bin": "0.56.0",
+    "postgraphql": "3.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
