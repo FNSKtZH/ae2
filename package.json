@@ -30,8 +30,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "api":
-      "npx postgraphql -c postgres://postgres:3Q2ernEv51dr@localhost:5432/ae -s ae --cors --watch",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
