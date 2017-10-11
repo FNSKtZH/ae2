@@ -13,23 +13,14 @@ const Data = ({
   store,
   data,
   activeObject,
-  filterSuggestionsTO,
-  filterSuggestionsPC,
 }: {
   store: Object,
   data: Object,
   activeObject: Object,
-  filterSuggestionsTO: Object,
-  filterSuggestionsPC: Object,
 }) => (
   <ReflexContainer orientation="vertical">
     <ReflexElement flex={0.35} className="tree-reflex-element">
-      <Tree
-        data={data}
-        activeNodeArray={store.activeNodeArray}
-        filterSuggestionsTO={filterSuggestionsTO}
-        filterSuggestionsPC={filterSuggestionsPC}
-      />
+      <Tree data={data} activeNodeArray={store.activeNodeArray} />
     </ReflexElement>
     <ReflexSplitter key="treeSplitter" />
     <ReflexElement>

@@ -62,17 +62,7 @@ const noRowsRenderer = nodes => (
 
 const enhance = compose(inject('store') /*, observer*/)
 
-const Tree = ({
-  store,
-  data,
-  filterSuggestionsTO,
-  filterSuggestionsPC,
-}: {
-  store: Object,
-  data: Object,
-  filterSuggestionsTO: Object,
-  filterSuggestionsPC: Object,
-}) => {
+const Tree = ({ store, data }: { store: Object, data: Object }) => {
   const nodes = buildNodesFromAppQuery({ store, data })
   const rowRenderer = ({ key, index, style }) => (
     <Row key={key} index={index} style={style} nodes={nodes} />
@@ -83,10 +73,7 @@ const Tree = ({
 
   return (
     <Container>
-      <TreeFilter
-        filterSuggestionsTO={filterSuggestionsTO}
-        filterSuggestionsPC={filterSuggestionsPC}
-      />
+      <TreeFilter data={data} />
       <AutoSizerContainer>
         <AutoSizer>
           {({ height, width }) => (

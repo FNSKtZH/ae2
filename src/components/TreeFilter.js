@@ -92,8 +92,7 @@ class TreeFilter extends Component {
     onBlur: () => {},
     autosuggestWidth: number,
     changeAutosuggestWidth: () => {},
-    filterSuggestionsTO: Object,
-    filterSuggestionsPC: Object,
+    data: Object,
   }
 
   autosuggest: ?HTMLDivElement
@@ -119,15 +118,8 @@ class TreeFilter extends Component {
   }
 
   render() {
-    const {
-      store,
-      onChange,
-      onBlur,
-      autosuggestWidth,
-      filterSuggestionsTO,
-      filterSuggestionsPC,
-    } = this.props
-
+    const { store, onChange, onBlur, autosuggestWidth, data } = this.props
+    const { filterSuggestionsTO, filterSuggestionsPC } = data
     const inputProps = {
       value: store.treeFilter.text,
       onChange,
