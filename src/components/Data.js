@@ -1,14 +1,13 @@
 // @flow
 import React from 'react'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
-// if observer is active, "lade daten..." remains forever
-import { /*observer,*/ inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
 import Tree from './Tree'
 import DataType from './DataType'
 
-const enhance = compose(inject('store') /*, observer*/)
+const enhance = compose(inject('store'), observer)
 
 const Data = ({
   store,
