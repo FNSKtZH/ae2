@@ -166,7 +166,6 @@ class TreeFilter extends Component {
         suggestions: suggestionsPC,
       },
     ]
-    console.log('TreeFilter: suggestions:', suggestions)
 
     return (
       <Container data-autosuggestwidth={autosuggestWidth}>
