@@ -74,10 +74,8 @@ const enhance = compose(
   inject('store'),
   withState('autosuggestWidth', 'changeAutosuggestWidth', 380),
   withHandlers({
-    onChange: props => (event, { newValue }) => {
-      console.log('TreeFilter, value:', newValue)
-      props.store.treeFilter.setText(newValue)
-    },
+    onChange: props => (event, { newValue }) =>
+      props.store.treeFilter.setText(newValue),
     onBlur: props => (event, { newValue }) => {
       // props.store.treeFilter.setText(newValue)
       // console.log('blured, value:', newValue)

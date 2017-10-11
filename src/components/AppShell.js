@@ -17,6 +17,7 @@ const AppShell = ({ store }: { store: Object }) => (
   <App
     activeNodeArrayString={store.activeNodeArray.join()}
     treeFilterText={store.treeFilter.text}
+    treeFilterId={store.treeFilter.id}
   />
 )
 
