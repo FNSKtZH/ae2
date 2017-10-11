@@ -25,8 +25,6 @@ export default ({
   store: Object,
   data: Object,
 }): Array<Object> => {
-  console.log('buildNodesFromAppQuery: data:', data)
-  //console.log('buildNodesFromAppQuery: store:', store)
   const activeLevel2TaxonomyNodes = get(data, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
