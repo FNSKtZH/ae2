@@ -85,7 +85,6 @@ const enhance = compose(
   observer
 )
 
-// $FlowIssue
 class TreeFilter extends Component {
   props: {
     store: Object,
@@ -97,14 +96,14 @@ class TreeFilter extends Component {
     filterSuggestionsPC: Object,
   }
 
+  autosuggest: ?HTMLDivElement
+
   componentDidMount() {
     const { changeAutosuggestWidth } = this.props
     const autosuggestDomNode =
-      // $FlowIssue
       this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
     const autosuggestWidth = autosuggestDomNode
-      ? // $FlowIssue
-        autosuggestDomNode.clientWidth
+      ? autosuggestDomNode.clientWidth
       : 380
     changeAutosuggestWidth(autosuggestWidth)
   }
@@ -112,11 +111,9 @@ class TreeFilter extends Component {
   componentDidUpdate() {
     const { changeAutosuggestWidth } = this.props
     const autosuggestDomNode =
-      // $FlowIssue
       this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
     const autosuggestWidth = autosuggestDomNode
-      ? // $FlowIssue
-        autosuggestDomNode.clientWidth
+      ? autosuggestDomNode.clientWidth
       : 380
     changeAutosuggestWidth(autosuggestWidth)
   }
@@ -140,12 +137,12 @@ class TreeFilter extends Component {
       spellCheck: false,
     }
     /**
-       * need add type:
-       * when suggestion is clicked,
-       * url is calculated by id depending on type
-       * CANNOT map from filterSuggestionsTO.nodes
-       * as object is not extensible
-       */
+     * need add type:
+     * when suggestion is clicked,
+     * url is calculated by id depending on type
+     * CANNOT map from filterSuggestionsTO.nodes
+     * as object is not extensible
+     */
     const suggestionsTO = []
     if (filterSuggestionsTO && filterSuggestionsTO.nodes) {
       filterSuggestionsTO.nodes.forEach(s => {
