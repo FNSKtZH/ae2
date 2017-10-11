@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { observer, inject } from 'mobx-react'
-import { toJS } from 'mobx'
+//import { toJS } from 'mobx'
 import compose from 'recompose/compose'
 import Snackbar from 'material-ui/Snackbar'
 
@@ -25,15 +25,9 @@ const Container = styled.div`
 const enhance = compose(inject('store'), appData, observer)
 
 const App = ({ store, data }: { store: Object, data: Object }) => {
-  const {
-    activeObject,
-    filterSuggestionsTO,
-    filterSuggestionsPC,
-    error,
-    loading,
-  } = data
+  const { activeObject, error, loading } = data
   console.log('App, render: data:', data)
-  console.log('App, render: activeNodeArray:', toJS(store.activeNodeArray))
+  // console.log('App, render: activeNodeArray:', toJS(store.activeNodeArray))
   store.setProps(data)
 
   const url0 =
@@ -71,14 +65,7 @@ const App = ({ store, data }: { store: Object, data: Object }) => {
         }}
       />
       {error && <div>{error.message}</div>}
-      {showData && (
-        <Data
-          data={data}
-          activeObject={activeObject}
-          filterSuggestionsTO={filterSuggestionsTO}
-          filterSuggestionsPC={filterSuggestionsPC}
-        />
-      )}
+      {showData && <Data data={data} activeObject={activeObject} />}
       {showExport && <Export />}
       {showImportPc && <ImportPc />}
       {showImportRc && <ImportRc />}
