@@ -3,7 +3,7 @@
 import { gql } from 'react-apollo'
 
 export default gql`
-  query(
+  query AppQueryQuery(
     $existsLevel2Pc: Boolean!
     $notExistsLevel2Pc: Boolean!
     $existsLevel2Taxonomy: Boolean!
