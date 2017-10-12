@@ -1,8 +1,7 @@
 // @flow
 /**
  * This compoents job is to rerender App
- * every time activeNodeArray changes
- * and every time treeFilter is changed
+ * every time one of the passed values changes
  * Result: data is requeried.
  */
 import React from 'react'
