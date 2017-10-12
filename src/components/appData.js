@@ -6,8 +6,7 @@ import appQuery from '../modules/appQuery'
 import getActiveObjectId from '../modules/getActiveObjectId'
 
 const appData = graphql(appQuery, {
-  options: props => {
-    const { store } = props
+  options: ({ store }: { store: Object }) => {
     const existsLevel1 = store.activeNodeArray.length > 0
     const existsLevel2Taxonomy =
       existsLevel1 &&
