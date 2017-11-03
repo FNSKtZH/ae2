@@ -5,12 +5,12 @@
   "dependencies": {
     "ampersand-app": "2.0.0",
     "apollo-client": "1.9.3",
-    "graphql-tag": "2.4.2",
+    "graphql-tag": "2.5.0",
     "history": "4.7.2",
     "lodash": "4.17.4",
     "material-ui": "0.19.4",
     "mobx": "3.3.1",
-    "mobx-react": "4.3.3",
+    "mobx-react": "4.3.4",
     "mobx-utils": "3.2.1",
     "react": "16.0.0",
     "react-apollo": "1.4.16",
@@ -19,14 +19,14 @@
     "react-dom": "16.0.0",
     "react-linkify": "0.2.1",
     "react-reflex": "2.0.10",
-    "react-scripts": "1.0.14",
-    "react-virtualized": "9.10.1",
+    "react-scripts": "1.0.17",
+    "react-virtualized": "9.12.0",
     "recompose": "0.26.0",
-    "styled-components": "2.2.1"
+    "styled-components": "2.2.3"
   },
   "devDependencies": {
-    "flow-bin": "0.56.0",
-    "postgraphql": "3.5.0"
+    "flow-bin": "0.58.0",
+    "postgraphql": "3.5.1"
   },
   "scripts": {
     "start": "react-scripts start",
