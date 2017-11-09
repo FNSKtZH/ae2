@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {
-  ApolloClient,
-  createNetworkInterface,
-  ApolloProvider,
-} from 'react-apollo'
+import { ApolloClient } from 'apollo-client'
+import { createHttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { ApolloProvider } from 'react-apollo'
 import { Provider } from 'mobx-react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -34,9 +33,8 @@ const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
 store.setActiveNodeArray(activeNodeArrayFromUrl)
 
 const client = new ApolloClient({
-  networkInterface: createNetworkInterface({
-    uri: 'http://localhost:5000/graphql',
-  }),
+  link: createHttpLink({ uri: 'http://localhost:5000/graphql' }),
+  cache: new InMemoryCache(),
 })
 const theme = Object.assign({}, myTtheme, {
   appBar: {
