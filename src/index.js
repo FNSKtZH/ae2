@@ -4,6 +4,7 @@ import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
+import { concat } from 'apollo-link'
 import { Provider } from 'mobx-react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -17,11 +18,19 @@ import AppShell from './components/AppShell'
 import registerServiceWorker from './registerServiceWorker'
 import store from './store'
 import getActiveNodeArrayFromPathname from './store/action/getActiveNodeArrayFromPathname'
+import localStateLink from './localStateLink'
+
+const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
+const client = new ApolloClient({
+  link: concat(httpLink, localStateLink),
+  cache: new InMemoryCache(),
+})
 
 const MobxProvider = Provider
 app.extend({
   init() {
     this.store = store
+    this.client = client
   },
 })
 app.init()
@@ -32,10 +41,6 @@ window.app = app
 const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
 store.setActiveNodeArray(activeNodeArrayFromUrl)
 
-const client = new ApolloClient({
-  link: createHttpLink({ uri: 'http://localhost:5000/graphql' }),
-  cache: new InMemoryCache(),
-})
 const theme = Object.assign({}, myTtheme, {
   appBar: {
     height: constants.appBarHeight,
