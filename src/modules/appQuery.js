@@ -3,6 +3,7 @@
 import gql from 'graphql-tag'
 
 import Objekt from '../components/Objekt'
+import TreeRow from '../components/TreeRow'
 
 export default gql`
   query AppQueryQuery(
@@ -223,4 +224,5 @@ export default gql`
     }
   }
   ${Objekt.fragments.objekt}
+  ${TreeRow.fragments.objektLevel5AndUp}
 `

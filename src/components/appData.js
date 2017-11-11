@@ -4,10 +4,10 @@ import { graphql } from 'react-apollo'
 import appQuery from '../modules/appQuery'
 import variablesFromStore from '../modules/variablesFromStore'
 
-const appData = graphql(appQuery, {
+const AppData = graphql(appQuery, {
   options: ({ store }: { store: Object }) => ({
     variables: variablesFromStore({ store }),
   }),
 })
 
-export default appData
+export default AppData

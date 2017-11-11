@@ -8,6 +8,7 @@ import { ContextMenuTrigger } from 'react-contextmenu'
 import FontIcon from 'material-ui/FontIcon'
 import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
+import gql from 'graphql-tag'
 
 import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
 
@@ -161,6 +162,23 @@ const Row = ({
       </ContextMenuTrigger>
     </div>
   )
+}
+
+Row.fragments = {
+  objektLevel5AndUp: gql`
+    fragment ObjektLevel5AndUp on Object {
+      id
+      objectsByParentId {
+        nodes {
+          id
+          name
+          objectsByParentId {
+            totalCount
+          }
+        }
+      }
+    }
+  `,
 }
 
 export default enhance(Row)
