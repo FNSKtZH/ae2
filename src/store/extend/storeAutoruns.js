@@ -2,8 +2,8 @@
 import { extendObservable, autorun, reaction, toJS } from 'mobx'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
-import gql from 'graphql-tag'
-import app from 'ampersand-app'
+//import gql from 'graphql-tag'
+//import app from 'ampersand-app'
 
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
 import getUrlFromTOId from '../../modules/getUrlFromTOId'
@@ -28,6 +28,7 @@ export default (store: Object): void => {
       // () => store.props,
       () => {
         const activeObject = get(store.props, 'activeObject', null)
+        /*
         // TODO: update local apollo store
         const query = gql`
           query activeObjectApollo {
@@ -46,7 +47,7 @@ export default (store: Object): void => {
         app.client.mutate({
           mutation,
           variables: { ...activeObject },
-        })
+        })*/
         return store.setActiveObject(activeObject)
       }
     ),
