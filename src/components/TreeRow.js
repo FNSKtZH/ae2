@@ -164,7 +164,9 @@ const Row = ({
   )
 }
 
-Row.fragments = {
+const RowToExport = enhance(Row)
+
+RowToExport.fragments = {
   objektLevel5AndUp: gql`
     fragment ObjektLevel5AndUp on Object {
       id
@@ -181,4 +183,4 @@ Row.fragments = {
   `,
 }
 
-export default enhance(Row)
+export default RowToExport

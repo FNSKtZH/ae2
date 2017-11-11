@@ -84,81 +84,27 @@ export default gql`
     }
     level5Taxonomy: objectById(id: $level5Taxonomy)
       @include(if: $existsLevel5) {
-      id
-      objectsByParentId {
-        nodes {
-          id
-          name
-          objectsByParentId {
-            totalCount
-          }
-        }
-      }
+      ...ObjektLevel5AndUp
     }
     level6Taxonomy: objectById(id: $level6Taxonomy)
       @include(if: $existsLevel6) {
-      id
-      objectsByParentId {
-        nodes {
-          id
-          name
-          objectsByParentId {
-            totalCount
-          }
-        }
-      }
+      ...ObjektLevel5AndUp
     }
     level7Taxonomy: objectById(id: $level7Taxonomy)
       @include(if: $existsLevel7) {
-      id
-      objectsByParentId {
-        nodes {
-          id
-          name
-          objectsByParentId {
-            totalCount
-          }
-        }
-      }
+      ...ObjektLevel5AndUp
     }
     level8Taxonomy: objectById(id: $level8Taxonomy)
       @include(if: $existsLevel8) {
-      id
-      objectsByParentId {
-        nodes {
-          id
-          name
-          objectsByParentId {
-            totalCount
-          }
-        }
-      }
+      ...ObjektLevel5AndUp
     }
     level9Taxonomy: objectById(id: $level9Taxonomy)
       @include(if: $existsLevel9) {
-      id
-      objectsByParentId {
-        nodes {
-          id
-          name
-          objectsByParentId {
-            totalCount
-          }
-        }
-      }
+      ...ObjektLevel5AndUp
     }
     level10Taxonomy: objectById(id: $level10Taxonomy)
       @include(if: $existsLevel10) {
-      id
-      objectsByParentId {
-        nodes {
-          id
-          name
-          objectsByParentId {
-            totalCount
-          }
-        }
-      }
+      ...ObjektLevel5AndUp
     }
     activeObject: objectById(id: $activeObjectId)
       @include(if: $existsActiveObject) {
