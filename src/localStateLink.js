@@ -1,25 +1,29 @@
 // @flow
 import { withClientState } from 'apollo-link-state'
+import gql from 'graphql-tag'
 
-import query from './modules/appQuery'
-import variables from './modules/variablesFromStore'
+const query = gql`
+  query ActiveObjectsQuery {
+    activeobjects @client {
+      id
+      name
+    }
+  }
+`
 
 export default () =>
   withClientState({
     Query: {
       // provide initial state
-      activeObjectApollo: null,
+      activeobjects: () => [],
     },
     Mutation: {
       // update values in the store on mutations
-      setActiveObject: (_, activeObject, { cache }) => {
+      setActiveObject: (_, { id, name }, { cache }) => {
         const data = {
-          activeObjectApollo: {
-            ...activeObject,
-            __typename: 'ActiveObjectApollo',
-          },
+          activeobjects: [{ id, name, __typename: 'activeobject' }],
         }
-        cache.writeQuery({ query, variables, data })
+        cache.writeQuery({ query, data })
         return null
       },
     },
