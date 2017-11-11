@@ -2,6 +2,8 @@
 
 import gql from 'graphql-tag'
 
+import Objekt from '../components/Objekt'
+
 export default gql`
   query AppQueryQuery(
     $existsLevel2Pc: Boolean!
@@ -159,190 +161,7 @@ export default gql`
     }
     activeObject: objectById(id: $activeObjectId)
       @include(if: $existsActiveObject) {
-      id
-      taxonomyId
-      parentId
-      name
-      properties
-      category
-      idOld
-      synonymsByObjectId {
-        totalCount
-        nodes {
-          objectId
-          objectIdSynonym
-          objectByObjectIdSynonym {
-            id
-            taxonomyId
-            parentId
-            name
-            properties
-            category
-            idOld
-            taxonomyByTaxonomyId {
-              id
-              name
-              description
-              links
-              lastUpdated
-              isCategoryStandard
-              importedBy
-              termsOfUse
-              habitatLabel
-              habitatComments
-              habitatNrFnsMin
-              habitatNrFnsMax
-              organizationByOrganizationId {
-                id
-                name
-              }
-            }
-            propertyCollectionObjectsByObjectId {
-              totalCount
-              nodes {
-                id
-                objectId
-                propertyCollectionId
-                properties
-                propertyCollectionByPropertyCollectionId {
-                  id
-                  name
-                  description
-                  links
-                  combining
-                  lastUpdated
-                  termsOfUse
-                  importedBy
-                  organizationByOrganizationId {
-                    id
-                    name
-                  }
-                  userByImportedBy {
-                    id
-                    name
-                    email
-                  }
-                }
-              }
-            }
-            relationsByObjectId {
-              totalCount
-              nodes {
-                id
-                propertyCollectionId
-                objectId
-                objectIdRelation
-                relationType
-                properties
-                propertyCollectionByPropertyCollectionId {
-                  id
-                  name
-                  description
-                  links
-                  combining
-                  lastUpdated
-                  termsOfUse
-                  importedBy
-                  organizationByOrganizationId {
-                    id
-                    name
-                  }
-                  userByImportedBy {
-                    id
-                    name
-                    email
-                  }
-                }
-                objectByObjectIdRelation {
-                  id
-                  name
-                  category
-                }
-              }
-            }
-          }
-        }
-      }
-      taxonomyByTaxonomyId {
-        id
-        name
-        description
-        links
-        lastUpdated
-        isCategoryStandard
-        importedBy
-        termsOfUse
-        habitatLabel
-        habitatComments
-        habitatNrFnsMin
-        habitatNrFnsMax
-        organizationByOrganizationId {
-          id
-          name
-        }
-      }
-      propertyCollectionObjectsByObjectId {
-        totalCount
-        nodes {
-          id
-          objectId
-          propertyCollectionId
-          properties
-          propertyCollectionByPropertyCollectionId {
-            id
-            name
-            description
-            links
-            combining
-            lastUpdated
-            termsOfUse
-            importedBy
-            organizationByOrganizationId {
-              id
-              name
-            }
-            userByImportedBy {
-              id
-              name
-              email
-            }
-          }
-        }
-      }
-      relationsByObjectId {
-        totalCount
-        nodes {
-          id
-          propertyCollectionId
-          objectId
-          objectIdRelation
-          relationType
-          properties
-          propertyCollectionByPropertyCollectionId {
-            name
-            description
-            links
-            combining
-            lastUpdated
-            termsOfUse
-            importedBy
-            organizationByOrganizationId {
-              id
-              name
-            }
-            userByImportedBy {
-              id
-              name
-              email
-            }
-          }
-          objectByObjectIdRelation {
-            id
-            name
-            category
-          }
-        }
-      }
+        ...ActiveObjekt
     }
     urlFromTO: objectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
       id
@@ -403,4 +222,5 @@ export default gql`
       }
     }
   }
+  ${Objekt.fragments.objekt}
 `

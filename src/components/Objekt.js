@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
+import gql from 'graphql-tag'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
@@ -121,6 +122,197 @@ const Objekt = ({ activeObject }: { activeObject: Object }) => {
       ))}
     </Container>
   )
+}
+
+Objekt.fragments = {
+  objekt: gql`
+    fragment ActiveObjekt on Object {
+      id
+      taxonomyId
+      parentId
+      name
+      properties
+      category
+      idOld
+      synonymsByObjectId {
+        totalCount
+        nodes {
+          objectId
+          objectIdSynonym
+          objectByObjectIdSynonym {
+            id
+            taxonomyId
+            parentId
+            name
+            properties
+            category
+            idOld
+            taxonomyByTaxonomyId {
+              id
+              name
+              description
+              links
+              lastUpdated
+              isCategoryStandard
+              importedBy
+              termsOfUse
+              habitatLabel
+              habitatComments
+              habitatNrFnsMin
+              habitatNrFnsMax
+              organizationByOrganizationId {
+                id
+                name
+              }
+            }
+            propertyCollectionObjectsByObjectId {
+              totalCount
+              nodes {
+                id
+                objectId
+                propertyCollectionId
+                properties
+                propertyCollectionByPropertyCollectionId {
+                  id
+                  name
+                  description
+                  links
+                  combining
+                  lastUpdated
+                  termsOfUse
+                  importedBy
+                  organizationByOrganizationId {
+                    id
+                    name
+                  }
+                  userByImportedBy {
+                    id
+                    name
+                    email
+                  }
+                }
+              }
+            }
+            relationsByObjectId {
+              totalCount
+              nodes {
+                id
+                propertyCollectionId
+                objectId
+                objectIdRelation
+                relationType
+                properties
+                propertyCollectionByPropertyCollectionId {
+                  id
+                  name
+                  description
+                  links
+                  combining
+                  lastUpdated
+                  termsOfUse
+                  importedBy
+                  organizationByOrganizationId {
+                    id
+                    name
+                  }
+                  userByImportedBy {
+                    id
+                    name
+                    email
+                  }
+                }
+                objectByObjectIdRelation {
+                  id
+                  name
+                  category
+                }
+              }
+            }
+          }
+        }
+      }
+      taxonomyByTaxonomyId {
+        id
+        name
+        description
+        links
+        lastUpdated
+        isCategoryStandard
+        importedBy
+        termsOfUse
+        habitatLabel
+        habitatComments
+        habitatNrFnsMin
+        habitatNrFnsMax
+        organizationByOrganizationId {
+          id
+          name
+        }
+      }
+      propertyCollectionObjectsByObjectId {
+        totalCount
+        nodes {
+          id
+          objectId
+          propertyCollectionId
+          properties
+          propertyCollectionByPropertyCollectionId {
+            id
+            name
+            description
+            links
+            combining
+            lastUpdated
+            termsOfUse
+            importedBy
+            organizationByOrganizationId {
+              id
+              name
+            }
+            userByImportedBy {
+              id
+              name
+              email
+            }
+          }
+        }
+      }
+      relationsByObjectId {
+        totalCount
+        nodes {
+          id
+          propertyCollectionId
+          objectId
+          objectIdRelation
+          relationType
+          properties
+          propertyCollectionByPropertyCollectionId {
+            name
+            description
+            links
+            combining
+            lastUpdated
+            termsOfUse
+            importedBy
+            organizationByOrganizationId {
+              id
+              name
+            }
+            userByImportedBy {
+              id
+              name
+              email
+            }
+          }
+          objectByObjectIdRelation {
+            id
+            name
+            category
+          }
+        }
+      }
+    }
+  `,
 }
 
 export default Objekt
