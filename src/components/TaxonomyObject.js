@@ -7,6 +7,7 @@ import FontIcon from 'material-ui/FontIcon'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
+import gql from 'graphql-tag'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import Taxonomy from './Taxonomy'
@@ -71,9 +72,7 @@ const TaxonomyObject = ({
   if (showLink) {
     title = (
       <SynonymContainer>
-        <SynonymText>
-          {taxName}
-        </SynonymText>
+        <SynonymText>{taxName}</SynonymText>
         <SynonymLink
           href={linkUrl}
           target="_blank"
@@ -115,12 +114,48 @@ const TaxonomyObject = ({
             ([key, value]) => value || value === 0
           ),
           e => e[0]
-        ).map(([key, value]) =>
+        ).map(([key, value]) => (
           <PropertyReadOnly key={key} value={value} label={key} />
-        )}
+        ))}
       </CardText>
     </Card>
   )
 }
 
-export default enhance(TaxonomyObject)
+const TaxonomyToExport = enhance(TaxonomyObject)
+
+TaxonomyToExport.fragments = {
+  urlFromTO: gql`
+    fragment UrlFromTO on Object {
+      id
+      categoryByCategory {
+        id
+        name
+        dataType
+      }
+      objectByParentId {
+        id
+        objectByParentId {
+          id
+          objectByParentId {
+            id
+            objectByParentId {
+              id
+              objectByParentId {
+                id
+                objectByParentId {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+      taxonomyByTaxonomyId {
+        id
+      }
+    }
+  `,
+}
+
+export default TaxonomyToExport

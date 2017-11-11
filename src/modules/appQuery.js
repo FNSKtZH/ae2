@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 
 import Objekt from '../components/Objekt'
 import TreeRow from '../components/TreeRow'
+import TaxonomyObject from '../components/TaxonomyObject'
 
 export default gql`
   query AppQueryQuery(
@@ -111,33 +112,7 @@ export default gql`
         ...ActiveObjekt
     }
     urlFromTO: objectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
-      id
-      categoryByCategory {
-        id
-        name
-        dataType
-      }
-      objectByParentId {
-        id
-        objectByParentId {
-          id
-          objectByParentId {
-            id
-            objectByParentId {
-              id
-              objectByParentId {
-                id
-                objectByParentId {
-                  id
-                }
-              }
-            }
-          }
-        }
-      }
-      taxonomyByTaxonomyId {
-        id
-      }
+      ...UrlFromTO
     }
     filterSuggestionsPC: propertyCollectionByPropertyName(
       propertyName: $treeFilterText
@@ -171,4 +146,5 @@ export default gql`
   }
   ${Objekt.fragments.objekt}
   ${TreeRow.fragments.objektLevel5AndUp}
+  ${TaxonomyObject.fragments.urlFromTO}
 `
