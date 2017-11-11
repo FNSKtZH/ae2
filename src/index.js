@@ -10,7 +10,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import app from 'ampersand-app'
 
-import myTtheme from './styling/theme'
+import myTheme from './styling/theme'
 import constants from './modules/constants'
 import './index.css'
 import 'react-reflex/styles.css'
@@ -41,7 +41,7 @@ window.app = app
 const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
 store.setActiveNodeArray(activeNodeArrayFromUrl)
 
-const theme = Object.assign({}, myTtheme, {
+const theme = Object.assign({}, myTheme, {
   appBar: {
     height: constants.appBarHeight,
   },
