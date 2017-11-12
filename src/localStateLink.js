@@ -11,8 +11,7 @@ const query = gql`
   }
 `
 
-export default () =>
-  withClientState({
+export default withClientState({
     Query: {
       // provide initial state
       activeobjects: () => [],
