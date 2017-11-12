@@ -22,10 +22,7 @@ import localStateLink from './localStateLink'
 
 const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
 const client = new ApolloClient({
-  //link: concat(httpLink, localStateLink),
   link: concat(localStateLink, httpLink),
-  //link: localStateLink.concat(httpLink),
-  //link: httpLink,
   cache: new InMemoryCache(),
 })
 
