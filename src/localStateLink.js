@@ -19,7 +19,7 @@ const query = gql`
 export default withClientState({
   Query: {
     // provide initial state
-    activeobjects: () => [],
+    activeObjects: () => [],
   },
   Mutation: {
     // update values in the store on mutations
@@ -29,7 +29,18 @@ export default withClientState({
       { cache }
     ) => {
       const data = {
-        activeobjects: [{ id, name, __typename: 'activeobject' }],
+        activeobjects: [
+          {
+            id,
+            taxonomyId,
+            parentId,
+            name,
+            properties,
+            category,
+            idOld,
+            __typename: 'activeObject',
+          },
+        ],
       }
       cache.writeQuery({ query, data })
       return null
