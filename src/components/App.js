@@ -26,7 +26,7 @@ const enhance = compose(inject('store'), AppData, observer)
 
 const App = ({ store, data }: { store: Object, data: Object }) => {
   const { activeObject, error, loading } = data
-  console.log('App, render: data:', data)
+  //console.log('App, render: data:', data)
   // console.log('App, render: activeNodeArray:', toJS(store.activeNodeArray))
   store.setProps(data)
 

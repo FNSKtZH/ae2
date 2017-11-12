@@ -2,8 +2,8 @@
 import { extendObservable, autorun, reaction, toJS } from 'mobx'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
-//import gql from 'graphql-tag'
-//import app from 'ampersand-app'
+import gql from 'graphql-tag'
+import app from 'ampersand-app'
 
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
 import getUrlFromTOId from '../../modules/getUrlFromTOId'
@@ -28,26 +28,50 @@ export default (store: Object): void => {
       // () => store.props,
       () => {
         const activeObject = get(store.props, 'activeObject', null)
-        /*
+
+        console.log('autorun, activeObject:', activeObject)
+
         // TODO: update local apollo store
         const query = gql`
           query activeObjectApollo {
-            activeObjectApollo @client {
+            activeObjects @client {
               id
+              taxonomyId
+              parentId
+              name
+              properties
+              category
+              idOld
             }
           }
         `
         app.client.query({ query }).then(value => console.log('value:', value))
 
         const mutation = gql`
-          mutation setActiveObject($activeObject: Object) {
-            addTodo(activeObject: activeObject)
+          mutation setActiveObject(
+            $id: String
+            $taxonomyId: String
+            $parentId: String
+            $name: String
+            $properties: String
+            $category: String
+            $idOld: String
+          ) {
+            setActiveObject(
+              id: $id
+              taxonomyId: $taxonomyId
+              parentId: $parentId
+              name: $name
+              properties: $properties
+              category: $category
+              idOld: $idOld
+            )
           }
         `
         app.client.mutate({
           mutation,
           variables: { ...activeObject },
-        })*/
+        })
         return store.setActiveObject(activeObject)
       }
     ),
