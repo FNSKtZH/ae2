@@ -2,10 +2,11 @@
 import { withClientState } from 'apollo-link-state'
 import gql from 'graphql-tag'
 
-const listElementsQuery = gql`
-  query listElements {
-    listElements @client {
+const storeQuery = gql`
+  query store {
+    store @client {
       id
+      value
     }
   }
 `
@@ -18,21 +19,23 @@ const activeObjectQuery = gql`
 export default withClientState({
   Query: {
     // provide initial state
-    listElements: () => [],
+    store: () => [],
+    activeNodeArray: () => [],
     activeObject: null,
   },
   Mutation: {
     // update values in the store on mutations
-    setTestList: (_, { id }, { cache }) => {
+    setStore: (_, { id, value }, { cache }) => {
       const data = {
-        listElements: [
+        store: [
           {
             id,
-            __typename: 'TestList',
+            value,
+            __typename: 'Store',
           },
         ],
       }
-      cache.writeQuery({ query: listElementsQuery, data })
+      cache.writeQuery({ query: storeQuery, data })
       return null
     },
     setActiveObject: (_, { id }, { cache }) => {

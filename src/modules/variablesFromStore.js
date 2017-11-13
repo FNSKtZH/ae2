@@ -45,6 +45,11 @@ export default ({ store }: { store: Object }) => {
   const level10Taxonomy = existsLevel10
     ? store.activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
+  /**
+   * TODO:
+   * store activeNodeArray in apollo state
+   * get active object id from there
+   */
   const activeObjectId = getActiveObjectId(store)
   const existsActiveObject = !!activeObjectId
   const existsUrlFromTOId = !!store.urlFromTOId

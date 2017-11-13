@@ -11,6 +11,8 @@ import { observer, inject } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
+import { withApollo } from 'react-apollo'
+import gql from 'graphql-tag'
 
 const StyledAppBar = styled(AppBar)`@media print {display: none !important;}`
 const Button = styled(FlatButton)`
@@ -38,34 +40,70 @@ const iconMenuAnchorOrigin = { horizontal: 'left', vertical: 'bottom' }
 const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
 const importMenuStyle = { paddingTop: 4 }
+const activeNodeArrayMutation = gql`
+  mutation setStore($value: Array) {
+    setStore(id: "activeNodeArray", value: $value) @client
+  }
+`
 
 const enhance = compose(
   inject('store'),
+  withApollo,
   withHandlers({
     onClickColumnButtonData: props => () => {
+      const { store, client } = props
       const pathIsMain = ['Taxonomien', 'Eigenschaften-Sammlungen'].includes(
-        props.store.activeNodeArray[0]
+        store.activeNodeArray[0]
       )
       if (!pathIsMain) {
-        props.store.setActiveNodeArray(['Taxonomien'])
+        store.setActiveNodeArray(['Taxonomien'])
+        client.mutate({
+          mutation: activeNodeArrayMutation,
+          variables: { value: ['Taxonomien'] },
+        })
       }
     },
     onClickColumnButtonExport: props => () => {
-      props.store.setActiveNodeArray(['Export'])
+      const { store, client } = props
+      store.setActiveNodeArray(['Export'])
+      client.mutate({
+        mutation: activeNodeArrayMutation,
+        variables: { value: ['Export'] },
+      })
     },
     onClickImportPc: props => () => {
-      props.store.setActiveNodeArray(['Import', 'Eigenschaften-Sammlungen'])
+      const { store, client } = props
+      store.setActiveNodeArray(['Import', 'Eigenschaften-Sammlungen'])
+      client.mutate({
+        mutation: activeNodeArrayMutation,
+        variables: { value: ['Import', 'Eigenschaften-Sammlungen'] },
+      })
     },
     onClickImportRc: props => () => {
-      props.store.setActiveNodeArray(['Import', 'Beziehungs-Sammlungen'])
+      const { store, client } = props
+      store.setActiveNodeArray(['Import', 'Beziehungs-Sammlungen'])
+      client.mutate({
+        mutation: activeNodeArrayMutation,
+        variables: { value: ['Import', 'Beziehungs-Sammlungen'] },
+      })
     },
     onClickColumnButtonLogin: props => () => {
-      props.store.setActiveNodeArray(['Login'])
+      const { store, client } = props
+      store.setActiveNodeArray(['Login'])
+      client.mutate({
+        mutation: activeNodeArrayMutation,
+        variables: { value: ['Login'] },
+      })
     },
     onChangeImportButton: props => (event, key, value) => {
+      const { store, client } = props
       console.log('event:', event)
       console.log('value:', value)
-      props.store.setActiveNodeArray(['Import', value])
+      store.setActiveNodeArray(['Import', value])
+      client.mutate({
+        mutation: activeNodeArrayMutation,
+        variables: { value: ['Import', value] },
+      })
     },
     ueberArteigenschaftenOnClick: props => () =>
       window.open('https://github.com/barbalex/ae2'),

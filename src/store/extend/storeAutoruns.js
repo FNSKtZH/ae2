@@ -22,6 +22,21 @@ export default (store: Object): void => {
       }
       // set activeTreeLevel
       store.activeTreeLevel = activeNodeArray.length
+
+      const storeQuery = gql`
+        query store {
+          store @client {
+            id
+            value
+          }
+        }
+      `
+      console.log('autorun: client', app.client)
+      console.log('autorun: storeQuery', storeQuery)
+      app.client
+        .query({ query: storeQuery })
+        .then(result => console.log('storeQueryResult:', result))
+        .catch(error => console.log('autorun: storeQueryResult error:', error))
     }),
     onChangeObject: reaction(
       () => get(store.props, 'activeObject', null),
@@ -30,12 +45,12 @@ export default (store: Object): void => {
         const activeObject = get(store.props, 'activeObject', null)
 
         // TODO: update local apollo store
-
         const activeObjectMutation = gql`
           mutation setActiveObject($id: String) {
             setActiveObject(id: $id) @client
           }
         `
+        console.log('autorun: activeObject.id:', activeObject.id)
         app.client.mutate({
           mutation: activeObjectMutation,
           variables: { id: activeObject.id },
