@@ -20,7 +20,6 @@ export default withClientState({
   Query: {
     // provide initial state
     store: () => [],
-    activeNodeArray: () => [],
     activeObject: null,
   },
   Mutation: {
