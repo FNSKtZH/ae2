@@ -3,15 +3,9 @@ import { withClientState } from 'apollo-link-state'
 import gql from 'graphql-tag'
 
 const query = gql`
-  query ActiveObjectsQuery {
-    activeobjects @client {
+  query activeObjects {
+    activeObjects @client {
       id
-      taxonomyId
-      parentId
-      name
-      properties
-      category
-      idOld
     }
   }
 `
@@ -23,22 +17,12 @@ export default withClientState({
   },
   Mutation: {
     // update values in the store on mutations
-    setActiveObject: (
-      _,
-      { id, taxonomyId, parentId, name, properties, category, idOld },
-      { cache }
-    ) => {
+    setActiveObject: (_, { id }, { cache }) => {
       const data = {
-        activeobjects: [
+        activeObjects: [
           {
             id,
-            taxonomyId,
-            parentId,
-            name,
-            properties,
-            category,
-            idOld,
-            __typename: 'activeObject',
+            __typename: 'ActiveObject',
           },
         ],
       }

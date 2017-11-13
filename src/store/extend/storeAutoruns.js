@@ -25,53 +25,38 @@ export default (store: Object): void => {
     }),
     onChangeObject: reaction(
       () => get(store.props, 'activeObject', null),
-      // () => store.props,
+
       () => {
         const activeObject = get(store.props, 'activeObject', null)
 
-        console.log('autorun, activeObject:', activeObject)
+        console.log('autorun: activeObject:', activeObject)
+        console.log('autorun: activeObject.id:', activeObject.id)
 
         // TODO: update local apollo store
         const query = gql`
-          query activeObjectApollo {
+          query activeObjects {
             activeObjects @client {
               id
-              taxonomyId
-              parentId
-              name
-              properties
-              category
-              idOld
             }
           }
         `
-        app.client.query({ query }).then(value => console.log('value:', value))
+        app.client
+          .query({ query })
+          .then(value => console.log('autorun: value before mutating:', value))
 
         const mutation = gql`
-          mutation setActiveObject(
-            $id: String
-            $taxonomyId: String
-            $parentId: String
-            $name: String
-            $properties: String
-            $category: String
-            $idOld: String
-          ) {
-            setActiveObject(
-              id: $id
-              taxonomyId: $taxonomyId
-              parentId: $parentId
-              name: $name
-              properties: $properties
-              category: $category
-              idOld: $idOld
-            )
+          mutation setActiveObject($id: String) {
+            setActiveObject(id: $id) @client
           }
         `
         app.client.mutate({
           mutation,
-          variables: { ...activeObject },
+          variables: { id: activeObject.id },
         })
+        app.client
+          .query({ query })
+          .then(value => console.log('autorun: value after mutating:', value))
+
         return store.setActiveObject(activeObject)
       }
     ),

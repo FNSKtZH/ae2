@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
 import gql from 'graphql-tag'
+import { withApollo } from 'react-apollo'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
@@ -18,7 +19,13 @@ const Title = styled.h3`margin: 15px 0 -5px 0;`
 const TitleSpan = styled.span`font-weight: normal;`
 const FirstTitle = styled(Title)`margin: 5px 0 -5px 0;`
 
-const Objekt = ({ activeObject }: { activeObject: Object }) => {
+const Objekt = ({
+  activeObject,
+  client,
+}: {
+  activeObject: Object,
+  client: Object,
+}) => {
   const propertyCollectionObjects = get(
     activeObject,
     'propertyCollectionObjectsByObjectId.nodes',
@@ -44,6 +51,34 @@ const Objekt = ({ activeObject }: { activeObject: Object }) => {
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
     pco => !propertyCollectionIds.includes(pco.propertyCollectionId)
   )
+  /*
+  console.log('Objekt: client:', client)
+
+  const query = gql`
+    query activeObjects {
+      activeObjects @client {
+        id
+      }
+    }
+  `
+  
+  client
+    .query({ query })
+    .then(value => console.log('Objekt: value before mutating:', value))
+
+  const mutation = gql`
+    mutation setActiveObject($id: String) {
+      setActiveObject(id: $id) @client
+    }
+  `
+  client.mutate({
+    mutation,
+    variables: { id: activeObject.id },
+  })
+
+  client
+    .query({ query })
+    .then(value => console.log('Objekt: value after mutating:', value))*/
 
   return (
     <Container>
@@ -315,4 +350,4 @@ Objekt.fragments = {
   `,
 }
 
-export default Objekt
+export default withApollo(Objekt)
