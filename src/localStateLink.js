@@ -2,31 +2,42 @@
 import { withClientState } from 'apollo-link-state'
 import gql from 'graphql-tag'
 
-const query = gql`
-  query activeObjects {
-    activeObjects @client {
+const listElementsQuery = gql`
+  query listElements {
+    listElements @client {
       id
     }
+  }
+`
+const activeObjectQuery = gql`
+  query testObject {
+    activeObject @client
   }
 `
 
 export default withClientState({
   Query: {
     // provide initial state
-    activeObjects: () => [],
+    listElements: () => [],
+    activeObject: null,
   },
   Mutation: {
     // update values in the store on mutations
-    setActiveObject: (_, { id }, { cache }) => {
+    setTestList: (_, { id }, { cache }) => {
       const data = {
-        activeObjects: [
+        listElements: [
           {
             id,
-            __typename: 'ActiveObject',
+            __typename: 'TestList',
           },
         ],
       }
-      cache.writeQuery({ query, data })
+      cache.writeQuery({ query: listElementsQuery, data })
+      return null
+    },
+    setActiveObject: (_, { id }, { cache }) => {
+      const data = { activeObject: id }
+      cache.writeQuery({ query: activeObjectQuery, data })
       return null
     },
   },
