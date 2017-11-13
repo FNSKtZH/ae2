@@ -14,6 +14,8 @@ import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 
+import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
+
 const StyledAppBar = styled(AppBar)`@media print {display: none !important;}`
 const Button = styled(FlatButton)`
   color: ${props =>
@@ -40,11 +42,6 @@ const iconMenuAnchorOrigin = { horizontal: 'left', vertical: 'bottom' }
 const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
 const importMenuStyle = { paddingTop: 4 }
-const activeNodeArrayMutation = gql`
-  mutation setStore($value: Array) {
-    setStore(id: "activeNodeArray", value: $value) @client
-  }
-`
 
 const enhance = compose(
   inject('store'),
