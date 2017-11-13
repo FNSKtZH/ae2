@@ -8,6 +8,12 @@ import app from 'ampersand-app'
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
 import getUrlFromTOId from '../../modules/getUrlFromTOId'
 
+const activeObjectMutation = gql`
+  mutation setStore($value: Array) {
+    setStore(id: "activeObject", value: $value) @client
+  }
+`
+
 export default (store: Object): void => {
   extendObservable(store, {
     manipulateActiveNodeArray: autorun('manipulateActiveNodeArray', () => {
@@ -44,16 +50,10 @@ export default (store: Object): void => {
       () => {
         const activeObject = get(store.props, 'activeObject', null)
 
-        // TODO: update local apollo store
-        const activeObjectMutation = gql`
-          mutation setActiveObject($id: String) {
-            setActiveObject(id: $id) @client
-          }
-        `
-        console.log('autorun: activeObject.id:', activeObject.id)
+        // update local apollo store
         app.client.mutate({
           mutation: activeObjectMutation,
-          variables: { id: activeObject.id },
+          variables: { value: activeObject ? activeObject.id : null },
         })
 
         return store.setActiveObject(activeObject)

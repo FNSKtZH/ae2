@@ -10,11 +10,6 @@ const storeQuery = gql`
     }
   }
 `
-const activeObjectQuery = gql`
-  query testObject {
-    activeObject @client
-  }
-`
 
 export default withClientState({
   Query: {
@@ -35,11 +30,6 @@ export default withClientState({
         ],
       }
       cache.writeQuery({ query: storeQuery, data })
-      return null
-    },
-    setActiveObject: (_, { id }, { cache }) => {
-      const data = { activeObject: id }
-      cache.writeQuery({ query: activeObjectQuery, data })
       return null
     },
   },
