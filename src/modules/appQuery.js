@@ -37,6 +37,10 @@ export default gql`
     $queryExportCategories: Boolean!
     $exportCategories: [String]
   ) {
+    store @client {
+      id
+      value
+    }
     allCategories {
       totalCount
     }

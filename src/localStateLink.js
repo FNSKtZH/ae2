@@ -1,21 +1,23 @@
 // @flow
 import { withClientState } from 'apollo-link-state'
-import gql from 'graphql-tag'
 
-const storeQuery = gql`
-  query store {
-    store @client {
-      id
-      value
-    }
-  }
-`
+import storeQuery from './modules/storeQuery'
 
 export default withClientState({
   Query: {
     // provide initial state
-    store: () => [],
-    activeObject: null,
+    store: () => [
+      {
+        id: 'activeNodeArray',
+        value: [],
+        __typename: 'Store',
+      },
+      {
+        id: 'activeObject',
+        value: null,
+        __typename: 'Store',
+      },
+    ],
   },
   Mutation: {
     // update values in the store on mutations

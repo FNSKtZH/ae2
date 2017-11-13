@@ -12,7 +12,7 @@ import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo'
 
 import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
-
+import storeQuery from '../modules/storeQuery'
 import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
 
 const singleRowHeight = 23
@@ -107,12 +107,22 @@ const Row = ({
           mutation: activeNodeArrayMutation,
           variables: { value: newUrl },
         })
+        const activeNodeArray = client.readQuery({
+          query: storeQuery,
+          variables: { id: 'activeNodeArray' },
+        })
+        console.log('TreeRow: activeNodeArray:', activeNodeArray)
       } else {
         store.setActiveNodeArray(node.url)
         client.mutate({
           mutation: activeNodeArrayMutation,
           variables: { value: node.url },
         })
+        const activeNodeArray = client.readQuery({
+          query: storeQuery,
+          variables: { id: 'activeNodeArray' },
+        })
+        console.log('TreeRow: activeNodeArray:', activeNodeArray)
       }
     }
   }

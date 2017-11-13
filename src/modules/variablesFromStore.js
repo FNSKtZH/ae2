@@ -50,7 +50,7 @@ export default ({ store }: { store: Object }) => {
    * store activeNodeArray in apollo state
    * get active object id from there
    */
-  const activeObjectId = getActiveObjectId(store)
+  const activeObjectId = getActiveObjectId()
   const existsActiveObject = !!activeObjectId
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =

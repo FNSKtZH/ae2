@@ -29,6 +29,12 @@ export default (store: Object): void => {
       // set activeTreeLevel
       store.activeTreeLevel = activeNodeArray.length
 
+      /**
+       * THIS IS MADNESS:
+       * THE FOLLOWING CODE IS ABSOLUTELY UNNECESSARY
+       * YET, IF IT IS REMOVED, APOLLO LOCAL STORE BLOWS UP
+       * !!!!!!!!!!!!!!!!!!!
+       */
       const storeQuery = gql`
         query store {
           store @client {
@@ -37,11 +43,11 @@ export default (store: Object): void => {
           }
         }
       `
-      console.log('autorun: client', app.client)
-      console.log('autorun: storeQuery', storeQuery)
+      //console.log('autorun: client', app.client)
+      //console.log('autorun: storeQuery', storeQuery)
       app.client
         .query({ query: storeQuery })
-        .then(result => console.log('storeQueryResult:', result))
+        .then(result => console.log('autorun: storeQueryResult:', result))
         .catch(error => console.log('autorun: storeQueryResult error:', error))
     }),
     onChangeObject: reaction(
