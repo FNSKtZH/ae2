@@ -12,7 +12,6 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
-import gql from 'graphql-tag'
 
 import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
 

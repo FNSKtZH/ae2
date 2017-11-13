@@ -9,6 +9,9 @@ import FontIcon from 'material-ui/FontIcon'
 import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
 import gql from 'graphql-tag'
+import { withApollo } from 'react-apollo'
+
+import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
 
 import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
 
@@ -68,7 +71,7 @@ const TextSpan = styled.span`
     props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
 `
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(inject('store'), withApollo, observer)
 
 const Row = ({
   key,
@@ -76,12 +79,14 @@ const Row = ({
   style,
   store,
   nodes,
+  client,
 }: {
   key?: number,
   index: number,
   style: Object,
   store: Object,
   nodes: Array<Object>,
+  client: Object,
 }) => {
   const node = nodes[index]
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
@@ -98,8 +103,16 @@ const Row = ({
         const newUrl = clone(toJS(node.url))
         newUrl.pop()
         store.setActiveNodeArray(newUrl)
+        client.mutate({
+          mutation: activeNodeArrayMutation,
+          variables: { value: newUrl },
+        })
       } else {
         store.setActiveNodeArray(node.url)
+        client.mutate({
+          mutation: activeNodeArrayMutation,
+          variables: { value: node.url },
+        })
       }
     }
   }
