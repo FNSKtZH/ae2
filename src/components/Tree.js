@@ -3,6 +3,7 @@ import React from 'react'
 import { toJS } from 'mobx'
 // if observer is active, forceUpdate during rendering happens
 import { /*observer,*/ inject } from 'mobx-react'
+import { graphql } from 'react-apollo'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
 import styled from 'styled-components'
@@ -13,7 +14,7 @@ import isEqual from 'lodash/isEqual'
 import Row from './TreeRow'
 import TreeFilter from './TreeFilter'
 import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
-import getActiveNodeArray from '../modules/getActiveNodeArray'
+import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -55,20 +56,33 @@ const LoadingDiv = styled.div`
 `
 const listContainerStyle = { padding: '5px' }
 
+const activeNodeArrayData = graphql(activeNodeArrayGql, {
+  name: 'activeNodeArrayData',
+})
+
 const noRowsRenderer = nodes => (
   <Container>
     <LoadingDiv>lade Daten...</LoadingDiv>
   </Container>
 )
 
-const enhance = compose(inject('store') /*, observer*/)
+const enhance = compose(inject('store'), activeNodeArrayData /*, observer*/)
 
-const Tree = ({ store, data }: { store: Object, data: Object }) => {
+const Tree = ({
+  store,
+  data,
+  activeNodeArrayData,
+}: {
+  store: Object,
+  data: Object,
+  activeNodeArrayData: Object,
+}) => {
   const nodes = buildNodesFromAppQuery({ store, data })
   const rowRenderer = ({ key, index, style }) => (
     <Row key={key} index={index} style={style} nodes={nodes} />
   )
-  const activeNodeArray = getActiveNodeArray()
+  const activeNodeArray =
+    activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
   const activeNodeIndex = findIndex(nodes, node =>
     isEqual(toJS(node.url), activeNodeArray)
   )
