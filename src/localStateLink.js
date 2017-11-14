@@ -12,7 +12,7 @@ export default withClientState({
     // provide initial state
     activeNodeArray: () => [
       {
-        value: ['Taxonomien'],
+        value: [],
         __typename: 'ActiveNodeArray',
       },
     ],
@@ -26,6 +26,7 @@ export default withClientState({
   Mutation: {
     // update values in the store on mutations
     setActiveNodeArray: (_, { value }, { cache }) => {
+      console.log('localStateLink: setting activeNodeArray to:', value)
       const data = {
         activeNodeArray: [
           {

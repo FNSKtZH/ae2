@@ -2,10 +2,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { observer, inject } from 'mobx-react'
+import { graphql } from 'react-apollo'
 //import { toJS } from 'mobx'
 import compose from 'recompose/compose'
 import Snackbar from 'material-ui/Snackbar'
-import { withApollo } from 'react-apollo'
 
 import AppData from './AppData'
 import AppBar from './AppBar'
@@ -16,7 +16,7 @@ import ImportRc from './ImportRc'
 import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
-import getActiveNodeArray from '../modules/getActiveNodeArray'
+import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 
 const Container = styled.div`
   height: 100%;
@@ -24,23 +24,32 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const enhance = compose(inject('store'), withApollo, AppData, observer)
+const activeNodeArrayData = graphql(activeNodeArrayGql, {
+  name: 'activeNodeArrayData',
+})
+
+const enhance = compose(inject('store'), activeNodeArrayData, AppData, observer)
 
 const App = ({
   store,
   data,
-  client,
+  activeNodeArrayData,
 }: {
   store: Object,
   data: Object,
-  client: Object,
+  activeNodeArrayData: Object,
 }) => {
   const { activeObject, error, loading } = data
+  const activeNodeArray =
+    activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
   store.setProps(data)
-  const activeNodeArray = getActiveNodeArray()
 
-  const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
-  const url1 = activeNodeArray[1] && activeNodeArray[1].toLowerCase()
+  const url0 =
+    activeNodeArray && activeNodeArray[0] && activeNodeArray[0].toLowerCase()
+      ? activeNodeArray[0].toLowerCase()
+      : null
+  const url1 =
+    activeNodeArray && activeNodeArray[1] && activeNodeArray[1].toLowerCase()
   const show404 =
     ![
       'taxonomien',

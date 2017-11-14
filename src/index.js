@@ -44,6 +44,7 @@ if (activeNodeArrayFromUrl.length === 0) {
   // forward / to /Taxonomien
   activeNodeArrayFromUrl = ['Taxonomien']
 }
+
 client.mutate({
   mutation: activeNodeArrayMutation,
   variables: { value: activeNodeArrayFromUrl },
