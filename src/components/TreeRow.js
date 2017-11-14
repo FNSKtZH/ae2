@@ -9,11 +9,11 @@ import FontIcon from 'material-ui/FontIcon'
 import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
 import gql from 'graphql-tag'
-import { withApollo } from 'react-apollo'
+import { withApollo, graphql } from 'react-apollo'
 
 import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
-import getActiveNodeArray from '../modules/getActiveNodeArray'
 import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
+import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -71,13 +71,23 @@ const TextSpan = styled.span`
     props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
 `
 
-const enhance = compose(inject('store'), withApollo, observer)
+const activeNodeArrayData = graphql(activeNodeArrayGql, {
+  name: 'activeNodeArrayData',
+})
+
+const enhance = compose(
+  inject('store'),
+  activeNodeArrayData,
+  withApollo,
+  observer
+)
 
 const Row = ({
   key,
   index,
   style,
   store,
+  activeNodeArrayData,
   nodes,
   client,
 }: {
@@ -85,11 +95,13 @@ const Row = ({
   index: number,
   style: Object,
   store: Object,
+  activeNodeArrayData: Object,
   nodes: Array<Object>,
   client: Object,
 }) => {
   const node = nodes[index]
-  const activeNodeArray = getActiveNodeArray()
+  const activeNodeArray =
+    activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     toJS(node.url),
     activeNodeArray
