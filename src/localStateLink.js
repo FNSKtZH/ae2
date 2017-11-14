@@ -26,7 +26,6 @@ export default withClientState({
   Mutation: {
     // update values in the store on mutations
     setActiveNodeArray: (_, { value }, { cache }) => {
-      console.log('localStateLink: setting activeNodeArray to:', value)
       const data = {
         activeNodeArray: [
           {
