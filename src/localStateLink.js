@@ -26,7 +26,6 @@ export default withClientState({
   Mutation: {
     // update values in the store on mutations
     setActiveNodeArray: (_, { value }, { cache }) => {
-      console.log('localStateLink: setting active node array:', value)
       const data = {
         activeNodeArray: [
           {
@@ -36,17 +35,8 @@ export default withClientState({
         ],
       }
       cache.writeQuery({ query: activeNodeArrayGql, data })
-      // TODO: change history?
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
-      console.log(
-        'localStateLink: activeNodeArrayFromUrl:',
-        activeNodeArrayFromUrl
-      )
       if (!isEqual(activeNodeArrayFromUrl, value)) {
-        console.log(
-          'localStateLink: pushing history to:',
-          `/${value.join('/')}`
-        )
         app.store.history.push(`/${value.join('/')}`)
       }
       app.store.activeTreeLevel = value.length

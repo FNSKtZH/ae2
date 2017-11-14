@@ -7,18 +7,26 @@
 import React from 'react'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
+import { graphql } from 'react-apollo'
 
 import App from './App'
+import activeNodeArrayQgl from '../modules/activeNodeArrayGql'
 
-const enhance = compose(inject('store'), observer)
+const withData = graphql(activeNodeArrayQgl)
+
+const enhance = compose(inject('store'), withData, observer)
 
 // pass history to re-render on url change
-const AppShell = ({ store }: { store: Object }) => (
-  <App
-    history={store.history.location.pathname}
-    treeFilterText={store.treeFilter.text}
-    treeFilterId={store.treeFilter.id}
-  />
-)
+const AppShell = ({ store, data }: { store: Object, data: Object }) => {
+  const activeNodeArray = data.activeNodeArray[0].value
+
+  return (
+    <App
+      activeNodeArray={activeNodeArray}
+      treeFilterText={store.treeFilter.text}
+      treeFilterId={store.treeFilter.id}
+    />
+  )
+}
 
 export default enhance(AppShell)
