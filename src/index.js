@@ -39,19 +39,15 @@ app.init()
 window.app = app
 
 // initiate activeNodeArray
-const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
+let activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
 if (activeNodeArrayFromUrl.length === 0) {
   // forward / to /Taxonomien
-  client.mutate({
-    mutation: activeNodeArrayMutation,
-    variables: { value: ['Taxonomien'] },
-  })
-} else {
-  client.mutate({
-    mutation: activeNodeArrayMutation,
-    variables: { value: activeNodeArrayFromUrl },
-  })
+  activeNodeArrayFromUrl = ['Taxonomien']
 }
+client.mutate({
+  mutation: activeNodeArrayMutation,
+  variables: { value: activeNodeArrayFromUrl },
+})
 
 const theme = Object.assign({}, myTheme, {
   appBar: {
