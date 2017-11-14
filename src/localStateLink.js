@@ -38,7 +38,15 @@ export default withClientState({
       cache.writeQuery({ query: activeNodeArrayGql, data })
       // TODO: change history?
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
+      console.log(
+        'localStateLink: activeNodeArrayFromUrl:',
+        activeNodeArrayFromUrl
+      )
       if (!isEqual(activeNodeArrayFromUrl, value)) {
+        console.log(
+          'localStateLink: pushing history to:',
+          `/${value.join('/')}`
+        )
         app.store.history.push(`/${value.join('/')}`)
       }
       app.store.activeTreeLevel = value.length

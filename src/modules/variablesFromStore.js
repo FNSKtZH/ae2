@@ -6,10 +6,6 @@ import getActiveNodeArray from './getActiveNodeArray'
 
 export default ({ store }: { store: Object }) => {
   const activeNodeArray = getActiveNodeArray()
-  console.log(
-    'variablesFromStore: activeNodeArray from apollo store:',
-    activeNodeArray
-  )
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&
@@ -51,19 +47,17 @@ export default ({ store }: { store: Object }) => {
   const level10Taxonomy = existsLevel10
     ? activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
-  /**
-   * TODO:
-   * store activeNodeArray in apollo state
-   * get active object id from there
-   */
   const activeObjectId = getActiveObjectId()
   const existsActiveObject = !!activeObjectId
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =
     store.urlFromTOId || '99999999-9999-9999-9999-999999999999'
   const treeFilterText = store.treeFilter.text || 'ZZZZ'
-  const queryGroups =
-    activeNodeArray[0] && activeNodeArray[0].toLowerCase() === 'export'
+  const queryGroups = !!(
+    activeNodeArray &&
+    activeNodeArray[0] &&
+    activeNodeArray[0].toLowerCase() === 'export'
+  )
   const exportCategories = toJS(store.export.categories) || []
   const queryExportCategories = exportCategories && exportCategories.length > 0
 
