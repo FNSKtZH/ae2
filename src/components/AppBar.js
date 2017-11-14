@@ -14,6 +14,7 @@ import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
 import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
+import getActiveNodeArray from '../modules/getActiveNodeArray.js'
 
 const StyledAppBar = styled(AppBar)`@media print {display: none !important;}`
 const Button = styled(FlatButton)`
@@ -47,12 +48,12 @@ const enhance = compose(
   withApollo,
   withHandlers({
     onClickColumnButtonData: props => () => {
-      const { store, client } = props
+      const { client } = props
+      const activeNodeArray = getActiveNodeArray()
       const pathIsMain = ['Taxonomien', 'Eigenschaften-Sammlungen'].includes(
-        store.activeNodeArray[0]
+        activeNodeArray[0]
       )
       if (!pathIsMain) {
-        store.setActiveNodeArray(['Taxonomien'])
         client.mutate({
           mutation: activeNodeArrayMutation,
           variables: { value: ['Taxonomien'] },
@@ -60,42 +61,37 @@ const enhance = compose(
       }
     },
     onClickColumnButtonExport: props => () => {
-      const { store, client } = props
-      store.setActiveNodeArray(['Export'])
+      const { client } = props
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Export'] },
       })
     },
     onClickImportPc: props => () => {
-      const { store, client } = props
-      store.setActiveNodeArray(['Import', 'Eigenschaften-Sammlungen'])
+      const { client } = props
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Import', 'Eigenschaften-Sammlungen'] },
       })
     },
     onClickImportRc: props => () => {
-      const { store, client } = props
-      store.setActiveNodeArray(['Import', 'Beziehungs-Sammlungen'])
+      const { client } = props
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Import', 'Beziehungs-Sammlungen'] },
       })
     },
     onClickColumnButtonLogin: props => () => {
-      const { store, client } = props
-      store.setActiveNodeArray(['Login'])
+      const { client } = props
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Login'] },
       })
     },
     onChangeImportButton: props => (event, key, value) => {
-      const { store, client } = props
+      const { client } = props
       console.log('event:', event)
       console.log('value:', value)
-      store.setActiveNodeArray(['Import', value])
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Import', value] },
@@ -126,13 +122,12 @@ const MyAppBar = ({
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
 }) => {
-  const url0 =
-    store.activeNodeArray[0] && store.activeNodeArray[0].toLowerCase()
-  const url1 =
-    store.activeNodeArray[1] && store.activeNodeArray[1].toLowerCase()
+  const activeNodeArray = getActiveNodeArray()
+  const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
+  const url1 = activeNodeArray[1] && activeNodeArray[1].toLowerCase()
   let importDropdownValue = 'Import'
   if (url1 && url0 === 'import')
-    importDropdownValue = `Import ${store.activeNodeArray[1]}`
+    importDropdownValue = `Import ${activeNodeArray[1]}`
 
   return (
     <StyledAppBar

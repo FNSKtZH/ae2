@@ -8,8 +8,6 @@ function Store(): void {
   this.nodes = []
   this.setNodes = () => {}
   this.history = ObservableHistory
-  this.activeNodeArray = []
-  this.setActiveNodeArray = () => {}
   this.activeTreeLevel = null
   this.activeObject = null
   this.setActiveObject = () => {}

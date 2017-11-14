@@ -1,19 +1,15 @@
 // @flow
 import app from 'ampersand-app'
 
-import storeQuery from './storeQuery'
+import activeNodeArrayGql from './activeNodeArrayGql'
 
 export default (): Array<string> => {
-  console.log('getActiveNodeArray: client:', app.client)
+  // at startup client is undefined
   if (!app.client) return []
   const result = app.client.readQuery({
-    query: storeQuery,
-    // why are variables ignored?
-    //variables: { id: 'activeNodeArray' },
+    query: activeNodeArrayGql,
   })
-  const activeNodeArrayDataset = result.store.find(
-    a => a.id === 'activeNodeArray'
-  )
+  const activeNodeArrayDataset = result.activeNodeArray[0]
   if (!activeNodeArrayDataset) return []
   return activeNodeArrayDataset.value
 }

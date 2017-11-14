@@ -1,43 +1,59 @@
 // @flow
 import { withClientState } from 'apollo-link-state'
+import app from 'ampersand-app'
+import isEqual from 'lodash/isEqual'
 
-import storeQuery from './modules/storeQuery'
+import activeNodeArrayGql from './modules/activeNodeArrayGql'
+import activeObjectIdGql from './modules/activeObjectIdGql'
+import getActiveNodeArrayFromPathname from './store/action/getActiveNodeArrayFromPathname'
 
 export default withClientState({
   Query: {
     // provide initial state
-    store: () => [
+    activeNodeArray: () => [
       {
-        id: 'activeNodeArray',
-        value: [],
-        __typename: 'Store',
+        value: ['Taxonomien'],
+        __typename: 'ActiveNodeArray',
       },
+    ],
+    activeObjectId: () => [
       {
-        id: 'activeObject',
         value: null,
-        __typename: 'Store',
+        __typename: 'ActiveObjectId',
       },
     ],
   },
   Mutation: {
     // update values in the store on mutations
-    setStore: (_, { id, value }, { cache }) => {
-      /**
-       * fetching current makes code in autorun run before
-       * mutation is finished!!! > errors
-       */
-      //const current = cache.readQuery({ query: storeQuery })
-      //console.log('localStateLink: current:', current)
+    setActiveNodeArray: (_, { value }, { cache }) => {
+      console.log('localStateLink: setting active node array:', value)
       const data = {
-        store: [
+        activeNodeArray: [
           {
-            id,
             value,
-            __typename: 'Store',
+            __typename: 'ActiveNodeArray',
           },
         ],
       }
-      cache.writeQuery({ query: storeQuery, data })
+      cache.writeQuery({ query: activeNodeArrayGql, data })
+      // TODO: change history?
+      const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
+      if (!isEqual(activeNodeArrayFromUrl, value)) {
+        app.store.history.push(`/${value.join('/')}`)
+      }
+      app.store.activeTreeLevel = value.length
+      return null
+    },
+    setActiveObjectId: (_, { value }, { cache }) => {
+      const data = {
+        activeObjectId: [
+          {
+            value,
+            __typename: 'ActiveObjectId',
+          },
+        ],
+      }
+      cache.writeQuery({ query: activeObjectIdGql, data })
       return null
     },
   },

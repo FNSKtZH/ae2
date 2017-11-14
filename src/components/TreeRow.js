@@ -12,7 +12,7 @@ import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo'
 
 import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
-import storeQuery from '../modules/storeQuery'
+import getActiveNodeArray from '../modules/getActiveNodeArray'
 import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
 
 const singleRowHeight = 23
@@ -89,39 +89,29 @@ const Row = ({
   client: Object,
 }) => {
   const node = nodes[index]
+  const activeNodeArray = getActiveNodeArray()
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     toJS(node.url),
-    toJS(store.activeNodeArray)
+    activeNodeArray
   )
   const onClickNode = event => {
     // do nothing when loading indicator is clicked
     if (!node.loadingNode) {
       const url = toJS(node.url)
-      const activeNodeArray = toJS(store.activeNodeArray)
       // if active node is clicked, make it's parent active
       if (isEqual(url, activeNodeArray)) {
         const newUrl = clone(toJS(node.url))
         newUrl.pop()
-        store.setActiveNodeArray(newUrl)
         client.mutate({
           mutation: activeNodeArrayMutation,
           variables: { value: newUrl },
         })
-        const activeNodeArray = client.readQuery({
-          query: storeQuery,
-          variables: { id: 'activeNodeArray' },
-        })
-        console.log('TreeRow: activeNodeArray:', activeNodeArray)
       } else {
-        store.setActiveNodeArray(node.url)
         client.mutate({
           mutation: activeNodeArrayMutation,
           variables: { value: node.url },
         })
-        const activeNodeArray = client.readQuery({
-          query: storeQuery,
-          variables: { id: 'activeNodeArray' },
-        })
+        const activeNodeArray = getActiveNodeArray()
         console.log('TreeRow: activeNodeArray:', activeNodeArray)
       }
     }

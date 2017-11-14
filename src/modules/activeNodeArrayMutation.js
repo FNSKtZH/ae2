@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation setStore($value: Array) {
-    setStore(id: "activeNodeArray", value: $value) @client
+  mutation setActiveNodeArray($value: Array) {
+    setActiveNodeArray(value: $value) @client
   }
 `

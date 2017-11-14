@@ -40,7 +40,6 @@ window.app = app
 
 // initiate activeNodeArray
 const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
-store.setActiveNodeArray(activeNodeArrayFromUrl)
 client.mutate({
   mutation: activeNodeArrayMutation,
   variables: { value: activeNodeArrayFromUrl },
@@ -62,4 +61,5 @@ ReactDOM.render(
   </MobxProvider>,
   document.getElementById('root')
 )
+
 registerServiceWorker()

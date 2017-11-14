@@ -9,12 +9,13 @@ import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
 import App from './App'
+import getActiveNodeArray from '../modules/getActiveNodeArray'
 
 const enhance = compose(inject('store'), observer)
 
 const AppShell = ({ store }: { store: Object }) => (
   <App
-    activeNodeArrayString={store.activeNodeArray.join()}
+    activeNodeArrayString={getActiveNodeArray().join()}
     treeFilterText={store.treeFilter.text}
     treeFilterId={store.treeFilter.id}
   />

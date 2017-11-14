@@ -10,10 +10,6 @@ export default ({ store }: { store: Object }) => {
     'variablesFromStore: activeNodeArray from apollo store:',
     activeNodeArray
   )
-  console.log(
-    'variablesFromStore: activeNodeArray from mobx store:',
-    toJS(store.activeNodeArray)
-  )
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&

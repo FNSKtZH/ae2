@@ -13,6 +13,7 @@ import isEqual from 'lodash/isEqual'
 import Row from './TreeRow'
 import TreeFilter from './TreeFilter'
 import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
+import getActiveNodeArray from '../modules/getActiveNodeArray'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -67,8 +68,9 @@ const Tree = ({ store, data }: { store: Object, data: Object }) => {
   const rowRenderer = ({ key, index, style }) => (
     <Row key={key} index={index} style={style} nodes={nodes} />
   )
+  const activeNodeArray = getActiveNodeArray()
   const activeNodeIndex = findIndex(nodes, node =>
-    isEqual(toJS(node.url), toJS(store.activeNodeArray))
+    isEqual(toJS(node.url), activeNodeArray)
   )
 
   return (

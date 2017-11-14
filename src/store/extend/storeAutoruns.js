@@ -1,5 +1,5 @@
 // @flow
-import { extendObservable, autorun, reaction, toJS } from 'mobx'
+import { extendObservable, autorunAsync, reaction, toJS } from 'mobx'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import gql from 'graphql-tag'
@@ -9,7 +9,6 @@ import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPath
 import getUrlFromTOId from '../../modules/getUrlFromTOId'
 
 import activeNodeArrayMutation from '../../modules/activeNodeArrayMutation'
-import storeQuery from '../../modules/storeQuery'
 import getActiveNodeArray from '../../modules/getActiveNodeArray'
 
 const activeObjectMutation = gql`
@@ -20,17 +19,15 @@ const activeObjectMutation = gql`
 
 export default (store: Object): void => {
   extendObservable(store, {
-    manipulateActiveNodeArray: autorun('manipulateActiveNodeArray', () => {
-      //const activeNodeArray = toJS(store.activeNodeArray)
+    manipulateActiveNodeArray: autorunAsync('manipulateActiveNodeArray', () => {
       const activeNodeArray = getActiveNodeArray()
       console.log('autorun: activeNodeArray:', activeNodeArray)
       // forward root to taxonomy
       if (activeNodeArray.length === 0) {
-        app.client.mutate({
+        return app.client.mutate({
           mutation: activeNodeArrayMutation,
           variables: { value: ['Taxonomien'] },
         })
-        return store.setActiveNodeArray(['Taxonomien'])
       }
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, activeNodeArray)) {
@@ -38,27 +35,6 @@ export default (store: Object): void => {
       }
       // set activeTreeLevel
       store.activeTreeLevel = activeNodeArray.length
-
-      /**
-       * THIS IS MADNESS:
-       * THE FOLLOWING CODE IS ABSOLUTELY UNNECESSARY
-       * YET, IF IT IS REMOVED, APOLLO LOCAL STORE BLOWS UP
-       * !!!!!!!!!!!!!!!!!!!
-       */
-      const storeQuery = gql`
-        query store {
-          store @client {
-            id
-            value
-          }
-        }
-      `
-      //console.log('autorun: client', app.client)
-      //console.log('autorun: storeQuery', storeQuery)
-      app.client
-        .query({ query: storeQuery })
-        .then(result => console.log('autorun: storeQueryResult:', result))
-        .catch(error => console.log('autorun: storeQueryResult error:', error))
     }),
     onChangeObject: reaction(
       () => get(store.props, 'activeObject', null),
@@ -95,7 +71,6 @@ export default (store: Object): void => {
       urlFromTO => {
         // do nothing when filterField was emptied
         if (urlFromTO) {
-          store.setActiveNodeArray(getUrlFromTOId(urlFromTO))
           app.client.mutate({
             mutation: activeNodeArrayMutation,
             variables: { value: getUrlFromTOId(urlFromTO) },
@@ -109,7 +84,6 @@ export default (store: Object): void => {
       urlFromPCId => {
         // do nothing when filterField was emptied
         if (urlFromPCId) {
-          store.setActiveNodeArray(['Eigenschaften-Sammlungen', urlFromPCId])
           app.client.mutate({
             mutation: activeNodeArrayMutation,
             variables: { value: ['Eigenschaften-Sammlungen', urlFromPCId] },

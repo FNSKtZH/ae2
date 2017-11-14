@@ -16,7 +16,7 @@ import ImportRc from './ImportRc'
 import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
-import storeQuery from '../modules/storeQuery'
+import getActiveNodeArray from '../modules/getActiveNodeArray'
 
 const Container = styled.div`
   height: 100%;
@@ -37,11 +37,10 @@ const App = ({
 }) => {
   const { activeObject, error, loading } = data
   store.setProps(data)
+  const activeNodeArray = getActiveNodeArray()
 
-  const url0 =
-    store.activeNodeArray[0] && store.activeNodeArray[0].toLowerCase()
-  const url1 =
-    store.activeNodeArray[1] && store.activeNodeArray[1].toLowerCase()
+  const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
+  const url1 = activeNodeArray[1] && activeNodeArray[1].toLowerCase()
   const show404 =
     ![
       'taxonomien',
@@ -59,12 +58,6 @@ const App = ({
   const showLogin = url0 === 'login'
   const showImportPc = url0 === 'import' && url1 === 'eigenschaften-sammlungen'
   const showImportRc = url0 === 'import' && url1 === 'beziehungs-sammlungen'
-  const result = client.readQuery({
-    query: storeQuery,
-    // why are variables ignored?
-    //variables: { id: 'activeNodeArray' },
-  })
-  //console.log('App, render: result:', result)
 
   return (
     <Container>

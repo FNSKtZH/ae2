@@ -17,6 +17,7 @@ import level8TaxonomyFromProps from './nodes/level8TaxonomyFromProps'
 import level9TaxonomyFromProps from './nodes/level9TaxonomyFromProps'
 import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
 import sort from './nodes/sort'
+import getActiveNodeArray from './getActiveNodeArray'
 
 export default ({
   store,
@@ -25,16 +26,17 @@ export default ({
   store: Object,
   data: Object,
 }): Array<Object> => {
+  const activeNodeArray = getActiveNodeArray()
   const activeLevel2TaxonomyNodes = get(data, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
-    activeLevel2TaxonomyNodes.find(n => n.name === store.activeNodeArray[1])
+    activeLevel2TaxonomyNodes.find(n => n.name === activeNodeArray[1])
   const activeLevel2TaxonomyName =
     activeLevel2Taxonomy && activeLevel2Taxonomy.name
   const activeLevel3TaxonomyNodes = get(data, 'level3Taxonomy.nodes')
   const activeLevel3Taxonomy =
     activeLevel3TaxonomyNodes &&
-    activeLevel3TaxonomyNodes.find(n => n.id === store.activeNodeArray[2])
+    activeLevel3TaxonomyNodes.find(n => n.id === activeNodeArray[2])
   const activeLevel3TaxonomyName =
     activeLevel3Taxonomy && activeLevel3Taxonomy.name
   const activeLevel3TaxonomyId = activeLevel3Taxonomy && activeLevel3Taxonomy.id
@@ -44,7 +46,7 @@ export default ({
   )
   const activeLevel4Taxonomy =
     activeLevel4TaxonomyNodes &&
-    activeLevel4TaxonomyNodes.find(n => n.id === store.activeNodeArray[3])
+    activeLevel4TaxonomyNodes.find(n => n.id === activeNodeArray[3])
   const activeLevel4TaxonomyName =
     activeLevel4Taxonomy && activeLevel4Taxonomy.name
   const activeLevel4TaxonomyId = activeLevel4Taxonomy && activeLevel4Taxonomy.id
@@ -54,7 +56,7 @@ export default ({
   )
   const activeLevel5Taxonomy =
     activeLevel5TaxonomyNodes &&
-    activeLevel5TaxonomyNodes.find(n => n.id === store.activeNodeArray[4])
+    activeLevel5TaxonomyNodes.find(n => n.id === activeNodeArray[4])
   const activeLevel5TaxonomyName =
     activeLevel5Taxonomy && activeLevel5Taxonomy.name
   const activeLevel5TaxonomyId = activeLevel5Taxonomy && activeLevel5Taxonomy.id
@@ -64,7 +66,7 @@ export default ({
   )
   const activeLevel6Taxonomy =
     activeLevel6TaxonomyNodes &&
-    activeLevel6TaxonomyNodes.find(n => n.id === store.activeNodeArray[5])
+    activeLevel6TaxonomyNodes.find(n => n.id === activeNodeArray[5])
   const activeLevel6TaxonomyName =
     activeLevel6Taxonomy && activeLevel6Taxonomy.name
   const activeLevel6TaxonomyId = activeLevel6Taxonomy && activeLevel6Taxonomy.id
@@ -74,7 +76,7 @@ export default ({
   )
   const activeLevel7Taxonomy =
     activeLevel7TaxonomyNodes &&
-    activeLevel7TaxonomyNodes.find(n => n.id === store.activeNodeArray[6])
+    activeLevel7TaxonomyNodes.find(n => n.id === activeNodeArray[6])
   const activeLevel7TaxonomyName =
     activeLevel7Taxonomy && activeLevel7Taxonomy.name
   const activeLevel7TaxonomyId = activeLevel7Taxonomy && activeLevel7Taxonomy.id
@@ -84,7 +86,7 @@ export default ({
   )
   const activeLevel8Taxonomy =
     activeLevel8TaxonomyNodes &&
-    activeLevel8TaxonomyNodes.find(n => n.id === store.activeNodeArray[7])
+    activeLevel8TaxonomyNodes.find(n => n.id === activeNodeArray[7])
   const activeLevel8TaxonomyName =
     activeLevel8Taxonomy && activeLevel8Taxonomy.name
   const activeLevel8TaxonomyId = activeLevel8Taxonomy && activeLevel8Taxonomy.id
@@ -94,13 +96,13 @@ export default ({
   )
   const activeLevel9Taxonomy =
     activeLevel9TaxonomyNodes &&
-    activeLevel9TaxonomyNodes.find(n => n.id === store.activeNodeArray[8])
+    activeLevel9TaxonomyNodes.find(n => n.id === activeNodeArray[8])
   const activeLevel9TaxonomyName =
     activeLevel9Taxonomy && activeLevel9Taxonomy.name
   const activeLevel9TaxonomyId = activeLevel9Taxonomy && activeLevel9Taxonomy.id
   let nodes = level1FromProps(data)
-  if (store.activeNodeArray.length > 0) {
-    switch (store.activeNodeArray[0]) {
+  if (activeNodeArray.length > 0) {
+    switch (activeNodeArray[0]) {
       case 'Eigenschaften-Sammlungen': {
         nodes = nodes.concat(
           level2PcFromProps({
@@ -116,10 +118,7 @@ export default ({
       }
     }
   }
-  if (
-    store.activeNodeArray.length > 1 &&
-    store.activeNodeArray[0] === 'Taxonomien'
-  ) {
+  if (activeNodeArray.length > 1 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
       level3TaxonomyFromProps({
         data,
@@ -127,7 +126,7 @@ export default ({
       })
     )
   }
-  if (store.activeNodeArray.length > 2) {
+  if (activeNodeArray.length > 2) {
     nodes = nodes.concat(
       level4TaxonomyFromProps({
         data,
@@ -137,7 +136,7 @@ export default ({
       })
     )
   }
-  if (store.activeNodeArray.length > 3) {
+  if (activeNodeArray.length > 3) {
     nodes = nodes.concat(
       level5TaxonomyFromProps({
         data,
@@ -149,7 +148,7 @@ export default ({
       })
     )
   }
-  if (store.activeNodeArray.length > 4) {
+  if (activeNodeArray.length > 4) {
     nodes = nodes.concat(
       level6TaxonomyFromProps({
         data,
@@ -163,7 +162,7 @@ export default ({
       })
     )
   }
-  if (store.activeNodeArray.length > 5) {
+  if (activeNodeArray.length > 5) {
     nodes = nodes.concat(
       level7TaxonomyFromProps({
         data,
@@ -179,7 +178,7 @@ export default ({
       })
     )
   }
-  if (store.activeNodeArray.length > 6) {
+  if (activeNodeArray.length > 6) {
     nodes = nodes.concat(
       level8TaxonomyFromProps({
         data,
@@ -197,7 +196,7 @@ export default ({
       })
     )
   }
-  if (store.activeNodeArray.length > 7) {
+  if (activeNodeArray.length > 7) {
     nodes = nodes.concat(
       level9TaxonomyFromProps({
         data,
@@ -217,7 +216,7 @@ export default ({
       })
     )
   }
-  if (store.activeNodeArray.length > 8) {
+  if (activeNodeArray.length > 8) {
     nodes = nodes.concat(
       level10TaxonomyFromProps({
         data,
