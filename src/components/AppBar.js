@@ -8,13 +8,14 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
 import { observer, inject } from 'mobx-react'
+import { graphql } from 'react-apollo'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
 import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
-import getActiveNodeArray from '../modules/getActiveNodeArray.js'
+import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 
 const StyledAppBar = styled(AppBar)`@media print {display: none !important;}`
 const Button = styled(FlatButton)`
@@ -43,13 +44,19 @@ const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
 const importMenuStyle = { paddingTop: 4 }
 
+const activeNodeArrayData = graphql(activeNodeArrayGql, {
+  name: 'activeNodeArrayData',
+})
+
 const enhance = compose(
   inject('store'),
   withApollo,
+  activeNodeArrayData,
   withHandlers({
     onClickColumnButtonData: props => () => {
-      const { client } = props
-      const activeNodeArray = getActiveNodeArray()
+      const { client, activeNodeArrayData } = props
+      const activeNodeArray =
+        activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
       const pathIsMain = ['Taxonomien', 'Eigenschaften-Sammlungen'].includes(
         activeNodeArray[0]
       )
@@ -105,6 +112,7 @@ const enhance = compose(
 
 const MyAppBar = ({
   store,
+  activeNodeArrayData,
   onClickColumnButtonData,
   onClickColumnButtonExport,
   onClickImportPc,
@@ -114,6 +122,7 @@ const MyAppBar = ({
   ueberArteigenschaftenOnClick,
 }: {
   store: Object,
+  activeNodeArrayData: Object,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
   onClickImportPc: () => void,
@@ -122,7 +131,8 @@ const MyAppBar = ({
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
 }) => {
-  const activeNodeArray = getActiveNodeArray()
+  const activeNodeArray =
+    activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const url1 = activeNodeArray[1] && activeNodeArray[1].toLowerCase()
   let importDropdownValue = 'Import'
