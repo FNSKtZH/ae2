@@ -111,8 +111,6 @@ const Row = ({
           mutation: activeNodeArrayMutation,
           variables: { value: node.url },
         })
-        const activeNodeArray = getActiveNodeArray()
-        console.log('TreeRow: activeNodeArray:', activeNodeArray)
       }
     }
   }

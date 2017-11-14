@@ -2,20 +2,14 @@
 import { extendObservable, autorunAsync, reaction, toJS } from 'mobx'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
-import gql from 'graphql-tag'
 import app from 'ampersand-app'
 
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
 import getUrlFromTOId from '../../modules/getUrlFromTOId'
 
 import activeNodeArrayMutation from '../../modules/activeNodeArrayMutation'
+import activeObjectMutation from '../../modules/activeObjectMutation'
 import getActiveNodeArray from '../../modules/getActiveNodeArray'
-
-const activeObjectMutation = gql`
-  mutation setStore($value: Array) {
-    setStore(id: "activeObject", value: $value) @client
-  }
-`
 
 export default (store: Object): void => {
   extendObservable(store, {
@@ -43,12 +37,10 @@ export default (store: Object): void => {
         const activeObject = get(store.props, 'activeObject', null)
 
         // update local apollo store
-        app.client.mutate({
+        return app.client.mutate({
           mutation: activeObjectMutation,
           variables: { value: activeObject ? activeObject.id : null },
         })
-
-        return store.setActiveObject(activeObject)
       }
     ),
     onChangeCategories: reaction(
