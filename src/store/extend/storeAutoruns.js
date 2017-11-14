@@ -23,12 +23,6 @@ export default (store: Object): void => {
           variables: { value: ['Taxonomien'] },
         })
       }
-      const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
-      if (!isEqual(activeNodeArrayFromUrl, activeNodeArray)) {
-        store.history.push(`/${activeNodeArray.join('/')}`)
-      }
-      // set activeTreeLevel
-      store.activeTreeLevel = activeNodeArray.length
     }),
     onChangeObject: reaction(
       () => get(store.props, 'activeObject', null),
