@@ -19,6 +19,7 @@ import registerServiceWorker from './registerServiceWorker'
 import store from './store'
 import getActiveNodeArrayFromPathname from './store/action/getActiveNodeArrayFromPathname'
 import localStateLink from './localStateLink'
+import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
 
 const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
 const client = new ApolloClient({
@@ -40,6 +41,10 @@ window.app = app
 // initiate activeNodeArray
 const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
 store.setActiveNodeArray(activeNodeArrayFromUrl)
+client.mutate({
+  mutation: activeNodeArrayMutation,
+  variables: { value: activeNodeArrayFromUrl },
+})
 
 const theme = Object.assign({}, myTheme, {
   appBar: {

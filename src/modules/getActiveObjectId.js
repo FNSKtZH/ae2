@@ -1,14 +1,9 @@
 // @flow
-import app from 'ampersand-app'
 
-import storeQuery from './storeQuery'
+import getActiveNodeArray from './getActiveNodeArray'
 
 export default (): string => {
-  const result = app.client.readQuery({
-    query: storeQuery,
-    variables: { id: 'activeNodeArray' },
-  })
-  const activeNodeArray = result.store[0].value
+  const activeNodeArray = getActiveNodeArray()
   if (activeNodeArray.length > 2 && activeNodeArray[0] === 'Taxonomien') {
     return activeNodeArray[activeNodeArray.length - 1]
   }

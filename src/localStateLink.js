@@ -22,6 +22,12 @@ export default withClientState({
   Mutation: {
     // update values in the store on mutations
     setStore: (_, { id, value }, { cache }) => {
+      /**
+       * fetching current makes code in autorun run before
+       * mutation is finished!!! > errors
+       */
+      //const current = cache.readQuery({ query: storeQuery })
+      //console.log('localStateLink: current:', current)
       const data = {
         store: [
           {

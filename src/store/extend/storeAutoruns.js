@@ -8,6 +8,10 @@ import app from 'ampersand-app'
 import getActiveNodeArrayFromPathname from '../action/getActiveNodeArrayFromPathname'
 import getUrlFromTOId from '../../modules/getUrlFromTOId'
 
+import activeNodeArrayMutation from '../../modules/activeNodeArrayMutation'
+import storeQuery from '../../modules/storeQuery'
+import getActiveNodeArray from '../../modules/getActiveNodeArray'
+
 const activeObjectMutation = gql`
   mutation setStore($value: Array) {
     setStore(id: "activeObject", value: $value) @client
@@ -17,9 +21,15 @@ const activeObjectMutation = gql`
 export default (store: Object): void => {
   extendObservable(store, {
     manipulateActiveNodeArray: autorun('manipulateActiveNodeArray', () => {
-      const activeNodeArray = toJS(store.activeNodeArray)
+      //const activeNodeArray = toJS(store.activeNodeArray)
+      const activeNodeArray = getActiveNodeArray()
+      console.log('autorun: activeNodeArray:', activeNodeArray)
       // forward root to taxonomy
       if (activeNodeArray.length === 0) {
+        app.client.mutate({
+          mutation: activeNodeArrayMutation,
+          variables: { value: ['Taxonomien'] },
+        })
         return store.setActiveNodeArray(['Taxonomien'])
       }
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
@@ -86,6 +96,10 @@ export default (store: Object): void => {
         // do nothing when filterField was emptied
         if (urlFromTO) {
           store.setActiveNodeArray(getUrlFromTOId(urlFromTO))
+          app.client.mutate({
+            mutation: activeNodeArrayMutation,
+            variables: { value: getUrlFromTOId(urlFromTO) },
+          })
           store.setUrlFromTOId(null)
         }
       }
@@ -96,6 +110,10 @@ export default (store: Object): void => {
         // do nothing when filterField was emptied
         if (urlFromPCId) {
           store.setActiveNodeArray(['Eigenschaften-Sammlungen', urlFromPCId])
+          app.client.mutate({
+            mutation: activeNodeArrayMutation,
+            variables: { value: ['Eigenschaften-Sammlungen', urlFromPCId] },
+          })
           store.setUrlFromPCId(null)
         }
       }

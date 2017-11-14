@@ -5,6 +5,7 @@ import { observer, inject } from 'mobx-react'
 //import { toJS } from 'mobx'
 import compose from 'recompose/compose'
 import Snackbar from 'material-ui/Snackbar'
+import { withApollo } from 'react-apollo'
 
 import AppData from './AppData'
 import AppBar from './AppBar'
@@ -15,6 +16,7 @@ import ImportRc from './ImportRc'
 import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
+import storeQuery from '../modules/storeQuery'
 
 const Container = styled.div`
   height: 100%;
@@ -22,12 +24,18 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const enhance = compose(inject('store'), AppData, observer)
+const enhance = compose(inject('store'), withApollo, AppData, observer)
 
-const App = ({ store, data }: { store: Object, data: Object }) => {
+const App = ({
+  store,
+  data,
+  client,
+}: {
+  store: Object,
+  data: Object,
+  client: Object,
+}) => {
   const { activeObject, error, loading } = data
-  //console.log('App, render: data:', data)
-  // console.log('App, render: activeNodeArray:', toJS(store.activeNodeArray))
   store.setProps(data)
 
   const url0 =
@@ -51,6 +59,12 @@ const App = ({ store, data }: { store: Object, data: Object }) => {
   const showLogin = url0 === 'login'
   const showImportPc = url0 === 'import' && url1 === 'eigenschaften-sammlungen'
   const showImportRc = url0 === 'import' && url1 === 'beziehungs-sammlungen'
+  const result = client.readQuery({
+    query: storeQuery,
+    // why are variables ignored?
+    //variables: { id: 'activeNodeArray' },
+  })
+  //console.log('App, render: result:', result)
 
   return (
     <Container>

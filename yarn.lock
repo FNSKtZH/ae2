@@ -6649,8 +6649,8 @@ styled-components@2.2.3:
     supports-color "^3.2.3"
 
 stylis@3.x:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.4.1.tgz#46896ff4c51fbb58e44815eae5e0b2180a1f1fcb"
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.4.2.tgz#336c5e33a673c7111c10fa18f8b9e41e1772bd98"
 
 supports-color@^2.0.0:
   version "2.0.0"
