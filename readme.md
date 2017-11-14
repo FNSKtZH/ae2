@@ -55,9 +55,6 @@
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
   - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQl und Apollo kümmern sich um die Bereitstellung
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
-- [MobX](https://mobx.js.org)
-  - Vereinfacht die Architektur der anwendungsseitigen Daten (soweit das nicht von Apollo übernommen wird)
-  - Ermöglicht, abgeleitete Daten wie in Excel-Formeln zu berechnen und dauernd aktuell zu halten
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
   - Erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
