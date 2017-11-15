@@ -23,16 +23,13 @@ const TitleSpan = styled.span`font-weight: normal;`
 const FirstTitle = styled(Title)`margin: 5px 0 -5px 0;`
 
 const Objekt = ({
-  activeObject,
   activeObjectId,
   data,
 }: {
-  activeObject: Object,
   activeObjectId: String,
   data: Object,
 }) => {
-  console.log('Objekt: data:', data)
-  console.log('Objekt: activeObjectId:', activeObjectId)
+  const { activeObject } = data
   const propertyCollectionObjects = get(
     activeObject,
     'propertyCollectionObjectsByObjectId.nodes',

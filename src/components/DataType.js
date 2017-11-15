@@ -7,22 +7,37 @@ import compose from 'recompose/compose'
 import Objekt from './Objekt'
 import PropertyCollection from './PropertyCollection'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import activeObjectIdGql from '../modules/activeObjectIdGql'
 
 const activeNodeArrayData = graphql(activeNodeArrayGql, {
   name: 'activeNodeArrayData',
 })
 
-const enhance = compose(inject('store'), activeNodeArrayData /*, observer*/)
+const activeObjectIdData = graphql(activeObjectIdGql, {
+  name: 'activeObjectIdData',
+})
+
+const enhance = compose(
+  inject('store'),
+  activeNodeArrayData,
+  activeObjectIdData /*, observer*/
+)
 
 const DataType = ({
   store,
-  activeObject,
   activeNodeArrayData,
+  activeObjectIdData,
 }: {
   store: Object,
-  activeObject: Object,
   activeNodeArrayData: Object,
+  activeObjectIdData: Object,
 }) => {
+  const activeObjectId =
+    activeObjectIdData &&
+    activeObjectIdData.activeObjectId &&
+    activeObjectIdData.activeObjectId[0].value
+      ? activeObjectIdData.activeObjectId[0].value
+      : null
   const activeNodeArray =
     activeNodeArrayData &&
     activeNodeArrayData.activeNodeArray &&
@@ -33,8 +48,7 @@ const DataType = ({
 
   return (
     <div>
-      {primaryUrl === 'Taxonomien' &&
-        activeObject && <Objekt activeObject={activeObject} />}
+      {primaryUrl === 'Taxonomien' && activeObjectId && <Objekt />}
       {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
     </div>
   )

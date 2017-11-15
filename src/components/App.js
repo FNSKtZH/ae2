@@ -39,7 +39,7 @@ const App = ({
   data: Object,
   activeNodeArrayData: Object,
 }) => {
-  const { activeObject, error, loading } = data
+  const { error, loading } = data
   const activeNodeArray =
     activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
   store.setProps(data)
@@ -81,7 +81,7 @@ const App = ({
         }}
       />
       {error && <div> {error.message} </div>}
-      {showData && <Data data={data} activeObject={activeObject} />}
+      {showData && <Data data={data} />}
       {showExport && <Export />}
       {showImportPc && <ImportPc />}
       {showImportRc && <ImportRc />}

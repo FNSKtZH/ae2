@@ -19,12 +19,10 @@ const Data = ({
   store,
   data,
   activeNodeArrayData,
-  activeObject,
 }: {
   store: Object,
   data: Object,
   activeNodeArrayData: Object,
-  activeObject: Object,
 }) => {
   const activeNodeArray =
     activeNodeArrayData &&
@@ -40,7 +38,7 @@ const Data = ({
       </ReflexElement>
       <ReflexSplitter key="treeSplitter" />
       <ReflexElement>
-        <DataType activeObject={activeObject} />
+        <DataType />
       </ReflexElement>
     </ReflexContainer>
   )
