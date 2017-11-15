@@ -56,7 +56,11 @@ const enhance = compose(
     onClickColumnButtonData: props => () => {
       const { client, activeNodeArrayData } = props
       const activeNodeArray =
-        activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
+        activeNodeArrayData &&
+        activeNodeArrayData.activeNodeArray &&
+        activeNodeArrayData.activeNodeArray[0].value
+          ? activeNodeArrayData.activeNodeArray[0].value
+          : []
       const pathIsMain = ['Taxonomien', 'Eigenschaften-Sammlungen'].includes(
         activeNodeArray[0]
       )
