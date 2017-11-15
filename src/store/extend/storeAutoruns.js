@@ -14,7 +14,9 @@ export default (store: Object): void => {
       () => get(store.props, 'activeObject', null),
 
       () => {
+        console.log('autorun, onChangeObject')
         const activeObject = get(store.props, 'activeObject', null)
+        console.log('autorun, onChangeObject: activeObject:', activeObject)
 
         // update local apollo store
         return app.client.mutate({

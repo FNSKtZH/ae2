@@ -2,12 +2,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import { observer, inject } from 'mobx-react'
+import compose from 'recompose/compose'
 import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
 import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
+import activeObjectIdGql from '../modules/activeObjectIdGql'
 
 const Container = styled.div`
   padding: 5px;
@@ -18,7 +22,17 @@ const Title = styled.h3`margin: 15px 0 -5px 0;`
 const TitleSpan = styled.span`font-weight: normal;`
 const FirstTitle = styled(Title)`margin: 5px 0 -5px 0;`
 
-const Objekt = ({ activeObject }: { activeObject: Object }) => {
+const Objekt = ({
+  activeObject,
+  activeObjectId,
+  data,
+}: {
+  activeObject: Object,
+  activeObjectId: String,
+  data: Object,
+}) => {
+  console.log('Objekt: data:', data)
+  console.log('Objekt: activeObjectId:', activeObjectId)
   const propertyCollectionObjects = get(
     activeObject,
     'propertyCollectionObjectsByObjectId.nodes',
@@ -124,7 +138,7 @@ const Objekt = ({ activeObject }: { activeObject: Object }) => {
   )
 }
 
-Objekt.fragments = {
+const objektFragment = {
   objekt: gql`
     fragment ActiveObjekt on Object {
       id
@@ -315,4 +329,31 @@ Objekt.fragments = {
   `,
 }
 
-export default Objekt
+const objectQuery = gql`
+  query myData {
+    activeObject: objectById(id: $activeObjectId) {
+        ...ActiveObjekt
+    }
+  }
+  ${objektFragment.objekt}
+`
+const withActiveObjectId = graphql(activeObjectIdGql, {
+  name: 'activeObjectId',
+})
+const withObject = graphql(objectQuery, {
+  options: ({ activeObjectId }) => ({
+    variables: { activeObjectId: activeObjectId.activeObjectId[0].value },
+  }),
+})
+
+const enhance = compose(
+  inject('store'),
+  withActiveObjectId,
+  withObject,
+  observer
+)
+
+const ObjektToExport = enhance(Objekt)
+ObjektToExport.fragments = objektFragment
+
+export default ObjektToExport
