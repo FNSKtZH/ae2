@@ -24,7 +24,11 @@ const DataType = ({
   activeNodeArrayData: Object,
 }) => {
   const activeNodeArray =
-    activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
+    activeNodeArrayData &&
+    activeNodeArrayData.activeNodeArray &&
+    activeNodeArrayData.activeNodeArray[0].value
+      ? activeNodeArrayData.activeNodeArray[0].value
+      : []
   const primaryUrl = activeNodeArray[0]
 
   return (
