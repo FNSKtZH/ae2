@@ -334,10 +334,10 @@ const objectQuery = gql`
   }
   ${objektFragment.objekt}
 `
-const withActiveObjectId = graphql(activeObjectIdGql, {
+const activeObjektIdData = graphql(activeObjectIdGql, {
   name: 'activeObjectId',
 })
-const withObject = graphql(objectQuery, {
+const objektData = graphql(objectQuery, {
   options: ({ activeObjectId }) => ({
     variables: { activeObjectId: activeObjectId.activeObjectId[0].value },
   }),
@@ -345,8 +345,8 @@ const withObject = graphql(objectQuery, {
 
 const enhance = compose(
   inject('store'),
-  withActiveObjectId,
-  withObject,
+  activeObjektIdData,
+  objektData,
   observer
 )
 
