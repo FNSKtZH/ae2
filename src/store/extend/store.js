@@ -9,7 +9,6 @@ export default (store: Object): void => {
     setNodes: action('setNodes', nodes => {
       store.nodes = nodes
     }),
-    activeTreeLevel: null,
     urlFromTOId: null,
     setUrlFromTOId: action('setUrlFromTOId', id => (store.urlFromTOId = id)),
     urlFromPCId: null,

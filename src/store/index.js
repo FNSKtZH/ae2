@@ -8,7 +8,6 @@ function Store(): void {
   this.nodes = []
   this.setNodes = () => {}
   this.history = ObservableHistory
-  this.activeTreeLevel = null
   this.treeFilter = {}
   this.export = {
     categories: [],

@@ -39,7 +39,6 @@ export default withClientState({
       if (!isEqual(activeNodeArrayFromUrl, value)) {
         app.store.history.push(`/${value.join('/')}`)
       }
-      app.store.activeTreeLevel = value.length
       return null
     },
     setActiveObjectId: (_, { value }, { cache }) => {
