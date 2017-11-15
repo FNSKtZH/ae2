@@ -1,6 +1,5 @@
 // @flow
-import { extendObservable, reaction, toJS } from 'mobx'
-import isEqual from 'lodash/isEqual'
+import { extendObservable, reaction } from 'mobx'
 import get from 'lodash/get'
 import app from 'ampersand-app'
 
@@ -22,16 +21,6 @@ export default (store: Object): void => {
           mutation: activeObjectMutation,
           variables: { value: activeObject ? activeObject.id : null },
         })
-      }
-    ),
-    onChangeCategories: reaction(
-      () => get(store.props, 'allCategories.nodes', []),
-      (categoryNodes: Array<Object>) => {
-        const categoryNames = categoryNodes.map(c => c.name)
-        const storeCategories = toJS(store.categories)
-        if (!isEqual(storeCategories, categoryNames)) {
-          store.setCategories(categoryNames)
-        }
       }
     ),
     onChangePcoPropertiesByCategories: reaction(

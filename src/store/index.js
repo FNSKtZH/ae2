@@ -11,7 +11,6 @@ function Store(): void {
   this.treeFilter = {}
   this.export = {
     categories: [],
-    setCategories: () => {},
     combineTaxonomies: false,
     setCombineTaxonomies: () => {},
   }
