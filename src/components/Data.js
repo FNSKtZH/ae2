@@ -27,7 +27,12 @@ const Data = ({
   activeObject: Object,
 }) => {
   const activeNodeArray =
-    activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
+    activeNodeArrayData &&
+    activeNodeArrayData.activeNodeArray &&
+    activeNodeArrayData.activeNodeArray[0].value
+      ? activeNodeArrayData.activeNodeArray[0].value
+      : []
+
   return (
     <ReflexContainer orientation="vertical">
       <ReflexElement flex={0.35} className="tree-reflex-element">
