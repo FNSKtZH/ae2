@@ -1,11 +1,12 @@
 // @flow
 import { toJS } from 'mobx'
 
-import getActiveObjectId from './getActiveObjectId'
 import getActiveNodeArray from './getActiveNodeArray'
+import getActiveObjectIdFromNodeArray from './getActiveObjectIdFromNodeArray'
 
 export default ({ store }: { store: Object }) => {
   const activeNodeArray = getActiveNodeArray()
+  const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&
@@ -47,7 +48,6 @@ export default ({ store }: { store: Object }) => {
   const level10Taxonomy = existsLevel10
     ? activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
-  const activeObjectId = getActiveObjectId()
   const existsActiveObject = !!activeObjectId
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =
