@@ -81,10 +81,6 @@ const Tree = ({
   const rowRenderer = ({ key, index, style }) => (
     <Row key={key} index={index} style={style} nodes={nodes} />
   )
-  console.log(
-    'Tree: activeNodeArrayData.activeNodeArray:',
-    activeNodeArrayData.activeNodeArray
-  )
   const activeNodeArray =
     activeNodeArrayData &&
     activeNodeArrayData.activeNodeArray &&
