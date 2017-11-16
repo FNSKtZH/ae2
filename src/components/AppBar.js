@@ -49,7 +49,6 @@ const activeNodeArrayData = graphql(activeNodeArrayGql, {
 })
 
 const enhance = compose(
-  inject('store'),
   withApollo,
   activeNodeArrayData,
   withHandlers({
@@ -105,12 +104,10 @@ const enhance = compose(
     },
     ueberArteigenschaftenOnClick: props => () =>
       window.open('https://github.com/barbalex/ae2'),
-  }),
-  observer
+  })
 )
 
 const MyAppBar = ({
-  store,
   activeNodeArrayData,
   onClickColumnButtonData,
   onClickColumnButtonExport,
@@ -120,7 +117,6 @@ const MyAppBar = ({
   onClickColumnButtonLogin,
   ueberArteigenschaftenOnClick,
 }: {
-  store: Object,
   activeNodeArrayData: Object,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,

@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
-import { observer, inject } from 'mobx-react'
 import { graphql } from 'react-apollo'
 import compose from 'recompose/compose'
 
@@ -13,14 +12,12 @@ const activeNodeArrayData = graphql(activeNodeArrayGql, {
   name: 'activeNodeArrayData',
 })
 
-const enhance = compose(inject('store'), activeNodeArrayData, observer)
+const enhance = compose(activeNodeArrayData)
 
 const Data = ({
-  store,
   data,
   activeNodeArrayData,
 }: {
-  store: Object,
   data: Object,
   activeNodeArrayData: Object,
 }) => {
