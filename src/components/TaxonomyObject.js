@@ -122,40 +122,4 @@ const TaxonomyObject = ({
   )
 }
 
-const TaxonomyToExport = enhance(TaxonomyObject)
-
-TaxonomyToExport.fragments = {
-  urlFromTO: gql`
-    fragment UrlFromTO on Object {
-      id
-      categoryByCategory {
-        id
-        name
-        dataType
-      }
-      objectByParentId {
-        id
-        objectByParentId {
-          id
-          objectByParentId {
-            id
-            objectByParentId {
-              id
-              objectByParentId {
-                id
-                objectByParentId {
-                  id
-                }
-              }
-            }
-          }
-        }
-      }
-      taxonomyByTaxonomyId {
-        id
-      }
-    }
-  `,
-}
-
-export default TaxonomyToExport
+export default enhance(TaxonomyObject)
