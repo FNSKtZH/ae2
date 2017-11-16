@@ -5,7 +5,6 @@ import getActiveNodeArray from './getActiveNodeArray'
 
 export default ({ store }: { store: Object }) => {
   const activeNodeArray = getActiveNodeArray()
-  // activeObjectId needs to exist or query will balk
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&

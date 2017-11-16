@@ -69,7 +69,7 @@ const Objekt = ({ data }: { data: Object }) => {
       {sortBy(synonymObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
       ).map(objekt => (
-        <TaxonomyObject key={objekt.id} activeObject={objekt} showLink={true} />
+        <TaxonomyObject key={objekt.id} activeObject={objekt} showLink />
       ))}
       {propertyCollectionObjects.length > 0 && (
         <Title>
