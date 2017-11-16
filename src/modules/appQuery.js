@@ -2,7 +2,6 @@
 
 import gql from 'graphql-tag'
 
-import Objekt from '../components/Objekt'
 import TreeRow from '../components/TreeRow'
 import TaxonomyObject from '../components/TaxonomyObject'
 

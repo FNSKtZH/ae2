@@ -25,8 +25,6 @@ const FirstTitle = styled(Title)`margin: 5px 0 -5px 0;`
 
 const Objekt = ({ data }: { data: Object }) => {
   const { activeObject } = data
-  console.log('Objekt: data:', data)
-  console.log('Objekt: activeObject:', activeObject)
   if (!activeObject) return <div />
   const propertyCollectionObjects = get(
     activeObject,
@@ -336,11 +334,6 @@ const objektData = graphql(activeObjectQuery, {
   }),
 })
 
-const enhance = compose(
-  inject('store'),
-  activeNodeArrayData,
-  objektData,
-  observer
-)
+const enhance = compose(activeNodeArrayData, objektData)
 
 export default enhance(Objekt)
