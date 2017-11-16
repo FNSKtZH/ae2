@@ -4,18 +4,14 @@ import app from 'ampersand-app'
 import isEqual from 'lodash/isEqual'
 
 import activeNodeArrayGql from './modules/activeNodeArrayGql'
-import activeObjectIdGql from './modules/activeObjectIdGql'
+import treeFilterTextGql from './modules/treeFilterTextGql'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 
 export default withClientState({
   Query: {
     // provide initial state
     activeNodeArray: () => [],
-    /**
-     * not in use
-     * but kept as template for possible others
-     */
-    activeObjectId: () => null,
+    treeFilterText: () => null,
   },
   Mutation: {
     // update values in the store on mutations
@@ -30,10 +26,10 @@ export default withClientState({
       }
       return value
     },
-    setActiveObjectId: (_, { value }, { cache }) => {
+    setTreeFilterText: (_, { value }, { cache }) => {
       cache.writeQuery({
-        query: activeObjectIdGql,
-        data: { activeObjectId: value },
+        query: treeFilterTextGql,
+        data: { treeFilterText: value },
       })
       return value
     },

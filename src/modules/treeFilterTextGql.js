@@ -3,7 +3,7 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  query activeObjectIdQuery {
-    activeObjectId @client
+  query treeFilterTextQuery {
+    treeFilterText @client
   }
 `
