@@ -6,7 +6,6 @@ import app from 'ampersand-app'
 import getUrlFromTOId from '../../modules/getUrlFromTOId'
 
 import activeNodeArrayMutation from '../../modules/activeNodeArrayMutation'
-import activeObjectMutation from '../../modules/activeObjectMutation'
 
 export default (store: Object): void => {
   extendObservable(store, {
