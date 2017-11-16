@@ -13,7 +13,6 @@ import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNodeArray'
-import AppData from './AppData'
 
 const Container = styled.div`
   padding: 5px;
@@ -134,12 +133,7 @@ const Objekt = ({ data }: { data: Object }) => {
   )
 }
 
-/**
- * ??????????????????????
- * this query obviously only fetches data from the cache
- * that is updated by appQuery
- */
-const objectQuery = gql`
+const activeObjectQuery = gql`
   query ActiveObjectQuery($activeObjectId: Uuid!) {
     activeObject: objectById(id: $activeObjectId) {
       id
@@ -332,7 +326,7 @@ const objectQuery = gql`
 const activeNodeArrayData = graphql(activeNodeArrayGql, {
   name: 'activeNodeArrayData',
 })
-const objektData = graphql(objectQuery, {
+const objektData = graphql(activeObjectQuery, {
   options: ({ activeNodeArrayData }) => ({
     variables: {
       activeObjectId: getActiveObjectIdFromNodeArray(
