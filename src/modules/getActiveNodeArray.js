@@ -9,6 +9,5 @@ export default (): Array<string> => {
   const result = app.client.readQuery({
     query: activeNodeArrayGql,
   })
-  const { activeNodeArray } = result
-  return activeNodeArray
+  return result.activeNodeArray
 }
