@@ -2,7 +2,7 @@
 import React from 'react'
 import { toJS } from 'mobx'
 // if observer is active, forceUpdate during rendering happens
-import { /*observer,*/ inject } from 'mobx-react'
+import { inject } from 'mobx-react'
 import { graphql } from 'react-apollo'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
@@ -66,7 +66,7 @@ const noRowsRenderer = nodes => (
   </Container>
 )
 
-const enhance = compose(inject('store'), activeNodeArrayData /*, observer*/)
+const enhance = compose(inject('store'), activeNodeArrayData)
 
 const Tree = ({
   store,
