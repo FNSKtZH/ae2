@@ -24,12 +24,7 @@ const Data = ({
   data: Object,
   activeNodeArrayData: Object,
 }) => {
-  const activeNodeArray =
-    activeNodeArrayData &&
-    activeNodeArrayData.activeNodeArray &&
-    activeNodeArrayData.activeNodeArray[0].value
-      ? activeNodeArrayData.activeNodeArray[0].value
-      : []
+  const { activeNodeArray } = activeNodeArrayData
 
   return (
     <ReflexContainer orientation="vertical">

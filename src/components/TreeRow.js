@@ -100,12 +100,7 @@ const Row = ({
   client: Object,
 }) => {
   const node = nodes[index]
-  const activeNodeArray =
-    activeNodeArrayData &&
-    activeNodeArrayData.activeNodeArray &&
-    activeNodeArrayData.activeNodeArray[0].value
-      ? activeNodeArrayData.activeNodeArray[0].value
-      : []
+  const { activeNodeArray } = activeNodeArrayData
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     toJS(node.url),
     activeNodeArray

@@ -55,12 +55,7 @@ const enhance = compose(
   withHandlers({
     onClickColumnButtonData: props => () => {
       const { client, activeNodeArrayData } = props
-      const activeNodeArray =
-        activeNodeArrayData &&
-        activeNodeArrayData.activeNodeArray &&
-        activeNodeArrayData.activeNodeArray[0].value
-          ? activeNodeArrayData.activeNodeArray[0].value
-          : []
+      const { activeNodeArray } = activeNodeArrayData
       const pathIsMain = ['Taxonomien', 'Eigenschaften-Sammlungen'].includes(
         activeNodeArray[0]
       )
@@ -135,8 +130,7 @@ const MyAppBar = ({
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
 }) => {
-  const activeNodeArray =
-    activeNodeArrayData && activeNodeArrayData.activeNodeArray[0].value
+  const { activeNodeArray } = activeNodeArrayData
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const url1 = activeNodeArray[1] && activeNodeArray[1].toLowerCase()
   let importDropdownValue = 'Import'

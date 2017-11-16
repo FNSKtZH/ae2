@@ -40,12 +40,7 @@ const App = ({
   activeNodeArrayData: Object,
 }) => {
   const { error, loading } = data
-  const activeNodeArray =
-    activeNodeArrayData &&
-    activeNodeArrayData.activeNodeArray &&
-    activeNodeArrayData.activeNodeArray[0].value
-      ? activeNodeArrayData.activeNodeArray[0].value
-      : []
+  const { activeNodeArray } = activeNodeArrayData
   store.setProps(data)
 
   const url0 =

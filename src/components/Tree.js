@@ -81,12 +81,7 @@ const Tree = ({
   const rowRenderer = ({ key, index, style }) => (
     <Row key={key} index={index} style={style} nodes={nodes} />
   )
-  const activeNodeArray =
-    activeNodeArrayData &&
-    activeNodeArrayData.activeNodeArray &&
-    activeNodeArrayData.activeNodeArray[0].value
-      ? activeNodeArrayData.activeNodeArray[0].value
-      : []
+  const { activeNodeArray } = activeNodeArrayData
   const activeNodeIndex = findIndex(nodes, node =>
     isEqual(toJS(node.url), activeNodeArray)
   )

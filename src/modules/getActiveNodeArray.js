@@ -9,7 +9,6 @@ export default (): Array<string> => {
   const result = app.client.readQuery({
     query: activeNodeArrayGql,
   })
-  const activeNodeArrayDataset = result.activeNodeArray[0]
-  if (!activeNodeArrayDataset) return []
-  return activeNodeArrayDataset.value
+  const { activeNodeArray } = result
+  return activeNodeArray
 }

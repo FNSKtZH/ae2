@@ -10,12 +10,7 @@ import getActiveNodeArrayFromPathname from './store/action/getActiveNodeArrayFro
 export default withClientState({
   Query: {
     // provide initial state
-    activeNodeArray: () => [
-      {
-        value: [],
-        __typename: 'ActiveNodeArray',
-      },
-    ],
+    activeNodeArray: () => [],
     activeObjectId: () => [
       {
         value: null,
@@ -26,15 +21,10 @@ export default withClientState({
   Mutation: {
     // update values in the store on mutations
     setActiveNodeArray: (_, { value }, { cache }) => {
-      const data = {
-        activeNodeArray: [
-          {
-            value,
-            __typename: 'ActiveNodeArray',
-          },
-        ],
-      }
-      cache.writeQuery({ query: activeNodeArrayGql, data })
+      cache.writeQuery({
+        query: activeNodeArrayGql,
+        data: { activeNodeArray: value },
+      })
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, value)) {
         app.store.history.push(`/${value.join('/')}`)
