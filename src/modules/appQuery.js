@@ -28,8 +28,6 @@ export default gql`
     $level9Taxonomy: Uuid!
     $existsLevel10: Boolean!
     $level10Taxonomy: Uuid!
-    $activeObjectId: Uuid!
-    $existsActiveObject: Boolean!
     $existsUrlFromTOId: Boolean!
     $urlFromTOId: Uuid!
     $treeFilterText: String!
@@ -107,10 +105,6 @@ export default gql`
       @include(if: $existsLevel10) {
       ...ObjektLevel5AndUp
     }
-    activeObject: objectById(id: $activeObjectId)
-      @include(if: $existsActiveObject) {
-        ...ActiveObjekt
-    }
     urlFromTO: objectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
       ...UrlFromTO
     }
@@ -144,7 +138,6 @@ export default gql`
       }
     }
   }
-  ${Objekt.fragments.objekt}
   ${TreeRow.fragments.objektLevel5AndUp}
   ${TaxonomyObject.fragments.urlFromTO}
 `

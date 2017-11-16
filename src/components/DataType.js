@@ -8,6 +8,7 @@ import Objekt from './Objekt'
 import PropertyCollection from './PropertyCollection'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 import activeObjectIdGql from '../modules/activeObjectIdGql'
+import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNodeArray'
 
 const activeNodeArrayData = graphql(activeNodeArrayGql, {
   name: 'activeNodeArrayData',
@@ -32,8 +33,8 @@ const DataType = ({
   activeNodeArrayData: Object,
   activeObjectIdData: Object,
 }) => {
-  const { activeObjectId } = activeObjectIdData
   const { activeNodeArray } = activeNodeArrayData
+  const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const primaryUrl = activeNodeArray[0]
 
   return (

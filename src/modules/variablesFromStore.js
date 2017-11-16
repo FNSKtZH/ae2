@@ -2,14 +2,10 @@
 import { toJS } from 'mobx'
 
 import getActiveNodeArray from './getActiveNodeArray'
-import getActiveObjectIdFromNodeArray from './getActiveObjectIdFromNodeArray'
 
 export default ({ store }: { store: Object }) => {
   const activeNodeArray = getActiveNodeArray()
   // activeObjectId needs to exist or query will balk
-  const activeObjectId =
-    getActiveObjectIdFromNodeArray(activeNodeArray) ||
-    '99999999-9999-9999-9999-999999999999'
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&
@@ -51,7 +47,6 @@ export default ({ store }: { store: Object }) => {
   const level10Taxonomy = existsLevel10
     ? activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
-  const existsActiveObject = !!activeObjectId
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =
     store.urlFromTOId || '99999999-9999-9999-9999-999999999999'
@@ -85,8 +80,6 @@ export default ({ store }: { store: Object }) => {
     level9Taxonomy,
     existsLevel10,
     level10Taxonomy,
-    activeObjectId,
-    existsActiveObject,
     existsUrlFromTOId,
     urlFromTOId,
     treeFilterText,

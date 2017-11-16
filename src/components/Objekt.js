@@ -11,7 +11,9 @@ import { graphql } from 'react-apollo'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
-import activeObjectIdGql from '../modules/activeObjectIdGql'
+import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNodeArray'
+import AppData from './AppData'
 
 const Container = styled.div`
   padding: 5px;
@@ -24,6 +26,9 @@ const FirstTitle = styled(Title)`margin: 5px 0 -5px 0;`
 
 const Objekt = ({ data }: { data: Object }) => {
   const { activeObject } = data
+  console.log('Objekt: data:', data)
+  console.log('Objekt: activeObject:', activeObject)
+  if (!activeObject) return <div />
   const propertyCollectionObjects = get(
     activeObject,
     'propertyCollectionObjectsByObjectId.nodes',
@@ -129,9 +134,14 @@ const Objekt = ({ data }: { data: Object }) => {
   )
 }
 
-const objektFragment = {
-  objekt: gql`
-    fragment ActiveObjekt on Object {
+/**
+ * ??????????????????????
+ * this query obviously only fetches data from the cache
+ * that is updated by appQuery
+ */
+const objectQuery = gql`
+  query ActiveObjectQuery($activeObjectId: Uuid!) {
+    activeObject: objectById(id: $activeObjectId) {
       id
       taxonomyId
       parentId
@@ -317,34 +327,26 @@ const objektFragment = {
         }
       }
     }
-  `,
-}
-
-const objectQuery = gql`
-  query myData {
-    activeObject: objectById(id: $activeObjectId) {
-        ...ActiveObjekt
-    }
   }
-  ${objektFragment.objekt}
 `
-const activeObjektIdData = graphql(activeObjectIdGql, {
-  name: 'activeObjectIdData',
+const activeNodeArrayData = graphql(activeNodeArrayGql, {
+  name: 'activeNodeArrayData',
 })
 const objektData = graphql(objectQuery, {
-  options: ({ activeObjectIdData }) => ({
-    variables: { activeObjectId: activeObjectIdData.activeObjectId },
+  options: ({ activeNodeArrayData }) => ({
+    variables: {
+      activeObjectId: getActiveObjectIdFromNodeArray(
+        activeNodeArrayData.activeNodeArray
+      ),
+    },
   }),
 })
 
 const enhance = compose(
   inject('store'),
-  activeObjektIdData,
+  activeNodeArrayData,
   objektData,
   observer
 )
 
-const ObjektToExport = enhance(Objekt)
-ObjektToExport.fragments = objektFragment
-
-export default ObjektToExport
+export default enhance(Objekt)
