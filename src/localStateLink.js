@@ -11,6 +11,10 @@ export default withClientState({
   Query: {
     // provide initial state
     activeNodeArray: () => [],
+    /**
+     * not in use
+     * but kept as template for possible others
+     */
     activeObjectId: () => null,
   },
   Mutation: {
