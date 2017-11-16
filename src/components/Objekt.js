@@ -57,7 +57,7 @@ const Objekt = ({ data }: { data: Object }) => {
         Taxonomie
         <TitleSpan>{` (${activeObject.name})`}</TitleSpan>
       </FirstTitle>
-      <TaxonomyObject key={activeObject.id} activeObject={activeObject} />
+      <TaxonomyObject activeObject={activeObject} />
       {synonymObjects.length > 0 && (
         <Title>
           {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
@@ -68,12 +68,8 @@ const Objekt = ({ data }: { data: Object }) => {
       )}
       {sortBy(synonymObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
-      ).map(taxonomyObject => (
-        <TaxonomyObject
-          key={taxonomyObject.id}
-          taxonomyObject={taxonomyObject}
-          showLink
-        />
+      ).map(objekt => (
+        <TaxonomyObject key={objekt.id} activeObject={objekt} showLink={true} />
       ))}
       {propertyCollectionObjects.length > 0 && (
         <Title>
