@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 
 import activeNodeArrayGql from './modules/activeNodeArrayGql'
 import activeObjectIdGql from './modules/activeObjectIdGql'
-import getActiveNodeArrayFromPathname from './store/action/getActiveNodeArrayFromPathname'
+import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 
 export default withClientState({
   Query: {

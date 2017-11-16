@@ -17,7 +17,7 @@ import 'react-reflex/styles.css'
 import AppShell from './components/AppShell'
 import registerServiceWorker from './registerServiceWorker'
 import store from './store'
-import getActiveNodeArrayFromPathname from './store/action/getActiveNodeArrayFromPathname'
+import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 import localStateLink from './localStateLink'
 import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
 
