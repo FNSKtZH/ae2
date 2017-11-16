@@ -75,18 +75,12 @@ const activeNodeArrayData = graphql(activeNodeArrayGql, {
   name: 'activeNodeArrayData',
 })
 
-const enhance = compose(
-  inject('store'),
-  activeNodeArrayData,
-  withApollo,
-  observer
-)
+const enhance = compose(activeNodeArrayData, withApollo)
 
 const Row = ({
   key,
   index,
   style,
-  store,
   activeNodeArrayData,
   nodes,
   client,
@@ -94,7 +88,6 @@ const Row = ({
   key?: number,
   index: number,
   style: Object,
-  store: Object,
   activeNodeArrayData: Object,
   nodes: Array<Object>,
   client: Object,
