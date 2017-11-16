@@ -1,5 +1,5 @@
 // @flow
-import { extendObservable, action, computed } from 'mobx'
+import { extendObservable, action } from 'mobx'
 
 export default (store: Object): void => {
   extendObservable(store.treeFilter, {

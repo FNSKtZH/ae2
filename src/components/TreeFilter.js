@@ -7,6 +7,10 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import withState from 'recompose/withState'
 import Autosuggest from 'react-autosuggest'
+import { withApollo, graphql } from 'react-apollo'
+
+import treeFilterTextMutation from '../modules/treeFilterTextMutation'
+import treeFilterTextGql from '../modules/treeFilterTextGql'
 
 const Container = styled.div`
   padding: 5px 16px 0 13px;
@@ -70,12 +74,21 @@ const Container = styled.div`
   }
 `
 
+const treeFilterTextData = graphql(treeFilterTextGql, {
+  name: 'treeFilterTextData',
+})
+
 const enhance = compose(
   inject('store'),
+  withApollo,
+  treeFilterTextData,
   withState('autosuggestWidth', 'changeAutosuggestWidth', 380),
   withHandlers({
     onChange: props => (event, { newValue }) =>
-      props.store.treeFilter.setText(newValue),
+      props.client.mutate({
+        mutation: treeFilterTextMutation,
+        variables: { value: newValue },
+      }),
   }),
   observer
 )
@@ -83,6 +96,8 @@ const enhance = compose(
 class TreeFilter extends Component {
   props: {
     store: Object,
+    client: Object,
+    treeFilterTextData: Object,
     onChange: () => {},
     autosuggestWidth: number,
     changeAutosuggestWidth: () => {},
@@ -112,15 +127,26 @@ class TreeFilter extends Component {
   }
 
   render() {
-    const { store, onChange, autosuggestWidth, data } = this.props
+    const {
+      store,
+      onChange,
+      autosuggestWidth,
+      data,
+      treeFilterTextData,
+    } = this.props
+    const { treeFilterText } = treeFilterTextData
+    console.log('TreeFilter: treeFilterText:', treeFilterText)
     const { filterSuggestionsTO, filterSuggestionsPC } = data
     const inputProps = {
-      value: store.treeFilter.text,
+      value: treeFilterText || '',
       onChange,
       type: 'search',
       placeholder: 'suchen',
       spellCheck: false,
     }
+    console.log('TreeFilter: inputProps:', inputProps)
+    console.log('TreeFilter: data:', data)
+    console.log('TreeFilter: filterSuggestionsTO:', filterSuggestionsTO)
     /**
      * need add type:
      * when suggestion is clicked,

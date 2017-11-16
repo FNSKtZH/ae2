@@ -2,6 +2,7 @@
 import { toJS } from 'mobx'
 
 import getActiveNodeArray from './getActiveNodeArray'
+import getTreeFilterText from './getTreeFilterText'
 
 export default ({ store }: { store: Object }) => {
   const activeNodeArray = getActiveNodeArray()
@@ -49,7 +50,7 @@ export default ({ store }: { store: Object }) => {
   const existsUrlFromTOId = !!store.urlFromTOId
   const urlFromTOId =
     store.urlFromTOId || '99999999-9999-9999-9999-999999999999'
-  const treeFilterText = store.treeFilter.text || 'ZZZZ'
+  const treeFilterText = getTreeFilterText() || 'ZZZZ'
   const queryGroups = !!(
     activeNodeArray &&
     activeNodeArray[0] &&

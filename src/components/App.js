@@ -17,6 +17,7 @@ import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import treeFilterTextGql from '../modules/treeFilterTextGql'
 
 const Container = styled.div`
   height: 100%;
@@ -28,17 +29,30 @@ const activeNodeArrayData = graphql(activeNodeArrayGql, {
   name: 'activeNodeArrayData',
 })
 
-const enhance = compose(inject('store'), activeNodeArrayData, AppData, observer)
+const treeFilterTextData = graphql(treeFilterTextGql, {
+  name: 'treeFilterTextData',
+})
+
+const enhance = compose(
+  inject('store'),
+  activeNodeArrayData,
+  treeFilterTextData,
+  AppData,
+  observer
+)
 
 const App = ({
   store,
   data,
   activeNodeArrayData,
+  treeFilterTextData,
 }: {
   store: Object,
   data: Object,
   activeNodeArrayData: Object,
+  treeFilterTextData: Object,
 }) => {
+  console.log('App: treeFilterTextData:', treeFilterTextData)
   const { error, loading } = data
   const { activeNodeArray } = activeNodeArrayData
   store.setProps(data)

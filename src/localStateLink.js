@@ -11,7 +11,7 @@ export default withClientState({
   Query: {
     // provide initial state
     activeNodeArray: () => [],
-    treeFilterText: () => null,
+    treeFilterText: () => '',
   },
   Mutation: {
     // update values in the store on mutations
