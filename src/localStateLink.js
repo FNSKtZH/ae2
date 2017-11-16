@@ -11,12 +11,7 @@ export default withClientState({
   Query: {
     // provide initial state
     activeNodeArray: () => [],
-    activeObjectId: () => [
-      {
-        value: null,
-        __typename: 'ActiveObjectId',
-      },
-    ],
+    activeObjectId: () => null,
   },
   Mutation: {
     // update values in the store on mutations
@@ -29,19 +24,14 @@ export default withClientState({
       if (!isEqual(activeNodeArrayFromUrl, value)) {
         app.store.history.push(`/${value.join('/')}`)
       }
-      return null
+      return value
     },
     setActiveObjectId: (_, { value }, { cache }) => {
-      const data = {
-        activeObjectId: [
-          {
-            value,
-            __typename: 'ActiveObjectId',
-          },
-        ],
-      }
-      cache.writeQuery({ query: activeObjectIdGql, data })
-      return null
+      cache.writeQuery({
+        query: activeObjectIdGql,
+        data: { activeObjectId: value },
+      })
+      return value
     },
   },
 })

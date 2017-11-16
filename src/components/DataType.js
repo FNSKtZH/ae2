@@ -32,12 +32,7 @@ const DataType = ({
   activeNodeArrayData: Object,
   activeObjectIdData: Object,
 }) => {
-  const activeObjectId =
-    activeObjectIdData &&
-    activeObjectIdData.activeObjectId &&
-    activeObjectIdData.activeObjectId[0].value
-      ? activeObjectIdData.activeObjectId[0].value
-      : null
+  const { activeObjectId } = activeObjectIdData
   const { activeNodeArray } = activeNodeArrayData
   const primaryUrl = activeNodeArray[0]
 

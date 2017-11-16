@@ -22,13 +22,7 @@ const Title = styled.h3`margin: 15px 0 -5px 0;`
 const TitleSpan = styled.span`font-weight: normal;`
 const FirstTitle = styled(Title)`margin: 5px 0 -5px 0;`
 
-const Objekt = ({
-  activeObjectId,
-  data,
-}: {
-  activeObjectId: String,
-  data: Object,
-}) => {
+const Objekt = ({ data }: { data: Object }) => {
   const { activeObject } = data
   const propertyCollectionObjects = get(
     activeObject,
@@ -335,11 +329,11 @@ const objectQuery = gql`
   ${objektFragment.objekt}
 `
 const activeObjektIdData = graphql(activeObjectIdGql, {
-  name: 'activeObjectId',
+  name: 'activeObjectIdData',
 })
 const objektData = graphql(objectQuery, {
-  options: ({ activeObjectId }) => ({
-    variables: { activeObjectId: activeObjectId.activeObjectId[0].value },
+  options: ({ activeObjectIdData }) => ({
+    variables: { activeObjectId: activeObjectIdData.activeObjectId },
   }),
 })
 
