@@ -76,10 +76,6 @@ const enhance = compose(
   withHandlers({
     onChange: props => (event, { newValue }) =>
       props.store.treeFilter.setText(newValue),
-    onBlur: props => (event, { newValue }) => {
-      // props.store.treeFilter.setText(newValue)
-      // console.log('blured, value:', newValue)
-    },
   }),
   observer
 )
@@ -88,7 +84,6 @@ class TreeFilter extends Component {
   props: {
     store: Object,
     onChange: () => {},
-    onBlur: () => {},
     autosuggestWidth: number,
     changeAutosuggestWidth: () => {},
     data: Object,
@@ -117,12 +112,11 @@ class TreeFilter extends Component {
   }
 
   render() {
-    const { store, onChange, onBlur, autosuggestWidth, data } = this.props
+    const { store, onChange, autosuggestWidth, data } = this.props
     const { filterSuggestionsTO, filterSuggestionsPC } = data
     const inputProps = {
       value: store.treeFilter.text,
       onChange,
-      onBlur,
       type: 'search',
       placeholder: 'suchen',
       spellCheck: false,
