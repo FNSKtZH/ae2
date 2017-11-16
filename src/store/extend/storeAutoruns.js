@@ -10,21 +10,6 @@ import activeObjectMutation from '../../modules/activeObjectMutation'
 
 export default (store: Object): void => {
   extendObservable(store, {
-    onChangeObject: reaction(
-      () => get(store.props, 'activeObject', null),
-
-      () => {
-        console.log('autorun, onChangeObject')
-        const activeObject = get(store.props, 'activeObject', null)
-        console.log('autorun, onChangeObject: activeObject:', activeObject)
-
-        // update local apollo store
-        return app.client.mutate({
-          mutation: activeObjectMutation,
-          variables: { value: activeObject ? activeObject.id : null },
-        })
-      }
-    ),
     onChangePcoPropertiesByCategories: reaction(
       () => get(store.props, 'pcoPropertiesByCategoriesFunction.nodes', []),
       (pcoProperties: Array<Object>) =>
