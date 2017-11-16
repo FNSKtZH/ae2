@@ -2,7 +2,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
@@ -58,7 +57,7 @@ const Objekt = ({ data }: { data: Object }) => {
         Taxonomie
         <TitleSpan>{` (${activeObject.name})`}</TitleSpan>
       </FirstTitle>
-      <TaxonomyObject key={activeObject.id} taxonomyObject={activeObject} />
+      <TaxonomyObject key={activeObject.id} activeObject={activeObject} />
       {synonymObjects.length > 0 && (
         <Title>
           {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
@@ -132,7 +131,7 @@ const Objekt = ({ data }: { data: Object }) => {
 }
 
 const activeObjectQuery = gql`
-  query ActiveObjectQuery($activeObjectId: Uuid!) {
+  query ObjectQuery($activeObjectId: Uuid!) {
     activeObject: objectById(id: $activeObjectId) {
       id
       taxonomyId

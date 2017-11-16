@@ -1,13 +1,10 @@
 // @flow
 import React from 'react'
-import { /*observer,*/ inject } from 'mobx-react'
-import compose from 'recompose/compose'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import FontIcon from 'material-ui/FontIcon'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
-import gql from 'graphql-tag'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import Taxonomy from './Taxonomy'
@@ -40,21 +37,17 @@ const SynomymLinkIcon = styled(FontIcon)`
   }
 `
 
-const enhance = compose(inject('store') /*, observer*/)
-
 const TaxonomyObject = ({
-  store,
-  taxonomyObject,
+  activeObject,
   showLink,
 }: {
-  store: Object,
-  taxonomyObject: Object,
+  activeObject: Object,
   showLink: Boolean,
 }) => {
-  const taxonomy = get(taxonomyObject, 'taxonomyByTaxonomyId', {})
+  const taxonomy = get(activeObject, 'taxonomyByTaxonomyId', {})
   let taxName = get(taxonomy, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
-  const properties = JSON.parse(taxonomyObject.properties) || {}
+  const properties = JSON.parse(activeObject.properties) || {}
   if (properties['Artname vollständig']) {
     taxName = `${taxName}: ${properties['Artname vollständig']}`
   }
@@ -64,7 +57,7 @@ const TaxonomyObject = ({
     // NOPE. This will return data for active node
     // Need to use own query to get needed data, then open new window
     // so use button or icon button instead?
-    linkUrl = getUrlFromTOId(taxonomyObject.id)
+    linkUrl = getUrlFromTOId(activeObject.id)
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
   }
@@ -122,4 +115,4 @@ const TaxonomyObject = ({
   )
 }
 
-export default enhance(TaxonomyObject)
+export default TaxonomyObject
