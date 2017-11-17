@@ -135,7 +135,7 @@ class TreeFilter extends Component {
       treeFilterTextData,
     } = this.props
     const { treeFilterText } = treeFilterTextData
-    console.log('TreeFilter: treeFilterText:', treeFilterText)
+    //console.log('TreeFilter: treeFilterText:', treeFilterText)
     const { filterSuggestionsTO, filterSuggestionsPC } = data
     const inputProps = {
       value: treeFilterText || '',
@@ -144,9 +144,9 @@ class TreeFilter extends Component {
       placeholder: 'suchen',
       spellCheck: false,
     }
-    console.log('TreeFilter: inputProps:', inputProps)
-    console.log('TreeFilter: data:', data)
-    console.log('TreeFilter: filterSuggestionsTO:', filterSuggestionsTO)
+    //console.log('TreeFilter: inputProps:', inputProps)
+    //console.log('TreeFilter: data:', data)
+    //console.log('TreeFilter: filterSuggestionsTO:', filterSuggestionsTO)
     /**
      * need add type:
      * when suggestion is clicked,

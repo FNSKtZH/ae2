@@ -24,14 +24,14 @@ export default withClientState({
       if (!isEqual(activeNodeArrayFromUrl, value)) {
         app.store.history.push(`/${value.join('/')}`)
       }
-      return value
+      return null
     },
     setTreeFilterText: (_, { value }, { cache }) => {
       cache.writeQuery({
         query: treeFilterTextGql,
         data: { treeFilterText: value },
       })
-      return value
+      return null
     },
   },
 })

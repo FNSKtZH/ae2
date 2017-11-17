@@ -52,7 +52,6 @@ const App = ({
   activeNodeArrayData: Object,
   treeFilterTextData: Object,
 }) => {
-  console.log('App: treeFilterTextData:', treeFilterTextData)
   const { error, loading } = data
   const { activeNodeArray } = activeNodeArrayData
   store.setProps(data)

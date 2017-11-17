@@ -77,11 +77,11 @@ const Tree = ({
   data: Object,
   activeNodeArrayData: Object,
 }) => {
-  const nodes = buildNodesFromAppQuery({ store, data })
+  const { activeNodeArray } = activeNodeArrayData
+  const nodes = buildNodesFromAppQuery({ store, data, activeNodeArray })
   const rowRenderer = ({ key, index, style }) => (
     <Row key={key} index={index} style={style} nodes={nodes} />
   )
-  const { activeNodeArray } = activeNodeArrayData
   const activeNodeIndex = findIndex(nodes, node =>
     isEqual(toJS(node.url), activeNodeArray)
   )

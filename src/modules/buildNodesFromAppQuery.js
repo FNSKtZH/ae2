@@ -17,16 +17,16 @@ import level8TaxonomyFromProps from './nodes/level8TaxonomyFromProps'
 import level9TaxonomyFromProps from './nodes/level9TaxonomyFromProps'
 import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
 import sort from './nodes/sort'
-import getActiveNodeArray from './getActiveNodeArray'
 
 export default ({
   store,
   data,
+  activeNodeArray,
 }: {
   store: Object,
   data: Object,
+  activeNodeArray: Object,
 }): Array<Object> => {
-  const activeNodeArray = getActiveNodeArray()
   const activeLevel2TaxonomyNodes = get(data, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
