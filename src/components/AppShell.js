@@ -5,27 +5,34 @@
  * Result: data is requeried.
  */
 import React from 'react'
-import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import { graphql } from 'react-apollo'
 
 import App from './App'
 import activeNodeArrayQgl from '../modules/activeNodeArrayGql'
+import treeFilterTextGql from '../modules/treeFilterTextGql'
 
 const withData = graphql(activeNodeArrayQgl)
 
-const enhance = compose(inject('store'), withData, observer)
+const treeFilterTextData = graphql(treeFilterTextGql, {
+  name: 'treeFilterTextData',
+})
+
+const enhance = compose(withData, treeFilterTextData)
 
 // pass history to re-render on url change
-const AppShell = ({ store, data }: { store: Object, data: Object }) => {
+const AppShell = ({
+  data,
+  treeFilterTextData,
+}: {
+  data: Object,
+  treeFilterTextData: Object,
+}) => {
   const activeNodeArray = data.activeNodeArray[0].value
+  const { treeFilterText } = treeFilterTextData
 
   return (
-    <App
-      activeNodeArray={activeNodeArray}
-      treeFilterText={store.treeFilter.text}
-      treeFilterId={store.treeFilter.id}
-    />
+    <App activeNodeArray={activeNodeArray} treeFilterText={treeFilterText} />
   )
 }
 
