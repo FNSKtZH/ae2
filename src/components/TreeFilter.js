@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { observer, inject } from 'mobx-react'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -10,6 +10,8 @@ import Autosuggest from 'react-autosuggest'
 import { withApollo, graphql } from 'react-apollo'
 
 import treeFilterTextMutation from '../modules/treeFilterTextMutation'
+import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
+import treeFilterIdMutation from '../modules/treeFilterIdMutation'
 import treeFilterTextGql from '../modules/treeFilterTextGql'
 
 const Container = styled.div`
@@ -79,7 +81,6 @@ const treeFilterTextData = graphql(treeFilterTextGql, {
 })
 
 const enhance = compose(
-  inject('store'),
   withApollo,
   treeFilterTextData,
   withState('autosuggestWidth', 'changeAutosuggestWidth', 380),
@@ -95,13 +96,12 @@ const enhance = compose(
 
 class TreeFilter extends Component {
   props: {
-    store: Object,
     client: Object,
+    appData: Object,
     treeFilterTextData: Object,
     onChange: () => {},
     autosuggestWidth: number,
     changeAutosuggestWidth: () => {},
-    data: Object,
   }
 
   autosuggest: ?HTMLDivElement
@@ -128,15 +128,16 @@ class TreeFilter extends Component {
 
   render() {
     const {
-      store,
+      client,
       onChange,
       autosuggestWidth,
-      data,
+      appData,
       treeFilterTextData,
     } = this.props
     const { treeFilterText } = treeFilterTextData
-    //console.log('TreeFilter: treeFilterText:', treeFilterText)
-    const { filterSuggestionsTO, filterSuggestionsPC } = data
+    console.log('TreeFilter: treeFilterText:', treeFilterText)
+    //console.log('TreeFilter: objekt:', objekt)
+    const { filterSuggestionsTO, filterSuggestionsPC } = appData
     const inputProps = {
       value: treeFilterText || '',
       onChange,
@@ -186,7 +187,7 @@ class TreeFilter extends Component {
         suggestions: suggestionsPC,
       },
     ]
-    //console.log('rendering TreeFilter')
+    console.log('TreeFilter: suggestionsTO:', suggestionsTO)
 
     return (
       <Container data-autosuggestwidth={autosuggestWidth}>
@@ -203,13 +204,36 @@ class TreeFilter extends Component {
           }}
           getSuggestionValue={suggestion => suggestion && suggestion.name}
           onSuggestionSelected={(event, { suggestion }) => {
+            console.log('TreeFilter: sugestion selected:', suggestion)
             switch (suggestion.type) {
               case 'pC':
-                store.setUrlFromPCId(suggestion.id)
+                client.mutate({
+                  mutation: activeNodeArrayMutation,
+                  variables: {
+                    value: ['Eigenschaften-Sammlungen', suggestion.id],
+                  },
+                })
                 break
               case 'tO':
-              default:
-                store.setUrlFromTOId(suggestion.id)
+              default: {
+                /**
+                 * TODO
+                 * set treeFilterId
+                 * then app rerenders
+                 * finds treeFilterId
+                 * gets result of objectUrlData query
+                 * passes it to getUrlForObject
+                 * mutates activeNodeArray
+                 */
+                console.log(
+                  'TreeFilter: mutating treeFilterId to:',
+                  suggestion.id
+                )
+                client.mutate({
+                  mutation: treeFilterIdMutation,
+                  variables: { value: suggestion.id },
+                })
+              }
             }
           }}
           renderSuggestion={suggestion => <span>{suggestion.name}</span>}

@@ -26,8 +26,8 @@ export default gql`
     $level9Taxonomy: Uuid!
     $existsLevel10: Boolean!
     $level10Taxonomy: Uuid!
-    $existsUrlFromTOId: Boolean!
-    $urlFromTOId: Uuid!
+    $treeFilterId: Uuid!
+    $existsTreeFilterId: Boolean!
     $treeFilterText: String!
     $queryGroups: Boolean!
     $queryExportCategories: Boolean!
@@ -103,7 +103,7 @@ export default gql`
       @include(if: $existsLevel10) {
       ...ObjektLevel5AndUp
     }
-    urlFromTO: objectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
+    objectUrlData: objectById(id: $treeFilterId) @include(if: $existsTreeFilterId) {
       id
       categoryByCategory {
         id

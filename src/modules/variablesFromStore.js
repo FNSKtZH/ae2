@@ -5,13 +5,21 @@ export default ({
   store,
   activeNodeArrayData,
   treeFilterTextData,
+  treeFilterIdData,
 }: {
   store: Object,
   activeNodeArrayData: Object,
   treeFilterTextData: Object,
+  treeFilterIdData: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
-  const { treeFilterText } = treeFilterTextData
+  const treeFilterId = treeFilterIdData.treeFilterId
+    ? treeFilterIdData.treeFilterId
+    : '99999999-9999-9999-9999-999999999999'
+  const existsTreeFilterId = !!treeFilterIdData.treeFilterId
+  const treeFilterText = treeFilterTextData.treeFilterText || 'ZZZZ'
+  console.log('variablesFromStore: treeFilterId:', treeFilterId)
+  console.log('variablesFromStore: existsTreeFilterId:', existsTreeFilterId)
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&
@@ -53,9 +61,6 @@ export default ({
   const level10Taxonomy = existsLevel10
     ? activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
-  const existsUrlFromTOId = !!store.urlFromTOId
-  const urlFromTOId =
-    store.urlFromTOId || '99999999-9999-9999-9999-999999999999'
   const queryGroups = !!(
     activeNodeArray &&
     activeNodeArray[0] &&
@@ -85,9 +90,9 @@ export default ({
     level9Taxonomy,
     existsLevel10,
     level10Taxonomy,
-    existsUrlFromTOId,
-    urlFromTOId,
-    treeFilterText: treeFilterText || 'ZZZZ',
+    treeFilterText,
+    treeFilterId,
+    existsTreeFilterId,
     queryGroups,
     queryExportCategories,
     exportCategories,

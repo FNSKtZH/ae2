@@ -8,7 +8,7 @@ import styled from 'styled-components'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import Taxonomy from './Taxonomy'
-import getUrlFromTOId from '../modules/getUrlFromTOId'
+import getUrlForObject from '../modules/getUrlForObject'
 
 const tOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {
@@ -57,7 +57,7 @@ const TaxonomyObject = ({
     // NOPE. This will return data for active node
     // Need to use own query to get needed data, then open new window
     // so use button or icon button instead?
-    linkUrl = getUrlFromTOId(activeObject.id)
+    linkUrl = getUrlForObject(activeObject)
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
   }

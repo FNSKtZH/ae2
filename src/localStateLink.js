@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual'
 
 import activeNodeArrayGql from './modules/activeNodeArrayGql'
 import treeFilterTextGql from './modules/treeFilterTextGql'
+import treeFilterIdGql from './modules/treeFilterIdGql'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 
 export default withClientState({
@@ -12,6 +13,7 @@ export default withClientState({
     // provide initial state
     activeNodeArray: () => [],
     treeFilterText: () => '',
+    treeFilterId: () => null,
   },
   Mutation: {
     // update values in the store on mutations
@@ -30,6 +32,13 @@ export default withClientState({
       cache.writeQuery({
         query: treeFilterTextGql,
         data: { treeFilterText: value },
+      })
+      return null
+    },
+    setTreeFilterId: (_, { value }, { cache }) => {
+      cache.writeQuery({
+        query: treeFilterIdGql,
+        data: { treeFilterId: value },
       })
       return null
     },

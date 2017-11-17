@@ -12,23 +12,25 @@ import App from './App'
 import activeNodeArrayQgl from '../modules/activeNodeArrayGql'
 import treeFilterTextGql from '../modules/treeFilterTextGql'
 
-const withData = graphql(activeNodeArrayQgl)
+const activeNodeArrayData = graphql(activeNodeArrayQgl, {
+  name: 'activeNodeArrayData',
+})
 
 const treeFilterTextData = graphql(treeFilterTextGql, {
   name: 'treeFilterTextData',
 })
 
-const enhance = compose(withData, treeFilterTextData)
+const enhance = compose(activeNodeArrayData, treeFilterTextData)
 
 // pass history to re-render on url change
 const AppShell = ({
-  data,
+  activeNodeArrayData,
   treeFilterTextData,
 }: {
-  data: Object,
+  activeNodeArrayData: Object,
   treeFilterTextData: Object,
 }) => {
-  const activeNodeArray = data.activeNodeArray[0].value
+  const { activeNodeArray } = activeNodeArrayData
   const { treeFilterText } = treeFilterTextData
 
   return (

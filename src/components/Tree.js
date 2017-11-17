@@ -88,7 +88,7 @@ const Tree = ({
 
   return (
     <Container>
-      <TreeFilter data={data} />
+      <TreeFilter appData={data} />
       <AutoSizerContainer>
         <AutoSizer>
           {({ height, width }) => (
