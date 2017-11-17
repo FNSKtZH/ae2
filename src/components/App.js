@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { observer, inject } from 'mobx-react'
 import { graphql, withApollo } from 'react-apollo'
-//import { toJS } from 'mobx'
 import compose from 'recompose/compose'
 import Snackbar from 'material-ui/Snackbar'
 
