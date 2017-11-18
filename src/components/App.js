@@ -87,6 +87,7 @@ const App = ({
   treeFilterTextData: Object,
   treeFilterIdData: Object,
 }) => {
+  console.log('App rendering, data:', data)
   /**
    * TODO
    * wtf appData is undefined!?
@@ -131,9 +132,9 @@ const App = ({
    * then update activeNodeArray with that result
    * and reset treeFilterId
    */
-  if (treeFilterId) {
+  if (treeFilterId && treeFilterId !== '99999999-9999-9999-9999-999999999999') {
     console.log('App: treeFilterId:', treeFilterId)
-    console.log('App: data:', data)
+    //console.log('App: appData:', appData)
     console.log('App: objectUrlData:', objectUrlData)
     const url = getUrlForObject(objectUrlData)
     console.log('App: url:', url)

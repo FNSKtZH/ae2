@@ -103,7 +103,8 @@ export default gql`
       @include(if: $existsLevel10) {
       ...ObjektLevel5AndUp
     }
-    objectUrlData: objectById(id: $treeFilterId) @include(if: $existsTreeFilterId) {
+    objectUrlData: objectById(id: $treeFilterId)
+      @include(if: $existsTreeFilterId) {
       id
       categoryByCategory {
         id

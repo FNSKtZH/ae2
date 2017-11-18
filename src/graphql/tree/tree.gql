@@ -1,33 +1,4 @@
-query AppQueryQuery(
-  $existsLevel2Pc: Boolean!
-  $notExistsLevel2Pc: Boolean!
-  $existsLevel2Taxonomy: Boolean!
-  $existsLevel3: Boolean!
-  $level3Taxonomy: String!
-  $existsLevel4: Boolean!
-  $level4Taxonomy: Uuid!
-  $level4TaxonomyPossibleNull: Uuid
-  $existsLevel5: Boolean!
-  $level5Taxonomy: Uuid!
-  $existsLevel6: Boolean!
-  $level6Taxonomy: Uuid!
-  $existsLevel7: Boolean!
-  $level7Taxonomy: Uuid!
-  $existsLevel8: Boolean!
-  $level8Taxonomy: Uuid!
-  $existsLevel9: Boolean!
-  $level9Taxonomy: Uuid!
-  $existsLevel10: Boolean!
-  $level10Taxonomy: Uuid!
-  $activeObjectId: Uuid!
-  $existsActiveObject: Boolean!
-  $existsUrlFromTOId: Boolean!
-  $urlFromTOId: Uuid!
-  $treeFilterText: String!
-  $queryGroups: Boolean!
-  $queryExportCategories: Boolean!
-  $exportCategories: [String]
-) {
+query AppQueryQuery($existsLevel2Pc: Boolean!, $notExistsLevel2Pc: Boolean!, $existsLevel2Taxonomy: Boolean!, $existsLevel3: Boolean!, $level3Taxonomy: String!, $existsLevel4: Boolean!, $level4Taxonomy: Uuid!, $level4TaxonomyPossibleNull: Uuid, $existsLevel5: Boolean!, $level5Taxonomy: Uuid!, $existsLevel6: Boolean!, $level6Taxonomy: Uuid!, $existsLevel7: Boolean!, $level7Taxonomy: Uuid!, $existsLevel8: Boolean!, $level8Taxonomy: Uuid!, $existsLevel9: Boolean!, $level9Taxonomy: Uuid!, $existsLevel10: Boolean!, $level10Taxonomy: Uuid!, $treeFilterId: Uuid!, $existsTreeFilterId: Boolean!, $treeFilterText: String!, $queryGroups: Boolean!, $queryExportCategories: Boolean!, $exportCategories: [String]) {
   allCategories {
     totalCount
   }
@@ -44,16 +15,14 @@ query AppQueryQuery(
       }
     }
   }
-  level2Taxonomy: categoriesOfTaxonomiesFunction
-    @include(if: $existsLevel2Taxonomy) {
+  level2Taxonomy: categoriesOfTaxonomiesFunction @include(if: $existsLevel2Taxonomy) {
     nodes {
       id
       name
       count
     }
   }
-  level3Taxonomy: taxonomiesOfCategory(category: $level3Taxonomy)
-    @include(if: $existsLevel3) {
+  level3Taxonomy: taxonomiesOfCategory(category: $level3Taxonomy) @include(if: $existsLevel3) {
     nodes {
       id
       name
@@ -62,8 +31,7 @@ query AppQueryQuery(
       }
     }
   }
-  level4Taxonomy: taxonomyById(id: $level4Taxonomy)
-    @include(if: $existsLevel4) {
+  level4Taxonomy: taxonomyById(id: $level4Taxonomy) @include(if: $existsLevel4) {
     objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
       nodes {
         id
@@ -74,266 +42,25 @@ query AppQueryQuery(
       }
     }
   }
-  level5Taxonomy: objectById(id: $level5Taxonomy)
-    @include(if: $existsLevel5) {
-    objectsByParentId {
-      nodes {
-        id
-        name
-        objectsByParentId {
-          totalCount
-        }
-      }
-    }
+  level5Taxonomy: objectById(id: $level5Taxonomy) @include(if: $existsLevel5) {
+    ...ObjektLevel5AndUp
   }
-  level6Taxonomy: objectById(id: $level6Taxonomy)
-    @include(if: $existsLevel6) {
-    objectsByParentId {
-      nodes {
-        id
-        name
-        objectsByParentId {
-          totalCount
-        }
-      }
-    }
+  level6Taxonomy: objectById(id: $level6Taxonomy) @include(if: $existsLevel6) {
+    ...ObjektLevel5AndUp
   }
-  level7Taxonomy: objectById(id: $level7Taxonomy)
-    @include(if: $existsLevel7) {
-    objectsByParentId {
-      nodes {
-        id
-        name
-        objectsByParentId {
-          totalCount
-        }
-      }
-    }
+  level7Taxonomy: objectById(id: $level7Taxonomy) @include(if: $existsLevel7) {
+    ...ObjektLevel5AndUp
   }
-  level8Taxonomy: objectById(id: $level8Taxonomy)
-    @include(if: $existsLevel8) {
-    objectsByParentId {
-      nodes {
-        id
-        name
-        objectsByParentId {
-          totalCount
-        }
-      }
-    }
+  level8Taxonomy: objectById(id: $level8Taxonomy) @include(if: $existsLevel8) {
+    ...ObjektLevel5AndUp
   }
-  level9Taxonomy: objectById(id: $level9Taxonomy)
-    @include(if: $existsLevel9) {
-    objectsByParentId {
-      nodes {
-        id
-        name
-        objectsByParentId {
-          totalCount
-        }
-      }
-    }
+  level9Taxonomy: objectById(id: $level9Taxonomy) @include(if: $existsLevel9) {
+    ...ObjektLevel5AndUp
   }
-  level10Taxonomy: objectById(id: $level10Taxonomy)
-    @include(if: $existsLevel10) {
-    objectsByParentId {
-      nodes {
-        id
-        name
-        objectsByParentId {
-          totalCount
-        }
-      }
-    }
+  level10Taxonomy: objectById(id: $level10Taxonomy) @include(if: $existsLevel10) {
+    ...ObjektLevel5AndUp
   }
-  activeObject: objectById(id: $activeObjectId)
-    @include(if: $existsActiveObject) {
-    id
-    taxonomyId
-    parentId
-    name
-    properties
-    category
-    idOld
-    synonymsByObjectId {
-      totalCount
-      nodes {
-        objectId
-        objectIdSynonym
-        objectByObjectIdSynonym {
-          id
-          taxonomyId
-          parentId
-          name
-          properties
-          category
-          idOld
-          taxonomyByTaxonomyId {
-            id
-            name
-            description
-            links
-            lastUpdated
-            isCategoryStandard
-            importedBy
-            termsOfUse
-            habitatLabel
-            habitatComments
-            habitatNrFnsMin
-            habitatNrFnsMax
-            organizationByOrganizationId {
-              id
-              name
-            }
-          }
-          propertyCollectionObjectsByObjectId {
-            totalCount
-            nodes {
-              id
-              objectId
-              propertyCollectionId
-              properties
-              propertyCollectionByPropertyCollectionId {
-                id
-                name
-                description
-                links
-                combining
-                lastUpdated
-                termsOfUse
-                importedBy
-                organizationByOrganizationId {
-                  id
-                  name
-                }
-                userByImportedBy {
-                  id
-                  name
-                  email
-                }
-              }
-            }
-          }
-          relationsByObjectId {
-            totalCount
-            nodes {
-              id
-              propertyCollectionId
-              objectId
-              objectIdRelation
-              relationType
-              properties
-              propertyCollectionByPropertyCollectionId {
-                id
-                name
-                description
-                links
-                combining
-                lastUpdated
-                termsOfUse
-                importedBy
-                organizationByOrganizationId {
-                  id
-                  name
-                }
-                userByImportedBy {
-                  id
-                  name
-                  email
-                }
-              }
-              objectByObjectIdRelation {
-                id
-                name
-                category
-              }
-            }
-          }
-        }
-      }
-    }
-    taxonomyByTaxonomyId {
-      id
-      name
-      description
-      links
-      lastUpdated
-      isCategoryStandard
-      importedBy
-      termsOfUse
-      habitatLabel
-      habitatComments
-      habitatNrFnsMin
-      habitatNrFnsMax
-      organizationByOrganizationId {
-        id
-        name
-      }
-    }
-    propertyCollectionObjectsByObjectId {
-      totalCount
-      nodes {
-        id
-        objectId
-        propertyCollectionId
-        properties
-        propertyCollectionByPropertyCollectionId {
-          id
-          name
-          description
-          links
-          combining
-          lastUpdated
-          termsOfUse
-          importedBy
-          organizationByOrganizationId {
-            id
-            name
-          }
-          userByImportedBy {
-            id
-            name
-            email
-          }
-        }
-      }
-    }
-    relationsByObjectId {
-      totalCount
-      nodes {
-        id
-        propertyCollectionId
-        objectId
-        objectIdRelation
-        relationType
-        properties
-        propertyCollectionByPropertyCollectionId {
-          name
-          description
-          links
-          combining
-          lastUpdated
-          termsOfUse
-          importedBy
-          organizationByOrganizationId {
-            id
-            name
-          }
-          userByImportedBy {
-            id
-            name
-            email
-          }
-        }
-        objectByObjectIdRelation {
-          id
-          name
-          category
-        }
-      }
-    }
-  }
-  urlFromTO: objectById(id: $urlFromTOId) @include(if: $existsUrlFromTOId) {
+  objectUrlData: objectById(id: $treeFilterId) @include(if: $existsTreeFilterId) {
     id
     categoryByCategory {
       id
@@ -362,9 +89,7 @@ query AppQueryQuery(
       id
     }
   }
-  filterSuggestionsPC: propertyCollectionByPropertyName(
-    propertyName: $treeFilterText
-  ) {
+  filterSuggestionsPC: propertyCollectionByPropertyName(propertyName: $treeFilterText) {
     nodes {
       id
       name
@@ -382,8 +107,7 @@ query AppQueryQuery(
       name
     }
   }
-  pcoPropertiesByCategoriesFunction(categories: $exportCategories)
-    @include(if: $queryExportCategories) {
+  pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {
     nodes {
       propertyCollectionName
       propertyName
@@ -391,6 +115,48 @@ query AppQueryQuery(
       count
     }
   }
+}
+
+fragment ObjektLevel5AndUp on Object {
+  id
+  objectsByParentId {
+    nodes {
+      id
+      name
+      objectsByParentId {
+        totalCount
+      }
+    }
+  }
+}
+
+Beispiel, das nicht funktioniert in app:
+{
+  "existsLevel2Pc":false,
+  "existsLevel2Taxonomy":true,
+  "existsLevel4":false,
+  "existsLevel5":false,
+  "existsLevel6":false,
+  "existsLevel7":false,
+  "existsLevel8":false,
+  "existsLevel9":false,
+  "existsLevel10":false,
+  "existsTreeFilterId":true,
+  "exportCategories":[],
+  "level3Taxonomy":"none",
+  "level4Taxonomy":"99999999-9999-9999-9999-999999999999",
+  "level4TaxonomyPossibleNull":null,
+  "level5Taxonomy":"99999999-9999-9999-9999-999999999999",
+  "level6Taxonomy":"99999999-9999-9999-9999-999999999999",
+  "level7Taxonomy":"99999999-9999-9999-9999-999999999999",
+  "level8Taxonomy":"99999999-9999-9999-9999-999999999999",
+  "level9Taxonomy":"99999999-9999-9999-9999-999999999999",
+  "level10Taxonomy":"99999999-9999-9999-9999-999999999999",
+  "notExistsLevel2Pc":true,
+  "queryExportCategories":false,
+  "queryGroups":false,
+  "treeFilterId":"14bd613c-1f03-4907-b7af-7b590fdca42c",
+  "treeFilterText":"Canis lupus Linnaeus, 1758 (Wolf)"
 }
 
 // Beispiel 10: Magerwiese mit 1 Schnitt extensiv:
