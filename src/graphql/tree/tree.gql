@@ -130,10 +130,11 @@ fragment ObjektLevel5AndUp on Object {
   }
 }
 
-Beispiel, das nicht funktioniert in app:
+// Beispiel, das nicht funktioniert in app:
 {
   "existsLevel2Pc":false,
   "existsLevel2Taxonomy":true,
+  "existsLevel3":false,
   "existsLevel4":false,
   "existsLevel5":false,
   "existsLevel6":false,
