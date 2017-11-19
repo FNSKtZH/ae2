@@ -25,17 +25,14 @@ const enhance = compose(
     onCheck: props => (event, isChecked) => {
       const { client, exportCategoriesData } = props
       const { exportCategories } = exportCategoriesData
-      const { categories, setCategories } = props.store.export
       const { name } = event.target
-      if (isChecked) {
-        setCategories([...categories, name])
-        client.mutate({
-          mutation: exportCategoriesMutation,
-          variables: { value: [...exportCategories, name] },
-        })
-      } else {
-        setCategories(exportCategories.filter(c => c !== name))
-      }
+      const categories = isChecked
+        ? [...exportCategories, name]
+        : exportCategories.filter(c => c !== name)
+      client.mutate({
+        mutation: exportCategoriesMutation,
+        variables: { value: categories },
+      })
     },
   }),
   observer
@@ -50,11 +47,15 @@ const StyledCheckbox = styled(Checkbox)`margin-bottom: inherit;`
 
 const Categories = ({
   store,
+  exportCategoriesData
   onCheck,
 }: {
-  store: Object,
+  store:Object,
+  exportCategoriesData: Object,
   onCheck: () => void,
-}) => (
+}) => {
+  const { exportCategories } = exportCategoriesData
+  return(
   <Container>
     <HowTo />
     {store.categories.map(category => (
@@ -68,6 +69,6 @@ const Categories = ({
     ))}
     <CombineTaxonomies />
   </Container>
-)
+)}
 
 export default enhance(Categories)
