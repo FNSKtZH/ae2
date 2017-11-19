@@ -7,6 +7,7 @@ import activeNodeArrayGql from './modules/activeNodeArrayGql'
 import treeFilterTextGql from './modules/treeFilterTextGql'
 import treeFilterIdGql from './modules/treeFilterIdGql'
 import exportCategoriesGql from './modules/exportCategoriesGql'
+import exportCombineTaxonomiesGql from './modules/exportCombineTaxonomiesGql'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 
 export default withClientState({
@@ -16,6 +17,7 @@ export default withClientState({
     treeFilterText: () => '',
     treeFilterId: () => null,
     exportCategories: () => [],
+    exportCombineTaxonomies: () => false,
   },
   Mutation: {
     // update values in the store on mutations
@@ -48,6 +50,13 @@ export default withClientState({
       cache.writeQuery({
         query: exportCategoriesGql,
         data: { exportCategories: value },
+      })
+      return null
+    },
+    setExportCombineTaxonomies: (_, { value }, { cache }) => {
+      cache.writeQuery({
+        query: exportCombineTaxonomiesGql,
+        data: { exportCombineTaxonomies: value },
       })
       return null
     },
