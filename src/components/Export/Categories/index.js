@@ -67,7 +67,7 @@ const Categories = ({
           onCheck={onCheck}
         />
       ))}
-      <CombineTaxonomies />
+      <CombineTaxonomies data={data} />
     </Container>
   )
 }
