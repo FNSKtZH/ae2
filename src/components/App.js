@@ -162,7 +162,7 @@ const App = ({
       />
       {error && <div> {error.message} </div>}
       {showData && <Data data={data} />}
-      {showExport && <Export />}
+      {showExport && <Export data={data} />}
       {showImportPc && <ImportPc />}
       {showImportRc && <ImportRc />}
       {showOrganisation && <Organisation />}

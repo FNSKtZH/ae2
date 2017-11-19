@@ -15,11 +15,9 @@ const Container = styled.div`
   height: calc(100% - 48px);
   overflow: auto !important;
 `
-const StyledH3 = styled.h3`
-  margin: 5px 0;
-`
+const StyledH3 = styled.h3`margin: 5px 0;`
 
-const Export = () =>
+const Export = ({ data }: { data: Object }) => (
   <Container>
     <StyledH3>Export</StyledH3>
     <Card style={level1CardStyle}>
@@ -31,7 +29,7 @@ const Export = () =>
         style={level1CardHeaderStyle}
       />
       <CardText expandable={true} style={level1CardTextStyle}>
-        <Categories />
+        <Categories data={data} />
       </CardText>
     </Card>
     <Card style={level1CardStyle}>
@@ -71,5 +69,6 @@ const Export = () =>
       </CardText>
     </Card>
   </Container>
+)
 
 export default Export

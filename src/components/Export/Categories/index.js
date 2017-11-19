@@ -2,10 +2,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import Checkbox from 'material-ui/Checkbox'
-import { observer, inject } from 'mobx-react'
 import { graphql, withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
+import get from 'lodash/get'
 
 import HowTo from './HowTo'
 import CombineTaxonomies from './CombineTaxonomies'
@@ -18,7 +18,6 @@ const exportCategoriesData = graphql(exportCategoriesGql, {
 })
 
 const enhance = compose(
-  inject('store'),
   withApollo,
   exportCategoriesData,
   withHandlers({
@@ -34,8 +33,7 @@ const enhance = compose(
         variables: { value: categories },
       })
     },
-  }),
-  observer
+  })
 )
 
 const Container = styled.div`
@@ -46,29 +44,32 @@ const Container = styled.div`
 const StyledCheckbox = styled(Checkbox)`margin-bottom: inherit;`
 
 const Categories = ({
-  store,
-  exportCategoriesData
+  data,
+  exportCategoriesData,
   onCheck,
 }: {
-  store:Object,
+  data: Object,
   exportCategoriesData: Object,
   onCheck: () => void,
 }) => {
-  const { exportCategories } = exportCategoriesData
-  return(
-  <Container>
-    <HowTo />
-    {store.categories.map(category => (
-      <StyledCheckbox
-        key={category}
-        name={category}
-        label={category}
-        checked={store.export.categories.includes(category)}
-        onCheck={onCheck}
-      />
-    ))}
-    <CombineTaxonomies />
-  </Container>
-)}
+  const exportCategories = exportCategoriesData.exportCategories || []
+  const categories = get(data, 'allCategories.nodes', []).map(c => c.name)
+
+  return (
+    <Container>
+      <HowTo />
+      {categories.map(category => (
+        <StyledCheckbox
+          key={category}
+          name={category}
+          label={category}
+          checked={exportCategories.includes(category)}
+          onCheck={onCheck}
+        />
+      ))}
+      <CombineTaxonomies />
+    </Container>
+  )
+}
 
 export default enhance(Categories)
