@@ -2,7 +2,6 @@
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
-import { observer, inject } from 'mobx-react'
 import { graphql, withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -15,15 +14,15 @@ const exportCombineTaxonomiesData = graphql(exportCombineTaxonomiesGql, {
 })
 
 const enhance = compose(
-  inject('store'),
   withApollo,
   exportCombineTaxonomiesData,
   withHandlers({
-    onCheckCombineTaxonomies: props => (event, isChecked) => {
-      props.store.export.setCombineTaxonomies(isChecked)
-    },
-  }),
-  observer
+    onCheckCombineTaxonomies: props => (event, isChecked) =>
+      props.client.mutate({
+        mutation: exportCombineTaxonomiesMutation,
+        variables: { value: isChecked },
+      }),
+  })
 )
 
 const cardStyle = { margin: '10px 0' }
@@ -37,18 +36,16 @@ const cardTextStyle = {
 }
 
 const CombineTaxonomies = ({
-  store,
   data,
   exportCombineTaxonomiesData,
   onCheckCombineTaxonomies,
 }: {
-  store: Object,
   data: Object,
   exportCombineTaxonomiesData: Object,
   onCheckCombineTaxonomies: () => void,
 }) => {
   const exportCombineTaxonomies =
-    exportCombineTaxonomiesData.exportCombineTaxonomies || []
+    exportCombineTaxonomiesData.exportCombineTaxonomies
   return (
     <Card style={cardStyle}>
       <CardHeader

@@ -8,11 +8,7 @@ function Store(): void {
   this.nodes = []
   this.setNodes = () => {}
   this.history = ObservableHistory
-  this.export = {
-    categories: [],
-    combineTaxonomies: false,
-    setCombineTaxonomies: () => {},
-  }
+  this.export = {}
   this.categories = []
 }
 
