@@ -29,13 +29,12 @@ const client = new ApolloClient({
 // configure history
 const history = createHistory()
 // make ui follow when user uses browser back and forward buttons
-history.listen(location => {
-  let activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
+history.listen(location =>
   client.mutate({
     mutation: activeNodeArrayMutation,
-    variables: { value: activeNodeArrayFromUrl },
+    variables: { value: getActiveNodeArrayFromPathname() },
   })
-})
+)
 
 app.extend({
   init() {
