@@ -5,7 +5,6 @@ import ObservableHistory from './ObservableHistory'
 function Store(): void {
   this.props = {}
   this.setProps = () => {}
-  this.nodes = []
   this.history = ObservableHistory
   this.export = {}
   this.categories = []
