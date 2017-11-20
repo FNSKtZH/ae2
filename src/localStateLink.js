@@ -20,6 +20,12 @@ export default withClientState({
     exportCategories: () => [],
     exportCombineTaxonomies: () => false,
     exportPcoProperties: () => [],
+    // this is experimental
+    // see: https://github.com/apollographql/apollo-link-state/issues/111
+    treeFilter: () => ({
+      text: () => '',
+      id: () => null,
+    }),
   },
   Mutation: {
     // update values in the store on mutations
