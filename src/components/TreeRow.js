@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { toJS } from 'mobx'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { ContextMenuTrigger } from 'react-contextmenu'
@@ -94,16 +93,16 @@ const Row = ({
   const node = nodes[index]
   const { activeNodeArray } = activeNodeArrayData
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
-    toJS(node.url),
+    node.url,
     activeNodeArray
   )
   const onClickNode = event => {
     // do nothing when loading indicator is clicked
     if (!node.loadingNode) {
-      const url = toJS(node.url)
+      const { url } = node
       // if active node is clicked, make it's parent active
       if (isEqual(url, activeNodeArray)) {
-        const newUrl = clone(toJS(node.url))
+        const newUrl = clone(url)
         newUrl.pop()
         client.mutate({
           mutation: activeNodeArrayMutation,
