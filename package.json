@@ -15,7 +15,6 @@
     "material-ui": "0.19.4",
     "mobx": "3.3.1",
     "mobx-react": "4.3.4",
-    "mobx-utils": "3.2.1",
     "react": "16.1.1",
     "react-apollo": "2.0.1",
     "react-autosuggest": "9.3.2",
