@@ -5,7 +5,6 @@ import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
 import { concat } from 'apollo-link'
-import { Provider } from 'mobx-react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import app from 'ampersand-app'
@@ -27,7 +26,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
-const MobxProvider = Provider
 app.extend({
   init() {
     this.store = store
@@ -57,13 +55,11 @@ const theme = Object.assign({}, myTheme, {
 })
 
 ReactDOM.render(
-  <MobxProvider store={store}>
-    <ApolloProvider client={client}>
-      <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-        <AppShell />
-      </MuiThemeProvider>
-    </ApolloProvider>
-  </MobxProvider>,
+  <ApolloProvider client={client}>
+    <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+      <AppShell />
+    </MuiThemeProvider>
+  </ApolloProvider>,
   document.getElementById('root')
 )
 
