@@ -28,26 +28,14 @@ const client = new ApolloClient({
 })
 
 const history = createHistory()
-/**
- * TODO
- * adapt this so it works
- * this is to make history work
- * when user uses browser back and forwards functions
- */
-/*
-window.document.onmouseover = () => {
-  History.mouseIsInDoc = true
-}
-window.document.onmouseleave = () => {
-  History.mouseIsInDoc = false
-}
-window.onpopstate = () => {
-  if (!History.mouseIsInDoc) {
-    History.location.pathname = window.document.location.pathname
-    History.location.search = window.document.location.search
-  }
-}
-*/
+// make ui follow when user uses browser back and forward buttons
+history.listen(location => {
+  let activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
+  client.mutate({
+    mutation: activeNodeArrayMutation,
+    variables: { value: activeNodeArrayFromUrl },
+  })
+})
 
 app.extend({
   init() {
