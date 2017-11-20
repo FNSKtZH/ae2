@@ -8,6 +8,7 @@ import { concat } from 'apollo-link'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import app from 'ampersand-app'
+import createHistory from 'history/createBrowserHistory'
 
 import myTheme from './styling/theme'
 import constants from './modules/constants'
@@ -26,10 +27,33 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
+const history = createHistory()
+/**
+ * TODO
+ * adapt this so it works
+ * this is to make history work
+ * when user uses browser back and forwards functions
+ */
+/*
+window.document.onmouseover = () => {
+  History.mouseIsInDoc = true
+}
+window.document.onmouseleave = () => {
+  History.mouseIsInDoc = false
+}
+window.onpopstate = () => {
+  if (!History.mouseIsInDoc) {
+    History.location.pathname = window.document.location.pathname
+    History.location.search = window.document.location.search
+  }
+}
+*/
+
 app.extend({
   init() {
     this.store = store
     this.client = client
+    this.history = history
   },
 })
 app.init()

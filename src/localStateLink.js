@@ -28,7 +28,7 @@ export default withClientState({
       })
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, value)) {
-        app.store.history.push(`/${value.join('/')}`)
+        app.history.push(`/${value.join('/')}`)
       }
       return null
     },
