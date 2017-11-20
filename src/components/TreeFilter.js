@@ -93,7 +93,7 @@ const enhance = compose(
   }),
   /**
    * TODO
-   * If the observer is removed, maximum update depth is esceeded
+   * If the observer is removed, maximum update depth is exceeded
    * no idea why
    */
   observer
