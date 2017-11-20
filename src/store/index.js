@@ -5,7 +5,6 @@ import ObservableHistory from './ObservableHistory'
 function Store(): void {
   this.history = ObservableHistory
   this.export = {}
-  this.categories = []
 }
 
 const MyStore = new Store()
