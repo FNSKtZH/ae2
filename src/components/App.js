@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
 import { graphql, withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import Snackbar from 'material-ui/Snackbar'
@@ -17,6 +16,7 @@ import FourOhFour from './FourOhFour'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 import treeFilterTextGql from '../modules/treeFilterTextGql'
 import treeFilterIdGql from '../modules/treeFilterIdGql'
+import exportCategoriesGql from '../modules/exportCategoriesGql'
 import appQuery from '../modules/appQuery'
 import variablesFromStore from '../modules/variablesFromStore'
 import getUrlForObject from '../modules/getUrlForObject'
@@ -38,40 +38,41 @@ const treeFilterTextData = graphql(treeFilterTextGql, {
 const treeFilterIdData = graphql(treeFilterIdGql, {
   name: 'treeFilterIdData',
 })
+const exportCategoriesData = graphql(exportCategoriesGql, {
+  name: 'exportCategoriesData',
+})
 const appData = graphql(appQuery, {
   options: ({
-    store,
     activeNodeArrayData,
     treeFilterTextData,
     treeFilterIdData,
+    exportCategoriesData,
   }: {
-    store: Object,
     activeNodeArrayData: Object,
     treeFilterTextData: Object,
     treeFilterIdData: Object,
+    exportCategoriesData: Object,
   }) => ({
     variables: variablesFromStore({
-      store,
       activeNodeArrayData,
       treeFilterTextData,
       treeFilterIdData,
+      exportCategoriesData,
     }),
     name: 'appData',
   }),
 })
 
 const enhance = compose(
-  inject('store'),
   withApollo,
   activeNodeArrayData,
   treeFilterTextData,
   treeFilterIdData,
-  appData,
-  observer
+  exportCategoriesData,
+  appData
 )
 
 const App = ({
-  store,
   client,
   appData,
   data,
@@ -79,7 +80,6 @@ const App = ({
   treeFilterTextData,
   treeFilterIdData,
 }: {
-  store: Object,
   client: Object,
   appData: Object,
   data: Object,
@@ -98,7 +98,6 @@ const App = ({
   const { error, loading, objectUrlData } = data
   const { activeNodeArray } = activeNodeArrayData
   const { treeFilterId } = treeFilterIdData
-  store.setProps(data)
 
   const url0 =
     activeNodeArray && activeNodeArray[0] && activeNodeArray[0].toLowerCase()

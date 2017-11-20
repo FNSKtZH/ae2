@@ -1,16 +1,14 @@
 // @flow
-import { toJS } from 'mobx'
-
 export default ({
-  store,
   activeNodeArrayData,
   treeFilterTextData,
   treeFilterIdData,
+  exportCategoriesData,
 }: {
-  store: Object,
   activeNodeArrayData: Object,
   treeFilterTextData: Object,
   treeFilterIdData: Object,
+  exportCategoriesData: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
   const treeFilterId = treeFilterIdData.treeFilterId
@@ -18,8 +16,8 @@ export default ({
     : '99999999-9999-9999-9999-999999999999'
   const existsTreeFilterId = !!treeFilterIdData.treeFilterId
   const treeFilterText = treeFilterTextData.treeFilterText || 'ZZZZ'
-  console.log('variablesFromStore: treeFilterId:', treeFilterId)
-  console.log('variablesFromStore: existsTreeFilterId:', existsTreeFilterId)
+  //console.log('variablesFromStore: treeFilterId:', treeFilterId)
+  //console.log('variablesFromStore: existsTreeFilterId:', existsTreeFilterId)
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&
@@ -66,7 +64,9 @@ export default ({
     activeNodeArray[0] &&
     activeNodeArray[0].toLowerCase() === 'export'
   )
-  const exportCategories = toJS(store.export.categories) || []
+  const exportCategories = exportCategoriesData.exportCategories
+    ? exportCategoriesData.exportCategories
+    : []
   const queryExportCategories = exportCategories && exportCategories.length > 0
 
   return {
