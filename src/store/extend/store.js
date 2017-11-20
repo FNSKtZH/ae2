@@ -6,8 +6,5 @@ export default (store: Object): void => {
     props: {},
     setProps: action('setProps', props => (store.props = props)),
     nodes: [],
-    setNodes: action('setNodes', nodes => {
-      store.nodes = nodes
-    }),
   })
 }
