@@ -85,8 +85,8 @@ const enhance = compose(
   treeFilterTextData,
   withState('autosuggestWidth', 'changeAutosuggestWidth', 380),
   withHandlers({
-    onChange: props => (event, { newValue }) =>
-      props.client.mutate({
+    onChange: ({ client }) => (event, { newValue }) =>
+      client.mutate({
         mutation: treeFilterTextMutation,
         variables: { value: newValue },
       }),
