@@ -29,7 +29,6 @@ const enhance = compose(
   treeFilterIdData
 )
 
-// pass history to re-render on url change
 const AppShell = ({
   activeNodeArrayData,
   treeFilterTextData,
@@ -45,6 +44,7 @@ const AppShell = ({
 
   return (
     <App
+      // pass activeNodeArray to re-render on url change
       activeNodeArray={activeNodeArray}
       treeFilterText={treeFilterText}
       treeFilterId={treeFilterId}
