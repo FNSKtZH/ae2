@@ -140,7 +140,7 @@ class TreeFilter extends Component {
       treeFilterTextData,
     } = this.props
     const { treeFilterText } = treeFilterTextData
-    console.log('TreeFilter: treeFilterText:', treeFilterText)
+    //console.log('TreeFilter: treeFilterText:', treeFilterText)
     //console.log('TreeFilter: objekt:', objekt)
     const { filterSuggestionsTO, filterSuggestionsPC } = appData
     const inputProps = {
@@ -192,7 +192,7 @@ class TreeFilter extends Component {
         suggestions: suggestionsPC,
       },
     ]
-    console.log('TreeFilter: suggestionsTO:', suggestionsTO)
+    //console.log('TreeFilter: suggestionsTO:', suggestionsTO)
 
     return (
       <Container data-autosuggestwidth={autosuggestWidth}>

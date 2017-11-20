@@ -87,7 +87,7 @@ const App = ({
   treeFilterTextData: Object,
   treeFilterIdData: Object,
 }) => {
-  console.log('App rendering, data:', data)
+  //console.log('App rendering, data:', data)
   /**
    * TODO
    * wtf appData is undefined!?
