@@ -21,8 +21,7 @@ const enhance = compose(
   withApollo,
   exportCategoriesData,
   withHandlers({
-    onCheck: props => (event, isChecked) => {
-      const { client, exportCategoriesData } = props
+    onCheck: ({ client, exportCategoriesData }) => (event, isChecked) => {
       const { exportCategories } = exportCategoriesData
       const { name } = event.target
       const categories = isChecked
