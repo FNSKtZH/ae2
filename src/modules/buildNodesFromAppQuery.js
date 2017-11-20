@@ -238,7 +238,5 @@ export default ({
       })
     )
   }
-  nodes = sort(nodes)
-  //store.setNodes(nodes)
-  return nodes
+  return sort(nodes)
 }
