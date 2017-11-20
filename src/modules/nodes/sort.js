@@ -1,5 +1,4 @@
 // @flow
-import { toJS } from 'mobx'
 /**
    * As all nodes are now in one flat list,
    * we need to sort them
@@ -29,31 +28,18 @@ const compare = (a, b) => {
   return a - b
 }
 
-export default (nodes: Array<Object>): Array<Object> => {
-  return nodes.sort((a, b) => {
-    /*
-     * need to convert to js
-     * otherwise mobx declares out of bound warnings
-     * because not existing array indexes are called
-     * TODO:
-     * this may be speed critical
-     * try not to have to use toJS
-     */
-    const aSort = toJS(a.sort)
-    const bSort = toJS(b.sort)
-
-    return (
-      compare(aSort[0], bSort[0]) ||
-      compare(aSort[1], bSort[1]) ||
-      compare(aSort[2], bSort[2]) ||
-      compare(aSort[3], bSort[3]) ||
-      compare(aSort[4], bSort[4]) ||
-      compare(aSort[5], bSort[5]) ||
-      compare(aSort[6], bSort[6]) ||
-      compare(aSort[7], bSort[7]) ||
-      compare(aSort[8], bSort[8]) ||
-      compare(aSort[9], bSort[9]) ||
-      compare(aSort[10], bSort[10])
-    )
-  })
-}
+export default (nodes: Array<Object>): Array<Object> =>
+  nodes.sort(
+    (a, b) =>
+      compare(a.sort[0], b.sort[0]) ||
+      compare(a.sort[1], b.sort[1]) ||
+      compare(a.sort[2], b.sort[2]) ||
+      compare(a.sort[3], b.sort[3]) ||
+      compare(a.sort[4], b.sort[4]) ||
+      compare(a.sort[5], b.sort[5]) ||
+      compare(a.sort[6], b.sort[6]) ||
+      compare(a.sort[7], b.sort[7]) ||
+      compare(a.sort[8], b.sort[8]) ||
+      compare(a.sort[9], b.sort[9]) ||
+      compare(a.sort[10], b.sort[10])
+  )
