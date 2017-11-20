@@ -16,7 +16,6 @@ import './index.css'
 import 'react-reflex/styles.css'
 import AppShell from './components/AppShell'
 import registerServiceWorker from './registerServiceWorker'
-import store from './store'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 import localStateLink from './localStateLink'
 import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
@@ -27,6 +26,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
+// configure history
 const history = createHistory()
 // make ui follow when user uses browser back and forward buttons
 history.listen(location => {
@@ -39,7 +39,6 @@ history.listen(location => {
 
 app.extend({
   init() {
-    this.store = store
     this.client = client
     this.history = history
   },
@@ -54,7 +53,6 @@ if (activeNodeArrayFromUrl.length === 0) {
   // forward / to /Taxonomien
   activeNodeArrayFromUrl = ['Taxonomien']
 }
-
 client.mutate({
   mutation: activeNodeArrayMutation,
   variables: { value: activeNodeArrayFromUrl },
