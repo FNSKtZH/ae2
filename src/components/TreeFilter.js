@@ -9,10 +9,9 @@ import withState from 'recompose/withState'
 import Autosuggest from 'react-autosuggest'
 import { withApollo, graphql } from 'react-apollo'
 
-import treeFilterTextMutation from '../modules/treeFilterTextMutation'
 import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
-import treeFilterIdMutation from '../modules/treeFilterIdMutation'
-import treeFilterTextGql from '../modules/treeFilterTextGql'
+import treeFilterMutation from '../modules/treeFilterMutation'
+import treeFilterGql from '../modules/treeFilterGql'
 
 const Container = styled.div`
   padding: 5px 16px 0 13px;
@@ -76,20 +75,22 @@ const Container = styled.div`
   }
 `
 
-const treeFilterTextData = graphql(treeFilterTextGql, {
-  name: 'treeFilterTextData',
+const treeFilterData = graphql(treeFilterGql, {
+  name: 'treeFilterData',
 })
 
 const enhance = compose(
   withApollo,
-  treeFilterTextData,
+  treeFilterData,
   withState('autosuggestWidth', 'changeAutosuggestWidth', 380),
   withHandlers({
-    onChange: ({ client }) => (event, { newValue }) =>
+    onChange: ({ client, treeFilterData }) => (event, { newValue }) => {
+      const { id } = treeFilterData.treeFilter
       client.mutate({
-        mutation: treeFilterTextMutation,
-        variables: { value: newValue },
-      }),
+        mutation: treeFilterMutation,
+        variables: { text: newValue, id },
+      })
+    },
   }),
   /**
    * TODO
@@ -103,7 +104,7 @@ class TreeFilter extends Component {
   props: {
     client: Object,
     appData: Object,
-    treeFilterTextData: Object,
+    treeFilterData: Object,
     onChange: () => {},
     autosuggestWidth: number,
     changeAutosuggestWidth: () => {},
@@ -137,22 +138,17 @@ class TreeFilter extends Component {
       onChange,
       autosuggestWidth,
       appData,
-      treeFilterTextData,
+      treeFilterData,
     } = this.props
-    const { treeFilterText } = treeFilterTextData
-    //console.log('TreeFilter: treeFilterText:', treeFilterText)
-    //console.log('TreeFilter: objekt:', objekt)
+    const { text } = treeFilterData.treeFilter
     const { filterSuggestionsTO, filterSuggestionsPC } = appData
     const inputProps = {
-      value: treeFilterText || '',
+      value: text || '',
       onChange,
       type: 'search',
       placeholder: 'suchen',
       spellCheck: false,
     }
-    //console.log('TreeFilter: inputProps:', inputProps)
-    //console.log('TreeFilter: data:', data)
-    //console.log('TreeFilter: filterSuggestionsTO:', filterSuggestionsTO)
     /**
      * need add type:
      * when suggestion is clicked,
@@ -192,7 +188,6 @@ class TreeFilter extends Component {
         suggestions: suggestionsPC,
       },
     ]
-    //console.log('TreeFilter: suggestionsTO:', suggestionsTO)
 
     return (
       <Container data-autosuggestwidth={autosuggestWidth}>
@@ -209,7 +204,6 @@ class TreeFilter extends Component {
           }}
           getSuggestionValue={suggestion => suggestion && suggestion.name}
           onSuggestionSelected={(event, { suggestion }) => {
-            console.log('TreeFilter: sugestion selected:', suggestion)
             switch (suggestion.type) {
               case 'pC':
                 client.mutate({
@@ -235,8 +229,8 @@ class TreeFilter extends Component {
                   suggestion.id
                 )
                 client.mutate({
-                  mutation: treeFilterIdMutation,
-                  variables: { value: suggestion.id },
+                  mutation: treeFilterMutation,
+                  variables: { id: suggestion.id, text },
                 })
               }
             }

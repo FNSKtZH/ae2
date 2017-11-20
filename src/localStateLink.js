@@ -4,8 +4,7 @@ import app from 'ampersand-app'
 import isEqual from 'lodash/isEqual'
 
 import activeNodeArrayGql from './modules/activeNodeArrayGql'
-import treeFilterTextGql from './modules/treeFilterTextGql'
-import treeFilterIdGql from './modules/treeFilterIdGql'
+import treeFilterGql from './modules/treeFilterGql'
 import exportCategoriesGql from './modules/exportCategoriesGql'
 import exportCombineTaxonomiesGql from './modules/exportCombineTaxonomiesGql'
 import exportPcoPropertiesGql from './modules/exportPcoPropertiesGql'
@@ -15,16 +14,15 @@ export default withClientState({
   Query: {
     // provide initial state
     activeNodeArray: () => [],
-    treeFilterText: () => '',
-    treeFilterId: () => null,
     exportCategories: () => [],
     exportCombineTaxonomies: () => false,
     exportPcoProperties: () => [],
     // this is experimental
     // see: https://github.com/apollographql/apollo-link-state/issues/111
     treeFilter: () => ({
-      text: () => '',
-      id: () => null,
+      text: '',
+      id: null,
+      __typename: 'TreeFilter',
     }),
   },
   Mutation: {
@@ -40,17 +38,11 @@ export default withClientState({
       }
       return null
     },
-    setTreeFilterText: (_, { value }, { cache }) => {
+    setTreeFilter: (_, { id, text }, { cache }) => {
+      const treeFilter = { id, text, __typename: 'TreeFilter' }
       cache.writeQuery({
-        query: treeFilterTextGql,
-        data: { treeFilterText: value },
-      })
-      return null
-    },
-    setTreeFilterId: (_, { value }, { cache }) => {
-      cache.writeQuery({
-        query: treeFilterIdGql,
-        data: { treeFilterId: value },
+        query: treeFilterGql,
+        data: { treeFilter },
       })
       return null
     },

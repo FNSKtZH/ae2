@@ -14,14 +14,13 @@ import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
-import treeFilterTextGql from '../modules/treeFilterTextGql'
-import treeFilterIdGql from '../modules/treeFilterIdGql'
+import treeFilterGql from '../modules/treeFilterGql'
 import exportCategoriesGql from '../modules/exportCategoriesGql'
 import appQuery from '../modules/appQuery'
 import variablesFromStore from '../modules/variablesFromStore'
 import getUrlForObject from '../modules/getUrlForObject'
 import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
-import treeFilterIdMutation from '../modules/treeFilterIdMutation'
+import treeFilterMutation from '../modules/treeFilterMutation'
 
 const Container = styled.div`
   height: 100%;
@@ -32,11 +31,8 @@ const Container = styled.div`
 const activeNodeArrayData = graphql(activeNodeArrayGql, {
   name: 'activeNodeArrayData',
 })
-const treeFilterTextData = graphql(treeFilterTextGql, {
-  name: 'treeFilterTextData',
-})
-const treeFilterIdData = graphql(treeFilterIdGql, {
-  name: 'treeFilterIdData',
+const treeFilterData = graphql(treeFilterGql, {
+  name: 'treeFilterData',
 })
 const exportCategoriesData = graphql(exportCategoriesGql, {
   name: 'exportCategoriesData',
@@ -44,19 +40,16 @@ const exportCategoriesData = graphql(exportCategoriesGql, {
 const appData = graphql(appQuery, {
   options: ({
     activeNodeArrayData,
-    treeFilterTextData,
-    treeFilterIdData,
+    treeFilterData,
     exportCategoriesData,
   }: {
     activeNodeArrayData: Object,
-    treeFilterTextData: Object,
-    treeFilterIdData: Object,
+    treeFilterData: Object,
     exportCategoriesData: Object,
   }) => ({
     variables: variablesFromStore({
       activeNodeArrayData,
-      treeFilterTextData,
-      treeFilterIdData,
+      treeFilterData,
       exportCategoriesData,
     }),
     name: 'appData',
@@ -66,8 +59,7 @@ const appData = graphql(appQuery, {
 const enhance = compose(
   withApollo,
   activeNodeArrayData,
-  treeFilterTextData,
-  treeFilterIdData,
+  treeFilterData,
   exportCategoriesData,
   appData
 )
@@ -77,17 +69,16 @@ const App = ({
   appData,
   data,
   activeNodeArrayData,
-  treeFilterTextData,
-  treeFilterIdData,
+  treeFilterData,
 }: {
   client: Object,
   appData: Object,
   data: Object,
   activeNodeArrayData: Object,
-  treeFilterTextData: Object,
-  treeFilterIdData: Object,
+  treeFilterData: Object,
 }) => {
-  //console.log('App rendering, data:', data)
+  console.log('App rendering, data:', data)
+  console.log('App rendering, treeFilterData:', treeFilterData)
   /**
    * TODO
    * wtf appData is undefined!?
@@ -97,7 +88,6 @@ const App = ({
   //console.log('App: data:', data)
   const { error, loading, objectUrlData } = data
   const { activeNodeArray } = activeNodeArrayData
-  const { treeFilterId } = treeFilterIdData
 
   const url0 =
     activeNodeArray && activeNodeArray[0] && activeNodeArray[0].toLowerCase()
@@ -131,6 +121,14 @@ const App = ({
    * then update activeNodeArray with that result
    * and reset treeFilterId
    */
+  const treeFilterId =
+    treeFilterData.treeFilter && treeFilterData.treeFilter.id
+      ? treeFilterData.treeFilter.id
+      : null
+  const treeFilterText =
+    treeFilterData.treeFilter && treeFilterData.treeFilter.text
+      ? treeFilterData.treeFilter.text
+      : null
   if (treeFilterId && treeFilterId !== '99999999-9999-9999-9999-999999999999') {
     console.log('App: treeFilterId:', treeFilterId)
     //console.log('App: appData:', appData)
@@ -142,8 +140,8 @@ const App = ({
       variables: { value: url },
     })
     client.mutate({
-      mutation: treeFilterIdMutation,
-      variables: { value: null },
+      mutation: treeFilterMutation,
+      variables: { id: null, text: treeFilterText },
     })
   }
 

@@ -10,37 +10,33 @@ import { graphql } from 'react-apollo'
 
 import App from './App'
 import activeNodeArrayQgl from '../modules/activeNodeArrayGql'
-import treeFilterTextGql from '../modules/treeFilterTextGql'
-import treeFilterIdGql from '../modules/treeFilterIdGql'
+import treeFilterGql from '../modules/treeFilterGql'
 
 const activeNodeArrayData = graphql(activeNodeArrayQgl, {
   name: 'activeNodeArrayData',
 })
-const treeFilterTextData = graphql(treeFilterTextGql, {
-  name: 'treeFilterTextData',
-})
-const treeFilterIdData = graphql(treeFilterIdGql, {
-  name: 'treeFilterIdData',
+const treeFilterData = graphql(treeFilterGql, {
+  name: 'treeFilterData',
 })
 
-const enhance = compose(
-  activeNodeArrayData,
-  treeFilterTextData,
-  treeFilterIdData
-)
+const enhance = compose(activeNodeArrayData, treeFilterData)
 
 const AppShell = ({
   activeNodeArrayData,
-  treeFilterTextData,
-  treeFilterIdData,
+  treeFilterData,
 }: {
   activeNodeArrayData: Object,
-  treeFilterTextData: Object,
-  treeFilterIdData: Object,
+  treeFilterData: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
-  const { treeFilterText } = treeFilterTextData
-  const { treeFilterId } = treeFilterIdData
+  const treeFilterText =
+    treeFilterData.treeFilter && treeFilterData.treeFilter.text
+      ? treeFilterData.treeFilter.text
+      : ''
+  const treeFilterId =
+    treeFilterData.treeFilter && treeFilterData.treeFilter.id
+      ? treeFilterData.treeFilter.id
+      : null
 
   return (
     <App

@@ -1,23 +1,22 @@
 // @flow
 export default ({
   activeNodeArrayData,
-  treeFilterTextData,
-  treeFilterIdData,
+  treeFilterData,
   exportCategoriesData,
 }: {
   activeNodeArrayData: Object,
-  treeFilterTextData: Object,
-  treeFilterIdData: Object,
+  treeFilterData: Object,
   exportCategoriesData: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
-  const treeFilterId = treeFilterIdData.treeFilterId
-    ? treeFilterIdData.treeFilterId
-    : '99999999-9999-9999-9999-999999999999'
-  const existsTreeFilterId = !!treeFilterIdData.treeFilterId
-  const treeFilterText = treeFilterTextData.treeFilterText || 'ZZZZ'
-  //console.log('variablesFromStore: treeFilterId:', treeFilterId)
-  //console.log('variablesFromStore: existsTreeFilterId:', existsTreeFilterId)
+  const treeFilterId =
+    treeFilterData.treeFilter && treeFilterData.treeFilter.id
+      ? treeFilterData.treeFilter.id
+      : '99999999-9999-9999-9999-999999999999'
+  const existsTreeFilterId =
+    treeFilterId !== '99999999-9999-9999-9999-999999999999'
+  const treeFilterText =
+    (treeFilterData.treeFilter && treeFilterData.treeFilter.text) || 'ZZZZ'
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&
