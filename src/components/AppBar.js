@@ -50,8 +50,7 @@ const enhance = compose(
   withApollo,
   activeNodeArrayData,
   withHandlers({
-    onClickColumnButtonData: props => () => {
-      const { client, activeNodeArrayData } = props
+    onClickColumnButtonData: ({ client, activeNodeArrayData }) => () => {
       const { activeNodeArray } = activeNodeArrayData
       const pathIsMain = ['Taxonomien', 'Eigenschaften-Sammlungen'].includes(
         activeNodeArray[0]
@@ -63,44 +62,32 @@ const enhance = compose(
         })
       }
     },
-    onClickColumnButtonExport: props => () => {
-      const { client } = props
+    onClickColumnButtonExport: ({ client }) => () =>
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Export'] },
-      })
-    },
-    onClickImportPc: props => () => {
-      const { client } = props
+      }),
+    onClickImportPc: ({ client }) => () =>
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Import', 'Eigenschaften-Sammlungen'] },
-      })
-    },
-    onClickImportRc: props => () => {
-      const { client } = props
+      }),
+    onClickImportRc: ({ client }) => () =>
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Import', 'Beziehungs-Sammlungen'] },
-      })
-    },
-    onClickColumnButtonLogin: props => () => {
-      const { client } = props
+      }),
+    onClickColumnButtonLogin: ({ client }) => () =>
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Login'] },
-      })
-    },
-    onChangeImportButton: props => (event, key, value) => {
-      const { client } = props
-      console.log('event:', event)
-      console.log('value:', value)
+      }),
+    onChangeImportButton: ({ client }) => (event, key, value) =>
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Import', value] },
-      })
-    },
-    ueberArteigenschaftenOnClick: props => () =>
+      }),
+    ueberArteigenschaftenOnClick: () => () =>
       window.open('https://github.com/barbalex/ae2'),
   })
 )
