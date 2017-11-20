@@ -1,8 +1,6 @@
 // @flow
 import React from 'react'
-import { toJS } from 'mobx'
 // if observer is active, forceUpdate during rendering happens
-import { inject } from 'mobx-react'
 import { graphql } from 'react-apollo'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
@@ -66,24 +64,22 @@ const noRowsRenderer = nodes => (
   </Container>
 )
 
-const enhance = compose(inject('store'), activeNodeArrayData)
+const enhance = compose(activeNodeArrayData)
 
 const Tree = ({
-  store,
   data,
   activeNodeArrayData,
 }: {
-  store: Object,
   data: Object,
   activeNodeArrayData: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
-  const nodes = buildNodesFromAppQuery({ store, data, activeNodeArray })
+  const nodes = buildNodesFromAppQuery({ data, activeNodeArray })
   const rowRenderer = ({ key, index, style }) => (
     <Row key={key} index={index} style={style} nodes={nodes} />
   )
   const activeNodeIndex = findIndex(nodes, node =>
-    isEqual(toJS(node.url), activeNodeArray)
+    isEqual(node.url, activeNodeArray)
   )
 
   return (

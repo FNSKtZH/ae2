@@ -19,11 +19,9 @@ import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
 import sort from './nodes/sort'
 
 export default ({
-  store,
   data,
   activeNodeArray,
 }: {
-  store: Object,
   data: Object,
   activeNodeArray: Object,
 }): Array<Object> => {
