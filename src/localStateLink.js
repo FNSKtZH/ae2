@@ -8,6 +8,7 @@ import treeFilterTextGql from './modules/treeFilterTextGql'
 import treeFilterIdGql from './modules/treeFilterIdGql'
 import exportCategoriesGql from './modules/exportCategoriesGql'
 import exportCombineTaxonomiesGql from './modules/exportCombineTaxonomiesGql'
+import exportPcoPropertiesGql from './modules/exportPcoPropertiesGql'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 
 export default withClientState({
@@ -18,6 +19,7 @@ export default withClientState({
     treeFilterId: () => null,
     exportCategories: () => [],
     exportCombineTaxonomies: () => false,
+    exportPcoProperties: () => [],
   },
   Mutation: {
     // update values in the store on mutations
@@ -57,6 +59,13 @@ export default withClientState({
       cache.writeQuery({
         query: exportCombineTaxonomiesGql,
         data: { exportCombineTaxonomies: value },
+      })
+      return null
+    },
+    setExportPcoProperties: (_, { value }, { cache }) => {
+      cache.writeQuery({
+        query: exportPcoPropertiesGql,
+        data: { exportPcoProperties: value },
       })
       return null
     },
