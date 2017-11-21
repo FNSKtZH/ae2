@@ -172,6 +172,15 @@ export default gql`
         count
       }
     }
+    taxPropertiesByCategoriesFunction(categories: $exportCategories)
+      @include(if: $queryExportCategories) {
+      nodes {
+        taxonomyName
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
   ${TreeRow.fragments.objektLevel5AndUp}
 `

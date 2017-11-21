@@ -24,6 +24,8 @@ const Export = ({ data }: { data: Object }) => {
   console.log('Export: pcoProperties:', pcoProperties)
   const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
   console.log('Export: rcoProperties:', rcoProperties)
+  const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
+  console.log('Export: taxProperties:', taxProperties)
 
   return (
     <Container>
