@@ -19,7 +19,7 @@ const Container = styled.div`
 const StyledH3 = styled.h3`margin: 5px 0;`
 
 const Export = ({ data }: { data: Object }) => {
-  console.log('Export: data:', data)
+  //console.log('Export: data:', data)
   const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
   console.log('Export: pcoProperties:', pcoProperties)
   const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
