@@ -2,6 +2,7 @@
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import styled from 'styled-components'
+import get from 'lodash/get'
 
 import Categories from './Categories'
 
@@ -17,58 +18,64 @@ const Container = styled.div`
 `
 const StyledH3 = styled.h3`margin: 5px 0;`
 
-const Export = ({ data }: { data: Object }) => (
-  <Container>
-    <StyledH3>Export</StyledH3>
-    <Card style={level1CardStyle}>
-      <CardHeader
-        title="1. Gruppe(n) wählen"
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level1CardTitleStyle}
-        style={level1CardHeaderStyle}
-      />
-      <CardText expandable={true} style={level1CardTextStyle}>
-        <Categories data={data} />
-      </CardText>
-    </Card>
-    <Card style={level1CardStyle}>
-      <CardHeader
-        title="2. filtern"
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level1CardTitleStyle}
-        style={level1CardHeaderStyle}
-      />
-      <CardText expandable={true} style={level1CardTextStyle}>
-        card text filtern
-      </CardText>
-    </Card>
-    <Card style={level1CardStyle}>
-      <CardHeader
-        title="3. Eigenschaften wählen"
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level1CardTitleStyle}
-        style={level1CardHeaderStyle}
-      />
-      <CardText expandable={true} style={level1CardTextStyle}>
-        card text Eigenschaften wählen
-      </CardText>
-    </Card>
-    <Card style={level1CardStyle}>
-      <CardHeader
-        title="4. exportieren"
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level1CardTitleStyle}
-        style={level1CardHeaderStyle}
-      />
-      <CardText expandable={true} style={level1CardTextStyle}>
-        card text exportieren
-      </CardText>
-    </Card>
-  </Container>
-)
+const Export = ({ data }: { data: Object }) => {
+  console.log('Export: data:', data)
+  const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
+  console.log('Export: pcoProperties:', pcoProperties)
+
+  return (
+    <Container>
+      <StyledH3>Export</StyledH3>
+      <Card style={level1CardStyle}>
+        <CardHeader
+          title="1. Gruppe(n) wählen"
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level1CardTitleStyle}
+          style={level1CardHeaderStyle}
+        />
+        <CardText expandable={true} style={level1CardTextStyle}>
+          <Categories data={data} />
+        </CardText>
+      </Card>
+      <Card style={level1CardStyle}>
+        <CardHeader
+          title="2. filtern"
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level1CardTitleStyle}
+          style={level1CardHeaderStyle}
+        />
+        <CardText expandable={true} style={level1CardTextStyle}>
+          card text filtern
+        </CardText>
+      </Card>
+      <Card style={level1CardStyle}>
+        <CardHeader
+          title="3. Eigenschaften wählen"
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level1CardTitleStyle}
+          style={level1CardHeaderStyle}
+        />
+        <CardText expandable={true} style={level1CardTextStyle}>
+          card text Eigenschaften wählen
+        </CardText>
+      </Card>
+      <Card style={level1CardStyle}>
+        <CardHeader
+          title="4. exportieren"
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level1CardTitleStyle}
+          style={level1CardHeaderStyle}
+        />
+        <CardText expandable={true} style={level1CardTextStyle}>
+          card text exportieren
+        </CardText>
+      </Card>
+    </Container>
+  )
+}
 
 export default Export
