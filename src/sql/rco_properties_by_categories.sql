@@ -4,6 +4,7 @@ CREATE OR REPLACE FUNCTION ae.rco_properties_by_categories_function(categories t
     WITH jsontypes AS (
       SELECT
         ae.property_collection.name AS property_collection_name,
+        ae.relation.relation_type,
         json_data.key AS property_name,
         CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
           WHEN json_data.value::text ~ '^-?\d' THEN
@@ -33,10 +34,12 @@ CREATE OR REPLACE FUNCTION ae.rco_properties_by_categories_function(categories t
       jsontypes
     GROUP BY
       property_collection_name,
+      relation_type,
       property_name,
       jsontype
     ORDER BY
       property_collection_name,
+      relation_type,
       property_name,
       jsontype
   $$
