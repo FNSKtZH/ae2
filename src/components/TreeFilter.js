@@ -161,9 +161,7 @@ class TreeFilter extends Component {
       filterSuggestionsTO.nodes.forEach(s => {
         suggestionsTO.push({
           ...s,
-          ...{
-            type: 't0',
-          },
+          type: 't0',
         })
       })
     }
@@ -172,9 +170,7 @@ class TreeFilter extends Component {
       filterSuggestionsPC.nodes.forEach(s => {
         suggestionsPC.push({
           ...s,
-          ...{
-            type: 'pC',
-          },
+          type: 'pC',
         })
       })
     }
