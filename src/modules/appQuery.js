@@ -162,6 +162,16 @@ export default gql`
         count
       }
     }
+    rcoPropertiesByCategoriesFunction(categories: $exportCategories)
+      @include(if: $queryExportCategories) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
   ${TreeRow.fragments.objektLevel5AndUp}
 `
