@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import PropertyReadOnly from './PropertyReadOnly'
 import Taxonomy from './Taxonomy'
 import getUrlForObject from '../modules/getUrlForObject'
+import appBaseUrl from '../modules/appBaseUrl'
 
 const tOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {
@@ -57,9 +58,7 @@ const TaxonomyObject = ({
     // NOPE. This will return data for active node
     // Need to use own query to get needed data, then open new window
     // so use button or icon button instead?
-    linkUrl = getUrlForObject(objekt)
-    console.log('TaxonomyObject: linkUrl:', linkUrl)
-    console.log('TaxonomyObject: objekt:', objekt)
+    linkUrl = getUrlForObject(objekt).join('/')
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
   }
@@ -73,7 +72,8 @@ const TaxonomyObject = ({
           target="_blank"
           rel="noopener noreferrer"
           title={linkText}
-          onClick={event => window.open(linkUrl)}
+          onClick={event =>
+            window.open(`${appBaseUrl}/${linkUrl}`, 'target="_blank"')}
         >
           <SynomymLinkIcon id="linkToSynonym" className="material-icons">
             open_in_new
