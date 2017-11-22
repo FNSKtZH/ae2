@@ -312,6 +312,7 @@ const activeObjectQuery = gql`
           relationType
           properties
           propertyCollectionByPropertyCollectionId {
+            id
             name
             description
             links
