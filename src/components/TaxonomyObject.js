@@ -73,11 +73,7 @@ const TaxonomyObject = ({
           target="_blank"
           rel="noopener noreferrer"
           title={linkText}
-          onClick={event => {
-            console.log('click, event:', event)
-            event.nativeEvent.stopImmediatePropagation()
-            window.open(linkUrl)
-          }}
+          onClick={event => window.open(linkUrl)}
         >
           <SynomymLinkIcon id="linkToSynonym" className="material-icons">
             open_in_new
