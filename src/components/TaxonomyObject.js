@@ -38,16 +38,16 @@ const SynomymLinkIcon = styled(FontIcon)`
 `
 
 const TaxonomyObject = ({
-  activeObject,
+  objekt,
   showLink,
 }: {
-  activeObject: Object,
+  objekt: Object,
   showLink: Boolean,
 }) => {
-  const taxonomy = get(activeObject, 'taxonomyByTaxonomyId', {})
+  const taxonomy = get(objekt, 'taxonomyByTaxonomyId', {})
   let taxName = get(taxonomy, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
-  const properties = JSON.parse(activeObject.properties) || {}
+  const properties = JSON.parse(objekt.properties) || {}
   if (properties['Artname vollständig']) {
     taxName = `${taxName}: ${properties['Artname vollständig']}`
   }
@@ -57,9 +57,9 @@ const TaxonomyObject = ({
     // NOPE. This will return data for active node
     // Need to use own query to get needed data, then open new window
     // so use button or icon button instead?
-    linkUrl = getUrlForObject(activeObject)
+    linkUrl = getUrlForObject(objekt)
     console.log('TaxonomyObject: linkUrl:', linkUrl)
-    console.log('TaxonomyObject: activeObject:', activeObject)
+    console.log('TaxonomyObject: objekt:', objekt)
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
   }
@@ -73,6 +73,11 @@ const TaxonomyObject = ({
           target="_blank"
           rel="noopener noreferrer"
           title={linkText}
+          onClick={event => {
+            console.log('click, event:', event)
+            event.nativeEvent.stopImmediatePropagation()
+            window.open(linkUrl)
+          }}
         >
           <SynomymLinkIcon id="linkToSynonym" className="material-icons">
             open_in_new

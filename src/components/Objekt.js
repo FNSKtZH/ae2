@@ -57,7 +57,7 @@ const Objekt = ({ data }: { data: Object }) => {
         Taxonomie
         <TitleSpan>{` (${activeObject.name})`}</TitleSpan>
       </FirstTitle>
-      <TaxonomyObject activeObject={activeObject} />
+      <TaxonomyObject objekt={activeObject} />
       {synonymObjects.length > 0 && (
         <Title>
           {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
@@ -69,7 +69,7 @@ const Objekt = ({ data }: { data: Object }) => {
       {sortBy(synonymObjects, tO =>
         get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
       ).map(objekt => (
-        <TaxonomyObject key={objekt.id} activeObject={objekt} showLink />
+        <TaxonomyObject key={objekt.id} objekt={objekt} showLink />
       ))}
       {propertyCollectionObjects.length > 0 && (
         <Title>
@@ -227,6 +227,29 @@ const activeObjectQuery = gql`
                   id
                   name
                   category
+                }
+              }
+            }
+            categoryByCategory {
+              id
+              name
+              dataType
+            }
+            objectByParentId {
+              id
+              objectByParentId {
+                id
+                objectByParentId {
+                  id
+                  objectByParentId {
+                    id
+                    objectByParentId {
+                      id
+                      objectByParentId {
+                        id
+                      }
+                    }
+                  }
                 }
               }
             }
