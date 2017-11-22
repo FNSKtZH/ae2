@@ -58,6 +58,8 @@ const TaxonomyObject = ({
     // Need to use own query to get needed data, then open new window
     // so use button or icon button instead?
     linkUrl = getUrlForObject(activeObject)
+    console.log('TaxonomyObject: linkUrl:', linkUrl)
+    console.log('TaxonomyObject: activeObject:', activeObject)
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
   }
