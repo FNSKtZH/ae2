@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
@@ -31,7 +32,7 @@ const level2CardStyle = { margin: 0, padding: 0 }
 const level1CardTitleStyle = { fontWeight: 'bold' }
 const level1CardHeaderStyle = { backgroundColor: '#FFCC80' }
 const level2CardHeaderStyle = {
-  backgroundColor: '#FFECB3',
+  backgroundColor: '#FFF3E0',
   borderBottom: '1px solid #ebebeb',
 }
 const level1CardTextStyle = { padding: 0 }
@@ -105,14 +106,25 @@ const Properties = ({
           {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
             <Card style={level2CardStyle} key={pc}>
               <CardHeader
-                title={pc}
+                title={`${pc} (${
+                  pcoPropertiesByPropertyCollection[pc].length
+                } Felder)`}
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level1CardTitleStyle}
                 style={level2CardHeaderStyle}
               />
               <CardText expandable={true} style={level2CardTextStyle}>
-                <FieldsContainer>pc text here</FieldsContainer>
+                <FieldsContainer>
+                  {pcoPropertiesByPropertyCollection[pc].map(field => (
+                    <Checkbox
+                      key={`${field.propertyName}${field.jsontype}`}
+                      label={field.propertyName}
+                      checked={false}
+                      onCheck={() => console.log('todo')}
+                    />
+                  ))}
+                </FieldsContainer>
               </CardText>
             </Card>
           ))}
