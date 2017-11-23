@@ -3,6 +3,8 @@ import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
+import get from 'lodash/get'
+import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 
@@ -37,12 +39,39 @@ const Properties = ({
   exportCombineTaxonomiesData: Object,
   onCheck: () => void,
 }) => {
+  const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
+  const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
+  const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
+  const taxPropertiesGroupedByProperty = groupBy(taxProperties, 'propertyName')
+  const taxTitle = `Taxonomie (${
+    Object.keys(taxPropertiesGroupedByProperty).length
+  } Felder)`
+  const pcoPropertiesByPropertyCollection = groupBy(
+    pcoProperties,
+    'propertyCollectionName'
+  )
+  const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
+  //console.log('Export: pcoPropertiesFields:', pcoPropertiesFields)
+  const pcTitle = `Eigenschaftensammlungen (${
+    Object.keys(pcoPropertiesByPropertyCollection).length
+  } Sammlungen, ${Object.keys(pcoPropertiesFields).length} Felder)`
+
+  const rcoPropertiesByPropertyCollection = groupBy(
+    rcoProperties,
+    'propertyCollectionName'
+  )
+  const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
+  //console.log('Export: pcoPropertiesFields:', pcoPropertiesFields)
+  const rcTitle = `Beziehungssammlungen (${
+    Object.keys(rcoPropertiesByPropertyCollection).length
+  } Sammlungen, ${Object.keys(rcoPropertiesFields).length} Felder)`
+
   return (
     <Container>
       <HowTo />
       <Card style={level1CardStyle}>
         <CardHeader
-          title="Taxonomie"
+          title={taxTitle}
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
@@ -54,7 +83,7 @@ const Properties = ({
       </Card>
       <Card style={level1CardStyle}>
         <CardHeader
-          title="Eigenschaftensammlungen"
+          title={pcTitle}
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
@@ -66,7 +95,7 @@ const Properties = ({
       </Card>
       <Card style={level1CardStyle}>
         <CardHeader
-          title="Beziehungssammlungen"
+          title={rcTitle}
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
