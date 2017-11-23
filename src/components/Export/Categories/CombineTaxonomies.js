@@ -36,11 +36,9 @@ const cardTextStyle = {
 }
 
 const CombineTaxonomies = ({
-  data,
   exportCombineTaxonomiesData,
   onCheckCombineTaxonomies,
 }: {
-  data: Object,
   exportCombineTaxonomiesData: Object,
   onCheckCombineTaxonomies: () => void,
 }) => {

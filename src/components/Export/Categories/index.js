@@ -103,7 +103,7 @@ const Categories = ({
           onCheck={onCheck}
         />
       ))}
-      <CombineTaxonomies data={data} />
+      <CombineTaxonomies />
       <Paper style={paperStyle} zDepth={1}>
         <PaperTextContainer>
           <PropertyTextDiv>{textProperties}</PropertyTextDiv>
