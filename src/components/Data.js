@@ -25,7 +25,13 @@ const Data = ({
 
   return (
     <ReflexContainer orientation="vertical">
-      <ReflexElement flex={0.35} className="tree-reflex-element">
+      <ReflexElement
+        flex={0.35}
+        className="tree-reflex-element"
+        propagateDimensions={true}
+        renderOnResizeRate={50}
+        renderOnResize={true}
+      >
         <Tree data={data} activeNodeArray={activeNodeArray} />
       </ReflexElement>
       <ReflexSplitter key="treeSplitter" />

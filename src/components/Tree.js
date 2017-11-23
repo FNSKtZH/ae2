@@ -69,9 +69,12 @@ const enhance = compose(activeNodeArrayData)
 const Tree = ({
   data,
   activeNodeArrayData,
+  // dimensions is passed down from ReflexElement
+  dimensions,
 }: {
   data: Object,
   activeNodeArrayData: Object,
+  dimensions: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
   const nodes = buildNodesFromAppQuery({ data, activeNodeArray })
@@ -84,7 +87,7 @@ const Tree = ({
 
   return (
     <Container>
-      <TreeFilter appData={data} />
+      <TreeFilter appData={data} dimensions={dimensions} />
       <AutoSizerContainer>
         <AutoSizer>
           {({ height, width }) => (

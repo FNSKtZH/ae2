@@ -1,11 +1,8 @@
 // @flow
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import { observer } from 'mobx-react'
+import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
-import withState from 'recompose/withState'
 import Autosuggest from 'react-autosuggest'
 import { withApollo, graphql } from 'react-apollo'
 
@@ -82,7 +79,6 @@ const treeFilterData = graphql(treeFilterGql, {
 const enhance = compose(
   withApollo,
   treeFilterData,
-  withState('autosuggestWidth', 'changeAutosuggestWidth', 380),
   withHandlers({
     onChange: ({ client, treeFilterData }) => (event, { newValue }) => {
       const { id } = treeFilterData.treeFilter
@@ -91,156 +87,124 @@ const enhance = compose(
         variables: { text: newValue, id },
       })
     },
-  }),
-  /**
-   * TODO
-   * If the observer is removed, maximum update depth is exceeded
-   * no idea why
-   */
-  observer
+  })
 )
 
-class TreeFilter extends Component {
-  props: {
-    client: Object,
-    appData: Object,
-    treeFilterData: Object,
-    onChange: () => {},
-    autosuggestWidth: number,
-    changeAutosuggestWidth: () => {},
+const TreeFilter = ({
+  client,
+  appData,
+  treeFilterData,
+  onChange,
+  dimensions,
+}: {
+  client: Object,
+  appData: Object,
+  treeFilterData: Object,
+  onChange: () => {},
+  dimensions: Object,
+}) => {
+  const { text } = treeFilterData.treeFilter
+  const { filterSuggestionsTO, filterSuggestionsPC } = appData
+  const inputProps = {
+    value: text || '',
+    onChange,
+    type: 'search',
+    placeholder: 'suchen',
+    spellCheck: false,
   }
-
-  autosuggest: ?HTMLDivElement
-
-  componentDidMount() {
-    const { changeAutosuggestWidth } = this.props
-    const autosuggestDomNode =
-      this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
-    const autosuggestWidth = autosuggestDomNode
-      ? autosuggestDomNode.clientWidth
-      : 380
-    changeAutosuggestWidth(autosuggestWidth)
-  }
-
-  componentDidUpdate() {
-    const { changeAutosuggestWidth } = this.props
-    const autosuggestDomNode =
-      this.autosuggest && ReactDOM.findDOMNode(this.autosuggest)
-    const autosuggestWidth = autosuggestDomNode
-      ? autosuggestDomNode.clientWidth
-      : 380
-    changeAutosuggestWidth(autosuggestWidth)
-  }
-
-  render() {
-    const {
-      client,
-      onChange,
-      autosuggestWidth,
-      appData,
-      treeFilterData,
-    } = this.props
-    const { text } = treeFilterData.treeFilter
-    const { filterSuggestionsTO, filterSuggestionsPC } = appData
-    const inputProps = {
-      value: text || '',
-      onChange,
-      type: 'search',
-      placeholder: 'suchen',
-      spellCheck: false,
-    }
-    /**
-     * need add type:
-     * when suggestion is clicked,
-     * url is calculated by id depending on type
-     * CANNOT map from filterSuggestionsTO.nodes
-     * as object is not extensible
-     */
-    const suggestionsTO = []
-    if (filterSuggestionsTO && filterSuggestionsTO.nodes) {
-      filterSuggestionsTO.nodes.forEach(s => {
-        suggestionsTO.push({
-          ...s,
-          type: 't0',
-        })
+  /**
+   * need add type:
+   * when suggestion is clicked,
+   * url is calculated by id depending on type
+   * CANNOT map from filterSuggestionsTO.nodes
+   * as object is not extensible
+   */
+  const suggestionsTO = []
+  if (filterSuggestionsTO && filterSuggestionsTO.nodes) {
+    filterSuggestionsTO.nodes.forEach(s => {
+      suggestionsTO.push({
+        ...s,
+        type: 't0',
       })
-    }
-    const suggestionsPC = []
-    if (filterSuggestionsPC && filterSuggestionsPC.nodes) {
-      filterSuggestionsPC.nodes.forEach(s => {
-        suggestionsPC.push({
-          ...s,
-          type: 'pC',
-        })
+    })
+  }
+  const suggestionsPC = []
+  if (filterSuggestionsPC && filterSuggestionsPC.nodes) {
+    filterSuggestionsPC.nodes.forEach(s => {
+      suggestionsPC.push({
+        ...s,
+        type: 'pC',
       })
-    }
-    const suggestions = [
-      {
-        title: `Arten und Lebensräume (${suggestionsTO.length})`,
-        suggestions: suggestionsTO,
-      },
-      {
-        title: `Eigenschaften-Sammlungen (${suggestionsPC.length})`,
-        suggestions: suggestionsPC,
-      },
-    ]
+    })
+  }
+  const suggestions = [
+    {
+      title: `Arten und Lebensräume (${suggestionsTO.length})`,
+      suggestions: suggestionsTO,
+    },
+    {
+      title: `Eigenschaften-Sammlungen (${suggestionsPC.length})`,
+      suggestions: suggestionsPC,
+    },
+  ]
+  // on first render dimensions.width is passed as '100%'
+  // later it is passed as number of pixels
+  const autosuggestWidth = isNaN(dimensions.width) ? 380 : dimensions.width - 29
 
-    return (
-      <Container data-autosuggestwidth={autosuggestWidth}>
-        <Autosuggest
-          ref={c => (this.autosuggest = c)}
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={() => {
-            // Autosuggest wants this function
-            // could maybe be used to indicate loading?
-            // console.log('fetch requested')
-          }}
-          onSuggestionsClearRequested={() => {
-            // need this?
-          }}
-          getSuggestionValue={suggestion => suggestion && suggestion.name}
-          onSuggestionSelected={(event, { suggestion }) => {
-            switch (suggestion.type) {
-              case 'pC':
-                client.mutate({
-                  mutation: activeNodeArrayMutation,
-                  variables: {
-                    value: ['Eigenschaften-Sammlungen', suggestion.id],
-                  },
-                })
-                break
-              case 'tO':
-              default: {
-                /**
-                 * TODO
-                 * set treeFilterId
-                 * then app rerenders
-                 * finds treeFilterId
-                 * gets result of objectUrlData query
-                 * passes it to getUrlForObject
-                 * mutates activeNodeArray
-                 */
-                console.log(
-                  'TreeFilter: mutating treeFilterId to:',
-                  suggestion.id
-                )
-                client.mutate({
-                  mutation: treeFilterMutation,
-                  variables: { id: suggestion.id, text },
-                })
-              }
+  return (
+    <Container data-autosuggestwidth={autosuggestWidth}>
+      <Autosuggest
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={() => {
+          // Autosuggest wants this function
+          // could maybe be used to indicate loading?
+          // console.log('fetch requested')
+        }}
+        onSuggestionsClearRequested={() => {
+          // need this?
+        }}
+        getSuggestionValue={suggestion => suggestion && suggestion.name}
+        onSuggestionSelected={(event, { suggestion }) => {
+          switch (suggestion.type) {
+            case 'pC':
+              client.mutate({
+                mutation: activeNodeArrayMutation,
+                variables: {
+                  value: ['Eigenschaften-Sammlungen', suggestion.id],
+                },
+              })
+              break
+            case 'tO':
+            default: {
+              /**
+               * TODO
+               * set treeFilterId
+               * then app rerenders
+               * finds treeFilterId
+               * gets result of objectUrlData query
+               * passes it to getUrlForObject
+               * mutates activeNodeArray
+               */
+              console.log(
+                'TreeFilter: mutating treeFilterId to:',
+                suggestion.id
+              )
+              client.mutate({
+                mutation: treeFilterMutation,
+                variables: { id: suggestion.id, text },
+              })
             }
-          }}
-          renderSuggestion={suggestion => <span>{suggestion.name}</span>}
-          multiSection={true}
-          renderSectionTitle={section => <strong>{section.title}</strong>}
-          getSectionSuggestions={section => section.suggestions}
-          inputProps={inputProps}
-          focusInputOnSuggestionClick={false}
-        />
-      </Container>
-    )
-  }
+          }
+        }}
+        renderSuggestion={suggestion => <span>{suggestion.name}</span>}
+        multiSection={true}
+        renderSectionTitle={section => <strong>{section.title}</strong>}
+        getSectionSuggestions={section => section.suggestions}
+        inputProps={inputProps}
+        focusInputOnSuggestionClick={false}
+      />
+    </Container>
+  )
 }
 
 export default enhance(TreeFilter)
