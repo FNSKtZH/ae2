@@ -10,7 +10,7 @@ import Properties from './Properties'
 const level1CardStyle = { margin: '10px 0' }
 const level1CardTitleStyle = { fontWeight: 'bold' }
 const level1CardHeaderStyle = { backgroundColor: '#FFCC80' }
-const level1CardTextStyle = { padding: '5px 16px' }
+const level1CardTextStyle = { padding: 0 }
 
 const Container = styled.div`
   padding: 5px 10px;

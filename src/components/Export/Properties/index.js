@@ -22,12 +22,20 @@ const Container = styled.div`
   height: calc(100% - 48px);
   overflow: auto !important;
 `
+const FieldsContainer = styled.div`
+  margin: 16px;
+`
 
 const level1CardStyle = { margin: '10px 0' }
-const level3CardStyle = { margin: 0, backgroundColor: '#FFF3E0' }
+const level2CardStyle = { margin: 0, padding: 0 }
 const level1CardTitleStyle = { fontWeight: 'bold' }
 const level1CardHeaderStyle = { backgroundColor: '#FFCC80' }
-const level1CardTextStyle = { padding: '5px 16px' }
+const level2CardHeaderStyle = {
+  backgroundColor: '#FFECB3',
+  borderBottom: '1px solid #ebebeb',
+}
+const level1CardTextStyle = { padding: 0 }
+const level2CardTextStyle = { padding: 0 }
 
 const Properties = ({
   data,
@@ -93,18 +101,18 @@ const Properties = ({
           titleStyle={level1CardTitleStyle}
           style={level1CardHeaderStyle}
         />
-        <CardText expandable={true} style={level1CardTextStyle}>
+        <CardText expandable={true} style={level2CardTextStyle}>
           {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
-            <Card style={level3CardStyle} key={pc}>
+            <Card style={level2CardStyle} key={pc}>
               <CardHeader
                 title={pc}
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level1CardTitleStyle}
-                style={level1CardHeaderStyle}
+                style={level2CardHeaderStyle}
               />
-              <CardText expandable={true} style={level1CardTextStyle}>
-                need fields here
+              <CardText expandable={true} style={level2CardTextStyle}>
+                <FieldsContainer>pc text here</FieldsContainer>
               </CardText>
             </Card>
           ))}
