@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 
 import Categories from './Categories'
+import Properties from './Properties'
 
 const level1CardStyle = { margin: '10px 0' }
 const level1CardTitleStyle = { fontWeight: 'bold' }
@@ -16,7 +17,9 @@ const Container = styled.div`
   height: calc(100% - 48px);
   overflow: auto !important;
 `
-const StyledH3 = styled.h3`margin: 5px 0;`
+const StyledH3 = styled.h3`
+  margin: 5px 0;
+`
 
 const Export = ({ data }: { data: Object }) => {
   //console.log('Export: data:', data)
@@ -63,7 +66,7 @@ const Export = ({ data }: { data: Object }) => {
           style={level1CardHeaderStyle}
         />
         <CardText expandable={true} style={level1CardTextStyle}>
-          card text Eigenschaften wählen
+          <Properties data={data} />
         </CardText>
       </Card>
       <Card style={level1CardStyle}>
