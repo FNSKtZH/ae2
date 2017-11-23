@@ -24,6 +24,7 @@ const Container = styled.div`
 `
 
 const level1CardStyle = { margin: '10px 0' }
+const level3CardStyle = { margin: 0, backgroundColor: '#FFF3E0' }
 const level1CardTitleStyle = { fontWeight: 'bold' }
 const level1CardHeaderStyle = { backgroundColor: '#FFCC80' }
 const level1CardTextStyle = { padding: '5px 16px' }
@@ -51,7 +52,10 @@ const Properties = ({
     'propertyCollectionName'
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
-  //console.log('Export: pcoPropertiesFields:', pcoPropertiesFields)
+  console.log(
+    'Export: pcoPropertiesByPropertyCollection:',
+    pcoPropertiesByPropertyCollection
+  )
   const pcTitle = `Eigenschaftensammlungen (${
     Object.keys(pcoPropertiesByPropertyCollection).length
   } Sammlungen, ${Object.keys(pcoPropertiesFields).length} Felder)`
@@ -90,7 +94,20 @@ const Properties = ({
           style={level1CardHeaderStyle}
         />
         <CardText expandable={true} style={level1CardTextStyle}>
-          need something here
+          {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
+            <Card style={level3CardStyle} key={pc}>
+              <CardHeader
+                title={pc}
+                actAsExpander={true}
+                showExpandableButton={true}
+                titleStyle={level1CardTitleStyle}
+                style={level1CardHeaderStyle}
+              />
+              <CardText expandable={true} style={level1CardTextStyle}>
+                need fields here
+              </CardText>
+            </Card>
+          ))}
         </CardText>
       </Card>
       <Card style={level1CardStyle}>
