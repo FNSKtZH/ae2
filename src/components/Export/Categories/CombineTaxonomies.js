@@ -44,8 +44,8 @@ const CombineTaxonomies = ({
   exportCombineTaxonomiesData: Object,
   onCheckCombineTaxonomies: () => void,
 }) => {
-  const exportCombineTaxonomies =
-    exportCombineTaxonomiesData.exportCombineTaxonomies
+  const { exportCombineTaxonomies } = exportCombineTaxonomiesData
+
   return (
     <Card style={cardStyle}>
       <CardHeader
