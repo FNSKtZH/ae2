@@ -10,7 +10,7 @@ const level1CardTextStyle = {
   margin: '-10px 0 -5px 0',
 }
 
-const Categories = () =>
+const HowToCategories = () => (
   <Card style={level1CardStyle}>
     <CardHeader
       title="So geht's"
@@ -27,5 +27,6 @@ const Categories = () =>
       </ul>
     </CardText>
   </Card>
+)
 
-export default Categories
+export default HowToCategories
