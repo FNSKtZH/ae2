@@ -65,7 +65,9 @@ export default withClientState({
       console.log('localStateLink, addExportPcoProperty: pName:', pName)
       const current = cache.readQuery({ query: exportPcoPropertiesGql })
       console.log('localStateLink, addExportPcoProperty: current:', current)
-      const data = current.exportPcoProperties.concat([{ pCName, pName }])
+      const data = current.exportPcoProperties.concat([
+        { pCName, pName, __typename: 'ExportPcoProperties' },
+      ])
       console.log('localStateLink, addExportPcoProperty: data:', data)
       cache.writeQuery({
         query: exportPcoPropertiesGql,
