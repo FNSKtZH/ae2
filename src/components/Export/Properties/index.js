@@ -11,6 +11,7 @@ import withHandlers from 'recompose/withHandlers'
 //import { withWindowSize } from 'react-fns'
 
 import HowTo from './HowTo'
+import AllChooser from './AllChooser'
 import constants from '../../../modules/constants'
 
 const enhance = compose(
@@ -49,6 +50,8 @@ const Level1CardText = styled(CardText)`
 `
 const Level2CardText = styled(CardText)`
   padding: 0;
+  display: flex;
+  flex-direction: column;
 `
 const PropertiesContainer = styled.div`
   margin: 16px;
@@ -140,6 +143,7 @@ const Properties = ({
                 titleStyle={level1CardTitleStyle}
               />
               <Level2CardText expandable={true}>
+                <AllChooser />
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {taxPropertiesByTaxonomy[pc].map(field => (
                     <Checkbox
