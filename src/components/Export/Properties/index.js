@@ -78,23 +78,36 @@ const Properties = ({
   )
   const pcTitle = `Eigenschaftensammlungen (${
     Object.keys(pcoPropertiesByPropertyCollection).length
-  } Sammlungen, ${Object.keys(pcoPropertiesFields).length} Felder)`
+  } Sammlungen, ${Object.keys(pcoPropertiesFields).length} ${
+    Object.keys(pcoPropertiesFields).lengt === 1 ? 'Feld' : 'Felder'
+  })`
 
-  const rcoPropertiesByPropertyCollection = groupBy(
-    rcoProperties,
-    'propertyCollectionName'
-  )
+  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
+    if (x.propertyCollectionName.includes(x.relationType)) {
+      return x.propertyCollectionName
+    }
+    return `${x.propertyCollectionName}: ${x.relationType}`
+  })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   //console.log('Export: pcoPropertiesFields:', pcoPropertiesFields)
   const rcTitle = `Beziehungssammlungen (${
     Object.keys(rcoPropertiesByPropertyCollection).length
-  } Sammlungen, ${Object.keys(rcoPropertiesFields).length} Felder)`
+  } Sammlungen, ${Object.keys(rcoPropertiesFields).length} ${
+    Object.keys(rcoPropertiesFields).length === 1 ? 'Feld' : 'Felder'
+  })`
+  console.log(
+    'Export: rcoPropertiesByPropertyCollection:',
+    rcoPropertiesByPropertyCollection
+  )
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
-  const taxTitle = `Taxonomie (${
-    Object.keys(taxPropertiesFields).length
-  } Felder)`
+  const taxTitle = `Taxonomien (${
+    Object.keys(taxPropertiesByTaxonomy).length
+  } Taxonomien, ${Object.keys(taxPropertiesFields).length} ${
+    Object.keys(taxPropertiesFields).length === 1 ? 'Feld' : 'Felder'
+  })`
+  console.log('Export: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
 
   return (
     <Container>
@@ -111,7 +124,9 @@ const Properties = ({
           {Object.keys(taxPropertiesByTaxonomy).map(pc => (
             <Card style={level2CardStyle} key={pc}>
               <CardHeader
-                title={`${pc} (${taxPropertiesByTaxonomy[pc].length} Felder)`}
+                title={`${pc} (${taxPropertiesByTaxonomy[pc].length} ${
+                  taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
+                })`}
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level1CardTitleStyle}
@@ -147,7 +162,11 @@ const Properties = ({
               <CardHeader
                 title={`${pc} (${
                   pcoPropertiesByPropertyCollection[pc].length
-                } Felder)`}
+                } ${
+                  pcoPropertiesByPropertyCollection[pc].length === 1
+                    ? 'Feld'
+                    : 'Felder'
+                })`}
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level1CardTitleStyle}
@@ -183,7 +202,11 @@ const Properties = ({
               <CardHeader
                 title={`${pc} (${
                   rcoPropertiesByPropertyCollection[pc].length
-                } Felder)`}
+                } ${
+                  rcoPropertiesByPropertyCollection[pc].length === 1
+                    ? 'Feld'
+                    : 'Felder'
+                })`}
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level1CardTitleStyle}
