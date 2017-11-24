@@ -8,14 +8,14 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
-import { withWindowSize } from 'react-fns'
+//import { withWindowSize } from 'react-fns'
 
 import HowTo from './HowTo'
 import constants from '../../../modules/constants'
 
 const enhance = compose(
   withApollo,
-  withWindowSize,
+  //withWindowSize,
   withHandlers({
     onCheck: () => (event, isChecked) => {},
   })
@@ -50,13 +50,13 @@ const Properties = ({
   exportCategoriesData,
   exportCombineTaxonomiesData,
   onCheck,
-  width,
-}: {
+}: //width,
+{
   data: Object,
   exportCategoriesData: Object,
   exportCombineTaxonomiesData: Object,
   onCheck: () => void,
-  width: number,
+  //width: number,
 }) => {
   const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
   const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
@@ -124,7 +124,7 @@ const Properties = ({
                 style={level2CardHeaderStyle}
               />
               <CardText expandable={true} style={level2CardTextStyle}>
-                <FieldsContainer data-width={width - 84}>
+                <FieldsContainer data-width={window.innerWidth - 84}>
                   {pcoPropertiesByPropertyCollection[pc].map(field => (
                     <Checkbox
                       key={`${field.propertyName}${field.jsontype}`}
