@@ -3,6 +3,7 @@ CREATE OR REPLACE FUNCTION ae.tax_properties_by_categories_function(categories t
   $$
     WITH jsontypes AS (
       SELECT
+        ae.taxonomy.id,
         ae.taxonomy.name AS taxonomy_name,
         json_data.key AS property_name,
         CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
@@ -30,6 +31,7 @@ CREATE OR REPLACE FUNCTION ae.tax_properties_by_categories_function(categories t
     FROM
       jsontypes
     GROUP BY
+      id,
       taxonomy_name,
       property_name,
       jsontype

@@ -3,6 +3,7 @@ CREATE OR REPLACE FUNCTION ae.rco_properties_by_categories_function(categories t
   $$
     WITH jsontypes AS (
       SELECT
+        ae.property_collection.id,
         ae.property_collection.name AS property_collection_name,
         ae.relation.relation_type,
         json_data.key AS property_name,
@@ -33,6 +34,7 @@ CREATE OR REPLACE FUNCTION ae.rco_properties_by_categories_function(categories t
     FROM
       jsontypes
     GROUP BY
+      id,
       property_collection_name,
       relation_type,
       property_name,
