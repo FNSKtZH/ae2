@@ -23,12 +23,12 @@ const StyledH3 = styled.h3`
 
 const Export = ({ data }: { data: Object }) => {
   //console.log('Export: data:', data)
-  //const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
-  //console.log('Export: pcoProperties:', pcoProperties)
+  const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
+  console.log('Export: pcoProperties:', pcoProperties)
   const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
   console.log('Export: rcoProperties:', rcoProperties)
-  //const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
-  //console.log('Export: taxProperties:', taxProperties)
+  const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
+  console.log('Export: taxProperties:', taxProperties)
 
   return (
     <Container>

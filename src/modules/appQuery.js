@@ -156,7 +156,6 @@ export default gql`
     pcoPropertiesByCategoriesFunction(categories: $exportCategories)
       @include(if: $queryExportCategories) {
       nodes {
-        id
         propertyCollectionName
         propertyName
         jsontype
@@ -166,7 +165,6 @@ export default gql`
     rcoPropertiesByCategoriesFunction(categories: $exportCategories)
       @include(if: $queryExportCategories) {
       nodes {
-        id
         propertyCollectionName
         relationType
         propertyName
@@ -177,7 +175,6 @@ export default gql`
     taxPropertiesByCategoriesFunction(categories: $exportCategories)
       @include(if: $queryExportCategories) {
       nodes {
-        id
         taxonomyName
         propertyName
         jsontype

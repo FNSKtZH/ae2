@@ -78,10 +78,7 @@ const Properties = ({
     Object.keys(pcoPropertiesByPropertyCollection).length
   } Sammlungen, ${Object.keys(pcoPropertiesFields).length} Felder)`
 
-  const rcoPropertiesByPropertyCollection = groupBy(
-    rcoProperties,
-    'propertyCollectionName'
-  )
+  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, 'id')
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   //console.log('Export: pcoPropertiesFields:', pcoPropertiesFields)
   const rcTitle = `Beziehungssammlungen (${

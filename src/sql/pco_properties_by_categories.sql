@@ -3,7 +3,6 @@ CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories_function(categories t
   $$
     WITH jsontypes AS (
       SELECT
-        ae.property_collection.id,
         ae.property_collection.name AS property_collection_name,
         json_data.key AS property_name,
         CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
@@ -33,7 +32,6 @@ CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories_function(categories t
     FROM
       jsontypes
     GROUP BY
-      id,
       property_collection_name,
       property_name,
       jsontype
