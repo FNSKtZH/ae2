@@ -60,10 +60,27 @@ export default withClientState({
       })
       return null
     },
-    setExportPcoProperties: (_, { value }, { cache }) => {
+    addExportPcoProperty: (_, { pCName, pName }, { cache }) => {
+      console.log('localStateLink, addExportPcoProperty: pCName:', pCName)
+      console.log('localStateLink, addExportPcoProperty: pName:', pName)
+      const current = cache.readQuery({ query: exportPcoPropertiesGql })
+      console.log('localStateLink, addExportPcoProperty: current:', current)
+      const data = current.exportPcoProperties.concat([{ pCName, pName }])
+      console.log('localStateLink, addExportPcoProperty: data:', data)
       cache.writeQuery({
         query: exportPcoPropertiesGql,
-        data: { exportPcoProperties: value },
+        data,
+      })
+      return null
+    },
+    removeExportPcoProperty: (_, { pCName, pName }, { cache }) => {
+      const current = cache.readQuery({ exportPcoPropertiesGql })
+      const data = current.exportPcoProperties.filter(
+        x => !(x.pCName === pCName && x.pName === pName)
+      )
+      cache.writeQuery({
+        query: exportPcoPropertiesGql,
+        data,
       })
       return null
     },

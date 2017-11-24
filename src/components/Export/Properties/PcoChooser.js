@@ -4,47 +4,62 @@ import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
-import { withApollo } from 'react-apollo'
+import { graphql, withApollo } from 'react-apollo'
 
-import exportPcoPropertiesMutation from '../../../modules/exportPcoPropertiesMutation'
+import addExportPcoPropertyMutation from '../../../modules/addExportPcoPropertyMutation'
+import removeExportPropertyMutation from '../../../modules/removeExportPropertyMutation'
+import exportPcoPropertiesGql from '../../../modules/exportPcoPropertiesGql'
 
-const Container = styled.div`
-  margin-left: 16px;
-`
+const Container = styled.div``
+
+const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {
+  name: 'exportPcoPropertiesData',
+})
 
 const enhance = compose(
   withApollo,
+  exportPcoPropertiesData,
   withHandlers({
-    onCheck: ({ propertyCollectionName, propertyName, client }) => (
-      event,
-      isChecked
-    ) => {
-      // TODO
-      // add or remove object with info
+    onCheck: ({ pCName, pName, client }) => (event, isChecked) => {
+      const mutation = isChecked
+        ? addExportPcoPropertyMutation
+        : removeExportPropertyMutation
+      console.log('PcoChooser: pCName:', pCName)
+      console.log('PcoChooser: pName:', pName)
+      console.log('PcoChooser: client:', client)
+      console.log('PcoChooser: mutation:', mutation)
       client.mutate({
-        mutation: exportPcoPropertiesMutation,
-        variables: { value: isChecked },
-      }),
+        mutation,
+        variables: { pCName, pName },
+      })
     },
   })
 )
 
 const PcoChooser = ({
-  propertyCollectionName,
-  propertyName,
+  pCName,
+  pName,
   jsontype,
-  count,
+  //count,
   onCheck,
+  exportPcoPropertiesData,
 }: {
-  propertyCollectionName: string,
-  propertyName: string,
+  pCName: string,
+  pName: string,
   jsontype: string,
-  count: number,
+  //count: number,
   onCheck: () => {},
+  exportPcoPropertiesData: Object,
 }) => {
+  const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+  const exportPcoProperty = exportPcoProperties.filter(
+    x => x.pCName === pCName && x.pName === pName
+  )
+  const checked = exportPcoProperty.length > 0
+
   return (
     <Container>
-      <Checkbox label="alle" checked={false} onCheck={onCheck} />
+      <Checkbox label={pName} checked={checked} onCheck={onCheck} />
     </Container>
   )
 }

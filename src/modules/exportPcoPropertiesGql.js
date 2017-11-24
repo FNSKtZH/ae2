@@ -3,6 +3,9 @@ import gql from 'graphql-tag'
 
 export default gql`
   query exportPcoPropertiesQuery {
-    exportPcoProperties @client
+    exportPcoProperties @client {
+      pCName
+      pName
+    }
   }
 `

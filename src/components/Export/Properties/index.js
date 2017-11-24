@@ -12,6 +12,7 @@ import withHandlers from 'recompose/withHandlers'
 
 import HowTo from './HowTo'
 import AllChooser from './AllChooser'
+import PcoChooser from './PcoChooser'
 import constants from '../../../modules/constants'
 
 const enhance = compose(
@@ -191,11 +192,11 @@ const Properties = ({
                 )}
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {pcoPropertiesByPropertyCollection[pc].map(field => (
-                    <Checkbox
+                    <PcoChooser
                       key={`${field.propertyName}${field.jsontype}`}
-                      label={field.propertyName}
-                      checked={false}
-                      onCheck={onCheck}
+                      pCName={field.propertyCollectionName}
+                      pName={field.propertyName}
+                      jsontype={field.jsontype}
                     />
                   ))}
                 </PropertiesContainer>
