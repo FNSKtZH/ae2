@@ -143,7 +143,7 @@ const Properties = ({
                 titleStyle={level1CardTitleStyle}
               />
               <Level2CardText expandable={true}>
-                <AllChooser />
+                {taxPropertiesByTaxonomy[pc].length > 1 && <AllChooser />}
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {taxPropertiesByTaxonomy[pc].map(field => (
                     <Checkbox
@@ -182,6 +182,9 @@ const Properties = ({
                 titleStyle={level1CardTitleStyle}
               />
               <Level2CardText expandable={true}>
+                {pcoPropertiesByPropertyCollection[pc].length > 1 && (
+                  <AllChooser />
+                )}
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {pcoPropertiesByPropertyCollection[pc].map(field => (
                     <Checkbox
@@ -220,6 +223,9 @@ const Properties = ({
                 titleStyle={level1CardTitleStyle}
               />
               <Level2CardText expandable={true}>
+                {rcoPropertiesByPropertyCollection[pc].length > 1 && (
+                  <AllChooser />
+                )}
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {rcoPropertiesByPropertyCollection[pc].map(field => (
                     <Checkbox
