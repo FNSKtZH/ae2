@@ -61,10 +61,6 @@ const Properties = ({
   const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
   const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
   const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
-  const taxPropertiesGroupedByProperty = groupBy(taxProperties, 'propertyName')
-  const taxTitle = `Taxonomie (${
-    Object.keys(taxPropertiesGroupedByProperty).length
-  } Felder)`
   const pcoPropertiesByPropertyCollection = groupBy(
     pcoProperties,
     'propertyCollectionName'
@@ -85,6 +81,12 @@ const Properties = ({
     Object.keys(rcoPropertiesByPropertyCollection).length
   } Sammlungen, ${Object.keys(rcoPropertiesFields).length} Felder)`
 
+  const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
+  const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
+  const taxTitle = `Taxonomie (${
+    Object.keys(taxPropertiesFields).length
+  } Felder)`
+
   return (
     <Container>
       <HowTo />
@@ -97,7 +99,29 @@ const Properties = ({
           style={level1CardHeaderStyle}
         />
         <CardText expandable={true} style={level1CardTextStyle}>
-          need something here
+          {Object.keys(taxPropertiesByTaxonomy).map(pc => (
+            <Card style={level2CardStyle} key={pc}>
+              <CardHeader
+                title={`${pc} (${taxPropertiesByTaxonomy[pc].length} Felder)`}
+                actAsExpander={true}
+                showExpandableButton={true}
+                titleStyle={level1CardTitleStyle}
+                style={level2CardHeaderStyle}
+              />
+              <CardText expandable={true} style={level2CardTextStyle}>
+                <FieldsContainer data-width={window.innerWidth - 84}>
+                  {taxPropertiesByTaxonomy[pc].map(field => (
+                    <Checkbox
+                      key={`${field.propertyName}${field.jsontype}`}
+                      label={field.propertyName}
+                      checked={false}
+                      onCheck={() => console.log('todo')}
+                    />
+                  ))}
+                </FieldsContainer>
+              </CardText>
+            </Card>
+          ))}
         </CardText>
       </Card>
       <Card style={level1CardStyle}>
