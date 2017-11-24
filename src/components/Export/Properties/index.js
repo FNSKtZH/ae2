@@ -74,7 +74,10 @@ const Properties = ({
     Object.keys(pcoPropertiesByPropertyCollection).length
   } Sammlungen, ${Object.keys(pcoPropertiesFields).length} Felder)`
 
-  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, 'id')
+  const rcoPropertiesByPropertyCollection = groupBy(
+    rcoProperties,
+    'propertyCollectionName'
+  )
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   //console.log('Export: pcoPropertiesFields:', pcoPropertiesFields)
   const rcTitle = `Beziehungssammlungen (${
@@ -169,7 +172,31 @@ const Properties = ({
           style={level1CardHeaderStyle}
         />
         <CardText expandable={true} style={level1CardTextStyle}>
-          need something here
+          {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
+            <Card style={level2CardStyle} key={pc}>
+              <CardHeader
+                title={`${pc} (${
+                  rcoPropertiesByPropertyCollection[pc].length
+                } Felder)`}
+                actAsExpander={true}
+                showExpandableButton={true}
+                titleStyle={level1CardTitleStyle}
+                style={level2CardHeaderStyle}
+              />
+              <CardText expandable={true} style={level2CardTextStyle}>
+                <FieldsContainer data-width={window.innerWidth - 84}>
+                  {rcoPropertiesByPropertyCollection[pc].map(field => (
+                    <Checkbox
+                      key={`${field.propertyName}${field.jsontype}`}
+                      label={field.propertyName}
+                      checked={false}
+                      onCheck={() => console.log('todo')}
+                    />
+                  ))}
+                </FieldsContainer>
+              </CardText>
+            </Card>
+          ))}
         </CardText>
       </Card>
     </Container>
