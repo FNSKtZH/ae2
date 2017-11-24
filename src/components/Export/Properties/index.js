@@ -162,7 +162,7 @@ const Properties = ({
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
         />
-        <Level2CardText expandable={true}>
+        <Level1CardText expandable={true}>
           {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
             <Level2Card key={pc}>
               <Level2CardHeader
@@ -191,7 +191,7 @@ const Properties = ({
               </Level2CardText>
             </Level2Card>
           ))}
-        </Level2CardText>
+        </Level1CardText>
       </Level1Card>
       <Level1Card>
         <Level1CardHeader
