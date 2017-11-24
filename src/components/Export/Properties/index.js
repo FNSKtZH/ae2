@@ -18,7 +18,11 @@ const enhance = compose(
   withApollo,
   //withWindowSize,
   withHandlers({
-    onCheck: () => (event, isChecked) => {},
+    onCheck: () => (event, isChecked) => {
+      console.log('event:', event)
+      console.log('event.target:', event.target)
+      console.log('isChecked:', isChecked)
+    },
   })
 )
 
@@ -150,7 +154,7 @@ const Properties = ({
                       key={`${field.propertyName}${field.jsontype}`}
                       label={field.propertyName}
                       checked={false}
-                      onCheck={() => console.log('todo')}
+                      onCheck={onCheck}
                     />
                   ))}
                 </PropertiesContainer>
@@ -191,7 +195,7 @@ const Properties = ({
                       key={`${field.propertyName}${field.jsontype}`}
                       label={field.propertyName}
                       checked={false}
-                      onCheck={() => console.log('todo')}
+                      onCheck={onCheck}
                     />
                   ))}
                 </PropertiesContainer>
@@ -232,7 +236,7 @@ const Properties = ({
                       key={`${field.propertyName}${field.jsontype}`}
                       label={field.propertyName}
                       checked={false}
-                      onCheck={() => console.log('todo')}
+                      onCheck={onCheck}
                     />
                   ))}
                 </PropertiesContainer>
