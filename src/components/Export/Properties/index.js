@@ -33,7 +33,24 @@ const Level1Card = styled(Card)`
     padding-bottom: 0 !important;
   }
 `
-const FieldsContainer = styled.div`
+const Level2Card = styled(Card)`
+  margin: 0;
+  padding: 0;
+`
+const Level1CardHeader = styled(CardHeader)`
+  background-color: #ffcc80;
+`
+const Level2CardHeader = styled(CardHeader)`
+  background-color: #fff3e0;
+  border-bottom: 1px solid #ebebeb;
+`
+const Level1CardText = styled(CardText)`
+  padding: 0;
+`
+const Level2CardText = styled(CardText)`
+  padding: 0;
+`
+const PropertiesContainer = styled.div`
   margin: 16px;
   column-width: ${props =>
     props['data-width'] > 2 * constants.export.properties.columnWidth
@@ -41,15 +58,7 @@ const FieldsContainer = styled.div`
       : 'auto'};
 `
 
-const level2CardStyle = { margin: 0, padding: 0 }
 const level1CardTitleStyle = { fontWeight: 'bold' }
-const level1CardHeaderStyle = { backgroundColor: '#FFCC80' }
-const level2CardHeaderStyle = {
-  backgroundColor: '#FFF3E0',
-  borderBottom: '1px solid #ebebeb',
-}
-const level1CardTextStyle = { padding: 0 }
-const level2CardTextStyle = { padding: 0 }
 
 const Properties = ({
   data,
@@ -113,27 +122,25 @@ const Properties = ({
     <Container>
       <HowTo />
       <Level1Card>
-        <CardHeader
+        <Level1CardHeader
           title={taxTitle}
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
-          style={level1CardHeaderStyle}
         />
-        <CardText expandable={true} style={level1CardTextStyle}>
+        <Level1CardText expandable={true}>
           {Object.keys(taxPropertiesByTaxonomy).map(pc => (
-            <Card style={level2CardStyle} key={pc}>
-              <CardHeader
+            <Level2Card key={pc}>
+              <Level2CardHeader
                 title={`${pc} (${taxPropertiesByTaxonomy[pc].length} ${
                   taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
                 })`}
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level1CardTitleStyle}
-                style={level2CardHeaderStyle}
               />
-              <CardText expandable={true} style={level2CardTextStyle}>
-                <FieldsContainer data-width={window.innerWidth - 84}>
+              <Level2CardText expandable={true}>
+                <PropertiesContainer data-width={window.innerWidth - 84}>
                   {taxPropertiesByTaxonomy[pc].map(field => (
                     <Checkbox
                       key={`${field.propertyName}${field.jsontype}`}
@@ -142,24 +149,23 @@ const Properties = ({
                       onCheck={() => console.log('todo')}
                     />
                   ))}
-                </FieldsContainer>
-              </CardText>
-            </Card>
+                </PropertiesContainer>
+              </Level2CardText>
+            </Level2Card>
           ))}
-        </CardText>
+        </Level1CardText>
       </Level1Card>
       <Level1Card>
-        <CardHeader
+        <Level1CardHeader
           title={pcTitle}
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
-          style={level1CardHeaderStyle}
         />
-        <CardText expandable={true} style={level2CardTextStyle}>
+        <Level2CardText expandable={true}>
           {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
-            <Card style={level2CardStyle} key={pc}>
-              <CardHeader
+            <Level2Card key={pc}>
+              <Level2CardHeader
                 title={`${pc} (${
                   pcoPropertiesByPropertyCollection[pc].length
                 } ${
@@ -170,10 +176,9 @@ const Properties = ({
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level1CardTitleStyle}
-                style={level2CardHeaderStyle}
               />
-              <CardText expandable={true} style={level2CardTextStyle}>
-                <FieldsContainer data-width={window.innerWidth - 84}>
+              <Level2CardText expandable={true}>
+                <PropertiesContainer data-width={window.innerWidth - 84}>
                   {pcoPropertiesByPropertyCollection[pc].map(field => (
                     <Checkbox
                       key={`${field.propertyName}${field.jsontype}`}
@@ -182,24 +187,23 @@ const Properties = ({
                       onCheck={() => console.log('todo')}
                     />
                   ))}
-                </FieldsContainer>
-              </CardText>
-            </Card>
+                </PropertiesContainer>
+              </Level2CardText>
+            </Level2Card>
           ))}
-        </CardText>
+        </Level2CardText>
       </Level1Card>
       <Level1Card>
-        <CardHeader
+        <Level1CardHeader
           title={rcTitle}
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
-          style={level1CardHeaderStyle}
         />
-        <CardText expandable={true} style={level1CardTextStyle}>
+        <Level1CardText expandable={true}>
           {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
-            <Card style={level2CardStyle} key={pc}>
-              <CardHeader
+            <Level2Card key={pc}>
+              <Level2CardHeader
                 title={`${pc} (${
                   rcoPropertiesByPropertyCollection[pc].length
                 } ${
@@ -210,10 +214,9 @@ const Properties = ({
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level1CardTitleStyle}
-                style={level2CardHeaderStyle}
               />
-              <CardText expandable={true} style={level2CardTextStyle}>
-                <FieldsContainer data-width={window.innerWidth - 84}>
+              <Level2CardText expandable={true}>
+                <PropertiesContainer data-width={window.innerWidth - 84}>
                   {rcoPropertiesByPropertyCollection[pc].map(field => (
                     <Checkbox
                       key={`${field.propertyName}${field.jsontype}`}
@@ -222,11 +225,11 @@ const Properties = ({
                       onCheck={() => console.log('todo')}
                     />
                   ))}
-                </FieldsContainer>
-              </CardText>
-            </Card>
+                </PropertiesContainer>
+              </Level2CardText>
+            </Level2Card>
           ))}
-        </CardText>
+        </Level1CardText>
       </Level1Card>
     </Container>
   )
