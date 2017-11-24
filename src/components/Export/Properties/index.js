@@ -26,6 +26,13 @@ const Container = styled.div`
   height: calc(100% - 48px);
   overflow: auto !important;
 `
+const Level1Card = styled(Card)`
+  margin: 10px 0;
+  padding: 0;
+  > div {
+    padding-bottom: 0 !important;
+  }
+`
 const FieldsContainer = styled.div`
   margin: 16px;
   column-width: ${props =>
@@ -34,7 +41,6 @@ const FieldsContainer = styled.div`
       : 'auto'};
 `
 
-const level1CardStyle = { margin: '10px 0' }
 const level2CardStyle = { margin: 0, padding: 0 }
 const level1CardTitleStyle = { fontWeight: 'bold' }
 const level1CardHeaderStyle = { backgroundColor: '#FFCC80' }
@@ -93,7 +99,7 @@ const Properties = ({
   return (
     <Container>
       <HowTo />
-      <Card style={level1CardStyle}>
+      <Level1Card>
         <CardHeader
           title={taxTitle}
           actAsExpander={true}
@@ -126,8 +132,8 @@ const Properties = ({
             </Card>
           ))}
         </CardText>
-      </Card>
-      <Card style={level1CardStyle}>
+      </Level1Card>
+      <Level1Card>
         <CardHeader
           title={pcTitle}
           actAsExpander={true}
@@ -162,8 +168,8 @@ const Properties = ({
             </Card>
           ))}
         </CardText>
-      </Card>
-      <Card style={level1CardStyle}>
+      </Level1Card>
+      <Level1Card>
         <CardHeader
           title={rcTitle}
           actAsExpander={true}
@@ -198,7 +204,7 @@ const Properties = ({
             </Card>
           ))}
         </CardText>
-      </Card>
+      </Level1Card>
     </Container>
   )
 }
