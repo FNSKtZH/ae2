@@ -11,18 +11,22 @@ const Container = styled.div`
 
 const enhance = compose(
   withHandlers({
-    onCheck: () => (event, isChecked) => {},
+    onCheck: ({ properties }) => (event, isChecked) => {
+      console.log('todo: check all properties')
+    },
   })
 )
 
-const AllChooser = () => {
+const AllChooser = ({
+  onCheck,
+  properties,
+}: {
+  onCheck: () => {},
+  properties: ?Array<Object>,
+}) => {
   return (
     <Container>
-      <Checkbox
-        label="alle"
-        checked={false}
-        onCheck={() => console.log('todo: check all properties')}
-      />
+      <Checkbox label="alle" checked={false} onCheck={onCheck} />
     </Container>
   )
 }

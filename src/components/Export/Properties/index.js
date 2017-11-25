@@ -12,6 +12,7 @@ import withHandlers from 'recompose/withHandlers'
 
 import HowTo from './HowTo'
 import AllChooser from './AllChooser'
+import AllPcoChooser from './AllPcoChooser'
 import PcoChooser from './PcoChooser'
 import constants from '../../../modules/constants'
 
@@ -188,7 +189,9 @@ const Properties = ({
               />
               <Level2CardText expandable={true}>
                 {pcoPropertiesByPropertyCollection[pc].length > 1 && (
-                  <AllChooser />
+                  <AllPcoChooser
+                    properties={pcoPropertiesByPropertyCollection[pc]}
+                  />
                 )}
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {pcoPropertiesByPropertyCollection[pc].map(field => (
