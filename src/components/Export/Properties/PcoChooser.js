@@ -48,7 +48,6 @@ const PcoChooser = ({
   exportPcoPropertiesData: Object,
 }) => {
   const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
-  //console.log('PcoChooser: exportPcoProperties:', exportPcoProperties)
   const exportPcoProperty = exportPcoProperties.filter(
     x => x.pCName === pCName && x.pName === pName
   )
