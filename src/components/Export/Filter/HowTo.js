@@ -10,7 +10,7 @@ const level1CardTextStyle = {
   margin: '-10px 10px -5px 0',
 }
 
-const HowToProperties = () => (
+const HowToFilter = () => (
   <Card style={level1CardStyle}>
     <CardHeader
       title="So geht's"
@@ -25,11 +25,17 @@ const HowToProperties = () => (
           Nachfolgend sind alle Eigenschaften aufgelistet, die in den gewählten
           Gruppen vorkommen
         </li>
-        <li>Markieren Sie die Eigenschaften, die Sie exportieren möchten...</li>
-        <li>...und fahren Sie danach mit "4. exportieren" weiter</li>
+        <li>
+          Erfassen Sie in den Eigenschaften Ihrer Wahl die gewünschten
+          Filter-Kriterien...
+        </li>
+        <li>
+          ...und wählen Sie danach unter "3. Eigenschaften wählen", welche
+          Eigenschaften exportiert werden sollen
+        </li>
       </ul>
     </CardText>
   </Card>
 )
 
-export default HowToProperties
+export default HowToFilter

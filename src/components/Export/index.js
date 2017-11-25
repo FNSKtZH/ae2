@@ -10,6 +10,7 @@ import withHandlers from 'recompose/withHandlers'
 
 import Categories from './Categories'
 import Properties from './Properties'
+import Filter from './Filter'
 import exportCategoriesGql from '../../modules/exportCategoriesGql'
 
 const level1CardStyle = { margin: '10px 0' }
@@ -155,7 +156,7 @@ const Export = ({
           style={level1CardHeaderStyle}
         />
         <CardText expandable={true} style={level1CardTextStyle}>
-          card text filtern
+          <Filter data={data} />
         </CardText>
       </Card>
       <Card
