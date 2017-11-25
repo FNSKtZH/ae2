@@ -36,6 +36,11 @@ const enhance = compose(
   withState('propertiesExpanded', 'setPropertiesExpanded', false),
   withState('exportExpanded', 'setExportExpanded', false),
   withHandlers({
+    onToggleGroups: ({
+      exportCategoriesData,
+      groupsExpanded,
+      setGroupsExpanded,
+    }) => () => setGroupsExpanded(!groupsExpanded),
     onToggleFilter: ({
       exportCategoriesData,
       filterExpanded,
@@ -52,6 +57,38 @@ const enhance = compose(
         setFilterExpanded(false)
       }
     },
+    onToggleProperties: ({
+      exportCategoriesData,
+      propertiesExpanded,
+      setPropertiesExpanded,
+    }) => () => {
+      const { exportCategories } = exportCategoriesData
+      if (
+        !propertiesExpanded &&
+        !!exportCategories &&
+        exportCategories.length > 0
+      ) {
+        setPropertiesExpanded(true)
+      } else {
+        setPropertiesExpanded(false)
+      }
+    },
+    onToggleExport: ({
+      exportCategoriesData,
+      exportExpanded,
+      setExportExpanded,
+    }) => () => {
+      const { exportCategories } = exportCategoriesData
+      if (
+        !exportExpanded &&
+        !!exportCategories &&
+        exportCategories.length > 0
+      ) {
+        setExportExpanded(true)
+      } else {
+        setExportExpanded(false)
+      }
+    },
   })
 )
 
@@ -62,10 +99,10 @@ const Export = ({
   filterExpanded,
   propertiesExpanded,
   exportExpanded,
-  toggleGroupsExpanded,
+  onToggleGroups,
   onToggleFilter,
-  togglePropertiesExpanded,
-  toggleExportExpanded,
+  onToggleProperties,
+  onToggleExport,
 }: {
   data: Object,
   exportCategoriesData: Object,
@@ -73,10 +110,10 @@ const Export = ({
   filterExpanded: Boolean,
   propertiesExpanded: Boolean,
   exportExpanded: Boolean,
-  toggleGroupsExpanded: () => {},
+  onToggleGroups: () => {},
   onToggleFilter: () => {},
-  togglePropertiesExpanded: () => {},
-  toggleExportExpanded: () => {},
+  onToggleProperties: () => {},
+  onToggleExport: () => {},
 }) => {
   //console.log('Export: data:', data)
   //const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
@@ -99,7 +136,7 @@ const Export = ({
       <StyledH3>Export</StyledH3>
       <Card
         expanded={groupsExpanded}
-        onExpandChange={toggleGroupsExpanded}
+        onExpandChange={onToggleGroups}
         style={level1CardStyle}
       >
         <CardHeader
@@ -131,9 +168,7 @@ const Export = ({
       </Card>
       <Card
         expanded={propertiesExpanded}
-        onExpandChange={() => {
-          if (filterAndPropertiesExpandable) togglePropertiesExpanded()
-        }}
+        onExpandChange={onToggleProperties}
         style={level1CardStyle}
       >
         <CardHeader
@@ -149,9 +184,7 @@ const Export = ({
       </Card>
       <Card
         expanded={exportExpanded}
-        onExpandChange={() => {
-          if (filterAndPropertiesExpandable) toggleExportExpanded()
-        }}
+        onExpandChange={onToggleExport}
         style={level1CardStyle}
       >
         <CardHeader
