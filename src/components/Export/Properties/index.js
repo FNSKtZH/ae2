@@ -6,7 +6,6 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 //import { withWindowSize } from 'react-fns'
 
 import HowTo from './HowTo'
@@ -19,15 +18,8 @@ import RcoChooser from './RcoChooser'
 import constants from '../../../modules/constants'
 
 const enhance = compose(
-  withApollo,
+  withApollo
   //withWindowSize,
-  withHandlers({
-    onCheck: () => (event, isChecked) => {
-      console.log('event:', event)
-      console.log('event.target:', event.target)
-      console.log('isChecked:', isChecked)
-    },
-  })
 )
 
 const Container = styled.div`
@@ -75,13 +67,11 @@ const Properties = ({
   data,
   exportCategoriesData,
   exportCombineTaxonomiesData,
-  onCheck,
 }: //width,
 {
   data: Object,
   exportCategoriesData: Object,
   exportCombineTaxonomiesData: Object,
-  onCheck: () => void,
   //width: number,
 }) => {
   const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])

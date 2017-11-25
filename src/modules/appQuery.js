@@ -36,8 +36,8 @@ export default gql`
     # somehow this alters behaviour
     # and makes node array not work any more
     #activeNodeArray @client
-    exportCategories @client
-    exportCombineTaxonomies @client
+    #exportCategories @client
+    #exportCombineTaxonomies @client
     exportTaxProperties @client {
       taxName
       pName
