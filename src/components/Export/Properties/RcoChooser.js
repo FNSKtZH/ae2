@@ -6,24 +6,24 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { graphql, withApollo } from 'react-apollo'
 
-import addExportPcoPropertyMutation from '../../../modules/addExportPcoPropertyMutation'
-import removeExportPcoPropertyMutation from '../../../modules/removeExportPcoPropertyMutation'
-import exportPcoPropertiesGql from '../../../modules/exportPcoPropertiesGql'
+import addExportRcoPropertyMutation from '../../../modules/addExportRcoPropertyMutation'
+import removeExportRcoPropertyMutation from '../../../modules/removeExportRcoPropertyMutation'
+import exportRcoPropertiesGql from '../../../modules/exportRcoPropertiesGql'
 
 const Container = styled.div``
 
-const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {
-  name: 'exportPcoPropertiesData',
+const exportRcoPropertiesData = graphql(exportRcoPropertiesGql, {
+  name: 'exportRcoPropertiesData',
 })
 
 const enhance = compose(
   withApollo,
-  exportPcoPropertiesData,
+  exportRcoPropertiesData,
   withHandlers({
     onCheck: ({ pCName, pName, client }) => (event, isChecked) => {
       const mutation = isChecked
-        ? addExportPcoPropertyMutation
-        : removeExportPcoPropertyMutation
+        ? addExportRcoPropertyMutation
+        : removeExportRcoPropertyMutation
       client.mutate({
         mutation,
         variables: { pCName, pName },
@@ -32,24 +32,25 @@ const enhance = compose(
   })
 )
 
-const PcoChooser = ({
+const RcoChooser = ({
   pCName,
   pName,
   jsontype,
   //count,
   onCheck,
-  exportPcoPropertiesData,
+  exportRcoPropertiesData,
 }: {
   pCName: string,
   pName: string,
   jsontype: string,
   //count: number,
   onCheck: () => {},
-  exportPcoPropertiesData: Object,
+  exportRcoPropertiesData: Object,
 }) => {
-  const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+  const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
+  console.log('RcoChooser: exportRcoProperties:', exportRcoProperties)
   const checked =
-    exportPcoProperties.filter(x => x.pCName === pCName && x.pName === pName)
+    exportRcoProperties.filter(x => x.pCName === pCName && x.pName === pName)
       .length > 0
 
   return (
@@ -59,4 +60,4 @@ const PcoChooser = ({
   )
 }
 
-export default enhance(PcoChooser)
+export default enhance(RcoChooser)

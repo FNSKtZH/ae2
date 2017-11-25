@@ -6,26 +6,26 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { graphql, withApollo } from 'react-apollo'
 
-import addExportPcoPropertyMutation from '../../../modules/addExportPcoPropertyMutation'
-import removeExportPcoPropertyMutation from '../../../modules/removeExportPcoPropertyMutation'
-import exportPcoPropertiesGql from '../../../modules/exportPcoPropertiesGql'
+import addExportRcoPropertyMutation from '../../../modules/addExportRcoPropertyMutation'
+import removeExportRcoPropertyMutation from '../../../modules/removeExportRcoPropertyMutation'
+import exportRcoPropertiesGql from '../../../modules/exportRcoPropertiesGql'
 
 const Container = styled.div`
   margin-left: 16px;
 `
 
-const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {
-  name: 'exportPcoPropertiesData',
+const exportRcoPropertiesData = graphql(exportRcoPropertiesGql, {
+  name: 'exportRcoPropertiesData',
 })
 
 const enhance = compose(
   withApollo,
-  exportPcoPropertiesData,
+  exportRcoPropertiesData,
   withHandlers({
     onCheck: ({ properties, client }) => (event, isChecked) => {
       const mutation = isChecked
-        ? addExportPcoPropertyMutation
-        : removeExportPcoPropertyMutation
+        ? addExportRcoPropertyMutation
+        : removeExportRcoPropertyMutation
       properties.forEach(p => {
         const pCName = p.propertyCollectionName
         const pName = p.propertyName
@@ -38,22 +38,24 @@ const enhance = compose(
   })
 )
 
-const AllPcoChooser = ({
+const AllRcoChooser = ({
   onCheck,
   properties,
-  exportPcoPropertiesData,
+  exportRcoPropertiesData,
 }: {
   onCheck: () => {},
   properties: Array<Object>,
-  exportPcoPropertiesData: Object,
+  exportRcoPropertiesData: Object,
 }) => {
-  const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+  const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
+  console.log('AllRcoChooser: exportRcoProperties:', exportRcoProperties)
   const checkedArray = properties.map(
     p =>
-      exportPcoProperties.filter(
+      exportRcoProperties.filter(
         x => x.pCName === p.propertyCollectionName && x.pName === p.propertyName
       ).length > 0
   )
+  console.log('AllRcoChooser: checkedArray:', checkedArray)
   const checked = checkedArray.length > 0 && !checkedArray.includes(false)
 
   return (
@@ -63,4 +65,4 @@ const AllPcoChooser = ({
   )
 }
 
-export default enhance(AllPcoChooser)
+export default enhance(AllRcoChooser)

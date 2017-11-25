@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
-import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
@@ -11,9 +10,12 @@ import withHandlers from 'recompose/withHandlers'
 //import { withWindowSize } from 'react-fns'
 
 import HowTo from './HowTo'
-import AllChooser from './AllChooser'
+import AllTaxChooser from './AllTaxChooser'
 import AllPcoChooser from './AllPcoChooser'
+import AllRcoChooser from './AllRcoChooser'
+import TaxChooser from './TaxChooser'
 import PcoChooser from './PcoChooser'
+import RcoChooser from './RcoChooser'
 import constants from '../../../modules/constants'
 
 const enhance = compose(
@@ -149,14 +151,16 @@ const Properties = ({
                 titleStyle={level1CardTitleStyle}
               />
               <Level2CardText expandable={true}>
-                {taxPropertiesByTaxonomy[pc].length > 1 && <AllChooser />}
+                {taxPropertiesByTaxonomy[pc].length > 1 && (
+                  <AllTaxChooser properties={taxPropertiesByTaxonomy[pc]} />
+                )}
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {taxPropertiesByTaxonomy[pc].map(field => (
-                    <Checkbox
+                    <TaxChooser
                       key={`${field.propertyName}${field.jsontype}`}
-                      label={field.propertyName}
-                      checked={false}
-                      onCheck={onCheck}
+                      taxName={field.taxonomyName}
+                      pName={field.propertyName}
+                      jsontype={field.jsontype}
                     />
                   ))}
                 </PropertiesContainer>
@@ -232,15 +236,17 @@ const Properties = ({
               />
               <Level2CardText expandable={true}>
                 {rcoPropertiesByPropertyCollection[pc].length > 1 && (
-                  <AllChooser />
+                  <AllRcoChooser
+                    properties={rcoPropertiesByPropertyCollection[pc]}
+                  />
                 )}
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {rcoPropertiesByPropertyCollection[pc].map(field => (
-                    <Checkbox
+                    <RcoChooser
                       key={`${field.propertyName}${field.jsontype}`}
-                      label={field.propertyName}
-                      checked={false}
-                      onCheck={onCheck}
+                      pCName={field.propertyCollectionName}
+                      pName={field.propertyName}
+                      jsontype={field.jsontype}
                     />
                   ))}
                 </PropertiesContainer>

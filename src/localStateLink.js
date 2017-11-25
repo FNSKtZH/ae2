@@ -7,7 +7,9 @@ import activeNodeArrayGql from './modules/activeNodeArrayGql'
 import treeFilterGql from './modules/treeFilterGql'
 import exportCategoriesGql from './modules/exportCategoriesGql'
 import exportCombineTaxonomiesGql from './modules/exportCombineTaxonomiesGql'
+import exportTaxPropertiesGql from './modules/exportTaxPropertiesGql'
 import exportPcoPropertiesGql from './modules/exportPcoPropertiesGql'
+import exportRcoPropertiesGql from './modules/exportRcoPropertiesGql'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 
 export default withClientState({
@@ -16,7 +18,9 @@ export default withClientState({
     activeNodeArray: () => [],
     exportCategories: () => [],
     exportCombineTaxonomies: () => false,
+    exportTaxProperties: () => [],
     exportPcoProperties: () => [],
+    exportRcoProperties: () => [],
     // this is experimental
     // see: https://github.com/apollographql/apollo-link-state/issues/111
     treeFilter: () => ({
@@ -60,6 +64,30 @@ export default withClientState({
       })
       return null
     },
+    addExportTaxProperty: (_, { taxName, pName }, { cache }) => {
+      const current = cache.readQuery({ query: exportTaxPropertiesGql })
+      cache.writeQuery({
+        query: exportTaxPropertiesGql,
+        data: {
+          exportTaxProperties: [
+            ...current.exportTaxProperties,
+            { taxName, pName, __typename: 'ExportTaxProperty' },
+          ],
+        },
+      })
+      return null
+    },
+    removeExportTaxProperty: (_, { taxName, pName }, { cache }) => {
+      const current = cache.readQuery({ query: exportTaxPropertiesGql })
+      const exportTaxProperties = current.exportTaxProperties.filter(
+        x => !(x.taxName === taxName && x.pName === pName)
+      )
+      cache.writeQuery({
+        query: exportTaxPropertiesGql,
+        data: { exportTaxProperties },
+      })
+      return null
+    },
     addExportPcoProperty: (_, { pCName, pName }, { cache }) => {
       const current = cache.readQuery({ query: exportPcoPropertiesGql })
       cache.writeQuery({
@@ -81,6 +109,30 @@ export default withClientState({
       cache.writeQuery({
         query: exportPcoPropertiesGql,
         data: { exportPcoProperties },
+      })
+      return null
+    },
+    addExportRcoProperty: (_, { pCName, pName }, { cache }) => {
+      const current = cache.readQuery({ query: exportRcoPropertiesGql })
+      cache.writeQuery({
+        query: exportRcoPropertiesGql,
+        data: {
+          exportRcoProperties: [
+            ...current.exportRcoProperties,
+            { pCName, pName, __typename: 'ExportRcoProperty' },
+          ],
+        },
+      })
+      return null
+    },
+    removeExportRcoProperty: (_, { pCName, pName }, { cache }) => {
+      const current = cache.readQuery({ query: exportRcoPropertiesGql })
+      const exportRcoProperties = current.exportRcoProperties.filter(
+        x => !(x.pCName === pCName && x.pName === pName)
+      )
+      cache.writeQuery({
+        query: exportRcoPropertiesGql,
+        data: { exportRcoProperties },
       })
       return null
     },
