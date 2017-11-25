@@ -13,10 +13,16 @@ import Properties from './Properties'
 import Filter from './Filter'
 import exportCategoriesGql from '../../modules/exportCategoriesGql'
 
-const level1CardStyle = { margin: '10px 0' }
+const Level1Card = styled(Card)`
+  margin: 10px 0;
+`
+const Level1CardHeader = styled(CardHeader)`
+  background-color: #ffcc80;
+`
+const Level1CardText = styled(CardText)`
+  padding: 0 !important;
+`
 const level1CardTitleStyle = { fontWeight: 'bold' }
-const level1CardHeaderStyle = { backgroundColor: '#FFCC80' }
-const level1CardTextStyle = { padding: 0 }
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -127,70 +133,51 @@ const Export = ({
   return (
     <Container>
       <StyledH3>Export</StyledH3>
-      <Card
-        expanded={groupsExpanded}
-        onExpandChange={onToggleGroups}
-        style={level1CardStyle}
-      >
-        <CardHeader
+      <Level1Card expanded={groupsExpanded} onExpandChange={onToggleGroups}>
+        <Level1CardHeader
           title="1. Gruppe(n) wählen"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
-          style={level1CardHeaderStyle}
         />
-        <CardText expandable={true} style={level1CardTextStyle}>
+        <Level1CardText expandable={true}>
           <Categories data={data} />
-        </CardText>
-      </Card>
-      <Card
-        expanded={filterExpanded}
-        onExpandChange={onToggleFilter}
-        style={level1CardStyle}
-      >
-        <CardHeader
+        </Level1CardText>
+      </Level1Card>
+      <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
+        <Level1CardHeader
           title="2. filtern"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
-          style={level1CardHeaderStyle}
         />
-        <CardText expandable={true} style={level1CardTextStyle}>
+        <Level1CardText expandable={true}>
           <Filter data={data} />
-        </CardText>
-      </Card>
-      <Card
+        </Level1CardText>
+      </Level1Card>
+      <Level1Card
         expanded={propertiesExpanded}
         onExpandChange={onToggleProperties}
-        style={level1CardStyle}
       >
-        <CardHeader
+        <Level1CardHeader
           title="3. Eigenschaften wählen"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
-          style={level1CardHeaderStyle}
         />
-        <CardText expandable={true} style={level1CardTextStyle}>
+        <Level1CardText expandable={true}>
           <Properties data={data} />
-        </CardText>
-      </Card>
-      <Card
-        expanded={exportExpanded}
-        onExpandChange={onToggleExport}
-        style={level1CardStyle}
-      >
-        <CardHeader
+        </Level1CardText>
+      </Level1Card>
+      <Level1Card expanded={exportExpanded} onExpandChange={onToggleExport}>
+        <Level1CardHeader
           title="4. exportieren"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
-          style={level1CardHeaderStyle}
         />
-        <CardText expandable={true} style={level1CardTextStyle}>
-          card text exportieren
-        </CardText>
-      </Card>
+        <Level1CardText expandable={true}>card text exportieren</Level1CardText>
+      </Level1Card>
     </Container>
   )
 }

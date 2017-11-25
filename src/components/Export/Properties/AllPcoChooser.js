@@ -11,7 +11,7 @@ import removeExportPcoPropertyMutation from '../../../modules/removeExportPcoPro
 import exportPcoPropertiesGql from '../../../modules/exportPcoPropertiesGql'
 
 const Container = styled.div`
-  margin-left: 16px;
+  margin-bottom: 16px;
 `
 
 const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {

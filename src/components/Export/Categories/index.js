@@ -89,6 +89,7 @@ const Categories = ({
   const paperStyle = {
     width: '100%',
     backgroundColor: paperBackgroundColor,
+    marginBottom: '10px',
   }
 
   return (

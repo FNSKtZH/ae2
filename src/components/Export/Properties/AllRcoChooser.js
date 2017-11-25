@@ -11,7 +11,7 @@ import removeExportRcoPropertyMutation from '../../../modules/removeExportRcoPro
 import exportRcoPropertiesGql from '../../../modules/exportRcoPropertiesGql'
 
 const Container = styled.div`
-  margin-left: 16px;
+  margin-bottom: 16px;
 `
 
 const exportRcoPropertiesData = graphql(exportRcoPropertiesGql, {

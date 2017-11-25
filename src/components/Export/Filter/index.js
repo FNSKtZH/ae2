@@ -25,28 +25,28 @@ const Container = styled.div`
   height: calc(100% - 48px);
   overflow: auto !important;
 `
-const Level1Card = styled(Card)`
+const Level2Card = styled(Card)`
   margin: 10px 0;
   padding: 0;
   > div {
     padding-bottom: 0 !important;
   }
 `
-const Level2Card = styled(Card)`
+const Level3Card = styled(Card)`
   margin: 0;
   padding: 0;
 `
-const Level1CardHeader = styled(CardHeader)`
+const Level2CardHeader = styled(CardHeader)`
   background-color: #ffcc80;
 `
-const Level2CardHeader = styled(CardHeader)`
+const Level3CardHeader = styled(CardHeader)`
   background-color: #fff3e0;
   border-bottom: 1px solid #ebebeb;
 `
-const Level1CardText = styled(CardText)`
+const Level2CardText = styled(CardText)`
   padding: 0;
 `
-const Level2CardText = styled(CardText)`
+const Level3CardText = styled(CardText)`
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -59,7 +59,7 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const level1CardTitleStyle = { fontWeight: 'bold' }
+const level2CardTitleStyle = { fontWeight: 'bold' }
 
 const Filter = ({
   data,
@@ -125,25 +125,25 @@ const Filter = ({
     <Container>
       <HowTo />
       <Tipps />
-      <Level1Card>
-        <Level1CardHeader
+      <Level2Card>
+        <Level2CardHeader
           title={taxTitle}
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
+          titleStyle={level2CardTitleStyle}
         />
-        <Level1CardText expandable={true}>
+        <Level2CardText expandable={true}>
           {Object.keys(taxPropertiesByTaxonomy).map(pc => (
-            <Level2Card key={pc}>
-              <Level2CardHeader
+            <Level3Card key={pc}>
+              <Level3CardHeader
                 title={`${pc} (${taxPropertiesByTaxonomy[pc].length} ${
                   taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
                 })`}
                 actAsExpander={true}
                 showExpandableButton={true}
-                titleStyle={level1CardTitleStyle}
+                titleStyle={level2CardTitleStyle}
               />
-              <Level2CardText expandable={true}>
+              <Level3CardText expandable={true}>
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {/*taxPropertiesByTaxonomy[pc].map(field => (
                     <TaxChooser
@@ -154,22 +154,22 @@ const Filter = ({
                     />
                   ))*/}
                 </PropertiesContainer>
-              </Level2CardText>
-            </Level2Card>
+              </Level3CardText>
+            </Level3Card>
           ))}
-        </Level1CardText>
-      </Level1Card>
-      <Level1Card>
-        <Level1CardHeader
+        </Level2CardText>
+      </Level2Card>
+      <Level2Card>
+        <Level2CardHeader
           title={pcTitle}
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
+          titleStyle={level2CardTitleStyle}
         />
-        <Level1CardText expandable={true}>
+        <Level2CardText expandable={true}>
           {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
-            <Level2Card key={pc}>
-              <Level2CardHeader
+            <Level3Card key={pc}>
+              <Level3CardHeader
                 title={`${pc} (${
                   pcoPropertiesByPropertyCollection[pc].length
                 } ${
@@ -179,9 +179,9 @@ const Filter = ({
                 })`}
                 actAsExpander={true}
                 showExpandableButton={true}
-                titleStyle={level1CardTitleStyle}
+                titleStyle={level2CardTitleStyle}
               />
-              <Level2CardText expandable={true}>
+              <Level3CardText expandable={true}>
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {/*pcoPropertiesByPropertyCollection[pc].map(field => (
                     <PcoChooser
@@ -192,22 +192,22 @@ const Filter = ({
                     />
                   ))*/}
                 </PropertiesContainer>
-              </Level2CardText>
-            </Level2Card>
+              </Level3CardText>
+            </Level3Card>
           ))}
-        </Level1CardText>
-      </Level1Card>
-      <Level1Card>
-        <Level1CardHeader
+        </Level2CardText>
+      </Level2Card>
+      <Level2Card>
+        <Level2CardHeader
           title={rcTitle}
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
+          titleStyle={level2CardTitleStyle}
         />
-        <Level1CardText expandable={true}>
+        <Level2CardText expandable={true}>
           {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
-            <Level2Card key={pc}>
-              <Level2CardHeader
+            <Level3Card key={pc}>
+              <Level3CardHeader
                 title={`${pc} (${
                   rcoPropertiesByPropertyCollection[pc].length
                 } ${
@@ -217,9 +217,9 @@ const Filter = ({
                 })`}
                 actAsExpander={true}
                 showExpandableButton={true}
-                titleStyle={level1CardTitleStyle}
+                titleStyle={level2CardTitleStyle}
               />
-              <Level2CardText expandable={true}>
+              <Level3CardText expandable={true}>
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {/*rcoPropertiesByPropertyCollection[pc].map(field => (
                     <RcoChooser
@@ -230,11 +230,11 @@ const Filter = ({
                     />
                   ))*/}
                 </PropertiesContainer>
-              </Level2CardText>
-            </Level2Card>
+              </Level3CardText>
+            </Level3Card>
           ))}
-        </Level1CardText>
-      </Level1Card>
+        </Level2CardText>
+      </Level2Card>
     </Container>
   )
 }

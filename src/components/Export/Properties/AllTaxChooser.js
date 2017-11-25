@@ -11,7 +11,7 @@ import removeExportTaxPropertyMutation from '../../../modules/removeExportTaxPro
 import exportTaxPropertiesGql from '../../../modules/exportTaxPropertiesGql'
 
 const Container = styled.div`
-  margin-left: 16px;
+  margin-bottom: 16px;
 `
 
 const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
