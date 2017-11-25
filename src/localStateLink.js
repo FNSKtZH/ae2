@@ -10,7 +10,10 @@ import exportCombineTaxonomiesGql from './modules/exportCombineTaxonomiesGql'
 import exportTaxPropertiesGql from './modules/exportTaxPropertiesGql'
 import exportPcoPropertiesGql from './modules/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from './modules/exportRcoPropertiesGql'
+import exportTooManyPropertiesGql from './modules/exportTooManyPropertiesGql'
+import exportTooManyPropertiesMutation from './modules/exportTooManyPropertiesMutation'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
+import constants from './modules/constants'
 
 export default withClientState({
   Query: {
@@ -21,6 +24,7 @@ export default withClientState({
     exportTaxProperties: () => [],
     exportPcoProperties: () => [],
     exportRcoProperties: () => [],
+    exportTooManyProperties: () => false,
     // this is experimental
     // see: https://github.com/apollographql/apollo-link-state/issues/111
     treeFilter: () => ({
@@ -65,16 +69,29 @@ export default withClientState({
       return null
     },
     addExportTaxProperty: (_, { taxName, pName }, { cache }) => {
-      const current = cache.readQuery({ query: exportTaxPropertiesGql })
-      cache.writeQuery({
-        query: exportTaxPropertiesGql,
-        data: {
-          exportTaxProperties: [
-            ...current.exportTaxProperties,
-            { taxName, pName, __typename: 'ExportTaxProperty' },
-          ],
-        },
-      })
+      const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
+      const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
+      const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
+      const nrOfPropertiesExported =
+        currentTax.exportTaxProperties.length +
+        currentRco.exportRcoProperties.length +
+        currentPco.exportPcoProperties.length
+      if (nrOfPropertiesExported > constants.export.maxFields) {
+        app.client.mutate({
+          mutation: exportTooManyPropertiesMutation,
+          variables: { value: true },
+        })
+      } else {
+        cache.writeQuery({
+          query: exportTaxPropertiesGql,
+          data: {
+            exportTaxProperties: [
+              ...currentTax.exportTaxProperties,
+              { taxName, pName, __typename: 'ExportTaxProperty' },
+            ],
+          },
+        })
+      }
       return null
     },
     removeExportTaxProperty: (_, { taxName, pName }, { cache }) => {
@@ -89,16 +106,29 @@ export default withClientState({
       return null
     },
     addExportPcoProperty: (_, { pCName, pName }, { cache }) => {
-      const current = cache.readQuery({ query: exportPcoPropertiesGql })
-      cache.writeQuery({
-        query: exportPcoPropertiesGql,
-        data: {
-          exportPcoProperties: [
-            ...current.exportPcoProperties,
-            { pCName, pName, __typename: 'ExportPcoProperty' },
-          ],
-        },
-      })
+      const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
+      const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
+      const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
+      const nrOfPropertiesExported =
+        currentTax.exportTaxProperties.length +
+        currentRco.exportRcoProperties.length +
+        currentPco.exportPcoProperties.length
+      if (nrOfPropertiesExported > constants.export.maxFields) {
+        app.client.mutate({
+          mutation: exportTooManyPropertiesMutation,
+          variables: { value: true },
+        })
+      } else {
+        cache.writeQuery({
+          query: exportPcoPropertiesGql,
+          data: {
+            exportPcoProperties: [
+              ...currentPco.exportPcoProperties,
+              { pCName, pName, __typename: 'ExportPcoProperty' },
+            ],
+          },
+        })
+      }
       return null
     },
     removeExportPcoProperty: (_, { pCName, pName }, { cache }) => {
@@ -113,16 +143,29 @@ export default withClientState({
       return null
     },
     addExportRcoProperty: (_, { pCName, pName }, { cache }) => {
-      const current = cache.readQuery({ query: exportRcoPropertiesGql })
-      cache.writeQuery({
-        query: exportRcoPropertiesGql,
-        data: {
-          exportRcoProperties: [
-            ...current.exportRcoProperties,
-            { pCName, pName, __typename: 'ExportRcoProperty' },
-          ],
-        },
-      })
+      const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
+      const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
+      const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
+      const nrOfPropertiesExported =
+        currentTax.exportTaxProperties.length +
+        currentRco.exportRcoProperties.length +
+        currentPco.exportPcoProperties.length
+      if (nrOfPropertiesExported > constants.export.maxFields) {
+        app.client.mutate({
+          mutation: exportTooManyPropertiesMutation,
+          variables: { value: true },
+        })
+      } else {
+        cache.writeQuery({
+          query: exportRcoPropertiesGql,
+          data: {
+            exportRcoProperties: [
+              ...currentRco.exportRcoProperties,
+              { pCName, pName, __typename: 'ExportRcoProperty' },
+            ],
+          },
+        })
+      }
       return null
     },
     removeExportRcoProperty: (_, { pCName, pName }, { cache }) => {
@@ -133,6 +176,13 @@ export default withClientState({
       cache.writeQuery({
         query: exportRcoPropertiesGql,
         data: { exportRcoProperties },
+      })
+      return null
+    },
+    setExportTooManyProperties: (_, { value }, { cache }) => {
+      cache.writeQuery({
+        query: exportTooManyPropertiesGql,
+        data: { exportTooManyProperties: value },
       })
       return null
     },

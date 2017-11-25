@@ -33,6 +33,19 @@ export default gql`
     $queryExportCategories: Boolean!
     $exportCategories: [String]
   ) {
+    exportTaxProperties @client {
+      taxName
+      pName
+    }
+    exportPcoProperties @client {
+      pCName
+      pName
+    }
+    exportRcoProperties @client {
+      pCName
+      pName
+    }
+    exportTooManyProperties @client
     allCategories {
       totalCount
     }
