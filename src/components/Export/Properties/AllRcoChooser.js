@@ -48,14 +48,12 @@ const AllRcoChooser = ({
   exportRcoPropertiesData: Object,
 }) => {
   const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
-  console.log('AllRcoChooser: exportRcoProperties:', exportRcoProperties)
   const checkedArray = properties.map(
     p =>
       exportRcoProperties.filter(
         x => x.pCName === p.propertyCollectionName && x.pName === p.propertyName
       ).length > 0
   )
-  console.log('AllRcoChooser: checkedArray:', checkedArray)
   const checked = checkedArray.length > 0 && !checkedArray.includes(false)
 
   return (

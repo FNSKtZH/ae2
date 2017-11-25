@@ -48,7 +48,6 @@ const RcoChooser = ({
   exportRcoPropertiesData: Object,
 }) => {
   const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
-  console.log('RcoChooser: exportRcoProperties:', exportRcoProperties)
   const checked =
     exportRcoProperties.filter(x => x.pCName === pCName && x.pName === pName)
       .length > 0
