@@ -2,7 +2,7 @@
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import styled from 'styled-components'
-import get from 'lodash/get'
+//import get from 'lodash/get'
 
 import Categories from './Categories'
 import Properties from './Properties'
