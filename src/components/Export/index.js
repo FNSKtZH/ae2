@@ -47,11 +47,23 @@ const enhance = compose(
       exportCategoriesData,
       groupsExpanded,
       setGroupsExpanded,
-    }) => () => setGroupsExpanded(!groupsExpanded),
+      setFilterExpanded,
+      setPropertiesExpanded,
+      setExportExpanded,
+    }) => () => {
+      setGroupsExpanded(!groupsExpanded)
+      // close all others
+      setFilterExpanded(false)
+      setPropertiesExpanded(false)
+      setExportExpanded(false)
+    },
     onToggleFilter: ({
       exportCategoriesData,
       filterExpanded,
+      setGroupsExpanded,
       setFilterExpanded,
+      setPropertiesExpanded,
+      setExportExpanded,
     }) => () => {
       const { exportCategories } = exportCategoriesData
       if (
@@ -63,11 +75,18 @@ const enhance = compose(
       } else {
         setFilterExpanded(false)
       }
+      // close all others
+      setGroupsExpanded(false)
+      setPropertiesExpanded(false)
+      setExportExpanded(false)
     },
     onToggleProperties: ({
       exportCategoriesData,
       propertiesExpanded,
+      setGroupsExpanded,
+      setFilterExpanded,
       setPropertiesExpanded,
+      setExportExpanded,
     }) => () => {
       const { exportCategories } = exportCategoriesData
       if (
@@ -79,10 +98,17 @@ const enhance = compose(
       } else {
         setPropertiesExpanded(false)
       }
+      // close all others
+      setGroupsExpanded(false)
+      setFilterExpanded(false)
+      setExportExpanded(false)
     },
     onToggleExport: ({
       exportCategoriesData,
       exportExpanded,
+      setGroupsExpanded,
+      setFilterExpanded,
+      setPropertiesExpanded,
       setExportExpanded,
     }) => () => {
       const { exportCategories } = exportCategoriesData
@@ -95,6 +121,10 @@ const enhance = compose(
       } else {
         setExportExpanded(false)
       }
+      // close all others
+      setGroupsExpanded(false)
+      setFilterExpanded(false)
+      setPropertiesExpanded(false)
     },
   })
 )
