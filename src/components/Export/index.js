@@ -122,14 +122,6 @@ const Export = ({
   //console.log('Export: rcoProperties:', rcoProperties)
   //const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
   //console.log('Export: taxProperties:', taxProperties)
-  const { exportCategories } = exportCategoriesData
-  console.log('Export: exportCategories:', exportCategories)
-  const filterAndPropertiesExpandable =
-    !!exportCategories && exportCategories.length > 0
-  console.log(
-    'Export: filterAndPropertiesExpandable:',
-    filterAndPropertiesExpandable
-  )
 
   return (
     <Container>
