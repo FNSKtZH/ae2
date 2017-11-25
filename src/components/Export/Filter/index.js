@@ -112,7 +112,11 @@ const Filter = ({
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
   const taxTitle = `Taxonomien (${
     Object.keys(taxPropertiesByTaxonomy).length
-  } Taxonomien, ${Object.keys(taxPropertiesFields).length} ${
+  } ${
+    Object.keys(taxPropertiesByTaxonomy).length === 1
+      ? 'Taxonomie'
+      : 'Taxonomien'
+  }, ${Object.keys(taxPropertiesFields).length} ${
     Object.keys(taxPropertiesFields).length === 1 ? 'Feld' : 'Felder'
   })`
   //console.log('Filter: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
