@@ -89,10 +89,10 @@ const Properties = ({
     'propertyCollectionName'
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
-  console.log(
-    'Export: pcoPropertiesByPropertyCollection:',
+  /*console.log(
+    'Properties: pcoPropertiesByPropertyCollection:',
     pcoPropertiesByPropertyCollection
-  )
+  )*/
   const pcTitle = `Eigenschaftensammlungen (${
     Object.keys(pcoPropertiesByPropertyCollection).length
   } Sammlungen, ${Object.keys(pcoPropertiesFields).length} ${
@@ -106,16 +106,16 @@ const Properties = ({
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
-  //console.log('Export: pcoPropertiesFields:', pcoPropertiesFields)
+  //console.log('Properties: pcoPropertiesFields:', pcoPropertiesFields)
   const rcTitle = `Beziehungssammlungen (${
     Object.keys(rcoPropertiesByPropertyCollection).length
   } Sammlungen, ${Object.keys(rcoPropertiesFields).length} ${
     Object.keys(rcoPropertiesFields).length === 1 ? 'Feld' : 'Felder'
   })`
-  console.log(
-    'Export: rcoPropertiesByPropertyCollection:',
+  /*console.log(
+    'Properties: rcoPropertiesByPropertyCollection:',
     rcoPropertiesByPropertyCollection
-  )
+  )*/
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
@@ -124,7 +124,7 @@ const Properties = ({
   } Taxonomien, ${Object.keys(taxPropertiesFields).length} ${
     Object.keys(taxPropertiesFields).length === 1 ? 'Feld' : 'Felder'
   })`
-  console.log('Export: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
+  //console.log('Properties: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
 
   return (
     <Container>

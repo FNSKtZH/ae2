@@ -24,10 +24,6 @@ const enhance = compose(
       const mutation = isChecked
         ? addExportPcoPropertyMutation
         : removeExportPropertyMutation
-      console.log('PcoChooser: pCName:', pCName)
-      console.log('PcoChooser: pName:', pName)
-      console.log('PcoChooser: client:', client)
-      console.log('PcoChooser: mutation:', mutation)
       client.mutate({
         mutation,
         variables: { pCName, pName },
@@ -52,6 +48,7 @@ const PcoChooser = ({
   exportPcoPropertiesData: Object,
 }) => {
   const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+  //console.log('PcoChooser: exportPcoProperties:', exportPcoProperties)
   const exportPcoProperty = exportPcoProperties.filter(
     x => x.pCName === pCName && x.pName === pName
   )
