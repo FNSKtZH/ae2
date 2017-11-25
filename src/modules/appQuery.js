@@ -33,6 +33,11 @@ export default gql`
     $queryExportCategories: Boolean!
     $exportCategories: [String]
   ) {
+    # somehow this alters behaviour
+    # and makes node array not work any more
+    #activeNodeArray @client
+    exportCategories @client
+    exportCombineTaxonomies @client
     exportTaxProperties @client {
       taxName
       pName
@@ -49,6 +54,12 @@ export default gql`
     allCategories {
       totalCount
     }
+    # somehow this alters behaviour
+    # and makes filter not work
+    #treeFilter @client {
+    #  text
+    #  id
+    #}
     allPropertyCollections @include(if: $notExistsLevel2Pc) {
       totalCount
     }
