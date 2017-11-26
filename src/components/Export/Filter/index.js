@@ -139,9 +139,16 @@ const Filter = ({
           {Object.keys(taxPropertiesByTaxonomy).map(pc => (
             <Level3Card key={pc}>
               <Level3CardHeader
-                title={`${pc} (${taxPropertiesByTaxonomy[pc].length} ${
-                  taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
-                })`}
+                title={
+                  <div>
+                    {pc}
+                    <Level3Count>{`(${taxPropertiesByTaxonomy[pc].length} ${
+                      taxPropertiesByTaxonomy[pc].length === 1
+                        ? 'Feld'
+                        : 'Felder'
+                    })`}</Level3Count>
+                  </div>
+                }
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level2CardTitleStyle}
@@ -185,13 +192,18 @@ const Filter = ({
           {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
             <Level3Card key={pc}>
               <Level3CardHeader
-                title={`${pc} (${
-                  pcoPropertiesByPropertyCollection[pc].length
-                } ${
-                  pcoPropertiesByPropertyCollection[pc].length === 1
-                    ? 'Feld'
-                    : 'Felder'
-                })`}
+                title={
+                  <div>
+                    {pc}
+                    <Level3Count>{`(${
+                      pcoPropertiesByPropertyCollection[pc].length
+                    } ${
+                      pcoPropertiesByPropertyCollection[pc].length === 1
+                        ? 'Feld'
+                        : 'Felder'
+                    })`}</Level3Count>
+                  </div>
+                }
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level2CardTitleStyle}
@@ -235,13 +247,18 @@ const Filter = ({
           {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
             <Level3Card key={pc}>
               <Level3CardHeader
-                title={`${pc} (${
-                  rcoPropertiesByPropertyCollection[pc].length
-                } ${
-                  rcoPropertiesByPropertyCollection[pc].length === 1
-                    ? 'Feld'
-                    : 'Felder'
-                })`}
+                title={
+                  <div>
+                    {pc}
+                    <Level3Count>{`(${
+                      rcoPropertiesByPropertyCollection[pc].length
+                    } ${
+                      rcoPropertiesByPropertyCollection[pc].length === 1
+                        ? 'Feld'
+                        : 'Felder'
+                    })`}</Level3Count>
+                  </div>
+                }
                 actAsExpander={true}
                 showExpandableButton={true}
                 titleStyle={level2CardTitleStyle}
