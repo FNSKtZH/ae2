@@ -59,6 +59,10 @@ const PropertiesContainer = styled.div`
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};
 `
+const Level2Count = styled.span`
+  font-size: x-small;
+  padding-left: 5px;
+`
 const Level3Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
@@ -89,11 +93,7 @@ const Properties = ({
     'Properties: pcoPropertiesByPropertyCollection:',
     pcoPropertiesByPropertyCollection
   )*/
-  const pcTitle = `Eigenschaftensammlungen (${
-    Object.keys(pcoPropertiesByPropertyCollection).length
-  } Sammlungen, ${Object.keys(pcoPropertiesFields).length} ${
-    Object.keys(pcoPropertiesFields).lengt === 1 ? 'Feld' : 'Felder'
-  })`
+  const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
     if (x.propertyCollectionName.includes(x.relationType)) {
@@ -103,35 +103,34 @@ const Properties = ({
   })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   //console.log('Properties: pcoPropertiesFields:', pcoPropertiesFields)
-  const rcTitle = `Beziehungssammlungen (${
-    Object.keys(rcoPropertiesByPropertyCollection).length
-  } Sammlungen, ${Object.keys(rcoPropertiesFields).length} ${
-    Object.keys(rcoPropertiesFields).length === 1 ? 'Feld' : 'Felder'
-  })`
   /*console.log(
     'Properties: rcoPropertiesByPropertyCollection:',
     rcoPropertiesByPropertyCollection
   )*/
+  const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
-  const taxTitle = `Taxonomien (${
-    Object.keys(taxPropertiesByTaxonomy).length
-  } ${
-    Object.keys(taxPropertiesByTaxonomy).length === 1
-      ? 'Taxonomie'
-      : 'Taxonomien'
-  }, ${Object.keys(taxPropertiesFields).length} ${
-    Object.keys(taxPropertiesFields).length === 1 ? 'Feld' : 'Felder'
-  })`
   //console.log('Properties: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
+  const taxCount = Object.keys(taxPropertiesByTaxonomy).length
+  const taxFieldsCount = Object.keys(taxPropertiesFields).length
 
   return (
     <Container>
       <HowTo />
       <Level2Card>
         <Level2CardHeader
-          title={taxTitle}
+          title={
+            <div>
+              Taxonomien{taxCount > 0 && (
+                <Level2Count>{`(${taxCount} ${
+                  taxCount === 1 ? 'Taxonomie' : 'Taxonomien'
+                }, ${taxFieldsCount} ${
+                  taxFieldsCount === 1 ? 'Feld' : 'Felder'
+                })`}</Level2Count>
+              )}
+            </div>
+          }
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level2CardTitleStyle}
@@ -176,7 +175,19 @@ const Properties = ({
       </Level2Card>
       <Level2Card>
         <Level2CardHeader
-          title={pcTitle}
+          title={
+            <div>
+              Eigenschaftensammlungen{pCCount > 0 && (
+                <Level2Count>{`(${pCCount} Sammlungen, ${
+                  Object.keys(pcoPropertiesFields).length
+                } ${
+                  Object.keys(pcoPropertiesFields).length === 1
+                    ? 'Feld'
+                    : 'Felder'
+                })`}</Level2Count>
+              )}
+            </div>
+          }
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level2CardTitleStyle}
@@ -225,7 +236,19 @@ const Properties = ({
       </Level2Card>
       <Level2Card>
         <Level2CardHeader
-          title={rcTitle}
+          title={
+            <div>
+              Beziehungssammlungen{rCCount > 0 && (
+                <Level2Count>{`(${rCCount} Sammlungen, ${
+                  Object.keys(rcoPropertiesFields).length
+                } ${
+                  Object.keys(rcoPropertiesFields).length === 1
+                    ? 'Feld'
+                    : 'Felder'
+                })`}</Level2Count>
+              )}
+            </div>
+          }
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level2CardTitleStyle}
