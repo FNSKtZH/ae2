@@ -12,7 +12,6 @@ import exportTaxPropertiesGql from '../../../modules/exportTaxPropertiesGql'
 
 const Container = styled.div``
 const Count = styled.span`
-  font-style: italic;
   font-size: xx-small;
 `
 
@@ -61,7 +60,7 @@ const TaxChooser = ({
       <Checkbox
         label={
           <div>
-            {pName} <Count title="Anzahl Objekte">{`(${count})`}</Count>
+            {pName} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
           </div>
         }
         checked={checked}

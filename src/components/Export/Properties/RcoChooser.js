@@ -12,7 +12,6 @@ import exportRcoPropertiesGql from '../../../modules/exportRcoPropertiesGql'
 
 const Container = styled.div``
 const Count = styled.span`
-  font-style: italic;
   font-size: xx-small;
 `
 
@@ -61,7 +60,7 @@ const RcoChooser = ({
       <Checkbox
         label={
           <div>
-            {pName} <Count title="Anzahl Objekte">{`(${count})`}</Count>
+            {pName} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
           </div>
         }
         checked={checked}
