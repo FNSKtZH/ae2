@@ -154,6 +154,7 @@ const Properties = ({
                       taxName={field.taxonomyName}
                       pName={field.propertyName}
                       jsontype={field.jsontype}
+                      count={field.count}
                     />
                   ))}
                 </PropertiesContainer>
@@ -197,6 +198,7 @@ const Properties = ({
                       pCName={field.propertyCollectionName}
                       pName={field.propertyName}
                       jsontype={field.jsontype}
+                      count={field.count}
                     />
                   ))}
                 </PropertiesContainer>
@@ -240,6 +242,7 @@ const Properties = ({
                       pCName={field.propertyCollectionName}
                       pName={field.propertyName}
                       jsontype={field.jsontype}
+                      count={field.count}
                     />
                   ))}
                 </PropertiesContainer>

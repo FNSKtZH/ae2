@@ -11,6 +11,10 @@ import removeExportRcoPropertyMutation from '../../../modules/removeExportRcoPro
 import exportRcoPropertiesGql from '../../../modules/exportRcoPropertiesGql'
 
 const Container = styled.div``
+const Count = styled.span`
+  font-style: italic;
+  font-size: xx-small;
+`
 
 const exportRcoPropertiesData = graphql(exportRcoPropertiesGql, {
   name: 'exportRcoPropertiesData',
@@ -36,14 +40,14 @@ const RcoChooser = ({
   pCName,
   pName,
   jsontype,
-  //count,
+  count,
   onCheck,
   exportRcoPropertiesData,
 }: {
   pCName: string,
   pName: string,
   jsontype: string,
-  //count: number,
+  count: number,
   onCheck: () => {},
   exportRcoPropertiesData: Object,
 }) => {
@@ -54,7 +58,15 @@ const RcoChooser = ({
 
   return (
     <Container>
-      <Checkbox label={pName} checked={checked} onCheck={onCheck} />
+      <Checkbox
+        label={
+          <div>
+            {pName} <Count title="Anzahl Objekte">{`(${count})`}</Count>
+          </div>
+        }
+        checked={checked}
+        onCheck={onCheck}
+      />
     </Container>
   )
 }

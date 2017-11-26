@@ -11,6 +11,10 @@ import removeExportTaxPropertyMutation from '../../../modules/removeExportTaxPro
 import exportTaxPropertiesGql from '../../../modules/exportTaxPropertiesGql'
 
 const Container = styled.div``
+const Count = styled.span`
+  font-style: italic;
+  font-size: xx-small;
+`
 
 const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
   name: 'exportTaxPropertiesData',
@@ -36,14 +40,14 @@ const TaxChooser = ({
   taxName,
   pName,
   jsontype,
-  //count,
+  count,
   onCheck,
   exportTaxPropertiesData,
 }: {
   taxName: string,
   pName: string,
   jsontype: string,
-  //count: number,
+  count: number,
   onCheck: () => {},
   exportTaxPropertiesData: Object,
 }) => {
@@ -54,7 +58,15 @@ const TaxChooser = ({
 
   return (
     <Container>
-      <Checkbox label={pName} checked={checked} onCheck={onCheck} />
+      <Checkbox
+        label={
+          <div>
+            {pName} <Count title="Anzahl Objekte">{`(${count})`}</Count>
+          </div>
+        }
+        checked={checked}
+        onCheck={onCheck}
+      />
     </Container>
   )
 }

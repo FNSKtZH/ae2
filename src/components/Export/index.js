@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
-//import get from 'lodash/get'
+import get from 'lodash/get'
 
 import Categories from './Categories'
 import Properties from './Properties'
@@ -157,8 +157,8 @@ const Export = ({
   //console.log('Export: pcoProperties:', pcoProperties)
   //const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
   //console.log('Export: rcoProperties:', rcoProperties)
-  //const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
-  //console.log('Export: taxProperties:', taxProperties)
+  const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
+  console.log('Export: taxProperties:', taxProperties)
 
   return (
     <Container>

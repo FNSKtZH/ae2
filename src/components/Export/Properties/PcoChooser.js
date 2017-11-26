@@ -11,6 +11,10 @@ import removeExportPcoPropertyMutation from '../../../modules/removeExportPcoPro
 import exportPcoPropertiesGql from '../../../modules/exportPcoPropertiesGql'
 
 const Container = styled.div``
+const Count = styled.span`
+  font-style: italic;
+  font-size: xx-small;
+`
 
 const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {
   name: 'exportPcoPropertiesData',
@@ -36,14 +40,14 @@ const PcoChooser = ({
   pCName,
   pName,
   jsontype,
-  //count,
+  count,
   onCheck,
   exportPcoPropertiesData,
 }: {
   pCName: string,
   pName: string,
   jsontype: string,
-  //count: number,
+  count: number,
   onCheck: () => {},
   exportPcoPropertiesData: Object,
 }) => {
@@ -54,7 +58,15 @@ const PcoChooser = ({
 
   return (
     <Container>
-      <Checkbox label={pName} checked={checked} onCheck={onCheck} />
+      <Checkbox
+        label={
+          <div>
+            {pName} <Count title="Anzahl Objekte">{`(${count})`}</Count>
+          </div>
+        }
+        checked={checked}
+        onCheck={onCheck}
+      />
     </Container>
   )
 }
