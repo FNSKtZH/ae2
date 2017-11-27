@@ -19,6 +19,7 @@ import registerServiceWorker from './registerServiceWorker'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 import localStateLink from './localStateLink'
 import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
+import activeNodeArrayGql from './modules/activeNodeArrayGql'
 
 const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
 const client = new ApolloClient({
@@ -26,15 +27,22 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
+/**
+ * This is some localStateLink problem
+ * need to query activeNodeArray or it will not exist
+ * and provoke errors
+ */
+client.query({ query: activeNodeArrayGql })
 // configure history
 const history = createHistory()
 // make ui follow when user uses browser back and forward buttons
-history.listen(location =>
+history.listen(location => {
+  console.log('Index: mutating active node array from pathname')
   client.mutate({
     mutation: activeNodeArrayMutation,
     variables: { value: getActiveNodeArrayFromPathname() },
   })
-)
+})
 
 app.extend({
   init() {

@@ -62,22 +62,27 @@ const enhance = compose(
         activeNodeArray[0]
       )
       if (!pathIsMain) {
+        console.log('AppBar: onClickColumnButtonData')
         client.mutate({
           mutation: activeNodeArrayMutation,
           variables: { value: ['Taxonomien'] },
         })
       }
     },
-    onClickColumnButtonExport: ({ client }) => () =>
+    onClickColumnButtonExport: ({ client }) => () => {
+      console.log('AppBar: onClickColumnButtonExport')
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Export'] },
-      }),
-    onClickImportPc: ({ client }) => () =>
+      })
+    },
+    onClickImportPc: ({ client }) => () => {
+      console.log('AppBar: onClickImportPc')
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: { value: ['Import', 'Eigenschaften-Sammlungen'] },
-      }),
+      })
+    },
     onClickImportRc: ({ client }) => () =>
       client.mutate({
         mutation: activeNodeArrayMutation,

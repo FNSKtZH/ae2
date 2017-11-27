@@ -36,10 +36,12 @@ export default withClientState({
   Mutation: {
     // update values in the store on mutations
     setActiveNodeArray: (_, { value }, { cache }) => {
+      console.log('localStateLink, setActiveNodeArray: value:', value)
       cache.writeQuery({
         query: activeNodeArrayGql,
         data: { activeNodeArray: value },
       })
+      console.log('localStateLink, setActiveNodeArray 2')
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, value)) {
         app.history.push(`/${value.join('/')}`)

@@ -1423,8 +1423,8 @@ change-emitter@^0.1.2:
   resolved "https://registry.yarnpkg.com/change-emitter/-/change-emitter-0.1.6.tgz#e8b2fe3d7f1ab7d69a32199aff91ea6931409515"
 
 chardet@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.0.tgz#0bbe1355ac44d7a3ed4a925707c4ef70f8190f6c"
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
 
 chokidar@^1.6.0, chokidar@^1.7.0:
   version "1.7.0"
@@ -5686,9 +5686,9 @@ react-autowhatever@^10.1.0:
     react-themeable "^1.1.0"
     section-iterator "^2.0.0"
 
-react-contextmenu@2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.8.0.tgz#b055477b9f2740a069ab001a9f7430935774cab9"
+react-contextmenu@2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.8.1.tgz#0c998d221330e7b45cd5b3e1c8e6f020ba9436b0"
   dependencies:
     classnames "^2.2.5"
     object-assign "^4.1.0"
