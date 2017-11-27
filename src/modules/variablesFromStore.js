@@ -8,7 +8,7 @@ export default ({
   treeFilterData: Object,
   exportCategoriesData: Object,
 }) => {
-  const { activeNodeArray } = activeNodeArrayData
+  const activeNodeArray = activeNodeArrayData.activeNodeArray || []
   const treeFilterId =
     treeFilterData.treeFilter && treeFilterData.treeFilter.id
       ? treeFilterData.treeFilter.id

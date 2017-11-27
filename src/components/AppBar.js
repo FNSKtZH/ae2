@@ -15,7 +15,11 @@ import withHandlers from 'recompose/withHandlers'
 import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 
-const StyledAppBar = styled(AppBar)`@media print {display: none !important;}`
+const StyledAppBar = styled(AppBar)`
+  @media print {
+    display: none !important;
+  }
+`
 const Button = styled(FlatButton)`
   color: ${props =>
     props['data-visible']
@@ -29,7 +33,9 @@ const MenuDiv = styled.div`
     padding-top: 4px !important;
   }
 `
-const StyledMoreVertIcon = styled(MoreVertIcon)`color: white !important;`
+const StyledMoreVertIcon = styled(MoreVertIcon)`
+  color: white !important;
+`
 const SymbolIcon = styled(FontIcon)`
   color: ${props =>
     props['data-visible']
@@ -111,7 +117,7 @@ const MyAppBar = ({
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
 }) => {
-  const { activeNodeArray } = activeNodeArrayData
+  const activeNodeArray = activeNodeArrayData.activeNodeArray || []
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const url1 = activeNodeArray[1] && activeNodeArray[1].toLowerCase()
   let importDropdownValue = 'Import'
