@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { graphql, withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import Snackbar from 'material-ui/Snackbar'
+import app from 'ampersand-app'
 
 import AppBar from './AppBar'
 import Data from './Data'
@@ -19,7 +20,6 @@ import exportCategoriesGql from '../modules/exportCategoriesGql'
 import appQuery from '../modules/appQuery'
 import variablesFromStore from '../modules/variablesFromStore'
 import getUrlForObject from '../modules/getUrlForObject'
-import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
 import treeFilterMutation from '../modules/treeFilterMutation'
 
 const Container = styled.div`
@@ -134,10 +134,7 @@ const App = ({
     console.log('App: objectUrlData:', objectUrlData)
     const url = getUrlForObject(objectUrlData)
     console.log('App: url:', url)
-    client.mutate({
-      mutation: activeNodeArrayMutation,
-      variables: { value: url },
-    })
+    app.history.push(`/${url.join('/')}`)
     client.mutate({
       mutation: treeFilterMutation,
       variables: { id: null, text: treeFilterText },

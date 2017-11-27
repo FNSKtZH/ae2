@@ -5,8 +5,8 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import Autosuggest from 'react-autosuggest'
 import { withApollo, graphql } from 'react-apollo'
+import app from 'ampersand-app'
 
-import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
 import treeFilterMutation from '../modules/treeFilterMutation'
 import treeFilterGql from '../modules/treeFilterGql'
 
@@ -167,12 +167,7 @@ const TreeFilter = ({
         onSuggestionSelected={(event, { suggestion }) => {
           switch (suggestion.type) {
             case 'pC':
-              client.mutate({
-                mutation: activeNodeArrayMutation,
-                variables: {
-                  value: ['Eigenschaften-Sammlungen', suggestion.id],
-                },
-              })
+              app.history.push(`/Eigenschaften-Sammlungen/${suggestion.id}`)
               break
             case 'tO':
             default: {

@@ -8,8 +8,8 @@ import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
 import gql from 'graphql-tag'
 import { withApollo, graphql } from 'react-apollo'
+import app from 'ampersand-app'
 
-import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
 import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 
@@ -104,15 +104,9 @@ const Row = ({
       if (isEqual(url, activeNodeArray)) {
         const newUrl = clone(url)
         newUrl.pop()
-        client.mutate({
-          mutation: activeNodeArrayMutation,
-          variables: { value: newUrl },
-        })
+        app.history.push(`/${newUrl.join('/')}`)
       } else {
-        client.mutate({
-          mutation: activeNodeArrayMutation,
-          variables: { value: node.url },
-        })
+        app.history.push(`/${node.url.join('/')}`)
       }
     }
   }

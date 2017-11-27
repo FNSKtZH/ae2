@@ -11,8 +11,8 @@ import { graphql, withApollo } from 'react-apollo'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
+import app from 'ampersand-app'
 
-import activeNodeArrayMutation from '../modules/activeNodeArrayMutation'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 
 const StyledAppBar = styled(AppBar)`
@@ -62,42 +62,18 @@ const enhance = compose(
         activeNodeArray[0]
       )
       if (!pathIsMain) {
-        console.log('AppBar: onClickColumnButtonData')
-        client.mutate({
-          mutation: activeNodeArrayMutation,
-          variables: { value: ['Taxonomien'] },
-        })
+        app.history.push('/Taxonomien')
       }
     },
-    onClickColumnButtonExport: ({ client }) => () => {
-      console.log('AppBar: onClickColumnButtonExport')
-      client.mutate({
-        mutation: activeNodeArrayMutation,
-        variables: { value: ['Export'] },
-      })
-    },
-    onClickImportPc: ({ client }) => () => {
-      console.log('AppBar: onClickImportPc')
-      client.mutate({
-        mutation: activeNodeArrayMutation,
-        variables: { value: ['Import', 'Eigenschaften-Sammlungen'] },
-      })
-    },
+    onClickColumnButtonExport: ({ client }) => () =>
+      app.history.push('/Export'),
+    onClickImportPc: ({ client }) => () =>
+      app.history.push('/Import/Eigenschaften-Sammlungen'),
     onClickImportRc: ({ client }) => () =>
-      client.mutate({
-        mutation: activeNodeArrayMutation,
-        variables: { value: ['Import', 'Beziehungs-Sammlungen'] },
-      }),
-    onClickColumnButtonLogin: ({ client }) => () =>
-      client.mutate({
-        mutation: activeNodeArrayMutation,
-        variables: { value: ['Login'] },
-      }),
+      app.history.push('/Import/Beziehungs-Sammlungen'),
+    onClickColumnButtonLogin: ({ client }) => () => app.history.push('/Login'),
     onChangeImportButton: ({ client }) => (event, key, value) =>
-      client.mutate({
-        mutation: activeNodeArrayMutation,
-        variables: { value: ['Import', value] },
-      }),
+      app.history.push(`/Import/${value}`),
     ueberArteigenschaftenOnClick: () => () =>
       window.open('https://github.com/barbalex/ae2'),
   })
