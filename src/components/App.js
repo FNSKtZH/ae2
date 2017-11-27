@@ -86,6 +86,9 @@ const App = ({
   //console.log('App: appData:', appData)
   //console.log('App: data:', data)
   const { error, loading, objectUrlData } = data
+  // log error out to see in the log when it happens
+  // relative to other logs
+  if (error) console.log('App: error:', error)
   const { activeNodeArray } = activeNodeArrayData
 
   const url0 =
