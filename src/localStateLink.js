@@ -35,6 +35,11 @@ export default withClientState({
   },
   Mutation: {
     // update values in the store on mutations
+    /**
+     * TODO
+     * Weird thing: setActiveNodeArray rund before index.js!!??
+     * probably on creating client
+     */
     setActiveNodeArray: (_, { value }, { cache }) => {
       console.log('localStateLink, setActiveNodeArray: value:', value)
       cache.writeQuery({
@@ -44,6 +49,7 @@ export default withClientState({
       console.log('localStateLink, setActiveNodeArray 2')
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, value)) {
+        console.log('localStateLink, pushing history to:', value)
         app.history.push(`/${value.join('/')}`)
       }
       return null
