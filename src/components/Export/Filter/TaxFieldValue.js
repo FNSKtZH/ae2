@@ -44,6 +44,7 @@ const TaxFieldValue = ({
 }) => (
   <Container>
     <TextField
+      floatingLabelFixed
       floatingLabelText={pName}
       value={value || ''}
       onChange={onChange}

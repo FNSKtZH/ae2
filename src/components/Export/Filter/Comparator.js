@@ -7,6 +7,9 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 
 const Container = styled.div``
+const StyledSelectField = styled(SelectField)`
+  width: 150px !important;
+`
 
 const enhance = compose(
   withHandlers({
@@ -26,7 +29,8 @@ const Comparator = ({
 }) => {
   return (
     <Container>
-      <SelectField
+      <StyledSelectField
+        floatingLabelFixed
         floatingLabelText="Vergleichs-Operator"
         value={comparator}
         onChange={onChange}
@@ -37,7 +41,7 @@ const Comparator = ({
         <MenuItem value=">=" primaryText="&#62;&#61;" />
         <MenuItem value="<" primaryText="&#60;" />
         <MenuItem value="<=" primaryText="&#60;&#61;" />
-      </SelectField>
+      </StyledSelectField>
     </Container>
   )
 }

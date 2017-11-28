@@ -40,13 +40,13 @@ const TaxField = ({
 
   return (
     <Container>
-      <Comparator comparator={comparator} value={value} />
       <TaxFieldValue
         taxName={taxName}
         pName={pName}
         value={value}
         comparator={comparator}
       />
+      <Comparator comparator={comparator} value={value} />
     </Container>
   )
 }
