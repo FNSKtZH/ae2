@@ -33,12 +33,10 @@ const enhance = compose(
       const categories = isChecked
         ? [...exportCategories, name]
         : exportCategories.filter(c => c !== name)
-      console.log('Export: will run exportCategoriesMutation')
       client.mutate({
         mutation: exportCategoriesMutation,
         variables: { value: categories },
       })
-      console.log('Export: exportCategoriesMutation done')
     },
   })
 )
