@@ -6,41 +6,46 @@ import { graphql } from 'react-apollo'
 
 import Comparator from './Comparator'
 import TaxFieldValue from './TaxFieldValue'
-import exportTaxFilterGql from '../../../modules/exportTaxFilterGql'
+import exportTaxFiltersGql from '../../../modules/exportTaxFiltersGql'
 
 const Container = styled.div`
   display: flex;
 `
 
-const exportTaxFilterData = graphql(exportTaxFilterGql, {
-  name: 'exportTaxFilterData',
+const exportTaxFiltersData = graphql(exportTaxFiltersGql, {
+  name: 'exportTaxFiltersData',
 })
 
-const enhance = compose(exportTaxFilterData)
+const enhance = compose(exportTaxFiltersData)
 
 const TaxField = ({
   taxName,
   pName,
   jsontype,
   count,
-  exportTaxFilterData,
+  exportTaxFiltersData,
 }: {
   taxName: string,
   pName: string,
   jsontype: string,
   count: number,
-  exportTaxFilterData: Object,
+  exportTaxFiltersData: Object,
 }) => {
-  const exportTaxFilter = exportTaxFilterData.exportTaxFilter || []
-  const taxInFilter = exportTaxFilter.find(
+  const exportTaxFilters = exportTaxFiltersData.exportTaxFilters || []
+  const exportTaxFilter = exportTaxFilters.find(
     x => x.taxName === taxName && x.pName === pName
   ) || { comparator: null, value: null }
-  const { comparator, value } = taxInFilter
+  const { comparator, value } = exportTaxFilter
 
   return (
     <Container>
       <Comparator comparator={comparator} value={value} />
-      <TaxFieldValue pName={pName} value={value} comparator={comparator} />
+      <TaxFieldValue
+        taxName={taxName}
+        pName={pName}
+        value={value}
+        comparator={comparator}
+      />
     </Container>
   )
 }

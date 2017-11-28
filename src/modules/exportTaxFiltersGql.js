@@ -2,8 +2,8 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  query exportTaxFilterQuery {
-    exportTaxFilter @client {
+  query exportTaxFiltersQuery {
+    exportTaxFilters @client {
       taxName
       pName
       comparator

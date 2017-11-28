@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 
 export default gql`
   query exportPcoFilterQuery {
-    exportPcoFilter @client {
+    exportPcoFilters @client {
       pCName
       pName
       comparator

@@ -8,7 +8,7 @@ import treeFilterGql from './modules/treeFilterGql'
 import exportCategoriesGql from './modules/exportCategoriesGql'
 import exportCombineTaxonomiesGql from './modules/exportCombineTaxonomiesGql'
 import exportTaxPropertiesGql from './modules/exportTaxPropertiesGql'
-import exportTaxFilterGql from './modules/exportTaxFilterGql'
+import exportTaxFiltersGql from './modules/exportTaxFiltersGql'
 import exportPcoPropertiesGql from './modules/exportPcoPropertiesGql'
 import exportPcoFilterGql from './modules/exportPcoFilterGql'
 import exportRcoPropertiesGql from './modules/exportRcoPropertiesGql'
@@ -27,9 +27,9 @@ export default withClientState({
     exportTaxProperties: () => [],
     exportPcoProperties: () => [],
     exportRcoProperties: () => [],
-    exportTaxFilter: () => [],
-    exportPcoFilter: () => [],
-    exportRcoFilter: () => [],
+    exportTaxFilters: () => [],
+    exportPcoFilters: () => [],
+    exportRcoFilters: () => [],
     exportTooManyProperties: () => false,
     // this is experimental
     // see: https://github.com/apollographql/apollo-link-state/issues/111
@@ -116,65 +116,59 @@ export default withClientState({
       })
       return null
     },
-    addExportTaxFilter: (
+    setExportTaxFilter: (
       _,
       { taxName, pName, comparator, value },
       { cache }
     ) => {
-      const current = cache.readQuery({ query: exportTaxFilterGql })
-      cache.writeQuery({
-        query: exportTaxFilterGql,
-        data: {
-          exportTaxFilter: [
-            ...current.exportTaxFilter,
-            {
-              taxName,
-              pName,
-              comparator,
-              value,
-              __typename: 'ExportTaxFilter',
-            },
-          ],
-        },
+      let { exportTaxFilters } = cache.readQuery({
+        query: exportTaxFiltersGql,
       })
-      return null
-    },
-    removeExportTaxFilter: (
-      _,
-      { taxName, pName, comparator, value },
-      { cache }
-    ) => {
-      const current = cache.readQuery({ query: exportTaxFilterGql })
-      const exportTaxFilter = current.exportTaxFilter.filter(
-        x =>
-          !(
-            x.taxName === taxName &&
-            x.pName === pName &&
-            x.comparator === comparator &&
-            x.value === value
-          )
-      )
-      cache.writeQuery({
-        query: exportTaxFilterGql,
-        data: { exportTaxFilter },
-      })
-      return null
-    },
-    editExportTaxFilter: (
-      _,
-      { taxName, pName, comparator, value },
-      { cache }
-    ) => {
-      const current = cache.readQuery({ query: exportTaxFilterGql })
-      const exportTaxFilter = current.exportTaxFilter.find(
+      const exportTaxFilter = exportTaxFilters.find(
         x => x.taxName === taxName && x.pName === pName
       )
-      if (exportTaxFilter) {
-        exportTaxFilter.comparator = comparator
-        exportTaxFilter.value = value
+      if (!comparator && !value && value !== 0) {
+        // remove
+        exportTaxFilters = exportTaxFilters.filter(
+          x => !(x.taxName === taxName && x.pName === pName)
+        )
         cache.writeQuery({
-          query: exportTaxFilterGql,
-          data: { exportTaxFilter },
+          query: exportTaxFiltersGql,
+          data: { exportTaxFilters },
+        })
+      } else if (!exportTaxFilter) {
+        // add new one
+        cache.writeQuery({
+          query: exportTaxFiltersGql,
+          data: {
+            exportTaxFilters: [
+              ...exportTaxFilters,
+              {
+                taxName,
+                pName,
+                comparator,
+                value,
+                __typename: 'ExportTaxFilter',
+              },
+            ],
+          },
+        })
+      } else {
+        // edit
+        cache.writeQuery({
+          query: exportTaxFiltersGql,
+          data: {
+            exportTaxFilters: [
+              ...exportTaxFilter,
+              {
+                taxName,
+                pName,
+                comparator,
+                value,
+                __typename: 'ExportTaxFilter',
+              },
+            ],
+          },
         })
       }
       return null
