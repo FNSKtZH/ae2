@@ -8,6 +8,7 @@ import withState from 'recompose/withState'
 import { graphql, withApollo } from 'react-apollo'
 
 import Comparator from './Comparator'
+import TaxFieldValue from './TaxFieldValue'
 import addExportTaxPropertyMutation from '../../../modules/addExportTaxPropertyMutation'
 import removeExportTaxPropertyMutation from '../../../modules/removeExportTaxPropertyMutation'
 import exportTaxPropertiesGql from '../../../modules/exportTaxPropertiesGql'
@@ -67,15 +68,7 @@ const TaxField = ({
   return (
     <Container>
       <Comparator comparator={comparator} setComparator={setComparator} />
-      <Checkbox
-        label={
-          <div>
-            {pName} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
-          </div>
-        }
-        checked={checked}
-        onCheck={onCheck}
-      />
+      <TaxFieldValue pName={pName} />
     </Container>
   )
 }
