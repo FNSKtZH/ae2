@@ -10,7 +10,7 @@ import compose from 'recompose/compose'
 
 import HowTo from './HowTo'
 import Tipps from './Tipps'
-//import TaxChooser from './TaxChooser'
+import TaxField from './TaxField'
 //import PcoChooser from './PcoChooser'
 //import RcoChooser from './RcoChooser'
 import constants from '../../../modules/constants'
@@ -155,14 +155,14 @@ const Filter = ({
               />
               <Level3CardText expandable={true}>
                 <PropertiesContainer data-width={window.innerWidth - 84}>
-                  {/*taxPropertiesByTaxonomy[pc].map(field => (
-                    <TaxChooser
+                  {taxPropertiesByTaxonomy[pc].map(field => (
+                    <TaxField
                       key={`${field.propertyName}${field.jsontype}`}
                       taxName={field.taxonomyName}
                       pName={field.propertyName}
                       jsontype={field.jsontype}
                     />
-                  ))*/}
+                  ))}
                 </PropertiesContainer>
               </Level3CardText>
             </Level3Card>
