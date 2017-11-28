@@ -41,15 +41,12 @@ export default withClientState({
      * probably on creating client
      */
     setActiveNodeArray: (_, { value }, { cache }) => {
-      console.log('localStateLink, setActiveNodeArray: value:', value)
       cache.writeQuery({
         query: activeNodeArrayGql,
         data: { activeNodeArray: value },
       })
-      console.log('localStateLink, setActiveNodeArray 2')
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, value)) {
-        console.log('localStateLink, pushing history to:', value)
         app.history.push(`/${value.join('/')}`)
       }
       return null

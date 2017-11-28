@@ -77,7 +77,7 @@ const App = ({
   activeNodeArrayData: Object,
   treeFilterData: Object,
 }) => {
-  //console.log('App rendering, data:', data)
+  console.log('App rendering, data:', data)
   /**
    * TODO
    * wtf appData is undefined!?
@@ -89,14 +89,13 @@ const App = ({
   // log error out to see in the log when it happens
   // relative to other logs
   if (error) console.log('App: error:', error)
-  const { activeNodeArray } = activeNodeArrayData
+  const activeNodeArray = activeNodeArrayData.activeNodeArray || []
 
   const url0 =
-    activeNodeArray && activeNodeArray[0] && activeNodeArray[0].toLowerCase()
+    activeNodeArray[0] && activeNodeArray[0].toLowerCase()
       ? activeNodeArray[0].toLowerCase()
       : null
-  const url1 =
-    activeNodeArray && activeNodeArray[1] && activeNodeArray[1].toLowerCase()
+  const url1 = activeNodeArray[1] && activeNodeArray[1].toLowerCase()
   const show404 =
     ![
       'taxonomien',
@@ -132,11 +131,8 @@ const App = ({
       ? treeFilterData.treeFilter.text
       : null
   if (treeFilterId && treeFilterId !== '99999999-9999-9999-9999-999999999999') {
-    console.log('App: treeFilterId:', treeFilterId)
     //console.log('App: appData:', appData)
-    console.log('App: objectUrlData:', objectUrlData)
     const url = getUrlForObject(objectUrlData)
-    console.log('App: url:', url)
     app.history.push(`/${url.join('/')}`)
     client.mutate({
       mutation: treeFilterMutation,

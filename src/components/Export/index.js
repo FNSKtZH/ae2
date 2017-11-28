@@ -12,6 +12,9 @@ import Categories from './Categories'
 import Properties from './Properties'
 import Filter from './Filter'
 import exportCategoriesGql from '../../modules/exportCategoriesGql'
+import exportPcoPropertiesGql from '../../modules/exportPcoPropertiesGql'
+import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
+import exportTaxPropertiesGql from '../../modules/exportTaxPropertiesGql'
 
 const Level1Card = styled(Card)`
   margin: 10px 0;
@@ -35,9 +38,21 @@ const StyledH3 = styled.h3`
 const exportCategoriesData = graphql(exportCategoriesGql, {
   name: 'exportCategoriesData',
 })
+const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
+  name: 'exportTaxPropertiesData',
+})
+const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {
+  name: 'exportPcoPropertiesData',
+})
+const exportRcoPropertiesData = graphql(exportRcoPropertiesGql, {
+  name: 'exportRcoPropertiesData',
+})
 
 const enhance = compose(
   exportCategoriesData,
+  exportTaxPropertiesData,
+  exportPcoPropertiesData,
+  exportRcoPropertiesData,
   withState('groupsExpanded', 'setGroupsExpanded', true),
   withState('filterExpanded', 'setFilterExpanded', false),
   withState('propertiesExpanded', 'setPropertiesExpanded', false),

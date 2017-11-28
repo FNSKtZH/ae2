@@ -38,22 +38,22 @@ export default gql`
     #activeNodeArray @client
     #exportCategories @client
     #exportCombineTaxonomies @client
-    exportTaxProperties @client {
-      taxName
-      pName
-    }
-    exportPcoProperties @client {
-      pCName
-      pName
-    }
-    exportRcoProperties @client {
-      pCName
-      pName
-    }
-    exportTooManyProperties @client
-    allCategories {
-      totalCount
-    }
+    #exportTaxProperties @client {
+    #  taxName
+    #  pName
+    #}
+    #exportPcoProperties @client {
+    #  pCName
+    #  pName
+    #}
+    #exportRcoProperties @client {
+    #  pCName
+    #  pName
+    #}
+    #exportTooManyProperties @client
+    #allCategories {
+    #  totalCount
+    #}
     # somehow this alters behaviour
     # and makes filter not work
     #treeFilter @client {

@@ -28,7 +28,7 @@ const AppShell = ({
   activeNodeArrayData: Object,
   treeFilterData: Object,
 }) => {
-  const { activeNodeArray } = activeNodeArrayData
+  const activeNodeArray = activeNodeArrayData.activeNodeArray || []
   const treeFilterText =
     treeFilterData.treeFilter && treeFilterData.treeFilter.text
       ? treeFilterData.treeFilter.text
@@ -40,7 +40,7 @@ const AppShell = ({
 
   return (
     <App
-      // pass activeNodeArray to re-render on url change
+      // pass variables to re-render on change
       activeNodeArray={activeNodeArray}
       treeFilterText={treeFilterText}
       treeFilterId={treeFilterId}

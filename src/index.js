@@ -36,16 +36,12 @@ client.query({ query: activeNodeArrayGql })
 // configure history
 const history = createHistory()
 // make ui follow when user uses browser back and forward buttons
-history.listen(location => {
-  console.log(
-    'Index: mutating active node array from pathname to:',
-    getActiveNodeArrayFromPathname()
-  )
+history.listen(location =>
   client.mutate({
     mutation: activeNodeArrayMutation,
     variables: { value: getActiveNodeArrayFromPathname() },
   })
-})
+)
 
 app.extend({
   init() {
