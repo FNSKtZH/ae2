@@ -31,7 +31,8 @@ const TaxField = ({
   count: number,
   exportTaxFiltersData: Object,
 }) => {
-  const exportTaxFilters = exportTaxFiltersData.exportTaxFilters || []
+  const { exportTaxFilters } = exportTaxFiltersData
+  //console.log('TaxField: exportTaxFilters:', exportTaxFilters)
   const exportTaxFilter = exportTaxFilters.find(
     x => x.taxName === taxName && x.pName === pName
   ) || { comparator: null, value: null }

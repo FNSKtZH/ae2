@@ -21,13 +21,11 @@ const enhance = compose(
   withApollo,
   exportTaxFiltersData,
   withHandlers({
-    onChange: ({ taxName, pName, comparator, client }) => event => {
-      const newValue = event.target.value
+    onChange: ({ taxName, pName, comparator, client }) => event =>
       client.mutate({
         mutation: exportTaxFiltersMutation,
-        variables: { taxName, pName, comparator, value: newValue },
-      })
-    },
+        variables: { taxName, pName, comparator, value: event.target.value },
+      }),
   })
 )
 

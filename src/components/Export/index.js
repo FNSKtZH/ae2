@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
-import get from 'lodash/get'
+//import get from 'lodash/get'
 
 import Categories from './Categories'
 import Properties from './Properties'
@@ -15,6 +15,7 @@ import exportCategoriesGql from '../../modules/exportCategoriesGql'
 import exportPcoPropertiesGql from '../../modules/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
 import exportTaxPropertiesGql from '../../modules/exportTaxPropertiesGql'
+import exportTaxFiltersGql from '../../modules/exportTaxFiltersGql'
 
 const Level1Card = styled(Card)`
   margin: 10px 0;
@@ -41,6 +42,9 @@ const exportCategoriesData = graphql(exportCategoriesGql, {
 const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
   name: 'exportTaxPropertiesData',
 })
+const exportTaxFiltersData = graphql(exportTaxFiltersGql, {
+  name: 'exportTaxFiltersData',
+})
 const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {
   name: 'exportPcoPropertiesData',
 })
@@ -53,6 +57,7 @@ const enhance = compose(
   exportTaxPropertiesData,
   exportPcoPropertiesData,
   exportRcoPropertiesData,
+  exportTaxFiltersData,
   withState('groupsExpanded', 'setGroupsExpanded', true),
   withState('filterExpanded', 'setFilterExpanded', false),
   withState('propertiesExpanded', 'setPropertiesExpanded', false),
@@ -172,8 +177,8 @@ const Export = ({
   //console.log('Export: pcoProperties:', pcoProperties)
   //const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
   //console.log('Export: rcoProperties:', rcoProperties)
-  const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
-  console.log('Export: taxProperties:', taxProperties)
+  //const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
+  //console.log('Export: taxProperties:', taxProperties)
 
   return (
     <Container>

@@ -116,12 +116,12 @@ export default withClientState({
       })
       return null
     },
-    setExportTaxFilter: (
+    setExportTaxFilters: (
       _,
       { taxName, pName, comparator, value },
       { cache }
     ) => {
-      let { exportTaxFilters } = cache.readQuery({
+      const { exportTaxFilters } = cache.readQuery({
         query: exportTaxFiltersGql,
       })
       const exportTaxFilter = exportTaxFilters.find(
@@ -129,12 +129,13 @@ export default withClientState({
       )
       if (!comparator && !value && value !== 0) {
         // remove
-        exportTaxFilters = exportTaxFilters.filter(
-          x => !(x.taxName === taxName && x.pName === pName)
-        )
         cache.writeQuery({
           query: exportTaxFiltersGql,
-          data: { exportTaxFilters },
+          data: {
+            exportTaxFilters: exportTaxFilters.filter(
+              x => !(x.taxName === taxName && x.pName === pName)
+            ),
+          },
         })
       } else if (!exportTaxFilter) {
         // add new one
@@ -154,12 +155,14 @@ export default withClientState({
           },
         })
       } else {
-        // edit
+        // edit = add new one instead of existing
         cache.writeQuery({
           query: exportTaxFiltersGql,
           data: {
             exportTaxFilters: [
-              ...exportTaxFilter,
+              ...exportTaxFilters.filter(
+                x => !(x.taxName === taxName && x.pName === pName)
+              ),
               {
                 taxName,
                 pName,
