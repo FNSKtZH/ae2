@@ -12,7 +12,9 @@ import addExportTaxPropertyMutation from '../../../modules/addExportTaxPropertyM
 import removeExportTaxPropertyMutation from '../../../modules/removeExportTaxPropertyMutation'
 import exportTaxPropertiesGql from '../../../modules/exportTaxPropertiesGql'
 
-const Container = styled.div``
+const Container = styled.div`
+  display: flex;
+`
 const Count = styled.span`
   font-size: xx-small;
 `
