@@ -1,74 +1,46 @@
 //@flow
 import React from 'react'
-import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import withState from 'recompose/withState'
-import { graphql, withApollo } from 'react-apollo'
+import { graphql } from 'react-apollo'
 
 import Comparator from './Comparator'
 import TaxFieldValue from './TaxFieldValue'
-import addExportTaxPropertyMutation from '../../../modules/addExportTaxPropertyMutation'
-import removeExportTaxPropertyMutation from '../../../modules/removeExportTaxPropertyMutation'
-import exportTaxPropertiesGql from '../../../modules/exportTaxPropertiesGql'
+import exportTaxFilterGql from '../../../modules/exportTaxFilterGql'
 
 const Container = styled.div`
   display: flex;
 `
-const Count = styled.span`
-  font-size: xx-small;
-`
 
-const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
-  name: 'exportTaxPropertiesData',
+const exportTaxFilterData = graphql(exportTaxFilterGql, {
+  name: 'exportTaxFilterData',
 })
 
-const enhance = compose(
-  withApollo,
-  exportTaxPropertiesData,
-  withState('comparator', 'setComparator', null),
-  withHandlers({
-    onCheck: ({ taxName, pName, client }) => (event, isChecked) => {
-      const mutation = isChecked
-        ? addExportTaxPropertyMutation
-        : removeExportTaxPropertyMutation
-      client.mutate({
-        mutation,
-        variables: { taxName, pName },
-      })
-    },
-  })
-)
+const enhance = compose(exportTaxFilterData)
 
 const TaxField = ({
   taxName,
   pName,
   jsontype,
   count,
-  onCheck,
-  exportTaxPropertiesData,
-  comparator,
-  setComparator,
+  exportTaxFilterData,
 }: {
   taxName: string,
   pName: string,
   jsontype: string,
   count: number,
-  onCheck: () => {},
-  exportTaxPropertiesData: Object,
-  comparator: String,
-  setComparator: () => {},
+  exportTaxFilterData: Object,
 }) => {
-  const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
-  const checked =
-    exportTaxProperties.filter(x => x.taxName === taxName && x.pName === pName)
-      .length > 0
+  const exportTaxFilter = exportTaxFilterData.exportTaxFilter || []
+  const taxInFilter = exportTaxFilter.find(
+    x => x.taxName === taxName && x.pName === pName
+  ) || { comparator: null, value: null }
+  const { comparator, value } = taxInFilter
 
   return (
     <Container>
-      <Comparator comparator={comparator} setComparator={setComparator} />
-      <TaxFieldValue pName={pName} />
+      <Comparator comparator={comparator} value={value} />
+      <TaxFieldValue pName={pName} value={value} comparator={comparator} />
     </Container>
   )
 }

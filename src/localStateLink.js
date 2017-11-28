@@ -160,6 +160,25 @@ export default withClientState({
       })
       return null
     },
+    editExportTaxFilter: (
+      _,
+      { taxName, pName, comparator, value },
+      { cache }
+    ) => {
+      const current = cache.readQuery({ query: exportTaxFilterGql })
+      const exportTaxFilter = current.exportTaxFilter.find(
+        x => x.taxName === taxName && x.pName === pName
+      )
+      if (exportTaxFilter) {
+        exportTaxFilter.comparator = comparator
+        exportTaxFilter.value = value
+        cache.writeQuery({
+          query: exportTaxFilterGql,
+          data: { exportTaxFilter },
+        })
+      }
+      return null
+    },
     addExportPcoProperty: (_, { pCName, pName }, { cache }) => {
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
