@@ -16,6 +16,8 @@ import exportPcoPropertiesGql from '../../modules/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
 import exportTaxPropertiesGql from '../../modules/exportTaxPropertiesGql'
 import exportTaxFiltersGql from '../../modules/exportTaxFiltersGql'
+import exportPcoFiltersGql from '../../modules/exportPcoFiltersGql'
+import exportRcoFiltersGql from '../../modules/exportRcoFiltersGql'
 
 const Level1Card = styled(Card)`
   margin: 10px 0;
@@ -48,8 +50,14 @@ const exportTaxFiltersData = graphql(exportTaxFiltersGql, {
 const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {
   name: 'exportPcoPropertiesData',
 })
+const exportPcoFiltersData = graphql(exportPcoFiltersGql, {
+  name: 'exportPcoFiltersData',
+})
 const exportRcoPropertiesData = graphql(exportRcoPropertiesGql, {
   name: 'exportRcoPropertiesData',
+})
+const exportRcoFiltersData = graphql(exportRcoFiltersGql, {
+  name: 'exportRcoFiltersData',
 })
 
 const enhance = compose(
@@ -58,6 +66,8 @@ const enhance = compose(
   exportPcoPropertiesData,
   exportRcoPropertiesData,
   exportTaxFiltersData,
+  exportPcoFiltersData,
+  exportRcoFiltersData,
   withState('groupsExpanded', 'setGroupsExpanded', true),
   withState('filterExpanded', 'setFilterExpanded', false),
   withState('propertiesExpanded', 'setPropertiesExpanded', false),

@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  query exportRcoFilterQuery {
+  query exportRcoFiltersQuery {
     exportRcoFilters @client {
       pCName
       pName

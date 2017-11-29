@@ -2,13 +2,13 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation addExportPcoFilter(
+  mutation setExportPcoFilters(
     $pCName: String
     $pName: String
     $comparator: String
     $value: String
   ) {
-    addExportPcoFilter(
+    setExportPcoFilters(
       pCName: $pCName
       pName: $pName
       comparator: $comparator
