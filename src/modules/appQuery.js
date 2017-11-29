@@ -60,6 +60,13 @@ export default gql`
     #  text
     #  id
     #}
+    allTaxonomies {
+      totalCount
+      nodes {
+        id
+        name
+      }
+    }
     allPropertyCollections @include(if: $notExistsLevel2Pc) {
       totalCount
     }

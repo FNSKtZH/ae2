@@ -78,12 +78,12 @@ const Taxonomies = ({
 
   return (
     <Container>
-      {taxonomies.map(category => (
+      {taxonomies.map(tax => (
         <StyledCheckbox
-          key={category}
-          name={category}
-          label={category}
-          checked={exportTaxonomies.includes(category)}
+          key={tax}
+          name={tax}
+          label={tax}
+          checked={exportTaxonomies.includes(tax)}
           onCheck={onCheck}
         />
       ))}
