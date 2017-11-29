@@ -74,8 +74,8 @@ const Categories = ({
   const exportCategories = exportCategoriesData.exportCategories || []
   const { loading } = data
   const categories = get(data, 'allCategories.nodes', []).map(c => c.name)
-  let paperBackgroundColor = '#90CAF9'
-  let textProperties = 'Bitte wählen Sie eine oder mehrere Gruppen.'
+  let paperBackgroundColor = '#1565C0'
+  let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
   let textCombine = exportCombineTaxonomies
     ? 'Taxonomien werden zusammengefasst.'
     : 'Taxonomien werden einzeln dargestellt.'
@@ -83,11 +83,12 @@ const Categories = ({
     textProperties = 'Die Eigenschaften werden ergänzt...'
   }
   if (!loading && exportCategories.length > 0) {
-    paperBackgroundColor = '#A5D6A7'
+    paperBackgroundColor = '#2E7D32'
     textProperties = 'Die Eigenschaften wurden geladen.'
   }
   const paperStyle = {
     width: '100%',
+    color: 'white',
     backgroundColor: paperBackgroundColor,
     marginBottom: '10px',
   }
