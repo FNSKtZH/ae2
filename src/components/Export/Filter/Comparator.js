@@ -5,6 +5,9 @@ import SelectField from 'material-ui/SelectField'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
+import { graphql, withApollo } from 'react-apollo'
+
+import exportTaxFiltersMutation from '../../../modules/exportTaxFiltersMutation'
 
 const Container = styled.div``
 const StyledSelectField = styled(SelectField)`
@@ -12,19 +15,25 @@ const StyledSelectField = styled(SelectField)`
 `
 
 const enhance = compose(
+  withApollo,
   withHandlers({
-    onChange: ({ setComparator }) => (event, index, value) =>
-      setComparator(value),
+    onChange: ({ taxName, pName, value, client }) => (
+      event,
+      index,
+      comparator
+    ) =>
+      client.mutate({
+        mutation: exportTaxFiltersMutation,
+        variables: { taxName, pName, comparator, value },
+      }),
   })
 )
 
 const Comparator = ({
   comparator,
-  setComparator,
   onChange,
 }: {
   comparator: String,
-  setComparator: () => {},
   onChange: () => {},
 }) => {
   return (
