@@ -7,6 +7,7 @@ import activeNodeArrayGql from './modules/activeNodeArrayGql'
 import treeFilterGql from './modules/treeFilterGql'
 import exportCategoriesGql from './modules/exportCategoriesGql'
 import exportCombineTaxonomiesGql from './modules/exportCombineTaxonomiesGql'
+import exportTaxonomiesGql from './modules/exportTaxonomiesGql'
 import exportTaxPropertiesGql from './modules/exportTaxPropertiesGql'
 import exportTaxFiltersGql from './modules/exportTaxFiltersGql'
 import exportPcoPropertiesGql from './modules/exportPcoPropertiesGql'
@@ -24,6 +25,7 @@ export default withClientState({
     activeNodeArray: () => [],
     exportCategories: () => [],
     exportCombineTaxonomies: () => false,
+    exportTaxonomies: () => [],
     exportTaxProperties: () => [],
     exportPcoProperties: () => [],
     exportRcoProperties: () => [],
@@ -76,6 +78,13 @@ export default withClientState({
       cache.writeQuery({
         query: exportCombineTaxonomiesGql,
         data: { exportCombineTaxonomies: value },
+      })
+      return null
+    },
+    setExportTaxonomies: (_, { value }, { cache }) => {
+      cache.writeQuery({
+        query: exportTaxonomiesGql,
+        data: { exportTaxonomies: value },
       })
       return null
     },
