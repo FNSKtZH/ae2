@@ -38,6 +38,8 @@ const Container = styled.div`
 const StyledH3 = styled.h3`
   margin: 5px 0;
 `
+// need to call all local data in case it has not yet been initiated
+// (this is an apollo-link-state error)
 const exportCategoriesData = graphql(exportCategoriesGql, {
   name: 'exportCategoriesData',
 })
