@@ -44,10 +44,10 @@ const Level3CardHeader = styled(CardHeader)`
   border-bottom: 1px solid #ebebeb;
 `
 const Level2CardText = styled(CardText)`
-  padding: 0;
+  padding: 0 !important;
 `
 const Level3CardText = styled(CardText)`
-  padding: 0;
+  padding: 0 !important;
   display: flex;
   flex-direction: column;
 `

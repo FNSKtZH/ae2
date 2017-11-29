@@ -49,7 +49,6 @@ const Level2CardText = styled(CardText)`
   padding: 0 !important;
 `
 const Level3CardText = styled(CardText)`
-  padding: 0;
   display: flex;
   flex-direction: column;
 `
