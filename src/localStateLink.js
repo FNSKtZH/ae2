@@ -310,6 +310,66 @@ export default withClientState({
       })
       return null
     },
+    setExportRcoFilters: (
+      _,
+      { pCName, pName, comparator, value },
+      { cache }
+    ) => {
+      const { exportRcoFilters } = cache.readQuery({
+        query: exportRcoFiltersGql,
+      })
+      const exportRcoFilter = exportRcoFilters.find(
+        x => x.pCName === pCName && x.pName === pName
+      )
+      if (!comparator && !value && value !== 0) {
+        // remove
+        cache.writeQuery({
+          query: exportRcoFiltersGql,
+          data: {
+            exportRcoFilters: exportRcoFilters.filter(
+              x => !(x.pCName === pCName && x.pName === pName)
+            ),
+          },
+        })
+      } else if (!exportRcoFilter) {
+        // add new one
+        cache.writeQuery({
+          query: exportRcoFiltersGql,
+          data: {
+            exportRcoFilters: [
+              ...exportRcoFilters,
+              {
+                pCName,
+                pName,
+                comparator,
+                value,
+                __typename: 'ExportRcoFilter',
+              },
+            ],
+          },
+        })
+      } else {
+        // edit = add new one instead of existing
+        cache.writeQuery({
+          query: exportRcoFiltersGql,
+          data: {
+            exportRcoFilters: [
+              ...exportRcoFilters.filter(
+                x => !(x.pCName === pCName && x.pName === pName)
+              ),
+              {
+                pCName,
+                pName,
+                comparator,
+                value,
+                __typename: 'ExportRcoFilter',
+              },
+            ],
+          },
+        })
+      }
+      return null
+    },
     setExportTooManyProperties: (_, { value }, { cache }) => {
       cache.writeQuery({
         query: exportTooManyPropertiesGql,

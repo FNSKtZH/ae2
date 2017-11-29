@@ -265,7 +265,7 @@ const Filter = ({
               <Level3CardText expandable={true}>
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {rcoPropertiesByPropertyCollection[pc].map(field => (
-                    <PcoField
+                    <RcoField
                       key={`${field.propertyName}${field.jsontype}`}
                       pCName={field.propertyCollectionName}
                       pName={field.propertyName}
