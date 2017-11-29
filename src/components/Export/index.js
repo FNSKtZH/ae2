@@ -104,13 +104,13 @@ const enhance = compose(
         exportCategories.length > 0
       ) {
         setFilterExpanded(true)
+        // close all others
+        setGroupsExpanded(false)
+        setPropertiesExpanded(false)
+        setExportExpanded(false)
       } else {
         setFilterExpanded(false)
       }
-      // close all others
-      setGroupsExpanded(false)
-      setPropertiesExpanded(false)
-      setExportExpanded(false)
     },
     onToggleProperties: ({
       exportCategoriesData,
@@ -127,16 +127,19 @@ const enhance = compose(
         exportCategories.length > 0
       ) {
         setPropertiesExpanded(true)
+        // close all others
+        setGroupsExpanded(false)
+        setFilterExpanded(false)
+        setExportExpanded(false)
       } else {
         setPropertiesExpanded(false)
       }
-      // close all others
-      setGroupsExpanded(false)
-      setFilterExpanded(false)
-      setExportExpanded(false)
     },
     onToggleExport: ({
       exportCategoriesData,
+      exportTaxPropertiesData,
+      exportPcoPropertiesData,
+      exportRcoPropertiesData,
       exportExpanded,
       setGroupsExpanded,
       setFilterExpanded,
@@ -144,19 +147,23 @@ const enhance = compose(
       setExportExpanded,
     }) => () => {
       const { exportCategories } = exportCategoriesData
-      if (
-        !exportExpanded &&
-        !!exportCategories &&
-        exportCategories.length > 0
-      ) {
+      const { exportTaxProperties } = exportTaxPropertiesData
+      const { exportPcoProperties } = exportPcoPropertiesData
+      const { exportRcoProperties } = exportRcoPropertiesData
+      const propertiesChoosen =
+        exportTaxProperties.length +
+          exportPcoProperties.length +
+          exportRcoProperties.length >
+        0
+      if (!exportExpanded && exportCategories.length > 0 && propertiesChoosen) {
         setExportExpanded(true)
+        // close all others
+        setGroupsExpanded(false)
+        setFilterExpanded(false)
+        setPropertiesExpanded(false)
       } else {
         setExportExpanded(false)
       }
-      // close all others
-      setGroupsExpanded(false)
-      setFilterExpanded(false)
-      setPropertiesExpanded(false)
     },
   })
 )
