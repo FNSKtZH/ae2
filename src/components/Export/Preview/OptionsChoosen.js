@@ -113,7 +113,23 @@ const OptionsChoosen = ({
               {exportTaxFilters.map((p, i) => (
                 <li key={i}>
                   {`${p.taxName}: ${p.pName} ${
-                    p.comparator ? `${p.comparator} ` : ''
+                    p.comparator ? `${p.comparator}` : ''
+                  }`}
+                  <FilterValueSpan>{p.value}</FilterValueSpan>
+                </li>
+              ))}
+              {exportPcoFilters.map((p, i) => (
+                <li key={i}>
+                  {`${p.pCName}: ${p.pName} ${
+                    p.comparator ? `${p.comparator}` : ''
+                  }`}
+                  <FilterValueSpan>{p.value}</FilterValueSpan>
+                </li>
+              ))}
+              {exportRcoFilters.map((p, i) => (
+                <li key={i}>
+                  {`${p.pCName}: ${p.pName} ${
+                    p.comparator ? `${p.comparator}` : ''
                   }`}
                   <FilterValueSpan>{p.value}</FilterValueSpan>
                 </li>
@@ -125,6 +141,12 @@ const OptionsChoosen = ({
             <ul>
               {exportTaxProperties.map((p, i) => (
                 <li key={i}>{`${p.taxName}: ${p.pName}`}</li>
+              ))}
+              {exportPcoProperties.map((p, i) => (
+                <li key={i}>{`${p.pCName}: ${p.pName}`}</li>
+              ))}
+              {exportRcoProperties.map((p, i) => (
+                <li key={i}>{`${p.pCName}: ${p.pName}`}</li>
               ))}
             </ul>
           </li>
