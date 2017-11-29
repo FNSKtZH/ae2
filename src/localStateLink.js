@@ -213,6 +213,66 @@ export default withClientState({
       })
       return null
     },
+    setExportPcoFilters: (
+      _,
+      { pCName, pName, comparator, value },
+      { cache }
+    ) => {
+      const { exportPcoFilters } = cache.readQuery({
+        query: exportPcoFiltersGql,
+      })
+      const exportPcoFilter = exportPcoFilters.find(
+        x => x.pCName === pCName && x.pName === pName
+      )
+      if (!comparator && !value && value !== 0) {
+        // remove
+        cache.writeQuery({
+          query: exportPcoFiltersGql,
+          data: {
+            exportPcoFilters: exportPcoFilters.filter(
+              x => !(x.pCName === pCName && x.pName === pName)
+            ),
+          },
+        })
+      } else if (!exportPcoFilter) {
+        // add new one
+        cache.writeQuery({
+          query: exportPcoFiltersGql,
+          data: {
+            exportPcoFilters: [
+              ...exportPcoFilters,
+              {
+                pCName,
+                pName,
+                comparator,
+                value,
+                __typename: 'ExportPcoFilter',
+              },
+            ],
+          },
+        })
+      } else {
+        // edit = add new one instead of existing
+        cache.writeQuery({
+          query: exportPcoFiltersGql,
+          data: {
+            exportPcoFilters: [
+              ...exportPcoFilters.filter(
+                x => !(x.pCName === pCName && x.pName === pName)
+              ),
+              {
+                pCName,
+                pName,
+                comparator,
+                value,
+                __typename: 'ExportPcoFilter',
+              },
+            ],
+          },
+        })
+      }
+      return null
+    },
     addExportRcoProperty: (_, { pCName, pName }, { cache }) => {
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
