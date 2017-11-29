@@ -227,7 +227,7 @@ const Export = ({
       <StyledH3>Export</StyledH3>
       <Level1Card expanded={groupsExpanded} onExpandChange={onToggleGroups}>
         <Level1CardHeader
-          title="1. Gruppe(n) wählen"
+          title="1. Gruppen wählen"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}

@@ -108,7 +108,12 @@ const OptionsChoosen = ({
           </li>
           <li>Pro Beziehung eine Zeile</li>
           <li>
-            Filter:
+            {`Filter:${
+              [...exportTaxFilters, ...exportPcoFilters, ...exportRcoFilters]
+                .length === 0
+                ? ' keine'
+                : ''
+            }`}
             <ul>
               {exportTaxFilters.map((p, i) => (
                 <li key={i}>
