@@ -12,6 +12,7 @@ import withHandlers from 'recompose/withHandlers'
 import Categories from './Categories'
 import Properties from './Properties'
 import Filter from './Filter'
+import Preview from './Preview'
 import exportCategoriesGql from '../../modules/exportCategoriesGql'
 import exportPcoPropertiesGql from '../../modules/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
@@ -267,7 +268,9 @@ const Export = ({
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
         />
-        <Level1CardText expandable={true}>card text exportieren</Level1CardText>
+        <Level1CardText expandable={true}>
+          <Preview />
+        </Level1CardText>
       </Level1Card>
       <Snackbar
         open={!!message}
