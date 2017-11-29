@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Snackbar from 'material-ui/Snackbar'
 import { graphql } from 'react-apollo'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -74,6 +75,15 @@ const enhance = compose(
   withState('filterExpanded', 'setFilterExpanded', false),
   withState('propertiesExpanded', 'setPropertiesExpanded', false),
   withState('exportExpanded', 'setExportExpanded', false),
+  withState('message', 'setMessage', ''),
+  withHandlers({
+    onSetMessage: ({ message, setMessage }) => (message: String) => {
+      setMessage(message)
+      if (!!message) {
+        setTimeout(() => setMessage(''), 5000)
+      }
+    },
+  }),
   withHandlers({
     onToggleGroups: ({
       exportCategoriesData,
@@ -96,6 +106,7 @@ const enhance = compose(
       setFilterExpanded,
       setPropertiesExpanded,
       setExportExpanded,
+      onSetMessage,
     }) => () => {
       const { exportCategories } = exportCategoriesData
       if (
@@ -110,6 +121,7 @@ const enhance = compose(
         setExportExpanded(false)
       } else {
         setFilterExpanded(false)
+        onSetMessage('Bitte wählen Sie mindestens eine Gruppe')
       }
     },
     onToggleProperties: ({
@@ -119,6 +131,7 @@ const enhance = compose(
       setFilterExpanded,
       setPropertiesExpanded,
       setExportExpanded,
+      onSetMessage,
     }) => () => {
       const { exportCategories } = exportCategoriesData
       if (
@@ -133,6 +146,7 @@ const enhance = compose(
         setExportExpanded(false)
       } else {
         setPropertiesExpanded(false)
+        onSetMessage('Bitte wählen Sie mindestens eine Gruppe')
       }
     },
     onToggleExport: ({
@@ -145,6 +159,7 @@ const enhance = compose(
       setFilterExpanded,
       setPropertiesExpanded,
       setExportExpanded,
+      onSetMessage,
     }) => () => {
       const { exportCategories } = exportCategoriesData
       const { exportTaxProperties } = exportTaxPropertiesData
@@ -163,6 +178,11 @@ const enhance = compose(
         setPropertiesExpanded(false)
       } else {
         setExportExpanded(false)
+        if (exportCategories.length === 0) {
+          onSetMessage('Bitte wählen Sie mindestens eine Gruppe')
+        } else if (!propertiesChoosen) {
+          onSetMessage('Bitte wählen Sie mindestens eine Eigenschaft')
+        }
       }
     },
   })
@@ -179,6 +199,7 @@ const Export = ({
   onToggleFilter,
   onToggleProperties,
   onToggleExport,
+  message,
 }: {
   data: Object,
   exportCategoriesData: Object,
@@ -190,6 +211,7 @@ const Export = ({
   onToggleFilter: () => {},
   onToggleProperties: () => {},
   onToggleExport: () => {},
+  message: String,
 }) => {
   //console.log('Export: data:', data)
   //const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
@@ -247,6 +269,15 @@ const Export = ({
         />
         <Level1CardText expandable={true}>card text exportieren</Level1CardText>
       </Level1Card>
+      <Snackbar
+        open={!!message}
+        message={message}
+        bodyStyle={{
+          maxWidth: 'auto',
+          minWidth: 'auto',
+          backgroundColor: '#2E7D32',
+        }}
+      />
     </Container>
   )
 }
