@@ -10,12 +10,15 @@ import exportTaxFiltersGql from '../../../modules/exportTaxFiltersGql'
 import exportTaxFiltersMutation from '../../../modules/exportTaxFiltersMutation'
 
 const Container = styled.div`
-  margin-bottom: 16px;
+  width: 100%;
 `
 
 const exportTaxFiltersData = graphql(exportTaxFiltersGql, {
   name: 'exportTaxFiltersData',
 })
+const floatingLabelStyle = {
+  color: 'rgba(0, 0, 0, 0.5)',
+}
 
 const enhance = compose(
   withApollo,
@@ -46,7 +49,9 @@ const TaxFieldValue = ({
     <TextField
       floatingLabelFixed
       floatingLabelText={pName}
+      floatingLabelStyle={floatingLabelStyle}
       value={value || ''}
+      fullWidth
       onChange={onChange}
     />
   </Container>

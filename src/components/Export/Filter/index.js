@@ -60,7 +60,7 @@ const Level3Count = styled.span`
   padding-left: 5px;
 `
 const PropertiesContainer = styled.div`
-  margin: 16px;
+  margin: 8px 0;
   column-width: ${props =>
     props['data-width'] > 2 * constants.export.properties.columnWidth
       ? `${constants.export.properties.columnWidth}px`
