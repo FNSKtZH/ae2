@@ -7,7 +7,7 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import exportPcoFiltersMutation from '../../../modules/exportPcoFiltersMutation'
+import exportRcoFiltersMutation from '../../../modules/exportRcoFiltersMutation'
 
 const Container = styled.div``
 const StyledSelectField = styled(SelectField)`
@@ -23,13 +23,13 @@ const enhance = compose(
       comparator
     ) =>
       client.mutate({
-        mutation: exportPcoFiltersMutation,
+        mutation: exportRcoFiltersMutation,
         variables: { pCName, pName, comparator, value },
       }),
   })
 )
 
-const PcoComparator = ({
+const RcoComparator = ({
   comparator,
   onChange,
 }: {
@@ -55,4 +55,4 @@ const PcoComparator = ({
   )
 }
 
-export default enhance(PcoComparator)
+export default enhance(RcoComparator)

@@ -12,6 +12,7 @@ import HowTo from './HowTo'
 import Tipps from './Tipps'
 import TaxField from './TaxField'
 import PcoField from './PcoField'
+import RcoField from './RcoField'
 //import RcoChooser from './RcoChooser'
 import constants from '../../../modules/constants'
 
@@ -48,8 +49,6 @@ const Level2CardText = styled(CardText)`
 `
 const Level3CardText = styled(CardText)`
   padding: 0 !important;
-  display: flex;
-  flex-direction: column;
 `
 const Level2Count = styled.span`
   font-size: x-small;
@@ -265,14 +264,14 @@ const Filter = ({
               />
               <Level3CardText expandable={true}>
                 <PropertiesContainer data-width={window.innerWidth - 84}>
-                  {/*rcoPropertiesByPropertyCollection[pc].map(field => (
-                    <RcoChooser
+                  {rcoPropertiesByPropertyCollection[pc].map(field => (
+                    <PcoField
                       key={`${field.propertyName}${field.jsontype}`}
                       pCName={field.propertyCollectionName}
                       pName={field.propertyName}
                       jsontype={field.jsontype}
                     />
-                  ))*/}
+                  ))}
                 </PropertiesContainer>
               </Level3CardText>
             </Level3Card>

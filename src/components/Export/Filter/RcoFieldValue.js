@@ -6,7 +6,7 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import exportPcoFiltersMutation from '../../../modules/exportPcoFiltersMutation'
+import exportRcoFiltersMutation from '../../../modules/exportRcoFiltersMutation'
 
 const Container = styled.div`
   width: 100%;
@@ -21,13 +21,13 @@ const enhance = compose(
   withHandlers({
     onChange: ({ pCName, pName, comparator, client }) => event =>
       client.mutate({
-        mutation: exportPcoFiltersMutation,
+        mutation: exportRcoFiltersMutation,
         variables: { pCName, pName, comparator, value: event.target.value },
       }),
   })
 )
 
-const PcoFieldValue = ({
+const RcoFieldValue = ({
   pName,
   value,
   properties,
@@ -50,4 +50,4 @@ const PcoFieldValue = ({
   </Container>
 )
 
-export default enhance(PcoFieldValue)
+export default enhance(RcoFieldValue)
