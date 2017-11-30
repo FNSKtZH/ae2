@@ -97,7 +97,7 @@ const Categories = ({
 }) => {
   const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
   const { exportCategories } = exportCategoriesData
-  const { exportTaxonomies } = exportTaxonomiesData
+  const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
   const { loading } = data
   const categories = get(data, 'allCategories.nodes', []).map(c => c.name)
   let paperBackgroundColor = '#1565C0'

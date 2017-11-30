@@ -2,7 +2,8 @@
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
+import { withApollo, graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
@@ -16,11 +17,6 @@ import TaxChooser from './TaxChooser'
 import PcoChooser from './PcoChooser'
 import RcoChooser from './RcoChooser'
 import constants from '../../../modules/constants'
-
-const enhance = compose(
-  withApollo
-  //withWindowSize,
-)
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -69,17 +65,68 @@ const Level3Count = styled.span`
 
 const level2CardTitleStyle = { fontWeight: 'bold' }
 
+const propsByTaxData = graphql(
+  gql`
+    query propsByTaxDataQuery {
+      pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+        @include(if: $queryExportTaxonomies) {
+        nodes {
+          propertyCollectionName
+          propertyName
+          jsontype
+          count
+        }
+      }
+      rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+        @include(if: $queryExportTaxonomies) {
+        nodes {
+          propertyCollectionName
+          relationType
+          propertyName
+          jsontype
+          count
+        }
+      }
+      taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+        @include(if: $queryExportTaxonomies) {
+        nodes {
+          taxonomyName
+          propertyName
+          jsontype
+          count
+        }
+      }
+    }
+  `,
+  {
+    options: ({ exportTaxonomies }: { exportTaxonomies: Array<Object> }) => {
+      const queryExportTaxonomies = exportTaxonomies.length > 0
+      return {
+        variables: { exportTaxonomies, queryExportTaxonomies },
+        name: 'propsByTaxData',
+      }
+    },
+  }
+)
+
+const enhance = compose(
+  withApollo,
+  propsByTaxData
+  //withWindowSize,
+)
+
 const Properties = ({
   data,
   exportTaxonomiesData,
-  exportCombineTaxonomiesData,
+  propsByTaxData,
 }: //width,
 {
   data: Object,
   exportTaxonomiesData: Object,
-  exportCombineTaxonomiesData: Object,
+  propsByTaxData: Object,
   //width: number,
 }) => {
+  console.log('Properties: propsByTaxData:', propsByTaxData)
   const pcoProperties = get(data, 'pcoPropertiesByTaxonomiesFunction.nodes', [])
   const rcoProperties = get(data, 'rcoPropertiesByTaxonomiesFunction.nodes', [])
   const taxProperties = get(data, 'taxPropertiesByTaxonomiesFunction.nodes', [])

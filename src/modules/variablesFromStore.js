@@ -66,13 +66,7 @@ export default ({
   const exportTaxonomies = exportTaxonomiesData.exportTaxonomies
     ? exportTaxonomiesData.exportTaxonomies
     : []
-  console.log('variablesFromStore: exportTaxonomiesData:', exportTaxonomiesData)
-  console.log('variablesFromStore: exportTaxonomies:', exportTaxonomies)
   const queryExportTaxonomies = exportTaxonomies && exportTaxonomies.length > 0
-  console.log(
-    'variablesFromStore: queryExportTaxonomies:',
-    queryExportTaxonomies
-  )
 
   return {
     existsLevel2Pc,
