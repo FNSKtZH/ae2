@@ -10,7 +10,7 @@ CREATE OR REPLACE FUNCTION ae.taxonomies_of_categories_function()
         ON ae.object.taxonomy_id = ae.taxonomy.id
       GROUP BY ae.object.id, ae.category.name, ae.taxonomy.name
     )
-    SELECT category_name, taxonomy_name, count(*) AS count
+    SELECT category_name, taxonomy_name, count(*) AS object_count
     FROM categoryTaxonomies
     GROUP BY category_name, taxonomy_name
     ORDER BY category_name, taxonomy_name
