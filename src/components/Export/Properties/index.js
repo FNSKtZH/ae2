@@ -99,13 +99,14 @@ const propsByTaxData = graphql(
     }
   `,
   {
-    options: ({ exportTaxonomies }: { exportTaxonomies: Array<Object> }) => {
-      const queryExportTaxonomies = exportTaxonomies.length > 0
-      return {
-        variables: { exportTaxonomies, queryExportTaxonomies },
-        name: 'propsByTaxData',
-      }
-    },
+    options: ({ exportTaxonomies }: { exportTaxonomies: Array<Object> }) => ({
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+      // This name is ignored by apollo???!!!
+      name: 'propsByTaxData',
+    }),
   }
 )
 
@@ -118,15 +119,13 @@ const enhance = compose(
 const Properties = ({
   data,
   exportTaxonomiesData,
-  propsByTaxData,
 }: //width,
 {
   data: Object,
   exportTaxonomiesData: Object,
-  propsByTaxData: Object,
   //width: number,
 }) => {
-  console.log('Properties: propsByTaxData:', propsByTaxData)
+  console.log('Properties: data:', data)
   const pcoProperties = get(data, 'pcoPropertiesByTaxonomiesFunction.nodes', [])
   const rcoProperties = get(data, 'rcoPropertiesByTaxonomiesFunction.nodes', [])
   const taxProperties = get(data, 'taxPropertiesByTaxonomiesFunction.nodes', [])

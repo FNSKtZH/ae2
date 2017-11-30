@@ -3,7 +3,6 @@ import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import Snackbar from 'material-ui/Snackbar'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
@@ -224,8 +223,7 @@ const Export = ({
   //console.log('Export: rcoProperties:', rcoProperties)
   //const taxProperties = get(data, 'taxPropertiesByTaxonomiesFunction.nodes', [])
   //console.log('Export: taxProperties:', taxProperties)
-  const { exportTaxonomies } = exportTaxonomiesData
-  console.log('Export: exportTaxonomies:', exportTaxonomies)
+  const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
 
   return (
     <Container>
@@ -263,7 +261,7 @@ const Export = ({
           titleStyle={level1CardTitleStyle}
         />
         <Level1CardText expandable={true}>
-          <Properties data={data} exportTaxonomies={exportTaxonomies} />
+          <Properties exportTaxonomies={exportTaxonomies} />
         </Level1CardText>
       </Level1Card>
       <Level1Card expanded={exportExpanded} onExpandChange={onToggleExport}>
