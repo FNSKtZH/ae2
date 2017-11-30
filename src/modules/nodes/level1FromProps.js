@@ -1,10 +1,17 @@
 // @flow
 import get from 'lodash/get'
 
-export default (data: Object): Array<Object> => {
+export default ({
+  data,
+  allCategoriesData,
+}: {
+  data: Object,
+  allCategoriesData: Object,
+}): Array<Object> => {
+  console.log('level1fromProps: allCategoriesData:', allCategoriesData)
   if (!data) return []
   const pcCount = get(data, 'allPropertyCollections.totalCount', 0)
-  const taxCount = get(data, 'allCategories.totalCount', 0)
+  const taxCount = get(allCategoriesData, 'allCategories.totalCount', 0)
 
   return [
     {

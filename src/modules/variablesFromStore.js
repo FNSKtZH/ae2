@@ -56,11 +56,6 @@ export default ({
   const level10Taxonomy = existsLevel10
     ? activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
-  const queryGroups = !!(
-    activeNodeArray &&
-    activeNodeArray[0] &&
-    activeNodeArray[0].toLowerCase() === 'export'
-  )
 
   return {
     existsLevel2Pc,
@@ -86,6 +81,5 @@ export default ({
     treeFilterText,
     treeFilterId,
     existsTreeFilterId,
-    queryGroups,
   }
 }

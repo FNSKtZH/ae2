@@ -29,7 +29,6 @@ export default gql`
     $treeFilterId: Uuid!
     $existsTreeFilterId: Boolean!
     $treeFilterText: String!
-    $queryGroups: Boolean!
   ) {
     # TODO: move this to Export
     taxonomiesOfCategoriesFunction {
@@ -151,7 +150,7 @@ export default gql`
         name
       }
     }
-    allCategories @include(if: $queryGroups) {
+    allCategories {
       nodes {
         id
         name

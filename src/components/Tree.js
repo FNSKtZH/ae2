@@ -13,6 +13,7 @@ import Row from './TreeRow'
 import TreeFilter from './TreeFilter'
 import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import allCategoriesData from '../modules/allCategoriesData'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -64,20 +65,29 @@ const noRowsRenderer = nodes => (
   </Container>
 )
 
-const enhance = compose(activeNodeArrayData)
+const enhance = compose(activeNodeArrayData, allCategoriesData)
 
 const Tree = ({
   data,
   activeNodeArrayData,
+  allCategoriesData,
   // dimensions is passed down from ReflexElement
   dimensions,
 }: {
   data: Object,
   activeNodeArrayData: Object,
+  allCategoriesData: Object,
   dimensions: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
-  const nodes = buildNodesFromAppQuery({ data, activeNodeArray })
+  console.log('Tree: allCategoriesData:', allCategoriesData)
+  console.log('Tree: activeNodeArrayData:', activeNodeArrayData)
+  console.log('Tree: data:', data)
+  const nodes = buildNodesFromAppQuery({
+    data,
+    allCategoriesData,
+    activeNodeArray,
+  })
   const rowRenderer = ({ key, index, style }) => (
     <Row key={key} index={index} style={style} nodes={nodes} />
   )

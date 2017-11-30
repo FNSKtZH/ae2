@@ -20,9 +20,11 @@ import sort from './nodes/sort'
 
 export default ({
   data,
+  allCategoriesData,
   activeNodeArray,
 }: {
   data: Object,
+  allCategoriesData: Object,
   activeNodeArray: Object,
 }): Array<Object> => {
   const activeLevel2TaxonomyNodes = get(data, 'level2Taxonomy.nodes')
@@ -98,7 +100,7 @@ export default ({
   const activeLevel9TaxonomyName =
     activeLevel9Taxonomy && activeLevel9Taxonomy.name
   const activeLevel9TaxonomyId = activeLevel9Taxonomy && activeLevel9Taxonomy.id
-  let nodes = level1FromProps(data)
+  let nodes = level1FromProps({ data, allCategoriesData })
   if (activeNodeArray.length > 0) {
     switch (activeNodeArray[0]) {
       case 'Eigenschaften-Sammlungen': {

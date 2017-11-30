@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper'
 import { graphql, withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
+import get from 'lodash/get'
 
 import HowTo from './HowTo'
 
@@ -14,6 +15,7 @@ import exportCategoriesGql from '../../../modules/exportCategoriesGql'
 import exportTaxonomiesMutation from '../../../modules/exportTaxonomiesMutation'
 import exportTaxonomiesGql from '../../../modules/exportTaxonomiesGql'
 import propsByTaxData from '../../../modules/propsByTaxData'
+import allCategoriesData from '../../../modules/allCategoriesData'
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -51,6 +53,7 @@ const enhance = compose(
   exportTaxonomiesData,
   exportCategoriesData,
   propsByTaxData,
+  allCategoriesData,
   withHandlers({
     onCheckCategory: ({ client, exportCategoriesData }) => (
       event,
@@ -85,23 +88,26 @@ const enhance = compose(
 
 const Categories = ({
   data,
-  categories,
   taxOfCat,
   exportCategoriesData,
   exportTaxonomiesData,
+  allCategoriesData,
   onCheckCategory,
   onCheckTaxonomy,
 }: {
   data: Object,
-  categories: Array<String>,
   taxOfCat: Array<Object>,
   exportCategoriesData: Object,
   exportTaxonomiesData: Object,
+  allCategoriesData: Object,
   onCheckCategory: () => void,
   onCheckTaxonomy: () => void,
 }) => {
   const exportCategories = exportCategoriesData.exportCategories || []
   const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
+  const categories = get(allCategoriesData, 'allCategories.nodes', []).map(
+    c => c.name
+  )
   const { loading } = data
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
