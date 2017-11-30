@@ -84,17 +84,20 @@ const enhance = compose(
 
 const Categories = ({
   data,
+  exportCategoriesData,
   exportTaxonomiesData,
   onCheckCategory,
   onCheckTaxonomy,
 }: {
   data: Object,
+  exportCategoriesData: Object,
   exportTaxonomiesData: Object,
   onCheckCategory: () => void,
   onCheckTaxonomy: () => void,
 }) => {
   const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
   console.log('taxOfCat:', taxOfCat)
+  const { exportCategories } = exportCategoriesData
   const { exportTaxonomies } = exportTaxonomiesData
   const { loading } = data
   const categories = get(data, 'allCategories.nodes', []).map(c => c.name)
@@ -123,11 +126,11 @@ const Categories = ({
           <CategoryCheckbox
             name={category}
             label={category}
-            checked={exportTaxonomies.includes(category)}
+            checked={exportCategories.includes(category)}
             onCheck={onCheckCategory}
             labelStyle={categoryCheckboxLabelStyle}
           />
-          {exportTaxonomies.includes(category) && (
+          {exportCategories.includes(category) && (
             <TaxContainer>
               <TaxTitle>
                 {taxOfCat.filter(t => t.categoryName === category).length === 1
