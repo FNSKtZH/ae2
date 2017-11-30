@@ -22,7 +22,8 @@ const HowToCategories = () => (
     <CardText expandable={true} style={level1CardTextStyle}>
       <ul>
         <li>Wählen Sie eine oder mehrere Gruppen...</li>
-        <li>...dann werden ihre Eigenschaften aufgebaut...</li>
+        <li>...und darin Taxonomien</li>
+        <li>...dann werden ihre Eigenschaften aufgebaut</li>
         <li>...und Sie können filtern und Eigenschaften wählen</li>
       </ul>
     </CardText>

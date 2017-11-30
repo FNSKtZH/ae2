@@ -6,7 +6,6 @@ import Paper from 'material-ui/Paper'
 import { graphql, withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
-import get from 'lodash/get'
 
 import HowTo from './HowTo'
 
@@ -14,6 +13,7 @@ import exportCategoriesMutation from '../../../modules/exportCategoriesMutation'
 import exportCategoriesGql from '../../../modules/exportCategoriesGql'
 import exportTaxonomiesMutation from '../../../modules/exportTaxonomiesMutation'
 import exportTaxonomiesGql from '../../../modules/exportTaxonomiesGql'
+import propsByTaxData from '../../../modules/propsByTaxData'
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -50,6 +50,7 @@ const enhance = compose(
   withApollo,
   exportTaxonomiesData,
   exportCategoriesData,
+  propsByTaxData,
   withHandlers({
     onCheckCategory: ({ client, exportCategoriesData }) => (
       event,
@@ -84,24 +85,29 @@ const enhance = compose(
 
 const Categories = ({
   data,
+  categories,
+  taxOfCat,
   exportCategoriesData,
   exportTaxonomiesData,
   onCheckCategory,
   onCheckTaxonomy,
 }: {
   data: Object,
+  categories: Array<String>,
+  taxOfCat: Array<Object>,
   exportCategoriesData: Object,
   exportTaxonomiesData: Object,
   onCheckCategory: () => void,
   onCheckTaxonomy: () => void,
 }) => {
-  const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
-  const { exportCategories } = exportCategoriesData
+  const exportCategories = exportCategoriesData.exportCategories || []
   const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
   const { loading } = data
-  const categories = get(data, 'allCategories.nodes', []).map(c => c.name)
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
+  if (exportCategories.length > 0) {
+    textProperties = 'Wählen Sie eine oder mehrere Taxonomien.'
+  }
   if (loading) {
     textProperties = 'Die Eigenschaften werden ergänzt...'
   }

@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
-//import get from 'lodash/get'
+import get from 'lodash/get'
 
 import Categories from './Categories'
 import Properties from './Properties'
@@ -218,6 +218,8 @@ const Export = ({
   message: String,
 }) => {
   const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
+  const categories = get(data, 'allCategories.nodes', []).map(c => c.name)
+  const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
 
   return (
     <Container>
@@ -230,7 +232,11 @@ const Export = ({
           titleStyle={level1CardTitleStyle}
         />
         <Level1CardText expandable={true}>
-          <Categories data={data} />
+          <Categories
+            taxOfCat={taxOfCat}
+            categories={categories}
+            exportTaxonomies={exportTaxonomies}
+          />
         </Level1CardText>
       </Level1Card>
       <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
