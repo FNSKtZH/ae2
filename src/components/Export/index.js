@@ -247,7 +247,7 @@ const Export = ({
           titleStyle={level1CardTitleStyle}
         />
         <Level1CardText expandable={true}>
-          <Filter data={data} />
+          <Filter exportTaxonomies={exportTaxonomies} />
         </Level1CardText>
       </Level1Card>
       <Level1Card

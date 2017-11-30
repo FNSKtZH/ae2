@@ -2,7 +2,8 @@
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
+import { withApollo, graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
@@ -15,11 +16,6 @@ import PcoField from './PcoField'
 import RcoField from './RcoField'
 //import RcoChooser from './RcoChooser'
 import constants from '../../../modules/constants'
-
-const enhance = compose(
-  withApollo
-  //withWindowSize,
-)
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -68,15 +64,65 @@ const PropertiesContainer = styled.div`
 
 const level2CardTitleStyle = { fontWeight: 'bold' }
 
+const propsByTaxData = graphql(
+  gql`
+    query propsByTaxDataQuery(
+      $queryExportTaxonomies: Boolean!
+      $exportTaxonomies: [String]
+    ) {
+      pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+        @include(if: $queryExportTaxonomies) {
+        nodes {
+          propertyCollectionName
+          propertyName
+          jsontype
+          count
+        }
+      }
+      rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+        @include(if: $queryExportTaxonomies) {
+        nodes {
+          propertyCollectionName
+          relationType
+          propertyName
+          jsontype
+          count
+        }
+      }
+      taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+        @include(if: $queryExportTaxonomies) {
+        nodes {
+          taxonomyName
+          propertyName
+          jsontype
+          count
+        }
+      }
+    }
+  `,
+  {
+    options: ({ exportTaxonomies }: { exportTaxonomies: Array<Object> }) => ({
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+      // This name is ignored by apollo???!!!
+      name: 'propsByTaxData',
+    }),
+  }
+)
+
+const enhance = compose(
+  withApollo,
+  propsByTaxData
+  //withWindowSize,
+)
+
 const Filter = ({
   data,
-  exportTaxonomiesData,
-  exportCombineTaxonomiesData,
 }: //width,
 {
   data: Object,
-  exportTaxonomiesData: Object,
-  exportCombineTaxonomiesData: Object,
   //width: number,
 }) => {
   const pcoProperties = get(data, 'pcoPropertiesByTaxonomiesFunction.nodes', [])

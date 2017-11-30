@@ -18,11 +18,9 @@ const Container = styled.div`
 const Filter = ({
   data,
   exportTaxonomiesData,
-  exportCombineTaxonomiesData,
 }: {
   data: Object,
   exportTaxonomiesData: Object,
-  exportCombineTaxonomiesData: Object,
 }) => {
   return (
     <Container>

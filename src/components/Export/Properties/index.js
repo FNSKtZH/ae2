@@ -67,7 +67,10 @@ const level2CardTitleStyle = { fontWeight: 'bold' }
 
 const propsByTaxData = graphql(
   gql`
-    query propsByTaxDataQuery {
+    query propsByTaxDataQuery(
+      $queryExportTaxonomies: Boolean!
+      $exportTaxonomies: [String]
+    ) {
       pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
         @include(if: $queryExportTaxonomies) {
         nodes {
@@ -118,14 +121,12 @@ const enhance = compose(
 
 const Properties = ({
   data,
-  exportTaxonomiesData,
 }: //width,
 {
   data: Object,
-  exportTaxonomiesData: Object,
   //width: number,
 }) => {
-  console.log('Properties: data:', data)
+  //console.log('Properties: data:', data)
   const pcoProperties = get(data, 'pcoPropertiesByTaxonomiesFunction.nodes', [])
   const rcoProperties = get(data, 'rcoPropertiesByTaxonomiesFunction.nodes', [])
   const taxProperties = get(data, 'taxPropertiesByTaxonomiesFunction.nodes', [])
