@@ -1,6 +1,7 @@
 // @flow
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import get from 'lodash/get'
 
 export default graphql(
   gql`
@@ -39,13 +40,16 @@ export default graphql(
     }
   `,
   {
-    options: ({ exportTaxonomies }: { exportTaxonomies: Array<Object> }) => ({
-      variables: {
-        exportTaxonomies,
-        queryExportTaxonomies: exportTaxonomies.length > 0,
-      },
-      // This name is ignored by apollo???!!!
-      name: 'propsByTaxData',
-    }),
+    options: ({ exportTaxonomiesData }: { exportTaxonomiesData: Object }) => {
+      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+      return {
+        variables: {
+          exportTaxonomies,
+          queryExportTaxonomies: exportTaxonomies.length > 0,
+        },
+        // This name is ignored by apollo???!!!
+        name: 'propsByTaxData',
+      }
+    },
   }
 )

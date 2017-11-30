@@ -14,7 +14,7 @@ import Properties from './Properties'
 import Filter from './Filter'
 import Preview from './Preview'
 import exportCategoriesGql from '../../modules/exportCategoriesGql'
-import exportTaxonomiesGql from '../../modules/exportTaxonomiesGql'
+import exportTaxonomiesData from '../../modules/exportTaxonomiesData'
 import exportPcoPropertiesGql from '../../modules/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
 import exportTaxPropertiesGql from '../../modules/exportTaxPropertiesGql'
@@ -45,9 +45,6 @@ const StyledH3 = styled.h3`
 // (this is an apollo-link-state error)
 const exportCategoriesData = graphql(exportCategoriesGql, {
   name: 'exportCategoriesData',
-})
-const exportTaxonomiesData = graphql(exportTaxonomiesGql, {
-  name: 'exportTaxonomiesData',
 })
 const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
   name: 'exportTaxPropertiesData',
@@ -114,7 +111,7 @@ const enhance = compose(
       setExportExpanded,
       onSetMessage,
     }) => () => {
-      const { exportTaxonomies } = exportTaxonomiesData
+      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       if (!filterExpanded && exportTaxonomies.length > 0) {
         setFilterExpanded(true)
         // close all others
@@ -135,7 +132,7 @@ const enhance = compose(
       setExportExpanded,
       onSetMessage,
     }) => () => {
-      const { exportTaxonomies } = exportTaxonomiesData
+      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       if (!propertiesExpanded && exportTaxonomies.length > 0) {
         setPropertiesExpanded(true)
         // close all others
@@ -159,7 +156,7 @@ const enhance = compose(
       setExportExpanded,
       onSetMessage,
     }) => () => {
-      const { exportTaxonomies } = exportTaxonomiesData
+      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       const { exportTaxProperties } = exportTaxPropertiesData
       const { exportPcoProperties } = exportPcoPropertiesData
       const { exportRcoProperties } = exportRcoPropertiesData
@@ -188,8 +185,6 @@ const enhance = compose(
 
 const Export = ({
   data,
-  exportCategoriesData,
-  exportTaxonomiesData,
   groupsExpanded,
   taxonomiesExpanded,
   filterExpanded,
@@ -203,8 +198,6 @@ const Export = ({
   message,
 }: {
   data: Object,
-  exportCategoriesData: Object,
-  exportTaxonomiesData: Object,
   groupsExpanded: Boolean,
   taxonomiesExpanded: Boolean,
   filterExpanded: Boolean,
@@ -216,70 +209,66 @@ const Export = ({
   onToggleProperties: () => {},
   onToggleExport: () => {},
   message: String,
-}) => {
-  const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
-
-  return (
-    <Container>
-      <StyledH3>Export</StyledH3>
-      <Level1Card expanded={groupsExpanded} onExpandChange={onToggleGroups}>
-        <Level1CardHeader
-          title="1. Gruppen und Taxonomien wählen"
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
-        />
-        <Level1CardText expandable={true}>
-          <Categories exportTaxonomies={exportTaxonomies} />
-        </Level1CardText>
-      </Level1Card>
-      <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
-        <Level1CardHeader
-          title="2. filtern"
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
-        />
-        <Level1CardText expandable={true}>
-          <Filter exportTaxonomies={exportTaxonomies} />
-        </Level1CardText>
-      </Level1Card>
-      <Level1Card
-        expanded={propertiesExpanded}
-        onExpandChange={onToggleProperties}
-      >
-        <Level1CardHeader
-          title="3. Eigenschaften wählen"
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
-        />
-        <Level1CardText expandable={true}>
-          <Properties exportTaxonomies={exportTaxonomies} />
-        </Level1CardText>
-      </Level1Card>
-      <Level1Card expanded={exportExpanded} onExpandChange={onToggleExport}>
-        <Level1CardHeader
-          title="4. exportieren"
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
-        />
-        <Level1CardText expandable={true}>
-          <Preview />
-        </Level1CardText>
-      </Level1Card>
-      <Snackbar
-        open={!!message}
-        message={message}
-        bodyStyle={{
-          maxWidth: 'auto',
-          minWidth: 'auto',
-          backgroundColor: '#2E7D32',
-        }}
+}) => (
+  <Container>
+    <StyledH3>Export</StyledH3>
+    <Level1Card expanded={groupsExpanded} onExpandChange={onToggleGroups}>
+      <Level1CardHeader
+        title="1. Gruppen und Taxonomien wählen"
+        actAsExpander={true}
+        showExpandableButton={true}
+        titleStyle={level1CardTitleStyle}
       />
-    </Container>
-  )
-}
+      <Level1CardText expandable={true}>
+        <Categories />
+      </Level1CardText>
+    </Level1Card>
+    <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
+      <Level1CardHeader
+        title="2. filtern"
+        actAsExpander={true}
+        showExpandableButton={true}
+        titleStyle={level1CardTitleStyle}
+      />
+      <Level1CardText expandable={true}>
+        <Filter />
+      </Level1CardText>
+    </Level1Card>
+    <Level1Card
+      expanded={propertiesExpanded}
+      onExpandChange={onToggleProperties}
+    >
+      <Level1CardHeader
+        title="3. Eigenschaften wählen"
+        actAsExpander={true}
+        showExpandableButton={true}
+        titleStyle={level1CardTitleStyle}
+      />
+      <Level1CardText expandable={true}>
+        <Properties />
+      </Level1CardText>
+    </Level1Card>
+    <Level1Card expanded={exportExpanded} onExpandChange={onToggleExport}>
+      <Level1CardHeader
+        title="4. exportieren"
+        actAsExpander={true}
+        showExpandableButton={true}
+        titleStyle={level1CardTitleStyle}
+      />
+      <Level1CardText expandable={true}>
+        <Preview />
+      </Level1CardText>
+    </Level1Card>
+    <Snackbar
+      open={!!message}
+      message={message}
+      bodyStyle={{
+        maxWidth: 'auto',
+        minWidth: 'auto',
+        backgroundColor: '#2E7D32',
+      }}
+    />
+  </Container>
+)
 
 export default enhance(Export)

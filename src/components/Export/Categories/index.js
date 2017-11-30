@@ -13,7 +13,7 @@ import HowTo from './HowTo'
 import exportCategoriesMutation from '../../../modules/exportCategoriesMutation'
 import exportCategoriesGql from '../../../modules/exportCategoriesGql'
 import exportTaxonomiesMutation from '../../../modules/exportTaxonomiesMutation'
-import exportTaxonomiesGql from '../../../modules/exportTaxonomiesGql'
+import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
 import propsByTaxData from '../../../modules/propsByTaxData'
 import allCategoriesData from '../../../modules/allCategoriesData'
 import taxonomiesOfCategoriesData from '../../../modules/taxonomiesOfCategoriesData'
@@ -45,9 +45,6 @@ const PropertyTextDiv = styled.div`
 const exportCategoriesData = graphql(exportCategoriesGql, {
   name: 'exportCategoriesData',
 })
-const exportTaxonomiesData = graphql(exportTaxonomiesGql, {
-  name: 'exportTaxonomiesData',
-})
 
 const enhance = compose(
   withApollo,
@@ -75,11 +72,18 @@ const enhance = compose(
       event,
       isChecked
     ) => {
-      const { exportTaxonomies } = exportTaxonomiesData
+      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+      console.log(
+        'Categories, onCheckTaxonomy: exportTaxonomies:',
+        exportTaxonomies
+      )
       const { name } = event.target
+      console.log('Categories, onCheckTaxonomy: name:', name)
       const taxonomies = isChecked
         ? [...exportTaxonomies, name]
         : exportTaxonomies.filter(c => c !== name)
+      console.log('Categories, onCheckTaxonomy: isChecked:', isChecked)
+      console.log('Categories, onCheckTaxonomy: taxonomies:', taxonomies)
       client.mutate({
         mutation: exportTaxonomiesMutation,
         variables: { value: taxonomies },
@@ -105,8 +109,13 @@ const Categories = ({
   onCheckCategory: () => void,
   onCheckTaxonomy: () => void,
 }) => {
-  const exportCategories = exportCategoriesData.exportCategories || []
-  const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
+  const exportCategories = get(exportCategoriesData, 'exportCategories', [])
+  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+  const taxonomiesOfCategories = get(
+    taxonomiesOfCategoriesData,
+    'taxonomiesOfCategoriesFunction.nodes',
+    []
+  )
   const categories = get(allCategoriesData, 'allCategories.nodes', []).map(
     c => c.name
   )
@@ -130,11 +139,6 @@ const Categories = ({
     marginBottom: '10px',
     marginTop: '10px',
   }
-  const taxOfCat = get(
-    taxonomiesOfCategoriesData,
-    'taxonomiesOfCategoriesFunction.nodes',
-    []
-  )
 
   return (
     <Container>
@@ -151,11 +155,12 @@ const Categories = ({
           {exportCategories.includes(category) && (
             <TaxContainer>
               <TaxTitle>
-                {taxOfCat.filter(t => t.categoryName === category).length === 1
+                {taxonomiesOfCategories.filter(t => t.categoryName === category)
+                  .length === 1
                   ? 'Taxonomie:'
                   : 'Taxonomien:'}
               </TaxTitle>
-              {taxOfCat
+              {taxonomiesOfCategories
                 .filter(t => t.categoryName === category)
                 .map(tax => (
                   <TaxonomyCheckbox
