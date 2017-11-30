@@ -43,8 +43,8 @@ const StyledH3 = styled.h3`
 `
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)
-const exportTaxonomiesData = graphql(exportCategoriesGql, {
-  name: 'exportTaxonomiesData',
+const exportCategoriesData = graphql(exportCategoriesGql, {
+  name: 'exportCategoriesData',
 })
 const exportTaxonomiesData = graphql(exportTaxonomiesGql, {
   name: 'exportTaxonomiesData',
@@ -69,7 +69,7 @@ const exportRcoFiltersData = graphql(exportRcoFiltersGql, {
 })
 
 const enhance = compose(
-  exportTaxonomiesData,
+  exportCategoriesData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportPcoPropertiesData,
@@ -78,7 +78,6 @@ const enhance = compose(
   exportPcoFiltersData,
   exportRcoFiltersData,
   withState('groupsExpanded', 'setGroupsExpanded', true),
-  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
   withState('filterExpanded', 'setFilterExpanded', false),
   withState('propertiesExpanded', 'setPropertiesExpanded', false),
   withState('exportExpanded', 'setExportExpanded', false),
@@ -96,47 +95,20 @@ const enhance = compose(
       exportTaxonomiesData,
       groupsExpanded,
       setGroupsExpanded,
-      setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
       setExportExpanded,
     }) => () => {
       setGroupsExpanded(!groupsExpanded)
       // close all others
-      setTaxonomiesExpanded(false)
       setFilterExpanded(false)
       setPropertiesExpanded(false)
       setExportExpanded(false)
-    },
-    onToggleTaxonomies: ({
-      exportTaxonomiesData,
-      exportTaxonomiesData,
-      taxonomiesExpanded,
-      setGroupsExpanded,
-      setTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-      setExportExpanded,
-      onSetMessage,
-    }) => () => {
-      const { exportTaxonomies } = exportTaxonomiesData
-      if (!taxonomiesExpanded && exportTaxonomies.length > 0) {
-        setTaxonomiesExpanded(true)
-        // close all others
-        setFilterExpanded(true)
-        setGroupsExpanded(false)
-        setPropertiesExpanded(false)
-        setExportExpanded(false)
-      } else {
-        setTaxonomiesExpanded(false)
-        onSetMessage('Bitte wählen Sie mindestens eine Gruppe')
-      }
     },
     onToggleFilter: ({
       exportTaxonomiesData,
       filterExpanded,
       setGroupsExpanded,
-      setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
       setExportExpanded,
@@ -147,7 +119,6 @@ const enhance = compose(
         setFilterExpanded(true)
         // close all others
         setGroupsExpanded(false)
-        setTaxonomiesExpanded(false)
         setPropertiesExpanded(false)
         setExportExpanded(false)
       } else {
@@ -159,7 +130,6 @@ const enhance = compose(
       exportTaxonomiesData,
       propertiesExpanded,
       setGroupsExpanded,
-      setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
       setExportExpanded,
@@ -170,7 +140,6 @@ const enhance = compose(
         setPropertiesExpanded(true)
         // close all others
         setGroupsExpanded(false)
-        setTaxonomiesExpanded(false)
         setFilterExpanded(false)
         setExportExpanded(false)
       } else {
@@ -185,7 +154,6 @@ const enhance = compose(
       exportRcoPropertiesData,
       exportExpanded,
       setGroupsExpanded,
-      setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
       setExportExpanded,
@@ -204,7 +172,6 @@ const enhance = compose(
         setExportExpanded(true)
         // close all others
         setGroupsExpanded(false)
-        setTaxonomiesExpanded(false)
         setFilterExpanded(false)
         setPropertiesExpanded(false)
       } else {
@@ -221,7 +188,7 @@ const enhance = compose(
 
 const Export = ({
   data,
-  exportTaxonomiesData,
+  exportCategoriesData,
   exportTaxonomiesData,
   groupsExpanded,
   taxonomiesExpanded,
@@ -236,7 +203,7 @@ const Export = ({
   message,
 }: {
   data: Object,
-  exportTaxonomiesData: Object,
+  exportCategoriesData: Object,
   exportTaxonomiesData: Object,
   groupsExpanded: Boolean,
   taxonomiesExpanded: Boolean,

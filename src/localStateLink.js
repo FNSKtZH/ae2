@@ -22,7 +22,7 @@ export default withClientState({
   Query: {
     // provide initial state
     activeNodeArray: () => [],
-    exportTaxonomies: () => [],
+    exportCategories: () => [],
     exportTaxonomies: () => [],
     exportTaxProperties: () => [],
     exportPcoProperties: () => [],
@@ -68,7 +68,7 @@ export default withClientState({
     setExportCategories: (_, { value }, { cache }) => {
       cache.writeQuery({
         query: exportCategoriesGql,
-        data: { exportTaxonomies: value },
+        data: { exportCategories: value },
       })
       return null
     },

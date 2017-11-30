@@ -186,7 +186,7 @@ export default gql`
         name
       }
     }
-    pcoPropertiesByTaxonomiesFunction(taxonomy_names: $exportTaxonomies)
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
       @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
@@ -195,7 +195,7 @@ export default gql`
         count
       }
     }
-    rcoPropertiesByTaxonomiesFunction(taxonomy_names: $exportTaxonomies)
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
       @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
@@ -205,7 +205,7 @@ export default gql`
         count
       }
     }
-    taxPropertiesByTaxonomiesFunction(taxonomy_names: $exportTaxonomies)
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
       @include(if: $queryExportTaxonomies) {
       nodes {
         taxonomyName

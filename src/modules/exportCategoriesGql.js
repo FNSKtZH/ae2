@@ -3,6 +3,6 @@ import gql from 'graphql-tag'
 
 export default gql`
   query exportCategoriesQuery {
-    exportTaxonomies @client
+    exportCategories @client
   }
 `
