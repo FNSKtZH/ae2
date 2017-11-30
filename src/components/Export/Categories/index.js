@@ -73,17 +73,10 @@ const enhance = compose(
       isChecked
     ) => {
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      console.log(
-        'Categories, onCheckTaxonomy: exportTaxonomies:',
-        exportTaxonomies
-      )
       const { name } = event.target
-      console.log('Categories, onCheckTaxonomy: name:', name)
       const taxonomies = isChecked
         ? [...exportTaxonomies, name]
         : exportTaxonomies.filter(c => c !== name)
-      console.log('Categories, onCheckTaxonomy: isChecked:', isChecked)
-      console.log('Categories, onCheckTaxonomy: taxonomies:', taxonomies)
       client.mutate({
         mutation: exportTaxonomiesMutation,
         variables: { value: taxonomies },

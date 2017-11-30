@@ -2,7 +2,6 @@
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import Snackbar from 'material-ui/Snackbar'
-import { graphql } from 'react-apollo'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
@@ -15,12 +14,12 @@ import Filter from './Filter'
 import Preview from './Preview'
 import exportCategoriesData from '../../modules/exportCategoriesData'
 import exportTaxonomiesData from '../../modules/exportTaxonomiesData'
-import exportPcoPropertiesGql from '../../modules/exportPcoPropertiesGql'
-import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
+import exportPcoPropertiesData from '../../modules/exportPcoPropertiesData'
+import exportRcoPropertiesData from '../../modules/exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../modules/exportTaxPropertiesData'
-import exportTaxFiltersGql from '../../modules/exportTaxFiltersGql'
-import exportPcoFiltersGql from '../../modules/exportPcoFiltersGql'
-import exportRcoFiltersGql from '../../modules/exportRcoFiltersGql'
+import exportTaxFiltersData from '../../modules/exportTaxFiltersData'
+import exportPcoFiltersData from '../../modules/exportPcoFiltersData'
+import exportRcoFiltersData from '../../modules/exportRcoFiltersData'
 
 const Level1Card = styled(Card)`
   margin: 10px 0;
@@ -43,22 +42,6 @@ const StyledH3 = styled.h3`
 `
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)
-const exportTaxFiltersData = graphql(exportTaxFiltersGql, {
-  name: 'exportTaxFiltersData',
-})
-const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {
-  name: 'exportPcoPropertiesData',
-})
-const exportPcoFiltersData = graphql(exportPcoFiltersGql, {
-  name: 'exportPcoFiltersData',
-})
-const exportRcoPropertiesData = graphql(exportRcoPropertiesGql, {
-  name: 'exportRcoPropertiesData',
-})
-const exportRcoFiltersData = graphql(exportRcoFiltersGql, {
-  name: 'exportRcoFiltersData',
-})
-
 const enhance = compose(
   exportCategoriesData,
   exportTaxonomiesData,
