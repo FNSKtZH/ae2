@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION ae.taxonomies_of_categories_function()
-  RETURNS setof ae.taxonomies_of_categories AS
+  RETURNS setof ae.taxonomies_of_category AS
   $$
     WITH categoryTaxonomies AS (
       SELECT ae.object.id, ae.category.name AS category_name, ae.taxonomy.name AS taxonomy_name

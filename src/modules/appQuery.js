@@ -60,11 +60,20 @@ export default gql`
     #  text
     #  id
     #}
+    # remove allTaxonomies after finisching exporte
     allTaxonomies {
       totalCount
       nodes {
         id
         name
+      }
+    }
+    taxonomiesOfCategoriesFunction {
+      totalCount
+      nodes {
+        categoryName
+        taxonomyName
+        objectCount
       }
     }
     allPropertyCollections @include(if: $notExistsLevel2Pc) {
