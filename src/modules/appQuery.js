@@ -60,14 +60,7 @@ export default gql`
     #  text
     #  id
     #}
-    # remove allTaxonomies after finisching exporte
-    allTaxonomies {
-      totalCount
-      nodes {
-        id
-        name
-      }
-    }
+    # TODO: move this to Export
     taxonomiesOfCategoriesFunction {
       totalCount
       nodes {
