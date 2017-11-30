@@ -9,23 +9,17 @@ import withHandlers from 'recompose/withHandlers'
 import get from 'lodash/get'
 
 import HowTo from './HowTo'
-import CombineTaxonomies from './CombineTaxonomies'
 
 import exportCategoriesMutation from '../../../modules/exportCategoriesMutation'
 import exportCategoriesGql from '../../../modules/exportCategoriesGql'
-import exportCombineTaxonomiesGql from '../../../modules/exportCombineTaxonomiesGql'
 
 const exportCategoriesData = graphql(exportCategoriesGql, {
   name: 'exportCategoriesData',
-})
-const exportCombineTaxonomiesData = graphql(exportCombineTaxonomiesGql, {
-  name: 'exportCombineTaxonomiesData',
 })
 
 const enhance = compose(
   withApollo,
   exportCategoriesData,
-  exportCombineTaxonomiesData,
   withHandlers({
     onCheck: ({ client, exportCategoriesData }) => (event, isChecked) => {
       const { exportCategories } = exportCategoriesData
@@ -55,30 +49,23 @@ const PaperTextContainer = styled.div`
 const PropertyTextDiv = styled.div`
   padding-bottom: 5px;
 `
-const CombineTextDiv = styled.div`
-  padding-top: 5px;
-`
 
 const Categories = ({
   data,
   exportCategoriesData,
-  exportCombineTaxonomiesData,
   onCheck,
 }: {
   data: Object,
   exportCategoriesData: Object,
-  exportCombineTaxonomiesData: Object,
   onCheck: () => void,
 }) => {
-  const { exportCombineTaxonomies } = exportCombineTaxonomiesData
+  const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
+  console.log('Categories: taxOfCat:', taxOfCat)
   const exportCategories = exportCategoriesData.exportCategories || []
   const { loading } = data
   const categories = get(data, 'allCategories.nodes', []).map(c => c.name)
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
-  let textCombine = exportCombineTaxonomies
-    ? 'Taxonomien werden zusammengefasst.'
-    : 'Taxonomien werden einzeln dargestellt.'
   if (loading) {
     textProperties = 'Die Eigenschaften werden ergänzt...'
   }
@@ -105,13 +92,9 @@ const Categories = ({
           onCheck={onCheck}
         />
       ))}
-      <CombineTaxonomies />
       <Paper style={paperStyle} zDepth={1}>
         <PaperTextContainer>
           <PropertyTextDiv>{textProperties}</PropertyTextDiv>
-          {exportCategories.length > 0 && (
-            <CombineTextDiv>{textCombine}</CombineTextDiv>
-          )}
         </PaperTextContainer>
       </Paper>
     </Container>

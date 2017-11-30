@@ -6,7 +6,6 @@ import isEqual from 'lodash/isEqual'
 import activeNodeArrayGql from './modules/activeNodeArrayGql'
 import treeFilterGql from './modules/treeFilterGql'
 import exportCategoriesGql from './modules/exportCategoriesGql'
-import exportCombineTaxonomiesGql from './modules/exportCombineTaxonomiesGql'
 import exportTaxonomiesGql from './modules/exportTaxonomiesGql'
 import exportTaxPropertiesGql from './modules/exportTaxPropertiesGql'
 import exportTaxFiltersGql from './modules/exportTaxFiltersGql'
@@ -24,7 +23,6 @@ export default withClientState({
     // provide initial state
     activeNodeArray: () => [],
     exportCategories: () => [],
-    exportCombineTaxonomies: () => false,
     exportTaxonomies: () => [],
     exportTaxProperties: () => [],
     exportPcoProperties: () => [],
@@ -71,13 +69,6 @@ export default withClientState({
       cache.writeQuery({
         query: exportCategoriesGql,
         data: { exportCategories: value },
-      })
-      return null
-    },
-    setExportCombineTaxonomies: (_, { value }, { cache }) => {
-      cache.writeQuery({
-        query: exportCombineTaxonomiesGql,
-        data: { exportCombineTaxonomies: value },
       })
       return null
     },
