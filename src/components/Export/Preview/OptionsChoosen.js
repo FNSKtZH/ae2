@@ -77,13 +77,13 @@ const OptionsChoosen = ({
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
 }) => {
-  const { exportTaxonomies } = exportTaxonomiesData
-  const { exportTaxProperties } = exportTaxPropertiesData
-  const { exportTaxFilters } = exportTaxFiltersData
-  const { exportPcoProperties } = exportPcoPropertiesData
-  const { exportPcoFilters } = exportPcoFiltersData
-  const { exportRcoProperties } = exportRcoPropertiesData
-  const { exportRcoFilters } = exportRcoFiltersData
+  const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
+  const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
+  const exportTaxFilters = exportTaxFiltersData.exportTaxFilters || []
+  const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+  const exportPcoFilters = exportPcoFiltersData.exportPcoFilters || []
+  const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
+  const exportRcoFilters = exportRcoFiltersData.exportRcoFilters || []
   return (
     <Card style={level1CardStyle} expanded={true}>
       <CardHeader
