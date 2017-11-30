@@ -41,16 +41,13 @@ const appData = graphql(appQuery, {
   options: ({
     activeNodeArrayData,
     treeFilterData,
-    exportTaxonomiesData,
   }: {
     activeNodeArrayData: Object,
     treeFilterData: Object,
-    exportTaxonomiesData: Object,
   }) => ({
     variables: variablesFromStore({
       activeNodeArrayData,
       treeFilterData,
-      exportTaxonomiesData,
     }),
     name: 'appData',
   }),

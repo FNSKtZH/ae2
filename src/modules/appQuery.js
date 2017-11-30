@@ -30,8 +30,6 @@ export default gql`
     $existsTreeFilterId: Boolean!
     $treeFilterText: String!
     $queryGroups: Boolean!
-    $queryExportTaxonomies: Boolean!
-    $exportTaxonomies: [String]
   ) {
     # somehow this alters behaviour
     # and makes node array not work any more
@@ -184,34 +182,6 @@ export default gql`
       nodes {
         id
         name
-      }
-    }
-    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-      @include(if: $queryExportTaxonomies) {
-      nodes {
-        propertyCollectionName
-        propertyName
-        jsontype
-        count
-      }
-    }
-    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-      @include(if: $queryExportTaxonomies) {
-      nodes {
-        propertyCollectionName
-        relationType
-        propertyName
-        jsontype
-        count
-      }
-    }
-    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-      @include(if: $queryExportTaxonomies) {
-      nodes {
-        taxonomyName
-        propertyName
-        jsontype
-        count
       }
     }
   }

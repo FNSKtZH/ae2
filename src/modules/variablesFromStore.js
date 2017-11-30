@@ -2,11 +2,9 @@
 export default ({
   activeNodeArrayData,
   treeFilterData,
-  exportTaxonomiesData,
 }: {
   activeNodeArrayData: Object,
   treeFilterData: Object,
-  exportTaxonomiesData: Object,
 }) => {
   const activeNodeArray = activeNodeArrayData.activeNodeArray || []
   const treeFilterId =
@@ -63,10 +61,6 @@ export default ({
     activeNodeArray[0] &&
     activeNodeArray[0].toLowerCase() === 'export'
   )
-  const exportTaxonomies = exportTaxonomiesData.exportTaxonomies
-    ? exportTaxonomiesData.exportTaxonomies
-    : []
-  const queryExportTaxonomies = exportTaxonomies && exportTaxonomies.length > 0
 
   return {
     existsLevel2Pc,
@@ -93,7 +87,5 @@ export default ({
     treeFilterId,
     existsTreeFilterId,
     queryGroups,
-    queryExportTaxonomies,
-    exportTaxonomies,
   }
 }

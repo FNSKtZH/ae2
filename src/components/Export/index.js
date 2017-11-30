@@ -217,12 +217,6 @@ const Export = ({
   onToggleExport: () => {},
   message: String,
 }) => {
-  //const pcoProperties = get(data, 'pcoPropertiesByTaxonomiesFunction.nodes', [])
-  //console.log('Export: pcoProperties:', pcoProperties)
-  //const rcoProperties = get(data, 'rcoPropertiesByTaxonomiesFunction.nodes', [])
-  //console.log('Export: rcoProperties:', rcoProperties)
-  //const taxProperties = get(data, 'taxPropertiesByTaxonomiesFunction.nodes', [])
-  //console.log('Export: taxProperties:', taxProperties)
   const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
 
   return (
