@@ -16,7 +16,6 @@ import Login from './Login'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 import treeFilterGql from '../modules/treeFilterGql'
-import exportTaxonomiesGql from '../modules/exportTaxonomiesGql'
 import appQuery from '../modules/appQuery'
 import variablesFromStore from '../modules/variablesFromStore'
 import getUrlForObject from '../modules/getUrlForObject'
@@ -33,9 +32,6 @@ const activeNodeArrayData = graphql(activeNodeArrayGql, {
 })
 const treeFilterData = graphql(treeFilterGql, {
   name: 'treeFilterData',
-})
-const exportTaxonomiesData = graphql(exportTaxonomiesGql, {
-  name: 'exportTaxonomiesData',
 })
 const appData = graphql(appQuery, {
   options: ({
@@ -57,7 +53,6 @@ const enhance = compose(
   withApollo,
   activeNodeArrayData,
   treeFilterData,
-  exportTaxonomiesData,
   appData
 )
 
