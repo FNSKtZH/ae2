@@ -12,16 +12,49 @@ import HowTo from './HowTo'
 
 import exportCategoriesMutation from '../../../modules/exportCategoriesMutation'
 import exportCategoriesGql from '../../../modules/exportCategoriesGql'
+import exportTaxonomiesMutation from '../../../modules/exportTaxonomiesMutation'
+import exportTaxonomiesGql from '../../../modules/exportTaxonomiesGql'
+
+const Container = styled.div`
+  padding: 5px 10px;
+  height: calc(100% - 48px);
+  overflow: auto !important;
+`
+const CategoryContainer = styled.div``
+const TaxContainer = styled.div`
+  margin-left: 39px;
+  margin-bottom: 10px;
+  margin-top: 3px;
+`
+const TaxTitle = styled.div``
+const CategoryCheckbox = styled(Checkbox)``
+const categoryCheckboxLabelStyle = {
+  fontWeight: 500,
+}
+const TaxonomyCheckbox = styled(Checkbox)``
+const PaperTextContainer = styled.div`
+  padding: 16px;
+`
+const PropertyTextDiv = styled.div`
+  padding-bottom: 5px;
+`
 
 const exportCategoriesData = graphql(exportCategoriesGql, {
   name: 'exportCategoriesData',
+})
+const exportTaxonomiesData = graphql(exportTaxonomiesGql, {
+  name: 'exportTaxonomiesData',
 })
 
 const enhance = compose(
   withApollo,
   exportCategoriesData,
+  exportTaxonomiesData,
   withHandlers({
-    onCheck: ({ client, exportCategoriesData }) => (event, isChecked) => {
+    onCheckCategory: ({ client, exportCategoriesData }) => (
+      event,
+      isChecked
+    ) => {
       const { exportCategories } = exportCategoriesData
       const { name } = event.target
       const categories = isChecked
@@ -32,36 +65,40 @@ const enhance = compose(
         variables: { value: categories },
       })
     },
+    onCheckTaxonomy: ({ client, exportTaxonomiesData }) => (
+      event,
+      isChecked
+    ) => {
+      const { exportTaxonomies } = exportTaxonomiesData
+      const { name } = event.target
+      const taxonomies = isChecked
+        ? [...exportTaxonomies, name]
+        : exportTaxonomies.filter(c => c !== name)
+      client.mutate({
+        mutation: exportTaxonomiesMutation,
+        variables: { value: taxonomies },
+      })
+    },
   })
 )
-
-const Container = styled.div`
-  padding: 5px 10px;
-  height: calc(100% - 48px);
-  overflow: auto !important;
-`
-const StyledCheckbox = styled(Checkbox)`
-  margin-bottom: inherit;
-`
-const PaperTextContainer = styled.div`
-  padding: 16px;
-`
-const PropertyTextDiv = styled.div`
-  padding-bottom: 5px;
-`
 
 const Categories = ({
   data,
   exportCategoriesData,
-  onCheck,
+  exportTaxonomiesData,
+  onCheckCategory,
+  onCheckTaxonomy,
 }: {
   data: Object,
   exportCategoriesData: Object,
-  onCheck: () => void,
+  exportTaxonomiesData: Object,
+  onCheckCategory: () => void,
+  onCheckTaxonomy: () => void,
 }) => {
   const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
-  console.log('Categories: taxOfCat:', taxOfCat)
-  const exportCategories = exportCategoriesData.exportCategories || []
+  console.log('taxOfCat:', taxOfCat)
+  const { exportCategories } = exportCategoriesData
+  const { exportTaxonomies } = exportTaxonomiesData
   const { loading } = data
   const categories = get(data, 'allCategories.nodes', []).map(c => c.name)
   let paperBackgroundColor = '#1565C0'
@@ -78,19 +115,42 @@ const Categories = ({
     color: 'white',
     backgroundColor: paperBackgroundColor,
     marginBottom: '10px',
+    marginTop: '10px',
   }
 
   return (
     <Container>
       <HowTo />
       {categories.map(category => (
-        <StyledCheckbox
-          key={category}
-          name={category}
-          label={category}
-          checked={exportCategories.includes(category)}
-          onCheck={onCheck}
-        />
+        <CategoryContainer key={category}>
+          <CategoryCheckbox
+            name={category}
+            label={category}
+            checked={exportCategories.includes(category)}
+            onCheck={onCheckCategory}
+            labelStyle={categoryCheckboxLabelStyle}
+          />
+          {exportCategories.includes(category) && (
+            <TaxContainer>
+              <TaxTitle>
+                {taxOfCat.filter(t => t.categoryName === category).length === 1
+                  ? 'Taxonomie:'
+                  : 'Taxonomien:'}
+              </TaxTitle>
+              {taxOfCat
+                .filter(t => t.categoryName === category)
+                .map(tax => (
+                  <TaxonomyCheckbox
+                    key={tax.taxonomyName}
+                    name={tax.taxonomyName}
+                    label={tax.taxonomyName}
+                    checked={exportTaxonomies.includes(tax.taxonomyName)}
+                    onCheck={onCheckTaxonomy}
+                  />
+                ))}
+            </TaxContainer>
+          )}
+        </CategoryContainer>
       ))}
       <Paper style={paperStyle} zDepth={1}>
         <PaperTextContainer>

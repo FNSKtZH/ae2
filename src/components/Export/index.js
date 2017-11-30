@@ -10,7 +10,6 @@ import withHandlers from 'recompose/withHandlers'
 //import get from 'lodash/get'
 
 import Categories from './Categories'
-import Taxonomies from './Taxonomies'
 import Properties from './Properties'
 import Filter from './Filter'
 import Preview from './Preview'
@@ -264,7 +263,7 @@ const Export = ({
       <StyledH3>Export</StyledH3>
       <Level1Card expanded={groupsExpanded} onExpandChange={onToggleGroups}>
         <Level1CardHeader
-          title="1. Gruppen wählen"
+          title="1. Gruppen und Taxonomien wählen"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
@@ -273,23 +272,9 @@ const Export = ({
           <Categories data={data} />
         </Level1CardText>
       </Level1Card>
-      <Level1Card
-        expanded={taxonomiesExpanded}
-        onExpandChange={onToggleTaxonomies}
-      >
-        <Level1CardHeader
-          title="2. Taxonomien wählen"
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
-        />
-        <Level1CardText expandable={true}>
-          <Taxonomies data={data} />
-        </Level1CardText>
-      </Level1Card>
       <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
         <Level1CardHeader
-          title="3. filtern"
+          title="2. filtern"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
@@ -303,7 +288,7 @@ const Export = ({
         onExpandChange={onToggleProperties}
       >
         <Level1CardHeader
-          title="4. Eigenschaften wählen"
+          title="3. Eigenschaften wählen"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
@@ -314,7 +299,7 @@ const Export = ({
       </Level1Card>
       <Level1Card expanded={exportExpanded} onExpandChange={onToggleExport}>
         <Level1CardHeader
-          title="5. exportieren"
+          title="4. exportieren"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
