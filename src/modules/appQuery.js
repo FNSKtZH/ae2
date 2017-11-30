@@ -31,33 +31,6 @@ export default gql`
     $treeFilterText: String!
     $queryGroups: Boolean!
   ) {
-    # somehow this alters behaviour
-    # and makes node array not work any more
-    #activeNodeArray @client
-    #exportTaxonomies @client
-    #exportCombineTaxonomies @client
-    #exportTaxProperties @client {
-    #  taxName
-    #  pName
-    #}
-    #exportPcoProperties @client {
-    #  pCName
-    #  pName
-    #}
-    #exportRcoProperties @client {
-    #  pCName
-    #  pName
-    #}
-    #exportTooManyProperties @client
-    #allCategories {
-    #  totalCount
-    #}
-    # somehow this alters behaviour
-    # and makes filter not work
-    #treeFilter @client {
-    #  text
-    #  id
-    #}
     # TODO: move this to Export
     taxonomiesOfCategoriesFunction {
       totalCount
