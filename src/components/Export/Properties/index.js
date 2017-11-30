@@ -2,8 +2,7 @@
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import styled from 'styled-components'
-import { withApollo, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
@@ -17,6 +16,7 @@ import TaxChooser from './TaxChooser'
 import PcoChooser from './PcoChooser'
 import RcoChooser from './RcoChooser'
 import constants from '../../../modules/constants'
+import propsByTaxData from '../../../modules/propsByTaxData'
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -64,54 +64,6 @@ const Level3Count = styled.span`
 `
 
 const level2CardTitleStyle = { fontWeight: 'bold' }
-
-const propsByTaxData = graphql(
-  gql`
-    query propsByTaxDataQuery(
-      $queryExportTaxonomies: Boolean!
-      $exportTaxonomies: [String]
-    ) {
-      pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-        @include(if: $queryExportTaxonomies) {
-        nodes {
-          propertyCollectionName
-          propertyName
-          jsontype
-          count
-        }
-      }
-      rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-        @include(if: $queryExportTaxonomies) {
-        nodes {
-          propertyCollectionName
-          relationType
-          propertyName
-          jsontype
-          count
-        }
-      }
-      taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-        @include(if: $queryExportTaxonomies) {
-        nodes {
-          taxonomyName
-          propertyName
-          jsontype
-          count
-        }
-      }
-    }
-  `,
-  {
-    options: ({ exportTaxonomies }: { exportTaxonomies: Array<Object> }) => ({
-      variables: {
-        exportTaxonomies,
-        queryExportTaxonomies: exportTaxonomies.length > 0,
-      },
-      // This name is ignored by apollo???!!!
-      name: 'propsByTaxData',
-    }),
-  }
-)
 
 const enhance = compose(
   withApollo,
