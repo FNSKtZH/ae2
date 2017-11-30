@@ -1,5 +1,5 @@
-CREATE OR REPLACE FUNCTION ae.rco_properties_by_categories_function(categories text[])
-  RETURNS setof ae.rco_properties_by_category AS
+CREATE OR REPLACE FUNCTION ae.rco_properties_by_taxonomies_function(taxonomy_names text[])
+  RETURNS setof ae.rco_properties_by_taxonomy AS
   $$
     WITH jsontypes AS (
       SELECT
@@ -19,13 +19,15 @@ CREATE OR REPLACE FUNCTION ae.rco_properties_by_categories_function(categories t
         END as jsontype
       FROM
         ae.object
+        INNER JOIN ae.taxonomy
+        ON ae.object.taxonomy_id = ae.taxonomy.id
         INNER JOIN ae.relation
         ON ae.object.id = ae.relation.object_id
           INNER JOIN ae.property_collection
           ON ae.property_collection.id = ae.relation.property_collection_id,
         jsonb_each(ae.relation.properties) AS json_data
       WHERE
-        ae.object.category = ANY(categories)
+        ae.taxonomy.name = ANY(taxonomy_names)
     )
     SELECT
       *,
@@ -44,5 +46,5 @@ CREATE OR REPLACE FUNCTION ae.rco_properties_by_categories_function(categories t
       jsontype
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.rco_properties_by_categories_function(categories text[])
+ALTER FUNCTION ae.rco_properties_by_taxonomies_function(taxonomy_names text[])
   OWNER TO postgres;

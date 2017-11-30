@@ -63,10 +63,10 @@ export default ({
     activeNodeArray[0] &&
     activeNodeArray[0].toLowerCase() === 'export'
   )
-  const exportCategories = exportCategoriesData.exportCategories
-    ? exportCategoriesData.exportCategories
+  const exportTaxonomies = exportCategoriesData.exportTaxonomies
+    ? exportCategoriesData.exportTaxonomies
     : []
-  const queryExportCategories = exportCategories && exportCategories.length > 0
+  const queryExportCategories = exportTaxonomies && exportTaxonomies.length > 0
 
   return {
     existsLevel2Pc,
@@ -94,6 +94,6 @@ export default ({
     existsTreeFilterId,
     queryGroups,
     queryExportCategories,
-    exportCategories,
+    exportTaxonomies,
   }
 }

@@ -79,9 +79,9 @@ const Filter = ({
   exportCombineTaxonomiesData: Object,
   //width: number,
 }) => {
-  const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
-  const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
-  const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
+  const pcoProperties = get(data, 'pcoPropertiesByTaxonomiesFunction.nodes', [])
+  const rcoProperties = get(data, 'rcoPropertiesByTaxonomiesFunction.nodes', [])
+  const taxProperties = get(data, 'taxPropertiesByTaxonomiesFunction.nodes', [])
   const pcoPropertiesByPropertyCollection = groupBy(
     pcoProperties,
     'propertyCollectionName'

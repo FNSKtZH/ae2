@@ -31,7 +31,7 @@ query AppQueryQuery(
   $treeFilterText: String!
   $queryGroups: Boolean!
   $queryExportCategories: Boolean!
-  $exportCategories: [String]
+  $exportTaxonomies: [String]
 ) {
   allCategories {
     totalCount
@@ -148,7 +148,7 @@ query AppQueryQuery(
       name
     }
   }
-  pcoPropertiesByCategoriesFunction(categories: $exportCategories)
+  pcoPropertiesByTaxonomiesFunction(categories: $exportTaxonomies)
     @include(if: $queryExportCategories) {
     nodes {
       propertyCollectionName
@@ -187,7 +187,7 @@ The query gets these variables passed in:
   "existsLevel9":false,
   "existsLevel10":false,
   "existsTreeFilterId":true,
-  "exportCategories":[],
+  "exportTaxonomies":[],
   "level3Taxonomy":"none",
   "level4Taxonomy":"99999999-9999-9999-9999-999999999999",
   "level4TaxonomyPossibleNull":null,
@@ -394,7 +394,7 @@ export default gql`
     $treeFilterText: String!
     $queryGroups: Boolean!
     $queryExportCategories: Boolean!
-    $exportCategories: [String]
+    $exportTaxonomies: [String]
   ) {
     allCategories {
       totalCount
@@ -516,7 +516,7 @@ export default gql`
         name
       }
     }
-    pcoPropertiesByCategoriesFunction(categories: $exportCategories)
+    pcoPropertiesByTaxonomiesFunction(categories: $exportTaxonomies)
       @include(if: $queryExportCategories) {
       nodes {
         propertyCollectionName

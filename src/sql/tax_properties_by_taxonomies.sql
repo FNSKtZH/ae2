@@ -1,9 +1,9 @@
-CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories_function(categories text[])
-  RETURNS setof ae.pco_properties_by_category AS
+CREATE OR REPLACE FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_names text[])
+  RETURNS setof ae.tax_properties_by_taxonomy AS
   $$
     WITH jsontypes AS (
       SELECT
-        ae.property_collection.name AS property_collection_name,
+        ae.taxonomy.name AS taxonomy_name,
         json_data.key AS property_name,
         CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
           WHEN json_data.value::text ~ '^-?\d' THEN
@@ -18,13 +18,11 @@ CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories_function(categories t
         END as jsontype
       FROM
         ae.object
-        INNER JOIN ae.property_collection_object
-        ON ae.object.id = ae.property_collection_object.object_id
-          INNER JOIN ae.property_collection
-          ON ae.property_collection.id = ae.property_collection_object.property_collection_id,
-        jsonb_each(ae.property_collection_object.properties) AS json_data
+        INNER JOIN ae.taxonomy
+        ON ae.taxonomy.id = ae.object.taxonomy_id,
+        jsonb_each(ae.object.properties) AS json_data
       WHERE
-        ae.object.category = ANY(categories)
+        ae.taxonomy.name = ANY(taxonomy_names)
     )
     SELECT
       *,
@@ -32,14 +30,14 @@ CREATE OR REPLACE FUNCTION ae.pco_properties_by_categories_function(categories t
     FROM
       jsontypes
     GROUP BY
-      property_collection_name,
+      taxonomy_name,
       property_name,
       jsontype
     ORDER BY
-      property_collection_name,
+      taxonomy_name,
       property_name,
       jsontype
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.pco_properties_by_categories_function(categories text[])
+ALTER FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_names text[])
   OWNER TO postgres;

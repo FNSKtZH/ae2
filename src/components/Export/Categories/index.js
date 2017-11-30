@@ -55,11 +55,11 @@ const enhance = compose(
       event,
       isChecked
     ) => {
-      const { exportCategories } = exportCategoriesData
+      const { exportTaxonomies } = exportCategoriesData
       const { name } = event.target
       const categories = isChecked
-        ? [...exportCategories, name]
-        : exportCategories.filter(c => c !== name)
+        ? [...exportTaxonomies, name]
+        : exportTaxonomies.filter(c => c !== name)
       client.mutate({
         mutation: exportCategoriesMutation,
         variables: { value: categories },
@@ -97,7 +97,7 @@ const Categories = ({
 }) => {
   const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
   console.log('taxOfCat:', taxOfCat)
-  const { exportCategories } = exportCategoriesData
+  const { exportTaxonomies } = exportCategoriesData
   const { exportTaxonomies } = exportTaxonomiesData
   const { loading } = data
   const categories = get(data, 'allCategories.nodes', []).map(c => c.name)
@@ -106,7 +106,7 @@ const Categories = ({
   if (loading) {
     textProperties = 'Die Eigenschaften werden ergänzt...'
   }
-  if (!loading && exportCategories.length > 0) {
+  if (!loading && exportTaxonomies.length > 0) {
     paperBackgroundColor = '#2E7D32'
     textProperties = 'Die Eigenschaften wurden geladen.'
   }
@@ -126,11 +126,11 @@ const Categories = ({
           <CategoryCheckbox
             name={category}
             label={category}
-            checked={exportCategories.includes(category)}
+            checked={exportTaxonomies.includes(category)}
             onCheck={onCheckCategory}
             labelStyle={categoryCheckboxLabelStyle}
           />
-          {exportCategories.includes(category) && (
+          {exportTaxonomies.includes(category) && (
             <TaxContainer>
               <TaxTitle>
                 {taxOfCat.filter(t => t.categoryName === category).length === 1

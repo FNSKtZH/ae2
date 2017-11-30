@@ -119,8 +119,8 @@ const enhance = compose(
       setExportExpanded,
       onSetMessage,
     }) => () => {
-      const { exportCategories } = exportCategoriesData
-      if (!taxonomiesExpanded && exportCategories.length > 0) {
+      const { exportTaxonomies } = exportCategoriesData
+      if (!taxonomiesExpanded && exportTaxonomies.length > 0) {
         setTaxonomiesExpanded(true)
         // close all others
         setFilterExpanded(true)
@@ -165,8 +165,8 @@ const enhance = compose(
       setExportExpanded,
       onSetMessage,
     }) => () => {
-      const { exportCategories } = exportCategoriesData
-      if (!propertiesExpanded && exportCategories.length > 0) {
+      const { exportTaxonomies } = exportCategoriesData
+      if (!propertiesExpanded && exportTaxonomies.length > 0) {
         setPropertiesExpanded(true)
         // close all others
         setGroupsExpanded(false)
@@ -191,7 +191,7 @@ const enhance = compose(
       setExportExpanded,
       onSetMessage,
     }) => () => {
-      const { exportCategories } = exportCategoriesData
+      const { exportTaxonomies } = exportCategoriesData
       const { exportTaxProperties } = exportTaxPropertiesData
       const { exportPcoProperties } = exportPcoPropertiesData
       const { exportRcoProperties } = exportRcoPropertiesData
@@ -200,7 +200,7 @@ const enhance = compose(
           exportPcoProperties.length +
           exportRcoProperties.length >
         0
-      if (!exportExpanded && exportCategories.length > 0 && propertiesChoosen) {
+      if (!exportExpanded && exportTaxonomies.length > 0 && propertiesChoosen) {
         setExportExpanded(true)
         // close all others
         setGroupsExpanded(false)
@@ -209,7 +209,7 @@ const enhance = compose(
         setPropertiesExpanded(false)
       } else {
         setExportExpanded(false)
-        if (exportCategories.length === 0) {
+        if (exportTaxonomies.length === 0) {
           onSetMessage('Bitte wählen Sie mindestens eine Gruppe')
         } else if (!propertiesChoosen) {
           onSetMessage('Bitte wählen Sie mindestens eine Eigenschaft')
@@ -251,11 +251,11 @@ const Export = ({
   message: String,
 }) => {
   //console.log('Export: data:', data)
-  //const pcoProperties = get(data, 'pcoPropertiesByCategoriesFunction.nodes', [])
+  //const pcoProperties = get(data, 'pcoPropertiesByTaxonomiesFunction.nodes', [])
   //console.log('Export: pcoProperties:', pcoProperties)
-  //const rcoProperties = get(data, 'rcoPropertiesByCategoriesFunction.nodes', [])
+  //const rcoProperties = get(data, 'rcoPropertiesByTaxonomiesFunction.nodes', [])
   //console.log('Export: rcoProperties:', rcoProperties)
-  //const taxProperties = get(data, 'taxPropertiesByCategoriesFunction.nodes', [])
+  //const taxProperties = get(data, 'taxPropertiesByTaxonomiesFunction.nodes', [])
   //console.log('Export: taxProperties:', taxProperties)
 
   return (

@@ -1,4 +1,4 @@
-query AppQueryQuery($existsLevel2Pc: Boolean!, $notExistsLevel2Pc: Boolean!, $existsLevel2Taxonomy: Boolean!, $existsLevel3: Boolean!, $level3Taxonomy: String!, $existsLevel4: Boolean!, $level4Taxonomy: Uuid!, $level4TaxonomyPossibleNull: Uuid, $existsLevel5: Boolean!, $level5Taxonomy: Uuid!, $existsLevel6: Boolean!, $level6Taxonomy: Uuid!, $existsLevel7: Boolean!, $level7Taxonomy: Uuid!, $existsLevel8: Boolean!, $level8Taxonomy: Uuid!, $existsLevel9: Boolean!, $level9Taxonomy: Uuid!, $existsLevel10: Boolean!, $level10Taxonomy: Uuid!, $treeFilterId: Uuid!, $existsTreeFilterId: Boolean!, $treeFilterText: String!, $queryGroups: Boolean!, $queryExportCategories: Boolean!, $exportCategories: [String]) {
+query AppQueryQuery($existsLevel2Pc: Boolean!, $notExistsLevel2Pc: Boolean!, $existsLevel2Taxonomy: Boolean!, $existsLevel3: Boolean!, $level3Taxonomy: String!, $existsLevel4: Boolean!, $level4Taxonomy: Uuid!, $level4TaxonomyPossibleNull: Uuid, $existsLevel5: Boolean!, $level5Taxonomy: Uuid!, $existsLevel6: Boolean!, $level6Taxonomy: Uuid!, $existsLevel7: Boolean!, $level7Taxonomy: Uuid!, $existsLevel8: Boolean!, $level8Taxonomy: Uuid!, $existsLevel9: Boolean!, $level9Taxonomy: Uuid!, $existsLevel10: Boolean!, $level10Taxonomy: Uuid!, $treeFilterId: Uuid!, $existsTreeFilterId: Boolean!, $treeFilterText: String!, $queryGroups: Boolean!, $queryExportCategories: Boolean!, $exportTaxonomies: [String]) {
   allCategories {
     totalCount
   }
@@ -107,7 +107,7 @@ query AppQueryQuery($existsLevel2Pc: Boolean!, $notExistsLevel2Pc: Boolean!, $ex
       name
     }
   }
-  pcoPropertiesByCategoriesFunction(categories: $exportCategories) @include(if: $queryExportCategories) {
+  pcoPropertiesByTaxonomiesFunction(categories: $exportTaxonomies) @include(if: $queryExportCategories) {
     nodes {
       propertyCollectionName
       propertyName
@@ -143,7 +143,7 @@ fragment ObjektLevel5AndUp on Object {
   "existsLevel9":false,
   "existsLevel10":false,
   "existsTreeFilterId":true,
-  "exportCategories":[],
+  "exportTaxonomies":[],
   "level3Taxonomy":"none",
   "level4Taxonomy":"99999999-9999-9999-9999-999999999999",
   "level4TaxonomyPossibleNull":null,
@@ -175,7 +175,7 @@ fragment ObjektLevel5AndUp on Object {
   "existsLevel9": false,
   "existsLevel10": false,
   "existsUrlFromTOId": false,
-  "exportCategories": [],
+  "exportTaxonomies": [],
   "level3Taxonomy": "Lebensräume",
   "level4Taxonomy": "69d34753-445b-4c55-b3b7-e570f7dc1819",
   "level4TaxonomyPossibleNull": "69d34753-445b-4c55-b3b7-e570f7dc1819",
@@ -206,7 +206,7 @@ fragment ObjektLevel5AndUp on Object {
   "existsLevel9": false,
   "existsLevel10": false,
   "existsUrlFromTOId": false,
-  "exportCategories": [],
+  "exportTaxonomies": [],
   "level3Taxonomy": "Fauna",
   "level4Taxonomy": "a8f11e30-696f-11e7-b712-f90bfedd3cfd",
   "level4TaxonomyPossibleNull": "a8f11e30-696f-11e7-b712-f90bfedd3cfd",

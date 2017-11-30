@@ -77,7 +77,7 @@ const OptionsChoosen = ({
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
 }) => {
-  const { exportCategories } = exportCategoriesData
+  const { exportTaxonomies } = exportCategoriesData
   const { exportTaxProperties } = exportTaxPropertiesData
   const { exportTaxFilters } = exportTaxFiltersData
   const { exportPcoProperties } = exportPcoPropertiesData
@@ -97,8 +97,8 @@ const OptionsChoosen = ({
         <ul>
           <li>
             {`Gruppe${
-              exportCategories.length > 1 ? 'n' : ''
-            }: ${exportCategories.join(', ')}`}
+              exportTaxonomies.length > 1 ? 'n' : ''
+            }: ${exportTaxonomies.join(', ')}`}
           </li>
           <li>{`Die Felder der Taxonomien werden einzeln dargestellt`}</li>
           <li>Informationen von Synonymen werden berücksichtigt</li>

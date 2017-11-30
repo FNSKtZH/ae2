@@ -24,7 +24,7 @@ query AppQueryQuery(
   $treeFilterText: String!
   $queryGroups: Boolean!
   $queryExportCategories: Boolean!
-  $exportCategories: [String]
+  $exportTaxonomies: [String]
 ) {
   allCategories {
     totalCount
@@ -141,7 +141,7 @@ query AppQueryQuery(
       name
     }
   }
-  pcoPropertiesByCategoriesFunction(categories: $exportCategories)
+  pcoPropertiesByTaxonomiesFunction(categories: $exportTaxonomies)
     @include(if: $queryExportCategories) {
     nodes {
       propertyCollectionName

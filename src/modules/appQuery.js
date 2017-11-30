@@ -31,12 +31,12 @@ export default gql`
     $treeFilterText: String!
     $queryGroups: Boolean!
     $queryExportCategories: Boolean!
-    $exportCategories: [String]
+    $exportTaxonomies: [String]
   ) {
     # somehow this alters behaviour
     # and makes node array not work any more
     #activeNodeArray @client
-    #exportCategories @client
+    #exportTaxonomies @client
     #exportCombineTaxonomies @client
     #exportTaxProperties @client {
     #  taxName
@@ -186,7 +186,7 @@ export default gql`
         name
       }
     }
-    pcoPropertiesByCategoriesFunction(categories: $exportCategories)
+    pcoPropertiesByTaxonomiesFunction(taxonomy_names: $exportTaxonomies)
       @include(if: $queryExportCategories) {
       nodes {
         propertyCollectionName
@@ -195,7 +195,7 @@ export default gql`
         count
       }
     }
-    rcoPropertiesByCategoriesFunction(categories: $exportCategories)
+    rcoPropertiesByTaxonomiesFunction(taxonomy_names: $exportTaxonomies)
       @include(if: $queryExportCategories) {
       nodes {
         propertyCollectionName
@@ -205,7 +205,7 @@ export default gql`
         count
       }
     }
-    taxPropertiesByCategoriesFunction(categories: $exportCategories)
+    taxPropertiesByTaxonomiesFunction(taxonomy_names: $exportTaxonomies)
       @include(if: $queryExportCategories) {
       nodes {
         taxonomyName
