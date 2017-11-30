@@ -96,7 +96,6 @@ const Categories = ({
   onCheckTaxonomy: () => void,
 }) => {
   const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
-  console.log('taxOfCat:', taxOfCat)
   const { exportCategories } = exportCategoriesData
   const { exportTaxonomies } = exportTaxonomiesData
   const { loading } = data

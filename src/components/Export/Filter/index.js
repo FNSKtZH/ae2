@@ -87,10 +87,10 @@ const Filter = ({
     'propertyCollectionName'
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
-  /*console.log(
+  console.log(
     'Filter: pcoPropertiesByPropertyCollection:',
     pcoPropertiesByPropertyCollection
-  )*/
+  )
   const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
@@ -102,10 +102,10 @@ const Filter = ({
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   //console.log('Filter: pcoPropertiesFields:', pcoPropertiesFields)
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
-  /*console.log(
+  console.log(
     'Filter: rcoPropertiesByPropertyCollection:',
     rcoPropertiesByPropertyCollection
-  )*/
+  )
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
