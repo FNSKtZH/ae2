@@ -13,11 +13,11 @@ import Categories from './Categories'
 import Properties from './Properties'
 import Filter from './Filter'
 import Preview from './Preview'
-import exportCategoriesGql from '../../modules/exportCategoriesGql'
+import exportCategoriesData from '../../modules/exportCategoriesData'
 import exportTaxonomiesData from '../../modules/exportTaxonomiesData'
 import exportPcoPropertiesGql from '../../modules/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
-import exportTaxPropertiesGql from '../../modules/exportTaxPropertiesGql'
+import exportTaxPropertiesData from '../../modules/exportTaxPropertiesData'
 import exportTaxFiltersGql from '../../modules/exportTaxFiltersGql'
 import exportPcoFiltersGql from '../../modules/exportPcoFiltersGql'
 import exportRcoFiltersGql from '../../modules/exportRcoFiltersGql'
@@ -43,12 +43,6 @@ const StyledH3 = styled.h3`
 `
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)
-const exportCategoriesData = graphql(exportCategoriesGql, {
-  name: 'exportCategoriesData',
-})
-const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
-  name: 'exportTaxPropertiesData',
-})
 const exportTaxFiltersData = graphql(exportTaxFiltersGql, {
   name: 'exportTaxFiltersData',
 })
