@@ -16,6 +16,7 @@ import exportTaxonomiesMutation from '../../../modules/exportTaxonomiesMutation'
 import exportTaxonomiesGql from '../../../modules/exportTaxonomiesGql'
 import propsByTaxData from '../../../modules/propsByTaxData'
 import allCategoriesData from '../../../modules/allCategoriesData'
+import taxonomiesOfCategoriesData from '../../../modules/taxonomiesOfCategoriesData'
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -54,6 +55,7 @@ const enhance = compose(
   exportCategoriesData,
   propsByTaxData,
   allCategoriesData,
+  taxonomiesOfCategoriesData,
   withHandlers({
     onCheckCategory: ({ client, exportCategoriesData }) => (
       event,
@@ -88,7 +90,7 @@ const enhance = compose(
 
 const Categories = ({
   data,
-  taxOfCat,
+  taxonomiesOfCategoriesData,
   exportCategoriesData,
   exportTaxonomiesData,
   allCategoriesData,
@@ -96,7 +98,7 @@ const Categories = ({
   onCheckTaxonomy,
 }: {
   data: Object,
-  taxOfCat: Array<Object>,
+  taxonomiesOfCategoriesData: Array<Object>,
   exportCategoriesData: Object,
   exportTaxonomiesData: Object,
   allCategoriesData: Object,
@@ -128,6 +130,11 @@ const Categories = ({
     marginBottom: '10px',
     marginTop: '10px',
   }
+  const taxOfCat = get(
+    taxonomiesOfCategoriesData,
+    'taxonomiesOfCategoriesFunction.nodes',
+    []
+  )
 
   return (
     <Container>

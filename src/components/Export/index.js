@@ -218,7 +218,6 @@ const Export = ({
   message: String,
 }) => {
   const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
-  const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
 
   return (
     <Container>
@@ -231,7 +230,7 @@ const Export = ({
           titleStyle={level1CardTitleStyle}
         />
         <Level1CardText expandable={true}>
-          <Categories taxOfCat={taxOfCat} exportTaxonomies={exportTaxonomies} />
+          <Categories exportTaxonomies={exportTaxonomies} />
         </Level1CardText>
       </Level1Card>
       <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>

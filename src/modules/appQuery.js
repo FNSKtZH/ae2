@@ -30,15 +30,6 @@ export default gql`
     $existsTreeFilterId: Boolean!
     $treeFilterText: String!
   ) {
-    # TODO: move this to Export
-    taxonomiesOfCategoriesFunction {
-      totalCount
-      nodes {
-        categoryName
-        taxonomyName
-        objectCount
-      }
-    }
     allPropertyCollections @include(if: $notExistsLevel2Pc) {
       totalCount
     }
@@ -145,12 +136,6 @@ export default gql`
       }
     }
     filterSuggestionsTO: objectByObjectName(objectName: $treeFilterText) {
-      nodes {
-        id
-        name
-      }
-    }
-    allCategories {
       nodes {
         id
         name
