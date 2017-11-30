@@ -17,11 +17,11 @@ const Container = styled.div`
 
 const Filter = ({
   data,
-  exportCategoriesData,
+  exportTaxonomiesData,
   exportCombineTaxonomiesData,
 }: {
   data: Object,
-  exportCategoriesData: Object,
+  exportTaxonomiesData: Object,
   exportCombineTaxonomiesData: Object,
 }) => {
   return (

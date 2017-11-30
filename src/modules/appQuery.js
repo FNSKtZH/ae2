@@ -30,7 +30,7 @@ export default gql`
     $existsTreeFilterId: Boolean!
     $treeFilterText: String!
     $queryGroups: Boolean!
-    $queryExportCategories: Boolean!
+    $queryExportTaxonomies: Boolean!
     $exportTaxonomies: [String]
   ) {
     # somehow this alters behaviour
@@ -187,7 +187,7 @@ export default gql`
       }
     }
     pcoPropertiesByTaxonomiesFunction(taxonomy_names: $exportTaxonomies)
-      @include(if: $queryExportCategories) {
+      @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
         propertyName
@@ -196,7 +196,7 @@ export default gql`
       }
     }
     rcoPropertiesByTaxonomiesFunction(taxonomy_names: $exportTaxonomies)
-      @include(if: $queryExportCategories) {
+      @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
         relationType
@@ -206,7 +206,7 @@ export default gql`
       }
     }
     taxPropertiesByTaxonomiesFunction(taxonomy_names: $exportTaxonomies)
-      @include(if: $queryExportCategories) {
+      @include(if: $queryExportTaxonomies) {
       nodes {
         taxonomyName
         propertyName

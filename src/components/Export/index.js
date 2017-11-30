@@ -43,8 +43,8 @@ const StyledH3 = styled.h3`
 `
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)
-const exportCategoriesData = graphql(exportCategoriesGql, {
-  name: 'exportCategoriesData',
+const exportTaxonomiesData = graphql(exportCategoriesGql, {
+  name: 'exportTaxonomiesData',
 })
 const exportTaxonomiesData = graphql(exportTaxonomiesGql, {
   name: 'exportTaxonomiesData',
@@ -69,7 +69,7 @@ const exportRcoFiltersData = graphql(exportRcoFiltersGql, {
 })
 
 const enhance = compose(
-  exportCategoriesData,
+  exportTaxonomiesData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportPcoPropertiesData,
@@ -93,7 +93,7 @@ const enhance = compose(
   }),
   withHandlers({
     onToggleGroups: ({
-      exportCategoriesData,
+      exportTaxonomiesData,
       groupsExpanded,
       setGroupsExpanded,
       setTaxonomiesExpanded,
@@ -109,7 +109,7 @@ const enhance = compose(
       setExportExpanded(false)
     },
     onToggleTaxonomies: ({
-      exportCategoriesData,
+      exportTaxonomiesData,
       exportTaxonomiesData,
       taxonomiesExpanded,
       setGroupsExpanded,
@@ -119,7 +119,7 @@ const enhance = compose(
       setExportExpanded,
       onSetMessage,
     }) => () => {
-      const { exportTaxonomies } = exportCategoriesData
+      const { exportTaxonomies } = exportTaxonomiesData
       if (!taxonomiesExpanded && exportTaxonomies.length > 0) {
         setTaxonomiesExpanded(true)
         // close all others
@@ -156,7 +156,7 @@ const enhance = compose(
       }
     },
     onToggleProperties: ({
-      exportCategoriesData,
+      exportTaxonomiesData,
       propertiesExpanded,
       setGroupsExpanded,
       setTaxonomiesExpanded,
@@ -165,7 +165,7 @@ const enhance = compose(
       setExportExpanded,
       onSetMessage,
     }) => () => {
-      const { exportTaxonomies } = exportCategoriesData
+      const { exportTaxonomies } = exportTaxonomiesData
       if (!propertiesExpanded && exportTaxonomies.length > 0) {
         setPropertiesExpanded(true)
         // close all others
@@ -179,7 +179,7 @@ const enhance = compose(
       }
     },
     onToggleExport: ({
-      exportCategoriesData,
+      exportTaxonomiesData,
       exportTaxPropertiesData,
       exportPcoPropertiesData,
       exportRcoPropertiesData,
@@ -191,7 +191,7 @@ const enhance = compose(
       setExportExpanded,
       onSetMessage,
     }) => () => {
-      const { exportTaxonomies } = exportCategoriesData
+      const { exportTaxonomies } = exportTaxonomiesData
       const { exportTaxProperties } = exportTaxPropertiesData
       const { exportPcoProperties } = exportPcoPropertiesData
       const { exportRcoProperties } = exportRcoPropertiesData
@@ -221,7 +221,7 @@ const enhance = compose(
 
 const Export = ({
   data,
-  exportCategoriesData,
+  exportTaxonomiesData,
   exportTaxonomiesData,
   groupsExpanded,
   taxonomiesExpanded,
@@ -236,7 +236,7 @@ const Export = ({
   message,
 }: {
   data: Object,
-  exportCategoriesData: Object,
+  exportTaxonomiesData: Object,
   exportTaxonomiesData: Object,
   groupsExpanded: Boolean,
   taxonomiesExpanded: Boolean,

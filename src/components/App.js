@@ -34,23 +34,23 @@ const activeNodeArrayData = graphql(activeNodeArrayGql, {
 const treeFilterData = graphql(treeFilterGql, {
   name: 'treeFilterData',
 })
-const exportCategoriesData = graphql(exportCategoriesGql, {
-  name: 'exportCategoriesData',
+const exportTaxonomiesData = graphql(exportCategoriesGql, {
+  name: 'exportTaxonomiesData',
 })
 const appData = graphql(appQuery, {
   options: ({
     activeNodeArrayData,
     treeFilterData,
-    exportCategoriesData,
+    exportTaxonomiesData,
   }: {
     activeNodeArrayData: Object,
     treeFilterData: Object,
-    exportCategoriesData: Object,
+    exportTaxonomiesData: Object,
   }) => ({
     variables: variablesFromStore({
       activeNodeArrayData,
       treeFilterData,
-      exportCategoriesData,
+      exportTaxonomiesData,
     }),
     name: 'appData',
   }),
@@ -60,7 +60,7 @@ const enhance = compose(
   withApollo,
   activeNodeArrayData,
   treeFilterData,
-  exportCategoriesData,
+  exportTaxonomiesData,
   appData
 )
 

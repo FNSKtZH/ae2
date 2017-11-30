@@ -23,7 +23,7 @@ query AppQueryQuery(
   $existsTreeFilterId: Boolean!
   $treeFilterText: String!
   $queryGroups: Boolean!
-  $queryExportCategories: Boolean!
+  $queryExportTaxonomies: Boolean!
   $exportTaxonomies: [String]
 ) {
   allCategories {
@@ -142,7 +142,7 @@ query AppQueryQuery(
     }
   }
   pcoPropertiesByTaxonomiesFunction(categories: $exportTaxonomies)
-    @include(if: $queryExportCategories) {
+    @include(if: $queryExportTaxonomies) {
     nodes {
       propertyCollectionName
       propertyName

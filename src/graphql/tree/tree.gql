@@ -1,4 +1,4 @@
-query AppQueryQuery($existsLevel2Pc: Boolean!, $notExistsLevel2Pc: Boolean!, $existsLevel2Taxonomy: Boolean!, $existsLevel3: Boolean!, $level3Taxonomy: String!, $existsLevel4: Boolean!, $level4Taxonomy: Uuid!, $level4TaxonomyPossibleNull: Uuid, $existsLevel5: Boolean!, $level5Taxonomy: Uuid!, $existsLevel6: Boolean!, $level6Taxonomy: Uuid!, $existsLevel7: Boolean!, $level7Taxonomy: Uuid!, $existsLevel8: Boolean!, $level8Taxonomy: Uuid!, $existsLevel9: Boolean!, $level9Taxonomy: Uuid!, $existsLevel10: Boolean!, $level10Taxonomy: Uuid!, $treeFilterId: Uuid!, $existsTreeFilterId: Boolean!, $treeFilterText: String!, $queryGroups: Boolean!, $queryExportCategories: Boolean!, $exportTaxonomies: [String]) {
+query AppQueryQuery($existsLevel2Pc: Boolean!, $notExistsLevel2Pc: Boolean!, $existsLevel2Taxonomy: Boolean!, $existsLevel3: Boolean!, $level3Taxonomy: String!, $existsLevel4: Boolean!, $level4Taxonomy: Uuid!, $level4TaxonomyPossibleNull: Uuid, $existsLevel5: Boolean!, $level5Taxonomy: Uuid!, $existsLevel6: Boolean!, $level6Taxonomy: Uuid!, $existsLevel7: Boolean!, $level7Taxonomy: Uuid!, $existsLevel8: Boolean!, $level8Taxonomy: Uuid!, $existsLevel9: Boolean!, $level9Taxonomy: Uuid!, $existsLevel10: Boolean!, $level10Taxonomy: Uuid!, $treeFilterId: Uuid!, $existsTreeFilterId: Boolean!, $treeFilterText: String!, $queryGroups: Boolean!, $queryExportTaxonomies: Boolean!, $exportTaxonomies: [String]) {
   allCategories {
     totalCount
   }
@@ -107,7 +107,7 @@ query AppQueryQuery($existsLevel2Pc: Boolean!, $notExistsLevel2Pc: Boolean!, $ex
       name
     }
   }
-  pcoPropertiesByTaxonomiesFunction(categories: $exportTaxonomies) @include(if: $queryExportCategories) {
+  pcoPropertiesByTaxonomiesFunction(categories: $exportTaxonomies) @include(if: $queryExportTaxonomies) {
     nodes {
       propertyCollectionName
       propertyName
@@ -154,7 +154,7 @@ fragment ObjektLevel5AndUp on Object {
   "level9Taxonomy":"99999999-9999-9999-9999-999999999999",
   "level10Taxonomy":"99999999-9999-9999-9999-999999999999",
   "notExistsLevel2Pc":true,
-  "queryExportCategories":false,
+  "queryExportTaxonomies":false,
   "queryGroups":false,
   "treeFilterId":"14bd613c-1f03-4907-b7af-7b590fdca42c",
   "treeFilterText":"Canis lupus Linnaeus, 1758 (Wolf)"
@@ -186,7 +186,7 @@ fragment ObjektLevel5AndUp on Object {
   "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
   "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
   "notExistsLevel2Pc": true,
-  "queryExportCategories": false,
+  "queryExportTaxonomies": false,
   "queryGroups": false,
   "treeFilterText": "Achillea moschata",
   "urlFromTOId": "99999999-9999-9999-9999-999999999999"
@@ -217,7 +217,7 @@ fragment ObjektLevel5AndUp on Object {
   "level9Taxonomy": "99999999-9999-9999-9999-999999999999",
   "level10Taxonomy": "99999999-9999-9999-9999-999999999999",
   "notExistsLevel2Pc": true,
-  "queryExportCategories": false,
+  "queryExportTaxonomies": false,
   "queryGroups": false,
   "treeFilterText": "ZZZZ",
   "urlFromTOId": "99999999-9999-9999-9999-999999999999"

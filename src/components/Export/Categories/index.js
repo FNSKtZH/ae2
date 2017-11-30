@@ -39,8 +39,8 @@ const PropertyTextDiv = styled.div`
   padding-bottom: 5px;
 `
 
-const exportCategoriesData = graphql(exportCategoriesGql, {
-  name: 'exportCategoriesData',
+const exportTaxonomiesData = graphql(exportCategoriesGql, {
+  name: 'exportTaxonomiesData',
 })
 const exportTaxonomiesData = graphql(exportTaxonomiesGql, {
   name: 'exportTaxonomiesData',
@@ -48,14 +48,14 @@ const exportTaxonomiesData = graphql(exportTaxonomiesGql, {
 
 const enhance = compose(
   withApollo,
-  exportCategoriesData,
+  exportTaxonomiesData,
   exportTaxonomiesData,
   withHandlers({
-    onCheckCategory: ({ client, exportCategoriesData }) => (
+    onCheckCategory: ({ client, exportTaxonomiesData }) => (
       event,
       isChecked
     ) => {
-      const { exportTaxonomies } = exportCategoriesData
+      const { exportTaxonomies } = exportTaxonomiesData
       const { name } = event.target
       const categories = isChecked
         ? [...exportTaxonomies, name]
@@ -84,20 +84,20 @@ const enhance = compose(
 
 const Categories = ({
   data,
-  exportCategoriesData,
+  exportTaxonomiesData,
   exportTaxonomiesData,
   onCheckCategory,
   onCheckTaxonomy,
 }: {
   data: Object,
-  exportCategoriesData: Object,
+  exportTaxonomiesData: Object,
   exportTaxonomiesData: Object,
   onCheckCategory: () => void,
   onCheckTaxonomy: () => void,
 }) => {
   const taxOfCat = get(data, 'taxonomiesOfCategoriesFunction.nodes', [])
   console.log('taxOfCat:', taxOfCat)
-  const { exportTaxonomies } = exportCategoriesData
+  const { exportTaxonomies } = exportTaxonomiesData
   const { exportTaxonomies } = exportTaxonomiesData
   const { loading } = data
   const categories = get(data, 'allCategories.nodes', []).map(c => c.name)

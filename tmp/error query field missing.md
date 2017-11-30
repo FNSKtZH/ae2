@@ -30,7 +30,7 @@ query AppQueryQuery(
   $existsTreeFilterId: Boolean!
   $treeFilterText: String!
   $queryGroups: Boolean!
-  $queryExportCategories: Boolean!
+  $queryExportTaxonomies: Boolean!
   $exportTaxonomies: [String]
 ) {
   allCategories {
@@ -149,7 +149,7 @@ query AppQueryQuery(
     }
   }
   pcoPropertiesByTaxonomiesFunction(categories: $exportTaxonomies)
-    @include(if: $queryExportCategories) {
+    @include(if: $queryExportTaxonomies) {
     nodes {
       propertyCollectionName
       propertyName
@@ -198,7 +198,7 @@ The query gets these variables passed in:
   "level9Taxonomy":"99999999-9999-9999-9999-999999999999",
   "level10Taxonomy":"99999999-9999-9999-9999-999999999999",
   "notExistsLevel2Pc":true,
-  "queryExportCategories":false,
+  "queryExportTaxonomies":false,
   "queryGroups":false,
   "treeFilterId":"14bd613c-1f03-4907-b7af-7b590fdca42c",
   "treeFilterText":"Canis lupus Linnaeus, 1758 (Wolf)"
@@ -393,7 +393,7 @@ export default gql`
     $existsTreeFilterId: Boolean!
     $treeFilterText: String!
     $queryGroups: Boolean!
-    $queryExportCategories: Boolean!
+    $queryExportTaxonomies: Boolean!
     $exportTaxonomies: [String]
   ) {
     allCategories {
@@ -517,7 +517,7 @@ export default gql`
       }
     }
     pcoPropertiesByTaxonomiesFunction(categories: $exportTaxonomies)
-      @include(if: $queryExportCategories) {
+      @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
         propertyName

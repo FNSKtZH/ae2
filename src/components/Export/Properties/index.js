@@ -71,12 +71,12 @@ const level2CardTitleStyle = { fontWeight: 'bold' }
 
 const Properties = ({
   data,
-  exportCategoriesData,
+  exportTaxonomiesData,
   exportCombineTaxonomiesData,
 }: //width,
 {
   data: Object,
-  exportCategoriesData: Object,
+  exportTaxonomiesData: Object,
   exportCombineTaxonomiesData: Object,
   //width: number,
 }) => {

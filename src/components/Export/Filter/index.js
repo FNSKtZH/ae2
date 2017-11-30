@@ -70,12 +70,12 @@ const level2CardTitleStyle = { fontWeight: 'bold' }
 
 const Filter = ({
   data,
-  exportCategoriesData,
+  exportTaxonomiesData,
   exportCombineTaxonomiesData,
 }: //width,
 {
   data: Object,
-  exportCategoriesData: Object,
+  exportTaxonomiesData: Object,
   exportCombineTaxonomiesData: Object,
   //width: number,
 }) => {

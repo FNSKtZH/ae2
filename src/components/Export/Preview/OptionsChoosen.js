@@ -28,8 +28,8 @@ const FilterValueSpan = styled.span`
   border-radius: 3px;
 `
 
-const exportCategoriesData = graphql(exportCategoriesGql, {
-  name: 'exportCategoriesData',
+const exportTaxonomiesData = graphql(exportCategoriesGql, {
+  name: 'exportTaxonomiesData',
 })
 const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
   name: 'exportTaxPropertiesData',
@@ -51,7 +51,7 @@ const exportRcoFiltersData = graphql(exportRcoFiltersGql, {
 })
 
 const enhance = compose(
-  exportCategoriesData,
+  exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
   exportPcoPropertiesData,
@@ -61,7 +61,7 @@ const enhance = compose(
 )
 
 const OptionsChoosen = ({
-  exportCategoriesData,
+  exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
   exportPcoPropertiesData,
@@ -69,7 +69,7 @@ const OptionsChoosen = ({
   exportRcoPropertiesData,
   exportRcoFiltersData,
 }: {
-  exportCategoriesData: Object,
+  exportTaxonomiesData: Object,
   exportTaxPropertiesData: Object,
   exportTaxFiltersData: Object,
   exportPcoPropertiesData: Object,
@@ -77,7 +77,7 @@ const OptionsChoosen = ({
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
 }) => {
-  const { exportTaxonomies } = exportCategoriesData
+  const { exportTaxonomies } = exportTaxonomiesData
   const { exportTaxProperties } = exportTaxPropertiesData
   const { exportTaxFilters } = exportTaxFiltersData
   const { exportPcoProperties } = exportPcoPropertiesData
