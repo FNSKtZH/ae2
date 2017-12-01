@@ -1,16 +1,11 @@
 // @flow
 import React from 'react'
-import { graphql } from 'react-apollo'
 import compose from 'recompose/compose'
 
 import Objekt from './Objekt'
 import PropertyCollection from './PropertyCollection'
-import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import activeNodeArrayData from '../modules/activeNodeArrayData'
 import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNodeArray'
-
-const activeNodeArrayData = graphql(activeNodeArrayGql, {
-  name: 'activeNodeArrayData',
-})
 
 const enhance = compose(activeNodeArrayData)
 
@@ -18,13 +13,12 @@ const DataType = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
   const { activeNodeArray } = activeNodeArrayData
   const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const primaryUrl = activeNodeArray[0]
+  const showObjekt = primaryUrl === 'Taxonomien' && activeObjectId
+  const showPC = primaryUrl === 'Eigenschaften-Sammlungen'
 
-  return (
-    <div>
-      {primaryUrl === 'Taxonomien' && activeObjectId && <Objekt />}
-      {primaryUrl === 'Eigenschaften-Sammlungen' && <PropertyCollection />}
-    </div>
-  )
+  if (showObjekt) return <Objekt />
+  if (showPC) return <PropertyCollection />
+  return null
 }
 
 export default enhance(DataType)
