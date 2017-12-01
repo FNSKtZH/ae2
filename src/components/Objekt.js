@@ -61,7 +61,7 @@ const Objekt = ({ activeObjectData }: { activeObjectData: Object }) => {
     <Container>
       <FirstTitle>
         Taxonomie
-        <TitleSpan>{` (${activeObject.name})`}</TitleSpan>
+        <TitleSpan>{`: ${activeObject.name}`}</TitleSpan>
       </FirstTitle>
       <TaxonomyObject objekt={activeObject} />
       {synonymObjects.length > 0 && (
