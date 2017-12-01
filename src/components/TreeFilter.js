@@ -4,11 +4,13 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import Autosuggest from 'react-autosuggest'
-import { withApollo, graphql } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
+import get from 'lodash/get'
 
 import treeFilterMutation from '../modules/treeFilterMutation'
-import treeFilterGql from '../modules/treeFilterGql'
+import treeFilterData from '../modules/treeFilterData'
+import filterSuggestionsData from '../modules/filterSuggestionsData'
 
 const Container = styled.div`
   padding: 5px 16px 0 13px;
@@ -72,13 +74,10 @@ const Container = styled.div`
   }
 `
 
-const treeFilterData = graphql(treeFilterGql, {
-  name: 'treeFilterData',
-})
-
 const enhance = compose(
   withApollo,
   treeFilterData,
+  filterSuggestionsData,
   withHandlers({
     onChange: ({ client, treeFilterData }) => (event, { newValue }) => {
       const { id } = treeFilterData.treeFilter
@@ -94,17 +93,19 @@ const TreeFilter = ({
   client,
   appData,
   treeFilterData,
+  filterSuggestionsData,
   onChange,
   dimensions,
 }: {
   client: Object,
   appData: Object,
   treeFilterData: Object,
+  filterSuggestionsData: Object,
   onChange: () => {},
   dimensions: Object,
 }) => {
-  const { text } = treeFilterData.treeFilter
-  const { filterSuggestionsTO, filterSuggestionsPC } = appData
+  const text = get(treeFilterData, 'treeFilter.text', '')
+  const { filterSuggestionsTO, filterSuggestionsPC } = filterSuggestionsData
   const inputProps = {
     value: text || '',
     onChange,

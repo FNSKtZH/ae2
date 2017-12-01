@@ -30,16 +30,9 @@ const Container = styled.div`
 `
 
 const appData = graphql(appQuery, {
-  options: ({
-    activeNodeArrayData,
-    treeFilterData,
-  }: {
-    activeNodeArrayData: Object,
-    treeFilterData: Object,
-  }) => ({
+  options: ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => ({
     variables: variablesFromStore({
       activeNodeArrayData,
-      treeFilterData,
     }),
   }),
   name: 'appData',

@@ -1,14 +1,6 @@
 // @flow
-export default ({
-  activeNodeArrayData,
-  treeFilterData,
-}: {
-  activeNodeArrayData: Object,
-  treeFilterData: Object,
-}) => {
+export default ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
   const activeNodeArray = activeNodeArrayData.activeNodeArray || []
-  const treeFilterText =
-    (treeFilterData.treeFilter && treeFilterData.treeFilter.text) || 'ZZZZ'
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&
@@ -72,6 +64,5 @@ export default ({
     level9Taxonomy,
     existsLevel10,
     level10Taxonomy,
-    treeFilterText,
   }
 }

@@ -26,7 +26,6 @@ export default gql`
     $level9Taxonomy: Uuid!
     $existsLevel10: Boolean!
     $level10Taxonomy: Uuid!
-    $treeFilterText: String!
   ) {
     allPropertyCollections @include(if: $notExistsLevel2Pc) {
       totalCount
@@ -94,20 +93,6 @@ export default gql`
     level10Taxonomy: objectById(id: $level10Taxonomy)
       @include(if: $existsLevel10) {
       ...ObjektLevel5AndUp
-    }
-    filterSuggestionsPC: propertyCollectionByPropertyName(
-      propertyName: $treeFilterText
-    ) {
-      nodes {
-        id
-        name
-      }
-    }
-    filterSuggestionsTO: objectByObjectName(objectName: $treeFilterText) {
-      nodes {
-        id
-        name
-      }
     }
   }
   ${TreeRow.fragments.objektLevel5AndUp}
