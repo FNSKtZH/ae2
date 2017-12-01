@@ -5,7 +5,7 @@ import get from 'lodash/get'
 
 export default graphql(
   gql`
-    query propsByTaxDataQuery($treeFilterText: String!) {
+    query filterSuggestionsQuery($treeFilterText: String!) {
       filterSuggestionsPC: propertyCollectionByPropertyName(
         propertyName: $treeFilterText
       ) {

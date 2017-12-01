@@ -1,9 +1,8 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { graphql, withApollo } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
-import Snackbar from 'material-ui/Snackbar'
 import app from 'ampersand-app'
 import get from 'lodash/get'
 
@@ -18,8 +17,6 @@ import FourOhFour from './FourOhFour'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
 import treeFilterData from '../modules/treeFilterData'
 import objectUrlData from '../modules/objectUrlData'
-import appQuery from '../modules/appQuery'
-import variablesFromStore from '../modules/variablesFromStore'
 import getUrlForObject from '../modules/getUrlForObject'
 import treeFilterMutation from '../modules/treeFilterMutation'
 
@@ -29,44 +26,27 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const appData = graphql(appQuery, {
-  options: ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => ({
-    variables: variablesFromStore({
-      activeNodeArrayData,
-    }),
-  }),
-  name: 'appData',
-})
-
 const enhance = compose(
   withApollo,
   activeNodeArrayData,
   treeFilterData,
-  appData,
   objectUrlData
 )
 
 const App = ({
   client,
-  appData,
   activeNodeArrayData,
   treeFilterData,
   objectUrlData,
 }: {
   client: Object,
-  appData: Object,
   activeNodeArrayData: Object,
   treeFilterData: Object,
   objectUrlData: Object,
 }) => {
-  console.log('App: appData:', appData)
-  const { error, loading } = appData
   const urlObject = get(objectUrlData, 'objectById', {})
   console.log('App: objectUrlData from objectUrlData:', objectUrlData)
   console.log('App: urlObject from objectUrlData:', urlObject)
-  // log error out to see in the log when it happens
-  // relative to other logs
-  if (error) console.log('App: error:', error)
   const activeNodeArray = activeNodeArrayData.activeNodeArray || []
 
   const url0 =
@@ -122,17 +102,7 @@ const App = ({
   return (
     <Container>
       <AppBar />
-      <Snackbar
-        open={loading}
-        message="lade Daten..."
-        bodyStyle={{
-          maxWidth: 100,
-          minWidth: 100,
-          backgroundColor: 'rgb(217, 78, 0)',
-        }}
-      />
-      {error && <div> {error.message} </div>}
-      {showData && <Data data={appData} />}
+      {showData && <Data />}
       {showExport && <Export />}
       {showImportPc && <ImportPc />}
       {showImportRc && <ImportRc />}

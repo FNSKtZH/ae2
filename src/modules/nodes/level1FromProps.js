@@ -2,14 +2,14 @@
 import get from 'lodash/get'
 
 export default ({
-  data,
+  treeData,
   allCategoriesData,
 }: {
-  data: Object,
+  treeData: Object,
   allCategoriesData: Object,
 }): Array<Object> => {
-  if (!data) return []
-  const pcCount = get(data, 'allPropertyCollections.totalCount', 0)
+  if (!treeData) return []
+  const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
   const taxCount = get(allCategoriesData, 'allCategories.totalCount', 0)
 
   return [

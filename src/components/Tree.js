@@ -14,6 +14,7 @@ import TreeFilter from './TreeFilter'
 import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
 import activeNodeArrayGql from '../modules/activeNodeArrayGql'
 import allCategoriesData from '../modules/allCategoriesData'
+import treeData from '../modules/treeData'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -65,23 +66,24 @@ const noRowsRenderer = nodes => (
   </Container>
 )
 
-const enhance = compose(activeNodeArrayData, allCategoriesData)
+const enhance = compose(activeNodeArrayData, allCategoriesData, treeData)
 
 const Tree = ({
-  data,
   activeNodeArrayData,
   allCategoriesData,
+  treeData,
   // dimensions is passed down from ReflexElement
   dimensions,
 }: {
-  data: Object,
   activeNodeArrayData: Object,
   allCategoriesData: Object,
+  treeData: Object,
   dimensions: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
+  const { error } = treeData
   const nodes = buildNodesFromAppQuery({
-    data,
+    treeData,
     allCategoriesData,
     activeNodeArray,
   })
@@ -91,10 +93,13 @@ const Tree = ({
   const activeNodeIndex = findIndex(nodes, node =>
     isEqual(node.url, activeNodeArray)
   )
+  if (error) {
+    return <div> {error.message} </div>
+  }
 
   return (
     <Container>
-      <TreeFilter appData={data} dimensions={dimensions} />
+      <TreeFilter appData={treeData} dimensions={dimensions} />
       <AutoSizerContainer>
         <AutoSizer>
           {({ height, width }) => (

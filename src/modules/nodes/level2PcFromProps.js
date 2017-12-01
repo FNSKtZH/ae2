@@ -1,12 +1,12 @@
 // @flow
 import get from 'lodash/get'
 
-export default ({ data }: { data: Object }): Array<Object> => {
-  if (!data) return []
-  if (!data.allPropertyCollections) return []
-  if (!data.allPropertyCollections.nodes) return []
+export default ({ treeData }: { treeData: Object }): Array<Object> => {
+  if (!treeData) return []
+  if (!treeData.allPropertyCollections) return []
+  if (!treeData.allPropertyCollections.nodes) return []
 
-  return data.allPropertyCollections.nodes.map(node => {
+  return treeData.allPropertyCollections.nodes.map(node => {
     const count = get(
       node,
       'propertyCollectionObjectsByPropertyCollectionId.totalCount',

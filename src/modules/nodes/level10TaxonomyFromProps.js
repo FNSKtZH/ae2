@@ -1,6 +1,6 @@
 // @flow
 export default ({
-  data,
+  treeData,
   activeLevel2TaxonomyName,
   activeLevel3TaxonomyName,
   activeLevel3TaxonomyId,
@@ -17,7 +17,7 @@ export default ({
   activeLevel9TaxonomyName,
   activeLevel9TaxonomyId,
 }: {
-  data: Object,
+  treeData: Object,
   activeLevel2TaxonomyName: ?String,
   activeLevel3TaxonomyName: ?String,
   activeLevel3TaxonomyId: ?String,
@@ -34,12 +34,12 @@ export default ({
   activeLevel9TaxonomyName: ?String,
   activeLevel9TaxonomyId: ?String,
 }): Array<Object> => {
-  if (!data) return []
-  if (!data.level10Taxonomy) return []
-  if (!data.level10Taxonomy.objectsByParentId) return []
-  if (!data.level10Taxonomy.objectsByParentId.nodes) return []
+  if (!treeData) return []
+  if (!treeData.level10Taxonomy) return []
+  if (!treeData.level10Taxonomy.objectsByParentId) return []
+  if (!treeData.level10Taxonomy.objectsByParentId.nodes) return []
 
-  return data.level10Taxonomy.objectsByParentId.nodes.map(node => {
+  return treeData.level10Taxonomy.objectsByParentId.nodes.map(node => {
     const childrenCount =
       node.objectsByParentId && node.objectsByParentId.totalCount
         ? node.objectsByParentId.totalCount
