@@ -29,16 +29,16 @@
 ### Funktionale Ziele:
 
 1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaftensammlungen beschrieben werden kann. Das ermöglicht: 
-  * Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaftensammlungen
-  *	Alle Taxonomien bleiben langfristig erhalten
-  *	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
-  *	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
-  * Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaftensammlungen
+  - Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaftensammlungen
+  -	Alle Taxonomien bleiben langfristig erhalten
+  -	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
+  -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
+  - Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaftensammlungen
 2. Beziehungssammlungen werden in Eigenschaftensammlungen integriert: Es sind einfach Eigenschaftensammlungen mit Beziehungen
-  * Ist einfacher zu verstehen
-  * Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
-  * Vereinfacht die Datenstruktur
-  * Vereinfacht Exporte und Importe
+  - Ist einfacher zu verstehen
+  - Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
+  - Vereinfacht die Datenstruktur
+  - Vereinfacht Exporte und Importe
 3. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
 
 ### Diese Technologien werden verwendet:
