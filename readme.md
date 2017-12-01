@@ -28,19 +28,17 @@
 
 ### Funktionale Ziele:
 
-1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaftensammlungen beschrieben werden kann. Das ermöglicht:
-  *	Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaftensammlungen
+1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaftensammlungen beschrieben werden kann. Das ermöglicht: 
+  * Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaftensammlungen
   *	Alle Taxonomien bleiben langfristig erhalten
   *	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
   *	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
-  *	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaftensammlungen
-
+  * Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaftensammlungen
 2. Beziehungssammlungen werden in Eigenschaftensammlungen integriert: Es sind einfach Eigenschaftensammlungen mit Beziehungen
   * Ist einfacher zu verstehen
   * Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
   * Vereinfacht die Datenstruktur
-  * Vereinfacht Exporte und Importe
-
+  * Vereinfacht Exporte und Importe
 3. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
 
 ### Diese Technologien werden verwendet:
@@ -51,10 +49,9 @@
     - Einfachere Verwaltung,
     - Datenauswertung
     - und Gewährleistung der Datenintegrität
-
 - [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [Apollo](https://www.apollodata.com)
-  - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
-  - Weniger Code = weniger Fehler<br/>
+  - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
+  - Weniger Code = weniger Fehler<br/>
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört<br/>
   - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQl und Apollo kümmern sich um die Bereitstellung
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
@@ -67,7 +64,7 @@
 - [prettier](https://github.com/prettier/prettier) formatiert den Code. Der Entwickler kann sich auf die Funktionalität konzentrieren
 - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser - jede Änderung ist direkt sichtbar
 - [React](https://facebook.github.io/react/index.html)
-  - Die Benutzeroberfläche ist eine Funktion der anwendungsseitigen Daten
+  - Die Benutzeroberfläche ist eine Funktion der anwendungsseitigen Daten
   - Vereinfacht die Steuerung der Benutzeroberfläche
   - Die Benutzeroberfläche wird aus wiederverwertbaren und testbaren Komponenten aufgebaut
 
