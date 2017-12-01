@@ -50,9 +50,9 @@
      - Datenauswertung
      - und Gewährleistung der Datenintegrität
 - [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [Apollo](https://www.apollodata.com)<br/>
-  - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
-  - Weniger Code = weniger Fehler :-)
-  - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
+  - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!<br/>
+  - Weniger Code = weniger Fehler :-)<br/>
+  - Die Daten-Logik liegt in der Datenbank - wo sie hingehört<br/>
   - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQl und Apollo kümmern sich um die Bereitstellung
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
