@@ -10,7 +10,7 @@ import { graphql } from 'react-apollo'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
-import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import activeNodeArrayData from '../modules/activeNodeArrayData'
 import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNodeArray'
 
 const Container = styled.div`
@@ -18,9 +18,15 @@ const Container = styled.div`
   height: calc(100% - 48px);
   overflow: auto !important;
 `
-const Title = styled.h3`margin: 15px 0 -5px 0;`
-const TitleSpan = styled.span`font-weight: normal;`
-const FirstTitle = styled(Title)`margin: 5px 0 -5px 0;`
+const Title = styled.h3`
+  margin: 15px 0 -5px 0;
+`
+const TitleSpan = styled.span`
+  font-weight: normal;
+`
+const FirstTitle = styled(Title)`
+  margin: 5px 0 -5px 0;
+`
 
 const Objekt = ({ data }: { data: Object }) => {
   const { activeObject } = data
@@ -74,11 +80,9 @@ const Objekt = ({ data }: { data: Object }) => {
       {propertyCollectionObjects.length > 0 && (
         <Title>
           Eigenschaften
-          <TitleSpan
-          >{` (${propertyCollectionObjects.length} ${propertyCollectionObjects.length >
-          1
-            ? 'Sammlungen'
-            : 'Sammlung'})`}</TitleSpan>
+          <TitleSpan>{` (${propertyCollectionObjects.length} ${
+            propertyCollectionObjects.length > 1 ? 'Sammlungen' : 'Sammlung'
+          })`}</TitleSpan>
         </Title>
       )}
       {sortBy(propertyCollectionObjects, pCO =>
@@ -100,10 +104,11 @@ const Objekt = ({ data }: { data: Object }) => {
         <Title>
           Eigenschaften von Synonymen
           <TitleSpan>
-            {` (${propertyCollectionObjectsOfSynonyms.length} ${propertyCollectionObjectsOfSynonyms.length >
-            1
-              ? 'Sammlungen'
-              : 'Sammlung'})`}
+            {` (${propertyCollectionObjectsOfSynonyms.length} ${
+              propertyCollectionObjectsOfSynonyms.length > 1
+                ? 'Sammlungen'
+                : 'Sammlung'
+            })`}
           </TitleSpan>
         </Title>
       )}
@@ -340,9 +345,6 @@ const activeObjectQuery = gql`
     }
   }
 `
-const activeNodeArrayData = graphql(activeNodeArrayGql, {
-  name: 'activeNodeArrayData',
-})
 const objektData = graphql(activeObjectQuery, {
   options: ({ activeNodeArrayData }) => ({
     variables: {
