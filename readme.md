@@ -78,7 +78,9 @@
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
 
   - [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](/etc/dev.png?raw=true "Entwicklungsumgebung")
-  - [x] Layout und Navigation![Layout & Navigation](/etc/layout.png?raw=true "Layout & Navigation")
+  - [x] Layout und Navigation
+    - neu kann die Grenze zwischen Strukturbaum und Objekt stufenlos verschoben werden
+    ![Layout & Navigation](/etc/layout.png?raw=true "Layout & Navigation")
   - [x] Struktur- und Navigationsbaum
     - neu inklusive Gruppen, Taxonomien und Eigenschaftensammlungen
     ![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
