@@ -83,7 +83,8 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Suche:
     - neu auch nach Deutschen Namen möglich
     - neu nach allen Hierarchiestufen
-    - neu nach Objekten _und_ Eigenschaftensammlungen<br/>![Datenstruktur](/etc/suche.png?raw=true "Suche")
+    - neu nach Objekten _und_ Eigenschaftensammlungen
+    ![Datenstruktur](/etc/suche.png?raw=true "Suche")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Datenstruktur")
     - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaftensammlung](/etc/eigenschaftensammlung.png?raw=true "Eigenschaftensammlung")
     - [x] inklusive Synonymen<br/>
