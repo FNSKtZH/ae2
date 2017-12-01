@@ -29,16 +29,18 @@
 ### Funktionale Ziele:
 
 1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaftensammlungen beschrieben werden kann. Das ermöglicht:
-   -	Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaftensammlungen
-   -	Alle Taxonomien bleiben langfristig erhalten
-   -	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
-   -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
-   -	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaftensammlungen
+  *	Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaftensammlungen
+  *	Alle Taxonomien bleiben langfristig erhalten
+  *	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
+  *	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
+  *	Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaftensammlungen
+
 2. Beziehungssammlungen werden in Eigenschaftensammlungen integriert: Es sind einfach Eigenschaftensammlungen mit Beziehungen
-   - Ist einfacher zu verstehen
-   - Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
-   - Vereinfacht die Datenstruktur
-   - Vereinfacht Exporte und Importe
+  * Ist einfacher zu verstehen
+  * Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
+  * Vereinfacht die Datenstruktur
+  * Vereinfacht Exporte und Importe
+
 3. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
 
 ### Diese Technologien werden verwendet:
@@ -46,12 +48,13 @@
 - Als Datenbank [PostgreSQL](https://www.postgresql.org)
   - Benutzer können dank [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) weiterhin eigene Datenstrukturen importieren
   - Alle übrigen Datenstrukturen sind relational und ermöglichen damit:
-     - Einfachere Verwaltung,
-     - Datenauswertung
-     - und Gewährleistung der Datenintegrität
-- [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [Apollo](https://www.apollodata.com)<br/>
-  - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!<br/>
-  - Weniger Code = weniger Fehler :-)<br/>
+    - Einfachere Verwaltung,
+    - Datenauswertung
+    - und Gewährleistung der Datenintegrität
+
+- [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [Apollo](https://www.apollodata.com)
+  - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
+  - Weniger Code = weniger Fehler<br/>
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört<br/>
   - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQl und Apollo kümmern sich um die Bereitstellung
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
