@@ -6,7 +6,6 @@ import withHandlers from 'recompose/withHandlers'
 import { ContextMenuTrigger } from 'react-contextmenu'
 import FontIcon from 'material-ui/FontIcon'
 import isEqual from 'lodash/isEqual'
-import clone from 'lodash/clone'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 
