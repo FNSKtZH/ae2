@@ -14,7 +14,7 @@ import ImportRc from './ImportRc'
 import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
-import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import activeNodeArrayData from '../modules/activeNodeArrayData'
 import treeFilterGql from '../modules/treeFilterGql'
 import appQuery from '../modules/appQuery'
 import variablesFromStore from '../modules/variablesFromStore'
@@ -27,9 +27,6 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const activeNodeArrayData = graphql(activeNodeArrayGql, {
-  name: 'activeNodeArrayData',
-})
 const treeFilterData = graphql(treeFilterGql, {
   name: 'treeFilterData',
 })
@@ -78,6 +75,7 @@ const App = ({
   //console.log('App: appData:', appData)
   //console.log('App: data:', data)
   const { error, loading, objectUrlData } = data
+  console.log('App: objectUrlData from appQuery:', data.objectUrlData)
   // log error out to see in the log when it happens
   // relative to other logs
   if (error) console.log('App: error:', error)
