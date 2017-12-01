@@ -79,15 +79,16 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
 
   - [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](/etc/dev.png?raw=true "Entwicklungsumgebung")
   - [x] Layout und Navigation
-    ![Layout & Navigation](/etc/layout.png?raw=true "Layout & Navigation")
     - neu kann die Grenze zwischen Strukturbaum und Objekt stufenlos verschoben werden
-    
-  - [x] Struktur- und Navigationsbaum<br/>![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
+    ![Layout & Navigation](/etc/layout.png?raw=true "Layout & Navigation")
+  - [x] Struktur- und Navigationsbaum
     - neu inklusive Gruppen, Taxonomien und Eigenschaftensammlungen
-  - [x] Suche:<br/>![Datenstruktur](/etc/suche.png?raw=true "Suche")
+    ![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
+  - [x] Suche:
     - neu nach allen Gruppen und Taxonomien gleichzeitig
     - neu nach allen Hierarchiestufen (z.B. Familien, Gattungen)
     - neu auch nach Eigenschaftensammlungen gleichzeitig
+    ![Datenstruktur](/etc/suche.png?raw=true "Suche")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Datenstruktur")
     - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaftensammlung](/etc/eigenschaftensammlung.png?raw=true "Eigenschaftensammlung")
     - [x] inklusive Synonymen<br/>
