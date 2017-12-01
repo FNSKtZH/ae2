@@ -38,20 +38,13 @@ export default graphql(
     }
   `,
   {
-    options: ({ treeFilterData }: { treeFilterData: Object }) => {
-      const treeFilterId =
-        get(treeFilterData, 'treeFilter.id') ||
-        '99999999-9999-9999-9999-999999999999'
-      if (treeFilterId !== '99999999-9999-9999-9999-999999999999') {
-        console.log('objecturlData: treeFilterId:', treeFilterId)
-      }
-
-      return {
-        variables: {
-          treeFilterId,
-        },
-      }
-    },
+    options: ({ treeFilterData }: { treeFilterData: Object }) => ({
+      variables: {
+        treeFilterId:
+          get(treeFilterData, 'treeFilter.id') ||
+          '99999999-9999-9999-9999-999999999999',
+      },
+    }),
     name: 'objectUrlData',
   }
 )
