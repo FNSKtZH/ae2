@@ -69,7 +69,6 @@ const App = ({
   console.log('App: appData:', appData)
   const { error, loading } = appData
   const urlObject = get(objectUrlData, 'objectById', {})
-  console.log('App: objectUrlData from appQuery:', appData.objectUrlData)
   console.log('App: objectUrlData from objectUrlData:', objectUrlData)
   console.log('App: urlObject from objectUrlData:', urlObject)
   // log error out to see in the log when it happens
@@ -120,10 +119,12 @@ const App = ({
     //console.log('App: appData:', appData)
     const url = getUrlForObject(urlObject)
     app.history.push(`/${url.join('/')}`)
+    console.log('App: does next step (treeFilterMutation) cause error?')
     client.mutate({
       mutation: treeFilterMutation,
       variables: { id: null, text: treeFilterText },
     })
+    console.log('App: next step done')
   }
 
   return (
