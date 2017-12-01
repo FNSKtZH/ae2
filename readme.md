@@ -87,7 +87,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
   - [x] Suche:
     - neu nach allen Gruppen und Taxonomien gleichzeitig
     - neu nach allen Hierarchiestufen (z.B. Familien, Gattungen)
-    - neu auch nach Eigenschaftensammlungen gleichzeitig
+    - neu und gleichzeitig nach Eigenschaftensammlungen
     ![Datenstruktur](/etc/suche.png?raw=true "Suche")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Datenstruktur")
     - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaftensammlung](/etc/eigenschaftensammlung.png?raw=true "Eigenschaftensammlung")
