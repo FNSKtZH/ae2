@@ -5,13 +5,11 @@ import get from 'lodash/get'
 import compose from 'recompose/compose'
 import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
-import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNodeArray'
+import activeObjectData from '../modules/activeObjectData'
 
 const Container = styled.div`
   padding: 5px;
@@ -28,8 +26,10 @@ const FirstTitle = styled(Title)`
   margin: 5px 0 -5px 0;
 `
 
-const Objekt = ({ data }: { data: Object }) => {
-  const { activeObject } = data
+const enhance = compose(activeNodeArrayData, activeObjectData)
+
+const Objekt = ({ activeObjectData }: { activeObjectData: Object }) => {
+  const activeObject = get(activeObjectData, 'objectById')
   if (!activeObject) return <div />
   const propertyCollectionObjects = get(
     activeObject,
@@ -130,231 +130,5 @@ const Objekt = ({ data }: { data: Object }) => {
     </Container>
   )
 }
-
-const activeObjectQuery = gql`
-  query ObjectQuery($activeObjectId: Uuid!) {
-    activeObject: objectById(id: $activeObjectId) {
-      id
-      taxonomyId
-      parentId
-      name
-      properties
-      category
-      idOld
-      synonymsByObjectId {
-        totalCount
-        nodes {
-          objectId
-          objectIdSynonym
-          objectByObjectIdSynonym {
-            id
-            taxonomyId
-            parentId
-            name
-            properties
-            category
-            idOld
-            taxonomyByTaxonomyId {
-              id
-              name
-              description
-              links
-              lastUpdated
-              isCategoryStandard
-              importedBy
-              termsOfUse
-              habitatLabel
-              habitatComments
-              habitatNrFnsMin
-              habitatNrFnsMax
-              organizationByOrganizationId {
-                id
-                name
-              }
-            }
-            propertyCollectionObjectsByObjectId {
-              totalCount
-              nodes {
-                id
-                objectId
-                propertyCollectionId
-                properties
-                propertyCollectionByPropertyCollectionId {
-                  id
-                  name
-                  description
-                  links
-                  combining
-                  lastUpdated
-                  termsOfUse
-                  importedBy
-                  organizationByOrganizationId {
-                    id
-                    name
-                  }
-                  userByImportedBy {
-                    id
-                    name
-                    email
-                  }
-                }
-              }
-            }
-            relationsByObjectId {
-              totalCount
-              nodes {
-                id
-                propertyCollectionId
-                objectId
-                objectIdRelation
-                relationType
-                properties
-                propertyCollectionByPropertyCollectionId {
-                  id
-                  name
-                  description
-                  links
-                  combining
-                  lastUpdated
-                  termsOfUse
-                  importedBy
-                  organizationByOrganizationId {
-                    id
-                    name
-                  }
-                  userByImportedBy {
-                    id
-                    name
-                    email
-                  }
-                }
-                objectByObjectIdRelation {
-                  id
-                  name
-                  category
-                }
-              }
-            }
-            categoryByCategory {
-              id
-              name
-              dataType
-            }
-            objectByParentId {
-              id
-              objectByParentId {
-                id
-                objectByParentId {
-                  id
-                  objectByParentId {
-                    id
-                    objectByParentId {
-                      id
-                      objectByParentId {
-                        id
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      taxonomyByTaxonomyId {
-        id
-        name
-        description
-        links
-        lastUpdated
-        isCategoryStandard
-        importedBy
-        termsOfUse
-        habitatLabel
-        habitatComments
-        habitatNrFnsMin
-        habitatNrFnsMax
-        organizationByOrganizationId {
-          id
-          name
-        }
-      }
-      propertyCollectionObjectsByObjectId {
-        totalCount
-        nodes {
-          id
-          objectId
-          propertyCollectionId
-          properties
-          propertyCollectionByPropertyCollectionId {
-            id
-            name
-            description
-            links
-            combining
-            lastUpdated
-            termsOfUse
-            importedBy
-            organizationByOrganizationId {
-              id
-              name
-            }
-            userByImportedBy {
-              id
-              name
-              email
-            }
-          }
-        }
-      }
-      relationsByObjectId {
-        totalCount
-        nodes {
-          id
-          propertyCollectionId
-          objectId
-          objectIdRelation
-          relationType
-          properties
-          propertyCollectionByPropertyCollectionId {
-            id
-            name
-            description
-            links
-            combining
-            lastUpdated
-            termsOfUse
-            importedBy
-            organizationByOrganizationId {
-              id
-              name
-            }
-            userByImportedBy {
-              id
-              name
-              email
-            }
-          }
-          objectByObjectIdRelation {
-            id
-            name
-            category
-          }
-        }
-      }
-    }
-  }
-`
-const objektData = graphql(activeObjectQuery, {
-  options: ({ activeNodeArrayData }) => ({
-    variables: {
-      activeObjectId: getActiveObjectIdFromNodeArray(
-        activeNodeArrayData.activeNodeArray
-      ),
-    },
-  }),
-})
-
-const enhance = compose(activeNodeArrayData, objektData)
 
 export default enhance(Objekt)
