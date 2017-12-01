@@ -94,12 +94,13 @@ const Tree = ({
     isEqual(node.url, activeNodeArray)
   )
   if (error) {
+    console.log('Tree: error:', error)
     return <div> {error.message} </div>
   }
 
   return (
     <Container>
-      <TreeFilter appData={treeData} dimensions={dimensions} />
+      <TreeFilter dimensions={dimensions} />
       <AutoSizerContainer>
         <AutoSizer>
           {({ height, width }) => (

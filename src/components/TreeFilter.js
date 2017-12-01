@@ -91,14 +91,12 @@ const enhance = compose(
 
 const TreeFilter = ({
   client,
-  appData,
   treeFilterData,
   filterSuggestionsData,
   onChange,
   dimensions,
 }: {
   client: Object,
-  appData: Object,
   treeFilterData: Object,
   filterSuggestionsData: Object,
   onChange: () => {},
