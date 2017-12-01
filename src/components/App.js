@@ -134,7 +134,7 @@ const App = ({
       />
       {error && <div> {error.message} </div>}
       {showData && <Data data={appData} />}
-      {showExport && <Export data={appData} />}
+      {showExport && <Export />}
       {showImportPc && <ImportPc />}
       {showImportRc && <ImportRc />}
       {showOrganisation && <Organisation />}

@@ -161,7 +161,6 @@ const enhance = compose(
 )
 
 const Export = ({
-  data,
   groupsExpanded,
   taxonomiesExpanded,
   filterExpanded,
@@ -174,7 +173,6 @@ const Export = ({
   onToggleExport,
   message,
 }: {
-  data: Object,
   groupsExpanded: Boolean,
   taxonomiesExpanded: Boolean,
   filterExpanded: Boolean,
