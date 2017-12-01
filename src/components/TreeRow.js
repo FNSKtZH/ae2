@@ -77,16 +77,10 @@ const enhance = compose(
       const node = nodes[index]
       const { activeNodeArray } = activeNodeArrayData
       // do nothing when loading indicator is clicked
-      if (!node.loadingNode) {
-        const { url } = node
-        // if active node is clicked, make it's parent active
-        if (isEqual(url, activeNodeArray)) {
-          const newUrl = clone(url)
-          newUrl.pop()
-          app.history.push(`/${newUrl.join('/')}`)
-        } else {
-          app.history.push(`/${node.url.join('/')}`)
-        }
+      // or if node is already active
+      const { url, loadingNode } = node
+      if (!loadingNode && !isEqual(url, activeNodeArray)) {
+        app.history.push(`/${url.join('/')}`)
       }
     },
   })
