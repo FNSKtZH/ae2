@@ -7,7 +7,6 @@ import { ContextMenuTrigger } from 'react-contextmenu'
 import FontIcon from 'material-ui/FontIcon'
 import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
-import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 
@@ -177,23 +176,4 @@ const Row = ({
   )
 }
 
-const RowToExport = enhance(Row)
-
-RowToExport.fragments = {
-  objektLevel5AndUp: gql`
-    fragment ObjektLevel5AndUp on Object {
-      id
-      objectsByParentId {
-        nodes {
-          id
-          name
-          objectsByParentId {
-            totalCount
-          }
-        }
-      }
-    }
-  `,
-}
-
-export default RowToExport
+export default enhance(Row)

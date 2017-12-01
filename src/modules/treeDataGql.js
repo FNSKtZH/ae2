@@ -2,8 +2,6 @@
 
 import gql from 'graphql-tag'
 
-import TreeRow from '../components/TreeRow'
-
 export default gql`
   query TreeDataQuery(
     $existsLevel2Pc: Boolean!
@@ -95,5 +93,18 @@ export default gql`
       ...ObjektLevel5AndUp
     }
   }
-  ${TreeRow.fragments.objektLevel5AndUp}
+  ${gql`
+    fragment ObjektLevel5AndUp on Object {
+      id
+      objectsByParentId {
+        nodes {
+          id
+          name
+          objectsByParentId {
+            totalCount
+          }
+        }
+      }
+    }
+  `}
 `
