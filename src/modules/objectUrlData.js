@@ -47,6 +47,7 @@ export default graphql(
         '99999999-9999-9999-9999-999999999999'
       const existsTreeFilterId =
         treeFilterId !== '99999999-9999-9999-9999-999999999999'
+
       return {
         variables: {
           treeFilterId,
