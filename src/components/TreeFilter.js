@@ -89,6 +89,36 @@ const enhance = compose(
         variables: { text: newValue, id },
       })
     },
+    onSuggestionSelected: ({ client, treeFilterData }) => (
+      event,
+      { suggestion }
+    ) => {
+      console.log('TreeFilter, onSuggestionSelected: suggestion:', suggestion)
+      const text = get(treeFilterData, 'treeFilter.text', '')
+      console.log('TreeFilter, onSuggestionSelected: text:', text)
+      switch (suggestion.type) {
+        case 'pC':
+          app.history.push(`/Eigenschaften-Sammlungen/${suggestion.id}`)
+          break
+        case 'tO':
+        default: {
+          /**
+           * TODO
+           * set treeFilterId
+           * then app rerenders
+           * finds treeFilterId
+           * gets result of objectUrlData query
+           * passes it to getUrlForObject
+           * mutates activeNodeArray
+           */
+          console.log('TreeFilter: mutating treeFilterId to:', suggestion.id)
+          client.mutate({
+            mutation: treeFilterMutation,
+            variables: { id: suggestion.id, text },
+          })
+        }
+      }
+    },
   })
 )
 
@@ -98,6 +128,7 @@ const TreeFilter = ({
   filterSuggestionsData,
   objectUrlData,
   onChange,
+  onSuggestionSelected,
   dimensions,
 }: {
   client: Object,
@@ -105,6 +136,7 @@ const TreeFilter = ({
   filterSuggestionsData: Object,
   objectUrlData: Object,
   onChange: () => {},
+  onSuggestionSelected: () => {},
   dimensions: Object,
 }) => {
   const urlObject = get(objectUrlData, 'objectById', {})
@@ -198,33 +230,7 @@ const TreeFilter = ({
           // need this?
         }}
         getSuggestionValue={suggestion => suggestion && suggestion.name}
-        onSuggestionSelected={(event, { suggestion }) => {
-          switch (suggestion.type) {
-            case 'pC':
-              app.history.push(`/Eigenschaften-Sammlungen/${suggestion.id}`)
-              break
-            case 'tO':
-            default: {
-              /**
-               * TODO
-               * set treeFilterId
-               * then app rerenders
-               * finds treeFilterId
-               * gets result of objectUrlData query
-               * passes it to getUrlForObject
-               * mutates activeNodeArray
-               */
-              console.log(
-                'TreeFilter: mutating treeFilterId to:',
-                suggestion.id
-              )
-              client.mutate({
-                mutation: treeFilterMutation,
-                variables: { id: suggestion.id, text },
-              })
-            }
-          }
-        }}
+        onSuggestionSelected={onSuggestionSelected}
         renderSuggestion={suggestion => <span>{suggestion.name}</span>}
         multiSection={true}
         renderSectionTitle={section => <strong>{section.title}</strong>}
