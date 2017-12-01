@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import TreeRow from '../components/TreeRow'
 
 export default gql`
-  query AppQueryQuery(
+  query TreeDataQuery(
     $existsLevel2Pc: Boolean!
     $notExistsLevel2Pc: Boolean!
     $existsLevel2Taxonomy: Boolean!
