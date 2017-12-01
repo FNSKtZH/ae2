@@ -109,7 +109,6 @@ const App = ({
       ? treeFilterData.treeFilter.text
       : null
   if (treeFilterId && treeFilterId !== '99999999-9999-9999-9999-999999999999') {
-    //console.log('App: appData:', appData)
     const url = getUrlForObject(urlObject)
     app.history.push(`/${url.join('/')}`)
     console.log('App: does next step (treeFilterMutation) cause error?')
