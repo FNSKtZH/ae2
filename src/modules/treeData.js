@@ -2,11 +2,11 @@
 import { graphql } from 'react-apollo'
 
 import treeDataGql from './treeDataGql'
-import variablesFromStore from './variablesFromStore'
+import treeDataVariables from './treeDataVariables'
 
 export default graphql(treeDataGql, {
   options: ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => ({
-    variables: variablesFromStore({
+    variables: treeDataVariables({
       activeNodeArrayData,
     }),
   }),
