@@ -1,10 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
-import app from 'ampersand-app'
-import get from 'lodash/get'
 
 import AppBar from './AppBar'
 import Data from './Data'
@@ -15,10 +12,6 @@ import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
-import treeFilterData from '../modules/treeFilterData'
-import objectUrlData from '../modules/objectUrlData'
-import getUrlForObject from '../modules/getUrlForObject'
-import treeFilterMutation from '../modules/treeFilterMutation'
 
 const Container = styled.div`
   height: 100%;
@@ -26,29 +19,10 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const enhance = compose(
-  withApollo,
-  activeNodeArrayData,
-  treeFilterData,
-  objectUrlData
-)
+const enhance = compose(activeNodeArrayData)
 
-const App = ({
-  client,
-  activeNodeArrayData,
-  treeFilterData,
-  objectUrlData,
-}: {
-  client: Object,
-  activeNodeArrayData: Object,
-  treeFilterData: Object,
-  objectUrlData: Object,
-}) => {
-  const urlObject = get(objectUrlData, 'objectById', {})
-  console.log('App: objectUrlData from objectUrlData:', objectUrlData)
-  console.log('App: urlObject from objectUrlData:', urlObject)
+const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
   const activeNodeArray = activeNodeArrayData.activeNodeArray || []
-
   const url0 =
     activeNodeArray[0] && activeNodeArray[0].toLowerCase()
       ? activeNodeArray[0].toLowerCase()
@@ -71,33 +45,6 @@ const App = ({
   const showLogin = url0 === 'login'
   const showImportPc = url0 === 'import' && url1 === 'eigenschaften-sammlungen'
   const showImportRc = url0 === 'import' && url1 === 'beziehungs-sammlungen'
-
-  /**
-   * TODO
-   * check if treeFilterId exists
-   * if true:
-   * pass query result for objectUrlData to getUrlForObject()
-   * then update activeNodeArray with that result
-   * and reset treeFilterId
-   */
-  const treeFilterId =
-    treeFilterData.treeFilter && treeFilterData.treeFilter.id
-      ? treeFilterData.treeFilter.id
-      : null
-  const treeFilterText =
-    treeFilterData.treeFilter && treeFilterData.treeFilter.text
-      ? treeFilterData.treeFilter.text
-      : null
-  if (treeFilterId && treeFilterId !== '99999999-9999-9999-9999-999999999999') {
-    const url = getUrlForObject(urlObject)
-    app.history.push(`/${url.join('/')}`)
-    console.log('App: does next step (treeFilterMutation) cause error?')
-    client.mutate({
-      mutation: treeFilterMutation,
-      variables: { id: null, text: treeFilterText },
-    })
-    console.log('App: next step done')
-  }
 
   return (
     <Container>

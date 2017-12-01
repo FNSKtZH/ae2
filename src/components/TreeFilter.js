@@ -11,6 +11,8 @@ import get from 'lodash/get'
 import treeFilterMutation from '../modules/treeFilterMutation'
 import treeFilterData from '../modules/treeFilterData'
 import filterSuggestionsData from '../modules/filterSuggestionsData'
+import getUrlForObject from '../modules/getUrlForObject'
+import objectUrlData from '../modules/objectUrlData'
 
 const Container = styled.div`
   padding: 5px 16px 0 13px;
@@ -78,6 +80,7 @@ const enhance = compose(
   withApollo,
   treeFilterData,
   filterSuggestionsData,
+  objectUrlData,
   withHandlers({
     onChange: ({ client, treeFilterData }) => (event, { newValue }) => {
       const { id } = treeFilterData.treeFilter
@@ -93,15 +96,20 @@ const TreeFilter = ({
   client,
   treeFilterData,
   filterSuggestionsData,
+  objectUrlData,
   onChange,
   dimensions,
 }: {
   client: Object,
   treeFilterData: Object,
   filterSuggestionsData: Object,
+  objectUrlData: Object,
   onChange: () => {},
   dimensions: Object,
 }) => {
+  const urlObject = get(objectUrlData, 'objectById', {})
+  console.log('TreeFilter: objectUrlData:', objectUrlData)
+  console.log('TreeFilter: urlObject:', urlObject)
   const text = get(treeFilterData, 'treeFilter.text', '')
   const { filterSuggestionsTO, filterSuggestionsPC } = filterSuggestionsData
   const inputProps = {
@@ -149,6 +157,33 @@ const TreeFilter = ({
   // on first render dimensions.width is passed as '100%'
   // later it is passed as number of pixels
   const autosuggestWidth = isNaN(dimensions.width) ? 380 : dimensions.width - 29
+
+  /**
+   * TODO
+   * check if treeFilterId exists
+   * if true:
+   * pass query result for objectUrlData to getUrlForObject()
+   * then update activeNodeArray with that result
+   * and reset treeFilterId
+   */
+  const treeFilterId =
+    treeFilterData.treeFilter && treeFilterData.treeFilter.id
+      ? treeFilterData.treeFilter.id
+      : null
+  const treeFilterText =
+    treeFilterData.treeFilter && treeFilterData.treeFilter.text
+      ? treeFilterData.treeFilter.text
+      : null
+  if (treeFilterId && treeFilterId !== '99999999-9999-9999-9999-999999999999') {
+    const url = getUrlForObject(urlObject)
+    app.history.push(`/${url.join('/')}`)
+    console.log('App: does next step (treeFilterMutation) cause error?')
+    client.mutate({
+      mutation: treeFilterMutation,
+      variables: { id: null, text: treeFilterText },
+    })
+    console.log('App: next step done')
+  }
 
   return (
     <Container data-autosuggestwidth={autosuggestWidth}>
