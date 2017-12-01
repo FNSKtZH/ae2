@@ -2,16 +2,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
+import withHandlers from 'recompose/withHandlers'
 import { ContextMenuTrigger } from 'react-contextmenu'
 import FontIcon from 'material-ui/FontIcon'
 import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
 import gql from 'graphql-tag'
-import { withApollo, graphql } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 
 import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
-import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import activeNodeArrayData from '../modules/activeNodeArrayData'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -69,11 +70,28 @@ const TextSpan = styled.span`
     props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
 `
 
-const activeNodeArrayData = graphql(activeNodeArrayGql, {
-  name: 'activeNodeArrayData',
-})
-
-const enhance = compose(activeNodeArrayData, withApollo)
+const enhance = compose(
+  activeNodeArrayData,
+  withApollo,
+  withHandlers({
+    onClickNode: ({ nodes, index, activeNodeArrayData }) => event => {
+      const node = nodes[index]
+      const { activeNodeArray } = activeNodeArrayData
+      // do nothing when loading indicator is clicked
+      if (!node.loadingNode) {
+        const { url } = node
+        // if active node is clicked, make it's parent active
+        if (isEqual(url, activeNodeArray)) {
+          const newUrl = clone(url)
+          newUrl.pop()
+          app.history.push(`/${newUrl.join('/')}`)
+        } else {
+          app.history.push(`/${node.url.join('/')}`)
+        }
+      }
+    },
+  })
+)
 
 const Row = ({
   key,
@@ -82,6 +100,7 @@ const Row = ({
   activeNodeArrayData,
   nodes,
   client,
+  onClickNode,
 }: {
   key?: number,
   index: number,
@@ -89,6 +108,7 @@ const Row = ({
   activeNodeArrayData: Object,
   nodes: Array<Object>,
   client: Object,
+  onClickNode: () => void,
 }) => {
   const node = nodes[index]
   const { activeNodeArray } = activeNodeArrayData
@@ -96,20 +116,6 @@ const Row = ({
     node.url,
     activeNodeArray
   )
-  const onClickNode = event => {
-    // do nothing when loading indicator is clicked
-    if (!node.loadingNode) {
-      const { url } = node
-      // if active node is clicked, make it's parent active
-      if (isEqual(url, activeNodeArray)) {
-        const newUrl = clone(url)
-        newUrl.pop()
-        app.history.push(`/${newUrl.join('/')}`)
-      } else {
-        app.history.push(`/${node.url.join('/')}`)
-      }
-    }
-  }
   const myProps = { key: index }
   // build symbols
   let useSymbolIcon = true
