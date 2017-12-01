@@ -26,8 +26,6 @@ export default gql`
     $level9Taxonomy: Uuid!
     $existsLevel10: Boolean!
     $level10Taxonomy: Uuid!
-    $treeFilterId: Uuid!
-    $existsTreeFilterId: Boolean!
     $treeFilterText: String!
   ) {
     allPropertyCollections @include(if: $notExistsLevel2Pc) {
@@ -96,36 +94,6 @@ export default gql`
     level10Taxonomy: objectById(id: $level10Taxonomy)
       @include(if: $existsLevel10) {
       ...ObjektLevel5AndUp
-    }
-    objectUrlData: objectById(id: $treeFilterId)
-      @include(if: $existsTreeFilterId) {
-      id
-      categoryByCategory {
-        id
-        name
-        dataType
-      }
-      objectByParentId {
-        id
-        objectByParentId {
-          id
-          objectByParentId {
-            id
-            objectByParentId {
-              id
-              objectByParentId {
-                id
-                objectByParentId {
-                  id
-                }
-              }
-            }
-          }
-        }
-      }
-      taxonomyByTaxonomyId {
-        id
-      }
     }
     filterSuggestionsPC: propertyCollectionByPropertyName(
       propertyName: $treeFilterText

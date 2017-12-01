@@ -7,12 +7,6 @@ export default ({
   treeFilterData: Object,
 }) => {
   const activeNodeArray = activeNodeArrayData.activeNodeArray || []
-  const treeFilterId =
-    treeFilterData.treeFilter && treeFilterData.treeFilter.id
-      ? treeFilterData.treeFilter.id
-      : '99999999-9999-9999-9999-999999999999'
-  const existsTreeFilterId =
-    treeFilterId !== '99999999-9999-9999-9999-999999999999'
   const treeFilterText =
     (treeFilterData.treeFilter && treeFilterData.treeFilter.text) || 'ZZZZ'
   const existsLevel1 = activeNodeArray.length > 0
@@ -79,7 +73,5 @@ export default ({
     existsLevel10,
     level10Taxonomy,
     treeFilterText,
-    treeFilterId,
-    existsTreeFilterId,
   }
 }
