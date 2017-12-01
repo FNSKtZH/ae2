@@ -86,7 +86,7 @@ const enhance = compose(
 )
 
 const Categories = ({
-  data,
+  propsByTaxData,
   taxonomiesOfCategoriesData,
   exportCategoriesData,
   exportTaxonomiesData,
@@ -94,7 +94,7 @@ const Categories = ({
   onCheckCategory,
   onCheckTaxonomy,
 }: {
-  data: Object,
+  propsByTaxData: Object,
   taxonomiesOfCategoriesData: Array<Object>,
   exportCategoriesData: Object,
   exportTaxonomiesData: Object,
@@ -112,7 +112,7 @@ const Categories = ({
   const categories = get(allCategoriesData, 'allCategories.nodes', []).map(
     c => c.name
   )
-  const { loading } = data
+  const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
   if (exportCategories.length > 0) {

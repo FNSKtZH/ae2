@@ -47,9 +47,8 @@ export default graphql(
           exportTaxonomies,
           queryExportTaxonomies: exportTaxonomies.length > 0,
         },
-        // This name is ignored by apollo???!!!
-        name: 'propsByTaxData',
       }
     },
+    name: 'propsByTaxData',
   }
 )

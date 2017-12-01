@@ -74,16 +74,28 @@ const enhance = compose(
 )
 
 const Properties = ({
-  data,
+  propsByTaxData,
 }: //width,
 {
-  data: Object,
+  propsByTaxData: Object,
   //width: number,
 }) => {
-  //console.log('Properties: data:', data)
-  const pcoProperties = get(data, 'pcoPropertiesByTaxonomiesFunction.nodes', [])
-  const rcoProperties = get(data, 'rcoPropertiesByTaxonomiesFunction.nodes', [])
-  const taxProperties = get(data, 'taxPropertiesByTaxonomiesFunction.nodes', [])
+  //console.log('Properties: propsByTaxData:', propsByTaxData)
+  const pcoProperties = get(
+    propsByTaxData,
+    'pcoPropertiesByTaxonomiesFunction.nodes',
+    []
+  )
+  const rcoProperties = get(
+    propsByTaxData,
+    'rcoPropertiesByTaxonomiesFunction.nodes',
+    []
+  )
+  const taxProperties = get(
+    propsByTaxData,
+    'taxPropertiesByTaxonomiesFunction.nodes',
+    []
+  )
   const pcoPropertiesByPropertyCollection = groupBy(
     pcoProperties,
     'propertyCollectionName'
