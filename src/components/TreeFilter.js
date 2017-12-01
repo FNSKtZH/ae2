@@ -93,9 +93,7 @@ const enhance = compose(
       event,
       { suggestion }
     ) => {
-      console.log('TreeFilter, onSuggestionSelected: suggestion:', suggestion)
       const text = get(treeFilterData, 'treeFilter.text', '')
-      console.log('TreeFilter, onSuggestionSelected: text:', text)
       switch (suggestion.type) {
         case 'pC':
           app.history.push(`/Eigenschaften-Sammlungen/${suggestion.id}`)
@@ -111,11 +109,15 @@ const enhance = compose(
            * passes it to getUrlForObject
            * mutates activeNodeArray
            */
-          console.log('TreeFilter: mutating treeFilterId to:', suggestion.id)
+          console.log(
+            'TreeFilter, onSuggestionSelected: mutating treeFilterId to:',
+            suggestion.id
+          )
           client.mutate({
             mutation: treeFilterMutation,
             variables: { id: suggestion.id, text },
           })
+          console.log('TreeFilter, onSuggestionSelected: treeFilterId mutated')
         }
       }
     },
@@ -142,10 +144,10 @@ const TreeFilter = ({
   const urlObject = get(objectUrlData, 'objectById', {})
   console.log('TreeFilter: objectUrlData:', objectUrlData)
   console.log('TreeFilter: urlObject:', urlObject)
-  const text = get(treeFilterData, 'treeFilter.text', '')
+  const treeFilterText = get(treeFilterData, 'treeFilter.text', '')
   const { filterSuggestionsTO, filterSuggestionsPC } = filterSuggestionsData
   const inputProps = {
-    value: text || '',
+    value: treeFilterText,
     onChange,
     type: 'search',
     placeholder: 'suchen',
@@ -198,23 +200,18 @@ const TreeFilter = ({
    * then update activeNodeArray with that result
    * and reset treeFilterId
    */
-  const treeFilterId =
-    treeFilterData.treeFilter && treeFilterData.treeFilter.id
-      ? treeFilterData.treeFilter.id
-      : null
-  const treeFilterText =
-    treeFilterData.treeFilter && treeFilterData.treeFilter.text
-      ? treeFilterData.treeFilter.text
-      : null
+  const treeFilterId = get(treeFilterData, 'treeFilter.id', null)
+  console.log('TreeFilter: treeFilterId:', treeFilterId)
   if (treeFilterId && treeFilterId !== '99999999-9999-9999-9999-999999999999') {
-    const url = getUrlForObject(urlObject)
-    app.history.push(`/${url.join('/')}`)
+    console.log('TreeFilter with treeFilterId: urlObject:', urlObject)
     console.log('App: does next step (treeFilterMutation) cause error?')
     client.mutate({
       mutation: treeFilterMutation,
       variables: { id: null, text: treeFilterText },
     })
     console.log('App: next step done')
+    const url = getUrlForObject(urlObject)
+    app.history.push(`/${url.join('/')}`)
   }
 
   return (
