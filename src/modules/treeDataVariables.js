@@ -1,6 +1,5 @@
 // @flow
-export default ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
-  const activeNodeArray = activeNodeArrayData.activeNodeArray || []
+export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     existsLevel1 &&
