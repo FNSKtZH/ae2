@@ -1,17 +1,17 @@
 // @flow
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
-import { graphql } from 'react-apollo'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
+import get from 'lodash/get'
 
-import exportCategoriesGql from '../../../modules/exportCategoriesGql'
-import exportPcoPropertiesGql from '../../../modules/exportPcoPropertiesGql'
-import exportRcoPropertiesGql from '../../../modules/exportRcoPropertiesGql'
-import exportTaxPropertiesGql from '../../../modules/exportTaxPropertiesGql'
-import exportTaxFiltersGql from '../../../modules/exportTaxFiltersGql'
-import exportPcoFiltersGql from '../../../modules/exportPcoFiltersGql'
-import exportRcoFiltersGql from '../../../modules/exportRcoFiltersGql'
+import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
+import exportPcoPropertiesData from '../../../modules/exportPcoPropertiesData'
+import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
+import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
+import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
+import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
+import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
 
 const level1CardStyle = { margin: '10px 0' }
 const level1CardTitleStyle = { fontWeight: 'bold' }
@@ -27,28 +27,6 @@ const FilterValueSpan = styled.span`
   margin-left: 5px;
   border-radius: 3px;
 `
-
-const exportTaxonomiesData = graphql(exportCategoriesGql, {
-  name: 'exportTaxonomiesData',
-})
-const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
-  name: 'exportTaxPropertiesData',
-})
-const exportTaxFiltersData = graphql(exportTaxFiltersGql, {
-  name: 'exportTaxFiltersData',
-})
-const exportPcoPropertiesData = graphql(exportPcoPropertiesGql, {
-  name: 'exportPcoPropertiesData',
-})
-const exportPcoFiltersData = graphql(exportPcoFiltersGql, {
-  name: 'exportPcoFiltersData',
-})
-const exportRcoPropertiesData = graphql(exportRcoPropertiesGql, {
-  name: 'exportRcoPropertiesData',
-})
-const exportRcoFiltersData = graphql(exportRcoFiltersGql, {
-  name: 'exportRcoFiltersData',
-})
 
 const enhance = compose(
   exportTaxonomiesData,
@@ -77,13 +55,25 @@ const OptionsChoosen = ({
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
 }) => {
-  const exportTaxonomies = exportTaxonomiesData.exportTaxonomies || []
-  const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
-  const exportTaxFilters = exportTaxFiltersData.exportTaxFilters || []
-  const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
-  const exportPcoFilters = exportPcoFiltersData.exportPcoFilters || []
-  const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
-  const exportRcoFilters = exportRcoFiltersData.exportRcoFilters || []
+  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+  const exportTaxProperties = get(
+    exportTaxPropertiesData,
+    'exportTaxProperties',
+    []
+  )
+  const exportTaxFilters = get(exportTaxFiltersData, 'exportTaxFilters', [])
+  const exportPcoProperties = get(
+    exportPcoPropertiesData,
+    'exportPcoProperties',
+    []
+  )
+  const exportPcoFilters = get(exportPcoFiltersData, 'exportPcoFilters', [])
+  const exportRcoProperties = get(
+    exportRcoPropertiesData,
+    'exportRcoProperties',
+    []
+  )
+  const exportRcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])
   return (
     <Card style={level1CardStyle} expanded={true}>
       <CardHeader

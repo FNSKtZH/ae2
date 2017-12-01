@@ -2,21 +2,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import { graphql } from 'react-apollo'
 
 import Comparator from './PcoComparator'
 import PcoFieldValue from './PcoFieldValue'
-import exportPcoFiltersGql from '../../../modules/exportPcoFiltersGql'
+import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
 
 const Container = styled.div`
   display: flex;
   align-content: stretch;
   padding: 0 16px;
 `
-
-const exportPcoFiltersData = graphql(exportPcoFiltersGql, {
-  name: 'exportPcoFiltersData',
-})
 
 const enhance = compose(exportPcoFiltersData)
 

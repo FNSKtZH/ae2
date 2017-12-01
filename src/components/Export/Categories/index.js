@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Checkbox from 'material-ui/Checkbox'
 import Paper from 'material-ui/Paper'
-import { graphql, withApollo } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import get from 'lodash/get'
@@ -11,7 +11,7 @@ import get from 'lodash/get'
 import HowTo from './HowTo'
 
 import exportCategoriesMutation from '../../../modules/exportCategoriesMutation'
-import exportCategoriesGql from '../../../modules/exportCategoriesGql'
+import exportCategoriesData from '../../../modules/exportCategoriesData'
 import exportTaxonomiesMutation from '../../../modules/exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
 import propsByTaxData from '../../../modules/propsByTaxData'
@@ -41,10 +41,6 @@ const PaperTextContainer = styled.div`
 const PropertyTextDiv = styled.div`
   padding-bottom: 5px;
 `
-
-const exportCategoriesData = graphql(exportCategoriesGql, {
-  name: 'exportCategoriesData',
-})
 
 const enhance = compose(
   withApollo,

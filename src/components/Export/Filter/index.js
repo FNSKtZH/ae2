@@ -99,10 +99,6 @@ const Filter = ({
     'propertyCollectionName'
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
-  console.log(
-    'Filter: pcoPropertiesByPropertyCollection:',
-    pcoPropertiesByPropertyCollection
-  )
   const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {

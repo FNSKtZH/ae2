@@ -4,19 +4,15 @@ import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
-import { graphql, withApollo } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 
 import addExportTaxPropertyMutation from '../../../modules/addExportTaxPropertyMutation'
 import removeExportTaxPropertyMutation from '../../../modules/removeExportTaxPropertyMutation'
-import exportTaxPropertiesGql from '../../../modules/exportTaxPropertiesGql'
+import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
 `
-
-const exportTaxPropertiesData = graphql(exportTaxPropertiesGql, {
-  name: 'exportTaxPropertiesData',
-})
 
 const enhance = compose(
   withApollo,

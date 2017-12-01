@@ -4,19 +4,15 @@ import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
-import { graphql, withApollo } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 
 import addExportRcoPropertyMutation from '../../../modules/addExportRcoPropertyMutation'
 import removeExportRcoPropertyMutation from '../../../modules/removeExportRcoPropertyMutation'
-import exportRcoPropertiesGql from '../../../modules/exportRcoPropertiesGql'
+import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
 `
-
-const exportRcoPropertiesData = graphql(exportRcoPropertiesGql, {
-  name: 'exportRcoPropertiesData',
-})
 
 const enhance = compose(
   withApollo,

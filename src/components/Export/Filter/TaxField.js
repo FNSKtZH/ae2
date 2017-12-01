@@ -2,21 +2,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import { graphql } from 'react-apollo'
 
 import Comparator from './TaxComparator'
 import TaxFieldValue from './TaxFieldValue'
-import exportTaxFiltersGql from '../../../modules/exportTaxFiltersGql'
+import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 
 const Container = styled.div`
   display: flex;
   align-content: stretch;
   padding: 0 16px;
 `
-
-const exportTaxFiltersData = graphql(exportTaxFiltersGql, {
-  name: 'exportTaxFiltersData',
-})
 
 const enhance = compose(exportTaxFiltersData)
 

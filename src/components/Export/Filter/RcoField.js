@@ -2,21 +2,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import { graphql } from 'react-apollo'
 
 import Comparator from './RcoComparator'
 import RcoFieldValue from './RcoFieldValue'
-import exportRcoFiltersGql from '../../../modules/exportRcoFiltersGql'
+import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
 
 const Container = styled.div`
   display: flex;
   align-content: stretch;
   padding: 0 16px;
 `
-
-const exportRcoFiltersData = graphql(exportRcoFiltersGql, {
-  name: 'exportRcoFiltersData',
-})
 
 const enhance = compose(exportRcoFiltersData)
 
