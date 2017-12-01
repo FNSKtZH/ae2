@@ -44,12 +44,12 @@
 ### Diese Technologien werden verwendet:
 
 - Als Datenbank [PostgreSQL](https://www.postgresql.org)
-  - Benutzer können wo nötig dank [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) weiterhin eigene Datenstrukturen importieren
+  - Benutzer können dank [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) weiterhin eigene Datenstrukturen importieren
   - Alle übrigen Datenstrukturen sind relational und ermöglichen damit:
      - Einfachere Verwaltung,
      - Datenauswertung
      - und Gewährleistung der Datenintegrität
-- [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [Apollo](https://www.apollodata.com)
+- [GraphQl](https://github.com/facebook/graphql) in Form von [postgraphql](https://github.com/postgraphql/postgraphql) und [Apollo](https://www.apollodata.com)<br/>
   - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
   - Weniger Code = weniger Fehler :-)
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört
