@@ -5,6 +5,7 @@ import { graphql, withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import Snackbar from 'material-ui/Snackbar'
 import app from 'ampersand-app'
+import get from 'lodash/get'
 
 import AppBar from './AppBar'
 import Data from './Data'
@@ -15,7 +16,8 @@ import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
-import treeFilterGql from '../modules/treeFilterGql'
+import treeFilterData from '../modules/treeFilterData'
+import objectUrlData from '../modules/objectUrlData'
 import appQuery from '../modules/appQuery'
 import variablesFromStore from '../modules/variablesFromStore'
 import getUrlForObject from '../modules/getUrlForObject'
@@ -27,9 +29,6 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const treeFilterData = graphql(treeFilterGql, {
-  name: 'treeFilterData',
-})
 const appData = graphql(appQuery, {
   options: ({
     activeNodeArrayData,
@@ -42,40 +41,37 @@ const appData = graphql(appQuery, {
       activeNodeArrayData,
       treeFilterData,
     }),
-    name: 'appData',
   }),
+  name: 'appData',
 })
 
 const enhance = compose(
   withApollo,
   activeNodeArrayData,
   treeFilterData,
-  appData
+  appData,
+  objectUrlData
 )
 
 const App = ({
   client,
   appData,
-  data,
   activeNodeArrayData,
   treeFilterData,
+  objectUrlData,
 }: {
   client: Object,
   appData: Object,
-  data: Object,
   activeNodeArrayData: Object,
   treeFilterData: Object,
+  objectUrlData: Object,
 }) => {
-  //console.log('App rendering, data:', data)
-  /**
-   * TODO
-   * wtf appData is undefined!?
-   * instead data arrives in variable data!
-   */
-  //console.log('App: appData:', appData)
-  //console.log('App: data:', data)
-  const { error, loading, objectUrlData } = data
-  console.log('App: objectUrlData from appQuery:', data.objectUrlData)
+  console.log('App: appData:', appData)
+  const { error, loading } = appData
+  const urlObject = get(objectUrlData, 'objectById', {})
+  console.log('App: objectUrlData from appQuery:', appData.objectUrlData)
+  console.log('App: objectUrlData from objectUrlData:', objectUrlData)
+  console.log('App: urlObject from objectUrlData:', urlObject)
   // log error out to see in the log when it happens
   // relative to other logs
   if (error) console.log('App: error:', error)
@@ -122,7 +118,7 @@ const App = ({
       : null
   if (treeFilterId && treeFilterId !== '99999999-9999-9999-9999-999999999999') {
     //console.log('App: appData:', appData)
-    const url = getUrlForObject(objectUrlData)
+    const url = getUrlForObject(urlObject)
     app.history.push(`/${url.join('/')}`)
     client.mutate({
       mutation: treeFilterMutation,
@@ -143,8 +139,8 @@ const App = ({
         }}
       />
       {error && <div> {error.message} </div>}
-      {showData && <Data data={data} />}
-      {showExport && <Export data={data} />}
+      {showData && <Data data={appData} />}
+      {showExport && <Export data={appData} />}
       {showImportPc && <ImportPc />}
       {showImportRc && <ImportRc />}
       {showOrganisation && <Organisation />}
