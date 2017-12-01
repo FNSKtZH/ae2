@@ -14,7 +14,7 @@ import myTheme from './styling/theme'
 import constants from './modules/constants'
 import './index.css'
 import 'react-reflex/styles.css'
-import AppShell from './components/AppShell'
+import App from './components/App'
 import registerServiceWorker from './registerServiceWorker'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 import localStateLink from './localStateLink'
@@ -73,7 +73,7 @@ const theme = Object.assign({}, myTheme, {
 ReactDOM.render(
   <ApolloProvider client={client}>
     <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-      <AppShell />
+      <App />
     </MuiThemeProvider>
   </ApolloProvider>,
   document.getElementById('root')
