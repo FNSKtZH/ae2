@@ -1,10 +1,10 @@
 // @flow
 import { graphql } from 'react-apollo'
 
-import appQuery from './appQuery'
+import treeDataGql from './treeDataGql'
 import variablesFromStore from './variablesFromStore'
 
-export default graphql(appQuery, {
+export default graphql(treeDataGql, {
   options: ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => ({
     variables: variablesFromStore({
       activeNodeArrayData,
