@@ -84,9 +84,8 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
     ![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
   - [x] Suche:
     - neu nach allen Gruppen und Taxonomien gleichzeitig
-    - neu nach allen Hierarchiestufen
-    - neu nach Lateinischen _und_ Deutschen Namen
-    - neu nach Objekten _und_ Eigenschaftensammlungen gleichzeitig
+    - neu nach allen Hierarchiestufen (z.B. Familien, Gattungen)
+    - neu auch nach Eigenschaftensammlungen gleichzeitig
     ![Datenstruktur](/etc/suche.png?raw=true "Suche")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Datenstruktur")
     - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaftensammlung](/etc/eigenschaftensammlung.png?raw=true "Eigenschaftensammlung")
