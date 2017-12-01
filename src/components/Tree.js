@@ -80,9 +80,6 @@ const Tree = ({
   dimensions: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
-  console.log('Tree: allCategoriesData:', allCategoriesData)
-  console.log('Tree: activeNodeArrayData:', activeNodeArrayData)
-  console.log('Tree: data:', data)
   const nodes = buildNodesFromAppQuery({
     data,
     allCategoriesData,
