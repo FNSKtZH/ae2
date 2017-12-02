@@ -5,11 +5,14 @@ import FontIcon from 'material-ui/FontIcon'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
+import compose from 'recompose/compose'
 
 import PropertyReadOnly from './PropertyReadOnly'
 import Taxonomy from './Taxonomy'
 import getUrlForObject from '../modules/getUrlForObject'
 import appBaseUrl from '../modules/appBaseUrl'
+import activeNodeArrayData from '../modules/activeNodeArrayData'
+import activeObjectData from '../modules/activeObjectData'
 
 const tOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {
@@ -30,7 +33,9 @@ const SynonymContainer = styled.div`
   justify-content: space-between;
 `
 const SynonymText = styled.div``
-const SynonymLink = styled.a`margin-left: 5px;`
+const SynonymLink = styled.a`
+  margin-left: 5px;
+`
 const SynomymLinkIcon = styled(FontIcon)`
   font-size: 17px !important;
   :hover {
@@ -38,13 +43,16 @@ const SynomymLinkIcon = styled(FontIcon)`
   }
 `
 
+const enhance = compose(activeNodeArrayData, activeObjectData)
+
 const TaxonomyObject = ({
-  objekt,
   showLink,
+  activeObjectData,
 }: {
-  objekt: Object,
   showLink: Boolean,
+  activeObjectData: Object,
 }) => {
+  const objekt = get(activeObjectData, 'objectById', {})
   const taxonomy = get(objekt, 'taxonomyByTaxonomyId', {})
   let taxName = get(taxonomy, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
@@ -73,7 +81,8 @@ const TaxonomyObject = ({
           rel="noopener noreferrer"
           title={linkText}
           onClick={event =>
-            window.open(`${appBaseUrl}/${linkUrl}`, 'target="_blank"')}
+            window.open(`${appBaseUrl}/${linkUrl}`, 'target="_blank"')
+          }
         >
           <SynomymLinkIcon id="linkToSynonym" className="material-icons">
             open_in_new
@@ -118,4 +127,4 @@ const TaxonomyObject = ({
   )
 }
 
-export default TaxonomyObject
+export default enhance(TaxonomyObject)
