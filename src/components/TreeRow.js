@@ -67,6 +67,13 @@ const TextSpan = styled.span`
   font-weight: ${props =>
     props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
 `
+const InfoSpan = styled.span`
+  margin-left: 5px;
+  font-size: 12px !important;
+  line-height: 20px;
+  font-weight: ${props =>
+    props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
+`
 
 const enhance = compose(
   activeNodeArrayData,
@@ -163,6 +170,7 @@ const Row = ({
           <TextSpan data-nodeisinactivenodepath={nodeIsInActiveNodePath}>
             {node.label}
           </TextSpan>
+          <InfoSpan>{node.info || ''}</InfoSpan>
         </StyledNode>
       </ContextMenuTrigger>
     </div>

@@ -54,7 +54,8 @@ export default ({
         activeLevel6TaxonomyName,
         node.name,
       ],
-      label: `${node.name}${labelCount}`,
+      label: node.name,
+      info: labelCount,
       childrenCount,
     }
   })

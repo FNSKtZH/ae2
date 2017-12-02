@@ -17,14 +17,16 @@ export default ({
       id: 'Eigenschaften-Sammlungen',
       url: ['Eigenschaften-Sammlungen'],
       sort: [2],
-      label: `Eigenschaften-Sammlungen (${pcCount})`,
+      label: 'Eigenschaften-Sammlungen',
+      info: `(${pcCount})`,
       childrenCount: pcCount,
     },
     {
       id: 'Taxonomien',
       url: ['Taxonomien'],
       sort: [1],
-      label: `Arten und Lebensräume (${catCount} Gruppen)`,
+      label: 'Arten und Lebensräume',
+      info: `(${catCount} Gruppen)`,
       childrenCount: catCount,
     },
   ]

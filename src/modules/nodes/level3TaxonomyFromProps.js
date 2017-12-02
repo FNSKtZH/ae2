@@ -21,7 +21,8 @@ export default ({
       id: node.id,
       url: ['Taxonomien', activeLevel2TaxonomyName, node.id],
       sort: [1, activeLevel2TaxonomyName, node.name],
-      label: `${node.name} (${childrenCount})`,
+      label: node.name,
+      info: `(${childrenCount} ${node.name === 'Lebensräume' ? '' : 'Arten'})`,
       childrenCount,
     }
   })

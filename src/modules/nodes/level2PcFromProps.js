@@ -16,7 +16,8 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
       id: node.id,
       url: ['Eigenschaften-Sammlungen', node.id],
       sort: [2, node.name],
-      label: `${node.name}: ${count} Objekte`,
+      label: node.name,
+      info: `(${count} Arten/Lebensräume)`,
       childrenCount: 0,
     }
   })

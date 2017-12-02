@@ -8,7 +8,8 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
     id: node.id,
     url: ['Taxonomien', node.name],
     sort: [1, node.name],
-    label: `${node.name} (${node.count})`,
+    label: node.name,
+    info: `(${node.count} ${node.count == 1 ? 'Taxonomie' : 'Taxonomien'})`,
     childrenCount: node.count,
   }))
 }

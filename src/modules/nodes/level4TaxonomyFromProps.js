@@ -31,7 +31,8 @@ export default ({
         node.id,
       ],
       sort: [1, activeLevel2TaxonomyName, activeLevel3TaxonomyName, node.name],
-      label: `${node.name}${labelCount}`,
+      label: node.name,
+      info: labelCount,
       childrenCount,
     }
   })
