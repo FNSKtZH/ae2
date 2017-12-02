@@ -19,8 +19,13 @@ const Container = styled.div`
 const Title = styled.h3`
   margin: 15px 0 -5px 0;
 `
+const TaxTitleSpan = styled.span`
+  font-weight: normal;
+`
 const TitleSpan = styled.span`
   font-weight: normal;
+  font-size: small;
+  margin-left: 4px;
 `
 const FirstTitle = styled(Title)`
   margin: 5px 0 -5px 0;
@@ -61,7 +66,7 @@ const Objekt = ({ activeObjectData }: { activeObjectData: Object }) => {
     <Container>
       <FirstTitle>
         Taxonomie
-        <TitleSpan>{`: ${activeObject.name}`}</TitleSpan>
+        <TaxTitleSpan>{`: ${activeObject.name}`}</TaxTitleSpan>
       </FirstTitle>
       <TaxonomyObject objekt={activeObject} />
       {synonymObjects.length > 0 && (
