@@ -10,7 +10,7 @@ export default ({
 }): Array<Object> => {
   if (!treeData) return []
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
-  const taxCount = get(allCategoriesData, 'allCategories.totalCount', 0)
+  const catCount = get(allCategoriesData, 'allCategories.totalCount', 0)
 
   return [
     {
@@ -24,8 +24,8 @@ export default ({
       id: 'Taxonomien',
       url: ['Taxonomien'],
       sort: [1],
-      label: `Taxonomien (${taxCount} Gruppen)`,
-      childrenCount: taxCount,
+      label: `Arten und Lebensräume (${catCount} Gruppen)`,
+      childrenCount: catCount,
     },
   ]
 }
