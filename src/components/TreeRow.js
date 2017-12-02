@@ -10,7 +10,6 @@ import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 
 import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
-import activeNodeArrayData from '../modules/activeNodeArrayData'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -74,11 +73,9 @@ const InfoSpan = styled.span`
 `
 
 const enhance = compose(
-  activeNodeArrayData,
   withApollo,
   withHandlers({
-    onClickNode: ({ node, index, activeNodeArrayData }) => event => {
-      const { activeNodeArray } = activeNodeArrayData
+    onClickNode: ({ node, index, activeNodeArray }) => event => {
       // do nothing when loading indicator is clicked
       // or if node is already active
       const { url, loadingNode } = node
@@ -93,20 +90,19 @@ const Row = ({
   key,
   index,
   style,
-  activeNodeArrayData,
   node,
   client,
   onClickNode,
+  activeNodeArray,
 }: {
   key?: number,
   index: number,
   style: Object,
-  activeNodeArrayData: Object,
   node: Array<Object>,
   client: Object,
   onClickNode: () => void,
+  activeNodeArray: Array<String>,
 }) => {
-  const { activeNodeArray } = activeNodeArrayData
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     node.url,
     activeNodeArray
