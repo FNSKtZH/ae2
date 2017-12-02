@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
+import Snackbar from 'material-ui/Snackbar'
 
 import Row from './TreeRow'
 import TreeFilter from './TreeFilter'
@@ -81,7 +82,7 @@ const Tree = ({
   dimensions: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
-  const { error } = treeData
+  const { error, loading: treeDataLoading } = treeData
   const nodes = buildNodesFromAppQuery({
     treeData,
     allCategoriesData,
@@ -117,6 +118,15 @@ const Tree = ({
           )}
         </AutoSizer>
       </AutoSizerContainer>
+      <Snackbar
+        open={treeDataLoading}
+        message="lade Daten..."
+        bodyStyle={{
+          maxWidth: 'auto',
+          minWidth: 'auto',
+          backgroundColor: '#2E7D32',
+        }}
+      />
     </Container>
   )
 }
