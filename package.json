@@ -13,7 +13,6 @@
     "history": "4.7.2",
     "lodash": "4.17.4",
     "material-ui": "0.19.4",
-    "postgraphql": "^4.0.0-alpha2.25",
     "react": "16.2.0",
     "react-apollo": "2.0.1",
     "react-autosuggest": "9.3.2",
@@ -28,7 +27,8 @@
     "styled-components": "2.2.4"
   },
   "devDependencies": {
-    "flow-bin": "0.60.1"
+    "flow-bin": "0.60.1",
+    "postgraphql": "^4.0.0-alpha2.25"
   },
   "scripts": {
     "start": "react-scripts start",
