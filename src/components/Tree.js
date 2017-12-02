@@ -89,7 +89,7 @@ const Tree = ({
     activeNodeArray,
   })
   const rowRenderer = ({ key, index, style }) => (
-    <Row key={key} index={index} style={style} nodes={nodes} />
+    <Row key={key} index={index} style={style} node={nodes[index]} />
   )
   const activeNodeIndex = findIndex(nodes, node =>
     isEqual(node.url, activeNodeArray)

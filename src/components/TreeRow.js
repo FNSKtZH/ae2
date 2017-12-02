@@ -77,8 +77,7 @@ const enhance = compose(
   activeNodeArrayData,
   withApollo,
   withHandlers({
-    onClickNode: ({ nodes, index, activeNodeArrayData }) => event => {
-      const node = nodes[index]
+    onClickNode: ({ node, index, activeNodeArrayData }) => event => {
       const { activeNodeArray } = activeNodeArrayData
       // do nothing when loading indicator is clicked
       // or if node is already active
@@ -95,7 +94,7 @@ const Row = ({
   index,
   style,
   activeNodeArrayData,
-  nodes,
+  node,
   client,
   onClickNode,
 }: {
@@ -103,11 +102,10 @@ const Row = ({
   index: number,
   style: Object,
   activeNodeArrayData: Object,
-  nodes: Array<Object>,
+  node: Array<Object>,
   client: Object,
   onClickNode: () => void,
 }) => {
-  const node = nodes[index]
   const { activeNodeArray } = activeNodeArrayData
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     node.url,
