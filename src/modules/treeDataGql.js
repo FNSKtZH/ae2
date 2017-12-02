@@ -10,20 +10,20 @@ export default gql`
     $existsLevel3: Boolean!
     $level3Taxonomy: String!
     $existsLevel4: Boolean!
-    $level4Taxonomy: Uuid!
-    $level4TaxonomyPossibleNull: Uuid
+    $level4Taxonomy: UUID!
+    $level4TaxonomyPossibleNull: UUID
     $existsLevel5: Boolean!
-    $level5Taxonomy: Uuid!
+    $level5Taxonomy: UUID!
     $existsLevel6: Boolean!
-    $level6Taxonomy: Uuid!
+    $level6Taxonomy: UUID!
     $existsLevel7: Boolean!
-    $level7Taxonomy: Uuid!
+    $level7Taxonomy: UUID!
     $existsLevel8: Boolean!
-    $level8Taxonomy: Uuid!
+    $level8Taxonomy: UUID!
     $existsLevel9: Boolean!
-    $level9Taxonomy: Uuid!
+    $level9Taxonomy: UUID!
     $existsLevel10: Boolean!
-    $level10Taxonomy: Uuid!
+    $level10Taxonomy: UUID!
   ) {
     allPropertyCollections @include(if: $notExistsLevel2Pc) {
       totalCount

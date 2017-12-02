@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION ae.object_object(taxonomy_object ae.object, taxonomy_id Uuid)
+CREATE OR REPLACE FUNCTION ae.object_object(taxonomy_object ae.object, taxonomy_id UUID)
   RETURNS setof ae.object AS
   $$
     SELECT to1.*
@@ -14,5 +14,5 @@ CREATE OR REPLACE FUNCTION ae.object_object(taxonomy_object ae.object, taxonomy_
       END
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.object_object(taxonomy_object ae.object, taxonomy_id Uuid)
+ALTER FUNCTION ae.object_object(taxonomy_object ae.object, taxonomy_id UUID)
   OWNER TO postgres;

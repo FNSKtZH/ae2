@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  query ObjectQuery($activeObjectId: Uuid!) {
+  query ObjectQuery($activeObjectId: UUID!) {
     objectById(id: $activeObjectId) {
       id
       taxonomyId

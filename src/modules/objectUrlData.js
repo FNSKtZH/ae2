@@ -5,7 +5,7 @@ import get from 'lodash/get'
 
 export default graphql(
   gql`
-    query objectUrlDataQuery($treeFilterId: Uuid!) {
+    query objectUrlDataQuery($treeFilterId: UUID!) {
       objectById(id: $treeFilterId) {
         id
         categoryByCategory {
