@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "flow-bin": "0.60.1",
+    "postgraphile": "^4.0.0-alpha2.25",
     "postgraphql": "^4.0.0-alpha2.25"
   },
   "scripts": {

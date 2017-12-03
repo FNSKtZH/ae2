@@ -5392,6 +5392,31 @@ postgraphile-core@0.1.0-alpha.35:
     graphile-build "0.1.0-alpha.32"
     graphile-build-pg "^0.1.0-alpha.35"
 
+postgraphile@^4.0.0-alpha2.25:
+  version "4.0.0-alpha2.25"
+  resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.0.0-alpha2.25.tgz#0bb8d943ee814f7adfcb6a49d62db5abaf45e956"
+  dependencies:
+    body-parser "^1.15.2"
+    chalk "1.1.3"
+    commander "2.9.0"
+    dataloader "^1.2.0"
+    debug "^2.3.3"
+    finalhandler "^1.0.6"
+    graphql ">=0.6.0 <1.0.0"
+    http-errors "^1.5.1"
+    jsonwebtoken "^7.1.9"
+    lodash ">=3.5 <5"
+    parseurl "^1.3.1"
+    pg "^6.1.0"
+    pg-connection-string "^0.1.3"
+    pg-minify "~0.5.3"
+    pg-sql2 "^1.0.0-alpha1.0"
+    pluralize "^3.0.0"
+    postgraphile-core "0.1.0-alpha.35"
+    postgres-interval "^1.0.2"
+    send "^0.16.1"
+    tslib "^1.5.0"
+
 postgraphql@^4.0.0-alpha2.25:
   version "4.0.0-alpha2.25"
   resolved "https://registry.yarnpkg.com/postgraphql/-/postgraphql-4.0.0-alpha2.25.tgz#a54a0df3f90f3312f20a6dd356ef385c31a483c3"
@@ -6837,8 +6862,8 @@ uc.micro@^1.0.1:
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.3.tgz#7ed50d5e0f9a9fb0a573379259f2a77458d50192"
 
 uglify-js@3.2.x, uglify-js@^3.0.13:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.2.0.tgz#cb411ee4ca0e0cadbfe3a4e1a1da97e6fa0d19c1"
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.2.1.tgz#d6427fd45a25fefc5d196689c0c772a6915e10fe"
   dependencies:
     commander "~2.12.1"
     source-map "~0.6.1"
