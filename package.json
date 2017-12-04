@@ -12,7 +12,7 @@
     "graphql-tag": "2.5.0",
     "history": "4.7.2",
     "lodash": "4.17.4",
-    "material-ui": "0.19.4",
+    "material-ui": "0.20.0",
     "react": "16.2.0",
     "react-apollo": "2.0.1",
     "react-autosuggest": "9.3.2",
@@ -29,6 +29,7 @@
   "devDependencies": {
     "flow-bin": "0.60.1",
     "postgraphile": "^4.0.0-alpha2.25",
+    "postgraphile-plugin-connection-filter": "^1.0.0-alpha.2",
     "postgraphql": "^4.0.0-alpha2.25"
   },
   "scripts": {
