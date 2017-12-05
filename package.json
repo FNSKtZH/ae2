@@ -16,7 +16,7 @@
     "react": "16.2.0",
     "react-apollo": "2.0.1",
     "react-autosuggest": "9.3.2",
-    "react-contextmenu": "2.9.0",
+    "react-contextmenu": "2.9.1",
     "react-dom": "16.2.0",
     "react-fns": "1.2.0",
     "react-linkify": "0.2.1",
