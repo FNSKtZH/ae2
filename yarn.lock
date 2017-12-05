@@ -2136,8 +2136,8 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.27:
-  version "1.3.27"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.27.tgz#78ecb8a399066187bb374eede35d9c70565a803d"
+  version "1.3.28"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.28.tgz#8dd4e6458086644e9f9f0a1cf32e2a1f9dffd9ee"
 
 elliptic@^6.0.0:
   version "6.4.0"
@@ -5674,9 +5674,9 @@ react-autowhatever@^10.1.0:
     react-themeable "^1.1.0"
     section-iterator "^2.0.0"
 
-react-contextmenu@2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.9.0.tgz#ce1568d25db3a886590aae38d783fdba3f708425"
+react-contextmenu@2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.9.1.tgz#391c7001f73e49772e37e98d154736d50dac11de"
   dependencies:
     classnames "^2.2.5"
     object-assign "^4.1.0"
