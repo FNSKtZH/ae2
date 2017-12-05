@@ -16,3 +16,4 @@ if val is object and field type is json, apply other sql:
 ```sql
 return sql.query`${identifier}->>'${val.key}' ILIKE ${val.val}`
 ```
+How to deal with data types of val?
