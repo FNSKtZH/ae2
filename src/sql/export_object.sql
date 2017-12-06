@@ -1,7 +1,7 @@
 select
     ae.taxonomy.name as taxonomy_name,
     ae.object.name as object_name,
-    ae.object.properties->>'Gattung' AS regexp_replace(concat_ws('__', ae.taxonomy.name::text, '__Gattung'), '\s', '_'),
+    ae.object.properties->>'Gattung' AS regexp_replace(concat_ws('_', ae.taxonomy.name::text, 'Gattung'), '\s', '-'),
     ae.property_collection_object.id as pc_id
 from
     ae.object
