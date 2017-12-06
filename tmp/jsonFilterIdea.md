@@ -14,6 +14,6 @@ in https://github.com/mattbretl/postgraphile-plugin-connection-filter/blob/maste
 
 if val is object and field type is json, apply other sql:
 ```sql
-return sql.query`${identifier}->>'${val.key}' ILIKE ${val.val}`
+return sql.query`${identifier}->>'${val.key}' ILIKE '%${val.val}%'`
 ```
 How to deal with data types of val?
