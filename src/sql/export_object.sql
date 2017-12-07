@@ -17,6 +17,6 @@ FROM
     ON ae.object.taxonomy_id = ae.taxonomy.id
 WHERE
     ae.taxonomy.name IN ('SISF Index 2 (2005)')
-    AND ae.object.properties->>'Gattung' ILIKE '%rosa%';
+    AND ae.object.properties->>'Gattung' ILIKE '%Achillea%';
 
 
