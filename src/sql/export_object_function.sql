@@ -15,7 +15,6 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
         LOOP
             sql := sql || ' AND ae.object.properties->>' || quote_literal(f.pname) || ' ' || f.comparator || ' ' || quote_literal(f.value);
         END LOOP;
-        RAISE LOG 'log: sql created after loop: %', sql;
     RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters;
     END
   $$
