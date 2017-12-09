@@ -15,7 +15,7 @@ WHERE
             INNER JOIN ae.taxonomy
             ON ae.object.taxonomy_id = ae.taxonomy.id
         WHERE
-            ae.taxonomy.name IN ('export_taxonomies')
+            ae.taxonomy.name = ANY('export_taxonomies')
             AND ae.object.properties->>'pName' 'comparator' '%value%'
     )
     AND (
