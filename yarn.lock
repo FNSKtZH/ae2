@@ -160,15 +160,15 @@ anymatch@^1.3.0:
     micromatch "^2.1.5"
     normalize-path "^2.0.0"
 
-apollo-cache-inmemory@1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.1.3.tgz#24aea981e2552ad1e34361862c1a140596707a2e"
+apollo-cache-inmemory@1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.1.4.tgz#63485b18f56f9ceb912df235b42959e890c89747"
   dependencies:
-    apollo-cache "^1.0.1"
-    apollo-utilities "^1.0.2"
+    apollo-cache "^1.0.2"
+    apollo-utilities "^1.0.3"
     graphql-anywhere "^4.0.1"
 
-apollo-cache@^1.0.1, apollo-cache@^1.0.2:
+apollo-cache@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/apollo-cache/-/apollo-cache-1.0.2.tgz#e3df98696c648649d16a6c3ca9c19e90a556effa"
   dependencies:
@@ -189,33 +189,33 @@ apollo-client@2.1.0:
     "@types/async" "2.0.45"
 
 apollo-link-dedup@^1.0.0:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/apollo-link-dedup/-/apollo-link-dedup-1.0.3.tgz#10df05214afb53ffb19c361451f8ae19d1964c83"
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/apollo-link-dedup/-/apollo-link-dedup-1.0.4.tgz#d3200804b8dc892794418f4ae2c40f7251e42b46"
   dependencies:
-    apollo-link "^1.0.4"
+    apollo-link "^1.0.6"
 
-apollo-link-http@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.3.0.tgz#ce0f79b20e0d31acec1e38146c96fbe541c567f7"
+apollo-link-http@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.3.1.tgz#c58aee1a27d1bf43dc9e9c634b8a91c68d21a082"
   dependencies:
-    apollo-link "^1.0.4"
+    apollo-link "^1.0.6"
 
-apollo-link-state@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/apollo-link-state/-/apollo-link-state-0.0.4.tgz#23a5c0dafd69d974bc740d6f9b821988af3a36e8"
+apollo-link-state@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/apollo-link-state/-/apollo-link-state-0.1.0.tgz#fe873915b83f3cb91a9492377278376214bcbee0"
   dependencies:
     apollo-utilities "^1.0.1"
-    graphql-anywhere "^4.0.0"
+    graphql-anywhere "^4.1.0-alpha.0"
 
-apollo-link@1.0.5, apollo-link@^1.0.0, apollo-link@^1.0.4:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.0.5.tgz#7ce058b61cb2f5071496968ef82499c202211d10"
+apollo-link@1.0.6, apollo-link@^1.0.0, apollo-link@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.0.6.tgz#ed5e975b4582b2471fd8eebf9efbd6691188dc0a"
   dependencies:
     "@types/zen-observable" "0.5.3"
     apollo-utilities "^1.0.0"
     zen-observable "^0.6.0"
 
-apollo-utilities@^1.0.0, apollo-utilities@^1.0.1, apollo-utilities@^1.0.2, apollo-utilities@^1.0.3:
+apollo-utilities@^1.0.0, apollo-utilities@^1.0.1, apollo-utilities@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.3.tgz#bf435277609850dd442cf1d5c2e8bc6655eaa943"
 
@@ -2752,9 +2752,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@0.60.1:
-  version "0.60.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.60.1.tgz#0f4fa7b49be2a916f18cd946fc4a51e32ffe4b48"
+flow-bin@0.61.0:
+  version "0.61.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.61.0.tgz#d0473a8c35dbbf4de573823f4932124397d32d35"
 
 for-in@^1.0.1:
   version "1.0.2"
@@ -2808,7 +2808,7 @@ fs-extra@3.0.1:
 
 fs-extra@^0.30.0:
   version "0.30.0"
-  resolved "http://registry.npmjs.org/fs-extra/-/fs-extra-0.30.0.tgz#f233ffcc08d4da7d432daa449776989db1df93f0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-0.30.0.tgz#f233ffcc08d4da7d432daa449776989db1df93f0"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^2.1.0"
@@ -3019,9 +3019,9 @@ graphile-build@^0.1.0-alpha.36:
     debug ">=2 <3"
     graphql-parse-resolve-info "^0.1.0-alpha.18"
 
-graphql-anywhere@^4.0.0, graphql-anywhere@^4.0.1:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-4.0.2.tgz#1dd13a53a659c5e09d0b6ccecfba771ee4939fa1"
+graphql-anywhere@^4.0.1, graphql-anywhere@^4.1.0-alpha.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-4.1.0.tgz#87c12f488e7c4c357f0045cb5208a35d12171d36"
   dependencies:
     apollo-utilities "^1.0.3"
 
@@ -5393,38 +5393,13 @@ postgraphile-core@0.1.0-alpha.36:
     graphile-build "^0.1.0-alpha.36"
     graphile-build-pg "^0.1.0-alpha.36"
 
-postgraphile-plugin-connection-filter@^1.0.0-alpha.2:
+postgraphile-plugin-connection-filter@1.0.0-alpha.2:
   version "1.0.0-alpha.2"
   resolved "https://registry.yarnpkg.com/postgraphile-plugin-connection-filter/-/postgraphile-plugin-connection-filter-1.0.0-alpha.2.tgz#22ddcd3a3c1a526f44fb2b404d945fe0c0627992"
 
-postgraphile@^4.0.0-alpha2.25:
+postgraphile@4.0.0-alpha2.26:
   version "4.0.0-alpha2.26"
   resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.0.0-alpha2.26.tgz#8dcee9675b20dc7d57e1993af5991ec854c6513a"
-  dependencies:
-    body-parser "^1.15.2"
-    chalk "1.1.3"
-    commander "2.9.0"
-    dataloader "^1.2.0"
-    debug "^2.3.3"
-    finalhandler "^1.0.6"
-    graphql ">=0.6.0 <1.0.0"
-    http-errors "^1.5.1"
-    jsonwebtoken "^7.1.9"
-    lodash ">=3.5 <5"
-    parseurl "^1.3.1"
-    pg "^6.1.0"
-    pg-connection-string "^0.1.3"
-    pg-minify "~0.5.3"
-    pg-sql2 "^1.0.0-alpha1.0"
-    pluralize "^3.0.0"
-    postgraphile-core "0.1.0-alpha.36"
-    postgres-interval "^1.0.2"
-    send "^0.16.1"
-    tslib "^1.5.0"
-
-postgraphql@^4.0.0-alpha2.25:
-  version "4.0.0-alpha2.26"
-  resolved "https://registry.yarnpkg.com/postgraphql/-/postgraphql-4.0.0-alpha2.26.tgz#83fd169537892b9b3bd94eda7764544452a8d16d"
   dependencies:
     body-parser "^1.15.2"
     chalk "1.1.3"
@@ -5647,9 +5622,9 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-apollo@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.0.1.tgz#43997db9f294d81bd229eb705944fb36d5164607"
+react-apollo@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.0.4.tgz#01dd32a8e388672f5d7385b21cdd0b94009ee9ee"
   dependencies:
     apollo-link "^1.0.0"
     hoist-non-react-statics "^2.2.0"
@@ -5951,8 +5926,8 @@ regenerate@^1.2.1:
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.3.3.tgz#0c336d3980553d755c39b586ae3b20aa49c82b7f"
 
 regenerator-runtime@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.0.tgz#7e54fe5b5ccd5d6624ea6255c3473be090b802e1"
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 
 regenerator-transform@^0.10.0:
   version "0.10.1"
