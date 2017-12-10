@@ -32,9 +32,9 @@ CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters t
             sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal(tf.value);
         END LOOP;
         sql := sql || ')';
-        FOREACH pcof IN ARRAY tax_filters
+        FOREACH pcof IN ARRAY pco_filters
         LOOP
-            sql := sql || ' AND (ae.property_collection.name = ' || pcof.pcname || ' AND ae.objecproperty_collection_objectt.properties->>' || quote_literal(pcof.pname) || ' ' || pcof.comparator || ' ' || quote_literal(pcof.value) || ')';
+            sql := sql || ' AND (ae.property_collection.name = ' || quote_literal(pcof.pcname) || ' AND ae.property_collection_object.properties->>' || quote_literal(pcof.pname) || ' ' || pcof.comparator || ' ' || quote_literal(pcof.value) || ')';
         END LOOP;
     RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters;
     END
