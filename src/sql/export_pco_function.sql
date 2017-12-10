@@ -1,11 +1,11 @@
 CREATE TYPE pco_filter AS (
     comparator text,
     pname text,
-    pcnname text,
+    pcname text,
     value text
 );
-CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[])
-  RETURNS setof ae.object AS
+CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[])
+  RETURNS setof ae.property_collection_object AS
   $$
     DECLARE
         tf tax_filter;
@@ -40,5 +40,5 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
     END
   $$
   LANGUAGE plpgsql STABLE;
-ALTER FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[])
+ALTER FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[])
   OWNER TO postgres;
