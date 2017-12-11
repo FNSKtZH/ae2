@@ -13,7 +13,11 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
     BEGIN
         FOREACH tf IN ARRAY tax_filters
         LOOP
-            sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal(tf.value);
+            IF tf.comparator IN ('ILIKE', 'LIKE') THEN
+                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal('%' || tf.value || '%');
+            ELSE
+                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal(tf.value);
+            END IF;
         END LOOP;
     RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters;
     END
