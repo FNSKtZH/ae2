@@ -18,7 +18,8 @@ CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters t
                     ON ae.property_collection_object.property_collection_id = ae.property_collection.id
                 ON ae.object.id = ae.property_collection_object.object_id
             WHERE
-                ae.object.id IN (SELECT
+                ae.object.id IN (
+                    SELECT
                         ae.object.id
                     FROM
                         ae.object
