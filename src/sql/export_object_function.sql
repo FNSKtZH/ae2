@@ -1,21 +1,18 @@
-CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[])
+CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[])
   RETURNS setof ae.object AS
   $$
-    DECLARE
-        tf tax_filter;
-        sql text := 'SELECT ae.object.* FROM ae.object INNER JOIN ae.taxonomy ON ae.object.taxonomy_id = ae.taxonomy.id WHERE ae.taxonomy.name = ANY($1)';
-    BEGIN
-        FOREACH tf IN ARRAY tax_filters
-        LOOP
-            IF tf.comparator IN ('ILIKE', 'LIKE') THEN
-                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal('%' || tf.value || '%');
-            ELSE
-                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal(tf.value);
-            END IF;
-        END LOOP;
-    RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters;
-    END
+    SELECT
+        ae.object.*
+    FROM
+        ae.object
+    WHERE
+        ae.object.id IN (
+            SELECT object_id FROM ae.export_pco(export_taxonomies, tax_filters, pco_filters)
+        )
+        OR ae.object.id IN (
+            SELECT object_id FROM ae.export_rco(export_taxonomies, tax_filters, rco_filters)
+        )
   $$
-  LANGUAGE plpgsql STABLE;
-ALTER FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[])
+  LANGUAGE sql STABLE;
+ALTER FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[])
   OWNER TO postgres;
