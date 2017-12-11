@@ -19,16 +19,21 @@ const floatingLabelStyle = {
 const enhance = compose(
   withApollo,
   withHandlers({
-    onChange: ({ taxname, pname, comparator, client }) => event =>
+    onChange: ({ taxname, pname, comparator, client }) => event => {
+      const value = event.target.value
+      let comparatorValue = comparator
+      if (!comparator && value) comparatorValue = 'ILIKE'
+      if (!value) comparatorValue = null
       client.mutate({
         mutation: exportTaxFiltersMutation,
         variables: {
           taxname,
           pname,
-          comparator: comparator || 'ILIKE',
-          value: event.target.value,
+          comparator: comparatorValue,
+          value,
         },
-      }),
+      })
+    },
   })
 )
 

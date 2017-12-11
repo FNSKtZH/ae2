@@ -44,8 +44,12 @@ const PcoComparator = ({
         value={comparator}
         onChange={onChange}
       >
-        <MenuItem value={null} primaryText="" />
-        <MenuItem value="=" primaryText="&#61;" />
+        <MenuItem value="ILIKE" primaryText="enthalten" />
+        <MenuItem
+          value="LIKE"
+          primaryText="enthalten (Grosschreibung berücksichtigt)"
+        />
+        <MenuItem value="=" primaryText="&#61; (genau gleich)" />
         <MenuItem value=">" primaryText="&#62;" />
         <MenuItem value=">=" primaryText="&#62;&#61;" />
         <MenuItem value="<" primaryText="&#60;" />

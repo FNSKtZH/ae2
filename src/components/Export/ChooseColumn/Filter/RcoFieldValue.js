@@ -19,11 +19,16 @@ const floatingLabelStyle = {
 const enhance = compose(
   withApollo,
   withHandlers({
-    onChange: ({ pcname, pname, comparator, client }) => event =>
+    onChange: ({ pcname, pname, comparator, client }) => event => {
+      const value = event.target.value
+      let comparatorValue = comparator
+      if (!comparator && value) comparatorValue = 'ILIKE'
+      if (!value) comparatorValue = null
       client.mutate({
         mutation: exportRcoFiltersMutation,
-        variables: { pcname, pname, comparator, value: event.target.value },
-      }),
+        variables: { pcname, pname, comparator: comparatorValue, value },
+      })
+    },
   })
 )
 
