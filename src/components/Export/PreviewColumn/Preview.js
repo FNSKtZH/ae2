@@ -13,6 +13,7 @@ import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
 import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
+import conv from '../../../modules/convertExportFieldName'
 
 const enhance = compose(
   exportTaxonomiesData,
@@ -72,7 +73,7 @@ const Preview = ({
     row.id = o.id
     const properties = JSON.parse(o.properties)
     exportTaxProperties.forEach(
-      p => (row[`${p.taxname}: ${p.pname}`] = properties[p.pname])
+      p => (row[`${conv(p.taxname)}__${conv(p.pname)}`] = properties[p.pname])
     )
     return row
   })
