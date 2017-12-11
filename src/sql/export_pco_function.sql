@@ -1,9 +1,3 @@
-CREATE TYPE pco_filter AS (
-    comparator text,
-    pname text,
-    pcname text,
-    value text
-);
 CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[])
   RETURNS setof ae.property_collection_object AS
   $$

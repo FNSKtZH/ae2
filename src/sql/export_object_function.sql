@@ -1,9 +1,3 @@
-CREATE TYPE tax_filter AS (
-    comparator text,
-    pname text,
-    taxname text,
-    value text
-);
 CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[])
   RETURNS setof ae.object AS
   $$
