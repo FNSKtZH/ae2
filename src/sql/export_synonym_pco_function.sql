@@ -14,7 +14,7 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_f
             WHERE
                 ae.object.id IN (
                     SELECT
-                        ae.object.*
+                        ae.object.id
                     FROM
                         ae.object
                         INNER JOIN ae.synonym
