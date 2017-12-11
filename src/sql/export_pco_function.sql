@@ -30,7 +30,11 @@ CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters t
     BEGIN
         FOREACH tf IN ARRAY tax_filters
         LOOP
-            sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal(tf.value);
+            IF tf.comparator IN ('ILIKE', 'LIKE') THEN
+                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal('%' || tf.value || '%');
+            ELSE
+                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal(tf.value);
+            END IF;
         END LOOP;
         sql := sql || ')';
         FOREACH pcof IN ARRAY pco_filters
