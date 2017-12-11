@@ -1,27 +1,27 @@
 // @flow
-import { graphql } from "react-apollo";
-import get from "lodash/get";
+import { graphql } from 'react-apollo'
+import get from 'lodash/get'
 
-import exportDataGql from "./exportDataGql";
+import exportDataGql from './exportDataGql'
 
 export default graphql(exportDataGql, {
   options: ({
     exportTaxonomiesData,
     exportTaxFiltersData,
     exportPcoFiltersData,
-    exportRcoFiltersData
+    exportRcoFiltersData,
   }: {
     exportTaxonomiesData: Object,
     exportTaxFiltersData: Object,
     exportPcoFiltersData: Object,
-    exportRcoFiltersData: Object
+    exportRcoFiltersData: Object,
   }) => ({
     variables: {
-      exportTaxonomies: get(exportTaxonomiesData, "exportTaxonomies", []),
-      taxFilters: get(exportTaxFiltersData, "exportTaxFilters", []),
-      pcoFilters: get(exportPcoFiltersData, "exportPcoFilters", []),
-      rcoFilters: get(exportRcoFiltersData, "exportRcoFilters", [])
-    }
+      exportTaxonomies: get(exportTaxonomiesData, 'exportTaxonomies', []),
+      taxFilters: get(exportTaxFiltersData, 'exportTaxFilters', []),
+      pcoFilters: get(exportPcoFiltersData, 'exportPcoFilters', []),
+      rcoFilters: get(exportRcoFiltersData, 'exportRcoFilters', []),
+    },
   }),
-  name: "treeData"
-});
+  name: 'exportData',
+})
