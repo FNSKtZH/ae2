@@ -1,0 +1,16 @@
+{
+  exportObject(exportTaxonomies: ["CSCF (2009)"], taxFilters: [{comparator: "ILIKE", pname: "Gattung", taxname: "CSCF (2009)", value: "Canis"}]) {
+    totalCount
+    nodes {
+      id
+      properties
+    }
+  }
+  exportPco(exportTaxonomies: ["CSCF (2009)"], taxFilters: [{comparator: "ILIKE", pname: "Gattung", taxname: "CSCF (2009)", value: "Canis"}], pcoFilters: [{comparator: "ILIKE", pname: "Priorität", pcname: "CH Prioritäten (2011)", value: "hoch"}]) {
+    totalCount
+    nodes {
+      id
+      properties
+    }
+  }
+}
