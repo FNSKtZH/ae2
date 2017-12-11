@@ -15,13 +15,7 @@ const Container = styled.div`
   overflow: auto !important;
 `
 
-const Filter = ({
-  data,
-  exportTaxonomiesData,
-}: {
-  data: Object,
-  exportTaxonomiesData: Object,
-}) => {
+const Filter = () => {
   return (
     <Container>
       <HowTo />

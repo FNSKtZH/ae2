@@ -14,9 +14,9 @@ import TaxField from './TaxField'
 import PcoField from './PcoField'
 import RcoField from './RcoField'
 //import RcoChooser from './RcoChooser'
-import constants from '../../../modules/constants'
-import propsByTaxData from '../../../modules/propsByTaxData'
-import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
+import constants from '../../../../modules/constants'
+import propsByTaxData from '../../../../modules/propsByTaxData'
+import exportTaxonomiesData from '../../../../modules/exportTaxonomiesData'
 
 const Container = styled.div`
   padding: 5px 10px;

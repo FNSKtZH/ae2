@@ -5,7 +5,7 @@ import compose from 'recompose/compose'
 
 import Comparator from './PcoComparator'
 import PcoFieldValue from './PcoFieldValue'
-import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
+import exportPcoFiltersData from '../../../../modules/exportPcoFiltersData'
 
 const Container = styled.div`
   display: flex;

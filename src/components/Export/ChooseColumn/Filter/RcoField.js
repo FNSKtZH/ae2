@@ -5,7 +5,7 @@ import compose from 'recompose/compose'
 
 import Comparator from './RcoComparator'
 import RcoFieldValue from './RcoFieldValue'
-import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
+import exportRcoFiltersData from '../../../../modules/exportRcoFiltersData'
 
 const Container = styled.div`
   display: flex;

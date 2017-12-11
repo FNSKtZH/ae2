@@ -6,9 +6,9 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import addExportPcoPropertyMutation from '../../../modules/addExportPcoPropertyMutation'
-import removeExportPcoPropertyMutation from '../../../modules/removeExportPcoPropertyMutation'
-import exportPcoPropertiesData from '../../../modules/exportPcoPropertiesData'
+import addExportPcoPropertyMutation from '../../../../modules/addExportPcoPropertyMutation'
+import removeExportPcoPropertyMutation from '../../../../modules/removeExportPcoPropertyMutation'
+import exportPcoPropertiesData from '../../../../modules/exportPcoPropertiesData'
 
 const Container = styled.div``
 const Count = styled.span`

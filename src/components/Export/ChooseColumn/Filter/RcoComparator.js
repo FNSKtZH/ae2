@@ -7,7 +7,7 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import exportRcoFiltersMutation from '../../../modules/exportRcoFiltersMutation'
+import exportRcoFiltersMutation from '../../../../modules/exportRcoFiltersMutation'
 
 const Container = styled.div``
 const StyledSelectField = styled(SelectField)`

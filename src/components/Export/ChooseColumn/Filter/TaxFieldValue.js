@@ -6,7 +6,7 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import exportRcoFiltersMutation from '../../../modules/exportRcoFiltersMutation'
+import exportTaxFiltersMutation from '../../../../modules/exportTaxFiltersMutation'
 
 const Container = styled.div`
   width: 100%;
@@ -19,15 +19,15 @@ const floatingLabelStyle = {
 const enhance = compose(
   withApollo,
   withHandlers({
-    onChange: ({ pCName, pName, comparator, client }) => event =>
+    onChange: ({ taxName, pName, comparator, client }) => event =>
       client.mutate({
-        mutation: exportRcoFiltersMutation,
-        variables: { pCName, pName, comparator, value: event.target.value },
+        mutation: exportTaxFiltersMutation,
+        variables: { taxName, pName, comparator, value: event.target.value },
       }),
   })
 )
 
-const RcoFieldValue = ({
+const TaxFieldValue = ({
   pName,
   value,
   properties,
@@ -50,4 +50,4 @@ const RcoFieldValue = ({
   </Container>
 )
 
-export default enhance(RcoFieldValue)
+export default enhance(TaxFieldValue)

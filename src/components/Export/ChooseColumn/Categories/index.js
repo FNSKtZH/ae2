@@ -10,13 +10,13 @@ import get from 'lodash/get'
 
 import HowTo from './HowTo'
 
-import exportCategoriesMutation from '../../../modules/exportCategoriesMutation'
-import exportCategoriesData from '../../../modules/exportCategoriesData'
-import exportTaxonomiesMutation from '../../../modules/exportTaxonomiesMutation'
-import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
-import propsByTaxData from '../../../modules/propsByTaxData'
-import allCategoriesData from '../../../modules/allCategoriesData'
-import taxonomiesOfCategoriesData from '../../../modules/taxonomiesOfCategoriesData'
+import exportCategoriesMutation from '../../../../modules/exportCategoriesMutation'
+import exportCategoriesData from '../../../../modules/exportCategoriesData'
+import exportTaxonomiesMutation from '../../../../modules/exportTaxonomiesMutation'
+import exportTaxonomiesData from '../../../../modules/exportTaxonomiesData'
+import propsByTaxData from '../../../../modules/propsByTaxData'
+import allCategoriesData from '../../../../modules/allCategoriesData'
+import taxonomiesOfCategoriesData from '../../../../modules/taxonomiesOfCategoriesData'
 
 const Container = styled.div`
   padding: 5px 10px;

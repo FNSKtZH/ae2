@@ -5,7 +5,7 @@ import compose from 'recompose/compose'
 
 import Comparator from './TaxComparator'
 import TaxFieldValue from './TaxFieldValue'
-import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
+import exportTaxFiltersData from '../../../../modules/exportTaxFiltersData'
 
 const Container = styled.div`
   display: flex;

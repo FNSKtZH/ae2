@@ -6,9 +6,9 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import addExportRcoPropertyMutation from '../../../modules/addExportRcoPropertyMutation'
-import removeExportRcoPropertyMutation from '../../../modules/removeExportRcoPropertyMutation'
-import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
+import addExportTaxPropertyMutation from '../../../../modules/addExportTaxPropertyMutation'
+import removeExportTaxPropertyMutation from '../../../../modules/removeExportTaxPropertyMutation'
+import exportTaxPropertiesData from '../../../../modules/exportTaxPropertiesData'
 
 const Container = styled.div``
 const Count = styled.span`
@@ -17,38 +17,38 @@ const Count = styled.span`
 
 const enhance = compose(
   withApollo,
-  exportRcoPropertiesData,
+  exportTaxPropertiesData,
   withHandlers({
-    onCheck: ({ pCName, pName, client }) => (event, isChecked) => {
+    onCheck: ({ taxName, pName, client }) => (event, isChecked) => {
       const mutation = isChecked
-        ? addExportRcoPropertyMutation
-        : removeExportRcoPropertyMutation
+        ? addExportTaxPropertyMutation
+        : removeExportTaxPropertyMutation
       client.mutate({
         mutation,
-        variables: { pCName, pName },
+        variables: { taxName, pName },
       })
     },
   })
 )
 
-const RcoChooser = ({
-  pCName,
+const TaxChooser = ({
+  taxName,
   pName,
   jsontype,
   count,
   onCheck,
-  exportRcoPropertiesData,
+  exportTaxPropertiesData,
 }: {
-  pCName: string,
+  taxName: string,
   pName: string,
   jsontype: string,
   count: number,
   onCheck: () => {},
-  exportRcoPropertiesData: Object,
+  exportTaxPropertiesData: Object,
 }) => {
-  const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
+  const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
   const checked =
-    exportRcoProperties.filter(x => x.pCName === pCName && x.pName === pName)
+    exportTaxProperties.filter(x => x.taxName === taxName && x.pName === pName)
       .length > 0
 
   return (
@@ -66,4 +66,4 @@ const RcoChooser = ({
   )
 }
 
-export default enhance(RcoChooser)
+export default enhance(TaxChooser)
