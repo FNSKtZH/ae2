@@ -65,19 +65,27 @@ const Preview = ({
   const exportRcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])
   console.log('Preview: exportData:', exportData)
   const objects = get(exportData, 'exportObject.nodes', [])
+  const pco = get(exportData, 'exportPco.nodes', [])
   console.log('Preview: objects:', objects)
   console.log('Preview: exportTaxProperties:', exportTaxProperties)
   console.log('Preview: exportPcoProperties:', exportPcoProperties)
   const rows = objects.map(o => {
+    // 1. object
     const row = {}
     row.id = o.id
     const properties = JSON.parse(o.properties)
     exportTaxProperties.forEach(
       p => (row[`${conv(p.taxname)}__${conv(p.pname)}`] = properties[p.pname])
     )
-    /*exportPcoProperties.forEach(
-      p => (row[`${conv(p.pcname)}__${conv(p.pname)}`] = properties[p.pname])
-    )*/
+    // 2. pco
+    console.log('Preview: pco:', pco)
+    const thisPco = pco.find(p => p.objectId === o.id)
+    console.log('Preview: thisPco:', thisPco)
+    const thisPcoProperties = thisPco ? JSON.parse(thisPco.properties) : null
+    console.log('Preview: thisPcoProperties:', thisPcoProperties)
+    exportPcoProperties.forEach(p => {
+      row[`${conv(p.pcname)}__${conv(p.pname)}`] = thisPcoProperties[p.pname]
+    })
     return row
   })
   console.log('Preview: rows:', rows)
