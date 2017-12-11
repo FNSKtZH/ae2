@@ -41,7 +41,13 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_f
         sql := sql || '))';
         FOREACH rcof IN ARRAY rco_filters
         LOOP
-            sql := sql || ' AND (ae.property_collection.name = ' || quote_literal(rcof.pcname) || ' AND ae.relation.properties->>' || quote_literal(rcof.pname) || ' ' || rcof.comparator || ' ' || quote_literal(rcof.value) || ')';
+            sql := sql || ' AND (ae.property_collection.name = ' || quote_literal(rcof.pcname);
+            IF rcof.comparator IN ('ILIKE', 'LIKE') THEN
+                sql := sql || ' AND ae.relation.properties->>' || quote_literal(rcof.pname) || ' ' || rcof.comparator || ' ' || quote_literal('%' || rcof.value || '%');
+            ELSE
+                sql := sql || ' AND ae.relation.properties->>' || quote_literal(rcof.pname) || ' ' || rcof.comparator || ' ' || quote_literal(rcof.value);
+            END IF;
+            sql := sql || ')';
         END LOOP;
     RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, rco_filters;
     END
