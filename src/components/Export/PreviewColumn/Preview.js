@@ -60,14 +60,11 @@ const Preview = ({
     'exportRcoProperties',
     []
   )
-  console.log('Preview: exportData:', exportData)
   const objects = get(exportData, 'exportObject.nodes', [])
   const pco = get(exportData, 'exportPco.nodes', [])
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
   const rco = get(exportData, 'exportRco.nodes', [])
   const synonymRco = get(exportData, 'exportSynonymRco.nodes', [])
-  console.log('Preview: exportPcoProperties:', exportPcoProperties)
-  console.log('Preview: synonymPco:', synonymPco)
   const rows = objects.map(o => {
     // 1. object
     const row = {}
@@ -123,8 +120,18 @@ const Preview = ({
     return row
   })
   console.log('Preview: rows:', rows)
+  const pvColumns = rows[0]
+    ? Object.keys(rows[0]).map(k => ({ key: k, name: k }))
+    : []
 
-  return <div>to do</div>
+  return (
+    <ReactDataGrid
+      columns={pvColumns}
+      rowGetter={i => rows[i]}
+      rowsCount={rows.length}
+      minHeight={500}
+    />
+  )
 }
 
 export default enhance(Preview)
