@@ -173,8 +173,8 @@ const Properties = ({
                   {taxPropertiesByTaxonomy[pc].map(field => (
                     <TaxChooser
                       key={`${field.propertyName}${field.jsontype}`}
-                      taxName={field.taxonomyName}
-                      pName={field.propertyName}
+                      taxname={field.taxonomyName}
+                      pname={field.propertyName}
                       jsontype={field.jsontype}
                       count={field.count}
                     />
@@ -234,8 +234,8 @@ const Properties = ({
                   {pcoPropertiesByPropertyCollection[pc].map(field => (
                     <PcoChooser
                       key={`${field.propertyName}${field.jsontype}`}
-                      pCName={field.propertyCollectionName}
-                      pName={field.propertyName}
+                      pcname={field.propertyCollectionName}
+                      pname={field.propertyName}
                       jsontype={field.jsontype}
                       count={field.count}
                     />
@@ -295,8 +295,8 @@ const Properties = ({
                   {rcoPropertiesByPropertyCollection[pc].map(field => (
                     <RcoChooser
                       key={`${field.propertyName}${field.jsontype}`}
-                      pCName={field.propertyCollectionName}
-                      pName={field.propertyName}
+                      pcname={field.propertyCollectionName}
+                      pname={field.propertyName}
                       jsontype={field.jsontype}
                       count={field.count}
                     />

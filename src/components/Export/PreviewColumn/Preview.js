@@ -67,6 +67,16 @@ const Preview = ({
   const objects = get(exportData, 'exportObject.nodes', [])
   console.log('Preview: objects:', objects)
   console.log('Preview: exportTaxProperties:', exportTaxProperties)
+  const rows = objects.map(o => {
+    const row = {}
+    row.id = o.id
+    const properties = JSON.parse(o.properties)
+    exportTaxProperties.forEach(
+      p => (row[`${p.taxname}: ${p.pname}`] = properties[p.pname])
+    )
+    return row
+  })
+  console.log('Preview: rows:', rows)
 
   return <div>to do</div>
 }

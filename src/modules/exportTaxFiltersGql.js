@@ -4,8 +4,8 @@ import gql from 'graphql-tag'
 export default gql`
   query exportTaxFiltersQuery {
     exportTaxFilters @client {
-      taxName
-      pName
+      taxname
+      pname
       comparator
       value
     }

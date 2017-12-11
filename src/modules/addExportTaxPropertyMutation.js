@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation addExportTaxProperty($taxName: String, $pName: String) {
-    addExportTaxProperty(taxName: $taxName, pName: $pName) @client
+  mutation addExportTaxProperty($taxname: String, $pname: String) {
+    addExportTaxProperty(taxname: $taxname, pname: $pname) @client
   }
 `

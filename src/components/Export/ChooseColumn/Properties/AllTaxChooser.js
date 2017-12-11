@@ -23,11 +23,11 @@ const enhance = compose(
         ? addExportTaxPropertyMutation
         : removeExportTaxPropertyMutation
       properties.forEach(p => {
-        const taxName = p.taxonomyName
-        const pName = p.propertyName
+        const taxname = p.taxonomyName
+        const pname = p.propertyName
         client.mutate({
           mutation,
-          variables: { taxName, pName },
+          variables: { taxname, pname },
         })
       })
     },
@@ -47,7 +47,7 @@ const AllTaxChooser = ({
   const checkedArray = properties.map(
     p =>
       exportTaxProperties.filter(
-        x => x.taxName === p.taxonomyName && x.pName === p.propertyName
+        x => x.taxname === p.taxonomyName && x.pname === p.propertyName
       ).length > 0
   )
   const checked = checkedArray.length > 0 && !checkedArray.includes(false)

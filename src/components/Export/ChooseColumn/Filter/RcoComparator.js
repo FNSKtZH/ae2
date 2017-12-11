@@ -17,14 +17,14 @@ const StyledSelectField = styled(SelectField)`
 const enhance = compose(
   withApollo,
   withHandlers({
-    onChange: ({ pCName, pName, value, client }) => (
+    onChange: ({ pcname, pname, value, client }) => (
       event,
       index,
       comparator
     ) =>
       client.mutate({
         mutation: exportRcoFiltersMutation,
-        variables: { pCName, pName, comparator, value },
+        variables: { pcname, pname, comparator, value },
       }),
   })
 )

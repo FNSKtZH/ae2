@@ -19,12 +19,12 @@ const floatingLabelStyle = {
 const enhance = compose(
   withApollo,
   withHandlers({
-    onChange: ({ taxName, pName, comparator, client }) => event =>
+    onChange: ({ taxname, pname, comparator, client }) => event =>
       client.mutate({
         mutation: exportTaxFiltersMutation,
         variables: {
-          taxName,
-          pName,
+          taxname,
+          pname,
           comparator: comparator || 'ILIKE',
           value: event.target.value,
         },
@@ -33,12 +33,12 @@ const enhance = compose(
 )
 
 const TaxFieldValue = ({
-  pName,
+  pname,
   value,
   properties,
   onChange,
 }: {
-  pName: string,
+  pname: string,
   value: string,
   properties: Array<Object>,
   onChange: () => {},
@@ -46,7 +46,7 @@ const TaxFieldValue = ({
   <Container>
     <TextField
       floatingLabelFixed
-      floatingLabelText={pName}
+      floatingLabelText={pname}
       floatingLabelStyle={floatingLabelStyle}
       value={value || ''}
       fullWidth

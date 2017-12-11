@@ -19,21 +19,21 @@ const floatingLabelStyle = {
 const enhance = compose(
   withApollo,
   withHandlers({
-    onChange: ({ pCName, pName, comparator, client }) => event =>
+    onChange: ({ pcname, pname, comparator, client }) => event =>
       client.mutate({
         mutation: exportPcoFiltersMutation,
-        variables: { pCName, pName, comparator, value: event.target.value },
+        variables: { pcname, pname, comparator, value: event.target.value },
       }),
   })
 )
 
 const PcoFieldValue = ({
-  pName,
+  pname,
   value,
   properties,
   onChange,
 }: {
-  pName: string,
+  pname: string,
   value: string,
   properties: Array<Object>,
   onChange: () => {},
@@ -41,7 +41,7 @@ const PcoFieldValue = ({
   <Container>
     <TextField
       floatingLabelFixed
-      floatingLabelText={pName}
+      floatingLabelText={pname}
       floatingLabelStyle={floatingLabelStyle}
       value={value || ''}
       fullWidth

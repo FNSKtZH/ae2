@@ -48,11 +48,11 @@ const TaxonomyObject = ({
   showLink: Boolean,
 }) => {
   const taxonomy = get(objekt, 'taxonomyByTaxonomyId', {})
-  let taxName = get(taxonomy, 'name', '(Name fehlt)')
+  let taxname = get(taxonomy, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
   const properties = JSON.parse(objekt.properties) || {}
   if (properties['Artname vollständig']) {
-    taxName = `${taxName}: ${properties['Artname vollständig']}`
+    taxname = `${taxname}: ${properties['Artname vollständig']}`
   }
   let linkUrl
   let linkText
@@ -64,11 +64,11 @@ const TaxonomyObject = ({
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
   }
-  let title = taxName
+  let title = taxname
   if (showLink) {
     title = (
       <SynonymContainer>
-        <SynonymText>{taxName}</SynonymText>
+        <SynonymText>{taxname}</SynonymText>
         <SynonymLink
           href={linkUrl}
           target="_blank"

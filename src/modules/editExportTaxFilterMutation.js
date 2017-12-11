@@ -3,14 +3,14 @@ import gql from 'graphql-tag'
 
 export default gql`
   mutation editExportTaxFilter(
-    $taxName: String
-    $pName: String
+    $taxname: String
+    $pname: String
     $comparator: String
     $value: String
   ) {
     editExportTaxFilter(
-      taxName: $taxName
-      pName: $pName
+      taxname: $taxname
+      pname: $pname
       comparator: $comparator
       value: $value
     ) @client

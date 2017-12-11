@@ -16,14 +16,14 @@ const Container = styled.div`
 const enhance = compose(exportRcoFiltersData)
 
 const RcoField = ({
-  pCName,
-  pName,
+  pcname,
+  pname,
   jsontype,
   count,
   exportRcoFiltersData,
 }: {
-  pCName: string,
-  pName: string,
+  pcname: string,
+  pname: string,
   jsontype: string,
   count: number,
   exportRcoFiltersData: Object,
@@ -31,21 +31,21 @@ const RcoField = ({
   const { exportRcoFilters } = exportRcoFiltersData
   //console.log('RcoField: exportRcoFilters:', exportRcoFilters)
   const exportRcoFilter = exportRcoFilters.find(
-    x => x.pCName === pCName && x.pName === pName
+    x => x.pcname === pcname && x.pname === pname
   ) || { comparator: null, value: null }
   const { comparator, value } = exportRcoFilter
 
   return (
     <Container>
       <RcoFieldValue
-        pCName={pCName}
-        pName={pName}
+        pcname={pcname}
+        pname={pname}
         value={value}
         comparator={comparator}
       />
       <Comparator
-        pCName={pCName}
-        pName={pName}
+        pcname={pcname}
+        pname={pname}
         comparator={comparator}
         value={value}
       />

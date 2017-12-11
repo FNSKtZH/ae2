@@ -161,8 +161,8 @@ const Filter = ({
                   {taxPropertiesByTaxonomy[pc].map(field => (
                     <TaxField
                       key={`${field.propertyName}${field.jsontype}`}
-                      taxName={field.taxonomyName}
-                      pName={field.propertyName}
+                      taxname={field.taxonomyName}
+                      pname={field.propertyName}
                       jsontype={field.jsontype}
                     />
                   ))}
@@ -216,8 +216,8 @@ const Filter = ({
                   {pcoPropertiesByPropertyCollection[pc].map(field => (
                     <PcoField
                       key={`${field.propertyName}${field.jsontype}`}
-                      pCName={field.propertyCollectionName}
-                      pName={field.propertyName}
+                      pcname={field.propertyCollectionName}
+                      pname={field.propertyName}
                       jsontype={field.jsontype}
                     />
                   ))}
@@ -271,8 +271,8 @@ const Filter = ({
                   {rcoPropertiesByPropertyCollection[pc].map(field => (
                     <RcoField
                       key={`${field.propertyName}${field.jsontype}`}
-                      pCName={field.propertyCollectionName}
-                      pName={field.propertyName}
+                      pcname={field.propertyCollectionName}
+                      pname={field.propertyName}
                       jsontype={field.jsontype}
                     />
                   ))}

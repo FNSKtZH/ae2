@@ -6,7 +6,7 @@ FROM
     ON ae.object.taxonomy_id = ae.taxonomy.id
 WHERE
     ae.taxonomy.name IN ('export_taxonomies')
-    AND ae.object.properties->>'pName' 'comparator' '%value%';
+    AND ae.object.properties->>'pname' 'comparator' '%value%';
 
 -- example:
 SELECT

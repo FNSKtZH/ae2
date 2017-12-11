@@ -19,28 +19,28 @@ const enhance = compose(
   withApollo,
   exportTaxPropertiesData,
   withHandlers({
-    onCheck: ({ taxName, pName, client }) => (event, isChecked) => {
+    onCheck: ({ taxname, pname, client }) => (event, isChecked) => {
       const mutation = isChecked
         ? addExportTaxPropertyMutation
         : removeExportTaxPropertyMutation
       client.mutate({
         mutation,
-        variables: { taxName, pName },
+        variables: { taxname, pname },
       })
     },
   })
 )
 
 const TaxChooser = ({
-  taxName,
-  pName,
+  taxname,
+  pname,
   jsontype,
   count,
   onCheck,
   exportTaxPropertiesData,
 }: {
-  taxName: string,
-  pName: string,
+  taxname: string,
+  pname: string,
   jsontype: string,
   count: number,
   onCheck: () => {},
@@ -48,7 +48,7 @@ const TaxChooser = ({
 }) => {
   const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
   const checked =
-    exportTaxProperties.filter(x => x.taxName === taxName && x.pName === pName)
+    exportTaxProperties.filter(x => x.taxname === taxname && x.pname === pname)
       .length > 0
 
   return (
@@ -56,7 +56,7 @@ const TaxChooser = ({
       <Checkbox
         label={
           <div>
-            {pName} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
+            {pname} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
           </div>
         }
         checked={checked}

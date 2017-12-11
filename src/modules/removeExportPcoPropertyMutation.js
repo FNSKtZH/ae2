@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation removeExportPcoProperty($pCName: String, $pName: String) {
-    removeExportPcoProperty(pCName: $pCName, pName: $pName) @client
+  mutation removeExportPcoProperty($pcname: String, $pname: String) {
+    removeExportPcoProperty(pcname: $pcname, pname: $pname) @client
   }
 `

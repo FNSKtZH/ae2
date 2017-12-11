@@ -79,7 +79,7 @@ export default withClientState({
       })
       return null
     },
-    addExportTaxProperty: (_, { taxName, pName }, { cache }) => {
+    addExportTaxProperty: (_, { taxname, pname }, { cache }) => {
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
@@ -98,17 +98,17 @@ export default withClientState({
           data: {
             exportTaxProperties: [
               ...currentTax.exportTaxProperties,
-              { taxName, pName, __typename: 'ExportTaxProperty' },
+              { taxname, pname, __typename: 'ExportTaxProperty' },
             ],
           },
         })
       }
       return null
     },
-    removeExportTaxProperty: (_, { taxName, pName }, { cache }) => {
+    removeExportTaxProperty: (_, { taxname, pname }, { cache }) => {
       const current = cache.readQuery({ query: exportTaxPropertiesGql })
       const exportTaxProperties = current.exportTaxProperties.filter(
-        x => !(x.taxName === taxName && x.pName === pName)
+        x => !(x.taxname === taxname && x.pname === pname)
       )
       cache.writeQuery({
         query: exportTaxPropertiesGql,
@@ -118,14 +118,14 @@ export default withClientState({
     },
     setExportTaxFilters: (
       _,
-      { taxName, pName, comparator, value },
+      { taxname, pname, comparator, value },
       { cache }
     ) => {
       const { exportTaxFilters } = cache.readQuery({
         query: exportTaxFiltersGql,
       })
       const exportTaxFilter = exportTaxFilters.find(
-        x => x.taxName === taxName && x.pName === pName
+        x => x.taxname === taxname && x.pname === pname
       )
       if (!comparator && !value && value !== 0) {
         // remove
@@ -133,7 +133,7 @@ export default withClientState({
           query: exportTaxFiltersGql,
           data: {
             exportTaxFilters: exportTaxFilters.filter(
-              x => !(x.taxName === taxName && x.pName === pName)
+              x => !(x.taxname === taxname && x.pname === pname)
             ),
           },
         })
@@ -145,8 +145,8 @@ export default withClientState({
             exportTaxFilters: [
               ...exportTaxFilters,
               {
-                taxName,
-                pName,
+                taxname,
+                pname,
                 comparator,
                 value,
                 __typename: 'ExportTaxFilter',
@@ -161,11 +161,11 @@ export default withClientState({
           data: {
             exportTaxFilters: [
               ...exportTaxFilters.filter(
-                x => !(x.taxName === taxName && x.pName === pName)
+                x => !(x.taxname === taxname && x.pname === pname)
               ),
               {
-                taxName,
-                pName,
+                taxname,
+                pname,
                 comparator,
                 value,
                 __typename: 'ExportTaxFilter',
@@ -176,7 +176,7 @@ export default withClientState({
       }
       return null
     },
-    addExportPcoProperty: (_, { pCName, pName }, { cache }) => {
+    addExportPcoProperty: (_, { pcname, pname }, { cache }) => {
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
@@ -195,17 +195,17 @@ export default withClientState({
           data: {
             exportPcoProperties: [
               ...currentPco.exportPcoProperties,
-              { pCName, pName, __typename: 'ExportPcoProperty' },
+              { pcname, pname, __typename: 'ExportPcoProperty' },
             ],
           },
         })
       }
       return null
     },
-    removeExportPcoProperty: (_, { pCName, pName }, { cache }) => {
+    removeExportPcoProperty: (_, { pcname, pname }, { cache }) => {
       const current = cache.readQuery({ query: exportPcoPropertiesGql })
       const exportPcoProperties = current.exportPcoProperties.filter(
-        x => !(x.pCName === pCName && x.pName === pName)
+        x => !(x.pcname === pcname && x.pname === pname)
       )
       cache.writeQuery({
         query: exportPcoPropertiesGql,
@@ -215,14 +215,14 @@ export default withClientState({
     },
     setExportPcoFilters: (
       _,
-      { pCName, pName, comparator, value },
+      { pcname, pname, comparator, value },
       { cache }
     ) => {
       const { exportPcoFilters } = cache.readQuery({
         query: exportPcoFiltersGql,
       })
       const exportPcoFilter = exportPcoFilters.find(
-        x => x.pCName === pCName && x.pName === pName
+        x => x.pcname === pcname && x.pname === pname
       )
       if (!comparator && !value && value !== 0) {
         // remove
@@ -230,7 +230,7 @@ export default withClientState({
           query: exportPcoFiltersGql,
           data: {
             exportPcoFilters: exportPcoFilters.filter(
-              x => !(x.pCName === pCName && x.pName === pName)
+              x => !(x.pcname === pcname && x.pname === pname)
             ),
           },
         })
@@ -242,8 +242,8 @@ export default withClientState({
             exportPcoFilters: [
               ...exportPcoFilters,
               {
-                pCName,
-                pName,
+                pcname,
+                pname,
                 comparator,
                 value,
                 __typename: 'ExportPcoFilter',
@@ -258,11 +258,11 @@ export default withClientState({
           data: {
             exportPcoFilters: [
               ...exportPcoFilters.filter(
-                x => !(x.pCName === pCName && x.pName === pName)
+                x => !(x.pcname === pcname && x.pname === pname)
               ),
               {
-                pCName,
-                pName,
+                pcname,
+                pname,
                 comparator,
                 value,
                 __typename: 'ExportPcoFilter',
@@ -273,7 +273,7 @@ export default withClientState({
       }
       return null
     },
-    addExportRcoProperty: (_, { pCName, pName }, { cache }) => {
+    addExportRcoProperty: (_, { pcname, pname }, { cache }) => {
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
@@ -292,17 +292,17 @@ export default withClientState({
           data: {
             exportRcoProperties: [
               ...currentRco.exportRcoProperties,
-              { pCName, pName, __typename: 'ExportRcoProperty' },
+              { pcname, pname, __typename: 'ExportRcoProperty' },
             ],
           },
         })
       }
       return null
     },
-    removeExportRcoProperty: (_, { pCName, pName }, { cache }) => {
+    removeExportRcoProperty: (_, { pcname, pname }, { cache }) => {
       const current = cache.readQuery({ query: exportRcoPropertiesGql })
       const exportRcoProperties = current.exportRcoProperties.filter(
-        x => !(x.pCName === pCName && x.pName === pName)
+        x => !(x.pcname === pcname && x.pname === pname)
       )
       cache.writeQuery({
         query: exportRcoPropertiesGql,
@@ -312,14 +312,14 @@ export default withClientState({
     },
     setExportRcoFilters: (
       _,
-      { pCName, pName, comparator, value },
+      { pcname, pname, comparator, value },
       { cache }
     ) => {
       const { exportRcoFilters } = cache.readQuery({
         query: exportRcoFiltersGql,
       })
       const exportRcoFilter = exportRcoFilters.find(
-        x => x.pCName === pCName && x.pName === pName
+        x => x.pcname === pcname && x.pname === pname
       )
       if (!comparator && !value && value !== 0) {
         // remove
@@ -327,7 +327,7 @@ export default withClientState({
           query: exportRcoFiltersGql,
           data: {
             exportRcoFilters: exportRcoFilters.filter(
-              x => !(x.pCName === pCName && x.pName === pName)
+              x => !(x.pcname === pcname && x.pname === pname)
             ),
           },
         })
@@ -339,8 +339,8 @@ export default withClientState({
             exportRcoFilters: [
               ...exportRcoFilters,
               {
-                pCName,
-                pName,
+                pcname,
+                pname,
                 comparator,
                 value,
                 __typename: 'ExportRcoFilter',
@@ -355,11 +355,11 @@ export default withClientState({
           data: {
             exportRcoFilters: [
               ...exportRcoFilters.filter(
-                x => !(x.pCName === pCName && x.pName === pName)
+                x => !(x.pcname === pcname && x.pname === pname)
               ),
               {
-                pCName,
-                pName,
+                pcname,
+                pname,
                 comparator,
                 value,
                 __typename: 'ExportRcoFilter',

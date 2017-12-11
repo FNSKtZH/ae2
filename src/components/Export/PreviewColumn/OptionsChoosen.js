@@ -107,7 +107,7 @@ const OptionsChoosen = ({
             <ul>
               {exportTaxFilters.map((p, i) => (
                 <li key={i}>
-                  {`${p.taxName}: ${p.pName} ${
+                  {`${p.taxname}: ${p.pname} ${
                     p.comparator ? `${p.comparator}` : ''
                   }`}
                   <FilterValueSpan>{p.value}</FilterValueSpan>
@@ -115,7 +115,7 @@ const OptionsChoosen = ({
               ))}
               {exportPcoFilters.map((p, i) => (
                 <li key={i}>
-                  {`${p.pCName}: ${p.pName} ${
+                  {`${p.pcname}: ${p.pname} ${
                     p.comparator ? `${p.comparator}` : ''
                   }`}
                   <FilterValueSpan>{p.value}</FilterValueSpan>
@@ -123,7 +123,7 @@ const OptionsChoosen = ({
               ))}
               {exportRcoFilters.map((p, i) => (
                 <li key={i}>
-                  {`${p.pCName}: ${p.pName} ${
+                  {`${p.pcname}: ${p.pname} ${
                     p.comparator ? `${p.comparator}` : ''
                   }`}
                   <FilterValueSpan>{p.value}</FilterValueSpan>
@@ -135,13 +135,13 @@ const OptionsChoosen = ({
             Eigenschaften:
             <ul>
               {exportTaxProperties.map((p, i) => (
-                <li key={i}>{`${p.taxName}: ${p.pName}`}</li>
+                <li key={i}>{`${p.taxname}: ${p.pname}`}</li>
               ))}
               {exportPcoProperties.map((p, i) => (
-                <li key={i}>{`${p.pCName}: ${p.pName}`}</li>
+                <li key={i}>{`${p.pcname}: ${p.pname}`}</li>
               ))}
               {exportRcoProperties.map((p, i) => (
-                <li key={i}>{`${p.pCName}: ${p.pName}`}</li>
+                <li key={i}>{`${p.pcname}: ${p.pname}`}</li>
               ))}
             </ul>
           </li>

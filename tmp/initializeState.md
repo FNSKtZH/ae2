@@ -17,7 +17,7 @@ export default withClientState({
     exportTooManyProperties: () => false,
   },
   Mutation: {
-    addExportTaxProperty: (_, { taxName, pName }, { cache }) => {
+    addExportTaxProperty: (_, { taxname, pname }, { cache }) => {
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
       /**
        * TODO:
@@ -38,17 +38,17 @@ export default withClientState({
           data: {
             exportTaxProperties: [
               ...currentTax.exportTaxProperties,
-              { taxName, pName, __typename: 'ExportTaxProperty' },
+              { taxname, pname, __typename: 'ExportTaxProperty' },
             ],
           },
         })
       }
       return null
     },
-    addExportPcoProperty: (_, { pCName, pName }, { cache }) => {
+    addExportPcoProperty: (_, { pcname, pname }, { cache }) => {
       ...similar to addExportTaxProperty
     },
-    addExportRcoProperty: (_, { pCName, pName }, { cache }) => {
+    addExportRcoProperty: (_, { pcname, pname }, { cache }) => {
       ...similar to addExportTaxProperty
     },
   },

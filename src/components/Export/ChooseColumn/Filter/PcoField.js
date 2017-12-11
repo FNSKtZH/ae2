@@ -16,14 +16,14 @@ const Container = styled.div`
 const enhance = compose(exportPcoFiltersData)
 
 const PcoField = ({
-  pCName,
-  pName,
+  pcname,
+  pname,
   jsontype,
   count,
   exportPcoFiltersData,
 }: {
-  pCName: string,
-  pName: string,
+  pcname: string,
+  pname: string,
   jsontype: string,
   count: number,
   exportPcoFiltersData: Object,
@@ -31,21 +31,21 @@ const PcoField = ({
   const { exportPcoFilters } = exportPcoFiltersData
   //console.log('PcoField: exportPcoFilters:', exportPcoFilters)
   const exportPcoFilter = exportPcoFilters.find(
-    x => x.pCName === pCName && x.pName === pName
+    x => x.pcname === pcname && x.pname === pname
   ) || { comparator: null, value: null }
   const { comparator, value } = exportPcoFilter
 
   return (
     <Container>
       <PcoFieldValue
-        pCName={pCName}
-        pName={pName}
+        pcname={pcname}
+        pname={pname}
         value={value}
         comparator={comparator}
       />
       <Comparator
-        pCName={pCName}
-        pName={pName}
+        pcname={pcname}
+        pname={pname}
         comparator={comparator}
         value={value}
       />

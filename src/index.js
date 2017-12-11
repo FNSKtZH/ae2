@@ -24,7 +24,12 @@ import activeNodeArrayGql from './modules/activeNodeArrayGql'
 const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
 const client = new ApolloClient({
   link: concat(localStateLink, httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    // need to add this to prevent errors in apollo, see:
+    // https://github.com/apollographql/react-apollo/issues/741
+    // but this could also CREATE issues... :-(
+    addTypename: false,
+  }),
 })
 
 /**

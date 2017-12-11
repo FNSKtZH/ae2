@@ -19,28 +19,28 @@ const enhance = compose(
   withApollo,
   exportPcoPropertiesData,
   withHandlers({
-    onCheck: ({ pCName, pName, client }) => (event, isChecked) => {
+    onCheck: ({ pcname, pname, client }) => (event, isChecked) => {
       const mutation = isChecked
         ? addExportPcoPropertyMutation
         : removeExportPcoPropertyMutation
       client.mutate({
         mutation,
-        variables: { pCName, pName },
+        variables: { pcname, pname },
       })
     },
   })
 )
 
 const PcoChooser = ({
-  pCName,
-  pName,
+  pcname,
+  pname,
   jsontype,
   count,
   onCheck,
   exportPcoPropertiesData,
 }: {
-  pCName: string,
-  pName: string,
+  pcname: string,
+  pname: string,
   jsontype: string,
   count: number,
   onCheck: () => {},
@@ -48,7 +48,7 @@ const PcoChooser = ({
 }) => {
   const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
   const checked =
-    exportPcoProperties.filter(x => x.pCName === pCName && x.pName === pName)
+    exportPcoProperties.filter(x => x.pcname === pcname && x.pname === pname)
       .length > 0
 
   return (
@@ -56,7 +56,7 @@ const PcoChooser = ({
       <Checkbox
         label={
           <div>
-            {pName} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
+            {pname} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
           </div>
         }
         checked={checked}

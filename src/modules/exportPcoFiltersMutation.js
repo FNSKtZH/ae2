@@ -3,14 +3,14 @@ import gql from 'graphql-tag'
 
 export default gql`
   mutation setExportPcoFilters(
-    $pCName: String
-    $pName: String
+    $pcname: String
+    $pname: String
     $comparator: String
     $value: String
   ) {
     setExportPcoFilters(
-      pCName: $pCName
-      pName: $pName
+      pcname: $pcname
+      pname: $pname
       comparator: $comparator
       value: $value
     ) @client

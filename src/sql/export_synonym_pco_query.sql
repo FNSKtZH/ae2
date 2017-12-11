@@ -24,12 +24,12 @@ WHERE
                     ON ae.object.taxonomy_id = ae.taxonomy.id
                 WHERE
                     ae.taxonomy.name = ANY('export_taxonomies')
-                    AND ae.object.properties->>'pName' 'comparator' '%value%'
+                    AND ae.object.properties->>'pname' 'comparator' '%value%'
             )
     )
     AND (
-        ae.property_collection.name = 'pCName'
-        AND ae.property_collection_object.properties->>'pName' 'comparator' '%value%'
+        ae.property_collection.name = 'pcname'
+        AND ae.property_collection_object.properties->>'pname' 'comparator' '%value%'
     );
 
 -- example:

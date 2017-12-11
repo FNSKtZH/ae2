@@ -4,8 +4,8 @@ import gql from 'graphql-tag'
 export default gql`
   query exportPcoFiltersQuery {
     exportPcoFilters @client {
-      pCName
-      pName
+      pcname
+      pname
       comparator
       value
     }

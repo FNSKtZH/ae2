@@ -19,28 +19,28 @@ const enhance = compose(
   withApollo,
   exportRcoPropertiesData,
   withHandlers({
-    onCheck: ({ pCName, pName, client }) => (event, isChecked) => {
+    onCheck: ({ pcname, pname, client }) => (event, isChecked) => {
       const mutation = isChecked
         ? addExportRcoPropertyMutation
         : removeExportRcoPropertyMutation
       client.mutate({
         mutation,
-        variables: { pCName, pName },
+        variables: { pcname, pname },
       })
     },
   })
 )
 
 const RcoChooser = ({
-  pCName,
-  pName,
+  pcname,
+  pname,
   jsontype,
   count,
   onCheck,
   exportRcoPropertiesData,
 }: {
-  pCName: string,
-  pName: string,
+  pcname: string,
+  pname: string,
   jsontype: string,
   count: number,
   onCheck: () => {},
@@ -48,7 +48,7 @@ const RcoChooser = ({
 }) => {
   const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
   const checked =
-    exportRcoProperties.filter(x => x.pCName === pCName && x.pName === pName)
+    exportRcoProperties.filter(x => x.pcname === pcname && x.pname === pname)
       .length > 0
 
   return (
@@ -56,7 +56,7 @@ const RcoChooser = ({
       <Checkbox
         label={
           <div>
-            {pName} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
+            {pname} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
           </div>
         }
         checked={checked}

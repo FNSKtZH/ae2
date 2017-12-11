@@ -37,7 +37,7 @@ const PropertyCollectionObject = ({
   relations: Array<Object>,
 }) => {
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
-  const pCName = get(pC, 'name', '(Name fehlt)')
+  const pcname = get(pC, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
   const properties = JSON.parse(pCO.properties) || {}
 
@@ -55,7 +55,7 @@ const PropertyCollectionObject = ({
   return (
     <Card style={pCOCardStyle}>
       <CardHeader
-        title={pCName}
+        title={pcname}
         actAsExpander={true}
         showExpandableButton={true}
         titleStyle={pCOTitleStyle}
@@ -74,21 +74,20 @@ const PropertyCollectionObject = ({
         </CardText>
       </Card>
       <CardText expandable={true} style={pCOCardTextStyle}>
-        {propertiesArray.map(([key, value]) =>
+        {propertiesArray.map(([key, value]) => (
           <PropertyReadOnly key={key} value={value} label={key} />
-        )}
+        ))}
         {relations &&
-          relations.length > 0 &&
-          <RelationTitle>
-            {relationsTitle}
-          </RelationTitle>}
-        {relations.map((relation, index) =>
+          relations.length > 0 && (
+            <RelationTitle>{relationsTitle}</RelationTitle>
+          )}
+        {relations.map((relation, index) => (
           <Relation
             key={relation.id}
             relation={relation}
             intermediateRelation={index < relations.length - 1}
           />
-        )}
+        ))}
       </CardText>
     </Card>
   )

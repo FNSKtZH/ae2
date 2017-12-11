@@ -16,14 +16,14 @@ const Container = styled.div`
 const enhance = compose(exportTaxFiltersData)
 
 const TaxField = ({
-  taxName,
-  pName,
+  taxname,
+  pname,
   jsontype,
   count,
   exportTaxFiltersData,
 }: {
-  taxName: string,
-  pName: string,
+  taxname: string,
+  pname: string,
   jsontype: string,
   count: number,
   exportTaxFiltersData: Object,
@@ -31,21 +31,21 @@ const TaxField = ({
   const { exportTaxFilters } = exportTaxFiltersData
   //console.log('TaxField: exportTaxFilters:', exportTaxFilters)
   const exportTaxFilter = exportTaxFilters.find(
-    x => x.taxName === taxName && x.pName === pName
+    x => x.taxname === taxname && x.pname === pname
   ) || { comparator: null, value: null }
   const { comparator, value } = exportTaxFilter
 
   return (
     <Container>
       <TaxFieldValue
-        taxName={taxName}
-        pName={pName}
+        taxname={taxname}
+        pname={pname}
         value={value}
         comparator={comparator}
       />
       <Comparator
-        taxName={taxName}
-        pName={pName}
+        taxname={taxname}
+        pname={pname}
         comparator={comparator}
         value={value}
       />

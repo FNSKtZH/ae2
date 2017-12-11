@@ -17,14 +17,14 @@ const StyledSelectField = styled(SelectField)`
 const enhance = compose(
   withApollo,
   withHandlers({
-    onChange: ({ taxName, pName, value, client }) => (
+    onChange: ({ taxname, pname, value, client }) => (
       event,
       index,
       comparator
     ) =>
       client.mutate({
         mutation: exportTaxFiltersMutation,
-        variables: { taxName, pName, comparator: comparator || 'ILIKE', value },
+        variables: { taxname, pname, comparator: comparator || 'ILIKE', value },
       }),
   })
 )
