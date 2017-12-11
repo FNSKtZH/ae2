@@ -24,7 +24,7 @@ const enhance = compose(
     ) =>
       client.mutate({
         mutation: exportTaxFiltersMutation,
-        variables: { taxName, pName, comparator, value },
+        variables: { taxName, pName, comparator: comparator || 'ILIKE', value },
       }),
   })
 )
