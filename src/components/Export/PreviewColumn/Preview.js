@@ -1,10 +1,18 @@
 // @flow
 import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
+import exportData from '../../../modules/exportData'
 import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
 import exportPcoPropertiesData from '../../../modules/exportPcoPropertiesData'
 import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
@@ -13,21 +21,6 @@ import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
 import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
 
-const level1CardStyle = { margin: '10px 0' }
-const level1CardTitleStyle = { fontWeight: 'bold' }
-const level1CardHeaderStyle = {}
-const level1CardTextStyle = {
-  padding: '0 16px !important',
-  margin: '-10px 10px -5px 0',
-}
-
-const FilterValueSpan = styled.span`
-  background-color: #dadada;
-  padding: 1px 8px;
-  margin-left: 5px;
-  border-radius: 3px;
-`
-
 const enhance = compose(
   exportTaxonomiesData,
   exportTaxPropertiesData,
@@ -35,10 +28,12 @@ const enhance = compose(
   exportPcoPropertiesData,
   exportPcoFiltersData,
   exportRcoPropertiesData,
-  exportRcoFiltersData
+  exportRcoFiltersData,
+  exportData
 )
 
 const Preview = ({
+  exportData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
@@ -47,6 +42,7 @@ const Preview = ({
   exportRcoPropertiesData,
   exportRcoFiltersData,
 }: {
+  exportData: Object,
   exportTaxonomiesData: Object,
   exportTaxPropertiesData: Object,
   exportTaxFiltersData: Object,
@@ -74,7 +70,25 @@ const Preview = ({
     []
   )
   const exportRcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])
-  return <div>todo</div>
+  console.log('Preview: exportData:', exportData)
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHeaderColumn>ID</TableHeaderColumn>
+          <TableHeaderColumn>Name</TableHeaderColumn>
+          <TableHeaderColumn>Status</TableHeaderColumn>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableRowColumn>1</TableRowColumn>
+          <TableRowColumn>John Smith</TableRowColumn>
+          <TableRowColumn>Employed</TableRowColumn>
+        </TableRow>
+      </TableBody>
+    </Table>
+  )
 }
 
 export default enhance(Preview)

@@ -6,6 +6,7 @@ import compose from 'recompose/compose'
 
 import HowTo from './HowTo'
 import OptionsChoosen from './OptionsChoosen'
+import Preview from './Preview'
 
 const enhance = compose(withApollo)
 
@@ -20,6 +21,7 @@ const Filter = () => {
     <Container>
       <HowTo />
       <OptionsChoosen />
+      <Preview />
     </Container>
   )
 }
