@@ -10,18 +10,52 @@ export default graphql(exportDataGql, {
     exportTaxFiltersData,
     exportPcoFiltersData,
     exportRcoFiltersData,
+    exportTaxPropertiesData,
+    exportPcoPropertiesData,
+    exportRcoPropertiesData,
   }: {
     exportTaxonomiesData: Object,
     exportTaxFiltersData: Object,
     exportPcoFiltersData: Object,
     exportRcoFiltersData: Object,
-  }) => ({
-    variables: {
-      exportTaxonomies: get(exportTaxonomiesData, 'exportTaxonomies', []),
-      taxFilters: get(exportTaxFiltersData, 'exportTaxFilters', []),
-      pcoFilters: get(exportPcoFiltersData, 'exportPcoFilters', []),
-      rcoFilters: get(exportRcoFiltersData, 'exportRcoFilters', []),
-    },
-  }),
+    exportTaxPropertiesData: Object,
+    exportPcoPropertiesData: Object,
+    exportRcoPropertiesData: Object,
+  }) => {
+    const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+    const taxFilters = get(exportTaxFiltersData, 'exportTaxFilters', [])
+    const pcoFilters = get(exportPcoFiltersData, 'exportPcoFilters', [])
+    const rcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])
+    const taxProperties = get(
+      exportTaxPropertiesData,
+      'exportTaxProperties',
+      []
+    )
+    const pcoProperties = get(
+      exportPcoPropertiesData,
+      'exportPcoProperties',
+      []
+    )
+    const rcoProperties = get(
+      exportRcoPropertiesData,
+      'exportRcoProperties',
+      []
+    )
+    const fetchTaxProperties = taxProperties.length > 0
+    const fetchPcoProperties = pcoProperties.length > 0
+    const fetchRcoProperties = rcoProperties.length > 0
+
+    return {
+      variables: {
+        exportTaxonomies,
+        taxFilters,
+        pcoFilters,
+        rcoFilters,
+        fetchTaxProperties,
+        fetchPcoProperties,
+        fetchRcoProperties,
+      },
+    }
+  },
   name: 'exportData',
 })

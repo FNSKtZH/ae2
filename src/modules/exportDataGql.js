@@ -8,6 +8,9 @@ export default gql`
     $taxFilters: [TaxFilterInput]!
     $pcoFilters: [PcoFilterInput]!
     $rcoFilters: [RcoFilterInput]!
+    $fetchTaxProperties: Boolean!
+    $fetchPcoProperties: Boolean!
+    $fetchRcoProperties: Boolean!
   ) {
     exportObject(
       exportTaxonomies: $exportTaxonomies
@@ -16,9 +19,8 @@ export default gql`
       rcoFilters: $rcoFilters
     ) {
       totalCount
-      nodes {
+      nodes @include(if: $fetchTaxProperties) {
         id
-        name
         properties
       }
     }
@@ -26,7 +28,7 @@ export default gql`
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
       pcoFilters: $pcoFilters
-    ) {
+    ) @include(if: $fetchPcoProperties) {
       totalCount
       nodes {
         id
@@ -38,7 +40,7 @@ export default gql`
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
       pcoFilters: $pcoFilters
-    ) {
+    ) @include(if: $fetchPcoProperties) {
       totalCount
       nodes {
         id
@@ -50,7 +52,7 @@ export default gql`
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
       rcoFilters: $rcoFilters
-    ) {
+    ) @include(if: $fetchRcoProperties) {
       totalCount
       nodes {
         id
@@ -63,7 +65,7 @@ export default gql`
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
       rcoFilters: $rcoFilters
-    ) {
+    ) @include(if: $fetchRcoProperties) {
       totalCount
       nodes {
         id

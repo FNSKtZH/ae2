@@ -9,8 +9,8 @@ import {
   TableRowColumn,
 } from 'material-ui/Table'
 import compose from 'recompose/compose'
-import styled from 'styled-components'
-import get from 'lodash/get'
+//import styled from 'styled-components'
+//import get from 'lodash/get'
 
 import exportData from '../../../modules/exportData'
 import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
@@ -51,7 +51,7 @@ const Preview = ({
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
 }) => {
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+  /*const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const exportTaxProperties = get(
     exportTaxPropertiesData,
     'exportTaxProperties',
@@ -69,8 +69,9 @@ const Preview = ({
     'exportRcoProperties',
     []
   )
-  const exportRcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])
+  const exportRcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])*/
   console.log('Preview: exportData:', exportData)
+
   return (
     <Table>
       <TableHeader>
