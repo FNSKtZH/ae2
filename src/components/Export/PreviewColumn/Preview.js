@@ -45,7 +45,6 @@ const Preview = ({
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
 }) => {
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const exportTaxProperties = get(
     exportTaxPropertiesData,
     'exportTaxProperties',
@@ -68,6 +67,7 @@ const Preview = ({
   const objects = get(exportData, 'exportObject.nodes', [])
   console.log('Preview: objects:', objects)
   console.log('Preview: exportTaxProperties:', exportTaxProperties)
+  console.log('Preview: exportPcoProperties:', exportPcoProperties)
   const rows = objects.map(o => {
     const row = {}
     row.id = o.id
@@ -75,6 +75,9 @@ const Preview = ({
     exportTaxProperties.forEach(
       p => (row[`${conv(p.taxname)}__${conv(p.pname)}`] = properties[p.pname])
     )
+    /*exportPcoProperties.forEach(
+      p => (row[`${conv(p.pcname)}__${conv(p.pname)}`] = properties[p.pname])
+    )*/
     return row
   })
   console.log('Preview: rows:', rows)
