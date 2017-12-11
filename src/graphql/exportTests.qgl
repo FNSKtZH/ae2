@@ -1,8 +1,17 @@
 {
-  exportObject(exportTaxonomies: ["CSCF (2009)"], taxFilters: [{comparator: "ILIKE", pname: "Gattung", taxname: "CSCF (2009)", value: "Canis"}]) {
+  exportObjectFaunaExample: exportObject(exportTaxonomies: ["CSCF (2009)"], taxFilters: [{comparator: "ILIKE", pname: "Gattung", taxname: "SISF Index 2 (2005)", value: "Canis"}]) {
     totalCount
     nodes {
       id
+      name
+      properties
+    }
+  }
+  exportObjectFloraExample: exportObject(exportTaxonomies: ["SISF Index 2 (2005)"], taxFilters: [{comparator: "ILIKE", pname: "Gattung", taxname: "SISF Index 2 (2005)", value: "Achillea"}]) {
+    totalCount
+    nodes {
+      id
+      name
       properties
     }
   }
