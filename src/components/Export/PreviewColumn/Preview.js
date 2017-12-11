@@ -79,7 +79,10 @@ const Preview = ({
     if (thisPco) {
       const thisPcoProperties = JSON.parse(thisPco.properties)
       exportPcoProperties.forEach(p => {
-        row[`${conv(p.pcname)}__${conv(p.pname)}`] = thisPcoProperties[p.pname]
+        if (thisPcoProperties[p.pname] !== undefined) {
+          row[`${conv(p.pcname)}__${conv(p.pname)}`] =
+            thisPcoProperties[p.pname]
+        }
       })
     } else if (thisSynonymPco) {
       // only use of this pco does not exist on original object
@@ -101,7 +104,10 @@ const Preview = ({
     if (thisRco) {
       const thisRcoProperties = JSON.parse(thisRco.properties)
       exportRcoProperties.forEach(p => {
-        row[`${conv(p.pcname)}__${conv(p.pname)}`] = thisRcoProperties[p.pname]
+        if (thisRcoProperties[p.pname] !== undefined) {
+          row[`${conv(p.pcname)}__${conv(p.pname)}`] =
+            thisRcoProperties[p.pname]
+        }
       })
     } else if (thisSynonymRco) {
       // only use of this rco does not exist on original object
