@@ -4,10 +4,10 @@ import gql from 'graphql-tag'
 
 export default gql`
   query exportDataQuery(
-    $exportTaxonomies: Array!
-    $taxFilters: Array!
-    $pcoFilters: Array!
-    $rcoFilters: Array!
+    $exportTaxonomies: [String]!
+    $taxFilters: [TaxFilterInput]!
+    $pcoFilters: [PcoFilterInput]!
+    $rcoFilters: [RcoFilterInput]!
   ) {
     exportObject(
       exportTaxonomies: $exportTaxonomies
