@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDataGrid from 'react-data-grid'
 import compose from 'recompose/compose'
-//import styled from 'styled-components'
+import styled from 'styled-components'
 import get from 'lodash/get'
 
 import exportData from '../../../modules/exportData'
@@ -14,6 +14,23 @@ import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
 import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
 import conv from '../../../modules/convertExportFieldName'
+
+const Container = styled.div`
+  .react-grid-Container {
+    font-size: small;
+  }
+  .react-grid-Header {
+  }
+  .react-grid-HeaderCell:not(:first-child) {
+    border-left: #c7c7c7 solid 1px !important;
+  }
+  .react-grid-HeaderCell__draggable {
+    right: 16px !important;
+  }
+  .react-grid-Cell {
+    border: #ddd solid 1px !important;
+  }
+`
 
 const enhance = compose(
   exportTaxonomiesData,
@@ -60,6 +77,7 @@ const Preview = ({
     'exportRcoProperties',
     []
   )
+  console.log('Preview: exportData:', exportData)
   const objects = get(exportData, 'exportObject.nodes', [])
   const pco = get(exportData, 'exportPco.nodes', [])
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
@@ -127,16 +145,23 @@ const Preview = ({
   })
   console.log('Preview: rows:', rows)
   const pvColumns = rows[0]
-    ? Object.keys(rows[0]).map(k => ({ key: k, name: k }))
+    ? Object.keys(rows[0]).map(k => ({
+        key: k,
+        name: k,
+        resizable: true,
+      }))
     : []
 
   return (
-    <ReactDataGrid
-      columns={pvColumns}
-      rowGetter={i => rows[i]}
-      rowsCount={rows.length}
-      minHeight={500}
-    />
+    <Container>
+      <ReactDataGrid
+        columns={pvColumns}
+        rowGetter={i => rows[i]}
+        rowsCount={rows.length}
+        minHeight={500}
+        minColumnWidth={120}
+      />
+    </Container>
   )
 }
 
