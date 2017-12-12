@@ -29,7 +29,9 @@ const Level1CardHeader = styled(CardHeader)`
 const Level1CardText = styled(CardText)`
   padding: 0 !important;
 `
-const level1CardTitleStyle = { fontWeight: 'bold' }
+const level1CardTitleStyle = {
+  fontWeight: 'bold',
+}
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -45,7 +47,7 @@ const enhance = compose(
   exportTaxFiltersData,
   exportPcoFiltersData,
   exportRcoFiltersData,
-  withState('groupsExpanded', 'setGroupsExpanded', true),
+  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
   withState('filterExpanded', 'setFilterExpanded', false),
   withState('propertiesExpanded', 'setPropertiesExpanded', false),
   withState('message', 'setMessage', ''),
@@ -58,14 +60,13 @@ const enhance = compose(
     },
   }),
   withHandlers({
-    onToggleGroups: ({
-      exportTaxonomiesData,
-      groupsExpanded,
-      setGroupsExpanded,
+    onToggleTaxonomies: ({
+      taxonomiesExpanded,
+      setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
     }) => () => {
-      setGroupsExpanded(!groupsExpanded)
+      setTaxonomiesExpanded(!taxonomiesExpanded)
       // close all others
       setFilterExpanded(false)
       setPropertiesExpanded(false)
@@ -73,7 +74,7 @@ const enhance = compose(
     onToggleFilter: ({
       exportTaxonomiesData,
       filterExpanded,
-      setGroupsExpanded,
+      setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
       onSetMessage,
@@ -82,7 +83,7 @@ const enhance = compose(
       if (!filterExpanded && exportTaxonomies.length > 0) {
         setFilterExpanded(true)
         // close all others
-        setGroupsExpanded(false)
+        setTaxonomiesExpanded(false)
         setPropertiesExpanded(false)
       } else {
         setFilterExpanded(false)
@@ -92,7 +93,7 @@ const enhance = compose(
     onToggleProperties: ({
       exportTaxonomiesData,
       propertiesExpanded,
-      setGroupsExpanded,
+      setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
       onSetMessage,
@@ -101,7 +102,7 @@ const enhance = compose(
       if (!propertiesExpanded && exportTaxonomies.length > 0) {
         setPropertiesExpanded(true)
         // close all others
-        setGroupsExpanded(false)
+        setTaxonomiesExpanded(false)
         setFilterExpanded(false)
       } else {
         setPropertiesExpanded(false)
@@ -112,49 +113,48 @@ const enhance = compose(
 )
 
 const Export = ({
-  groupsExpanded,
   taxonomiesExpanded,
   filterExpanded,
   propertiesExpanded,
-  onToggleGroups,
   onToggleTaxonomies,
   onToggleFilter,
   onToggleProperties,
   message,
 }: {
-  groupsExpanded: Boolean,
   taxonomiesExpanded: Boolean,
   filterExpanded: Boolean,
   propertiesExpanded: Boolean,
-  onToggleGroups: () => {},
   onToggleTaxonomies: () => {},
   onToggleFilter: () => {},
   onToggleProperties: () => {},
   message: String,
 }) => (
   <Container>
-    <Level1Card expanded={groupsExpanded} onExpandChange={onToggleGroups}>
+    <Level1Card
+      expanded={taxonomiesExpanded}
+      onExpandChange={onToggleTaxonomies}
+    >
       <Level1CardHeader
         title="1. Gruppen und Taxonomien wählen"
         actAsExpander={true}
         showExpandableButton={true}
         titleStyle={level1CardTitleStyle}
-      />
+      />{' '}
       <Level1CardText expandable={true}>
         <Categories />
-      </Level1CardText>
-    </Level1Card>
+      </Level1CardText>{' '}
+    </Level1Card>{' '}
     <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
       <Level1CardHeader
         title="2. filtern"
         actAsExpander={true}
         showExpandableButton={true}
         titleStyle={level1CardTitleStyle}
-      />
+      />{' '}
       <Level1CardText expandable={true}>
         <Filter />
-      </Level1CardText>
-    </Level1Card>
+      </Level1CardText>{' '}
+    </Level1Card>{' '}
     <Level1Card
       expanded={propertiesExpanded}
       onExpandChange={onToggleProperties}
@@ -164,11 +164,11 @@ const Export = ({
         actAsExpander={true}
         showExpandableButton={true}
         titleStyle={level1CardTitleStyle}
-      />
+      />{' '}
       <Level1CardText expandable={true}>
         <Properties />
-      </Level1CardText>
-    </Level1Card>
+      </Level1CardText>{' '}
+    </Level1Card>{' '}
     <Snackbar
       open={!!message}
       message={message}
@@ -177,7 +177,7 @@ const Export = ({
         minWidth: 'auto',
         backgroundColor: '#2E7D32',
       }}
-    />
+    />{' '}
   </Container>
 )
 
