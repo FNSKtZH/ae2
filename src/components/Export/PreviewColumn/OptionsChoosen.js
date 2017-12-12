@@ -109,7 +109,7 @@ const OptionsChoosen = ({
             Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern
             Arten bzw. Lebensräume
           </li>
-          <li>Pro Beziehung eine Zeile</li>
+          {exportPcoProperties.length > 0 && <li>Pro Beziehung eine Zeile</li>}
           <li>
             {`Filter:${
               [...exportTaxFilters, ...exportPcoFilters, ...exportRcoFilters]
