@@ -2,8 +2,10 @@
 import React from 'react'
 import ReactDataGrid from 'react-data-grid'
 import RaisedButton from 'material-ui/RaisedButton'
+import Snackbar from 'material-ui/Snackbar'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
+import withHandlers from 'recompose/withHandlers'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
@@ -55,7 +57,16 @@ const enhance = compose(
   exportRcoFiltersData,
   exportData,
   withState('sortField', 'setSortField', 'id'),
-  withState('sortDirection', 'setSortDirection', 'asc')
+  withState('sortDirection', 'setSortDirection', 'asc'),
+  withState('message', 'setMessage', ''),
+  withHandlers({
+    onSetMessage: ({ message, setMessage }) => (message: String) => {
+      setMessage(message)
+      if (!!message) {
+        setTimeout(() => setMessage(''), 5000)
+      }
+    },
+  })
 )
 
 const Preview = ({
@@ -71,6 +82,8 @@ const Preview = ({
   sortDirection,
   setSortField,
   setSortDirection,
+  message,
+  onSetMessage,
 }: {
   exportData: Object,
   exportTaxonomiesData: Object,
@@ -84,6 +97,8 @@ const Preview = ({
   sortDirection: String,
   setSortField: () => void,
   setSortDirection: () => void,
+  message: String,
+  onSetMessage: () => void,
 }) => {
   const exportTaxProperties = get(
     exportTaxPropertiesData,
@@ -199,7 +214,7 @@ const Preview = ({
         <ButtonsContainer>
           <RaisedButton
             label=".xlsx herunterladen"
-            onClick={() => exportXlsx(rows)}
+            onClick={() => exportXlsx({ rows, onSetMessage })}
           />
           <RaisedButton
             label=".csv herunterladen"
@@ -207,6 +222,15 @@ const Preview = ({
           />
         </ButtonsContainer>
       )}
+      <Snackbar
+        open={!!message}
+        message={message}
+        bodyStyle={{
+          maxWidth: 'auto',
+          minWidth: 'auto',
+          backgroundColor: '#2E7D32',
+        }}
+      />
     </Container>
   )
 }
