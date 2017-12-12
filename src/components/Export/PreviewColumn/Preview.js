@@ -100,7 +100,7 @@ const Preview = ({
     'exportRcoProperties',
     []
   )
-  console.log('Preview: exportData:', exportData)
+  //consoleconsole.log('Preview: exportData:', exportData)
   const objects = get(exportData, 'exportObject.nodes', [])
   const pco = get(exportData, 'exportPco.nodes', [])
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
@@ -170,7 +170,7 @@ const Preview = ({
     sortField,
     sortDirection
   )
-  console.log('Preview: rows:', rows)
+  //console.log('Preview: rows:', rows)
   const pvColumns = rows[0]
     ? Object.keys(rows[0]).map(k => ({
         key: k,
