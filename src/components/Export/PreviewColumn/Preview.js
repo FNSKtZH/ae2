@@ -116,6 +116,7 @@ const Preview = ({
     []
   )
   //consoleconsole.log('Preview: exportData:', exportData)
+  const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
   const pco = get(exportData, 'exportPco.nodes', [])
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
@@ -225,6 +226,15 @@ const Preview = ({
       <Snackbar
         open={!!message}
         message={message}
+        bodyStyle={{
+          maxWidth: 'auto',
+          minWidth: 'auto',
+          backgroundColor: '#2E7D32',
+        }}
+      />
+      <Snackbar
+        open={loading}
+        message="lade Daten..."
         bodyStyle={{
           maxWidth: 'auto',
           minWidth: 'auto',
