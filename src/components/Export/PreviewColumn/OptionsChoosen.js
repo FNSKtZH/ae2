@@ -12,6 +12,7 @@ import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
 import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
+import exportWithSynonymDataData from '../../../modules/exportWithSynonymDataData'
 
 const level1CardStyle = { margin: '10px 0' }
 const level1CardTitleStyle = { fontWeight: 'bold' }
@@ -35,7 +36,8 @@ const enhance = compose(
   exportPcoPropertiesData,
   exportPcoFiltersData,
   exportRcoPropertiesData,
-  exportRcoFiltersData
+  exportRcoFiltersData,
+  exportWithSynonymDataData
 )
 
 const OptionsChoosen = ({
@@ -46,6 +48,7 @@ const OptionsChoosen = ({
   exportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
+  exportWithSynonymDataData,
 }: {
   exportTaxonomiesData: Object,
   exportTaxPropertiesData: Object,
@@ -54,7 +57,13 @@ const OptionsChoosen = ({
   exportPcoFiltersData: Object,
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
+  exportWithSynonymDataData: Object,
 }) => {
+  const exportWithSynonymData = get(
+    exportWithSynonymDataData,
+    'exportWithSynonymData',
+    true
+  )
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const exportTaxProperties = get(
     exportTaxPropertiesData,
@@ -104,7 +113,11 @@ const OptionsChoosen = ({
                 : exportTaxonomies.join(', ')
             }`}
           </li>
-          <li>Informationen von Synonymen werden berücksichtigt</li>
+          <li>{`${
+            exportWithSynonymData
+              ? 'Informationen von Synonymen mit exportieren'
+              : 'Ohne Informationen von Synonymen'
+          }`}</li>
           <li>
             Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern
             Arten bzw. Lebensräume
