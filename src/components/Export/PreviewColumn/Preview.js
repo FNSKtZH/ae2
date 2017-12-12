@@ -46,6 +46,11 @@ const ButtonsContainer = styled.div`
   justify-content: space-between;
   margin-top: 10px;
 `
+const snackbarBodyStyle = {
+  maxWidth: 'auto',
+  minWidth: 'auto',
+  backgroundColor: '#2E7D32',
+}
 
 const enhance = compose(
   exportTaxonomiesData,
@@ -226,20 +231,12 @@ const Preview = ({
       <Snackbar
         open={!!message}
         message={message}
-        bodyStyle={{
-          maxWidth: 'auto',
-          minWidth: 'auto',
-          backgroundColor: '#2E7D32',
-        }}
+        bodyStyle={snackbarBodyStyle}
       />
       <Snackbar
         open={loading}
         message="lade Daten..."
-        bodyStyle={{
-          maxWidth: 'auto',
-          minWidth: 'auto',
-          backgroundColor: '#2E7D32',
-        }}
+        bodyStyle={snackbarBodyStyle}
       />
     </Container>
   )
