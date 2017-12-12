@@ -6,6 +6,8 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
+import withHandlers from 'recompose/withHandlers'
 //import { withWindowSize } from 'react-fns'
 
 import HowTo from './HowTo'
@@ -69,15 +71,73 @@ const level2CardTitleStyle = { fontWeight: 'bold' }
 const enhance = compose(
   withApollo,
   exportTaxonomiesData,
-  propsByTaxData
+  propsByTaxData,
+  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
+  withState('pcoExpanded', 'setFilterExpanded', false),
+  withState('rcoExpanded', 'setPropertiesExpanded', false),
+  withHandlers({
+    onToggleTaxonomies: ({
+      taxonomiesExpanded,
+      setTaxonomiesExpanded,
+      setFilterExpanded,
+      setPropertiesExpanded,
+    }) => () => {
+      setTaxonomiesExpanded(!taxonomiesExpanded)
+      // close all others
+      setFilterExpanded(false)
+      setPropertiesExpanded(false)
+    },
+    onTogglePco: ({
+      pcoExpanded,
+      setTaxonomiesExpanded,
+      setFilterExpanded,
+      setPropertiesExpanded,
+    }) => () => {
+      if (!pcoExpanded) {
+        setFilterExpanded(true)
+        // close all others
+        setTaxonomiesExpanded(false)
+        setPropertiesExpanded(false)
+      } else {
+        setFilterExpanded(false)
+      }
+    },
+    onToggleRco: ({
+      rcoExpanded,
+      setTaxonomiesExpanded,
+      setFilterExpanded,
+      setPropertiesExpanded,
+    }) => () => {
+      if (!rcoExpanded) {
+        setPropertiesExpanded(true)
+        // close all others
+        setTaxonomiesExpanded(false)
+        setFilterExpanded(false)
+      } else {
+        setPropertiesExpanded(false)
+      }
+    },
+  })
   //withWindowSize,
 )
 
 const Properties = ({
   propsByTaxData,
+  taxonomiesExpanded,
+  pcoExpanded,
+  rcoExpanded,
+  onToggleTaxonomies,
+  onTogglePco,
+  onToggleRco,
 }: //width,
 {
   propsByTaxData: Object,
+  taxonomiesExpanded: Boolean,
+  pcoExpanded: Boolean,
+  rcoExpanded: Boolean,
+  onToggleTaxonomies: () => {},
+  onTogglePco: () => {},
+  onToggleRco: () => {},
   //width: number,
 }) => {
   //console.log('Properties: propsByTaxData:', propsByTaxData)
@@ -130,7 +190,10 @@ const Properties = ({
   return (
     <Container>
       <HowTo />
-      <Level2Card>
+      <Level2Card
+        expanded={taxonomiesExpanded}
+        onExpandChange={onToggleTaxonomies}
+      >
         <Level2CardHeader
           title={
             <div>
@@ -185,7 +248,7 @@ const Properties = ({
           ))}
         </Level2CardText>
       </Level2Card>
-      <Level2Card>
+      <Level2Card expanded={pcoExpanded} onExpandChange={onTogglePco}>
         <Level2CardHeader
           title={
             <div>
@@ -246,7 +309,7 @@ const Properties = ({
           ))}
         </Level2CardText>
       </Level2Card>
-      <Level2Card>
+      <Level2Card expanded={rcoExpanded} onExpandChange={onToggleRco}>
         <Level2CardHeader
           title={
             <div>
