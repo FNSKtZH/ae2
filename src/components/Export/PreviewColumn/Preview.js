@@ -2,8 +2,10 @@
 import React from 'react'
 import ReactDataGrid from 'react-data-grid'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import orderBy from 'lodash/orderBy'
 
 import exportData from '../../../modules/exportData'
 import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
@@ -20,6 +22,9 @@ const Container = styled.div`
     font-size: small;
   }
   .react-grid-Header {
+  }
+  .react-grid-HeaderRow {
+    overflow: hidden;
   }
   .react-grid-HeaderCell:not(:first-child) {
     border-left: #c7c7c7 solid 1px !important;
@@ -40,7 +45,9 @@ const enhance = compose(
   exportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
-  exportData
+  exportData,
+  withState('sortField', 'setSortField', 'id'),
+  withState('sortDirection', 'setSortDirection', 'asc')
 )
 
 const Preview = ({
@@ -52,6 +59,10 @@ const Preview = ({
   exportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
+  sortField,
+  sortDirection,
+  setSortField,
+  setSortDirection,
 }: {
   exportData: Object,
   exportTaxonomiesData: Object,
@@ -61,6 +72,10 @@ const Preview = ({
   exportPcoFiltersData: Object,
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
+  sortField: String,
+  sortDirection: String,
+  setSortField: () => void,
+  setSortDirection: () => void,
 }) => {
   const exportTaxProperties = get(
     exportTaxPropertiesData,
@@ -83,78 +98,87 @@ const Preview = ({
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
   const rco = get(exportData, 'exportRco.nodes', [])
   const synonymRco = get(exportData, 'exportSynonymRco.nodes', [])
-  const rows = objects.map(o => {
-    // 1. object
-    const row = {}
-    row.id = o.id
-    const properties = JSON.parse(o.properties)
-    exportTaxProperties.forEach(
-      p => (row[`${conv(p.taxname)}__${conv(p.pname)}`] = properties[p.pname])
-    )
-    // 2. pco
-    const thisPco = pco.find(p => p.objectId === o.id)
-    const thisSynonymPco = synonymPco.find(p => p.objectId === o.id)
-    if (thisPco) {
-      const thisPcoProperties = JSON.parse(thisPco.properties)
-      exportPcoProperties.forEach(p => {
-        if (thisPcoProperties[p.pname] !== undefined) {
+  const rows = orderBy(
+    objects.map(o => {
+      // 1. object
+      const row = {}
+      row.id = o.id
+      const properties = JSON.parse(o.properties)
+      exportTaxProperties.forEach(
+        p => (row[`${conv(p.taxname)}__${conv(p.pname)}`] = properties[p.pname])
+      )
+      // 2. pco
+      const thisPco = pco.find(p => p.objectId === o.id)
+      const thisSynonymPco = synonymPco.find(p => p.objectId === o.id)
+      if (thisPco) {
+        const thisPcoProperties = JSON.parse(thisPco.properties)
+        exportPcoProperties.forEach(p => {
+          if (thisPcoProperties[p.pname] !== undefined) {
+            row[`${conv(p.pcname)}__${conv(p.pname)}`] =
+              thisPcoProperties[p.pname]
+          }
+        })
+      } else if (thisSynonymPco) {
+        // only use of this pco does not exist on original object
+        const thisSynonymPcoProperties = JSON.parse(thisSynonymPco.properties)
+        exportPcoProperties.forEach(p => {
           row[`${conv(p.pcname)}__${conv(p.pname)}`] =
-            thisPcoProperties[p.pname]
+            thisSynonymPcoProperties[p.pname]
+        })
+      }
+      // add every field if still missing
+      exportPcoProperties.forEach(p => {
+        if (row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined) {
+          row[`${conv(p.pcname)}__${conv(p.pname)}`] = null
         }
       })
-    } else if (thisSynonymPco) {
-      // only use of this pco does not exist on original object
-      const thisSynonymPcoProperties = JSON.parse(thisSynonymPco.properties)
-      exportPcoProperties.forEach(p => {
-        row[`${conv(p.pcname)}__${conv(p.pname)}`] =
-          thisSynonymPcoProperties[p.pname]
-      })
-    }
-    // add every field if still missing
-    exportPcoProperties.forEach(p => {
-      if (row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined) {
-        row[`${conv(p.pcname)}__${conv(p.pname)}`] = null
-      }
-    })
-    // 3. rco
-    const thisRco = rco.find(p => p.objectId === o.id)
-    const thisSynonymRco = synonymRco.find(p => p.objectId === o.id)
-    if (thisRco) {
-      const thisRcoProperties = JSON.parse(thisRco.properties)
-      exportRcoProperties.forEach(p => {
-        if (thisRcoProperties[p.pname] !== undefined) {
+      // 3. rco
+      const thisRco = rco.find(p => p.objectId === o.id)
+      const thisSynonymRco = synonymRco.find(p => p.objectId === o.id)
+      if (thisRco) {
+        const thisRcoProperties = JSON.parse(thisRco.properties)
+        exportRcoProperties.forEach(p => {
+          if (thisRcoProperties[p.pname] !== undefined) {
+            row[`${conv(p.pcname)}__${conv(p.pname)}`] =
+              thisRcoProperties[p.pname]
+          }
+        })
+      } else if (thisSynonymRco) {
+        // only use of this rco does not exist on original object
+        const thisSynonymRcoProperties = JSON.parse(thisSynonymRco.properties)
+        exportRcoProperties.forEach(p => {
           row[`${conv(p.pcname)}__${conv(p.pname)}`] =
-            thisRcoProperties[p.pname]
+            thisSynonymRcoProperties[p.pname]
+        })
+      }
+      // add every field if still missing
+      exportRcoProperties.forEach(p => {
+        if (row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined) {
+          row[`${conv(p.pcname)}__${conv(p.pname)}`] = null
         }
       })
-    } else if (thisSynonymRco) {
-      // only use of this rco does not exist on original object
-      const thisSynonymRcoProperties = JSON.parse(thisSynonymRco.properties)
-      exportRcoProperties.forEach(p => {
-        row[`${conv(p.pcname)}__${conv(p.pname)}`] =
-          thisSynonymRcoProperties[p.pname]
-      })
-    }
-    // add every field if still missing
-    exportRcoProperties.forEach(p => {
-      if (row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined) {
-        row[`${conv(p.pcname)}__${conv(p.pname)}`] = null
-      }
-    })
-    return row
-  })
+      return row
+    }),
+    sortField,
+    sortDirection
+  )
   console.log('Preview: rows:', rows)
   const pvColumns = rows[0]
     ? Object.keys(rows[0]).map(k => ({
         key: k,
         name: k,
         resizable: true,
+        sortable: true,
       }))
     : []
 
   return (
     <Container>
       <ReactDataGrid
+        onGridSort={(column, direction) => {
+          setSortField(column)
+          setSortDirection(direction.toLowerCase())
+        }}
         columns={pvColumns}
         rowGetter={i => rows[i]}
         rowsCount={rows.length}
