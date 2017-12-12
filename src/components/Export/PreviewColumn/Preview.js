@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import ReactDataGrid from 'react-data-grid'
+import RaisedButton from 'material-ui/RaisedButton'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
@@ -16,6 +17,8 @@ import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
 import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
 import conv from '../../../modules/convertExportFieldName'
+import exportXlsx from '../../../modules/exportXlsx'
+import exportCsv from '../../../modules/exportCsv'
 
 const Container = styled.div`
   .react-grid-Container {
@@ -35,6 +38,11 @@ const Container = styled.div`
   .react-grid-Cell {
     border: #ddd solid 1px !important;
   }
+`
+const ButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 `
 
 const enhance = compose(
@@ -174,17 +182,31 @@ const Preview = ({
 
   return (
     <Container>
-      <ReactDataGrid
-        onGridSort={(column, direction) => {
-          setSortField(column)
-          setSortDirection(direction.toLowerCase())
-        }}
-        columns={pvColumns}
-        rowGetter={i => rows[i]}
-        rowsCount={rows.length}
-        minHeight={500}
-        minColumnWidth={120}
-      />
+      {rows.length > 0 && (
+        <ReactDataGrid
+          onGridSort={(column, direction) => {
+            setSortField(column)
+            setSortDirection(direction.toLowerCase())
+          }}
+          columns={pvColumns}
+          rowGetter={i => rows[i]}
+          rowsCount={rows.length}
+          minHeight={500}
+          minColumnWidth={120}
+        />
+      )}
+      {rows.length > 0 && (
+        <ButtonsContainer>
+          <RaisedButton
+            label=".xlsx herunterladen"
+            onClick={() => exportXlsx(rows)}
+          />
+          <RaisedButton
+            label=".csv herunterladen"
+            onClick={() => exportCsv(rows)}
+          />
+        </ButtonsContainer>
+      )}
     </Container>
   )
 }
