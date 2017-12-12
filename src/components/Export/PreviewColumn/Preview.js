@@ -42,9 +42,18 @@ const Container = styled.div`
     border: #ddd solid 1px !important;
   }
 `
+const SpreadsheetContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
+`
+const TotalDiv = styled.div`
+  font-size: small;
+  padding-left: 9px;
   margin-top: 10px;
 `
 const snackbarBodyStyle = {
@@ -213,17 +222,22 @@ const Preview = ({
   return (
     <Container>
       {rows.length > 0 && (
-        <ReactDataGrid
-          onGridSort={(column, direction) => {
-            setSortField(column)
-            setSortDirection(direction.toLowerCase())
-          }}
-          columns={pvColumns}
-          rowGetter={i => rows[i]}
-          rowsCount={rows.length}
-          minHeight={500}
-          minColumnWidth={120}
-        />
+        <SpreadsheetContainer>
+          <ReactDataGrid
+            onGridSort={(column, direction) => {
+              setSortField(column)
+              setSortDirection(direction.toLowerCase())
+            }}
+            columns={pvColumns}
+            rowGetter={i => rows[i]}
+            rowsCount={rows.length}
+            minHeight={500}
+            minColumnWidth={120}
+          />
+          <TotalDiv>{`${rows.length} Datensätze, ${
+            Object.keys(rows[0]).length
+          } Felder`}</TotalDiv>
+        </SpreadsheetContainer>
       )}
       {rows.length > 0 && (
         <ButtonsContainer>
