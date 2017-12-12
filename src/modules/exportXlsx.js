@@ -5,7 +5,7 @@ import format from 'date-fns/format'
 
 import getXlsxBuffer from './getXlsxBuffer'
 
-export default async (jsonData: Array<Object>) => {
+export default async(jsonData: Array < Object > ) => {
   let buffer
   try {
     buffer = await getXlsxBuffer(jsonData)
@@ -14,7 +14,9 @@ export default async (jsonData: Array<Object>) => {
     console.log(error)
   }
   fileSaver.saveAs(
-    new Blob([buffer], { type: 'application/octet-stream' }),
+    new Blob([buffer], {
+      type: 'application/octet-stream'
+    }),
     `arteigenschaften_${format(new Date(), 'YYYY-MM-DD_HH-mm-ss')}.xlsx`
   )
 }
