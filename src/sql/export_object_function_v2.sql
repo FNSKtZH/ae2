@@ -91,6 +91,7 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
         sql := sql || rcofSql || ')';
 
     RAISE LOG 'sql built: %', sql;
+    RAISE EXCEPTION  'sql built: %', sql;
     RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters;
     END
   $$
