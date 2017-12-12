@@ -138,13 +138,18 @@ const Preview = ({
     'exportRcoProperties',
     []
   )
-  //consoleconsole.log('Preview: exportData:', exportData)
+  //console.log('Preview: exportData:', exportData)
   const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
+  console.log('Preview: objects:', objects)
   const pco = get(exportData, 'exportPco.nodes', [])
+  console.log('Preview: pco:', pco)
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
+  console.log('Preview: synonymPco:', synonymPco)
   const rco = get(exportData, 'exportRco.nodes', [])
+  console.log('Preview: rco:', rco)
   const synonymRco = get(exportData, 'exportSynonymRco.nodes', [])
+  console.log('Preview: synonymRco:', synonymRco)
   const rows = orderBy(
     objects.map(o => {
       // 1. object
