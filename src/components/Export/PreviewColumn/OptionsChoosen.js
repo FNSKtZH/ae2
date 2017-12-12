@@ -136,7 +136,11 @@ const OptionsChoosen = ({
                   {`${p.taxname}: ${p.pname} ${
                     p.comparator ? `${p.comparator}` : ''
                   }`}
-                  <FilterValueSpan>{p.value}</FilterValueSpan>
+                  <FilterValueSpan>
+                    {typeof p.value === 'boolean'
+                      ? p.value.toString()
+                      : p.value}
+                  </FilterValueSpan>
                 </li>
               ))}
               {exportPcoFilters.map((p, i) => (
@@ -144,7 +148,11 @@ const OptionsChoosen = ({
                   {`${p.pcname}: ${p.pname} ${
                     p.comparator ? `${p.comparator}` : ''
                   }`}
-                  <FilterValueSpan>{p.value}</FilterValueSpan>
+                  <FilterValueSpan>
+                    {typeof p.value === 'boolean'
+                      ? p.value.toString()
+                      : p.value}
+                  </FilterValueSpan>
                 </li>
               ))}
               {exportRcoFilters.map((p, i) => (
@@ -152,7 +160,11 @@ const OptionsChoosen = ({
                   {`${p.pcname}: ${p.pname} ${
                     p.comparator ? `${p.comparator}` : ''
                   }`}
-                  <FilterValueSpan>{p.value}</FilterValueSpan>
+                  <FilterValueSpan>
+                    {typeof p.value === 'boolean'
+                      ? p.value.toString()
+                      : p.value}
+                  </FilterValueSpan>
                 </li>
               ))}
             </ul>

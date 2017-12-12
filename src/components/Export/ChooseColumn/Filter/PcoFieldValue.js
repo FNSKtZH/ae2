@@ -35,12 +35,10 @@ const enhance = compose(
 const PcoFieldValue = ({
   pname,
   value,
-  properties,
   onChange,
 }: {
   pname: string,
   value: string,
-  properties: Array<Object>,
   onChange: () => {},
 }) => (
   <Container>

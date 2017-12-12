@@ -5,6 +5,7 @@ import compose from 'recompose/compose'
 
 import Comparator from './PcoComparator'
 import PcoFieldValue from './PcoFieldValue'
+import PcoCheckbox from './PcoCheckbox'
 import exportPcoFiltersData from '../../../../modules/exportPcoFiltersData'
 
 const Container = styled.div`
@@ -34,6 +35,9 @@ const PcoField = ({
     x => x.pcname === pcname && x.pname === pname
   ) || { comparator: null, value: null }
   const { comparator, value } = exportPcoFilter
+  if (jsontype === 'Boolean') {
+    return <PcoCheckbox pcname={pcname} pname={pname} value={value} />
+  }
 
   return (
     <Container>
