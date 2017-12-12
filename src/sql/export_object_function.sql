@@ -8,9 +8,7 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
     WHERE
         ae.object.id IN (
             SELECT object_id FROM ae.export_pco(export_taxonomies, tax_filters, pco_filters)
-        )
-        OR ae.object.id IN (
-            SELECT object_id FROM ae.export_rco(export_taxonomies, tax_filters, rco_filters)
+            UNION SELECT object_id FROM ae.export_rco(export_taxonomies, tax_filters, rco_filters)
         )
   $$
   LANGUAGE sql STABLE;
