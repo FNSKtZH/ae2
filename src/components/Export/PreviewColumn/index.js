@@ -12,8 +12,6 @@ const enhance = compose(withApollo)
 
 const Container = styled.div`
   padding: 5px 10px;
-  height: calc(100% - 48px);
-  overflow: auto !important;
 `
 
 const Filter = () => {

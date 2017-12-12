@@ -54,7 +54,7 @@ const ButtonsContainer = styled.div`
 const TotalDiv = styled.div`
   font-size: small;
   padding-left: 9px;
-  margin-top: 10px;
+  margin-top: 4px;
 `
 const snackbarBodyStyle = {
   maxWidth: 'auto',

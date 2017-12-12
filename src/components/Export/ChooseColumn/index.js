@@ -33,8 +33,6 @@ const level1CardTitleStyle = { fontWeight: 'bold' }
 
 const Container = styled.div`
   padding: 5px 10px;
-  height: calc(100% - 48px);
-  overflow: auto !important;
 `
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)

@@ -1,12 +1,20 @@
 // @flow
 import React from 'react'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
+import styled from 'styled-components'
 
 import ChooseColumn from './ChooseColumn'
 import PreviewColumn from './PreviewColumn'
 
+const StyledReflexContainer = styled(ReflexContainer)`
+  .reflex-element {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+`
+
 const Export = () => (
-  <ReflexContainer orientation="vertical">
+  <StyledReflexContainer orientation="vertical">
     <ReflexElement
       flex={0.5}
       className="tree-reflex-element"
@@ -20,7 +28,7 @@ const Export = () => (
     <ReflexElement>
       <PreviewColumn />
     </ReflexElement>
-  </ReflexContainer>
+  </StyledReflexContainer>
 )
 
 export default Export
