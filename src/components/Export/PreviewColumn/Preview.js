@@ -18,6 +18,7 @@ import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
 import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
+import exportWithSynonymDataData from '../../../modules/exportWithSynonymDataData'
 import conv from '../../../modules/convertExportFieldName'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
@@ -60,6 +61,7 @@ const enhance = compose(
   exportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
+  exportWithSynonymDataData,
   exportData,
   withState('sortField', 'setSortField', 'id'),
   withState('sortDirection', 'setSortDirection', 'asc'),
@@ -83,6 +85,7 @@ const Preview = ({
   exportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
+  exportWithSynonymDataData,
   sortField,
   sortDirection,
   setSortField,
@@ -98,6 +101,7 @@ const Preview = ({
   exportPcoFiltersData: Object,
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
+  exportWithSynonymDataData: Object,
   sortField: String,
   sortDirection: String,
   setSortField: () => void,
@@ -105,6 +109,11 @@ const Preview = ({
   message: String,
   onSetMessage: () => void,
 }) => {
+  const exportWithSynonymData = get(
+    exportWithSynonymDataData,
+    'exportWithSynonymData',
+    true
+  )
   const exportTaxProperties = get(
     exportTaxPropertiesData,
     'exportTaxProperties',
@@ -147,7 +156,7 @@ const Preview = ({
               thisPcoProperties[p.pname]
           }
         })
-      } else if (thisSynonymPco) {
+      } else if (exportWithSynonymData && thisSynonymPco) {
         // only use of this pco does not exist on original object
         const thisSynonymPcoProperties = JSON.parse(thisSynonymPco.properties)
         exportPcoProperties.forEach(p => {
@@ -172,7 +181,7 @@ const Preview = ({
               thisRcoProperties[p.pname]
           }
         })
-      } else if (thisSynonymRco) {
+      } else if (exportWithSynonymData && thisSynonymRco) {
         // only use of this rco does not exist on original object
         const thisSynonymRcoProperties = JSON.parse(thisSynonymRco.properties)
         exportRcoProperties.forEach(p => {

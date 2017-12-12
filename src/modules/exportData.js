@@ -13,6 +13,7 @@ export default graphql(exportDataGql, {
     exportTaxPropertiesData,
     exportPcoPropertiesData,
     exportRcoPropertiesData,
+    exportWithSynonymDataData,
   }: {
     exportTaxonomiesData: Object,
     exportTaxFiltersData: Object,
@@ -21,7 +22,13 @@ export default graphql(exportDataGql, {
     exportTaxPropertiesData: Object,
     exportPcoPropertiesData: Object,
     exportRcoPropertiesData: Object,
+    exportWithSynonymDataData: Object,
   }) => {
+    const exportWithSynonymData = get(
+      exportWithSynonymDataData,
+      'exportWithSynonymData',
+      true
+    )
     const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
     const taxFilters = get(exportTaxFiltersData, 'exportTaxFilters', [])
     const pcoFilters = get(exportPcoFiltersData, 'exportPcoFilters', [])
@@ -44,6 +51,10 @@ export default graphql(exportDataGql, {
     const fetchTaxProperties = taxProperties.length > 0
     const fetchPcoProperties = pcoProperties.length > 0
     const fetchRcoProperties = rcoProperties.length > 0
+    const fetchSynonymPcoProperties =
+      exportWithSynonymData && pcoProperties.length > 0
+    const fetchSynonymRcoProperties =
+      exportWithSynonymData && rcoProperties.length > 0
 
     return {
       variables: {
@@ -54,6 +65,8 @@ export default graphql(exportDataGql, {
         fetchTaxProperties,
         fetchPcoProperties,
         fetchRcoProperties,
+        fetchSynonymPcoProperties,
+        fetchSynonymRcoProperties,
       },
     }
   },

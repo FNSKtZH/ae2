@@ -15,6 +15,7 @@ import exportRcoPropertiesGql from './modules/exportRcoPropertiesGql'
 import exportRcoFiltersGql from './modules/exportRcoFiltersGql'
 import exportTooManyPropertiesGql from './modules/exportTooManyPropertiesGql'
 import exportTooManyPropertiesMutation from './modules/exportTooManyPropertiesMutation'
+import exportWithSynonymDataGql from './modules/exportWithSynonymDataGql'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 import constants from './modules/constants'
 
@@ -31,6 +32,7 @@ export default withClientState({
     exportPcoFilters: () => [],
     exportRcoFilters: () => [],
     exportTooManyProperties: () => false,
+    exportWithSynonymData: () => true,
     // this is experimental
     // see: https://github.com/apollographql/apollo-link-state/issues/111
     treeFilter: () => ({
@@ -374,6 +376,13 @@ export default withClientState({
       cache.writeQuery({
         query: exportTooManyPropertiesGql,
         data: { exportTooManyProperties: value },
+      })
+      return null
+    },
+    setExportWithSynonymData: (_, { value }, { cache }) => {
+      cache.writeQuery({
+        query: exportWithSynonymDataGql,
+        data: { exportWithSynonymData: value },
       })
       return null
     },

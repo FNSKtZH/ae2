@@ -1,11 +1,13 @@
 // @flow
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
+import app from 'ampersand-app'
 //import { withWindowSize } from 'react-fns'
 
 import HowTo from './HowTo'
@@ -17,6 +19,8 @@ import RcoField from './RcoField'
 import constants from '../../../../modules/constants'
 import propsByTaxData from '../../../../modules/propsByTaxData'
 import exportTaxonomiesData from '../../../../modules/exportTaxonomiesData'
+import exportWithSynonymDataData from '../../../../modules/exportWithSynonymDataData'
+import exportWithSynonymDataMutation from '../../../../modules/exportWithSynonymDataMutation'
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -68,17 +72,25 @@ const level2CardTitleStyle = { fontWeight: 'bold' }
 const enhance = compose(
   withApollo,
   exportTaxonomiesData,
-  propsByTaxData
+  propsByTaxData,
+  exportWithSynonymDataData
   //withWindowSize,
 )
 
 const Filter = ({
   propsByTaxData,
+  exportWithSynonymDataData,
 }: //width,
 {
   propsByTaxData: Object,
+  exportWithSynonymDataData: Object,
   //width: number,
 }) => {
+  const exportWithSynonymData = get(
+    exportWithSynonymDataData,
+    'exportWithSynonymData',
+    true
+  )
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
@@ -121,6 +133,16 @@ const Filter = ({
     <Container>
       <HowTo />
       <Tipps />
+      <Checkbox
+        label="Informationen von Synonymen mit exportieren"
+        checked={exportWithSynonymData}
+        onCheck={(event, checked) => {
+          app.client.mutate({
+            mutation: exportWithSynonymDataMutation,
+            variables: { value: checked },
+          })
+        }}
+      />
       <Level2Card>
         <Level2CardHeader
           title={

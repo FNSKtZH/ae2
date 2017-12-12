@@ -11,6 +11,8 @@ export default gql`
     $fetchTaxProperties: Boolean!
     $fetchPcoProperties: Boolean!
     $fetchRcoProperties: Boolean!
+    $fetchSynonymPcoProperties: Boolean!
+    $fetchSynonymRcoProperties: Boolean!
   ) {
     exportObject(
       exportTaxonomies: $exportTaxonomies
@@ -40,7 +42,7 @@ export default gql`
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
       pcoFilters: $pcoFilters
-    ) @include(if: $fetchPcoProperties) {
+    ) @include(if: $fetchSynonymPcoProperties) {
       totalCount
       nodes {
         id
@@ -65,7 +67,7 @@ export default gql`
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
       rcoFilters: $rcoFilters
-    ) @include(if: $fetchRcoProperties) {
+    ) @include(if: $fetchSynonymRcoProperties) {
       totalCount
       nodes {
         id
