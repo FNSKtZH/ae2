@@ -74,6 +74,18 @@ const OptionsChoosen = ({
     []
   )
   const exportRcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])
+  const noDataChoosen =
+    [
+      ...exportTaxonomies,
+      ...exportTaxProperties,
+      ...exportPcoProperties,
+      ...exportRcoProperties,
+      ...exportTaxFilters,
+      ...exportPcoFilters,
+      ...exportRcoFilters,
+    ].length === 0
+
+  if (noDataChoosen) return null
   return (
     <Card style={level1CardStyle} expanded={true}>
       <CardHeader
@@ -86,11 +98,12 @@ const OptionsChoosen = ({
       <CardText expandable={true} style={level1CardTextStyle}>
         <ul>
           <li>
-            {`Gruppe${
-              exportTaxonomies.length > 1 ? 'n' : ''
-            }: ${exportTaxonomies.join(', ')}`}
+            {`Taxonomie${exportTaxonomies.length > 1 ? 'n' : ''}: ${
+              exportTaxonomies.length === 0
+                ? ' keine'
+                : exportTaxonomies.join(', ')
+            }`}
           </li>
-          <li>{`Die Felder der Taxonomien werden einzeln dargestellt`}</li>
           <li>Informationen von Synonymen werden berücksichtigt</li>
           <li>
             Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern
@@ -132,7 +145,15 @@ const OptionsChoosen = ({
             </ul>
           </li>
           <li>
-            Eigenschaften:
+            {`Eigenschaften:${
+              [
+                ...exportTaxProperties,
+                ...exportPcoProperties,
+                ...exportRcoProperties,
+              ].length === 0
+                ? ' keine'
+                : ''
+            }`}
             <ul>
               {exportTaxProperties.map((p, i) => (
                 <li key={i}>{`${p.taxname}: ${p.pname}`}</li>

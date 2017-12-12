@@ -36,9 +36,6 @@ const Container = styled.div`
   height: calc(100% - 48px);
   overflow: auto !important;
 `
-const StyledH3 = styled.h3`
-  margin: 5px 0;
-`
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)
 const enhance = compose(
@@ -138,7 +135,6 @@ const Export = ({
   message: String,
 }) => (
   <Container>
-    <StyledH3>Export</StyledH3>
     <Level1Card expanded={groupsExpanded} onExpandChange={onToggleGroups}>
       <Level1CardHeader
         title="1. Gruppen und Taxonomien wählen"
