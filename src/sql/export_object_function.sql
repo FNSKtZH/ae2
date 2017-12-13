@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[], rco_properties rco_property[])
+CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[])
   RETURNS setof ae.object AS
   $$
     DECLARE
@@ -13,23 +13,19 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
                         ';
         tf tax_filter;
         pcof pco_filter;
-        pcop pco_property;
         pcofSql text := 'SELECT DISTINCT
                             ae.property_collection_object.object_id
                         FROM ae.property_collection_object
                             INNER JOIN ae.property_collection
                             ON ae.property_collection_object.property_collection_id = ae.property_collection.id';
         pcofSqlWhere text := '';
-        pcopSqlWhere text := '';
         rcof rco_filter;
-        rcop rco_property;
         rcofSql text := 'SELECT DISTINCT
                             ae.relation.object_id
                         FROM ae.relation
                             INNER JOIN ae.property_collection
                             ON ae.relation.property_collection_id = ae.property_collection.id';
         rcofSqlWhere text := '';
-        rcopSqlWhere text := '';
     BEGIN
         FOREACH tf IN ARRAY tax_filters
         LOOP
@@ -78,46 +74,15 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
             END LOOP;
         END IF;
 
-        -- need to send pc also if one of it's fields is shown
-        -- TODO: pc yes, but not the object!!!
-        IF cardinality(pco_properties) = 0 THEN
-            pcopSqlWhere := pcopSqlWhere || 'false';
-        ELSE
-            FOREACH pcop IN ARRAY pco_properties
-                LOOP
-                IF pcop = pco_properties[1] THEN
-                    pcopSqlWhere := pcopSqlWhere || ' (ae.property_collection.name = ' || quote_literal(pcop.pcname);
-                ELSE
-                    pcopSqlWhere := pcopSqlWhere || ' AND (ae.property_collection.name = ' || quote_literal(pcop.pcname);
-                END IF;
-                pcopSqlWhere := pcopSqlWhere || ')';
-            END LOOP;
-        END IF;
-
-        -- need to send rc also if one of it's fields is shown
-        IF cardinality(rco_properties) = 0 THEN
-            rcopSqlWhere := rcopSqlWhere || 'false';
-        ELSE
-            FOREACH pcop IN ARRAY rco_properties
-                LOOP
-                IF pcop = rco_properties[1] THEN
-                    rcopSqlWhere := rcopSqlWhere || ' (ae.relation.name = ' || quote_literal(pcop.pcname);
-                ELSE
-                    rcopSqlWhere := rcopSqlWhere || ' AND (ae.relation.name = ' || quote_literal(pcop.pcname);
-                END IF;
-                rcopSqlWhere := rcopSqlWhere || ')';
-            END LOOP;
-        END IF;
-
         IF cardinality(pco_filters) > 0 OR cardinality(rco_filters) > 0 THEN
-            sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ')) OR ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ')) OR ae.object.id IN (' || pcofSql || ' WHERE (' || pcopSqlWhere || ')) OR ae.object.id IN (' || rcofSql || ' WHERE (' || rcopSqlWhere || '))';
+            sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ')) OR ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ')) ';
         END IF;
 
     --RAISE EXCEPTION  'export_taxonomies: %, tax_filters: %, pco_filters: %, rco_filters: %, cardinality(pco_filters): %, sql: %:', export_taxonomies, tax_filters, pco_filters, rco_filters, cardinality(pco_filters), sql;
-    RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters, rco_filters, pco_properties, rco_properties;
+    RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters, rco_filters;
     END
   $$
   LANGUAGE plpgsql STABLE;
 
-ALTER FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[], rco_properties rco_property[])
+ALTER FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[])
   OWNER TO postgres;
