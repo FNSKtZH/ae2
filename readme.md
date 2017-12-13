@@ -94,6 +94,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
     - [x] inklusive Synonymen<br/>
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>![Synonym](/etc/synonym.png?raw=true "Synonym")
   - [x] Daten exportieren
+    ![exportieren](/etc/exportieren.png?raw=true "exportieren")
   - [ ] Login
   - [ ] Organisationen und Benutzer
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
