@@ -156,9 +156,11 @@ const Preview = ({
       const row = {}
       row.id = o.id
       const properties = JSON.parse(o.properties)
-      exportTaxProperties.forEach(
-        p => (row[`${conv(p.taxname)}__${conv(p.pname)}`] = properties[p.pname])
-      )
+      exportTaxProperties.forEach(p => {
+        const val =
+          properties && properties[p.pname] ? properties[p.pname] : null
+        return (row[`${conv(p.taxname)}__${conv(p.pname)}`] = val)
+      })
       // 2. pco
       const thisPco = pco.find(p => p.objectId === o.id)
       const thisSynonymPco = synonymPco.find(p => p.objectId === o.id)
