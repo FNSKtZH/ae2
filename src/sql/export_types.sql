@@ -16,3 +16,11 @@ CREATE TYPE rco_filter AS (
     pcname text,
     value text
 );
+CREATE TYPE pco_property AS (
+    pname text,
+    pcname text
+);
+CREATE TYPE rco_property AS (
+    pname text,
+    pcname text
+);
