@@ -46,6 +46,8 @@ export default gql`
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
       pcoFilters: $pcoFilters
+      rcoFilters: $rcoFilters
+      pcoProperties: $pcoProperties
     ) @include(if: $fetchSynonymPcoProperties) {
       totalCount
       nodes {

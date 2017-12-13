@@ -1,57 +1,42 @@
-CREATE OR REPLACE FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[])
+CREATE OR REPLACE FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[])
   RETURNS setof ae.property_collection_object AS
   $$
     DECLARE
-        tf tax_filter;
-        pcof pco_filter;
+        pcop pco_property;
         sql text := 'SELECT
-                ae.property_collection_object.*
-            FROM ae.object
-                INNER JOIN ae.property_collection_object
-                    INNER JOIN ae.property_collection
-                    ON ae.property_collection_object.property_collection_id = ae.property_collection.id
-                ON ae.object.id = ae.property_collection_object.object_id
-            WHERE
-                ae.object.id IN (
-                    SELECT
-                        ae.object.id
-                    FROM
-                        ae.object
-                        INNER JOIN ae.synonym
-                        ON ae.object.id = ae.synonym.object_id
+                      ae.property_collection_object.id,
+                      ae.synonym.object_id_synonym AS object_id,
+                      ae.property_collection_object.property_collection_id,
+                      ae.property_collection_object.properties
+                    FROM ae.object
+                      INNER JOIN ae.property_collection_object
+                        INNER JOIN ae.property_collection
+                        ON ae.property_collection_object.property_collection_id = ae.property_collection.id
+                      ON ae.object.id = ae.property_collection_object.object_id
+                      INNER JOIN ae.synonym
+                      ON ae.object.id = ae.synonym.object_id
                     WHERE
-                        ae.synonym.object_id_synonym IN (
-                            SELECT
-                                ae.object.id
-                            FROM
-                                ae.object
-                                INNER JOIN ae.taxonomy
-                                ON ae.object.taxonomy_id = ae.taxonomy.id
-                            WHERE
-                                ae.taxonomy.name = ANY($1)';
+                      ae.synonym.object_id_synonym IN (
+                        SELECT id FROM ae.export_object($1, $2, $3, $4)
+                      )
+                      AND ae.property_collection.name IN(';
     BEGIN
-        FOREACH tf IN ARRAY tax_filters
-        LOOP
-            IF tf.comparator IN ('ILIKE', 'LIKE') THEN
-                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal('%' || tf.value || '%');
+        IF cardinality(pco_properties) = 0 THEN
+          sql := sql || 'false';
+        ELSE
+          FOREACH pcop IN ARRAY pco_properties
+            LOOP
+            IF pcop = pco_properties[1] THEN
+              sql := sql || quote_literal(pcop.pcname);
             ELSE
-                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal(tf.value);
+              sql := sql || ',' || quote_literal(pcop.pcname);
             END IF;
-        END LOOP;
-        sql := sql || '))';
-        FOREACH pcof IN ARRAY pco_filters
-        LOOP
-            sql := sql || ' AND (ae.property_collection.name = ' || quote_literal(pcof.pcname);
-            IF pcof.comparator IN ('ILIKE', 'LIKE') THEN
-                sql := sql || ' AND ae.property_collection_object.properties->>' || quote_literal(pcof.pname) || ' ' || pcof.comparator || ' ' || quote_literal('%' || pcof.value || '%');
-            ELSE
-                sql := sql || ' AND ae.property_collection_object.properties->>' || quote_literal(pcof.pname) || ' ' || pcof.comparator || ' ' || quote_literal(pcof.value);
-            END IF;
-            sql := sql || ')';
-        END LOOP;
-    RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters;
+          END LOOP;
+        END IF;
+        sql := sql || ')';
+    RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters, rco_filters, pco_properties;
     END
   $$
   LANGUAGE plpgsql STABLE;
-ALTER FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[])
+ALTER FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[])
   OWNER TO postgres;
