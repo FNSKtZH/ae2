@@ -9,6 +9,7 @@ export default gql`
     $pcoFilters: [PcoFilterInput]!
     $rcoFilters: [RcoFilterInput]!
     $pcoProperties: [PcoPropertyInput]!
+    $rcoProperties: [RcoPropertyInput]!
     $fetchTaxProperties: Boolean!
     $fetchPcoProperties: Boolean!
     $fetchRcoProperties: Boolean!
@@ -56,7 +57,9 @@ export default gql`
     exportRco(
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
+      pcoFilters: $pcoFilters
       rcoFilters: $rcoFilters
+      rcoProperties: $rcoProperties
     ) @include(if: $fetchRcoProperties) {
       totalCount
       nodes {

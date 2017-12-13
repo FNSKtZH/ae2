@@ -12,8 +12,9 @@ CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters t
                         ON ae.object.id = ae.property_collection_object.object_id
                     WHERE
                         ae.object.id IN (
-                            SELECT id FROM ae.export_object($1, $2, $3, $4))
-                            AND ae.property_collection.name IN(';
+                            SELECT id FROM ae.export_object($1, $2, $3, $4)
+                        )
+                        AND ae.property_collection.name IN(';
     BEGIN
         IF cardinality(pco_properties) = 0 THEN
             sql := sql || 'false';

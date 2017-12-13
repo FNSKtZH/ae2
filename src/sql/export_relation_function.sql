@@ -1,49 +1,38 @@
-CREATE OR REPLACE FUNCTION ae.export_rco(export_taxonomies text[], tax_filters tax_filter[], rco_filters rco_filter[])
+CREATE OR REPLACE FUNCTION ae.export_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[])
   RETURNS setof ae.relation AS
   $$
     DECLARE
-        tf tax_filter;
-        rcof rco_filter;
+        rcop rco_property;
         sql text := 'SELECT
-                ae.relation.*
-            FROM ae.object
-                INNER JOIN ae.relation
-                    INNER JOIN ae.property_collection
-                    ON ae.relation.property_collection_id = ae.property_collection.id
-                ON ae.object.id = ae.relation.object_id
-            WHERE
-                ae.object.id IN (
-                    SELECT
-                        ae.object.id
-                    FROM
-                        ae.object
-                        INNER JOIN ae.taxonomy
-                        ON ae.object.taxonomy_id = ae.taxonomy.id
+                        ae.relation.*
+                    FROM ae.object
+                        INNER JOIN ae.relation
+                            INNER JOIN ae.property_collection
+                            ON ae.relation.property_collection_id = ae.property_collection.id
+                        ON ae.object.id = ae.relation.object_id
                     WHERE
-                        ae.taxonomy.name = ANY($1)';
+                        ae.object.id IN (
+                            SELECT id FROM ae.export_object($1, $2, $3, $4)
+                        )
+                        AND ae.property_collection.name IN(';
     BEGIN
-        FOREACH tf IN ARRAY tax_filters
-        LOOP
-            IF tf.comparator IN ('ILIKE', 'LIKE') THEN
-                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal('%' || tf.value || '%');
-            ELSE
-                sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal(tf.value);
-            END IF;
-        END LOOP;
+        IF cardinality(rco_properties) = 0 THEN
+            sql := sql || 'false';
+        ELSE
+            FOREACH rcop IN ARRAY rco_properties
+                LOOP
+                IF rcop = rco_properties[1] THEN
+                    sql := sql || quote_literal(rcop.pcname);
+                ELSE
+                    sql := sql || ',' || quote_literal(rcop.pcname);
+                END IF;
+            END LOOP;
+        END IF;
         sql := sql || ')';
-        FOREACH rcof IN ARRAY rco_filters
-        LOOP
-            sql := sql || ' AND (ae.property_collection.name = ' || quote_literal(rcof.pcname);
-            IF rcof.comparator IN ('ILIKE', 'LIKE') THEN
-                sql := sql || ' AND ae.relation.properties->>' || quote_literal(rcof.pname) || ' ' || rcof.comparator || ' ' || quote_literal('%' || rcof.value || '%');
-            ELSE
-                sql := sql || ' AND ae.relation.properties->>' || quote_literal(rcof.pname) || ' ' || rcof.comparator || ' ' || quote_literal(rcof.value);
-            END IF;
-            sql := sql || ')';
-        END LOOP;
-    RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, rco_filters;
+    RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters, rco_filters, rco_properties;
     END
   $$
   LANGUAGE plpgsql STABLE;
-ALTER FUNCTION ae.export_rco(export_taxonomies text[], tax_filters tax_filter[], rco_filters rco_filter[])
+
+ALTER FUNCTION ae.export_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[])
   OWNER TO postgres;
