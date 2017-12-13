@@ -9,7 +9,8 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
                         INNER JOIN ae.taxonomy
                         ON ae.taxonomy.id = ae.object.taxonomy_id
                     WHERE
-                        ae.taxonomy.name = ANY($1)';
+                        ae.taxonomy.name = ANY($1)
+                        ';
         tf tax_filter;
         pcof pco_filter;
         pcofSql text := 'SELECT DISTINCT
@@ -17,14 +18,16 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
                         FROM ae.property_collection_object
                             INNER JOIN ae.property_collection
                             ON ae.property_collection_object.property_collection_id = ae.property_collection.id
-                        WHERE';
+                        WHERE
+                            ';
         rcof rco_filter;
         rcofSql text := 'SELECT DISTINCT
                             ae.relation.object_id
                         FROM ae.relation
                             INNER JOIN ae.property_collection
                             ON ae.relation.property_collection_id = ae.property_collection.id
-                        WHERE';
+                        WHERE
+                            ';
     BEGIN
         FOREACH tf IN ARRAY tax_filters
         LOOP
@@ -50,7 +53,9 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
             pcofSql := pcofSql || ')';
         END LOOP;
 
-        sql := sql || ' AND ae.object.id IN (' || pcofSql || ') OR ae.object.id IN (';
+        sql := sql || ' AND ae.object.id IN (
+                ' || pcofSql || ') OR ae.object.id IN (
+                ';
 
         FOREACH rcof IN ARRAY rco_filters
         LOOP
@@ -69,8 +74,7 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
         
         sql := sql || rcofSql || ')';
 
-    RAISE LOG 'sql built: %', sql;
-    RAISE EXCEPTION  'sql built: %', sql;
+    RAISE EXCEPTION  'export_taxonomies: %, tax_filters: %, pco_filters: %, rco_filters: %, sql:', export_taxonomies, tax_filters, pco_filters, rco_filters, sql;
     RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters, rco_filters;
     END
   $$
