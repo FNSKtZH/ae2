@@ -79,6 +79,7 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
         END IF;
 
         -- need to send pc also if one of it's fields is shown
+        -- TODO: pc yes, but not the object!!!
         IF cardinality(pco_properties) = 0 THEN
             pcopSqlWhere := pcopSqlWhere || 'false';
         ELSE
