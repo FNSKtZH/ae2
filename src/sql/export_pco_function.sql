@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[])
+CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], pco_properties pco_property[])
   RETURNS setof ae.property_collection_object AS
   $$
     DECLARE
@@ -30,7 +30,9 @@ CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters t
                 sql := sql || ' AND ae.object.properties->>' || quote_literal(tf.pname) || ' ' || tf.comparator || ' ' || quote_literal(tf.value);
             END IF;
         END LOOP;
+
         sql := sql || ')';
+        
         FOREACH pcof IN ARRAY pco_filters
         LOOP
             sql := sql || ' AND (ae.property_collection.name = ' || quote_literal(pcof.pcname);
@@ -41,9 +43,9 @@ CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters t
             END IF;
             sql := sql || ')';
         END LOOP;
-    RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters;
+    RETURN QUERY EXECUTE sql USING export_taxonomies, tax_filters, pco_filters, pco_properties, pco_properties;
     END
   $$
   LANGUAGE plpgsql STABLE;
-ALTER FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[])
+ALTER FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], pco_properties pco_property[])
   OWNER TO postgres;

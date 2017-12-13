@@ -62,6 +62,8 @@ export default graphql(exportDataGql, {
         taxFilters,
         pcoFilters,
         rcoFilters,
+        pcoProperties,
+        rcoProperties,
         fetchTaxProperties,
         fetchPcoProperties,
         fetchRcoProperties,
