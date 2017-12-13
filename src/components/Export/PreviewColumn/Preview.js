@@ -142,16 +142,16 @@ const Preview = ({
   const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
   const objectsCount = get(exportData, 'exportObject.totalCount', null)
-  console.log('Preview: objects:', objects)
-  console.log('Preview: objectsCount:', objectsCount)
+  //console.log('Preview: objects:', objects)
+  //console.log('Preview: objectsCount:', objectsCount)
   const pco = get(exportData, 'exportPco.nodes', [])
-  console.log('Preview: pco:', pco)
+  //console.log('Preview: pco:', pco)
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
-  console.log('Preview: synonymPco:', synonymPco)
+  //console.log('Preview: synonymPco:', synonymPco)
   const rco = get(exportData, 'exportRco.nodes', [])
-  console.log('Preview: rco:', rco)
+  //console.log('Preview: rco:', rco)
   const synonymRco = get(exportData, 'exportSynonymRco.nodes', [])
-  console.log('Preview: synonymRco:', synonymRco)
+  //console.log('Preview: synonymRco:', synonymRco)
   const rows = orderBy(
     objects.map(o => {
       // 1. object
@@ -159,8 +159,14 @@ const Preview = ({
       row.id = o.id
       const properties = JSON.parse(o.properties)
       exportTaxProperties.forEach(p => {
-        const val =
-          properties && properties[p.pname] ? properties[p.pname] : null
+        let val = null
+        if (properties && properties[p.pname] !== undefined) {
+          if (typeof properties[p.pname] === 'boolean') {
+            val = properties[p.pname].toString()
+          } else {
+            val = properties[p.pname]
+          }
+        }
         return (row[`${conv(p.taxname)}__${conv(p.pname)}`] = val)
       })
       // 2. pco
@@ -169,17 +175,28 @@ const Preview = ({
       if (thisPco) {
         const thisPcoProperties = JSON.parse(thisPco.properties)
         exportPcoProperties.forEach(p => {
-          if (thisPcoProperties[p.pname] !== undefined) {
-            row[`${conv(p.pcname)}__${conv(p.pname)}`] =
-              thisPcoProperties[p.pname]
+          if (thisPcoProperties && thisPcoProperties[p.pname] !== undefined) {
+            let val = thisPcoProperties[p.pname]
+            if (typeof val === 'boolean') {
+              val = val.toString()
+            }
+            row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
           }
         })
       } else if (exportWithSynonymData && thisSynonymPco) {
         // only use of this pco does not exist on original object
         const thisSynonymPcoProperties = JSON.parse(thisSynonymPco.properties)
         exportPcoProperties.forEach(p => {
-          row[`${conv(p.pcname)}__${conv(p.pname)}`] =
-            thisSynonymPcoProperties[p.pname]
+          if (
+            thisSynonymPcoProperties &&
+            thisSynonymPcoProperties[p.pname] !== undefined
+          ) {
+            let val = thisSynonymPcoProperties[p.pname]
+            if (typeof val === 'boolean') {
+              val = val.toString()
+            }
+            row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
+          }
         })
       }
       // add every field if still missing
@@ -194,17 +211,28 @@ const Preview = ({
       if (thisRco) {
         const thisRcoProperties = JSON.parse(thisRco.properties)
         exportRcoProperties.forEach(p => {
-          if (thisRcoProperties[p.pname] !== undefined) {
-            row[`${conv(p.pcname)}__${conv(p.pname)}`] =
-              thisRcoProperties[p.pname]
+          if (thisRcoProperties && thisRcoProperties[p.pname] !== undefined) {
+            let val = thisRcoProperties[p.pname]
+            if (typeof val === 'boolean') {
+              val = val.toString()
+            }
+            row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
           }
         })
       } else if (exportWithSynonymData && thisSynonymRco) {
         // only use of this rco does not exist on original object
         const thisSynonymRcoProperties = JSON.parse(thisSynonymRco.properties)
         exportRcoProperties.forEach(p => {
-          row[`${conv(p.pcname)}__${conv(p.pname)}`] =
-            thisSynonymRcoProperties[p.pname]
+          if (
+            thisSynonymRcoProperties &&
+            thisSynonymRcoProperties[p.pname] !== undefined
+          ) {
+            let val = thisSynonymRcoProperties[p.pname]
+            if (typeof val === 'boolean') {
+              val = val.toString()
+            }
+            row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
+          }
         })
       }
       // add every field if still missing
@@ -218,7 +246,7 @@ const Preview = ({
     sortField,
     sortDirection
   )
-  //console.log('Preview: rows:', rows)
+  //console.logconsole.log('Preview: rows:', rows)
   const pvColumns = rows[0]
     ? Object.keys(rows[0]).map(k => ({
         key: k,
