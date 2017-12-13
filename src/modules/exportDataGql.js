@@ -19,9 +19,9 @@ export default gql`
       taxFilters: $taxFilters
       pcoFilters: $pcoFilters
       rcoFilters: $rcoFilters
-    ) @include(if: $fetchTaxProperties) {
+    ) {
       totalCount
-      nodes {
+      nodes @include(if: $fetchTaxProperties) {
         id
         properties
       }

@@ -141,7 +141,9 @@ const Preview = ({
   //console.log('Preview: exportData:', exportData)
   const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
+  const objectsCount = get(exportData, 'exportObject.totalCount', null)
   console.log('Preview: objects:', objects)
+  console.log('Preview: objectsCount:', objectsCount)
   const pco = get(exportData, 'exportPco.nodes', [])
   console.log('Preview: pco:', pco)
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
@@ -244,6 +246,11 @@ const Preview = ({
           <TotalDiv>{`${rows.length} Datensätze, ${
             Object.keys(rows[0]).length
           } Felder`}</TotalDiv>
+        </SpreadsheetContainer>
+      )}
+      {rows.length === 0 && (
+        <SpreadsheetContainer>
+          <TotalDiv>{`${objectsCount} Datensätze`}</TotalDiv>
         </SpreadsheetContainer>
       )}
       {rows.length > 0 && (
