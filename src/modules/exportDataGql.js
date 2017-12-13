@@ -72,7 +72,9 @@ export default gql`
     exportSynonymRco(
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
+      pcoFilters: $pcoFilters
       rcoFilters: $rcoFilters
+      rcoProperties: $rcoProperties
     ) @include(if: $fetchSynonymRcoProperties) {
       totalCount
       nodes {
