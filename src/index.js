@@ -19,7 +19,6 @@ import registerServiceWorker from './registerServiceWorker'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 import localStateLink from './localStateLink'
 import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
-import activeNodeArrayGql from './modules/activeNodeArrayGql'
 
 const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
 const client = new ApolloClient({
