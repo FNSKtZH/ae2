@@ -32,12 +32,6 @@ const client = new ApolloClient({
   }),
 })
 
-/**
- * This is some localStateLink problem
- * need to query activeNodeArray or it will not exist
- * and provoke errors
- */
-client.query({ query: activeNodeArrayGql })
 // configure history
 const history = createHistory()
 // make ui follow when user uses browser back and forward buttons
@@ -59,14 +53,14 @@ app.init()
 window.app = app
 
 // initiate activeNodeArray
-let activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
-if (activeNodeArrayFromUrl.length === 0) {
+let activeNodeArray = getActiveNodeArrayFromPathname()
+if (activeNodeArray.length === 0) {
   // forward / to /Taxonomien
-  activeNodeArrayFromUrl = ['Taxonomien']
+  activeNodeArray = ['Taxonomien']
 }
 client.mutate({
   mutation: activeNodeArrayMutation,
-  variables: { value: activeNodeArrayFromUrl },
+  variables: { value: activeNodeArray },
 })
 
 const theme = Object.assign({}, myTheme, {
