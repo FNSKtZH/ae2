@@ -20,7 +20,12 @@ import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPath
 import localStateLink from './localStateLink'
 import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
 
-const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
+const httpLinkOptions = { uri: 'http://localhost:5000/graphql' }
+const token = null // TODO: get token from localStorage?
+if (token) {
+  httpLinkOptions.token.headers = { authorization: `Bearer ${token}` }
+}
+const httpLink = createHttpLink(httpLinkOptions)
 const client = new ApolloClient({
   link: concat(localStateLink, httpLink),
   cache: new InMemoryCache({
