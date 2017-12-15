@@ -28,12 +28,7 @@ if (token) {
 const httpLink = createHttpLink(httpLinkOptions)
 const client = new ApolloClient({
   link: concat(localStateLink, httpLink),
-  cache: new InMemoryCache({
-    // need to add this to prevent errors in apollo, see:
-    // https://github.com/apollographql/react-apollo/issues/741
-    // but this could also CREATE issues... :-(
-    addTypename: false,
-  }),
+  cache: new InMemoryCache(),
 })
 
 // configure history
