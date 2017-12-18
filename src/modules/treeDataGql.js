@@ -42,6 +42,7 @@ export default gql`
     }
     level3Pc: propertyCollectionById(id: $pCId) @include(if: $existsPCId) {
       id
+      name
       propertyCollectionObjectsByPropertyCollectionId {
         totalCount
       }

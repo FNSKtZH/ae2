@@ -130,6 +130,10 @@ export default ({
         treeData,
       })
     )
+    console.log(
+      'buildNodesFromAppQuery: nodes after concatting level3Pc:',
+      nodes
+    )
   }
   if (activeNodeArray.length > 1 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(

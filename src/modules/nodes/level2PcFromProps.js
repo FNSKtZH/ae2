@@ -12,13 +12,24 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
       'propertyCollectionObjectsByPropertyCollectionId.totalCount',
       0
     )
+    const pCCount = get(
+      treeData,
+      'level3Pc.propertyCollectionObjectsByPropertyCollectionId.totalCount',
+      0
+    )
+    const rCCount = get(
+      treeData,
+      'level3Pc.relationsByPropertyCollectionId.totalCount',
+      0
+    )
+
     return {
       id: node.id,
       url: ['Eigenschaften-Sammlungen', node.id],
       sort: [2, node.name],
       label: node.name,
       info: `(${count} Arten/Lebensräume)`,
-      childrenCount: 0,
+      childrenCount: pCCount + rCCount,
     }
   })
 }

@@ -2,40 +2,37 @@
 import get from 'lodash/get'
 
 export default ({ treeData }: { treeData: Object }): Array<Object> => {
-  console.log('level3PcFromProps: treeData:', treeData)
   if (!treeData) return []
   const pCId = get(treeData, 'level3Pc.id', null)
-  console.log('level3PcFromProps: pCId:', pCId)
+  const pCName = get(treeData, 'level3Pc.name', null)
   if (!pCId) return []
   const pCCount = get(
     treeData,
     'level3Pc.propertyCollectionObjectsByPropertyCollectionId.totalCount',
     0
   )
-  console.log('level3PcFromProps: pCCount:', pCCount)
   const rCCount = get(
     treeData,
     'level3Pc.relationsByPropertyCollectionId.totalCount',
     0
   )
-  console.log('level3PcFromProps: rCCount:', rCCount)
 
   return [
     {
       id: `${pCId}pC`,
-      url: ['Eigenschaften-Sammlungen', 'Eigenschaften'],
-      sort: [2, 'Eigenschaften'],
+      url: ['Eigenschaften-Sammlungen', pCId, 'Eigenschaften'],
+      sort: [2, pCName, 1],
       label: 'Eigenschaften',
       info: `(${pCCount} Datensätze)`,
-      childrenCount: pCCount,
+      childrenCount: 0,
     },
     {
       id: `${pCId}pC`,
-      url: ['Eigenschaften-Sammlungen', 'Beziehungen'],
-      sort: [2, 'Beziehungen'],
+      url: ['Eigenschaften-Sammlungen', pCId, 'Beziehungen'],
+      sort: [2, pCName, 2],
       label: 'Beziehungen',
       info: `(${rCCount} Datensätze)`,
-      childrenCount: rCCount,
+      childrenCount: 0,
     },
   ]
 }
