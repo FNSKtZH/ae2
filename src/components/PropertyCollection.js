@@ -19,6 +19,7 @@ const PropertyCollection = ({ pCData }: { pCData: Object }) => {
   const pC = get(pCData, 'propertyCollectionById', {})
   console.log('pC:', pC)
   const org = get(pC, ('organizationByOrganizationId.name': ''))
+  const user = get(pC, ('userByImportedBy.name': ''))
 
   return (
     <Container>
@@ -61,6 +62,7 @@ const PropertyCollection = ({ pCData }: { pCData: Object }) => {
         label="Links"
       />
       <PropertyReadOnly key="org" value={org} label="Zuständige Organisation" />
+      <PropertyReadOnly key="importedBy" value={user} label="Importiert von" />
     </Container>
   )
 }
