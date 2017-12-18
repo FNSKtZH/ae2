@@ -5,7 +5,7 @@ import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 
-import PropertyReadOnly from '../PropertyReadOnly'
+import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyCollection from './ObjectPropertyCollection'
 import Relation from './Relation'
 
