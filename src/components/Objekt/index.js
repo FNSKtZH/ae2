@@ -8,8 +8,8 @@ import uniqBy from 'lodash/uniqBy'
 
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
-import activeNodeArrayData from '../modules/activeNodeArrayData'
-import activeObjectData from '../modules/activeObjectData'
+import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import activeObjectData from '../../modules/activeObjectData'
 
 const Container = styled.div`
   padding: 5px;

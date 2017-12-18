@@ -6,10 +6,10 @@ import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 
-import PropertyReadOnly from './PropertyReadOnly'
+import PropertyReadOnly from '../PropertyReadOnly'
 import Taxonomy from './Taxonomy'
-import getUrlForObject from '../modules/getUrlForObject'
-import appBaseUrl from '../modules/appBaseUrl'
+import getUrlForObject from '../../modules/getUrlForObject'
+import appBaseUrl from '../../modules/appBaseUrl'
 
 const tOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {

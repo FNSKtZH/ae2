@@ -4,7 +4,7 @@ import sortBy from 'lodash/sortBy'
 import get from 'lodash/get'
 import styled from 'styled-components'
 
-import PropertyReadOnly from './PropertyReadOnly'
+import PropertyReadOnly from '../PropertyReadOnly'
 
 const Container = styled.div`
   border-bottom: ${props =>
