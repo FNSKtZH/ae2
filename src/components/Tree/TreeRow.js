@@ -9,7 +9,7 @@ import isEqual from 'lodash/isEqual'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 
-import isUrlInActiveNodePath from '../modules/isUrlInActiveNodePath'
+import isUrlInActiveNodePath from '../../modules/isUrlInActiveNodePath'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`

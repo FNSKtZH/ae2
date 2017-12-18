@@ -8,11 +8,11 @@ import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
 
-import treeFilterMutation from '../modules/treeFilterMutation'
-import treeFilterData from '../modules/treeFilterData'
-import filterSuggestionsData from '../modules/filterSuggestionsData'
-import getUrlForObject from '../modules/getUrlForObject'
-import objectUrlData from '../modules/objectUrlData'
+import treeFilterMutation from '../../modules/treeFilterMutation'
+import treeFilterData from '../../modules/treeFilterData'
+import filterSuggestionsData from '../../modules/filterSuggestionsData'
+import getUrlForObject from '../../modules/getUrlForObject'
+import objectUrlData from '../../modules/objectUrlData'
 
 const Container = styled.div`
   padding: 5px 16px 0 13px;

@@ -12,10 +12,10 @@ import Snackbar from 'material-ui/Snackbar'
 
 import Row from './TreeRow'
 import TreeFilter from './TreeFilter'
-import buildNodesFromAppQuery from '../modules/buildNodesFromAppQuery'
-import activeNodeArrayGql from '../modules/activeNodeArrayGql'
-import allCategoriesData from '../modules/allCategoriesData'
-import treeData from '../modules/treeData'
+import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
+import activeNodeArrayGql from '../../modules/activeNodeArrayGql'
+import allCategoriesData from '../../modules/allCategoriesData'
+import treeData from '../../modules/treeData'
 
 const singleRowHeight = 23
 const Container = styled.div`
