@@ -71,8 +71,8 @@ ajv@^4.9.1:
     json-stable-stringify "^1.0.1"
 
 ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5, ajv@^5.2.0, ajv@^5.2.3:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.1.tgz#b38bb8876d9e86bee994956a04e721e88b248eb2"
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.2.tgz#73b5eeca3fab653e3d3f9422b341ad42205dc965"
   dependencies:
     co "^4.6.0"
     fast-deep-equal "^1.0.0"
@@ -3183,13 +3183,13 @@ graceful-fs@~3.0.2:
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
 graphile-build-pg@^0.1.0-alpha.36:
-  version "0.1.0-alpha.36"
-  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-0.1.0-alpha.36.tgz#3778934c0e0c5751e6dd01c0aae592bf6fef19dd"
+  version "0.1.0-alpha.37"
+  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-0.1.0-alpha.37.tgz#32de7ecfa695538125356eb9272761a29bbaba89"
   dependencies:
     babel-runtime ">=6 <7"
     chalk "^2.1.0"
     debug ">=2 <3"
-    graphile-build "^0.1.0-alpha.36"
+    graphile-build "^0.1.0-alpha.37"
     graphql-iso-date "^3.2.0"
     graphql-type-json "^0.1.4"
     jsonwebtoken "^7.4.1"
@@ -3200,9 +3200,9 @@ graphile-build-pg@^0.1.0-alpha.36:
     pluralize "^5.0.0"
     postgres-interval "1.1.1"
 
-graphile-build@^0.1.0-alpha.36:
-  version "0.1.0-alpha.36"
-  resolved "https://registry.yarnpkg.com/graphile-build/-/graphile-build-0.1.0-alpha.36.tgz#f1f2e0a85f817e2b16848973d762865cf985b69f"
+graphile-build@^0.1.0-alpha.36, graphile-build@^0.1.0-alpha.37:
+  version "0.1.0-alpha.37"
+  resolved "https://registry.yarnpkg.com/graphile-build/-/graphile-build-0.1.0-alpha.37.tgz#315320ba8c34a7ea8196de79090a8d707d25465f"
   dependencies:
     babel-runtime ">=6 <7"
     debug ">=2 <3"
@@ -3234,8 +3234,8 @@ graphql-type-json@^0.1.4:
   resolved "https://registry.yarnpkg.com/graphql-type-json/-/graphql-type-json-0.1.4.tgz#89f13f5d32ce08c9a76c79fdf9c1968384d81a4e"
 
 "graphql@>=0.6.0 <1.0.0":
-  version "0.11.7"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.11.7.tgz#e5abaa9cb7b7cccb84e9f0836bf4370d268750c6"
+  version "0.12.3"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.12.3.tgz#11668458bbe28261c0dcb6e265f515ba79f6ce07"
   dependencies:
     iterall "1.1.3"
 
@@ -4798,8 +4798,8 @@ moment@2.19.3:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
 
 moment@2.x.x:
-  version "2.19.4"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.4.tgz#17e5e2c6ead8819c8ecfad83a0acccb312e94682"
+  version "2.20.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.0.tgz#53396358994dd3a551e966a66af715ecb6c30ad0"
 
 ms@2.0.0:
   version "2.0.0"
