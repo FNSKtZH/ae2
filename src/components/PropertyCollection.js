@@ -17,7 +17,6 @@ const Container = styled.div`
 
 const PropertyCollection = ({ pCData }: { pCData: Object }) => {
   const pC = get(pCData, 'propertyCollectionById', {})
-  console.log('pC:', pC)
   const org = get(pC, ('organizationByOrganizationId.name': ''))
   const user = get(pC, ('userByImportedBy.name': ''))
 

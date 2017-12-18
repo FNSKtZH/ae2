@@ -24,6 +24,8 @@ export default gql`
     $level9Taxonomy: UUID!
     $existsLevel10: Boolean!
     $level10Taxonomy: UUID!
+    $pCId: UUID!
+    $existsPCId: Boolean!
   ) {
     allPropertyCollections @include(if: $notExistsLevel2Pc) {
       totalCount
@@ -36,6 +38,15 @@ export default gql`
         propertyCollectionObjectsByPropertyCollectionId {
           totalCount
         }
+      }
+    }
+    level3Pc: propertyCollectionById(id: $pCId) @include(if: $existsPCId) {
+      id
+      propertyCollectionObjectsByPropertyCollectionId {
+        totalCount
+      }
+      relationsByPropertyCollectionId {
+        totalCount
       }
     }
     level2Taxonomy: categoriesOfTaxonomiesFunction

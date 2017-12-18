@@ -7,6 +7,7 @@ import get from 'lodash/get'
 
 import level1FromProps from './nodes/level1FromProps'
 import level2PcFromProps from './nodes/level2PcFromProps'
+import level3PcFromProps from './nodes/level3PcFromProps'
 import level2TaxonomyFromProps from './nodes/level2TaxonomyFromProps'
 import level3TaxonomyFromProps from './nodes/level3TaxonomyFromProps'
 import level4TaxonomyFromProps from './nodes/level4TaxonomyFromProps'
@@ -27,6 +28,8 @@ export default ({
   allCategoriesData: Object,
   activeNodeArray: Object,
 }): Array<Object> => {
+  const level3Pc = get(treeData, 'level3Pc', null)
+  console.log('Tree: level3Pc:', level3Pc)
   const activeLevel2TaxonomyNodes = get(treeData, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
@@ -118,6 +121,16 @@ export default ({
       }
     }
   }
+  if (
+    activeNodeArray.length > 1 &&
+    activeNodeArray[0] === 'Eigenschaften-Sammlungen'
+  ) {
+    nodes = nodes.concat(
+      level3PcFromProps({
+        treeData,
+      })
+    )
+  }
   if (activeNodeArray.length > 1 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
       level3TaxonomyFromProps({
@@ -126,7 +139,7 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 2) {
+  if (activeNodeArray.length > 2 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
       level4TaxonomyFromProps({
         treeData,
@@ -136,7 +149,7 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 3) {
+  if (activeNodeArray.length > 3 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
       level5TaxonomyFromProps({
         treeData,
