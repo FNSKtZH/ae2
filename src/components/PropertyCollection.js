@@ -2,22 +2,21 @@
 import React from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
+import get from 'lodash/get'
 
 import activeNodeArrayData from '../modules/activeNodeArrayData'
+import pCData from '../modules/pCData'
 
-const enhance = compose(activeNodeArrayData)
+const enhance = compose(activeNodeArrayData, pCData)
 
 const Container = styled.div`
   padding: 10px;
 `
 
-const PropertyCollection = ({
-  activeNodeArrayData,
-}: {
-  activeNodeArrayData: Object,
-}) => {
-  const { activeNodeArray } = activeNodeArrayData
-  const pcId = activeNodeArray[1]
+const PropertyCollection = ({ pCData }: { pCData: Object }) => {
+  const pC = get(pCData, 'propertyCollectionById', {})
+  console.log('pCData:', pCData)
+  console.log('pC:', pC)
 
   return (
     <Container>
