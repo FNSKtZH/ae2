@@ -8,11 +8,14 @@ import treeDataVariables from './treeDataVariables'
 export default graphql(treeDataGql, {
   options: ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
     const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
-    const pCId =
-      activeNodeArray[0] === 'Eigenschaften-Sammlungen'
-        ? activeNodeArray[1]
-        : '99999999-9999-9999-9999-999999999999'
-    const existsPCId = !!pCId
+    let pCId = '99999999-9999-9999-9999-999999999999'
+    if (
+      activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
+      activeNodeArray[1]
+    ) {
+      pCId = activeNodeArray[1]
+    }
+    const existsPCId = pCId !== '99999999-9999-9999-9999-999999999999'
     const variables = {
       ...treeDataVariables({
         activeNodeArray,
