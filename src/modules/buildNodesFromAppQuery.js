@@ -28,8 +28,8 @@ export default ({
   allCategoriesData: Object,
   activeNodeArray: Object,
 }): Array<Object> => {
-  const level3Pc = get(treeData, 'level3Pc', null)
-  console.log('Tree: level3Pc:', level3Pc)
+  //const level3Pc = get(treeData, 'level3Pc', null)
+  //console.log('Tree: level3Pc:', level3Pc)
   const activeLevel2TaxonomyNodes = get(treeData, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
@@ -161,7 +161,7 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 4) {
+  if (activeNodeArray.length > 4 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
       level6TaxonomyFromProps({
         treeData,
@@ -175,7 +175,7 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 5) {
+  if (activeNodeArray.length > 5 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
       level7TaxonomyFromProps({
         treeData,
@@ -191,7 +191,7 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 6) {
+  if (activeNodeArray.length > 6 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
       level8TaxonomyFromProps({
         treeData,
@@ -209,7 +209,7 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 7) {
+  if (activeNodeArray.length > 7 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
       level9TaxonomyFromProps({
         treeData,
@@ -229,7 +229,7 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 8) {
+  if (activeNodeArray.length > 8 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
       level10TaxonomyFromProps({
         treeData,
