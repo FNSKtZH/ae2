@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  query ObjectQuery($pCId: UUID!) {
+  query pCQuery($pCId: UUID!) {
     propertyCollectionById(id: $pCId) {
       id
       dataType
