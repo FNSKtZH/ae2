@@ -2,6 +2,7 @@ CREATE DATABASE ae encoding 'UTF8';
 CREATE SCHEMA ae;
 CREATE SCHEMA auth;
 CREATE EXTENSION "uuid-ossp";
+CREATE EXTENSION pgcrypto;
 DROP ROLE IF EXISTS org_collection_writer;
 CREATE ROLE org_collection_writer;
 DROP ROLE IF EXISTS org_habitat_writer;
