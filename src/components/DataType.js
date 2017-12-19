@@ -4,6 +4,7 @@ import compose from 'recompose/compose'
 
 import Objekt from './Objekt'
 import PropertyCollection from './PropertyCollection'
+import PCO from './PropertyCollection/PCO'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
 import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNodeArray'
 
@@ -18,9 +19,15 @@ const DataType = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
     primaryUrl === 'Eigenschaften-Sammlungen' &&
     activeNodeArray[1] &&
     activeNodeArray.length === 2
+  const showPCO =
+    primaryUrl === 'Eigenschaften-Sammlungen' &&
+    activeNodeArray[1] &&
+    activeNodeArray.length === 3 &&
+    activeNodeArray[2] === 'Eigenschaften'
 
   if (showObjekt) return <Objekt />
   if (showPC) return <PropertyCollection />
+  if (showPCO) return <PCO />
   return null
 }
 
