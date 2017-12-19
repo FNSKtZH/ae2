@@ -13,24 +13,23 @@ begin
 end
 $$;
 
-drop trigger if exists ensure_user_role_exists on auth.users;
+drop trigger if exists ensure_user_role_exists on auth.user;
 create constraint trigger ensure_user_role_exists
-  after insert or update on auth.users
+  after insert or update on auth.user
   for each row
   execute procedure auth.check_role_exists();
 
 -- make sure ae.user is updated, when auth.user is
-create or replace function keep_ae_user_updated_on_update() returns trigger as
+create or replace function keep_ae_user_updated_on_update() returns trigger language plpgsql as
 $$
 begin
   update ae.user
   set name = new.name, email = new.email
-  where ae.user.id = new.id
+  where ae.user.id = new.id;
 end
-$$
-language plpgsql;
-drop trigger if exists keep_ae_user_updated_on_update on auth.users;
-create trigger keep_ae_user_updated_on_update AFTER UPDATE ON auth.users
+$$;
+drop trigger if exists keep_ae_user_updated_on_update on auth.user;
+create trigger keep_ae_user_updated_on_update AFTER UPDATE ON auth.user
   for each row execute procedure keep_ae_user_updated_on_update();
 
 -- make sure ae.user is inserted, when auth.user is
@@ -44,14 +43,9 @@ $$
   end;
 $$
 language plpgsql;
-drop trigger if exists keep_ae_user_updated_on_insert on auth.users;
+drop trigger if exists keep_ae_user_updated_on_insert on auth.user;
 create trigger keep_ae_user_updated_on_insert after insert on auth.user
   for each row execute procedure keep_ae_user_updated_on_insert();
-
-create extension if not exists pgcrypto;
--- this does not work on windows
--- need to run pgjwt.sql
---create extension if not exists pgjwt;
 
 create or replace function auth.encrypt_pass() returns trigger as
 $$
@@ -66,9 +60,9 @@ language plpgsql;
 
 -- We’ll use the pgcrypto extension and a trigger
 -- to keep passwords safe in the users table
-drop trigger if exists encrypt_pass on auth.users;
+drop trigger if exists encrypt_pass on auth.user;
 create trigger encrypt_pass
-  before insert or update on auth.users
+  before insert or update on auth.user
   for each row
   execute procedure auth.encrypt_pass();
 
@@ -81,17 +75,12 @@ returns name
   as $$
 begin
   return (
-  select role from auth.users
+  select role from auth.user
    where users.name = $1
      and users.pass = crypt($2, users.pass)
   );
 end;
 $$;
-
--- stored procedure that returns the token
-CREATE TYPE auth.jwt_token AS (
-  token text
-);
 
 -- Login function which takes an user name and password
 -- and returns JWT if the credentials match a user in the internal table
