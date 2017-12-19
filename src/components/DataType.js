@@ -14,7 +14,7 @@ const DataType = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
   const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const primaryUrl = activeNodeArray[0]
   const showObjekt = primaryUrl === 'Taxonomien' && activeObjectId
-  const showPC = primaryUrl === 'Eigenschaften-Sammlungen'
+  const showPC = primaryUrl === 'Eigenschaften-Sammlungen' && activeNodeArray[1]
 
   if (showObjekt) return <Objekt />
   if (showPC) return <PropertyCollection />
