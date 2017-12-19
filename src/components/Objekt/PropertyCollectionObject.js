@@ -37,6 +37,7 @@ const PropertyCollectionObject = ({
   relations: Array<Object>,
 }) => {
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
+  console.log('PropertyCollectionObject: pC:', pC)
   const pcname = get(pC, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
   const properties = JSON.parse(pCO.properties) || {}

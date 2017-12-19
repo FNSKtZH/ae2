@@ -9,7 +9,7 @@ import uniqBy from 'lodash/uniqBy'
 import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
-import activeObjectData from '../../modules/activeObjectData'
+import activeObjectData from './activeObjectData'
 
 const Container = styled.div`
   padding: 5px;
@@ -35,6 +35,7 @@ const enhance = compose(activeNodeArrayData, activeObjectData)
 
 const Objekt = ({ activeObjectData }: { activeObjectData: Object }) => {
   const activeObject = get(activeObjectData, 'objectById')
+  console.log('Objekt: activeObject:', activeObject)
   if (!activeObject) return <div />
   const propertyCollectionObjects = get(
     activeObject,
