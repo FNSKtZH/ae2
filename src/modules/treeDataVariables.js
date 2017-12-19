@@ -10,9 +10,11 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
     activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
     activeNodeArray.length > 0
   const notExistsLevel2Pc = !existsLevel2Pc
-  const existsLevel3 = activeNodeArray.length > 1
+  const existsLevel3 =
+    activeNodeArray.length > 1 && activeNodeArray[0] === 'Taxonomien'
   const level3Taxonomy = existsLevel3 ? activeNodeArray[1] : 'none'
-  const existsLevel4 = activeNodeArray.length > 2
+  const existsLevel4 =
+    activeNodeArray.length > 2 && activeNodeArray[0] === 'Taxonomien'
   const level4Taxonomy = existsLevel4
     ? activeNodeArray[2]
     : '99999999-9999-9999-9999-999999999999'
