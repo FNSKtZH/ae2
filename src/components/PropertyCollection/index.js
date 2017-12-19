@@ -6,7 +6,7 @@ import get from 'lodash/get'
 import format from 'date-fns/format'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
-import pCData from '../../modules/pCData'
+import pCData from './pCData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 
 const enhance = compose(activeNodeArrayData, pCData)
