@@ -84,7 +84,19 @@ DROP TABLE IF EXISTS ae.user CASCADE;
 CREATE TABLE ae.user (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   name text NOT NULL UNIQUE,
-  email text NOT NULL UNIQUE
+  email text NOT NULL UNIQUE,
+  CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
+);
+
+CREATE TABLE IF NOT EXISTS auth.user (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
+  name varchar(30) NOT NULL UNIQUE,
+  role name NOT NULL check (length(role) < 512),
+  -- allow other attributes to be null
+  -- so names and roles can be set beforehand by organization
+  email text DEFAULT NULL UNIQUE check ( email ~* '^.+@.+\..+$' ),
+  pass text NULL,
+  CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
 
 DROP TABLE IF EXISTS ae.object CASCADE;
