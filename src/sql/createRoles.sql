@@ -15,13 +15,17 @@ grant execute on function request.user_name() to anon;
 grant execute on function request.jwt_claim(text) to anon;
 grant execute on function request.env_var(text) to anon;
 
-revoke connect on database ae from public;
+--revoke connect on database ae from public;
 revoke all on all tables in schema ae from public;
+
+grant connect on database ae to public;
+grant usage on schema ae to public;
+grant select on all tables in schema ae to public;
 
 -- anon can see all but change nothing
 grant connect on database ae to anon;
-grant select on all tables in schema ae to anon;
 grant usage on schema public, auth, ae to anon;
+grant select on all tables in schema ae to anon;
 grant select on table pg_authid, auth.user to anon;
 grant execute on function ae.login(text,text) to anon;
 alter default privileges in schema ae
