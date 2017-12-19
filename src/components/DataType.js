@@ -13,14 +13,13 @@ const enhance = compose(activeNodeArrayData)
 const DataType = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
   const { activeNodeArray } = activeNodeArrayData
   const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
-  const primaryUrl = activeNodeArray[0]
-  const showObjekt = primaryUrl === 'Taxonomien' && activeObjectId
+  const showObjekt = activeNodeArray[0] === 'Taxonomien' && activeObjectId
   const showPC =
-    primaryUrl === 'Eigenschaften-Sammlungen' &&
+    activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
     activeNodeArray[1] &&
     activeNodeArray.length === 2
   const showPCO =
-    primaryUrl === 'Eigenschaften-Sammlungen' &&
+    activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
     activeNodeArray[1] &&
     activeNodeArray.length === 3 &&
     activeNodeArray[2] === 'Eigenschaften'
