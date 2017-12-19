@@ -22,16 +22,6 @@ const PropertyCollection = ({ pCData }: { pCData: Object }) => {
 
   return (
     <Container>
-      <h3>Eigenschaften-Sammlung</h3>
-      <div>Idee:</div>
-      <ul>
-        <li>Hier erscheint die Beschreibung der Eigenschaften-Sammlung</li>
-        <li>
-          Im Baum eine Ebene tiefer, werden die Eigenschaften in einer Tabelle
-          angezeigt. Exportierbar
-        </li>
-        <li>Im Baum darunter, werden allfällige Beziehungen angezeigt</li>
-      </ul>
       <PropertyReadOnly key="name" value={pC.name} label="Name" />
       <PropertyReadOnly
         key="description"
