@@ -7,7 +7,7 @@ grant connect on database ae to authenticator;
 grant connect on database ae to anon;
 
 grant usage on schema public, auth, ae, request to anon;
-grant select on table pg_authid, auth.users to anon;
+grant select on table pg_authid, auth.user to anon;
 grant execute on function ae.login(text,text) to anon;
 grant execute on function auth.sign(json,text,text) to anon;
 grant execute on function auth.user_role(text,text) to anon;
@@ -22,7 +22,7 @@ revoke all on all tables in schema ae from public;
 grant connect on database ae to anon;
 grant select on all tables in schema ae to anon;
 grant usage on schema public, auth to anon;
-grant select on table pg_authid, auth.users to anon;
+grant select on table pg_authid, auth.user to anon;
 grant execute on function ae.login(text,text) to anon;
 alter default privileges in schema ae
   grant select on tables to anon;
