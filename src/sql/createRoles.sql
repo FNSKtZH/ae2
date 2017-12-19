@@ -21,7 +21,7 @@ revoke all on all tables in schema ae from public;
 -- anon can see all but change nothing
 grant connect on database ae to anon;
 grant select on all tables in schema ae to anon;
-grant usage on schema public, auth to anon;
+grant usage on schema public, auth, ae to anon;
 grant select on table pg_authid, auth.user to anon;
 grant execute on function ae.login(text,text) to anon;
 alter default privileges in schema ae
