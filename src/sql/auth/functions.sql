@@ -84,7 +84,6 @@ $$;
 
 -- Login function which takes an user name and password
 -- and returns JWT if the credentials match a user in the internal table
---create type login_return as (token auth.jwt_token, role text);
 create or replace function ae.login(username text, pass text)
 returns auth.jwt_token
   as $$
@@ -102,9 +101,9 @@ begin
       row_to_json(r), current_setting('app.jwt_secret')
     ) as token
     from (
-      select _role as role,
-      $1 as username,
-      extract(epoch from now())::integer + 60*60*24*30 as exp
+      select _role as role
+      --$1 as username,
+      --extract(epoch from now())::integer + 60*60*24*30 as exp
     ) r
     into result;
   return (result.token, _role, $1)::auth.jwt_token;
