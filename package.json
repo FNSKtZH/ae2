@@ -16,6 +16,7 @@
     "history": "4.7.2",
     "js-file-download": "0.4.1",
     "json2csv": "3.11.5",
+    "jwt-decode": "2.2.0",
     "lodash": "4.17.4",
     "material-ui": "0.20.0",
     "react": "16.2.0",

@@ -7,6 +7,7 @@ import withHandlers from 'recompose/withHandlers'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
+import jwtDecode from 'jwt-decode'
 
 import loginMutation from './loginMutation'
 
@@ -51,6 +52,8 @@ const enhance = compose(
         const jwtToken = get(result, 'data.login.jwtToken')
         console.log('Login: jwtToken:', jwtToken)
         if (jwtToken) {
+          const tokenDecoded = jwtDecode(jwtToken)
+          console.log('Login: tokenDecoded:', tokenDecoded)
           changeNameErrorText(null)
           changePassErrorText(null)
           setTimeout(() => {
