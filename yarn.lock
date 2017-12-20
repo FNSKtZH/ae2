@@ -200,9 +200,9 @@ apollo-link-http@1.3.2:
   dependencies:
     apollo-link "^1.0.7"
 
-apollo-link-state@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/apollo-link-state/-/apollo-link-state-0.1.0.tgz#fe873915b83f3cb91a9492377278376214bcbee0"
+apollo-link-state@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/apollo-link-state/-/apollo-link-state-0.2.0.tgz#013118099e365c8bf7563cd924e80a3258b16739"
   dependencies:
     apollo-utilities "^1.0.1"
     graphql-anywhere "^4.1.0-alpha.0"
@@ -5941,9 +5941,9 @@ react-autowhatever@^10.1.0:
     react-themeable "^1.1.0"
     section-iterator "^2.0.0"
 
-react-contextmenu@2.9.1:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.9.1.tgz#391c7001f73e49772e37e98d154736d50dac11de"
+react-contextmenu@2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.9.2.tgz#7076075f09e4cad023a1252da347d9e6782d003a"
   dependencies:
     classnames "^2.2.5"
     object-assign "^4.1.0"
