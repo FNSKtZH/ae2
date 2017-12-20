@@ -71,7 +71,7 @@ const enhance = compose(
         app.db.users.clear()
         app.db.users.put({
           username,
-          token,
+          token: jwtToken,
           role,
         })
         console.log('Login: will run loginMutation')
