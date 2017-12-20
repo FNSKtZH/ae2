@@ -6,7 +6,7 @@ export default () => {
   // this helps in that user can open new tab and remain logged in!
   const idb = new Dexie('ae')
   idb.version(1).stores({
-    users: 'token,role,username',
+    users: '++id,token,role,username',
   })
   return idb
 }

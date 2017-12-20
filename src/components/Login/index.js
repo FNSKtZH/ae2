@@ -11,6 +11,7 @@ import jwtDecode from 'jwt-decode'
 import app from 'ampersand-app'
 
 import loginMutation from './loginMutation'
+import setLoginMutation from '../../modules/loginMutation'
 
 const Container = styled.div`
   padding: 10px;
@@ -62,24 +63,18 @@ const enhance = compose(
       const jwtToken = get(result, 'data.login.jwtToken')
       if (jwtToken) {
         const tokenDecoded = jwtDecode(jwtToken)
-        const { token, role, username } = tokenDecoded
-        console.log('Login: tokenDecoded:', tokenDecoded)
-        console.log('Login: token:', token)
-        console.log('Login: role:', role)
-        console.log('Login: username:', username)
+        const { role, username } = tokenDecoded
         // refresh currentUser in idb
-        app.idb.users.clear()
-        app.idb.users.put({
+        await app.idb.users.clear()
+        await app.idb.users.put({
           username,
           token: jwtToken,
           role,
         })
-        console.log('Login: will run loginMutation')
         client.mutate({
-          mutation: loginMutation,
-          variables: { username, role, token },
+          mutation: setLoginMutation,
+          variables: { username, role, token: jwtToken },
         })
-        console.log('Login: loginMutation done')
         changeNameErrorText(null)
         changePassErrorText(null)
         setTimeout(() => {

@@ -22,11 +22,11 @@ import registerServiceWorker from './registerServiceWorker'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 import localStateLink from './localStateLink'
 import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
-import initializeDb from './modules/initializeDb'
+import initializeIdb from './modules/initializeIdb'
 import setLoginFromIdb from './modules/setLoginFromIdb'
 ;(async () => {
   try {
-    const idb = initializeDb()
+    const idb = initializeIdb()
 
     const authMiddleware = setContext(async () => {
       let users
