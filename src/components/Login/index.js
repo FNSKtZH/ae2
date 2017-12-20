@@ -8,6 +8,7 @@ import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
+import app from 'ampersand-app'
 
 import loginMutation from './loginMutation'
 
@@ -54,6 +55,13 @@ const enhance = compose(
         if (jwtToken) {
           const tokenDecoded = jwtDecode(jwtToken)
           console.log('Login: tokenDecoded:', tokenDecoded)
+          // refresh currentUser in idb
+          app.db.currentUser.clear()
+          app.db.currentUser.put({
+            username: tokenDecoded.username,
+            token: tokenDecoded.token,
+            role: tokenDecoded.role,
+          })
           changeNameErrorText(null)
           changePassErrorText(null)
           setTimeout(() => {

@@ -19,6 +19,7 @@ import registerServiceWorker from './registerServiceWorker'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 import localStateLink from './localStateLink'
 import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
+import initializeDb from './modules/initializeDb'
 
 const httpLinkOptions = { uri: 'http://localhost:5000/graphql' }
 const token = null // TODO: get token from localStorage?
@@ -45,6 +46,7 @@ app.extend({
   init() {
     this.client = client
     this.history = history
+    this.db = initializeDb()
   },
 })
 app.init()
