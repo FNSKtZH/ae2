@@ -11,5 +11,7 @@ ALTER DATABASE ae SET "app.jwt_secret" TO 'secret';
 
 -- stored procedure that returns the token
 CREATE TYPE auth.jwt_token AS (
-  token text
+  token text,
+  role text,
+  username text
 );
