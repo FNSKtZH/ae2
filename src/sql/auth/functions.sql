@@ -107,6 +107,6 @@ begin
       extract(epoch from now())::integer + 60*60*24*30 as exp
     ) r
     into result;
-  return result;
+  return (result.token, _role, $1)::auth.jwt_token;
 end;
 $$ language plpgsql;
