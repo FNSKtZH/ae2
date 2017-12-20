@@ -17,6 +17,7 @@ import exportRcoFiltersGql from './modules/exportRcoFiltersGql'
 import exportTooManyPropertiesGql from './modules/exportTooManyPropertiesGql'
 import exportTooManyPropertiesMutation from './modules/exportTooManyPropertiesMutation'
 import exportWithSynonymDataGql from './modules/exportWithSynonymDataGql'
+import historyAfterLoginGql from './modules/historyAfterLoginGql'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
 import constants from './modules/constants'
 
@@ -47,6 +48,7 @@ export default withClientState({
       username: '',
       __typename: 'Login',
     }),
+    historyAfterLogin: () => '',
   },
   Mutation: {
     // update values in the store on mutations
@@ -398,6 +400,13 @@ export default withClientState({
       cache.writeQuery({
         query: exportWithSynonymDataGql,
         data: { exportWithSynonymData: value },
+      })
+      return null
+    },
+    setHistoryAfterLogin: (_, { value }, { cache }) => {
+      cache.writeQuery({
+        query: historyAfterLoginGql,
+        data: { historyAfterLogin: value },
       })
       return null
     },
