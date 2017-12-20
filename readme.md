@@ -33,7 +33,7 @@
    -	Alle Taxonomien bleiben langfristig erhalten
    -	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
    -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
-   - Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute bei Eigenschaftensammlungen
+   - Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute Eigenschaftensammlungen
 2. Beziehungssammlungen werden in Eigenschaftensammlungen integriert: Es sind einfach Eigenschaftensammlungen mit Beziehungen
    - Ist einfacher zu verstehen
    - Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
@@ -53,7 +53,7 @@
   - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
   - Weniger Code = weniger Fehler<br/>
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört<br/>
-  - "React für die Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQl und Apollo kümmern sich um die Bereitstellung
+  - "React für Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQl und Apollo kümmern sich um die Bereitstellung
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
@@ -73,9 +73,9 @@
 - [x] Datenstruktur:<br/>![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
 - [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](/etc/import.png?raw=true "Import")
 - [x] Anwendungs-API-Server ([postgraphql](https://github.com/postgraphql/postgraphql))<br/>![API-Server](/etc/postgraphql.png?raw=true "API-Server")
-- [x] [API-Server für abhängige Anwendungen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
+- [x] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
 
-Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 2018. Aktueller Stand:
+Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 2018. Aktueller Stand:
 
   - [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](/etc/dev.png?raw=true "Entwicklungsumgebung")
   - [x] Layout und Navigation
@@ -86,7 +86,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
     ![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
   - [x] Suche:
     - neu nach allen Gruppen und Taxonomien gleichzeitig
-    - neu nach allen Hierarchiestufen (z.B. Familien, Gattungen)
+    - neu nach allen Hierarchiestufen (z.B. Ordnungen, Familien)
     - neu und gleichzeitig nach Eigenschaftensammlungen
     ![Datenstruktur](/etc/suche.png?raw=true "Suche")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Datenstruktur")
@@ -95,7 +95,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Beginn 201
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>![Synonym](/etc/synonym.png?raw=true "Synonym")
   - [x] Daten exportieren
     ![exportieren](/etc/export.png?raw=true "exportieren")
-  - [ ] Login
+  - [ ] Login (in Arbeit)
   - [ ] Organisationen und Benutzer
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
   - [ ] Lebensräume bearbeiten
