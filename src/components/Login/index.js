@@ -82,8 +82,8 @@ const enhance = compose(
           changePass('')
         }, 2000)
         // TODO: message success
-        // TODO: setHistory to Taxonomien or stored value
-        // TODO: empty stored value
+        // TODO: setHistory to Taxonomien or stored value using historyAfterLogin
+        // TODO: empty historyAfterLogin value
       }
     },
   }),
