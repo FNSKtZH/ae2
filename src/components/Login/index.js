@@ -68,8 +68,8 @@ const enhance = compose(
         console.log('Login: role:', role)
         console.log('Login: username:', username)
         // refresh currentUser in idb
-        app.db.users.clear()
-        app.db.users.put({
+        app.idb.users.clear()
+        app.idb.users.put({
           username,
           token: jwtToken,
           role,

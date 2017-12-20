@@ -4,7 +4,7 @@ import app from 'ampersand-app'
 import loginMutation from './loginMutation'
 
 export default (client: Object): void =>
-  app.db.users
+  app.idb.users
     .toArray()
     .then(users => {
       //console.log('setLoginFromIdb: users:', users)

@@ -26,11 +26,11 @@ import initializeDb from './modules/initializeDb'
 import setLoginFromIdb from './modules/setLoginFromIdb'
 ;(async () => {
   try {
-    const db = initializeDb()
+    const idb = initializeDb()
 
     const authMiddleware = setContext(async () => {
       let users
-      users = await db.users.toArray()
+      users = await idb.users.toArray()
       const token = get(users, '[0].token')
       if (token) {
         return {
@@ -61,7 +61,7 @@ import setLoginFromIdb from './modules/setLoginFromIdb'
       init() {
         this.client = client
         this.history = history
-        this.db = db
+        this.idb = idb
       },
     })
     app.init()
