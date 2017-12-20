@@ -31,7 +31,6 @@ import setLoginFromIdb from './modules/setLoginFromIdb'
       return db.users.toArray().then(users => {
         if (users && users[0] && users[0].token) {
           const token = users[0].token
-          console.log('authMiddleware: token:', token)
           return {
             headers: {
               authorization: `Bearer ${token}`,
