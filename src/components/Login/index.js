@@ -50,29 +50,6 @@ const enhance = compose(
           mutation: loginMutation,
           variables: { username: name, pass },
         })
-        const jwtToken = get(result, 'data.login.jwtToken')
-        console.log('Login: jwtToken:', jwtToken)
-        if (jwtToken) {
-          const tokenDecoded = jwtDecode(jwtToken)
-          console.log('Login: tokenDecoded:', tokenDecoded)
-          // refresh currentUser in idb
-          app.db.currentUser.clear()
-          app.db.currentUser.put({
-            username: tokenDecoded.username,
-            token: tokenDecoded.token,
-            role: tokenDecoded.role,
-          })
-          changeNameErrorText(null)
-          changePassErrorText(null)
-          setTimeout(() => {
-            changeName('')
-            changePass('')
-          }, 2000)
-          // TODO: set jwtToken to store
-          // TODO: message success
-          // TODO: setHistory to Taxonomien or stored value
-          // TODO: empty stored value
-        }
       } catch (error) {
         const messages = error.graphQLErrors.map(x => x.message)
         const isNamePassError = messages.includes('invalid user or password')
@@ -81,6 +58,37 @@ const enhance = compose(
           changeNameErrorText(message)
           changePassErrorText(message)
         }
+      }
+      const jwtToken = get(result, 'data.login.jwtToken')
+      if (jwtToken) {
+        const tokenDecoded = jwtDecode(jwtToken)
+        const { token, role, username } = tokenDecoded
+        console.log('Login: tokenDecoded:', tokenDecoded)
+        console.log('Login: token:', token)
+        console.log('Login: role:', role)
+        console.log('Login: username:', username)
+        // refresh currentUser in idb
+        app.db.users.clear()
+        app.db.users.put({
+          username,
+          token,
+          role,
+        })
+        console.log('Login: will run loginMutation')
+        client.mutate({
+          mutation: loginMutation,
+          variables: { username, role, token },
+        })
+        console.log('Login: loginMutation done')
+        changeNameErrorText(null)
+        changePassErrorText(null)
+        setTimeout(() => {
+          changeName('')
+          changePass('')
+        }, 2000)
+        // TODO: message success
+        // TODO: setHistory to Taxonomien or stored value
+        // TODO: empty stored value
       }
     },
   }),

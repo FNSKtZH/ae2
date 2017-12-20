@@ -12,6 +12,7 @@ import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
+import loginData from '../modules/loginData'
 
 const Container = styled.div`
   height: 100%;
@@ -19,7 +20,7 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const enhance = compose(activeNodeArrayData)
+const enhance = compose(activeNodeArrayData, loginData)
 
 const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
   const activeNodeArray = activeNodeArrayData.activeNodeArray || []

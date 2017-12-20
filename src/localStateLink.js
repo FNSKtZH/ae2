@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual'
 
 import activeNodeArrayGql from './modules/activeNodeArrayGql'
 import treeFilterGql from './modules/treeFilterGql'
+import loginGql from './modules/loginGql'
 import exportCategoriesGql from './modules/exportCategoriesGql'
 import exportTaxonomiesGql from './modules/exportTaxonomiesGql'
 import exportTaxPropertiesGql from './modules/exportTaxPropertiesGql'
@@ -40,6 +41,12 @@ export default withClientState({
       id: null,
       __typename: 'TreeFilter',
     }),
+    login: () => ({
+      token: '',
+      role: '',
+      username: '',
+      __typename: 'Login',
+    }),
   },
   Mutation: {
     // update values in the store on mutations
@@ -64,6 +71,14 @@ export default withClientState({
       cache.writeQuery({
         query: treeFilterGql,
         data: { treeFilter },
+      })
+      return null
+    },
+    setLogin: (_, { token, role, username }, { cache }) => {
+      const login = { token, role, username, __typename: 'Login' }
+      cache.writeQuery({
+        query: loginGql,
+        data: { login },
       })
       return null
     },
