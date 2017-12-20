@@ -59,7 +59,7 @@ $$
 language plpgsql;
 
 -- We’ll use the pgcrypto extension and a trigger
--- to keep passwords safe in the users table
+-- to keep passwords safe in the user table
 drop trigger if exists encrypt_pass on auth.user;
 create trigger encrypt_pass
   before insert or update on auth.user
@@ -76,8 +76,8 @@ returns name
 begin
   return (
   select role from auth.user
-   where users.name = $1
-     and users.pass = crypt($2, users.pass)
+   where auth.user.name = $1
+     and auth.user.pass = crypt($2, auth.user.pass)
   );
 end;
 $$;
