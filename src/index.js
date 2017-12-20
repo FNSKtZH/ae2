@@ -6,6 +6,7 @@ import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloLink } from 'apollo-link'
+import get from 'lodash/get'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -27,18 +28,17 @@ import setLoginFromIdb from './modules/setLoginFromIdb'
   try {
     const db = initializeDb()
 
-    const authMiddleware = setContext(() => {
-      return db.users.toArray().then(users => {
-        if (users && users[0] && users[0].token) {
-          const token = users[0].token
-          return {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          }
+    const authMiddleware = setContext(async () => {
+      let users
+      users = await db.users.toArray()
+      const token = get(users, '[0].token')
+      if (token) {
+        return {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         }
-        return {}
-      })
+      }
     })
 
     const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
