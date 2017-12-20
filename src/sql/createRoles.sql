@@ -1,12 +1,24 @@
+--revoke all but select on tables in database ae from public;
+revoke all on all tables in schema ae from public;
+grant connect on database ae to public;
+grant usage on schema ae to public;
+grant select on all tables in schema ae to public;
+
 -- permissions that allow anonymous users to create accounts
 -- and attempt to log in
 create role anon;
-create role authenticator with login password 'secret' noinherit;
-grant anon to authenticator;
-grant connect on database ae to authenticator;
-grant connect on database ae to anon;
 
+-- anon can see all but change nothing
+grant connect on database ae to anon;
 grant usage on schema public, auth, ae, request to anon;
+grant select on all tables in schema ae to anon;
+grant select on table pg_authid, auth.user to anon;
+grant execute on function ae.login(text,text) to anon;
+alter default privileges in schema ae
+  grant select on tables to anon;
+alter default privileges in schema ae
+  grant select, usage on sequences to anon;
+
 grant select on table pg_authid, auth.user to anon;
 grant execute on function ae.login(text,text) to anon;
 grant execute on function auth.sign(json,text,text) to anon;
@@ -15,23 +27,8 @@ grant execute on function request.user_name() to anon;
 grant execute on function request.jwt_claim(text) to anon;
 grant execute on function request.env_var(text) to anon;
 
---revoke connect on database ae from public;
-revoke all on all tables in schema ae from public;
-
-grant connect on database ae to public;
-grant usage on schema ae to public;
-grant select on all tables in schema ae to public;
-
--- anon can see all but change nothing
-grant connect on database ae to anon;
-grant usage on schema public, auth, ae to anon;
-grant select on all tables in schema ae to anon;
-grant select on table pg_authid, auth.user to anon;
-grant execute on function ae.login(text,text) to anon;
-alter default privileges in schema ae
-  grant select on tables to anon;
-alter default privileges in schema ae
-  grant select, usage on sequences to anon;
+-- create authenticator who can turn in to other role
+create role authenticator with login password 'secret' noinherit;
 grant anon to authenticator;
 
 -- org_admin can do anything
