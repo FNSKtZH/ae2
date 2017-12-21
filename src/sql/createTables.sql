@@ -116,8 +116,10 @@ CREATE TABLE ae.object (
   id_old text DEFAULT NULL
 );
 CREATE INDEX ON ae.object USING btree (name);
+ALTER TABLE ae.object ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS reader ON ae.object;
 CREATE POLICY
-  object_reader
+  reader
   ON ae.object
   FOR SELECT
   TO PUBLIC;
@@ -235,7 +237,7 @@ CREATE POLICY
   property_collection_reader
   ON ae.property_collection
   FOR SELECT
-  TO PUBLIC;
+  TO PUBLIC, anon;
 DROP POLICY IF EXISTS property_org_collection_writer ON ae.property_collection;
 CREATE POLICY
   property_org_collection_writer
