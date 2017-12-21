@@ -1,6 +1,4 @@
 // @flow
-import app from 'ampersand-app'
-
 import getLoginFromIdb from './getLoginFromIdb'
 import setLoginMutation from './loginMutation'
 

@@ -14,7 +14,6 @@ import app from 'ampersand-app'
 import loginMutation from './loginMutation'
 import setLoginMutation from '../../modules/loginMutation'
 import loginData from '../../modules/loginData'
-import getLoginFromIdb from '../../modules/getLoginFromIdb'
 import historyAfterLoginMutation from '../../modules/historyAfterLoginMutation'
 import historyAfterLoginData from '../../modules/historyAfterLoginData'
 
@@ -25,6 +24,36 @@ const snackbarBodyStyle = {
   maxWidth: 'auto',
   minWidth: 'auto',
   backgroundColor: '#2E7D32',
+}
+
+const afterLogin = ({
+  client,
+  changeNameErrorText,
+  changePassErrorText,
+  changeName,
+  changePass,
+  changeLoginSuccessfull,
+  historyAfterLoginData,
+}) => {
+  changeNameErrorText(null)
+  changePassErrorText(null)
+  changeLoginSuccessfull(true)
+  setTimeout(() => {
+    changeName('')
+    changePass('')
+    changeLoginSuccessfull(false)
+    const historyAfterLogin = get(historyAfterLoginData, 'historyAfterLogin')
+    const newPath = historyAfterLogin ? historyAfterLogin : '/Taxonomien'
+    app.history.push(newPath)
+    if (!!historyAfterLogin) {
+      client.mutate({
+        mutation: historyAfterLoginMutation,
+        variables: {
+          value: '',
+        },
+      })
+    }
+  }, 2000)
 }
 
 const enhance = compose(
@@ -53,10 +82,8 @@ const enhance = compose(
       // need to grab props
       const name = namePassed || props.name
       const pass = passPassed || props.pass
-      const login = await getLoginFromIdb()
+      const login = get(loginData, 'login')
       const { username } = login
-      console.log('Login: login:', login)
-      console.log('Login: username:', username)
       if (!name) {
         return changeNameErrorText(
           'Geben Sie den Ihnen zugeteilten Benutzernamen ein'
@@ -65,67 +92,67 @@ const enhance = compose(
       if (!pass) {
         return changePassErrorText('Bitte Passwort eingeben')
       }
-      let result
-      try {
-        result = await client.mutate({
-          mutation: loginMutation,
-          variables: {
-            username: name,
-            pass,
-          },
-        })
-      } catch (error) {
-        const messages = error.graphQLErrors.map(x => x.message)
-        const isNamePassError = messages.includes('invalid user or password')
-        if (isNamePassError) {
-          const message = 'Name oder Passwort nicht bekannt'
-          changeNameErrorText(message)
-          changePassErrorText(message)
-        }
-      }
-      const jwtToken = get(result, 'data.login.jwtToken')
-      if (jwtToken) {
-        const tokenDecoded = jwtDecode(jwtToken)
-        const { role, username } = tokenDecoded
-        // refresh currentUser in idb
-        await app.idb.users.clear()
-        await app.idb.users.put({
-          username,
-          token: jwtToken,
-          role,
-        })
-        client.mutate({
-          mutation: setLoginMutation,
-          variables: {
-            username,
-            role,
-            token: jwtToken,
-          },
-        })
-        changeNameErrorText(null)
-        changePassErrorText(null)
-        changeLoginSuccessfull(true)
-        setTimeout(() => {
-          changeName('')
-          changePass('')
-          changeLoginSuccessfull(false)
-          const historyAfterLogin = get(
-            historyAfterLoginData,
-            'historyAfterLogin'
-          )
-          const newPath = historyAfterLogin ? historyAfterLogin : '/Taxonomien'
-          if (!!historyAfterLogin) {
-            client.mutate({
-              mutation: historyAfterLoginMutation,
-              variables: {
-                value: '',
-              },
-            })
+      if (name !== username) {
+        let result
+        try {
+          result = await client.mutate({
+            mutation: loginMutation,
+            variables: {
+              username: name,
+              pass,
+            },
+          })
+        } catch (error) {
+          const messages = error.graphQLErrors.map(x => x.message)
+          const isNamePassError =
+            messages.includes('invalid user or password') ||
+            messages.includes('permission denied for relation user')
+          if (isNamePassError) {
+            const message = 'Name oder Passwort nicht bekannt'
+            changeNameErrorText(message)
+            return changePassErrorText(message)
           }
-          app.history.push(newPath)
-          // TODO: setHistory to Taxonomien or stored value using historyAfterLogin
-          // TODO: empty historyAfterLogin value
-        }, 2000)
+          return console.log(error)
+        }
+        const jwtToken = get(result, 'data.login.jwtToken')
+        if (jwtToken) {
+          const tokenDecoded = jwtDecode(jwtToken)
+          const { role, username } = tokenDecoded
+          // refresh currentUser in idb
+          await app.idb.users.clear()
+          await app.idb.users.put({
+            username,
+            token: jwtToken,
+            role,
+          })
+          client.mutate({
+            mutation: setLoginMutation,
+            variables: {
+              username,
+              role,
+              token: jwtToken,
+            },
+          })
+          afterLogin({
+            client,
+            changeNameErrorText,
+            changePassErrorText,
+            changeName,
+            changePass,
+            changeLoginSuccessfull,
+            historyAfterLoginData,
+          })
+        }
+      } else {
+        afterLogin({
+          client,
+          changeNameErrorText,
+          changePassErrorText,
+          changeName,
+          changePass,
+          changeLoginSuccessfull,
+          historyAfterLoginData,
+        })
       }
     },
   }),
