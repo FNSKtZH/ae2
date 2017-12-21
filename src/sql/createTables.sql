@@ -175,27 +175,24 @@ CREATE TABLE ae.property_collection (
 CREATE INDEX ON ae.property_collection USING btree (name);
 CREATE INDEX ON ae.property_collection USING btree (combining);
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS property_collection_reader ON ae.property_collection;
+DROP POLICY IF EXISTS writer ON ae.property_collection;
 CREATE POLICY
-  property_collection_reader
+  writer
   ON ae.property_collection
-  FOR SELECT
-  TO PUBLIC, anon;
-DROP POLICY IF EXISTS property_org_collection_writer ON ae.property_collection;
-CREATE POLICY
-  property_org_collection_writer
-  ON ae.property_collection
-  FOR ALL
-  TO org_collection_writer, org_admin
+  USING (true)
   WITH CHECK (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
+    current_user_name() IN (
+      SELECT DISTINCT
+        cast(ae.user.name as text)
       FROM
-        ae.organization_user
+        ae.property_collection
+        INNER JOIN ae.organization_user
+          INNER JOIN ae.user
+          ON ae.user.id = ae.organization_user.user_id
+        ON ae.organization_user.organization_id = ae.property_collection.organization_id
       WHERE
         ae.organization_user.organization_id = organization_id AND
-        ae.organization_user.role = 'orgCollectionWriter'
+        ae.organization_user.role IN ('orgCollectionWriter', 'orgAdmin')
     )
   );
 
