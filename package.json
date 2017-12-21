@@ -33,7 +33,7 @@
     "react-scripts": "1.0.17",
     "react-virtualized": "9.14.1",
     "recompose": "0.26.0",
-    "styled-components": "2.3.2"
+    "styled-components": "2.3.3"
   },
   "devDependencies": {
     "flow-bin": "0.61.0",
