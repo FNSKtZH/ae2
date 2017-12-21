@@ -52,13 +52,12 @@ CREATE POLICY
       SELECT DISTINCT
         cast(ae.user.name as text)
       FROM
-        ae.organization_user
-        INNER JOIN ae.taxonomy
+        ae.taxonomy
+        INNER JOIN ae.organization_user
+          INNER JOIN ae.user
+          ON ae.user.id = ae.organization_user.user_id
         ON ae.organization_user.organization_id = ae.taxonomy.organization_id
-        INNER JOIN ae.user
-        ON ae.user.id = ae.organization_user.user_id
       WHERE
-        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
         ae.organization_user.role IN ('orgTaxonomyWriter', 'orgAdmin')
     )
   );
