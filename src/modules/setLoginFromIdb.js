@@ -1,21 +1,16 @@
 // @flow
 import app from 'ampersand-app'
 
+import getLoginFromIdb from './getLoginFromIdb'
 import setLoginMutation from './loginMutation'
 
-export default (client: Object): void =>
-  app.idb.users
-    .toArray()
-    .then(users => {
-      //console.log('setLoginFromIdb: users:', users)
-      if (users[0] && users[0].name && users[0].role && users[0].token) {
-        const { name, role, token } = users[0]
-        client.mutate({
-          mutation: setLoginMutation,
-          variables: { name, role, token },
-        })
-      }
+export default async (client: Object): void => {
+  const login = await getLoginFromIdb()
+  if (login && login.username && login.role && login.token) {
+    const { username, role, token } = login
+    client.mutate({
+      mutation: setLoginMutation,
+      variables: { username, role, token },
     })
-    .catch(error => {
-      console.log(error)
-    })
+  }
+}
