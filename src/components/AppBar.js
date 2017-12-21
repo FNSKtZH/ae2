@@ -7,13 +7,15 @@ import IconButton from 'material-ui/IconButton/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
-import { graphql, withApollo } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import app from 'ampersand-app'
+import get from 'lodash/get'
 
-import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import activeNodeArrayData from '../modules/activeNodeArrayData'
+import loginData from '../modules/loginData'
 
 const StyledAppBar = styled(AppBar)`
   @media print {
@@ -48,13 +50,10 @@ const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
 const importMenuStyle = { paddingTop: 4 }
 
-const activeNodeArrayData = graphql(activeNodeArrayGql, {
-  name: 'activeNodeArrayData',
-})
-
 const enhance = compose(
   withApollo,
   activeNodeArrayData,
+  loginData,
   withHandlers({
     onClickColumnButtonData: ({ client, activeNodeArrayData }) => () => {
       const { activeNodeArray } = activeNodeArrayData
@@ -88,6 +87,7 @@ const MyAppBar = ({
   onChangeImportButton,
   onClickColumnButtonLogin,
   ueberArteigenschaftenOnClick,
+  loginData,
 }: {
   activeNodeArrayData: Object,
   onClickColumnButtonData: () => void,
@@ -97,6 +97,7 @@ const MyAppBar = ({
   onChangeImportButton: () => void,
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
+  loginData: Object,
 }) => {
   const activeNodeArray = activeNodeArrayData.activeNodeArray || []
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
@@ -104,6 +105,9 @@ const MyAppBar = ({
   let importDropdownValue = 'Import'
   if (url1 && url0 === 'import')
     importDropdownValue = `Import ${activeNodeArray[1]}`
+  const login = get(loginData, 'login')
+  const username = login && login.username ? login.username : null
+  const loginLabel = username ? username : 'nicht angemeldet'
 
   return (
     <StyledAppBar
@@ -153,7 +157,7 @@ const MyAppBar = ({
             />
           </IconMenu>
           <Button
-            label="Login"
+            label={loginLabel}
             data-visible={url0 !== 'login'}
             onClick={onClickColumnButtonLogin}
           />
