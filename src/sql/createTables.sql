@@ -50,7 +50,6 @@ CREATE POLICY
   WITH CHECK (
     current_user_name() IN (
       SELECT DISTINCT
-        -- use 'show jwt.claims.username' instead of 'current_user'?
         cast(ae.user.name as text)
       FROM
         ae.organization_user
@@ -107,19 +106,20 @@ CREATE POLICY
   ON ae.object
   USING (true)
   WITH CHECK (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
+    current_user_name() IN (
+      SELECT DISTINCT
+        cast(ae.user.name as text)
       FROM
         ae.organization_user
         INNER JOIN ae.taxonomy
           INNER JOIN ae.object
           ON ae.taxonomy.id = ae.object.taxonomy_id
         ON ae.organization_user.organization_id = ae.taxonomy.organization_id
+        INNER JOIN ae.user
+        ON ae.user.id = ae.organization_user.user_id
       WHERE
-        -- TODO: compare with name, not id!!
         ae.organization_user.organization_id = ae.taxonomy.organization_id AND
-        ae.organization_user.role = 'orgTaxonomyWriter'
+        ae.organization_user.role IN ('orgTaxonomyWriter', 'orgAdmin')
     )
   );
 
