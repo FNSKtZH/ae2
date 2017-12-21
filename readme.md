@@ -95,7 +95,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>![Synonym](/etc/synonym.png?raw=true "Synonym")
   - [x] Daten exportieren
     ![exportieren](/etc/export.png?raw=true "exportieren")
-  - [ ] Login (in Arbeit)
+  - [x] Login
   - [ ] Organisationen und Benutzer
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
   - [ ] Lebensräume bearbeiten
