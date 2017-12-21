@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import TextField from 'material-ui/TextField'
+import Snackbar from 'material-ui/Snackbar'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -12,17 +13,29 @@ import app from 'ampersand-app'
 
 import loginMutation from './loginMutation'
 import setLoginMutation from '../../modules/loginMutation'
+import loginData from '../../modules/loginData'
+import getLoginFromIdb from '../../modules/getLoginFromIdb'
+import historyAfterLoginMutation from '../../modules/historyAfterLoginMutation'
+import historyAfterLoginData from '../../modules/historyAfterLoginData'
 
 const Container = styled.div`
   padding: 10px;
 `
+const snackbarBodyStyle = {
+  maxWidth: 'auto',
+  minWidth: 'auto',
+  backgroundColor: '#2E7D32',
+}
 
 const enhance = compose(
   withApollo,
+  loginData,
+  historyAfterLoginData,
   withState('name', 'changeName', ''),
   withState('pass', 'changePass', ''),
   withState('nameErrorText', 'changeNameErrorText', ''),
   withState('passErrorText', 'changePassErrorText', ''),
+  withState('loginSuccessfull', 'changeLoginSuccessfull', false),
   withHandlers({
     fetchLogin: props => async (namePassed, passPassed) => {
       const {
@@ -31,12 +44,19 @@ const enhance = compose(
         changePassErrorText,
         changeName,
         changePass,
+        changeLoginSuccessfull,
+        historyAfterLoginData,
+        loginData,
       } = props
       // when bluring fields need to pass event value
       // on the other hand when clicking on Anmelden button,
       // need to grab props
       const name = namePassed || props.name
       const pass = passPassed || props.pass
+      const login = await getLoginFromIdb()
+      const { username } = login
+      console.log('Login: login:', login)
+      console.log('Login: username:', username)
       if (!name) {
         return changeNameErrorText(
           'Geben Sie den Ihnen zugeteilten Benutzernamen ein'
@@ -49,7 +69,10 @@ const enhance = compose(
       try {
         result = await client.mutate({
           mutation: loginMutation,
-          variables: { username: name, pass },
+          variables: {
+            username: name,
+            pass,
+          },
         })
       } catch (error) {
         const messages = error.graphQLErrors.map(x => x.message)
@@ -73,17 +96,36 @@ const enhance = compose(
         })
         client.mutate({
           mutation: setLoginMutation,
-          variables: { username, role, token: jwtToken },
+          variables: {
+            username,
+            role,
+            token: jwtToken,
+          },
         })
         changeNameErrorText(null)
         changePassErrorText(null)
+        changeLoginSuccessfull(true)
         setTimeout(() => {
           changeName('')
           changePass('')
+          changeLoginSuccessfull(false)
+          const historyAfterLogin = get(
+            historyAfterLoginData,
+            'historyAfterLogin'
+          )
+          const newPath = historyAfterLogin ? historyAfterLogin : '/Taxonomien'
+          if (!!historyAfterLogin) {
+            client.mutate({
+              mutation: historyAfterLoginMutation,
+              variables: {
+                value: '',
+              },
+            })
+          }
+          app.history.push(newPath)
+          // TODO: setHistory to Taxonomien or stored value using historyAfterLogin
+          // TODO: empty historyAfterLogin value
         }, 2000)
-        // TODO: message success
-        // TODO: setHistory to Taxonomien or stored value using historyAfterLogin
-        // TODO: empty historyAfterLogin value
       }
     },
   }),
@@ -128,6 +170,7 @@ const Login = ({
   onBlurName,
   onBlurPassword,
   fetchLogin,
+  loginSuccessfull,
 }: {
   store: Object,
   name: string,
@@ -141,6 +184,7 @@ const Login = ({
   onBlurName: () => void,
   onBlurPassword: () => void,
   fetchLogin: () => void,
+  loginSuccessfull: Boolean,
 }) => (
   <Container>
     <TextField
@@ -155,7 +199,7 @@ const Login = ({
           onBlurName(e)
         }
       }}
-    />
+    />{' '}
     <TextField
       floatingLabelText="Passwort"
       type="password"
@@ -168,6 +212,11 @@ const Login = ({
           onBlurPassword(e)
         }
       }}
+    />{' '}
+    <Snackbar
+      open={loginSuccessfull}
+      message={`Willkommen ${name}`}
+      bodyStyle={snackbarBodyStyle}
     />
   </Container>
 )
