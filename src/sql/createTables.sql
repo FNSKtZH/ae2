@@ -41,42 +41,26 @@ CREATE TABLE ae.taxonomy (
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
+ALTER TABLE ae.taxonomy ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS writer ON ae.taxonomy;
 CREATE POLICY
-  taxonomy_reader
+  writer
   ON ae.taxonomy
-  FOR SELECT
-  TO PUBLIC;
-DROP POLICY IF EXISTS org_taxonomy_writer ON ae.object;
-CREATE POLICY
-  org_taxonomy_writer
-  ON ae.taxonomy
-  FOR ALL
-  TO org_taxonomy_writer, org_admin
-  USING (
-    -- use 'show jwt.claims.user_id' instead of 'current_user'?
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-        INNER JOIN ae.taxonomy
-        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
-      WHERE
-        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
-        ae.organization_user.role = 'orgTaxonomyWriter'
-    )
-  )
+  USING (true)
   WITH CHECK (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
+    current_user_name() IN (
+      SELECT DISTINCT
+        -- use 'show jwt.claims.username' instead of 'current_user'?
+        cast(ae.user.name as text)
       FROM
         ae.organization_user
         INNER JOIN ae.taxonomy
         ON ae.organization_user.organization_id = ae.taxonomy.organization_id
+        INNER JOIN ae.user
+        ON ae.user.id = ae.organization_user.user_id
       WHERE
         ae.organization_user.organization_id = ae.taxonomy.organization_id AND
-        ae.organization_user.role = 'orgTaxonomyWriter'
+        ae.organization_user.role IN ('orgTaxonomyWriter', 'orgAdmin')
     )
   );
 
@@ -117,33 +101,11 @@ CREATE TABLE ae.object (
 );
 CREATE INDEX ON ae.object USING btree (name);
 ALTER TABLE ae.object ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS reader ON ae.object;
+DROP POLICY IF EXISTS writer ON ae.object;
 CREATE POLICY
-  reader
+  writer
   ON ae.object
-  FOR SELECT
-  TO PUBLIC;
-DROP POLICY IF EXISTS org_object_writer ON ae.object;
-CREATE POLICY
-  org_object_writer
-  ON ae.object
-  FOR ALL
-  TO org_taxonomy_writer, org_admin
-  USING (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-        INNER JOIN ae.taxonomy
-          INNER JOIN ae.object
-          ON ae.taxonomy.id = ae.object.taxonomy_id
-        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
-      WHERE
-        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
-        ae.organization_user.role = 'orgTaxonomyWriter'
-    )
-  )
+  USING (true)
   WITH CHECK (
     current_user IN (
       SELECT
@@ -155,6 +117,7 @@ CREATE POLICY
           ON ae.taxonomy.id = ae.object.taxonomy_id
         ON ae.organization_user.organization_id = ae.taxonomy.organization_id
       WHERE
+        -- TODO: compare with name, not id!!
         ae.organization_user.organization_id = ae.taxonomy.organization_id AND
         ae.organization_user.role = 'orgTaxonomyWriter'
     )
@@ -168,34 +131,12 @@ CREATE TABLE ae.synonym (
   object_id_synonym UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (object_id, object_id_synonym)
 );
+ALTER TABLE ae.synonym ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS writer ON ae.synonym;
 CREATE POLICY
-  synonym_reader
+  writer
   ON ae.synonym
-  FOR SELECT
-  TO PUBLIC;
-DROP POLICY IF EXISTS org_synonym_writer ON ae.synonym;
-CREATE POLICY
-  org_synonym_writer
-  ON ae.synonym
-  FOR ALL
-  TO org_taxonomy_writer, org_admin
-  USING (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-        INNER JOIN ae.taxonomy
-          INNER JOIN ae.object
-            INNER JOIN ae.synonym
-            ON ae.object.id = ae.synonym.object_id
-          ON ae.taxonomy.id = ae.object.taxonomy_id
-        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
-      WHERE
-        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
-        ae.organization_user.role = 'orgTaxonomyWriter'
-    )
-  )
+  USING (true)
   WITH CHECK (
     current_user IN (
       SELECT
@@ -244,17 +185,6 @@ CREATE POLICY
   ON ae.property_collection
   FOR ALL
   TO org_collection_writer, org_admin
-  USING (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-      WHERE
-        ae.organization_user.organization_id = organization_id AND
-        ae.organization_user.role = 'orgCollectionWriter'
-    )
-  )
   WITH CHECK (
     current_user IN (
       SELECT

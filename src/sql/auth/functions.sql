@@ -109,3 +109,7 @@ begin
   return (result.token, _role, $1)::auth.jwt_token;
 end;
 $$ language plpgsql;
+
+create function current_user_name() returns text as $$
+  select nullif(current_setting('jwt.claims.username', true), '')::text;
+$$ language sql stable security definer;
