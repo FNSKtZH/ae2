@@ -1,30 +1,18 @@
 // @flow
 
 import app from 'ampersand-app'
-import isEqual from 'lodash/isEqual'
 
-//import activeNodeArrayGql from '../modules/activeNodeArrayGql'
-import exportTaxPropertiesGql from '../modules/exportTaxPropertiesGql'
-import exportTaxFiltersGql from '../modules/exportTaxFiltersGql'
-import exportPcoPropertiesGql from '../modules/exportPcoPropertiesGql'
-import exportPcoFiltersGql from '../modules/exportPcoFiltersGql'
-import exportRcoPropertiesGql from '../modules/exportRcoPropertiesGql'
-import exportRcoFiltersGql from '../modules/exportRcoFiltersGql'
-import exportTooManyPropertiesMutation from '../modules/exportTooManyPropertiesMutation'
-import getActiveNodeArrayFromPathname from '../modules/getActiveNodeArrayFromPathname'
-import constants from '../modules/constants'
+import exportTaxPropertiesGql from '../../modules/exportTaxPropertiesGql'
+import exportTaxFiltersGql from '../../modules/exportTaxFiltersGql'
+import exportPcoPropertiesGql from '../../modules/exportPcoPropertiesGql'
+import exportPcoFiltersGql from '../../modules/exportPcoFiltersGql'
+import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
+import exportRcoFiltersGql from '../../modules/exportRcoFiltersGql'
+import exportTooManyPropertiesMutation from '../../modules/exportTooManyPropertiesMutation'
+import constants from '../../modules/constants'
 
 export default {
   Mutation: {
-    // update values in the store on mutations
-    setActiveNodeArray: (_, { value }, { cache }) => {
-      cache.writeData({ data: { activeNodeArray: value } })
-      const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
-      if (!isEqual(activeNodeArrayFromUrl, value)) {
-        app.history.push(`/${value.join('/')}`)
-      }
-      return null
-    },
     setTreeFilter: (_, { id, text }, { cache }) => {
       const treeFilter = { id, text, __typename: 'TreeFilter' }
       cache.writeData({ data: { treeFilter } })
