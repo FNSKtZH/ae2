@@ -1,5 +1,5 @@
 // @flow
-export default () => ({
+export default {
   activeNodeArray: [],
   exportCategories: [],
   exportTaxonomies: [],
@@ -23,4 +23,4 @@ export default () => ({
     __typename: 'Login',
   },
   historyAfterLogin: '',
-})
+}

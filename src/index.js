@@ -44,9 +44,15 @@ import resolvers from './store/resolvers'
     })
 
     const cache = new InMemoryCache()
-    const stateLink = withClientState({ resolvers, cache, defaults })
+    const stateLink = withClientState({
+      resolvers,
+      cache,
+      defaults,
+    })
     //console.log('index: stateLink:', stateLink)
-    const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
+    const httpLink = createHttpLink({
+      uri: 'http://localhost:5000/graphql',
+    })
     const client = new ApolloClient({
       link: ApolloLink.from([stateLink, authMiddleware, httpLink]),
       cache,
@@ -58,7 +64,9 @@ import resolvers from './store/resolvers'
     history.listen(location =>
       client.mutate({
         mutation: activeNodeArrayMutation,
-        variables: { value: getActiveNodeArrayFromPathname() },
+        variables: {
+          value: getActiveNodeArrayFromPathname(),
+        },
       })
     )
 
@@ -83,7 +91,9 @@ import resolvers from './store/resolvers'
     }
     client.mutate({
       mutation: activeNodeArrayMutation,
-      variables: { value: activeNodeArray },
+      variables: {
+        value: activeNodeArray,
+      },
     })
 
     const theme = Object.assign({}, myTheme, {

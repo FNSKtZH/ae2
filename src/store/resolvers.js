@@ -21,7 +21,7 @@ import historyAfterLoginGql from '../modules/historyAfterLoginGql'
 import getActiveNodeArrayFromPathname from '../modules/getActiveNodeArrayFromPathname'
 import constants from '../modules/constants'
 
-export default () => ({
+export default {
   Mutation: {
     // update values in the store on mutations
     setActiveNodeArray: (_, { value }, { cache }) => {
@@ -379,4 +379,4 @@ export default () => ({
       return null
     },
   },
-})
+}
