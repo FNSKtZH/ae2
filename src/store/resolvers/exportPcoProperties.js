@@ -4,16 +4,16 @@ import app from 'ampersand-app'
 
 import exportTaxPropertiesGql from '../../modules/exportTaxPropertiesGql'
 import exportPcoPropertiesGql from '../../modules/exportPcoPropertiesGql'
+import exportPcoFiltersGql from '../../modules/exportPcoFiltersGql'
 import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
-import exportRcoFiltersGql from '../../modules/exportRcoFiltersGql'
 import exportTooManyPropertiesMutation from '../../modules/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
 
 export default {
   Mutation: {
-    addExportRcoProperty: (_, { pcname, pname }, { cache }) => {
-      const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
+    addExportPcoProperty: (_, { pcname, pname }, { cache }) => {
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
+      const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
       const nrOfPropertiesExported =
         currentTax.exportTaxProperties.length +
@@ -27,55 +27,55 @@ export default {
       } else {
         cache.writeData({
           data: {
-            exportRcoProperties: [
-              ...currentRco.exportRcoProperties,
-              { pcname, pname, __typename: 'ExportRcoProperty' },
+            exportPcoProperties: [
+              ...currentPco.exportPcoProperties,
+              { pcname, pname, __typename: 'ExportPcoProperty' },
             ],
           },
         })
       }
       return null
     },
-    removeExportRcoProperty: (_, { pcname, pname }, { cache }) => {
-      const current = cache.readQuery({ query: exportRcoPropertiesGql })
-      const exportRcoProperties = current.exportRcoProperties.filter(
+    removeExportPcoProperty: (_, { pcname, pname }, { cache }) => {
+      const current = cache.readQuery({ query: exportPcoPropertiesGql })
+      const exportPcoProperties = current.exportPcoProperties.filter(
         x => !(x.pcname === pcname && x.pname === pname)
       )
-      cache.writeData({ data: { exportRcoProperties } })
+      cache.writeData({ data: { exportPcoProperties } })
       return null
     },
-    setExportRcoFilters: (
+    setExportPcoFilters: (
       _,
       { pcname, pname, comparator, value },
       { cache }
     ) => {
-      const { exportRcoFilters } = cache.readQuery({
-        query: exportRcoFiltersGql,
+      const { exportPcoFilters } = cache.readQuery({
+        query: exportPcoFiltersGql,
       })
-      const exportRcoFilter = exportRcoFilters.find(
+      const exportPcoFilter = exportPcoFilters.find(
         x => x.pcname === pcname && x.pname === pname
       )
       if (!comparator && !value && value !== 0) {
         // remove
         cache.writeData({
           data: {
-            exportRcoFilters: exportRcoFilters.filter(
+            exportPcoFilters: exportPcoFilters.filter(
               x => !(x.pcname === pcname && x.pname === pname)
             ),
           },
         })
-      } else if (!exportRcoFilter) {
+      } else if (!exportPcoFilter) {
         // add new one
         cache.writeData({
           data: {
-            exportRcoFilters: [
-              ...exportRcoFilters,
+            exportPcoFilters: [
+              ...exportPcoFilters,
               {
                 pcname,
                 pname,
                 comparator,
                 value,
-                __typename: 'ExportRcoFilter',
+                __typename: 'ExportPcoFilter',
               },
             ],
           },
@@ -84,8 +84,8 @@ export default {
         // edit = add new one instead of existing
         cache.writeData({
           data: {
-            exportRcoFilters: [
-              ...exportRcoFilters.filter(
+            exportPcoFilters: [
+              ...exportPcoFilters.filter(
                 x => !(x.pcname === pcname && x.pname === pname)
               ),
               {
@@ -93,24 +93,12 @@ export default {
                 pname,
                 comparator,
                 value,
-                __typename: 'ExportRcoFilter',
+                __typename: 'ExportPcoFilter',
               },
             ],
           },
         })
       }
-      return null
-    },
-    setExportTooManyProperties: (_, { value }, { cache }) => {
-      cache.writeData({ data: { exportTooManyProperties: value } })
-      return null
-    },
-    setExportWithSynonymData: (_, { value }, { cache }) => {
-      cache.writeData({ data: { exportWithSynonymData: value } })
-      return null
-    },
-    setHistoryAfterLogin: (_, { value }, { cache }) => {
-      cache.writeData({ data: { historyAfterLogin: value } })
       return null
     },
   },
