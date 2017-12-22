@@ -4,20 +4,13 @@ import app from 'ampersand-app'
 import isEqual from 'lodash/isEqual'
 
 //import activeNodeArrayGql from '../modules/activeNodeArrayGql'
-import treeFilterGql from '../modules/treeFilterGql'
-import loginGql from '../modules/loginGql'
-import exportCategoriesGql from '../modules/exportCategoriesGql'
-import exportTaxonomiesGql from '../modules/exportTaxonomiesGql'
 import exportTaxPropertiesGql from '../modules/exportTaxPropertiesGql'
 import exportTaxFiltersGql from '../modules/exportTaxFiltersGql'
 import exportPcoPropertiesGql from '../modules/exportPcoPropertiesGql'
 import exportPcoFiltersGql from '../modules/exportPcoFiltersGql'
 import exportRcoPropertiesGql from '../modules/exportRcoPropertiesGql'
 import exportRcoFiltersGql from '../modules/exportRcoFiltersGql'
-import exportTooManyPropertiesGql from '../modules/exportTooManyPropertiesGql'
 import exportTooManyPropertiesMutation from '../modules/exportTooManyPropertiesMutation'
-import exportWithSynonymDataGql from '../modules/exportWithSynonymDataGql'
-import historyAfterLoginGql from '../modules/historyAfterLoginGql'
 import getActiveNodeArrayFromPathname from '../modules/getActiveNodeArrayFromPathname'
 import constants from '../modules/constants'
 
@@ -25,10 +18,6 @@ export default {
   Mutation: {
     // update values in the store on mutations
     setActiveNodeArray: (_, { value }, { cache }) => {
-      /*cache.writeQuery({
-        query: activeNodeArrayGql,
-        data: { activeNodeArray: value },
-      })*/
       cache.writeData({ data: { activeNodeArray: value } })
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, value)) {
@@ -38,32 +27,20 @@ export default {
     },
     setTreeFilter: (_, { id, text }, { cache }) => {
       const treeFilter = { id, text, __typename: 'TreeFilter' }
-      cache.writeQuery({
-        query: treeFilterGql,
-        data: { treeFilter },
-      })
+      cache.writeData({ data: { treeFilter } })
       return null
     },
     setLogin: (_, { token, role, username }, { cache }) => {
       const login = { token, role, username, __typename: 'Login' }
-      cache.writeQuery({
-        query: loginGql,
-        data: { login },
-      })
+      cache.writeData({ data: { login } })
       return null
     },
     setExportCategories: (_, { value }, { cache }) => {
-      cache.writeQuery({
-        query: exportCategoriesGql,
-        data: { exportCategories: value },
-      })
+      cache.writeData({ data: { exportCategories: value } })
       return null
     },
     setExportTaxonomies: (_, { value }, { cache }) => {
-      cache.writeQuery({
-        query: exportTaxonomiesGql,
-        data: { exportTaxonomies: value },
-      })
+      cache.writeData({ data: { exportTaxonomies: value } })
       return null
     },
     addExportTaxProperty: (_, { taxname, pname }, { cache }) => {
@@ -80,8 +57,7 @@ export default {
           variables: { value: true },
         })
       } else {
-        cache.writeQuery({
-          query: exportTaxPropertiesGql,
+        cache.writeData({
           data: {
             exportTaxProperties: [
               ...currentTax.exportTaxProperties,
@@ -97,10 +73,7 @@ export default {
       const exportTaxProperties = current.exportTaxProperties.filter(
         x => !(x.taxname === taxname && x.pname === pname)
       )
-      cache.writeQuery({
-        query: exportTaxPropertiesGql,
-        data: { exportTaxProperties },
-      })
+      cache.writeData({ data: { exportTaxProperties } })
       return null
     },
     setExportTaxFilters: (
@@ -116,8 +89,7 @@ export default {
       )
       if (!comparator && !value && value !== 0) {
         // remove
-        cache.writeQuery({
-          query: exportTaxFiltersGql,
+        cache.writeData({
           data: {
             exportTaxFilters: exportTaxFilters.filter(
               x => !(x.taxname === taxname && x.pname === pname)
@@ -126,8 +98,7 @@ export default {
         })
       } else if (!exportTaxFilter) {
         // add new one
-        cache.writeQuery({
-          query: exportTaxFiltersGql,
+        cache.writeData({
           data: {
             exportTaxFilters: [
               ...exportTaxFilters,
@@ -143,8 +114,7 @@ export default {
         })
       } else {
         // edit = add new one instead of existing
-        cache.writeQuery({
-          query: exportTaxFiltersGql,
+        cache.writeData({
           data: {
             exportTaxFilters: [
               ...exportTaxFilters.filter(
@@ -177,8 +147,7 @@ export default {
           variables: { value: true },
         })
       } else {
-        cache.writeQuery({
-          query: exportPcoPropertiesGql,
+        cache.writeData({
           data: {
             exportPcoProperties: [
               ...currentPco.exportPcoProperties,
@@ -194,10 +163,7 @@ export default {
       const exportPcoProperties = current.exportPcoProperties.filter(
         x => !(x.pcname === pcname && x.pname === pname)
       )
-      cache.writeQuery({
-        query: exportPcoPropertiesGql,
-        data: { exportPcoProperties },
-      })
+      cache.writeData({ data: { exportPcoProperties } })
       return null
     },
     setExportPcoFilters: (
@@ -213,8 +179,7 @@ export default {
       )
       if (!comparator && !value && value !== 0) {
         // remove
-        cache.writeQuery({
-          query: exportPcoFiltersGql,
+        cache.writeData({
           data: {
             exportPcoFilters: exportPcoFilters.filter(
               x => !(x.pcname === pcname && x.pname === pname)
@@ -223,8 +188,7 @@ export default {
         })
       } else if (!exportPcoFilter) {
         // add new one
-        cache.writeQuery({
-          query: exportPcoFiltersGql,
+        cache.writeData({
           data: {
             exportPcoFilters: [
               ...exportPcoFilters,
@@ -240,8 +204,7 @@ export default {
         })
       } else {
         // edit = add new one instead of existing
-        cache.writeQuery({
-          query: exportPcoFiltersGql,
+        cache.writeData({
           data: {
             exportPcoFilters: [
               ...exportPcoFilters.filter(
@@ -274,8 +237,7 @@ export default {
           variables: { value: true },
         })
       } else {
-        cache.writeQuery({
-          query: exportRcoPropertiesGql,
+        cache.writeData({
           data: {
             exportRcoProperties: [
               ...currentRco.exportRcoProperties,
@@ -291,10 +253,7 @@ export default {
       const exportRcoProperties = current.exportRcoProperties.filter(
         x => !(x.pcname === pcname && x.pname === pname)
       )
-      cache.writeQuery({
-        query: exportRcoPropertiesGql,
-        data: { exportRcoProperties },
-      })
+      cache.writeData({ data: { exportRcoProperties } })
       return null
     },
     setExportRcoFilters: (
@@ -310,8 +269,7 @@ export default {
       )
       if (!comparator && !value && value !== 0) {
         // remove
-        cache.writeQuery({
-          query: exportRcoFiltersGql,
+        cache.writeData({
           data: {
             exportRcoFilters: exportRcoFilters.filter(
               x => !(x.pcname === pcname && x.pname === pname)
@@ -320,8 +278,7 @@ export default {
         })
       } else if (!exportRcoFilter) {
         // add new one
-        cache.writeQuery({
-          query: exportRcoFiltersGql,
+        cache.writeData({
           data: {
             exportRcoFilters: [
               ...exportRcoFilters,
@@ -337,8 +294,7 @@ export default {
         })
       } else {
         // edit = add new one instead of existing
-        cache.writeQuery({
-          query: exportRcoFiltersGql,
+        cache.writeData({
           data: {
             exportRcoFilters: [
               ...exportRcoFilters.filter(
@@ -358,24 +314,15 @@ export default {
       return null
     },
     setExportTooManyProperties: (_, { value }, { cache }) => {
-      cache.writeQuery({
-        query: exportTooManyPropertiesGql,
-        data: { exportTooManyProperties: value },
-      })
+      cache.writeData({ data: { exportTooManyProperties: value } })
       return null
     },
     setExportWithSynonymData: (_, { value }, { cache }) => {
-      cache.writeQuery({
-        query: exportWithSynonymDataGql,
-        data: { exportWithSynonymData: value },
-      })
+      cache.writeData({ data: { exportWithSynonymData: value } })
       return null
     },
     setHistoryAfterLogin: (_, { value }, { cache }) => {
-      cache.writeQuery({
-        query: historyAfterLoginGql,
-        data: { historyAfterLogin: value },
-      })
+      cache.writeData({ data: { historyAfterLogin: value } })
       return null
     },
   },
