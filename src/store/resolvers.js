@@ -1,67 +1,35 @@
 // @flow
-import { withClientState } from 'apollo-link-state'
+
 import app from 'ampersand-app'
 import isEqual from 'lodash/isEqual'
 
-import activeNodeArrayGql from './modules/activeNodeArrayGql'
-import treeFilterGql from './modules/treeFilterGql'
-import loginGql from './modules/loginGql'
-import exportCategoriesGql from './modules/exportCategoriesGql'
-import exportTaxonomiesGql from './modules/exportTaxonomiesGql'
-import exportTaxPropertiesGql from './modules/exportTaxPropertiesGql'
-import exportTaxFiltersGql from './modules/exportTaxFiltersGql'
-import exportPcoPropertiesGql from './modules/exportPcoPropertiesGql'
-import exportPcoFiltersGql from './modules/exportPcoFiltersGql'
-import exportRcoPropertiesGql from './modules/exportRcoPropertiesGql'
-import exportRcoFiltersGql from './modules/exportRcoFiltersGql'
-import exportTooManyPropertiesGql from './modules/exportTooManyPropertiesGql'
-import exportTooManyPropertiesMutation from './modules/exportTooManyPropertiesMutation'
-import exportWithSynonymDataGql from './modules/exportWithSynonymDataGql'
-import historyAfterLoginGql from './modules/historyAfterLoginGql'
-import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
-import constants from './modules/constants'
+//import activeNodeArrayGql from '../modules/activeNodeArrayGql'
+import treeFilterGql from '../modules/treeFilterGql'
+import loginGql from '../modules/loginGql'
+import exportCategoriesGql from '../modules/exportCategoriesGql'
+import exportTaxonomiesGql from '../modules/exportTaxonomiesGql'
+import exportTaxPropertiesGql from '../modules/exportTaxPropertiesGql'
+import exportTaxFiltersGql from '../modules/exportTaxFiltersGql'
+import exportPcoPropertiesGql from '../modules/exportPcoPropertiesGql'
+import exportPcoFiltersGql from '../modules/exportPcoFiltersGql'
+import exportRcoPropertiesGql from '../modules/exportRcoPropertiesGql'
+import exportRcoFiltersGql from '../modules/exportRcoFiltersGql'
+import exportTooManyPropertiesGql from '../modules/exportTooManyPropertiesGql'
+import exportTooManyPropertiesMutation from '../modules/exportTooManyPropertiesMutation'
+import exportWithSynonymDataGql from '../modules/exportWithSynonymDataGql'
+import historyAfterLoginGql from '../modules/historyAfterLoginGql'
+import getActiveNodeArrayFromPathname from '../modules/getActiveNodeArrayFromPathname'
+import constants from '../modules/constants'
 
-export default withClientState({
-  Query: {
-    // provide initial state
-    activeNodeArray: () => [],
-    exportCategories: () => [],
-    exportTaxonomies: () => [],
-    exportTaxProperties: () => [],
-    exportPcoProperties: () => [],
-    exportRcoProperties: () => [],
-    exportTaxFilters: () => [],
-    exportPcoFilters: () => [],
-    exportRcoFilters: () => [],
-    exportTooManyProperties: () => false,
-    exportWithSynonymData: () => true,
-    // this is experimental
-    // see: https://github.com/apollographql/apollo-link-state/issues/111
-    treeFilter: () => ({
-      text: '',
-      id: null,
-      __typename: 'TreeFilter',
-    }),
-    login: () => ({
-      token: '',
-      role: '',
-      username: '',
-      __typename: 'Login',
-    }),
-    historyAfterLogin: () => '',
-  },
+export default () => ({
   Mutation: {
     // update values in the store on mutations
-    /**
-     * TODO
-     * Weird thing: setActiveNodeArray rund before index.js!!??
-     * probably on creating client
-     */
     setActiveNodeArray: (_, { value }, { cache }) => {
-      cache.writeQuery({
+      /*cache.writeQuery({
         query: activeNodeArrayGql,
         data: { activeNodeArray: value },
-      })
+      })*/
+      cache.writeData({ data: { activeNodeArray: value } })
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, value)) {
         app.history.push(`/${value.join('/')}`)

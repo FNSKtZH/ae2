@@ -4,6 +4,7 @@ import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import { withClientState } from 'apollo-link-state'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloLink } from 'apollo-link'
 import get from 'lodash/get'
@@ -20,10 +21,11 @@ import 'react-reflex/styles.css'
 import App from './components/App'
 import registerServiceWorker from './registerServiceWorker'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
-import localStateLink from './localStateLink'
 import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
 import initializeIdb from './modules/initializeIdb'
 import setLoginFromIdb from './modules/setLoginFromIdb'
+import defaults from './store/defaults'
+import resolvers from './store/resolvers'
 ;(async () => {
   try {
     const idb = initializeIdb()
@@ -41,10 +43,13 @@ import setLoginFromIdb from './modules/setLoginFromIdb'
       }
     })
 
+    const cache = new InMemoryCache()
+    const stateLink = withClientState({ resolvers, cache, defaults })
+    //console.log('index: stateLink:', stateLink)
     const httpLink = createHttpLink({ uri: 'http://localhost:5000/graphql' })
     const client = new ApolloClient({
-      link: ApolloLink.from([localStateLink, authMiddleware, httpLink]),
-      cache: new InMemoryCache(),
+      link: ApolloLink.from([stateLink, authMiddleware, httpLink]),
+      cache,
     })
 
     // configure history
