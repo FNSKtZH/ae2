@@ -1,6 +1,7 @@
 // @flow
 import { graphql } from 'react-apollo'
 import get from 'lodash/get'
+import omit from 'lodash/omit'
 
 import exportDataGql from './exportDataGql'
 
@@ -30,9 +31,16 @@ export default graphql(exportDataGql, {
       true
     )
     const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-    const taxFilters = get(exportTaxFiltersData, 'exportTaxFilters', [])
-    const pcoFilters = get(exportPcoFiltersData, 'exportPcoFilters', [])
-    const rcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])
+    // need to remove __typename because apollo passes it along ?!
+    const taxFilters = get(exportTaxFiltersData, 'exportTaxFilters', []).map(
+      d => omit(d, ['__typename'])
+    )
+    const pcoFilters = get(exportPcoFiltersData, 'exportPcoFilters', []).map(
+      d => omit(d, ['__typename'])
+    )
+    const rcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', []).map(
+      d => omit(d, ['__typename'])
+    )
     const taxProperties = get(
       exportTaxPropertiesData,
       'exportTaxProperties',
