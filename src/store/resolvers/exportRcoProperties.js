@@ -101,17 +101,5 @@ export default {
       }
       return null
     },
-    setExportTooManyProperties: (_, { value }, { cache }) => {
-      cache.writeData({ data: { exportTooManyProperties: value } })
-      return null
-    },
-    setExportWithSynonymData: (_, { value }, { cache }) => {
-      cache.writeData({ data: { exportWithSynonymData: value } })
-      return null
-    },
-    setHistoryAfterLogin: (_, { value }, { cache }) => {
-      cache.writeData({ data: { historyAfterLogin: value } })
-      return null
-    },
   },
 }
