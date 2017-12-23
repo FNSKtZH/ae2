@@ -33,7 +33,6 @@ const PropertyCollection = ({
     }
     if (p.properties) {
       const props = JSON.parse(p.properties)
-      console.log('props:', props)
       forOwn(props, (value, key) => {
         if (typeof (value) === 'boolean') {
           nP[key] = value.toString()
@@ -44,8 +43,8 @@ const PropertyCollection = ({
     }
     pCO.push(nP)
   })
-  console.log('PCO: pCORaw:', pCORaw)
-  console.log('PCO: pCO:', pCO)
+  //console.log('PCO: pCORaw:', pCORaw)
+  //console.log('PCO: pCO:', pCO)
   const columns = pCO[0] ?
     Object.keys(pCO[0]).map(k => ({
       key: k,
@@ -53,7 +52,7 @@ const PropertyCollection = ({
       resizable: true,
       sortable: true,
     })) : []
-  console.log('PCO: columns:', columns)
+  //console.log('PCO: columns:', columns)
   // TODO: map pCO and extract all properties, meanwhile building columns
 
   return ( <
