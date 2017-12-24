@@ -1,15 +1,23 @@
 CREATE DATABASE ae encoding 'UTF8';
-CREATE SCHEMA IF NOT EXISTS ae;
 -- We put things inside the auth schema to hide
 -- them from public view. Certain public procs/views will
 -- refer to helpers and tables inside.
-CREATE SCHEMA IF NOT EXISTS auth;
 CREATE EXTENSION if not exists "uuid-ossp";
 create extension if not exists pgcrypto;
+create role anon;
+create role authenticator with login password 'secret' noinherit;
+create role org_admin;
+create role org_collection_writer;
+create role org_habitat_writer;
+create role org_taxonomy_writer;
+-- restore from backup, then:
 -- run this once with real secret
 ALTER DATABASE ae SET "app.jwt_secret" TO 'secret';
+ALTER USER "authenticator" WITH PASSWORD 'secret';
 
--- stored procedure that returns the token
+-- dont run these, they come with restoring ae:
+CREATE SCHEMA IF NOT EXISTS ae;
+CREATE SCHEMA IF NOT EXISTS auth;
 CREATE TYPE auth.jwt_token AS (
   token text,
   role text,
