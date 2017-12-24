@@ -14,6 +14,8 @@ const enhance = compose(activeNodeArrayData, pCOData)
 
 const Container = styled.div`
   padding: 10px;
+  display: flex;
+  flex-direction: column;
   .react-grid-Container {
     font-size: small;
   }
@@ -32,9 +34,8 @@ const Container = styled.div`
     border: #ddd solid 1px !important;
   }
 `
-const SpreadsheetContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+const GridContainer = styled.div`
+  height: 100%;
 `
 const TotalDiv = styled.div`
   font-size: small;
@@ -81,7 +82,7 @@ const PropertyCollection = ({ pCOData }: { pCOData: Object }) => {
 
   return (
     <Container>
-      <SpreadsheetContainer>
+      <GridContainer>
         {pCO.length > 0 && (
           <ReactDataGrid
             onGridSort={(column, direction) => {
@@ -91,13 +92,16 @@ const PropertyCollection = ({ pCOData }: { pCOData: Object }) => {
             columns={columns}
             rowGetter={i => pCO[i]}
             rowsCount={pCO.length}
-            minHeight={500}
-            minColumnWidth={120}
+            //minHeight={500}
+            //minColumnWidth={120}
+            minHeight={window.innerHeight - 49 - 40}
           />
         )}
+      </GridContainer>
+      {pCO.length > 0 && (
         <TotalDiv>{`${pCO.length} Datensätze, ${columns.length -
           2} Felder`}</TotalDiv>
-      </SpreadsheetContainer>
+      )}
     </Container>
   )
 }
