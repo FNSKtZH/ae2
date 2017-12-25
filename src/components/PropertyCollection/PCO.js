@@ -67,6 +67,16 @@ const PCO = ({
   setSortField: () => void,
   setSortDirection: () => void,
 }) => {
+  const { loading } = pCOData
+  if (loading) {
+    return (
+      <Container>
+        <GridContainer>
+          <TotalDiv>lade Daten...</TotalDiv>
+        </GridContainer>
+      </Container>
+    )
+  }
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
   let pCO = []
