@@ -45,7 +45,15 @@ const TotalDiv = styled.div`
   margin-top: 4px;
 `
 
-const PropertyCollection = ({ pCOData }: { pCOData: Object }) => {
+const PropertyCollection = ({
+  pCOData,
+  dimensions,
+}: {
+  pCOData: Object,
+  dimensions: Object,
+}) => {
+  const height = isNaN(dimensions.height) ? 0 : dimensions.height
+  const width = isNaN(dimensions.width) ? 0 : dimensions.width
   const pCO = []
   // collect all keys
   const allKeys = []
@@ -93,9 +101,8 @@ const PropertyCollection = ({ pCOData }: { pCOData: Object }) => {
             columns={columns}
             rowGetter={i => pCO[i]}
             rowsCount={pCO.length}
-            //minHeight={500}
-            //minColumnWidth={120}
-            minHeight={window.innerHeight - 49 - 40}
+            minHeight={height - 42}
+            minWidth={width - 20}
           />
         )}
       </GridContainer>

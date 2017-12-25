@@ -17,7 +17,11 @@ const Data = () => (
       <Tree />
     </ReflexElement>
     <ReflexSplitter key="treeSplitter" />
-    <ReflexElement>
+    <ReflexElement
+      propagateDimensions={true}
+      renderOnResizeRate={50}
+      renderOnResize={true}
+    >
       <DataType />
     </ReflexElement>
   </ReflexContainer>

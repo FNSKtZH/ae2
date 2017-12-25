@@ -10,7 +10,13 @@ import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNode
 
 const enhance = compose(activeNodeArrayData)
 
-const DataType = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
+const DataType = ({
+  activeNodeArrayData,
+  dimensions,
+}: {
+  activeNodeArrayData: Object,
+  dimensions: Object,
+}) => {
   const { activeNodeArray } = activeNodeArrayData
   const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const showObjekt = activeNodeArray[0] === 'Taxonomien' && activeObjectId
@@ -26,7 +32,7 @@ const DataType = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
 
   if (showObjekt) return <Objekt />
   if (showPC) return <PropertyCollection />
-  if (showPCO) return <PCO />
+  if (showPCO) return <PCO dimensions={dimensions} />
   return null
 }
 
