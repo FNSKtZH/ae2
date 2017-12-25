@@ -13,6 +13,7 @@ import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
 import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
 import exportWithSynonymDataData from '../../../modules/exportWithSynonymDataData'
+import booleanToJaNein from '../../../modules/booleanToJaNein'
 
 const level1CardStyle = { margin: '10px 0' }
 const level1CardTitleStyle = { fontWeight: 'bold' }
@@ -138,7 +139,7 @@ const OptionsChoosen = ({
                   }`}
                   <FilterValueSpan>
                     {typeof p.value === 'boolean'
-                      ? p.value.toString()
+                      ? booleanToJaNein(p.value)
                       : p.value}
                   </FilterValueSpan>
                 </li>
@@ -150,7 +151,7 @@ const OptionsChoosen = ({
                   }`}
                   <FilterValueSpan>
                     {typeof p.value === 'boolean'
-                      ? p.value.toString()
+                      ? booleanToJaNein(p.value)
                       : p.value}
                   </FilterValueSpan>
                 </li>
@@ -162,7 +163,7 @@ const OptionsChoosen = ({
                   }`}
                   <FilterValueSpan>
                     {typeof p.value === 'boolean'
-                      ? p.value.toString()
+                      ? booleanToJaNein(p.value)
                       : p.value}
                   </FilterValueSpan>
                 </li>

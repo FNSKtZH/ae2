@@ -22,6 +22,7 @@ import exportWithSynonymDataData from '../../../modules/exportWithSynonymDataDat
 import conv from '../../../modules/convertExportFieldName'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
+import booleanToJaNein from '../../../modules/booleanToJaNein'
 
 const Container = styled.div`
   .react-grid-Container {
@@ -162,7 +163,7 @@ const Preview = ({
         let val = null
         if (properties && properties[p.pname] !== undefined) {
           if (typeof properties[p.pname] === 'boolean') {
-            val = properties[p.pname].toString()
+            val = booleanToJaNein(properties[p.pname])
           } else {
             val = properties[p.pname]
           }
@@ -178,7 +179,7 @@ const Preview = ({
           if (thisPcoProperties && thisPcoProperties[p.pname] !== undefined) {
             let val = thisPcoProperties[p.pname]
             if (typeof val === 'boolean') {
-              val = val.toString()
+              val = booleanToJaNein(val)
             }
             row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
           }
@@ -193,7 +194,7 @@ const Preview = ({
           ) {
             let val = thisSynonymPcoProperties[p.pname]
             if (typeof val === 'boolean') {
-              val = val.toString()
+              val = booleanToJaNein(val)
             }
             row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
           }
@@ -214,7 +215,7 @@ const Preview = ({
           if (thisRcoProperties && thisRcoProperties[p.pname] !== undefined) {
             let val = thisRcoProperties[p.pname]
             if (typeof val === 'boolean') {
-              val = val.toString()
+              val = booleanToJaNein(val)
             }
             row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
           }
@@ -229,7 +230,7 @@ const Preview = ({
           ) {
             let val = thisSynonymRcoProperties[p.pname]
             if (typeof val === 'boolean') {
-              val = val.toString()
+              val = booleanToJaNein(val)
             }
             row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
           }
