@@ -52,7 +52,7 @@ const enhance = compose(
   pCOData
 )
 
-const PropertyCollection = ({
+const PCO = ({
   pCOData,
   dimensions,
   sortField,
@@ -109,8 +109,9 @@ const PropertyCollection = ({
     <Container>
       <GridContainer>
         {pCO.length > 0 && (
-          <TotalDiv>{`${pCO.length} Datensätze, ${columns.length -
-            2} Felder:`}</TotalDiv>
+          <TotalDiv>{`${pCO.length} Datensätze, ${columns.length - 2} Feld${
+            columns.length === 3 ? '' : 'er'
+          }:`}</TotalDiv>
         )}
         {pCO.length > 0 && (
           <ReactDataGrid
@@ -130,4 +131,4 @@ const PropertyCollection = ({
   )
 }
 
-export default enhance(PropertyCollection)
+export default enhance(PCO)
