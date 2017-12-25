@@ -8,13 +8,15 @@ import getXlsxBuffer from './getXlsxBuffer'
 export default async ({
   rows,
   onSetMessage,
+  columns,
 }: {
   rows: Array<Object>,
   onSetMessage: () => void,
+  columns: Number,
 }) => {
   let buffer
   try {
-    buffer = await getXlsxBuffer(rows)
+    buffer = await getXlsxBuffer(rows, columns)
   } catch (error) {
     console.log(error)
     onSetMessage(error)

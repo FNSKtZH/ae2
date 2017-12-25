@@ -6,10 +6,13 @@
 import * as ExcelJs from 'exceljs/dist/exceljs.min.js'
 import getDataArrayFromExportRows from './getDataArrayFromExportRows'
 
-export default async (jsonArray: Array<Object>) => {
-  const dataArray = getDataArrayFromExportRows(jsonArray)
-  const numberOfColumns =
+export default async (jsonArray: Array<Object>, columns: Number) => {
+  const dataArray = getDataArrayFromExportRows(jsonArray, columns)
+  let numberOfColumns =
     dataArray && dataArray[0] && dataArray[0].length ? dataArray[0].length : 0
+  if (columns) {
+    numberOfColumns = columns.length
+  }
   const workbook = new ExcelJs.Workbook()
   const worksheet = workbook.addWorksheet('Daten', {
     views: [

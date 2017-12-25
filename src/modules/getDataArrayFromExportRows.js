@@ -1,8 +1,12 @@
 // @flow
-export default (exportRows: Array<Object>) => {
+export default (exportRows: Array<Object>, columns: Array<String>) => {
   const dataArray = []
   // first the field names:
-  dataArray.push(Object.keys(exportRows[0]))
+  if (columns) {
+    dataArray.push(columns)
+  } else {
+    dataArray.push(Object.keys(exportRows[0]))
+  }
   // then the field values
   exportRows.forEach(row =>
     dataArray.push(
