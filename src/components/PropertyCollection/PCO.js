@@ -5,9 +5,11 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 import forOwn from 'lodash/forOwn'
+import union from 'lodash/union'
 import ReactDataGrid from 'react-data-grid'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import booleanToJaNein from '../../modules/booleanToJaNein'
 import pCOData from './pCOData'
 
 const enhance = compose(activeNodeArrayData, pCOData)
@@ -45,40 +47,39 @@ const TotalDiv = styled.div`
 
 const PropertyCollection = ({ pCOData }: { pCOData: Object }) => {
   const pCO = []
+  // collect all keys
+  const allKeys = []
   const pCORaw = get(
     pCOData,
     'propertyCollectionById.propertyCollectionObjectsByPropertyCollectionId.nodes',
     []
   ).map(p => omit(p, ['__typename']))
   pCORaw.forEach(p => {
-    let nP = {
-      objectId: p.objectId,
-      objectName: get(p, 'objectByObjectId.name', null),
-    }
+    let nP = {}
+    nP['Objekt ID'] = p.objectId
+    nP['Objekt Name'] = get(p, 'objectByObjectId.name', null)
     if (p.properties) {
       const props = JSON.parse(p.properties)
       forOwn(props, (value, key) => {
         if (typeof value === 'boolean') {
-          nP[key] = value.toString()
+          nP[key] = booleanToJaNein(value)
         } else {
           nP[key] = value
         }
+        // collect all keys
+        allKeys.push(key)
       })
     }
     pCO.push(nP)
   })
-  //console.log('PCO: pCORaw:', pCORaw)
-  //console.log('PCO: pCO:', pCO)
-  const columns = pCO[0]
-    ? Object.keys(pCO[0]).map(k => ({
-        key: k,
-        name: k,
-        resizable: true,
-        sortable: true,
-      }))
-    : []
-  //console.log('PCO: columns:', columns)
-  // TODO: map pCO and extract all properties, meanwhile building columns
+  // collect all keys and sort property keys by name
+  const keys = ['Objekt ID', 'Objekt Name', ...union(allKeys).sort()]
+  const columns = keys.map(k => ({
+    key: k,
+    name: k,
+    resizable: true,
+    sortable: true,
+  }))
 
   return (
     <Container>
