@@ -14,15 +14,8 @@ import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import booleanToJaNein from '../../modules/booleanToJaNein'
 import pCOData from './pCOData'
 
-const enhance = compose(
-  activeNodeArrayData,
-  withState('sortField', 'setSortField', 'Objekt Name'),
-  withState('sortDirection', 'setSortDirection', 'asc'),
-  pCOData
-)
-
 const Container = styled.div`
-  padding: 10px;
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   .react-grid-Container {
@@ -51,6 +44,13 @@ const TotalDiv = styled.div`
   padding-left: 9px;
   margin-top: 4px;
 `
+
+const enhance = compose(
+  activeNodeArrayData,
+  withState('sortField', 'setSortField', 'Objekt Name'),
+  withState('sortDirection', 'setSortDirection', 'asc'),
+  pCOData
+)
 
 const PropertyCollection = ({
   pCOData,
@@ -109,6 +109,10 @@ const PropertyCollection = ({
     <Container>
       <GridContainer>
         {pCO.length > 0 && (
+          <TotalDiv>{`${pCO.length} Datensätze, ${columns.length -
+            2} Felder:`}</TotalDiv>
+        )}
+        {pCO.length > 0 && (
           <ReactDataGrid
             onGridSort={(column, direction) => {
               setSortField(column)
@@ -117,15 +121,11 @@ const PropertyCollection = ({
             columns={columns}
             rowGetter={i => pCO[i]}
             rowsCount={pCO.length}
-            minHeight={height - 42}
-            minWidth={width - 20}
+            minHeight={height - 33}
+            minWidth={width}
           />
         )}
       </GridContainer>
-      {pCO.length > 0 && (
-        <TotalDiv>{`${pCO.length} Datensätze, ${columns.length -
-          2} Felder`}</TotalDiv>
-      )}
     </Container>
   )
 }
