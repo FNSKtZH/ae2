@@ -8,6 +8,7 @@ import { withClientState } from 'apollo-link-state'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloLink } from 'apollo-link'
 import get from 'lodash/get'
+import jwtDecode from 'jwt-decode'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -24,6 +25,7 @@ import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPath
 import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
 import initializeIdb from './modules/initializeIdb'
 import setLoginFromIdb from './modules/setLoginFromIdb'
+import setLoginMutation from './modules/loginMutation'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
 ;(async () => {
@@ -35,11 +37,27 @@ import resolvers from './store/resolvers'
       users = await idb.users.toArray()
       const token = get(users, '[0].token')
       if (token) {
-        return {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
+        const tokenDecoded = jwtDecode(token)
+        const tokenIsValid = tokenDecoded.exp > Date.now()
+        console.log('index: tokenIsValid:', tokenIsValid)
+        if (tokenIsValid) {
+          return {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
         }
+        // token is not valid any more > remove it
+        idb.users.clear()
+        client.mutate({
+          mutation: setLoginMutation,
+          variables: {
+            username: '',
+            role: '',
+            token: '',
+          },
+        })
+        // TODO: tell user "Ihre Anmeldung ist abgelaufen"
       }
     })
 

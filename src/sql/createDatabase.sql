@@ -21,5 +21,7 @@ CREATE SCHEMA IF NOT EXISTS auth;
 CREATE TYPE auth.jwt_token AS (
   token text,
   role text,
-  username text
+  username text,
+  exp integer
 );
+-- once: alter TYPE auth.jwt_token add attribute exp integer;

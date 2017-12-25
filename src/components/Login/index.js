@@ -6,9 +6,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import withState from 'recompose/withState'
-import {
-  withApollo
-} from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 import app from 'ampersand-app'
@@ -18,7 +16,7 @@ import setLoginMutation from '../../modules/loginMutation'
 import historyAfterLoginMutation from '../../modules/historyAfterLoginMutation'
 import historyAfterLoginData from '../../modules/historyAfterLoginData'
 
-const Container = styled.div `
+const Container = styled.div`
   padding: 10px;
 `
 const snackbarBodyStyle = {
@@ -36,7 +34,7 @@ const enhance = compose(
   withState('passErrorText', 'changePassErrorText', ''),
   withState('loginSuccessfull', 'changeLoginSuccessfull', false),
   withHandlers({
-    fetchLogin: props => async(namePassed, passPassed) => {
+    fetchLogin: props => async (namePassed, passPassed) => {
       const {
         client,
         changeNameErrorText,
@@ -83,10 +81,7 @@ const enhance = compose(
       const jwtToken = get(result, 'data.login.jwtToken')
       if (jwtToken) {
         const tokenDecoded = jwtDecode(jwtToken)
-        const {
-          role,
-          username
-        } = tokenDecoded
+        const { role, username } = tokenDecoded
         // refresh currentUser in idb
         await app.idb.users.clear()
         await app.idb.users.put({
@@ -144,12 +139,7 @@ const enhance = compose(
       }
     },
     onBlurPassword: props => e => {
-      const {
-        name,
-        changePass,
-        changePassErrorText,
-        fetchLogin
-      } = props
+      const { name, changePass, changePassErrorText, fetchLogin } = props
       changePassErrorText('')
       const pass = e.target.value
       changePass(pass)
@@ -188,57 +178,40 @@ const Login = ({
   onBlurPassword: () => void,
   fetchLogin: () => void,
   loginSuccessfull: Boolean,
-}) => ( <
-  Container >
-  <
-  TextField floatingLabelText = "Name"
-  defaultValue = {
-    name
-  }
-  onBlur = {
-    onBlurName
-  }
-  errorText = {
-    nameErrorText
-  }
-  fullWidth autoFocus onKeyPress = {
-    e => {
-      if (e.key === 'Enter') {
-        onBlurName(e)
-      }
-    }
-  }
-  />{' '} <
-  TextField floatingLabelText = "Passwort"
-  type = "password"
-  defaultValue = {
-    pass
-  }
-  onBlur = {
-    onBlurPassword
-  }
-  errorText = {
-    passErrorText
-  }
-  fullWidth onKeyPress = {
-    e => {
-      if (e.key === 'Enter') {
-        onBlurPassword(e)
-      }
-    }
-  }
-  />{' '} <
-  Snackbar open = {
-    loginSuccessfull
-  }
-  message = {
-    `Willkommen ${name}`
-  }
-  bodyStyle = {
-    snackbarBodyStyle
-  }
-  /> <
-  /Container>
+}) => (
+  <Container>
+    <TextField
+      floatingLabelText="Name"
+      defaultValue={name}
+      onBlur={onBlurName}
+      errorText={nameErrorText}
+      fullWidth
+      autoFocus
+      onKeyPress={e => {
+        if (e.key === 'Enter') {
+          onBlurName(e)
+        }
+      }}
+    />
+    <TextField
+      floatingLabelText="Passwort"
+      type="password"
+      defaultValue={pass}
+      onBlur={onBlurPassword}
+      errorText={passErrorText}
+      fullWidth
+      onKeyPress={e => {
+        if (e.key === 'Enter') {
+          onBlurPassword(e)
+        }
+      }}
+    />
+    <Snackbar
+      open={loginSuccessfull}
+      message={`Willkommen ${name}`}
+      bodyStyle={snackbarBodyStyle}
+    />
+  </Container>
 )
 
 export default enhance(Login)
