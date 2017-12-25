@@ -38,24 +38,39 @@ import resolvers from './store/resolvers'
       const token = get(users, '[0].token')
       if (token) {
         const tokenDecoded = jwtDecode(token)
-        const tokenIsValid = tokenDecoded.exp > Date.now()
+        // for unknown reason, date.now returns three more after comma
+        // numbers than the exp date contains
+        const tokenIsValid = tokenDecoded.exp > Date.now() / 1000
         if (tokenIsValid) {
           return {
             headers: {
               authorization: `Bearer ${token}`,
             },
           }
+        } else {
+          // token is not valid any more > remove it
+          idb.users.clear()
+          client.mutate({
+            mutation: setLoginMutation,
+            variables: {
+              username: 'Login abgelaufen',
+              role: '',
+              token: '',
+            },
+          })
+          setTimeout(
+            () =>
+              client.mutate({
+                mutation: setLoginMutation,
+                variables: {
+                  username: '',
+                  role: '',
+                  token: '',
+                },
+              }),
+            10000
+          )
         }
-        // token is not valid any more > remove it
-        idb.users.clear()
-        client.mutate({
-          mutation: setLoginMutation,
-          variables: {
-            username: '',
-            role: '',
-            token: '',
-          },
-        })
         // TODO: tell user "Ihre Anmeldung ist abgelaufen"
       }
     })
