@@ -10,6 +10,7 @@ const Container = styled.div`
   border-bottom: ${props =>
     `${props['data-intermediaterelation'] ? '1px solid #c6c6c6' : 'none'}`};
   padding: 7px 0;
+  column-width: 500px;
   .property p {
     margin-top: 1px;
     margin-bottom: 1px;

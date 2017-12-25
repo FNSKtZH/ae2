@@ -23,7 +23,7 @@ const taxCardHeaderStyle = {
   borderBottom: '1px solid rgba(0,0,0,0.06)',
 }
 const taxCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
-const tOCardTextStyle = { padding: '5px 16px' }
+const tOCardTextStyle = { padding: '5px 16px', columnWidth: '500px' }
 
 const SynonymContainer = styled.div`
   display: flex;

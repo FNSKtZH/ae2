@@ -21,7 +21,7 @@ const pCCardHeaderStyle = {
   borderBottom: '1px solid rgba(0,0,0,0.06)',
 }
 const pCCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
-const pCOCardTextStyle = { padding: '5px 16px' }
+const pCOCardTextStyle = { padding: '5px 16px', columnWidth: '500px' }
 const RelationTitle = styled.div`
   font-weight: bold;
   border-bottom: 1px solid #c6c6c6;
