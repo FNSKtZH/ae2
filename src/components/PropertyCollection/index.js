@@ -16,6 +16,10 @@ const Container = styled.div`
 `
 
 const PropertyCollection = ({ pCData }: { pCData: Object }) => {
+  const { loading } = pCData
+  if (loading) {
+    return <Container>lade Daten...</Container>
+  }
   const pC = get(pCData, 'propertyCollectionById', {})
   const org = get(pC, ('organizationByOrganizationId.name': ''))
   const user = get(pC, ('userByImportedBy.name': ''))
