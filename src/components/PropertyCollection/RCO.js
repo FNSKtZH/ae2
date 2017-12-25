@@ -67,7 +67,6 @@ const RCO = ({
   setSortField: () => void,
   setSortDirection: () => void,
 }) => {
-  console.log('ROC: rCOData:', rCOData)
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
   let rCO = []
