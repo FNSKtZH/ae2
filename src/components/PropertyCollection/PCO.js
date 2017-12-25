@@ -118,11 +118,9 @@ const PCO = ({
   return (
     <Container>
       <GridContainer>
-        {pCO.length > 0 && (
-          <TotalDiv>{`${pCO.length} Datensätze, ${columns.length - 2} Feld${
-            columns.length === 3 ? '' : 'er'
-          }:`}</TotalDiv>
-        )}
+        <TotalDiv>{`${pCO.length} Datensätze, ${columns.length - 2} Feld${
+          columns.length === 3 ? '' : 'er'
+        }${pCO.length > 0 ? ':' : ''}`}</TotalDiv>
         {pCO.length > 0 && (
           <ReactDataGrid
             onGridSort={(column, direction) => {

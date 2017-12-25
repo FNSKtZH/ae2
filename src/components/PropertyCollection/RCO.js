@@ -128,11 +128,9 @@ const RCO = ({
   return (
     <Container>
       <GridContainer>
-        {rCO.length > 0 && (
-          <TotalDiv>{`${rCO.length} Datensätze, ${columns.length - 5} Feld${
-            columns.length === 6 ? '' : 'er'
-          }:`}</TotalDiv>
-        )}
+        <TotalDiv>{`${rCO.length} Datensätze, ${columns.length - 5} Feld${
+          columns.length === 6 ? '' : 'er'
+        }${rCO.length > 0 ? ':' : ''}`}</TotalDiv>
         {rCO.length > 0 && (
           <ReactDataGrid
             onGridSort={(column, direction) => {
