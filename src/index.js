@@ -39,7 +39,6 @@ import resolvers from './store/resolvers'
       if (token) {
         const tokenDecoded = jwtDecode(token)
         const tokenIsValid = tokenDecoded.exp > Date.now()
-        console.log('index: tokenIsValid:', tokenIsValid)
         if (tokenIsValid) {
           return {
             headers: {
