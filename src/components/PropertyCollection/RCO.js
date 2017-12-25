@@ -72,7 +72,7 @@ const RCO = ({
     return (
       <Container>
         <GridContainer>
-          <TotalDiv>lade Daten...</TotalDiv>
+          <TotalDiv>Lade Daten...</TotalDiv>
         </GridContainer>
       </Container>
     )
