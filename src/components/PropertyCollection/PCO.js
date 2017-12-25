@@ -1,18 +1,25 @@
 // @flow
 import React from 'react'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 import forOwn from 'lodash/forOwn'
 import union from 'lodash/union'
+import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import booleanToJaNein from '../../modules/booleanToJaNein'
 import pCOData from './pCOData'
 
-const enhance = compose(activeNodeArrayData, pCOData)
+const enhance = compose(
+  activeNodeArrayData,
+  withState('sortField', 'setSortField', 'Objekt Name'),
+  withState('sortDirection', 'setSortDirection', 'asc'),
+  pCOData
+)
 
 const Container = styled.div`
   padding: 10px;
@@ -48,13 +55,21 @@ const TotalDiv = styled.div`
 const PropertyCollection = ({
   pCOData,
   dimensions,
+  sortField,
+  sortDirection,
+  setSortField,
+  setSortDirection,
 }: {
   pCOData: Object,
   dimensions: Object,
+  sortField: String,
+  sortDirection: String,
+  setSortField: () => void,
+  setSortDirection: () => void,
 }) => {
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
-  const pCO = []
+  let pCO = []
   // collect all keys
   const allKeys = []
   const pCORaw = get(
@@ -80,6 +95,7 @@ const PropertyCollection = ({
     }
     pCO.push(nP)
   })
+  pCO = orderBy(pCO, sortField, sortDirection)
   // collect all keys and sort property keys by name
   const keys = ['Objekt ID', 'Objekt Name', ...union(allKeys).sort()]
   const columns = keys.map(k => ({
@@ -95,8 +111,8 @@ const PropertyCollection = ({
         {pCO.length > 0 && (
           <ReactDataGrid
             onGridSort={(column, direction) => {
-              //setSortField(column)
-              //setSortDirection(direction.toLowerCase())
+              setSortField(column)
+              setSortDirection(direction.toLowerCase())
             }}
             columns={columns}
             rowGetter={i => pCO[i]}
