@@ -271,6 +271,10 @@ CREATE TABLE ae.organization_user (
   role text REFERENCES ae.role (name) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (organization_id, user_id, role)
 );
+
+-- TODO: does not work because there are ogranization_id's that do not exist in ae.organization
+--ALTER TABLE ae.organization_user  ADD CONSTRAINT fk_organization FOREIGN KEY (organization_id) REFERENCES ae.organization (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
 ALTER TABLE ae.organization_user ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.organization_user;
 CREATE POLICY
