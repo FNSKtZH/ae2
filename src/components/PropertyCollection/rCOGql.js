@@ -5,6 +5,20 @@ export default gql`
   query rCOQuery($pCId: UUID!) {
     propertyCollectionById(id: $pCId) {
       id
+      organizationByOrganizationId {
+        id
+        name
+        organizationUsersByOrganizationId {
+          nodes {
+            userId
+            role
+            userByUserId {
+              id
+              name
+            }
+          }
+        }
+      }
       relationsByPropertyCollectionId {
         totalCount
         nodes {

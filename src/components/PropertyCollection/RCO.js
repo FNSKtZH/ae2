@@ -13,6 +13,7 @@ import ReactDataGrid from 'react-data-grid'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import booleanToJaNein from '../../modules/booleanToJaNein'
 import rCOData from './rCOData'
+import loginData from '../../modules/loginData'
 
 const Container = styled.div`
   padding-top: 10px;
@@ -49,11 +50,13 @@ const enhance = compose(
   activeNodeArrayData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
-  rCOData
+  rCOData,
+  loginData
 )
 
 const RCO = ({
   rCOData,
+  loginData,
   dimensions,
   sortField,
   sortDirection,
@@ -61,6 +64,7 @@ const RCO = ({
   setSortDirection,
 }: {
   rCOData: Object,
+  loginData: Object,
   dimensions: Object,
   sortField: String,
   sortDirection: String,
@@ -124,6 +128,21 @@ const RCO = ({
     resizable: true,
     sortable: true,
   }))
+  const rCOWriters = get(
+    rCOData,
+    'propertyCollectionById.organizationByOrganizationId.organizationUsersByOrganizationId.nodes',
+    []
+  ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
+  const writerNames = union(rCOWriters.map(w => w.userByUserId.name))
+  const loginName = get(loginData, 'login.username')
+  const userIsWriter = !!loginName && writerNames.includes(loginName)
+  console.log('PCO: userIsWriter:', userIsWriter)
+  /**
+   * TODO
+   * if user is writer:
+   * enable removing pco data
+   * enable importing pco data if none exists
+   */
 
   return (
     <Container>
