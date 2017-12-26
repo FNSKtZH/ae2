@@ -2,6 +2,7 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
 import Snackbar from 'material-ui/Snackbar'
+import RaisedButton from 'material-ui/RaisedButton'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -206,6 +207,7 @@ const Login = ({
         }
       }}
     />
+    <RaisedButton label="Anmelden" />
     <Snackbar
       open={loginSuccessfull}
       message={`Willkommen ${name}`}
