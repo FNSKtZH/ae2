@@ -58,6 +58,17 @@ const enhance = compose(
       if (!pass) {
         return changePassErrorText('Bitte Passwort eingeben')
       }
+      // reset existing token
+      await app.idb.users.clear()
+      client.mutate({
+        mutation: setLoginMutation,
+        variables: {
+          username: '',
+          role: '',
+          token: '',
+        },
+      })
+      // now aquire new token
       let result
       try {
         result = await client.mutate({
@@ -90,14 +101,18 @@ const enhance = compose(
           token: jwtToken,
           role,
         })
-        client.mutate({
-          mutation: setLoginMutation,
-          variables: {
-            username,
-            role,
-            token: jwtToken,
-          },
-        })
+        try {
+          client.mutate({
+            mutation: setLoginMutation,
+            variables: {
+              username,
+              role,
+              token: jwtToken,
+            },
+          })
+        } catch (error) {
+          console.log(('Error during mutation': error))
+        }
         changeNameErrorText(null)
         changePassErrorText(null)
         changeLoginSuccessfull(true)
