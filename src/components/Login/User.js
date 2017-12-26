@@ -69,8 +69,7 @@ const User = ({
   userData: Object,
 }) => {
   const user = get(userData, 'userByName', {})
-  console.log('User: user:', user)
-  console.log('User: user.name:', user.name)
+  user.name && console.log('User: user:', user)
 
   return (
     <Container>
