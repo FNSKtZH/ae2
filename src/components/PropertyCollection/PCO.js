@@ -134,6 +134,12 @@ const PCO = ({
   const loginName = get(loginData, 'login.username')
   const userIsWriter = !!loginName && writerNames.includes(loginName)
   console.log('PCO: userIsWriter:', userIsWriter)
+  /**
+   * TODO
+   * if user is writer:
+   * enable removing pco data
+   * enable importing pco data if none exists
+   */
 
   return (
     <Container>
