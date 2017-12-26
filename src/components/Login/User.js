@@ -7,9 +7,11 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
+import get from 'lodash/get'
 
 import setLoginMutation from '../../modules/loginMutation'
 import loginData from '../../modules/loginData'
+import userData from './userData'
 
 const Container = styled.div`
   padding: 10px;
@@ -18,6 +20,7 @@ const Container = styled.div`
 const enhance = compose(
   withApollo,
   loginData,
+  userData,
   withHandlers({
     logout: props => async (namePassed, passPassed) => {
       const { client } = props
@@ -47,6 +50,7 @@ const User = ({
   logout,
   loginSuccessfull,
   loginData,
+  userData,
 }: {
   store: Object,
   name: string,
@@ -62,36 +66,42 @@ const User = ({
   logout: () => void,
   loginSuccessfull: Boolean,
   loginData: Object,
-}) => (
-  <Container>
-    <TextField
-      floatingLabelText="Name ändern"
-      defaultValue={name}
-      onBlur={onBlurName}
-      errorText={nameErrorText}
-      fullWidth
-      autoFocus
-      onKeyPress={e => {
-        if (e.key === 'Enter') {
-          onBlurName(e)
-        }
-      }}
-    />
-    <TextField
-      floatingLabelText="Passwort ändern"
-      type="password"
-      defaultValue={pass}
-      onBlur={onBlurPassword}
-      errorText={passErrorText}
-      fullWidth
-      onKeyPress={e => {
-        if (e.key === 'Enter') {
-          onBlurPassword(e)
-        }
-      }}
-    />
-    <RaisedButton label="Neu anmelden" onClick={logout} />
-  </Container>
-)
+  userData: Object,
+}) => {
+  const user = get(userData, 'userByName', {})
+  console.log('User: user:', user)
+  console.log('User: user.name:', user.name)
+
+  return (
+    <Container>
+      <TextField
+        floatingLabelText="Name"
+        value={user.name || ''}
+        onBlur={onBlurName}
+        errorText={nameErrorText}
+        fullWidth
+        autoFocus
+        onKeyPress={e => {
+          if (e.key === 'Enter') {
+            onBlurName(e)
+          }
+        }}
+      />
+      <TextField
+        floatingLabelText="Email"
+        value={user.email || ''}
+        onBlur={onBlurPassword}
+        errorText={passErrorText}
+        fullWidth
+        onKeyPress={e => {
+          if (e.key === 'Enter') {
+            onBlurPassword(e)
+          }
+        }}
+      />
+      <RaisedButton label="Neu anmelden" onClick={logout} />
+    </Container>
+  )
+}
 
 export default enhance(User)
