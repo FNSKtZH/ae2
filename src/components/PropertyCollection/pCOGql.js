@@ -5,6 +5,10 @@ export default gql`
   query pCOQuery($pCId: UUID!) {
     propertyCollectionById(id: $pCId) {
       id
+      organizationByOrganizationId {
+        id
+        name
+      }
       propertyCollectionObjectsByPropertyCollectionId {
         totalCount
         nodes {
