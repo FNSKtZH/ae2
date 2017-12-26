@@ -96,8 +96,8 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
   - [x] Daten exportieren
     ![exportieren](/etc/export.png?raw=true "exportieren")
   - [x] Login
-  - [ ] Organisationen und Benutzer
-  - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
+  - [ ] Organisationen und Benutzer (in Arbeit)
+  - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen (in Arbeit)
   - [ ] Lebensräume bearbeiten
 
 ### Was kann arteigenschaften.ch?
