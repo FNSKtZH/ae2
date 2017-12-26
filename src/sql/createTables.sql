@@ -276,6 +276,8 @@ CREATE TABLE ae.organization_user (
 ALTER TABLE ae.organization_user ADD CONSTRAINT fk_organization FOREIGN KEY (organization_id) REFERENCES ae.organization (id) ON DELETE CASCADE ON UPDATE CASCADE;
 -- TODO: does not work because there are user_id's that do not exist in ae.organization
 ALTER TABLE ae.organization_user ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE;
+-- run once:
+--delete from ae.organization_user where organization_id not in ('a8e5bc98-696f-11e7-b453-3741aafa0388')
 
 ALTER TABLE ae.organization_user ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.organization_user;
