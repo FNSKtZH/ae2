@@ -8,6 +8,16 @@ export default gql`
       organizationByOrganizationId {
         id
         name
+        organizationUsersByOrganizationId {
+          nodes {
+            userId
+            role
+            userByUserId {
+              id
+              name
+            }
+          }
+        }
       }
       propertyCollectionObjectsByPropertyCollectionId {
         totalCount
