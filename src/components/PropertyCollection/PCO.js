@@ -52,6 +52,14 @@ const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `
+const ExportButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const MutationButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 
 const enhance = compose(
   activeNodeArrayData,
@@ -160,24 +168,35 @@ const PCO = ({
             minWidth={width}
           />
         )}
-        {pCO.length > 0 && (
-          <ButtonsContainer>
-            <FlatButton
-              label="xlsx exportieren"
-              onClick={() =>
-                exportXlsx({
-                  rows: pCO,
-                  onSetMessage: console.log,
-                  columns: keys,
-                })
-              }
-            />
-            <FlatButton
-              label="csv exportieren"
-              onClick={() => exportCsv(pCO)}
-            />
-          </ButtonsContainer>
-        )}
+        <ButtonsContainer>
+          {pCO.length > 0 && (
+            <ExportButtons>
+              <FlatButton
+                label="xlsx exportieren"
+                onClick={() =>
+                  exportXlsx({
+                    rows: pCO,
+                    onSetMessage: console.log,
+                    columns: keys,
+                  })
+                }
+              />
+              <FlatButton
+                label="csv exportieren"
+                onClick={() => exportCsv(pCO)}
+              />
+            </ExportButtons>
+          )}
+          {pCO.length > 0 &&
+            userIsWriter && (
+              <MutationButtons>
+                <FlatButton
+                  label="Daten löschen"
+                  onClick={() => console.log('TODO')}
+                />
+              </MutationButtons>
+            )}
+        </ButtonsContainer>
       </GridContainer>
     </Container>
   )
