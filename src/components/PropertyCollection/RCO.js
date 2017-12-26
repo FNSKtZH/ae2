@@ -52,6 +52,14 @@ const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `
+const ExportButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const MutationButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 
 const enhance = compose(
   activeNodeArrayData,
@@ -170,24 +178,44 @@ const RCO = ({
             minWidth={width}
           />
         )}
-        {rCO.length > 0 && (
-          <ButtonsContainer>
-            <FlatButton
-              label="xlsx exportieren"
-              onClick={() =>
-                exportXlsx({
-                  rows: rCO,
-                  onSetMessage: console.log,
-                  columns: keys,
-                })
-              }
-            />
-            <FlatButton
-              label="csv exportieren"
-              onClick={() => exportCsv(rCO)}
-            />
-          </ButtonsContainer>
-        )}
+        <ButtonsContainer>
+          {rCO.length > 0 && (
+            <ExportButtons>
+              <FlatButton
+                label="xlsx exportieren"
+                onClick={() =>
+                  exportXlsx({
+                    rows: rCO,
+                    onSetMessage: console.log,
+                    columns: keys,
+                  })
+                }
+              />
+              <FlatButton
+                label="csv exportieren"
+                onClick={() => exportCsv(rCO)}
+              />
+            </ExportButtons>
+          )}
+          {userIsWriter &&
+            rCO.length > 0 && (
+              <MutationButtons>
+                <FlatButton
+                  label="Daten löschen"
+                  onClick={() => console.log('TODO')}
+                />
+              </MutationButtons>
+            )}
+          {userIsWriter &&
+            rCO.length === 0 && (
+              <MutationButtons>
+                <FlatButton
+                  label="Daten importieren"
+                  onClick={() => console.log('TODO')}
+                />
+              </MutationButtons>
+            )}
+        </ButtonsContainer>
       </GridContainer>
     </Container>
   )

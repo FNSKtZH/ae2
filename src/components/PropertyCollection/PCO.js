@@ -187,11 +187,20 @@ const PCO = ({
               />
             </ExportButtons>
           )}
-          {pCO.length > 0 &&
-            userIsWriter && (
+          {userIsWriter &&
+            pCO.length > 0 && (
               <MutationButtons>
                 <FlatButton
                   label="Daten löschen"
+                  onClick={() => console.log('TODO')}
+                />
+              </MutationButtons>
+            )}
+          {userIsWriter &&
+            pCO.length === 0 && (
+              <MutationButtons>
+                <FlatButton
+                  label="Daten importieren"
                   onClick={() => console.log('TODO')}
                 />
               </MutationButtons>
