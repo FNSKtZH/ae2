@@ -49,10 +49,11 @@
     - Einfachere Verwaltung,
     - Datenauswertung
     - und Gewährleistung der Datenintegrität
-- [GraphQL](https://github.com/facebook/graphql) in Form von [PostGraphQL](https://github.com/postgraphql/postgraphql) und [Apollo](https://www.apollodata.com)
+- [GraphQL](https://github.com/facebook/graphql) in Form von [PostGraphQL](https://github.com/postgraphql/postgraphql)
   - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
   - Weniger Code = weniger Fehler<br/>
   - Die Daten-Logik liegt in der Datenbank - wo sie hingehört<br/>
+- [Apollo](https://www.apollodata.com)
   - "React für Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQL und Apollo kümmern sich um die Bereitstellung
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
