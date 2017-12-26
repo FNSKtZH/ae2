@@ -163,7 +163,7 @@ const PCO = ({
         {pCO.length > 0 && (
           <ButtonsContainer>
             <FlatButton
-              label=".xlsx exportieren"
+              label="xlsx exportieren"
               onClick={() =>
                 exportXlsx({
                   rows: pCO,
@@ -173,7 +173,7 @@ const PCO = ({
               }
             />
             <FlatButton
-              label=".csv exportieren"
+              label="csv exportieren"
               onClick={() => exportCsv(pCO)}
             />
           </ButtonsContainer>

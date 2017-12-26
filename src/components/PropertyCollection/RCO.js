@@ -173,7 +173,7 @@ const RCO = ({
         {rCO.length > 0 && (
           <ButtonsContainer>
             <FlatButton
-              label=".xlsx exportieren"
+              label="xlsx exportieren"
               onClick={() =>
                 exportXlsx({
                   rows: rCO,
@@ -183,7 +183,7 @@ const RCO = ({
               }
             />
             <FlatButton
-              label=".csv exportieren"
+              label="csv exportieren"
               onClick={() => exportCsv(rCO)}
             />
           </ButtonsContainer>
