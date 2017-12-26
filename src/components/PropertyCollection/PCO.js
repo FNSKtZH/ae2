@@ -16,6 +16,7 @@ import booleanToJaNein from '../../modules/booleanToJaNein'
 import exportXlsx from '../../modules/exportXlsx'
 import exportCsv from '../../modules/exportCsv'
 import pCOData from './pCOData'
+import loginData from '../../modules/loginData'
 
 const Container = styled.div`
   padding-top: 10px;
@@ -56,11 +57,13 @@ const enhance = compose(
   activeNodeArrayData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
-  pCOData
+  pCOData,
+  loginData
 )
 
 const PCO = ({
   pCOData,
+  loginData,
   dimensions,
   sortField,
   sortDirection,
@@ -68,6 +71,7 @@ const PCO = ({
   setSortDirection,
 }: {
   pCOData: Object,
+  loginData: Object,
   dimensions: Object,
   sortField: String,
   sortDirection: String,
@@ -121,6 +125,15 @@ const PCO = ({
     resizable: true,
     sortable: true,
   }))
+  const pCOWriters = get(
+    pCOData,
+    'propertyCollectionById.organizationByOrganizationId.organizationUsersByOrganizationId.nodes',
+    []
+  ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
+  const writerNames = union(pCOWriters.map(w => w.userByUserId.name))
+  const loginName = get(loginData, 'login.username')
+  const userIsWriter = !!loginName && writerNames.includes(loginName)
+  console.log('PCO: userIsWriter:', userIsWriter)
 
   return (
     <Container>
