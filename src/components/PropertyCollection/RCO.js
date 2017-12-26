@@ -9,9 +9,12 @@ import forOwn from 'lodash/forOwn'
 import union from 'lodash/union'
 import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
+import FlatButton from 'material-ui/FlatButton'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import booleanToJaNein from '../../modules/booleanToJaNein'
+import exportXlsx from '../../modules/exportXlsx'
+import exportCsv from '../../modules/exportCsv'
 import rCOData from './rCOData'
 import loginData from '../../modules/loginData'
 
@@ -44,6 +47,10 @@ const TotalDiv = styled.div`
   font-size: small;
   padding-left: 9px;
   margin-top: 4px;
+`
+const ButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
 
 const enhance = compose(
@@ -159,9 +166,27 @@ const RCO = ({
             columns={columns}
             rowGetter={i => rCO[i]}
             rowsCount={rCO.length}
-            minHeight={height - 33}
+            minHeight={height - 33 - 37}
             minWidth={width}
           />
+        )}
+        {rCO.length > 0 && (
+          <ButtonsContainer>
+            <FlatButton
+              label=".xlsx exportieren"
+              onClick={() =>
+                exportXlsx({
+                  rows: rCO,
+                  onSetMessage: console.log,
+                  columns: keys,
+                })
+              }
+            />
+            <FlatButton
+              label=".csv exportieren"
+              onClick={() => exportCsv(rCO)}
+            />
+          </ButtonsContainer>
         )}
       </GridContainer>
     </Container>
