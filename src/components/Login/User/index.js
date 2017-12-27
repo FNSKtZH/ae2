@@ -13,6 +13,7 @@ import setLoginMutation from '../../../modules/loginMutation'
 import loginData from '../../../modules/loginData'
 import userData from './userData'
 import Roles from './Roles'
+import PCs from './PCs'
 
 const Container = styled.div`
   padding: 10px;
@@ -70,7 +71,6 @@ const User = ({
   userData: Object,
 }) => {
   const user = get(userData, 'userByName', {})
-  user.name && console.log('User: user:', user)
 
   return (
     <Container>
@@ -100,6 +100,7 @@ const User = ({
         }}
       />
       <Roles orgUsers={get(user, 'organizationUsersByUserId.nodes', [])} />
+      <PCs pcs={get(user, 'propertyCollectionsByImportedBy.nodes', [])} />
       <RaisedButton label="Neu anmelden" onClick={logout} />
     </Container>
   )
