@@ -6,7 +6,6 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FlatButton from 'material-ui/FlatButton'
-import FontIcon from 'material-ui/FontIcon'
 import { withApollo } from 'react-apollo'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -38,17 +37,9 @@ const MenuDiv = styled.div`
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
 `
-const SymbolIcon = styled(FontIcon)`
-  color: ${props =>
-    props['data-visible']
-      ? 'rgb(255, 255, 255) !important'
-      : 'rgba(255, 255, 255, 0.298039) !important'};
-  margin-left: -5px !important;
-`
 const iconMenuAnchorOrigin = { horizontal: 'left', vertical: 'bottom' }
 const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
-const importMenuStyle = { paddingTop: 4 }
 
 const enhance = compose(
   withApollo,
@@ -66,10 +57,6 @@ const enhance = compose(
     },
     onClickColumnButtonExport: ({ client }) => () =>
       app.history.push('/Export'),
-    onClickImportPc: ({ client }) => () =>
-      app.history.push('/Import/Eigenschaften-Sammlungen'),
-    onClickImportRc: ({ client }) => () =>
-      app.history.push('/Import/Beziehungs-Sammlungen'),
     onClickColumnButtonLogin: ({ client }) => () => app.history.push('/Login'),
     onChangeImportButton: ({ client }) => (event, key, value) =>
       app.history.push(`/Import/${value}`),
@@ -82,8 +69,6 @@ const MyAppBar = ({
   activeNodeArrayData,
   onClickColumnButtonData,
   onClickColumnButtonExport,
-  onClickImportPc,
-  onClickImportRc,
   onChangeImportButton,
   onClickColumnButtonLogin,
   ueberArteigenschaftenOnClick,
@@ -92,8 +77,6 @@ const MyAppBar = ({
   activeNodeArrayData: Object,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
-  onClickImportPc: () => void,
-  onClickImportRc: () => void,
   onChangeImportButton: () => void,
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
@@ -101,10 +84,6 @@ const MyAppBar = ({
 }) => {
   const activeNodeArray = activeNodeArrayData.activeNodeArray || []
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
-  const url1 = activeNodeArray[1] && activeNodeArray[1].toLowerCase()
-  let importDropdownValue = 'Import'
-  if (url1 && url0 === 'import')
-    importDropdownValue = `Import ${activeNodeArray[1]}`
   const login = get(loginData, 'login')
   const username = login && login.username ? login.username : null
   const loginLabel = username ? username : 'nicht angemeldet'
@@ -126,36 +105,6 @@ const MyAppBar = ({
             data-visible={url0 !== 'export'}
             onClick={onClickColumnButtonExport}
           />
-          <IconMenu
-            iconButtonElement={
-              <Button
-                label={importDropdownValue}
-                labelPosition="before"
-                data-visible={url0 !== 'import'}
-                icon={
-                  <SymbolIcon
-                    id="dropdownButtonSymbol"
-                    className="material-icons"
-                    data-visible={url0 !== 'import'}
-                  >
-                    expand_more
-                  </SymbolIcon>
-                }
-              />
-            }
-            anchorOrigin={iconMenuAnchorOrigin}
-            targetOrigin={iconMenuTargetOrigin}
-            style={importMenuStyle}
-          >
-            <MenuItem
-              primaryText="Eigenschaften-Sammlungen"
-              onClick={onClickImportPc}
-            />
-            <MenuItem
-              primaryText="Beziehungs-Sammlungen"
-              onClick={onClickImportRc}
-            />
-          </IconMenu>
           <Button
             label={loginLabel}
             data-visible={url0 !== 'login'}
