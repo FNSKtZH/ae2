@@ -12,6 +12,7 @@ import get from 'lodash/get'
 import setLoginMutation from '../../../modules/loginMutation'
 import loginData from '../../../modules/loginData'
 import userData from './userData'
+import Roles from './Roles'
 
 const Container = styled.div`
   padding: 10px;
@@ -98,6 +99,7 @@ const User = ({
           }
         }}
       />
+      <Roles orgUsers={get(user, 'organizationUsersByUserId.nodes', [])} />
       <RaisedButton label="Neu anmelden" onClick={logout} />
     </Container>
   )
