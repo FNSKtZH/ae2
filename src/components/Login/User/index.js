@@ -22,7 +22,7 @@ const enhance = compose(
   loginData,
   userData,
   withHandlers({
-    logout: props => async (namePassed, passPassed) => {
+    logout: props => async (namePassed, emailPassed) => {
       const { client } = props
       await app.idb.users.clear()
       client.mutate({
@@ -40,13 +40,13 @@ const enhance = compose(
 const User = ({
   store,
   name,
-  pass,
+  email,
   nameErrorText,
-  passErrorText,
+  emailErrorText,
   changeNameErrorText,
-  changePassErrorText,
+  changeEmailErrorText,
   onBlurName,
-  onBlurPassword,
+  onBlurEmail,
   logout,
   loginSuccessfull,
   loginData,
@@ -55,14 +55,14 @@ const User = ({
   store: Object,
   name: string,
   changeName: () => void,
-  pass: string,
-  changePass: () => void,
+  email: string,
+  changeEmail: () => void,
   nameErrorText: string,
   changeNameErrorText: () => void,
-  passErrorText: string,
-  changePassErrorText: () => void,
+  emailErrorText: string,
+  changeEmailErrorText: () => void,
   onBlurName: () => void,
-  onBlurPassword: () => void,
+  onBlurEmail: () => void,
   logout: () => void,
   loginSuccessfull: Boolean,
   loginData: Object,
@@ -89,12 +89,12 @@ const User = ({
       <TextField
         floatingLabelText="Email"
         value={user.email || ''}
-        onBlur={onBlurPassword}
-        errorText={passErrorText}
+        onBlur={onBlurEmail}
+        errorText={emailErrorText}
         fullWidth
         onKeyPress={e => {
           if (e.key === 'Enter') {
-            onBlurPassword(e)
+            onBlurEmail(e)
           }
         }}
       />
