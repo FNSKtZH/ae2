@@ -9,8 +9,8 @@ import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
 
-import setLoginMutation from '../../modules/loginMutation'
-import loginData from '../../modules/loginData'
+import setLoginMutation from '../../../modules/loginMutation'
+import loginData from '../../../modules/loginData'
 import userData from './userData'
 
 const Container = styled.div`
