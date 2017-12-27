@@ -71,6 +71,8 @@ const User = ({
   userData: Object,
 }) => {
   const user = get(userData, 'userByName', {})
+  const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
+  const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
 
   return (
     <Container>
@@ -99,8 +101,8 @@ const User = ({
           }
         }}
       />
-      <Roles orgUsers={get(user, 'organizationUsersByUserId.nodes', [])} />
-      <PCs pcs={get(user, 'propertyCollectionsByImportedBy.nodes', [])} />
+      {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
+      {pcs.length > 0 && <PCs pcs={pcs} />}
       <RaisedButton label="Neu anmelden" onClick={logout} />
     </Container>
   )

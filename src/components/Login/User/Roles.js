@@ -6,11 +6,11 @@ import styled from 'styled-components'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 15px;
 `
 const Label = styled.div`
   color: rgba(0, 0, 0, 0.3);
   margin-bottom: 10px;
-  margin-top: 10px;
 `
 const List = styled.div`
   column-width: 400px;
