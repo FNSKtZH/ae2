@@ -57,6 +57,13 @@ const Taxonomy = ({ taxData }: { taxData: Object }) => {
           label="Nutzungsbedingungen"
         />
       )}
+      {!!get(tax, 'userByImportedBy.name') && (
+        <PropertyReadOnly
+          key="userByImportedBy"
+          value={get(tax, 'userByImportedBy.name')}
+          label="Importiert von"
+        />
+      )}
       {!!get(tax, 'organizationByOrganizationId.name') && (
         <PropertyReadOnly
           key="organizationByOrganizationId"

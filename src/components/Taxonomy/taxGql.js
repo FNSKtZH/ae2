@@ -14,7 +14,10 @@ export default gql`
         name
       }
       isCategoryStandard
-      importedBy
+      userByImportedBy {
+        id
+        name
+      }
       termsOfUse
       habitatLabel
       habitatComments
