@@ -71,6 +71,34 @@ const Taxonomy = ({ taxData }: { taxData: Object }) => {
           label="Ist Standard-Taxonomie für Gruppe"
         />
       )}
+      {!!tax.habitatLabel && (
+        <PropertyReadOnly
+          key="habitatLabel"
+          value={tax.habitatLabel}
+          label="Label"
+        />
+      )}
+      {!!tax.habitatNrFnsMin && (
+        <PropertyReadOnly
+          key="habitatNrFnsMin"
+          value={tax.habitatNrFnsMin}
+          label="FNS-Nr. von"
+        />
+      )}
+      {!!tax.habitatNrFnsMax && (
+        <PropertyReadOnly
+          key="habitatNrFnsMax"
+          value={tax.habitatNrFnsMax}
+          label="FNS-Nr. bis"
+        />
+      )}
+      {!!tax.habitatComments && (
+        <PropertyReadOnly
+          key="habitatComments"
+          value={tax.habitatComments}
+          label="Bemerkungen"
+        />
+      )}
     </Container>
   )
 }
