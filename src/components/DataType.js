@@ -3,6 +3,7 @@ import React from 'react'
 import compose from 'recompose/compose'
 
 import Objekt from './Objekt'
+import Taxonomy from './Taxonomy'
 import PropertyCollection from './PropertyCollection'
 import PCO from './PropertyCollection/PCO'
 import RCO from './PropertyCollection/RCO'
@@ -20,7 +21,12 @@ const DataType = ({
 }) => {
   const { activeNodeArray } = activeNodeArrayData
   const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
-  const showObjekt = activeNodeArray[0] === 'Taxonomien' && activeObjectId
+  const showObjekt =
+    activeNodeArray[0] === 'Taxonomien' &&
+    activeNodeArray.length > 3 &&
+    !!activeObjectId
+  const showTaxonomy =
+    activeNodeArray[0] === 'Taxonomien' && activeNodeArray.length === 3
   const showPC =
     activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
     activeNodeArray[1] &&
@@ -36,6 +42,7 @@ const DataType = ({
     activeNodeArray.length === 3 &&
     activeNodeArray[2] === 'Beziehungen'
 
+  if (showTaxonomy) return <Taxonomy />
   if (showObjekt) return <Objekt />
   if (showPC) return <PropertyCollection />
   if (showPCO) return <PCO dimensions={dimensions} />
