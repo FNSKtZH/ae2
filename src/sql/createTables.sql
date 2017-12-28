@@ -39,6 +39,14 @@ CREATE TABLE ae.taxonomy (
   habitat_nr_fns_max integer DEFAULT NULL,
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
+
+-- only once:
+ALTER TABLE ae.taxonomy add CONSTRAINT taxonomy_imported_by_fkey FOREIGN KEY (imported_by)
+  REFERENCES ae.user (id) MATCH SIMPLE
+  ON UPDATE CASCADE
+  ON DELETE SET NULL;
+
+
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
 ALTER TABLE ae.taxonomy ENABLE ROW LEVEL SECURITY;
