@@ -49,7 +49,7 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
   }
   const existsPCId = pCId !== '99999999-9999-9999-9999-999999999999'
 
-  const rValue = {
+  return {
     existsLevel2Pc,
     notExistsLevel2Pc,
     existsLevel2Taxonomy,
@@ -73,6 +73,4 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
     pCId,
     existsPCId,
   }
-  console.log('treeDataVariables:', rValue)
-  return rValue
 }
