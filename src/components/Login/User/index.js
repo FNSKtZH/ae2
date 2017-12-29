@@ -24,7 +24,7 @@ const enhance = compose(
   loginData,
   userData,
   withHandlers({
-    logout: props => async (namePassed, emailPassed) => {
+    logout: props => async () => {
       const { client } = props
       await app.idb.users.clear()
       client.mutate({
@@ -35,6 +35,9 @@ const enhance = compose(
           token: '',
         },
       })
+    },
+    save: props => () => {
+      // check if name or email is changed
     },
   })
 )
@@ -49,7 +52,9 @@ const User = ({
   changeEmailErrorText,
   onBlurName,
   onBlurEmail,
+  onBlurPassword,
   logout,
+  save,
   loginSuccessfull,
   loginData,
   userData,
@@ -65,7 +70,9 @@ const User = ({
   changeEmailErrorText: () => void,
   onBlurName: () => void,
   onBlurEmail: () => void,
+  onBlurPassword: () => void,
   logout: () => void,
+  save: () => void,
   loginSuccessfull: Boolean,
   loginData: Object,
   userData: Object,
@@ -81,7 +88,6 @@ const User = ({
         value={user.name || ''}
         onBlur={onBlurName}
         errorText={nameErrorText}
-        fullWidth
         autoFocus
         onKeyPress={e => {
           if (e.key === 'Enter') {
@@ -94,13 +100,24 @@ const User = ({
         value={user.email || ''}
         onBlur={onBlurEmail}
         errorText={emailErrorText}
-        fullWidth
         onKeyPress={e => {
           if (e.key === 'Enter') {
             onBlurEmail(e)
           }
         }}
       />
+      <TextField
+        floatingLabelText="Passwort"
+        type="password"
+        defaultValue=""
+        onBlur={onBlurPassword}
+        onKeyPress={e => {
+          if (e.key === 'Enter') {
+            onBlurPassword(e)
+          }
+        }}
+      />
+      <RaisedButton label="Änderungen speichern" onClick={save} />
       {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
       {pcs.length > 0 && <PCs pcs={pcs} />}
       <RaisedButton label="Neu anmelden" onClick={logout} />

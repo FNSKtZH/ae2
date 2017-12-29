@@ -9,7 +9,7 @@ declare
   result auth.jwt_token;
 begin
   -- check username and password
-  select auth.user_role($1, $2) into _role;
+  select auth.user_role($1, $3) into _role;
   if _role is null then
     raise invalid_password using message = 'invalid user or password';
   end if;
