@@ -22,6 +22,8 @@ const Taxonomy = ({ taxData }: { taxData: Object }) => {
     return <Container>Lade Daten...</Container>
   }
   const tax = get(taxData, 'taxonomyById', {})
+  const importedByName = get(tax, 'userByImportedBy.name')
+  const organizationName = get(tax, 'organizationByOrganizationId.name')
   console.log('Taxonomy: tax:', tax)
 
   return (
@@ -57,17 +59,17 @@ const Taxonomy = ({ taxData }: { taxData: Object }) => {
           label="Nutzungsbedingungen"
         />
       )}
-      {!!get(tax, 'userByImportedBy.name') && (
+      {!!importedByName && (
         <PropertyReadOnly
           key="userByImportedBy"
-          value={get(tax, 'userByImportedBy.name')}
+          value={importedByName}
           label="Importiert von"
         />
       )}
-      {!!get(tax, 'organizationByOrganizationId.name') && (
+      {!!organizationName && (
         <PropertyReadOnly
           key="organizationByOrganizationId"
-          value={get(tax, 'organizationByOrganizationId.name')}
+          value={organizationName}
           label="Zuständige Organisation"
         />
       )}
