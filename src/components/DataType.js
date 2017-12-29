@@ -42,7 +42,8 @@ const DataType = ({
     activeNodeArray.length === 3 &&
     activeNodeArray[2] === 'Beziehungen'
 
-  if (showTaxonomy) return <Taxonomy />
+  // TODO: returning Taxonomy causes apollo error in tree
+  //if (showTaxonomy) return <Taxonomy />
   if (showObjekt) return <Objekt />
   if (showPC) return <PropertyCollection />
   if (showPCO) return <PCO dimensions={dimensions} />
