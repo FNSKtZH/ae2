@@ -1,7 +1,7 @@
 -- function takes an user name, old password, new password, email
 -- and updates this data if the credentials match a user in the internal table
 -- and returns an updated token
-create or replace function ae.edit_user(username text, pass text, pass_new text, email text)
+create or replace function ae.edit_user(username text, username_new text, pass text, pass_new text, email text)
 returns auth.jwt_token
   as $$
 declare
@@ -16,6 +16,11 @@ begin
   if _role is null then
     raise invalid_password using message = 'invalid user or password';
   end if;
+
+  -- update auth.user
+  UPDATE auth.user
+  SET name = $2, pass = $4, email = $5
+  WHERE name = $1;
 
   select auth.sign(
       row_to_json(r), current_setting('app.jwt_secret')
