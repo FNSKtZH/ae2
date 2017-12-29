@@ -6,9 +6,6 @@ returns auth.jwt_token
   as $$
 declare
   _role name;
-  _username text;
-  _pass text;
-  _email text;
   result auth.jwt_token;
 begin
   -- check username and password
