@@ -58,8 +58,8 @@ const enhance = compose(
       pass
     }) => () => {
       // check if name or email is changed or password is set
-      const user = get(userData, 'userByName', {})
-      const changed = !!pass || name !== user.name || email !== user.email
+      //const user = get(userData, 'userByName', {})
+      //const changed = !!pass || name !== user.name || email !== user.email
     },
   })
 )
@@ -78,26 +78,24 @@ const User = ({
     onBlurPassword,
     logout,
     save,
-    loginSuccessfull,
     loginData,
-    userData,
+    userData
   }: {
     store: Object,
-    name: string,
+    name: String,
     changeName: () => void,
-    email: string,
-    pass: string,
+    email: String,
+    pass: String,
     changeEmail: () => void,
-    nameErrorText: string,
+    nameErrorText: String,
     changeNameErrorText: () => void,
-    emailErrorText: string,
+    emailErrorText: String,
     changeEmailErrorText: () => void,
     onBlurName: () => void,
     onBlurEmail: () => void,
     onBlurPassword: () => void,
     logout: () => void,
     save: () => void,
-    loginSuccessfull: Boolean,
     loginData: Object,
     userData: Object,
   }) => {
