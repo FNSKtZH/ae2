@@ -43,8 +43,13 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
   const level10Taxonomy = existsLevel10
     ? activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
+  let pCId = '99999999-9999-9999-9999-999999999999'
+  if (activeNodeArray[0] === 'Eigenschaften-Sammlungen' && activeNodeArray[1]) {
+    pCId = activeNodeArray[1]
+  }
+  const existsPCId = pCId !== '99999999-9999-9999-9999-999999999999'
 
-  return {
+  const rValue = {
     existsLevel2Pc,
     notExistsLevel2Pc,
     existsLevel2Taxonomy,
@@ -65,5 +70,9 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
     level9Taxonomy,
     existsLevel10,
     level10Taxonomy,
+    pCId,
+    existsPCId,
   }
+  console.log('treeDataVariables:', rValue)
+  return rValue
 }
