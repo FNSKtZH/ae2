@@ -70,6 +70,7 @@ export default gql`
     }
     level4Taxonomy: taxonomyById(id: $level4Taxonomy)
       @include(if: $existsLevel4) {
+      id
       objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
         nodes {
           id
