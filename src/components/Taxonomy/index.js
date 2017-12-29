@@ -24,7 +24,6 @@ const Taxonomy = ({ taxData }: { taxData: Object }) => {
   const tax = get(taxData, 'taxonomyById', {})
   const importedByName = get(tax, 'userByImportedBy.name')
   const organizationName = get(tax, 'organizationByOrganizationId.name')
-  console.log('Taxonomy: tax:', tax)
 
   return (
     <Container>
