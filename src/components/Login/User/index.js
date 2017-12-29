@@ -95,17 +95,20 @@ class User extends Component {
           floatingLabelText="Name"
           value={name}
           onChange={this.onChangeName}
+          fullWidth
         />
         <TextField
           floatingLabelText="Email"
           value={email}
           onChange={this.onChangeEmail}
+          fullWidth
         />
         <TextField
           floatingLabelText="Passwort"
           type="password"
           value={pass}
           onChange={this.onChangePass}
+          fullWidth
         />
         <RaisedButton
           label="Änderungen speichern"
