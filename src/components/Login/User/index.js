@@ -7,6 +7,7 @@ import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
+import jwtDecode from 'jwt-decode'
 
 import setLoginMutation from '../../../modules/loginMutation'
 import loginData from '../../../modules/loginData'
@@ -24,7 +25,14 @@ const enhance = compose(withApollo, loginData, userData)
 class User extends Component {
   constructor(props) {
     super(props)
-    this.state = { name: undefined, email: undefined, pass: '', passNew: '' }
+    this.state = {
+      name: undefined,
+      nameErrorText: null,
+      email: undefined,
+      pass: '',
+      passErrorText: null,
+      passNew: '',
+    }
   }
 
   props: {
@@ -71,32 +79,76 @@ class User extends Component {
     })
   }
 
-  onSave = () => {
+  onSave = async () => {
     const { name: usernameNew, email, pass, passNew } = this.state
     const { userData, client } = this.props
     const { name: username } = get(userData, 'userByName', {})
-    client.mutate({
-      mutation: userMutation,
-      variables: {
+    let result
+    try {
+      result = await client.mutate({
+        mutation: userMutation,
+        variables: {
+          username,
+          usernameNew,
+          email,
+          pass,
+          passNew: passNew ? passNew : pass,
+        },
+      })
+    } catch (error) {
+      const messages = error.graphQLErrors.map(x => x.message)
+      const isNamePassError =
+        messages.includes('invalid user or password') ||
+        messages.includes('permission denied for relation user')
+      if (isNamePassError) {
+        const message = 'Name oder Passwort nicht bekannt'
+        return this.setState({ nameErrorText: message, passErrorText: message })
+      }
+      return console.log(error)
+    }
+    const jwtToken = get(result, 'data.login.jwtToken')
+    if (jwtToken) {
+      const tokenDecoded = jwtDecode(jwtToken)
+      const { role, username } = tokenDecoded
+      // refresh currentUser in idb
+      await app.idb.users.clear()
+      await app.idb.users.put({
         username,
-        usernameNew,
-        email,
-        pass,
-        passNew: passNew ? passNew : pass,
-      },
-    })
+        token: jwtToken,
+        role,
+      })
+      try {
+        client.mutate({
+          mutation: setLoginMutation,
+          variables: {
+            username,
+            role,
+            token: jwtToken,
+          },
+        })
+      } catch (error) {
+        console.log(('Error during mutation': error))
+      }
+      this.setState({
+        nameErrorText: null,
+        passErrorText: null,
+      })
+    }
   }
 
   render() {
     const { userData } = this.props
-    const { name, email, pass, passNew } = this.state
+    const {
+      name,
+      nameErrorText,
+      email,
+      pass,
+      passErrorText,
+      passNew,
+    } = this.state
     const user = get(userData, 'userByName', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
-    const saveDisabled =
-      !pass &&
-      (!(!!name && !!user.name && !!email && !!user.email) ||
-        (name === user.name && email === user.email))
     const showPass =
       !!name &&
       !!user.name &&
@@ -109,6 +161,7 @@ class User extends Component {
       <Container>
         <TextField
           floatingLabelText="Name"
+          errorText={nameErrorText}
           value={name}
           onChange={this.onChangeName}
           fullWidth
@@ -122,6 +175,7 @@ class User extends Component {
         {showPass && (
           <TextField
             floatingLabelText="Passwort (aktuell)"
+            errorText={passErrorText}
             type="password"
             value={pass}
             onChange={this.onChangePass}
