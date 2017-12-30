@@ -77,7 +77,7 @@ CREATE TABLE ae.user (
   email text NOT NULL UNIQUE,
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
--- TODO: org_admin should be able also
+-- TODO: org_admin should be able to edit user
 CREATE POLICY
   reader_writer
   ON ae.user
