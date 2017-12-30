@@ -30,7 +30,7 @@ class User extends Component {
       nameErrorText: null,
       email: undefined,
       pass: '',
-      passErrorText: null,
+      passErrorText: 'Passwort nötig, um Änderungen zu speichern',
       passNew: '',
     }
   }
@@ -170,6 +170,14 @@ class User extends Component {
           onChange={this.onChangeVal}
           fullWidth
         />
+        <TextField
+          name="passNew"
+          floatingLabelText="Passwort ändern"
+          type="password"
+          value={passNew}
+          onChange={this.onChangeVal}
+          fullWidth
+        />
         {showPass && (
           <TextField
             name="pass"
@@ -181,14 +189,6 @@ class User extends Component {
             fullWidth
           />
         )}
-        <TextField
-          name="passNew"
-          floatingLabelText="Passwort (neu)"
-          type="password"
-          value={passNew}
-          onChange={this.onChangeVal}
-          fullWidth
-        />
         <RaisedButton
           label="Änderungen speichern"
           onClick={this.onSave}
