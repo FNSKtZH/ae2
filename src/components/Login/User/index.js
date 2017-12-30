@@ -4,7 +4,6 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
@@ -20,23 +19,16 @@ const Container = styled.div`
   padding: 10px;
 `
 
-const enhance = compose(
-  withApollo,
-  loginData,
-  userData,
-  withHandlers({
-    logout: props => async () => {},
-  })
-)
+const enhance = compose(withApollo, loginData, userData)
 
 class User extends Component {
   constructor(props) {
     super(props)
-    this.state = { name: undefined, email: undefined, pass: '' }
+    this.state = { name: undefined, email: undefined, pass: '', passNew: '' }
   }
 
   props: {
-    logout: () => void,
+    client: Object,
     loginData: Object,
     userData: Object,
   }
@@ -62,9 +54,13 @@ class User extends Component {
     this.setState({ pass: value })
   }
 
-  onLogout = async () => {
+  onChangePassNew = (e, value) => {
+    this.setState({ passNew: value })
+  }
+
+  onLogout = () => {
     const { client } = this.props
-    await app.idb.users.clear()
+    app.idb.users.clear()
     client.mutate({
       mutation: setLoginMutation,
       variables: {
@@ -76,18 +72,24 @@ class User extends Component {
   }
 
   onSave = () => {
-    const { name: username_new, email, pass: pass_new } = this.state
+    const { name: usernameNew, email, pass, passNew } = this.state
     const { userData, client } = this.props
     const { name: username } = get(userData, 'userByName', {})
     client.mutate({
       mutation: userMutation,
-      variables: { username, username_new, email, pass, pass_new },
+      variables: {
+        username,
+        usernameNew,
+        email,
+        pass,
+        passNew: passNew ? passNew : pass,
+      },
     })
   }
 
   render() {
-    const { logout, userData } = this.props
-    const { name, email, pass } = this.state
+    const { userData } = this.props
+    const { name, email, pass, passNew } = this.state
     const user = get(userData, 'userByName', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
@@ -95,6 +97,13 @@ class User extends Component {
       !pass &&
       (!(!!name && !!user.name && !!email && !!user.email) ||
         (name === user.name && email === user.email))
+    const showPass =
+      !!name &&
+      !!user.name &&
+      !!email &&
+      !!user.email &&
+      (name !== user.name || email !== user.email)
+    const saveEnabled = !!pass && showPass
 
     return (
       <Container>
@@ -110,17 +119,26 @@ class User extends Component {
           onChange={this.onChangeEmail}
           fullWidth
         />
+        {showPass && (
+          <TextField
+            floatingLabelText="Passwort (aktuell)"
+            type="password"
+            value={pass}
+            onChange={this.onChangePass}
+            fullWidth
+          />
+        )}
         <TextField
-          floatingLabelText="Passwort"
+          floatingLabelText="Passwort (neu)"
           type="password"
-          value={pass}
-          onChange={this.onChangePass}
+          value={passNew}
+          onChange={this.onChangePassNew}
           fullWidth
         />
         <RaisedButton
           label="Änderungen speichern"
           onClick={this.onSave}
-          disabled={saveDisabled}
+          disabled={!saveEnabled}
         />
         {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
         {pcs.length > 0 && <PCs pcs={pcs} />}

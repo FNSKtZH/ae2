@@ -4,17 +4,17 @@ import gql from 'graphql-tag'
 export default gql`
   mutation editUser(
     $username: String
-    $username_new: String
+    $usernameNew: String
     $pass: String
-    $pass_new: String
+    $passNew: String
     $email: String
   ) {
     editUser(
       input: {
         username: $username
-        username_new: $username_new
+        usernameNew: $usernameNew
         pass: $pass
-        pass_new: $pass_new
+        passNew: $passNew
         email: $email
       }
     ) {
