@@ -14,6 +14,7 @@ import loginData from '../../../modules/loginData'
 import userData from './userData'
 import Roles from './Roles'
 import PCs from './PCs'
+import userMutation from './userMutation'
 
 const Container = styled.div`
   padding: 10px;
@@ -24,23 +25,7 @@ const enhance = compose(
   loginData,
   userData,
   withHandlers({
-    logout: props => async () => {
-      const { client } = props
-      await app.idb.users.clear()
-      client.mutate({
-        mutation: setLoginMutation,
-        variables: {
-          username: '',
-          role: '',
-          token: '',
-        },
-      })
-    },
-    save: ({ userData, name, email, pass }) => () => {
-      // check if name or email is changed or password is set
-      //const user = get(userData, 'userByName', {})
-      //const changed = !!pass || name !== user.name || email !== user.email
-    },
+    logout: props => async () => {},
   })
 )
 
@@ -52,7 +37,6 @@ class User extends Component {
 
   props: {
     logout: () => void,
-    save: () => void,
     loginData: Object,
     userData: Object,
   }
@@ -78,8 +62,31 @@ class User extends Component {
     this.setState({ pass: value })
   }
 
+  onLogout = async () => {
+    const { client } = this.props
+    await app.idb.users.clear()
+    client.mutate({
+      mutation: setLoginMutation,
+      variables: {
+        username: '',
+        role: '',
+        token: '',
+      },
+    })
+  }
+
+  onSave = () => {
+    const { name: username_new, email, pass: pass_new } = this.state
+    const { userData, client } = this.props
+    const { name: username } = get(userData, 'userByName', {})
+    client.mutate({
+      mutation: userMutation,
+      variables: { username, username_new, email, pass, pass_new },
+    })
+  }
+
   render() {
-    const { logout, save, userData } = this.props
+    const { logout, userData } = this.props
     const { name, email, pass } = this.state
     const user = get(userData, 'userByName', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
@@ -112,12 +119,12 @@ class User extends Component {
         />
         <RaisedButton
           label="Änderungen speichern"
-          onClick={save}
+          onClick={this.onSave}
           disabled={saveDisabled}
         />
         {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
         {pcs.length > 0 && <PCs pcs={pcs} />}
-        <RaisedButton label="Neu anmelden" onClick={logout} />
+        <RaisedButton label="Neu anmelden" onClick={this.onLogout} />
       </Container>
     )
   }
