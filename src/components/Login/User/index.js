@@ -46,24 +46,17 @@ class User extends Component {
     const prevPropsUser = get(prevProps.userData, 'userByName', {})
 
     if (!!propsUser.id && prevPropsUser.id === undefined) {
-      this.setState({ name: propsUser.name, email: propsUser.email })
+      this.setState({
+        name: propsUser.name,
+        email: propsUser.email,
+      })
     }
   }
 
-  onChangeName = (e, value) => {
-    this.setState({ name: value })
-  }
-
-  onChangeEmail = (e, value) => {
-    this.setState({ email: value })
-  }
-
-  onChangePass = (e, value) => {
-    this.setState({ pass: value })
-  }
-
-  onChangePassNew = (e, value) => {
-    this.setState({ passNew: value })
+  onChangeVal = (e, val) => {
+    this.setState({
+      [e.target.name]: val,
+    })
   }
 
   onLogout = () => {
@@ -102,7 +95,10 @@ class User extends Component {
         messages.includes('permission denied for relation user')
       if (isNamePassError) {
         const message = 'Name oder Passwort nicht bekannt'
-        return this.setState({ nameErrorText: message, passErrorText: message })
+        return this.setState({
+          nameErrorText: message,
+          passErrorText: message,
+        })
       }
       return console.log(error)
     }
@@ -160,33 +156,37 @@ class User extends Component {
     return (
       <Container>
         <TextField
+          name="name"
           floatingLabelText="Name"
           errorText={nameErrorText}
           value={name}
-          onChange={this.onChangeName}
+          onChange={this.onChangeVal}
           fullWidth
         />
         <TextField
+          name="email"
           floatingLabelText="Email"
           value={email}
-          onChange={this.onChangeEmail}
+          onChange={this.onChangeVal}
           fullWidth
         />
         {showPass && (
           <TextField
+            name="pass"
             floatingLabelText="Passwort (aktuell)"
             errorText={passErrorText}
             type="password"
             value={pass}
-            onChange={this.onChangePass}
+            onChange={this.onChangeVal}
             fullWidth
           />
         )}
         <TextField
+          name="passNew"
           floatingLabelText="Passwort (neu)"
           type="password"
           value={passNew}
-          onChange={this.onChangePassNew}
+          onChange={this.onChangeVal}
           fullWidth
         />
         <RaisedButton
