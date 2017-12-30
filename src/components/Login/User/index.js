@@ -123,7 +123,7 @@ class User extends Component {
           },
         })
       } catch (error) {
-        console.log(('Error during mutation': error))
+        console.log(('Error during setLoginMutation': error))
       }
       this.setState({
         nameErrorText: null,
