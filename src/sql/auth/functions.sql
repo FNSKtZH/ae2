@@ -13,39 +13,19 @@ begin
 end
 $$;
 
-drop trigger if exists ensure_user_role_exists on auth.user;
+drop trigger if exists ensure_user_role_exists on ae.user;
 create constraint trigger ensure_user_role_exists
-  after insert or update on auth.user
+  after insert or update on ae.user
   for each row
   execute procedure auth.check_role_exists();
 
--- make sure ae.user is updated, when auth.user is
-create or replace function keep_ae_user_updated_on_update() returns trigger language plpgsql as
-$$
-begin
-  update ae.user
-  set name = new.name, email = new.email
-  where ae.user.id = new.id;
-end
-$$;
-drop trigger if exists keep_ae_user_updated_on_update on auth.user;
-create trigger keep_ae_user_updated_on_update AFTER UPDATE ON auth.user
-  for each row execute procedure keep_ae_user_updated_on_update();
+-- make sure ae.user is updated, when ae.user is
+--drop function keep_ae_user_updated_on_update()
+--drop trigger if exists keep_ae_user_updated_on_update on ae.user;
 
--- make sure ae.user is inserted, when auth.user is
-create or replace function keep_ae_user_updated_on_insert() returns trigger as
-$$
-  begin
-    INSERT INTO
-      ae.user(id, name, email)
-      VALUES(new.id, new.name, new.email);
-    RETURN new;
-  end;
-$$
-language plpgsql;
-drop trigger if exists keep_ae_user_updated_on_insert on auth.user;
-create trigger keep_ae_user_updated_on_insert after insert on auth.user
-  for each row execute procedure keep_ae_user_updated_on_insert();
+-- make sure ae.user is inserted, when ae.user is
+--drop function keep_ae_user_updated_on_insert();
+--drop trigger if exists keep_ae_user_updated_on_insert on ae.user;
 
 create or replace function auth.encrypt_pass() returns trigger as
 $$
@@ -60,9 +40,9 @@ language plpgsql;
 
 -- We’ll use the pgcrypto extension and a trigger
 -- to keep passwords safe in the user table
-drop trigger if exists encrypt_pass on auth.user;
+drop trigger if exists encrypt_pass on ae.user;
 create trigger encrypt_pass
-  before insert or update on auth.user
+  before insert or update on ae.user
   for each row
   execute procedure auth.encrypt_pass();
 
@@ -75,9 +55,9 @@ returns name
   as $$
 begin
   return (
-  select role from auth.user
-   where auth.user.name = $1
-     and auth.user.pass = crypt($2, auth.user.pass)
+  select role from ae.user
+   where ae.user.name = $1
+     and ae.user.pass = crypt($2, ae.user.pass)
   );
 end;
 $$;

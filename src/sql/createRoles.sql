@@ -12,14 +12,14 @@ create role anon;
 grant connect on database ae to anon;
 grant usage on schema public, auth, ae, request to anon;
 grant select on all tables in schema ae to anon;
-grant select on table pg_authid, auth.user to anon;
+grant select on table pg_authid to anon;
 grant execute on function ae.login(text,text) to anon;
 alter default privileges in schema ae
   grant select on tables to anon;
 alter default privileges in schema ae
   grant select, usage on sequences to anon;
 
-grant select on table pg_authid, auth.user to anon;
+grant select on table pg_authid to anon;
 grant execute on function ae.login(text,text) to anon;
 grant execute on function auth.sign(json,text,text) to anon;
 grant execute on function auth.user_role(text,text) to anon;

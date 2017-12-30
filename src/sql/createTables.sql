@@ -77,17 +77,17 @@ CREATE TABLE ae.user (
   email text NOT NULL UNIQUE,
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
+CREATE POLICY
+  reader_writer
+  ON ae.user
+  USING (name = current_user_name())
+  WITH CHECK (name = current_user_name());
 
-CREATE TABLE IF NOT EXISTS auth.user (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  name varchar(30) NOT NULL UNIQUE,
-  role name NOT NULL check (length(role) < 512),
-  -- allow other attributes to be null
-  -- so names and roles can be set beforehand by organization
-  email text DEFAULT NULL UNIQUE check ( email ~* '^.+@.+\..+$' ),
-  pass text NULL,
-  CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
-);
+-- only once:
+--alter table ae.user add column role name check (length(role) < 512);
+--alter table ae.user add column pass text NULL;
+-- add data from auth.user
+--alter table ae.user alter column role set not null;
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (

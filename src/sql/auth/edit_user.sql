@@ -14,8 +14,8 @@ begin
     raise invalid_password using message = 'invalid user or password';
   end if;
 
-  -- update auth.user
-  UPDATE auth.user
+  -- update ae.user
+  UPDATE ae.user
   SET name = $2, pass = $4, email = $5
   WHERE name = $1;
 
@@ -24,8 +24,6 @@ begin
     ) as token
     from (
       select _role as role
-      --$1 as username,
-      --extract(epoch from now())::integer + 60*60*24*30 as exp
     ) r
     into result;
   return (result.token, _role, $1, extract(epoch from (now() + interval '1 week')))::auth.jwt_token;
