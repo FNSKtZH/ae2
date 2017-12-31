@@ -51,9 +51,7 @@ const enhance = compose(
       const name = namePassed || props.name
       const pass = passPassed || props.pass
       if (!name) {
-        return changeNameErrorText(
-          'Geben Sie den Ihnen zugeteilten Benutzernamen ein'
-        )
+        return changeNameErrorText('Bitte Benutzernamen eingeben')
       }
       if (!pass) {
         return changePassErrorText('Bitte Passwort eingeben')

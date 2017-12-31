@@ -112,7 +112,7 @@ class User extends Component {
 
     return (
       <Container>
-        <RaisedButton label="Neu anmelden" onClick={this.onLogout} />{' '}
+        <RaisedButton label="abmelden" onClick={this.onLogout} />{' '}
         <TextField
           name="name"
           floatingLabelText="Name"
