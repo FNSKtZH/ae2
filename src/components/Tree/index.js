@@ -10,7 +10,7 @@ import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
 import Snackbar from 'material-ui/Snackbar'
 
-import Row from './TreeRow'
+import Row from './Row'
 import Filter from './Filter'
 import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
 import activeNodeArrayGql from '../../modules/activeNodeArrayGql'
