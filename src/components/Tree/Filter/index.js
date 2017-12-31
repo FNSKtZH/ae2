@@ -10,7 +10,7 @@ import get from 'lodash/get'
 
 import treeFilterMutation from './treeFilterMutation'
 import treeFilterData from './treeFilterData'
-import filterSuggestionsData from '../../../modules/filterSuggestionsData'
+import filterSuggestionsData from './filterSuggestionsData'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import objectUrlData from '../../../modules/objectUrlData'
 
