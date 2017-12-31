@@ -11,16 +11,7 @@ export default ({
   if (!treeData) return []
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
   const catCount = get(allCategoriesData, 'allCategories.totalCount', 0)
-
-  return [
-    {
-      id: 'Eigenschaften-Sammlungen',
-      url: ['Eigenschaften-Sammlungen'],
-      sort: [2],
-      label: 'Eigenschaften-Sammlungen',
-      info: `(${pcCount})`,
-      childrenCount: pcCount,
-    },
+  const nodes = [
     {
       id: 'Taxonomien',
       url: ['Taxonomien'],
@@ -29,5 +20,14 @@ export default ({
       info: `(${catCount} Gruppen)`,
       childrenCount: catCount,
     },
+    {
+      id: 'Eigenschaften-Sammlungen',
+      url: ['Eigenschaften-Sammlungen'],
+      sort: [2],
+      label: 'Eigenschaften-Sammlungen',
+      info: `(${pcCount})`,
+      childrenCount: pcCount,
+    },
   ]
+  return nodes
 }

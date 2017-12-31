@@ -13,7 +13,7 @@ import Snackbar from 'material-ui/Snackbar'
 import Row from './Row'
 import Filter from './Filter'
 import buildNodes from './buildNodes'
-import activeNodeArrayGql from '../../modules/activeNodeArrayGql'
+import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import allCategoriesData from '../../modules/allCategoriesData'
 import treeData from './treeData'
 
@@ -56,10 +56,6 @@ const LoadingDiv = styled.div`
   font-size: 14px;
 `
 const listContainerStyle = { padding: '5px' }
-
-const activeNodeArrayData = graphql(activeNodeArrayGql, {
-  name: 'activeNodeArrayData',
-})
 
 const noRowsRenderer = nodes => (
   <Container>

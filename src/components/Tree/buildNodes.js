@@ -28,8 +28,6 @@ export default ({
   allCategoriesData: Object,
   activeNodeArray: Object,
 }): Array<Object> => {
-  //const level3Pc = get(treeData, 'level3Pc', null)
-  //console.log('Tree: level3Pc:', level3Pc)
   const activeLevel2TaxonomyNodes = get(treeData, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
