@@ -8,7 +8,6 @@ import Data from './Data'
 import Export from './Export'
 import Organisation from './Organisation'
 import Login from './Login'
-import Benutzer from './Benutzer'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
 import loginData from '../modules/loginData'
@@ -35,11 +34,14 @@ const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
     'login',
     'benutzer',
   ].includes(url0)
-  const showData = ['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
+  const showData = [
+    'taxonomien',
+    'eigenschaften-sammlungen',
+    'benutzer',
+  ].includes(url0)
   const showExport = url0 === 'export'
   const showOrganisation = url0 === 'organisationen'
   const showLogin = url0 === 'login'
-  const showBenutzer = url0 === 'benutzer' && activeNodeArray.length === 2
 
   return (
     <Container>
@@ -48,7 +50,6 @@ const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
       {showExport && <Export />}
       {showOrganisation && <Organisation />}
       {showLogin && <Login />}
-      {showBenutzer && <Benutzer />}
       {show404 && <FourOhFour />}
     </Container>
   )
