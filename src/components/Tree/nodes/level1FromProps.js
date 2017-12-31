@@ -4,9 +4,13 @@ import get from 'lodash/get'
 export default ({
   treeData,
   allCategoriesData,
+  activeNodeArray,
+  loginData,
 }: {
   treeData: Object,
   allCategoriesData: Object,
+  activeNodeArray: Array<String>,
+  loginData: Object,
 }): Array<Object> => {
   if (!treeData) return []
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
@@ -29,5 +33,16 @@ export default ({
       childrenCount: pcCount,
     },
   ]
+  const token = get(loginData, 'login.token', '')
+  if (!!token) {
+    nodes.push({
+      id: 'Benutzer',
+      url: ['Benutzer'],
+      sort: [3],
+      label: 'Benutzer',
+      info: `(${catCount} Gruppen)`,
+      childrenCount: catCount,
+    })
+  }
   return nodes
 }

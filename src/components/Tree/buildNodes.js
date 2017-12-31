@@ -23,10 +23,12 @@ export default ({
   treeData,
   allCategoriesData,
   activeNodeArray,
+  loginData,
 }: {
   treeData: Object,
   allCategoriesData: Object,
   activeNodeArray: Object,
+  loginData: Object,
 }): Array<Object> => {
   const activeLevel2TaxonomyNodes = get(treeData, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
@@ -101,7 +103,12 @@ export default ({
   const activeLevel9TaxonomyName =
     activeLevel9Taxonomy && activeLevel9Taxonomy.name
   const activeLevel9TaxonomyId = activeLevel9Taxonomy && activeLevel9Taxonomy.id
-  let nodes = level1FromProps({ treeData, allCategoriesData })
+  let nodes = level1FromProps({
+    treeData,
+    allCategoriesData,
+    activeNodeArray,
+    loginData,
+  })
   if (activeNodeArray.length > 0) {
     switch (activeNodeArray[0]) {
       case 'Eigenschaften-Sammlungen': {

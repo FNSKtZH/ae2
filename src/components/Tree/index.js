@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 // if observer is active, forceUpdate during rendering happens
-import { graphql } from 'react-apollo'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
 import styled from 'styled-components'
@@ -15,6 +14,7 @@ import Filter from './Filter'
 import buildNodes from './buildNodes'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import allCategoriesData from '../../modules/allCategoriesData'
+import loginData from '../../modules/loginData'
 import treeData from './treeData'
 
 const singleRowHeight = 23
@@ -63,18 +63,25 @@ const noRowsRenderer = nodes => (
   </Container>
 )
 
-const enhance = compose(activeNodeArrayData, allCategoriesData, treeData)
+const enhance = compose(
+  activeNodeArrayData,
+  allCategoriesData,
+  treeData,
+  loginData
+)
 
 const Tree = ({
   activeNodeArrayData,
   allCategoriesData,
   treeData,
+  loginData,
   // dimensions is passed down from ReflexElement
   dimensions,
 }: {
   activeNodeArrayData: Object,
   allCategoriesData: Object,
   treeData: Object,
+  loginData: Object,
   dimensions: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
@@ -83,6 +90,7 @@ const Tree = ({
     treeData,
     allCategoriesData,
     activeNodeArray,
+    loginData,
   })
   const rowRenderer = ({ key, index, style }) => (
     <Row
