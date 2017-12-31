@@ -34,15 +34,15 @@ export default ({
     },
   ]
   const token = get(loginData, 'login.token', '')
-  const usersCount = get(treeData, 'allUsers.totalCount')
+  const userCount = get(treeData, 'allUsers.totalCount')
   if (!!token) {
     nodes.push({
       id: 'Benutzer',
       url: ['Benutzer'],
       sort: [3],
       label: 'Benutzer',
-      info: `(${usersCount})`,
-      childrenCount: usersCount,
+      info: `(${userCount})`,
+      childrenCount: userCount,
     })
   }
   return nodes
