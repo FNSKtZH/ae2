@@ -27,6 +27,13 @@ export default gql`
     $pCId: UUID!
     $existsPCId: Boolean!
   ) {
+    allUsers {
+      totalCount
+      nodes {
+        id
+        name
+      }
+    }
     allPropertyCollections @include(if: $notExistsLevel2Pc) {
       totalCount
     }
