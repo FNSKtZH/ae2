@@ -5,9 +5,9 @@ import get from 'lodash/get'
 import userGql from './userGql'
 
 export default graphql(userGql, {
-  options: ({ loginData }) => ({
+  options: ({ activeNodeArrayData }) => ({
     variables: {
-      name: get(loginData, 'login.username'),
+      name: decodeURIComponent(get(activeNodeArrayData, 'activeNodeArray')[2]),
     },
   }),
   name: 'userData',

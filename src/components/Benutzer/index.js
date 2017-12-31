@@ -10,6 +10,7 @@ import get from 'lodash/get'
 
 import setLoginMutation from '../../modules/loginMutation'
 import loginData from '../../modules/loginData'
+import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import userData from './userData'
 import Roles from './Roles'
 import PCs from './PCs'
@@ -22,7 +23,7 @@ const SaveButton = styled(RaisedButton)`
   margin-bottom: 15px;
 `
 
-const enhance = compose(withApollo, loginData, userData)
+const enhance = compose(withApollo,activeNodeArrayData, loginData, userData)
 
 class User extends Component {
   constructor(props) {
@@ -112,7 +113,7 @@ class User extends Component {
 
     return (
       <Container>
-        <RaisedButton label="abmelden" onClick={this.onLogout} />{' '}
+        <RaisedButton label="abmelden" onClick={this.onLogout} />
         <TextField
           name="name"
           floatingLabelText="Name"
@@ -147,14 +148,14 @@ class User extends Component {
             onChange={this.onChangeVal}
             fullWidth
           />
-        )}{' '}
+        )}
         <SaveButton
           label="Änderungen speichern"
           onClick={this.onSave}
           disabled={!saveEnabled}
-        />{' '}
-        {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}{' '}
-        {pcs.length > 0 && <PCs pcs={pcs} />}{' '}
+        />
+        {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
+        {pcs.length > 0 && <PCs pcs={pcs} />}
       </Container>
     )
   }
