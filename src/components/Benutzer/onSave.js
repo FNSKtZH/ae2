@@ -8,7 +8,7 @@ import app from 'ampersand-app'
 import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 
-import setLoginMutation from '../../../modules/loginMutation'
+import setLoginMutation from '../../modules/loginMutation'
 import userMutation from './userMutation'
 
 export default async ({ props, state }: { props: Object, state: Object }) => {
