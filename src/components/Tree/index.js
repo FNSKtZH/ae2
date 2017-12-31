@@ -12,7 +12,7 @@ import Snackbar from 'material-ui/Snackbar'
 
 import Row from './Row'
 import Filter from './Filter'
-import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
+import buildNodes from './buildNodes'
 import activeNodeArrayGql from '../../modules/activeNodeArrayGql'
 import allCategoriesData from '../../modules/allCategoriesData'
 import treeData from './treeData'
@@ -83,7 +83,7 @@ const Tree = ({
 }) => {
   const { activeNodeArray } = activeNodeArrayData
   const { error, loading: treeDataLoading } = treeData
-  const nodes = buildNodesFromAppQuery({
+  const nodes = buildNodes({
     treeData,
     allCategoriesData,
     activeNodeArray,
