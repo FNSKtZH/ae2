@@ -11,7 +11,7 @@ import isEqual from 'lodash/isEqual'
 import Snackbar from 'material-ui/Snackbar'
 
 import Row from './TreeRow'
-import TreeFilter from './TreeFilter'
+import Filter from './Filter'
 import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
 import activeNodeArrayGql from '../../modules/activeNodeArrayGql'
 import allCategoriesData from '../../modules/allCategoriesData'
@@ -107,7 +107,7 @@ const Tree = ({
 
   return (
     <Container>
-      <TreeFilter dimensions={dimensions} />
+      <Filter dimensions={dimensions} />
       <AutoSizerContainer>
         <AutoSizer>
           {({ height, width }) => (
