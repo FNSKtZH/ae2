@@ -19,6 +19,9 @@ import userMutation from './userMutation'
 const Container = styled.div`
   padding: 10px;
 `
+const SaveButton = styled(RaisedButton)`
+  margin-bottom: 15px;
+`
 
 const enhance = compose(withApollo, loginData, userData)
 
@@ -190,7 +193,7 @@ class User extends Component {
             fullWidth
           />
         )}
-        <RaisedButton
+        <SaveButton
           label="Änderungen speichern"
           onClick={this.onSave}
           disabled={!saveEnabled}
