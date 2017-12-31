@@ -15,7 +15,7 @@ import TreeFilter from './TreeFilter'
 import buildNodesFromAppQuery from '../../modules/buildNodesFromAppQuery'
 import activeNodeArrayGql from '../../modules/activeNodeArrayGql'
 import allCategoriesData from '../../modules/allCategoriesData'
-import treeData from '../../modules/treeData'
+import treeData from './treeData'
 
 const singleRowHeight = 23
 const Container = styled.div`
