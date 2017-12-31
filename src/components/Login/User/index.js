@@ -155,6 +155,7 @@ class User extends Component {
 
     return (
       <Container>
+        <RaisedButton label="Neu anmelden" onClick={this.onLogout} />
         <TextField
           name="name"
           floatingLabelText="Name"
@@ -196,7 +197,6 @@ class User extends Component {
         />
         {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
         {pcs.length > 0 && <PCs pcs={pcs} />}
-        <RaisedButton label="Neu anmelden" onClick={this.onLogout} />
       </Container>
     )
   }

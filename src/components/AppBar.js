@@ -16,6 +16,14 @@ import get from 'lodash/get'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
 import loginData from '../modules/loginData'
 
+/**
+ * For unknown reason appbar does not follow display flex when
+ * user form is shown: user covers appbar!!??
+ * Container with display block is needed to prevent that
+ */
+const Container = styled.div`
+  display: block;
+`
 const StyledAppBar = styled(AppBar)`
   @media print {
     display: none !important;
@@ -89,46 +97,48 @@ const MyAppBar = ({
   const loginLabel = username ? username : 'nicht angemeldet'
 
   return (
-    <StyledAppBar
-      title="Arteigenschaften"
-      iconElementRight={
-        <MenuDiv>
-          <Button
-            label="Daten"
-            data-visible={
-              !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
-            }
-            onClick={onClickColumnButtonData}
-          />
-          <Button
-            label="Export"
-            data-visible={url0 !== 'export'}
-            onClick={onClickColumnButtonExport}
-          />
-          <Button
-            label={loginLabel}
-            data-visible={url0 !== 'login'}
-            onClick={onClickColumnButtonLogin}
-          />
-          <IconMenu
-            iconButtonElement={
-              <IconButton>
-                <StyledMoreVertIcon />
-              </IconButton>
-            }
-            anchorOrigin={iconMenuAnchorOrigin}
-            targetOrigin={iconMenuTargetOrigin}
-            style={iconMenuStyle}
-          >
-            <MenuItem
-              primaryText="über arteigenschaften.ch"
-              onClick={ueberArteigenschaftenOnClick}
+    <Container>
+      <StyledAppBar
+        title="Arteigenschaften"
+        iconElementRight={
+          <MenuDiv>
+            <Button
+              label="Daten"
+              data-visible={
+                !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
+              }
+              onClick={onClickColumnButtonData}
             />
-          </IconMenu>
-        </MenuDiv>
-      }
-      showMenuIconButton={false}
-    />
+            <Button
+              label="Export"
+              data-visible={url0 !== 'export'}
+              onClick={onClickColumnButtonExport}
+            />
+            <Button
+              label={loginLabel}
+              data-visible={url0 !== 'login'}
+              onClick={onClickColumnButtonLogin}
+            />
+            <IconMenu
+              iconButtonElement={
+                <IconButton>
+                  <StyledMoreVertIcon />
+                </IconButton>
+              }
+              anchorOrigin={iconMenuAnchorOrigin}
+              targetOrigin={iconMenuTargetOrigin}
+              style={iconMenuStyle}
+            >
+              <MenuItem
+                primaryText="über arteigenschaften.ch"
+                onClick={ueberArteigenschaftenOnClick}
+              />
+            </IconMenu>
+          </MenuDiv>
+        }
+        showMenuIconButton={false}
+      />
+    </Container>
   )
 }
 
