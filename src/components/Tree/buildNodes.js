@@ -5,18 +5,19 @@
  */
 import get from 'lodash/get'
 
-import level1FromProps from './nodes/level1FromProps'
-import level2PcFromProps from './nodes/level2PcFromProps'
-import level3PcFromProps from './nodes/level3PcFromProps'
-import level2TaxonomyFromProps from './nodes/level2TaxonomyFromProps'
-import level3TaxonomyFromProps from './nodes/level3TaxonomyFromProps'
-import level4TaxonomyFromProps from './nodes/level4TaxonomyFromProps'
-import level5TaxonomyFromProps from './nodes/level5TaxonomyFromProps'
-import level6TaxonomyFromProps from './nodes/level6TaxonomyFromProps'
-import level7TaxonomyFromProps from './nodes/level7TaxonomyFromProps'
-import level8TaxonomyFromProps from './nodes/level8TaxonomyFromProps'
-import level9TaxonomyFromProps from './nodes/level9TaxonomyFromProps'
-import level10TaxonomyFromProps from './nodes/level10TaxonomyFromProps'
+import level1 from './nodes/level1'
+import level2Benutzer from './nodes/level2Benutzer'
+import level2Pc from './nodes/level2Pc'
+import level3Pc from './nodes/level3Pc'
+import level2Taxonomy from './nodes/level2Taxonomy'
+import level3Taxonomy from './nodes/level3Taxonomy'
+import level4Taxonomy from './nodes/level4Taxonomy'
+import level5Taxonomy from './nodes/level5Taxonomy'
+import level6Taxonomy from './nodes/level6Taxonomy'
+import level7Taxonomy from './nodes/level7Taxonomy'
+import level8Taxonomy from './nodes/level8Taxonomy'
+import level9Taxonomy from './nodes/level9Taxonomy'
+import level10Taxonomy from './nodes/level10Taxonomy'
 import sort from './nodes/sort'
 
 export default ({
@@ -103,7 +104,7 @@ export default ({
   const activeLevel9TaxonomyName =
     activeLevel9Taxonomy && activeLevel9Taxonomy.name
   const activeLevel9TaxonomyId = activeLevel9Taxonomy && activeLevel9Taxonomy.id
-  let nodes = level1FromProps({
+  let nodes = level1({
     treeData,
     allCategoriesData,
     activeNodeArray,
@@ -113,15 +114,19 @@ export default ({
     switch (activeNodeArray[0]) {
       case 'Eigenschaften-Sammlungen': {
         nodes = nodes.concat(
-          level2PcFromProps({
+          level2Pc({
             treeData,
           })
         )
         break
       }
+      case 'Benutzer': {
+        nodes = nodes.concat(level2Benutzer({ treeData }))
+        break
+      }
       default:
       case 'Taxonomien': {
-        nodes = nodes.concat(level2TaxonomyFromProps({ treeData }))
+        nodes = nodes.concat(level2Taxonomy({ treeData }))
         break
       }
     }
@@ -131,14 +136,14 @@ export default ({
     activeNodeArray[0] === 'Eigenschaften-Sammlungen'
   ) {
     nodes = nodes.concat(
-      level3PcFromProps({
+      level3Pc({
         treeData,
       })
     )
   }
   if (activeNodeArray.length > 1 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
-      level3TaxonomyFromProps({
+      level3Taxonomy({
         treeData,
         activeLevel2TaxonomyName,
       })
@@ -146,7 +151,7 @@ export default ({
   }
   if (activeNodeArray.length > 2 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
-      level4TaxonomyFromProps({
+      level4Taxonomy({
         treeData,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
@@ -156,7 +161,7 @@ export default ({
   }
   if (activeNodeArray.length > 3 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
-      level5TaxonomyFromProps({
+      level5Taxonomy({
         treeData,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
@@ -168,7 +173,7 @@ export default ({
   }
   if (activeNodeArray.length > 4 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
-      level6TaxonomyFromProps({
+      level6Taxonomy({
         treeData,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
@@ -182,7 +187,7 @@ export default ({
   }
   if (activeNodeArray.length > 5 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
-      level7TaxonomyFromProps({
+      level7Taxonomy({
         treeData,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
@@ -198,7 +203,7 @@ export default ({
   }
   if (activeNodeArray.length > 6 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
-      level8TaxonomyFromProps({
+      level8Taxonomy({
         treeData,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
@@ -216,7 +221,7 @@ export default ({
   }
   if (activeNodeArray.length > 7 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
-      level9TaxonomyFromProps({
+      level9Taxonomy({
         treeData,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
@@ -236,7 +241,7 @@ export default ({
   }
   if (activeNodeArray.length > 8 && activeNodeArray[0] === 'Taxonomien') {
     nodes = nodes.concat(
-      level10TaxonomyFromProps({
+      level10Taxonomy({
         treeData,
         activeLevel2TaxonomyName,
         activeLevel3TaxonomyName,
