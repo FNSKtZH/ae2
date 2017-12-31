@@ -7,14 +7,13 @@ import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
-import jwtDecode from 'jwt-decode'
 
 import setLoginMutation from '../../../modules/loginMutation'
 import loginData from '../../../modules/loginData'
 import userData from './userData'
 import Roles from './Roles'
 import PCs from './PCs'
-import userMutation from './userMutation'
+import onSave from './onSave'
 
 const Container = styled.div`
   padding: 10px;
@@ -33,7 +32,7 @@ class User extends Component {
       nameErrorText: null,
       email: undefined,
       pass: '',
-      passErrorText: 'Passwort nötig, um Änderungen zu speichern',
+      passErrorText: 'Bitte Passwort eingeben, um Änderungen zu speichern',
       passNew: '',
     }
   }
@@ -75,64 +74,19 @@ class User extends Component {
     })
   }
 
-  onSave = async () => {
-    const { name: usernameNew, email, pass, passNew } = this.state
-    const { userData, client } = this.props
-    const { name: username } = get(userData, 'userByName', {})
-    let result
-    try {
-      result = await client.mutate({
-        mutation: userMutation,
-        variables: {
-          username,
-          usernameNew,
-          email,
-          pass,
-          passNew: passNew ? passNew : pass,
-        },
-      })
-    } catch (error) {
-      const messages = error.graphQLErrors.map(x => x.message)
-      const isNamePassError =
-        messages.includes('invalid user or password') ||
-        messages.includes('permission denied for relation user')
-      if (isNamePassError) {
-        const message = 'Name oder Passwort nicht bekannt'
-        return this.setState({
-          nameErrorText: message,
-          passErrorText: message,
-        })
-      }
-      return console.log(error)
-    }
-    const jwtToken = get(result, 'data.login.jwtToken')
-    if (jwtToken) {
-      const tokenDecoded = jwtDecode(jwtToken)
-      const { role, username } = tokenDecoded
-      // refresh currentUser in idb
-      await app.idb.users.clear()
-      await app.idb.users.put({
-        username,
-        token: jwtToken,
-        role,
-      })
-      try {
-        client.mutate({
-          mutation: setLoginMutation,
-          variables: {
-            username,
-            role,
-            token: jwtToken,
-          },
-        })
-      } catch (error) {
-        console.log(('Error during setLoginMutation': error))
-      }
+  onSave = () => {
+    const props = this.props
+    const state = this.state
+
+    onSave({ props, state }).then(() => {
       this.setState({
         nameErrorText: null,
         passErrorText: null,
+        pass: '',
       })
-    }
+      // need to refetch so pass disappears
+      this.props.userData.refetch()
+    })
   }
 
   render() {
@@ -158,7 +112,7 @@ class User extends Component {
 
     return (
       <Container>
-        <RaisedButton label="Neu anmelden" onClick={this.onLogout} />
+        <RaisedButton label="Neu anmelden" onClick={this.onLogout} />{' '}
         <TextField
           name="name"
           floatingLabelText="Name"
@@ -187,19 +141,20 @@ class User extends Component {
             name="pass"
             floatingLabelText="Passwort (aktuell)"
             errorText={passErrorText}
+            errorStyle={{ color: 'green' }}
             type="password"
             value={pass}
             onChange={this.onChangeVal}
             fullWidth
           />
-        )}
+        )}{' '}
         <SaveButton
           label="Änderungen speichern"
           onClick={this.onSave}
           disabled={!saveEnabled}
-        />
-        {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
-        {pcs.length > 0 && <PCs pcs={pcs} />}
+        />{' '}
+        {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}{' '}
+        {pcs.length > 0 && <PCs pcs={pcs} />}{' '}
       </Container>
     )
   }
