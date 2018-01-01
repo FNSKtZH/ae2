@@ -72,7 +72,7 @@
 
 - [x] Datenstruktur:<br/>![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
 - [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](/etc/import.png?raw=true "Import")
-- [x] Anwendungs-API-Server ([postgraphql](https://github.com/postgraphql/postgraphql))<br/>![API-Server](/etc/postgraphql.png?raw=true "API-Server")
+- [x] Anwendungs-API-Server ([PostGraphQL](https://github.com/postgraphql/postgraphql))<br/>![API-Server](/etc/postgraphql.png?raw=true "API-Server")
 - [x] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
 
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 2018. Aktueller Stand:
