@@ -5,10 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
-import app from 'ampersand-app'
 import get from 'lodash/get'
 
-import setLoginMutation from '../../modules/loginMutation'
 import loginData from '../../modules/loginData'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import userData from './userData'
@@ -73,19 +71,6 @@ class User extends Component<Props, State> {
     })
   }
 
-  onLogout = () => {
-    const { client } = this.props
-    app.idb.users.clear()
-    client.mutate({
-      mutation: setLoginMutation,
-      variables: {
-        username: '',
-        role: '',
-        token: '',
-      },
-    })
-  }
-
   onSave = () => {
     const props = this.props
     const state = this.state
@@ -127,7 +112,6 @@ class User extends Component<Props, State> {
 
     return (
       <Container>
-        <RaisedButton label="abmelden" onClick={this.onLogout} />
         <TextField
           name="name"
           floatingLabelText="Name"
