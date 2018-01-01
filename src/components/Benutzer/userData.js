@@ -7,7 +7,7 @@ import userGql from './userGql'
 export default graphql(userGql, {
   options: ({ activeNodeArrayData }) => ({
     variables: {
-      name: decodeURIComponent(get(activeNodeArrayData, 'activeNodeArray')[2]),
+      name: decodeURIComponent(get(activeNodeArrayData, 'activeNodeArray')[1]),
     },
   }),
   name: 'userData',
