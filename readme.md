@@ -95,12 +95,12 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>![Synonym](/etc/synonym.png?raw=true "Synonym")
   - [x] Daten exportieren
     ![exportieren](/etc/export.png?raw=true "exportieren")
-  - [x] Anmeldung
-    Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen, exportieren sowie über GraphQL aus anderen Anwendungen zugreifen.
+  - [x] Anmeldung<br/>
+    Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen, exportieren sowie über GraphQL aus anderen Anwendungen zugreifen.<br/>
     Angemeldete Benutzer können Daten gemäss den ihnen von Organisationen erteilten Rollen verändern.
-  - [x] Benutzer
+  - [x] Benutzer<br/>
     Benutzer können Name, Email und Passwort verändern.
-  - [ ] Organisationen (in Arbeit)
+  - [ ] Organisationen (in Arbeit)<br/>
     Organisationen erstellen Benutzer und geben ihnen Rollen.
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen (in Arbeit)
   - [ ] Lebensräume bearbeiten
