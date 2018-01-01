@@ -7,14 +7,14 @@ import loginMutation from './loginMutation'
 import setLoginMutation from '../../modules/loginMutation'
 import historyAfterLoginMutation from '../../modules/historyAfterLoginMutation'
 
-export default async({
+export default async ({
   props,
   namePassed,
-  passPassed
+  passPassed,
 }: {
   props: Object,
   namePassed: String,
-  passPassed: String
+  passPassed: String,
 }) => {
   const {
     client,
@@ -71,10 +71,7 @@ export default async({
   const jwtToken = get(result, 'data.login.jwtToken')
   if (jwtToken) {
     const tokenDecoded = jwtDecode(jwtToken)
-    const {
-      role,
-      username
-    } = tokenDecoded
+    const { role, username } = tokenDecoded
     // refresh currentUser in idb
     await app.idb.users.clear()
     await app.idb.users.put({
@@ -101,10 +98,7 @@ export default async({
       changeName('')
       changePass('')
       changeLoginSuccessfull(false)
-      const historyAfterLogin = get(
-        historyAfterLoginData,
-        'historyAfterLogin'
-      )
+      const historyAfterLogin = get(historyAfterLoginData, 'historyAfterLogin')
       //const newPath = historyAfterLogin ? historyAfterLogin : '/Taxonomien'
       //app.history.push(newPath)
       if (!!historyAfterLogin) {
@@ -115,6 +109,8 @@ export default async({
             value: '',
           },
         })
+      } else {
+        app.history.push('/Taxonomien')
       }
     }, 2000)
   }
