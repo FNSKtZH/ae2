@@ -1,14 +1,10 @@
 // @flow
-import React, {
-  Component
-} from 'react'
+import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import {
-  withApollo
-} from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
 
@@ -20,11 +16,10 @@ import Roles from './Roles'
 import PCs from './PCs'
 import onSave from './onSave'
 
-const Container = styled.div `
+const Container = styled.div`
   padding: 10px;
 `
-const SaveButton = styled(RaisedButton)
-`
+const SaveButton = styled(RaisedButton)`
   margin-bottom: 15px;
 `
 
@@ -36,16 +31,16 @@ type State = {
   email: string,
   pass: string,
   passErrorText: string,
-  passNew: string
+  passNew: string,
 }
 
 type Props = {
   client: Object,
   loginData: Object,
-  userData: Object
+  userData: Object,
 }
 
-class User extends Component < Props, State > {
+class User extends Component<Props, State> {
   state = {
     name: '',
     nameErrorText: '',
@@ -59,7 +54,12 @@ class User extends Component < Props, State > {
     const propsUser = get(this.props.userData, 'userByName', {})
     const prevPropsUser = get(prevProps.userData, 'userByName', {})
 
-    if (!!propsUser && !!propsUser.id && prevPropsUser && prevPropsUser.id === undefined) {
+    if (
+      !!propsUser &&
+      !!propsUser.id &&
+      prevPropsUser &&
+      prevPropsUser.id === undefined
+    ) {
       this.setState({
         name: propsUser.name,
         email: propsUser.email,
@@ -74,9 +74,7 @@ class User extends Component < Props, State > {
   }
 
   onLogout = () => {
-    const {
-      client
-    } = this.props
+    const { client } = this.props
     app.idb.users.clear()
     client.mutate({
       mutation: setLoginMutation,
@@ -94,7 +92,7 @@ class User extends Component < Props, State > {
 
     onSave({
       props,
-      state
+      state,
     }).then(() => {
       this.setState({
         nameErrorText: '',
@@ -107,9 +105,7 @@ class User extends Component < Props, State > {
   }
 
   render() {
-    const {
-      userData
-    } = this.props
+    const { userData } = this.props
     const {
       name,
       nameErrorText,
@@ -121,96 +117,62 @@ class User extends Component < Props, State > {
     const user = get(userData, 'userByName', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
-    const showPass = !!name &&
+    const showPass =
+      !!name &&
       !!user.name &&
       !!email &&
       !!user.email &&
       (name !== user.name || email !== user.email)
     const saveEnabled = !!pass && showPass
 
-    return ( <
-      Container >
-      <
-      RaisedButton label = "abmelden"
-      onClick = {
-        this.onLogout
-      }
-      /> <
-      TextField name = "name"
-      floatingLabelText = "Name"
-      errorText = {
-        nameErrorText
-      }
-      value = {
-        name
-      }
-      onChange = {
-        this.onChangeVal
-      }
-      fullWidth /
-      >
-      <
-      TextField name = "email"
-      floatingLabelText = "Email"
-      value = {
-        email
-      }
-      onChange = {
-        this.onChangeVal
-      }
-      fullWidth /
-      >
-      <
-      TextField name = "passNew"
-      floatingLabelText = "Passwort ändern"
-      type = "password"
-      value = {
-        passNew
-      }
-      onChange = {
-        this.onChangeVal
-      }
-      fullWidth /
-      >
-      {
-        showPass && ( <
-          TextField name = "pass"
-          floatingLabelText = "Passwort (aktuell)"
-          errorText = {
-            passErrorText
-          }
-          errorStyle = {
-            {
-              color: 'green'
-            }
-          }
-          type = "password"
-          value = {
-            pass
-          }
-          onChange = {
-            this.onChangeVal
-          }
-          fullWidth /
-          >
-        )
-      } <
-      SaveButton label = "Änderungen speichern"
-      onClick = {
-        this.onSave
-      }
-      disabled = {!saveEnabled
-      }
-      /> {
-      orgUsers.length > 0 && < Roles orgUsers = {
-        orgUsers
-      }
-      />} {
-      pcs.length > 0 && < PCs pcs = {
-        pcs
-      }
-      />} < /
-      Container >
+    return (
+      <Container>
+        <RaisedButton label="abmelden" onClick={this.onLogout} />
+        <TextField
+          name="name"
+          floatingLabelText="Name"
+          errorText={nameErrorText}
+          value={name}
+          onChange={this.onChangeVal}
+          fullWidth
+        />
+        <TextField
+          name="email"
+          floatingLabelText="Email"
+          value={email}
+          onChange={this.onChangeVal}
+          fullWidth
+        />
+        <TextField
+          name="passNew"
+          floatingLabelText="Passwort ändern"
+          type="password"
+          value={passNew}
+          onChange={this.onChangeVal}
+          fullWidth
+        />
+        {showPass && (
+          <TextField
+            name="pass"
+            floatingLabelText="Passwort (aktuell)"
+            errorText={passErrorText}
+            errorStyle={{
+              color: 'green',
+            }}
+            type="password"
+            value={pass}
+            onChange={this.onChangeVal}
+            fullWidth
+          />
+        )}
+        <SaveButton
+          label="Änderungen speichern"
+          onClick={this.onSave}
+          disabled={!saveEnabled}
+        />
+        {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
+        {pcs.length > 0 && <PCs pcs={pcs} />}
+      </Container>
     )
   }
 }
