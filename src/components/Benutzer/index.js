@@ -56,7 +56,7 @@ class User extends Component<Props, State> {
       !!propsUser &&
       !!propsUser.id &&
       prevPropsUser &&
-      prevPropsUser.id === undefined
+      (prevPropsUser.id === undefined || propsUser.id !== prevPropsUser.id)
     ) {
       this.setState({
         name: propsUser.name,
@@ -100,7 +100,6 @@ class User extends Component<Props, State> {
       passNew,
     } = this.state
     const user = get(userData, 'userByName', {})
-    console.log('Benutzer: user:', user)
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
     const showPass =
