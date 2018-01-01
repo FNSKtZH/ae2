@@ -32,6 +32,15 @@ export default gql`
       nodes {
         id
         name
+        organizationUsersByUserId {
+          nodes {
+            role
+            organizationByOrganizationId {
+              id
+              name
+            }
+          }
+        }
       }
     }
     allPropertyCollections @include(if: $notExistsLevel2Pc) {

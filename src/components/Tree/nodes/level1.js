@@ -1,5 +1,7 @@
 // @flow
 import get from 'lodash/get'
+import union from 'lodash/union'
+import jwtDecode from 'jwt-decode'
 
 export default ({
   treeData,
@@ -44,6 +46,25 @@ export default ({
       info: `(${userCount})`,
       childrenCount: userCount,
     })
+    const tokenDecoded = jwtDecode(token)
+    const { role, username } = tokenDecoded
+    const user = get(treeData, 'allUsers.nodes', []).find(
+      u => u.name === username
+    )
+    const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
+    const userOrganizations = union(
+      orgUsers.map(u => get(u, 'organizationByOrganizationId.name'))
+    )
+    if (role === 'org_admin') {
+      nodes.push({
+        id: 'Organisationen',
+        url: ['Organisationen'],
+        sort: [4],
+        label: 'Organisationen',
+        info: `(${userOrganizations.length})`,
+        childrenCount: userOrganizations.length,
+      })
+    }
   }
   return nodes
 }
