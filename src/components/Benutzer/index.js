@@ -74,19 +74,18 @@ class User extends Component<Props, State> {
   onSave = () => {
     const props = this.props
     const state = this.state
-
+    const setState = this.setState
     onSave({
       props,
       state,
-    }).then(() => {
+      setState,
+    }).then(() =>
       this.setState({
         nameErrorText: '',
         passErrorText: '',
         pass: '',
       })
-      // need to refetch so pass disappears
-      this.props.userData.refetch()
-    })
+    )
   }
 
   render() {

@@ -11,7 +11,15 @@ import jwtDecode from 'jwt-decode'
 import setLoginMutation from '../../modules/loginMutation'
 import userMutation from './userMutation'
 
-export default async ({ props, state }: { props: Object, state: Object }) => {
+export default async ({
+  props,
+  state,
+  setState,
+}: {
+  props: Object,
+  state: Object,
+  setState: () => void,
+}) => {
   const { name: usernameNew, email, pass, passNew } = state
   const { userData, client } = props
   const { name: username } = get(userData, 'userByName', {})
@@ -41,7 +49,7 @@ export default async ({ props, state }: { props: Object, state: Object }) => {
     }
     return console.log(error)
   }
-  const jwtToken = get(result, 'data.login.jwtToken')
+  const jwtToken = get(result, 'data.editUser.jwtToken')
   if (jwtToken) {
     const tokenDecoded = jwtDecode(jwtToken)
     const { role, username } = tokenDecoded
@@ -77,6 +85,8 @@ export default async ({ props, state }: { props: Object, state: Object }) => {
     } catch (error) {
       console.log(('Error during setLoginMutation': error))
     }
+    // need to refetch so pass disappears
+    userData.refetch()
     return
   }
 }
