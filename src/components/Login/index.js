@@ -16,7 +16,7 @@ import historyAfterLoginData from '../../modules/historyAfterLoginData'
 import setLoginMutation from '../../modules/loginMutation'
 import loginData from '../../modules/loginData'
 
-const Container = styled.div`
+const Container = styled.form`
   padding: 10px;
 `
 const snackbarBodyStyle = {
@@ -129,6 +129,7 @@ const Login = ({
               onBlurName(e)
             }
           }}
+          autoComplete="username"
         />
       )}
       {!token && (
@@ -144,6 +145,7 @@ const Login = ({
               onBlurPassword(e)
             }
           }}
+          autoComplete="current-password"
         />
       )}
       {!token && <RaisedButton label="Anmelden" />}

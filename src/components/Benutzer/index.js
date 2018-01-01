@@ -14,7 +14,7 @@ import Roles from './Roles'
 import PCs from './PCs'
 import onSave from './onSave'
 
-const Container = styled.div`
+const Container = styled.form`
   padding: 10px;
 `
 const SaveButton = styled(RaisedButton)`
@@ -119,6 +119,7 @@ class User extends Component<Props, State> {
           value={name}
           onChange={this.onChangeVal}
           fullWidth
+          autoComplete="username"
         />
         <TextField
           name="email"
@@ -126,6 +127,7 @@ class User extends Component<Props, State> {
           value={email}
           onChange={this.onChangeVal}
           fullWidth
+          autoComplete="email"
         />
         <TextField
           name="passNew"
@@ -134,6 +136,7 @@ class User extends Component<Props, State> {
           value={passNew}
           onChange={this.onChangeVal}
           fullWidth
+          autoComplete="new-password"
         />
         {showPass && (
           <TextField
@@ -147,6 +150,7 @@ class User extends Component<Props, State> {
             value={pass}
             onChange={this.onChangeVal}
             fullWidth
+            autoComplete="current-password"
           />
         )}
         <SaveButton
