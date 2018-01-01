@@ -8,6 +8,7 @@ import PropertyCollection from './PropertyCollection'
 import PCO from './PropertyCollection/PCO'
 import RCO from './PropertyCollection/RCO'
 import Benutzer from './Benutzer'
+import Organisation from './Organisation'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
 import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNodeArray'
 
@@ -44,6 +45,8 @@ const DataType = ({
     activeNodeArray[2] === 'Beziehungen'
   const showBenutzer =
     activeNodeArray[0] === 'Benutzer' && activeNodeArray.length === 2
+  const showOrganization =
+    activeNodeArray[0] === 'Organisationen' && activeNodeArray.length === 2
 
   if (showTaxonomy) return <Taxonomy />
   if (showObjekt) return <Objekt />
@@ -51,6 +54,7 @@ const DataType = ({
   if (showPCO) return <PCO dimensions={dimensions} />
   if (showRCO) return <RCO dimensions={dimensions} />
   if (showBenutzer) return <Benutzer />
+  if (showOrganization) return <Organisation />
   return null
 }
 

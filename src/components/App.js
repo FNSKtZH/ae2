@@ -6,7 +6,6 @@ import compose from 'recompose/compose'
 import AppBar from './AppBar'
 import Data from './Data'
 import Export from './Export'
-import Organisation from './Organisation'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
@@ -38,9 +37,9 @@ const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
     'taxonomien',
     'eigenschaften-sammlungen',
     'benutzer',
+    'organisationen',
   ].includes(url0)
   const showExport = url0 === 'export'
-  const showOrganisation = url0 === 'organisationen'
   const showLogin = url0 === 'login'
 
   return (
@@ -48,7 +47,6 @@ const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
       <AppBar />
       {showData && <Data />}
       {showExport && <Export />}
-      {showOrganisation && <Organisation />}
       {showLogin && <Login />}
       {show404 && <FourOhFour />}
     </Container>

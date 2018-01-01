@@ -7,6 +7,7 @@ import get from 'lodash/get'
 
 import level1 from './nodes/level1'
 import level2Benutzer from './nodes/level2Benutzer'
+import level2Organization from './nodes/level2Organization'
 import level2Pc from './nodes/level2Pc'
 import level3Pc from './nodes/level3Pc'
 import level2Taxonomy from './nodes/level2Taxonomy'
@@ -122,6 +123,10 @@ export default ({
       }
       case 'Benutzer': {
         nodes = nodes.concat(level2Benutzer({ treeData }))
+        break
+      }
+      case 'Organisationen': {
+        nodes = nodes.concat(level2Organization({ treeData, loginData }))
         break
       }
       default:
