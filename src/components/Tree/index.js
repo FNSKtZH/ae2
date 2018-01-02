@@ -5,7 +5,6 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
 import Snackbar from 'material-ui/Snackbar'
@@ -70,39 +69,7 @@ const enhance = compose(
   activeNodeArrayData,
   allCategoriesData,
   treeData,
-  loginData,
-  withHandlers({
-    handleClick: props => (e, data, target) => {
-      console.log('hi from handleClick')
-      if (!data) return console.log('no data passed with click')
-      if (!target) {
-        return console.log('no target passed with click')
-      }
-      const { table, action } = data
-      let id = target.getAttribute('data-id')
-      console.log('Tree, handleClick: id:', id)
-      const actions = {
-        insert() {
-          if (table === 'user') {
-            // TODO
-            console.log('Tree, hancleClick: should create new user')
-          }
-        },
-        delete() {
-          // TODO
-          console.log('Tree, hancleClick: should delete user with id:', id)
-        },
-      }
-      if (Object.keys(actions).includes(action)) {
-        actions[action]()
-      } else {
-        console.log(`action "${action}" unknown, therefore not executed`)
-        /*store.listError(
-          new Error(`action "${action}" unknown, therefore not executed`)
-        )*/
-      }
-    },
-  })
+  loginData
 )
 
 const Tree = ({
@@ -112,14 +79,12 @@ const Tree = ({
   loginData,
   // dimensions is passed down from ReflexElement
   dimensions,
-  handleClick,
 }: {
   activeNodeArrayData: Object,
   allCategoriesData: Object,
   treeData: Object,
   loginData: Object,
   dimensions: Object,
-  handleClick: () => void,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
   const { error, loading: treeDataLoading } = treeData
@@ -174,8 +139,8 @@ const Tree = ({
           backgroundColor: '#2E7D32',
         }}
       />
-      <CmBenutzerFolder onClick={handleClick} />
-      <CmBenutzer onClick={handleClick} />
+      <CmBenutzerFolder />
+      <CmBenutzer />
     </Container>
   )
 }

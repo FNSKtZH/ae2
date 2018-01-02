@@ -79,12 +79,42 @@ function collect(props) {
 const enhance = compose(
   withApollo,
   withHandlers({
-    onClickNode: ({ node, index, activeNodeArray }) => event => {
+    onLeftClickNode: ({ node, index, activeNodeArray }) => event => {
       // do nothing when loading indicator is clicked
       // or if node is already active
       const { url, loadingNode } = node
       if (!loadingNode && !isEqual(url, activeNodeArray)) {
         app.history.push(`/${url.join('/')}`)
+      }
+    },
+    onRightClickContextMenu: props => (e, data, target) => {
+      console.log('hi from handleClick')
+      if (!data) return console.log('no data passed with click')
+      if (!target) {
+        return console.log('no target passed with click')
+      }
+      const { table, action } = data
+      let id = target.getAttribute('data-id')
+      console.log('Row, handleClick: id:', id)
+      const actions = {
+        insert() {
+          if (table === 'user') {
+            // TODO
+            console.log('Row, hancleClick: should create new user')
+          }
+        },
+        delete() {
+          // TODO
+          console.log('Row, hancleClick: should delete user with id:', id)
+        },
+      }
+      if (Object.keys(actions).includes(action)) {
+        actions[action]()
+      } else {
+        console.log(`action "${action}" unknown, therefore not executed`)
+        /*store.listError(
+          new Error(`action "${action}" unknown, therefore not executed`)
+        )*/
       }
     },
   })
@@ -96,7 +126,8 @@ const Row = ({
   style,
   node,
   client,
-  onClickNode,
+  onLeftClickNode,
+  onRightClickContextMenu,
   activeNodeArray,
 }: {
   key?: number,
@@ -104,7 +135,8 @@ const Row = ({
   style: Object,
   node: Array<Object>,
   client: Object,
-  onClickNode: () => void,
+  onLeftClickNode: () => void,
+  onRightClickContextMenu: () => void,
   activeNodeArray: Array<String>,
 }) => {
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
@@ -135,12 +167,13 @@ const Row = ({
         nodeId={node.id}
         nodeLabel={node.label}
         key={node.id}
+        onItemClick={onRightClickContextMenu}
       >
         <StyledNode
           data-level={level}
           data-nodeisinactivenodepath={nodeIsInActiveNodePath}
           data-id={node.id}
-          onClick={onClickNode}
+          onClick={onLeftClickNode}
         >
           {useSymbolIcon && (
             <SymbolIcon
