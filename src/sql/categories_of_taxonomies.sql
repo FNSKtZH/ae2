@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_function()
+CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_count_function()
   RETURNS setof ae.categories_of_taxonomies AS
   $$
     WITH categoryTaxonomies AS (
@@ -16,5 +16,5 @@ CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_function()
     ORDER BY name
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.categories_of_taxonomies_function()
+ALTER FUNCTION ae.categories_of_taxonomies_count_function()
   OWNER TO postgres;

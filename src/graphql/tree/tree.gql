@@ -15,7 +15,7 @@ query AppQueryQuery($existsLevel2Pc: Boolean!, $notExistsLevel2Pc: Boolean!, $ex
       }
     }
   }
-  level2Taxonomy: categoriesOfTaxonomiesFunction @include(if: $existsLevel2Taxonomy) {
+  level2Taxonomy: categoriesOfTaxonomiesCountFunction @include(if: $existsLevel2Taxonomy) {
     nodes {
       id
       name

@@ -49,7 +49,7 @@ query AppQueryQuery(
       }
     }
   }
-  level2Taxonomy: categoriesOfTaxonomiesFunction
+  level2Taxonomy: categoriesOfTaxonomiesCountFunction
     @include(if: $existsLevel2Taxonomy) {
     nodes {
       id
@@ -412,7 +412,7 @@ export default gql`
         }
       }
     }
-    level2Taxonomy: categoriesOfTaxonomiesFunction
+    level2Taxonomy: categoriesOfTaxonomiesCountFunction
       @include(if: $existsLevel2Taxonomy) {
       nodes {
         id
