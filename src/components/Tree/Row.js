@@ -160,7 +160,7 @@ const Row = ({
   return (
     <div key={key} style={style}>
       <ContextMenuTrigger
-        id={node.menuType || node.id}
+        id={node.menuType}
         collect={collect}
         nodeId={node.id}
         nodeLabel={node.label}
