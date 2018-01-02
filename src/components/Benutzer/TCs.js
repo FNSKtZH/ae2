@@ -25,6 +25,8 @@ const StyledA = styled.a`
   color: inherit;
   fontweight: 100;
   cursor: pointer;
+  text-decoration-color: rgba(0, 0, 0, 0.3);
+  text-decoration-style: dotted;
 `
 
 const TCs = ({ tcs, userData }: { tcs: Array<Object>, userData: Object }) => {
