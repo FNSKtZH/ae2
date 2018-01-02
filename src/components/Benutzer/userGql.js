@@ -18,11 +18,13 @@ export default gql`
       }
       propertyCollectionsByImportedBy {
         nodes {
+          id
           name
         }
       }
       taxonomiesByImportedBy {
         nodes {
+          id
           name
         }
       }
