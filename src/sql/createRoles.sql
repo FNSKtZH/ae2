@@ -50,59 +50,21 @@ alter default privileges in schema ae
   grant all on functions to org_admin;
 grant org_admin to authenticator;
 
--- org_collection_writer can do anything
+-- org_writer can do anything
 -- as far as row-level-security allows
 -- (allows only permitted projects)
-drop role if exists org_collection_writer;
-create role org_collection_writer;
-grant connect on database ae to org_collection_writer;
-grant all on schema ae to org_collection_writer;
-grant usage on schema public, auth to org_collection_writer;
-grant all on all tables in schema ae to org_collection_writer;
-grant all on all sequences in schema ae to org_collection_writer;
-grant all on all functions in schema ae to org_collection_writer;
+drop role if exists org_writer;
+create role org_writer;
+grant connect on database ae to org_writer;
+grant all on schema ae to org_writer;
+grant usage on schema public, auth to org_writer;
+grant all on all tables in schema ae to org_writer;
+grant all on all sequences in schema ae to org_writer;
+grant all on all functions in schema ae to org_writer;
 alter default privileges in schema ae
-  grant all on tables to org_collection_writer;
+  grant all on tables to org_writer;
 alter default privileges in schema ae
-  grant all on sequences to org_collection_writer;
+  grant all on sequences to org_writer;
 alter default privileges in schema ae
-  grant all on functions to org_collection_writer;
-grant org_collection_writer to authenticator;
-
--- org_habitat_writer can do anything
--- as far as row-level-security allows
--- (allows only permitted projects)
-drop role if exists org_habitat_writer;
-create role org_habitat_writer;
-grant connect on database ae to org_habitat_writer;
-grant all on schema ae to org_habitat_writer;
-grant usage on schema public, auth to org_habitat_writer;
-grant all on all tables in schema ae to org_habitat_writer;
-grant all on all sequences in schema ae to org_habitat_writer;
-grant all on all functions in schema ae to org_habitat_writer;
-alter default privileges in schema ae
-  grant all on tables to org_habitat_writer;
-alter default privileges in schema ae
-  grant all on sequences to org_habitat_writer;
-alter default privileges in schema ae
-  grant all on functions to org_habitat_writer;
-grant org_habitat_writer to authenticator;
-
--- org_taxonomy_writer can do anything
--- as far as row-level-security allows
--- (allows only permitted projects)
-drop role if exists org_taxonomy_writer;
-create role org_taxonomy_writer;
-grant connect on database ae to org_taxonomy_writer;
-grant all on schema ae to org_taxonomy_writer;
-grant usage on schema public, auth to org_taxonomy_writer;
-grant all on all tables in schema ae to org_taxonomy_writer;
-grant all on all sequences in schema ae to org_taxonomy_writer;
-grant all on all functions in schema ae to org_taxonomy_writer;
-alter default privileges in schema ae
-  grant all on tables to org_taxonomy_writer;
-alter default privileges in schema ae
-  grant all on sequences to org_taxonomy_writer;
-alter default privileges in schema ae
-  grant all on functions to org_taxonomy_writer;
-grant org_taxonomy_writer to authenticator;
+  grant all on functions to org_writer;
+grant org_writer to authenticator;
