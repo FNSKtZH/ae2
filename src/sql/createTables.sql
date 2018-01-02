@@ -360,11 +360,21 @@ CREATE TABLE ae.rco_properties_by_taxonomy (
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
 -- see: https://github.com/postgraphql/postgraphql/issues/491
-DROP TABLE IF EXISTS ae.categories_of_taxonomies CASCADE;
-CREATE TABLE ae.categories_of_taxonomies (
+DROP TABLE IF EXISTS ae.categories_of_taxonomies_count CASCADE;
+CREATE TABLE ae.categories_of_taxonomies_count (
   name text,
   id uuid,
   count bigint
+);
+
+-- this table is only needed because postgraphql does not pick up
+-- the same named function without it
+-- see: https://github.com/postgraphql/postgraphql/issues/491
+DROP TABLE IF EXISTS ae.categories_of_taxonomies CASCADE;
+CREATE TABLE ae.categories_of_taxonomies (
+  taxonomy_id uuid,
+  taxonomy_name text,
+  category_name text
 );
 
 -- this table is only needed because postgraphql does not pick up

@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_count_function()
-  RETURNS setof ae.categories_of_taxonomies AS
+  RETURNS setof ae.categories_of_taxonomies_count AS
   $$
     WITH categoryTaxonomies AS (
       SELECT ae.category.name, ae.category.id, ae.taxonomy.id AS taxonomy_id

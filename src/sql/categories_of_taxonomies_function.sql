@@ -1,9 +1,5 @@
 CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_function()
-  RETURNS TABLE (
-    taxonomy_id UUID,
-    taxonomy_name TEXT,
-    category_name TEXT
-  ) AS
+  RETURNS setof ae.categories_of_taxonomies AS
   $$
     SELECT DISTINCT
       ae.taxonomy.id as taxonomy_id,
