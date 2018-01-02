@@ -161,7 +161,7 @@ class User extends Component<Props, State> {
         />
         {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
         {pcs.length > 0 && <PCs pcs={pcs} />}
-        {tcs.length > 0 && <TCs tcs={tcs} />}
+        {tcs.length > 0 && <TCs userData={userData} tcs={tcs} />}
       </Container>
     )
   }

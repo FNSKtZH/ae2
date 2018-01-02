@@ -3,6 +3,8 @@ import React from 'react'
 import get from 'lodash/get'
 import styled from 'styled-components'
 
+import appBaseUrl from '../../modules/appBaseUrl'
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,19 +21,40 @@ const List = styled.div`
     -webkit-margin-before: 0px;
   }
 `
+const StyledA = styled.a`
+  color: inherit;
+  fontweight: 100;
+  cursor: pointer;
+`
 
-const TCs = ({ tcs }: { tcs: Array<Object> }) => (
-  <Container>
-    <Label>Importierte Taxonomien:</Label>
-    <List>
-      <ul>
-        {tcs.map(u => {
-          const name = get(u, 'name', '')
-          return <li key={name}>{name}</li>
-        })}
-      </ul>
-    </List>
-  </Container>
-)
+const TCs = ({ tcs, userData }: { tcs: Array<Object>, userData: Object }) => {
+  const taxByCategories = get(userData, 'categoriesOfTaxonomiesFunction.nodes')
+  console.log('taxByCategories:', taxByCategories)
+  return (
+    <Container>
+      <Label>Importierte Taxonomien:</Label>
+      <List>
+        <ul>
+          {tcs.map(u => {
+            const taxByCategory = taxByCategories.find(
+              tbc => tbc.taxonomyId === u.id
+            )
+            const category = taxByCategory ? taxByCategory.categoryName : null
+            const link = `${appBaseUrl}/Taxonomien/${encodeURIComponent(
+              category
+            )}/${encodeURIComponent(u.id)}`
+            return (
+              <li key={u.name}>
+                <StyledA href={link} target="_blank">
+                  {u.name}
+                </StyledA>
+              </li>
+            )
+          })}
+        </ul>
+      </List>
+    </Container>
+  )
+}
 
 export default TCs

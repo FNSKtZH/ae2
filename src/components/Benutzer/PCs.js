@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import get from 'lodash/get'
 import styled from 'styled-components'
 
 import appBaseUrl from '../../modules/appBaseUrl'
