@@ -31,7 +31,7 @@ const StyledA = styled.a`
 
 const TCs = ({ tcs, userData }: { tcs: Array<Object>, userData: Object }) => {
   const taxByCategories = get(userData, 'categoriesOfTaxonomiesFunction.nodes')
-  console.log('taxByCategories:', taxByCategories)
+
   return (
     <Container>
       <Label>Importierte Taxonomien:</Label>
