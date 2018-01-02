@@ -373,7 +373,6 @@ CREATE TABLE ae.categories_of_taxonomies_count (
 DROP TABLE IF EXISTS ae.categories_of_taxonomies CASCADE;
 CREATE TABLE ae.categories_of_taxonomies (
   taxonomy_id uuid,
-  taxonomy_name text,
   category_name text
 );
 

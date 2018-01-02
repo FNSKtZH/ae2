@@ -3,6 +3,12 @@ import gql from 'graphql-tag'
 
 export default gql`
   query userQuery($name: String!) {
+    categoriesOfTaxonomiesFunction {
+      nodes {
+        taxonomyId
+        categoryName
+      }
+    }
     userByName(name: $name) {
       id
       name
