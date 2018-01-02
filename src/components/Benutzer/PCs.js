@@ -31,7 +31,7 @@ const StyledA = styled.a`
 const PCs = ({ pcs }: { pcs: Array<Object> }) => {
   return (
     <Container>
-      <Label>Importierte Eigenschaftensammlungen:</Label>
+      <Label>Importierte Eigenschaften-Sammlungen:</Label>
       <List>
         <ul>
           {pcs.map(u => {
