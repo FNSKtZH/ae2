@@ -25,6 +25,7 @@ export default ({
       label: 'Arten und Lebensräume',
       info: `(${catCount} Gruppen)`,
       childrenCount: catCount,
+      menuType: 'CmTaxFolder',
     },
     {
       id: 'Eigenschaften-Sammlungen',
@@ -33,6 +34,7 @@ export default ({
       label: 'Eigenschaften-Sammlungen',
       info: `(${pcCount})`,
       childrenCount: pcCount,
+      menuType: 'CmPCFolder',
     },
   ]
   const token = get(loginData, 'login.token', '')
@@ -64,6 +66,7 @@ export default ({
         label: 'Organisationen',
         info: `(${userOrganizations.length})`,
         childrenCount: userOrganizations.length,
+        menuType: 'orgFolder',
       })
     }
   }

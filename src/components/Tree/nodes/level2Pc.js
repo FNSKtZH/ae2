@@ -30,6 +30,7 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
       label: node.name,
       info: `(${count} Arten/Lebensräume)`,
       childrenCount: pCCount + rCCount,
+      menuType: 'pC',
     }
   })
 }

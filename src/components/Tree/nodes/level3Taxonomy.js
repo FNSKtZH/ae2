@@ -24,6 +24,7 @@ export default ({
       label: node.name,
       info: `(${childrenCount})`,
       childrenCount,
+      menuType: 'taxLevel3',
     }
   })
 }

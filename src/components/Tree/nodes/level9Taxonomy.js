@@ -69,6 +69,7 @@ export default ({
       label: node.name,
       info: labelCount,
       childrenCount,
+      menuType: 'taxLevel9',
     }
   })
 }

@@ -25,6 +25,7 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
       label: 'Eigenschaften',
       info: `(${pCCount} Datensätze)`,
       childrenCount: 0,
+      menuType: 'pCProperties',
     },
     {
       id: `${pCId}pC`,
@@ -33,6 +34,7 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
       label: 'Beziehungen',
       info: `(${rCCount} Datensätze)`,
       childrenCount: 0,
+      menuType: 'pCRelations',
     },
   ]
 }

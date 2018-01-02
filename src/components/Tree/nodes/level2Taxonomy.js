@@ -11,5 +11,6 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
     label: node.name,
     info: `(${node.count} ${node.count === '1' ? 'Taxonomie' : 'Taxonomien'})`,
     childrenCount: node.count,
+    menuType: 'taxonomy',
   }))
 }

@@ -30,5 +30,6 @@ export default ({
     sort: [4, org],
     label: org,
     childrenCount: 0,
+    menuType: 'organization',
   }))
 }
