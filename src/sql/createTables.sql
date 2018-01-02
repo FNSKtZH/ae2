@@ -18,12 +18,16 @@ DROP TABLE IF EXISTS ae.organization CASCADE;
 CREATE TABLE ae.organization (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   name text UNIQUE NOT NULL,
-  links text[] DEFAULT NULL
+  links text[] DEFAULT NULL,
+  contact UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE INDEX ON ae.organization USING btree (name);
 
+-- only once:
 ALTER TABLE ae.organization
-    ADD COLUMN links text[] DEFAULT NULL;
+  ADD COLUMN links text[] DEFAULT NULL;
+ALTER TABLE ae.organization
+  ADD COLUMN contact UUID DEFAULT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
