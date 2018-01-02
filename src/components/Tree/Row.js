@@ -79,7 +79,7 @@ function collect(props) {
 const enhance = compose(
   withApollo,
   withHandlers({
-    onLeftClickNode: ({ node, index, activeNodeArray }) => event => {
+    onClickNode: ({ node, index, activeNodeArray }) => event => {
       // do nothing when loading indicator is clicked
       // or if node is already active
       const { url, loadingNode } = node
@@ -87,15 +87,13 @@ const enhance = compose(
         app.history.push(`/${url.join('/')}`)
       }
     },
-    onRightClickContextMenu: props => (e, data, target) => {
-      console.log('hi from handleClick')
+    onClickContextMenu: props => (e, data, target) => {
       if (!data) return console.log('no data passed with click')
       if (!target) {
         return console.log('no target passed with click')
       }
       const { table, action } = data
-      let id = target.getAttribute('data-id')
-      console.log('Row, handleClick: id:', id)
+      const id = target.firstElementChild.getAttribute('data-id')
       const actions = {
         insert() {
           if (table === 'user') {
@@ -126,8 +124,8 @@ const Row = ({
   style,
   node,
   client,
-  onLeftClickNode,
-  onRightClickContextMenu,
+  onClickNode,
+  onClickContextMenu,
   activeNodeArray,
 }: {
   key?: number,
@@ -135,8 +133,8 @@ const Row = ({
   style: Object,
   node: Array<Object>,
   client: Object,
-  onLeftClickNode: () => void,
-  onRightClickContextMenu: () => void,
+  onClickNode: () => void,
+  onClickContextMenu: () => void,
   activeNodeArray: Array<String>,
 }) => {
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
@@ -167,13 +165,13 @@ const Row = ({
         nodeId={node.id}
         nodeLabel={node.label}
         key={node.id}
-        onItemClick={onRightClickContextMenu}
+        onItemClick={onClickContextMenu}
       >
         <StyledNode
           data-level={level}
           data-nodeisinactivenodepath={nodeIsInActiveNodePath}
           data-id={node.id}
-          onClick={onLeftClickNode}
+          onClick={onClickNode}
         >
           {useSymbolIcon && (
             <SymbolIcon
