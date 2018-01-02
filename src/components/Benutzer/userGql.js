@@ -21,6 +21,11 @@ export default gql`
           name
         }
       }
+      taxonomiesByImportedBy {
+        nodes {
+          name
+        }
+      }
     }
   }
 `

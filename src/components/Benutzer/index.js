@@ -12,6 +12,7 @@ import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import userData from './userData'
 import Roles from './Roles'
 import PCs from './PCs'
+import TCs from './TCs'
 import onSave from './onSave'
 
 const Container = styled.form`
@@ -101,6 +102,7 @@ class User extends Component<Props, State> {
     const user = get(userData, 'userByName', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
+    const tcs = get(user, 'taxonomiesByImportedBy.nodes', [])
     const showPass =
       !!name &&
       !!user.name &&
@@ -159,6 +161,7 @@ class User extends Component<Props, State> {
         />
         {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
         {pcs.length > 0 && <PCs pcs={pcs} />}
+        {tcs.length > 0 && <TCs tcs={tcs} />}
       </Container>
     )
   }
