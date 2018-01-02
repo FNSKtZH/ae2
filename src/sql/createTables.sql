@@ -17,9 +17,13 @@ CREATE TABLE ae.category (
 DROP TABLE IF EXISTS ae.organization CASCADE;
 CREATE TABLE ae.organization (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  name text UNIQUE NOT NULL
+  name text UNIQUE NOT NULL,
+  links text[] DEFAULT NULL
 );
 CREATE INDEX ON ae.organization USING btree (name);
+
+ALTER TABLE ae.organization
+    ADD COLUMN links text[] DEFAULT NULL;
 
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
