@@ -24,10 +24,8 @@ CREATE TABLE ae.organization (
 CREATE INDEX ON ae.organization USING btree (name);
 
 -- only once:
-ALTER TABLE ae.organization
-  ADD COLUMN links text[] DEFAULT NULL;
-ALTER TABLE ae.organization
-  ADD COLUMN contact UUID DEFAULT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE;
+--ALTER TABLE ae.organization ADD COLUMN links text[] DEFAULT NULL;
+--ALTER TABLE ae.organization ADD COLUMN contact UUID DEFAULT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
