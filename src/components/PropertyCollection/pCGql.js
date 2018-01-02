@@ -17,7 +17,9 @@ export default gql`
         name
       }
       userByImportedBy {
+        id
         name
+        email
       }
     }
   }

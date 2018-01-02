@@ -15,6 +15,7 @@ export default gql`
             userByUserId {
               id
               name
+              email
             }
           }
         }
