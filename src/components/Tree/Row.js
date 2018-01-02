@@ -122,7 +122,6 @@ const Row = ({
     useSymbolSpan = true
     useSymbolIcon = false
   }
-  const dataUrl = JSON.stringify(node.url)
   const level = node.url.length
 
   return (
@@ -138,11 +137,6 @@ const Row = ({
           data-level={level}
           data-nodeisinactivenodepath={nodeIsInActiveNodePath}
           data-id={node.id}
-          data-parentid={node.parentId}
-          data-url={dataUrl}
-          data-nodetype={node.nodeType}
-          data-label={node.label}
-          data-menutype={node.menuType}
           onClick={onClickNode}
         >
           {useSymbolIcon && (

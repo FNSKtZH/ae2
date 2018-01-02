@@ -5,6 +5,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
+import withHandlers from 'recompose/withHandlers'
 import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
 import Snackbar from 'material-ui/Snackbar'
@@ -16,6 +17,8 @@ import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import allCategoriesData from '../../modules/allCategoriesData'
 import loginData from '../../modules/loginData'
 import treeData from './treeData'
+import CmBenutzerFolder from './contextmenu/BenutzerFolder'
+import CmBenutzer from './contextmenu/Benutzer'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -67,7 +70,39 @@ const enhance = compose(
   activeNodeArrayData,
   allCategoriesData,
   treeData,
-  loginData
+  loginData,
+  withHandlers({
+    handleClick: props => (e, data, element) => {
+      if (!data) return console.log('no data passed with click')
+      if (!element) {
+        return console.log('no element passed with click')
+      }
+      const { table, action } = data
+      const { firstElementChild } = element
+      if (!firstElementChild) {
+        return console.log('no firstElementChild passed with click')
+      }
+      let id = firstElementChild.getAttribute('data-id')
+      const actions = {
+        insert() {
+          if (table === 'ap') {
+            // TODO
+          }
+        },
+        delete() {
+          // TODO
+        },
+      }
+      if (Object.keys(actions).includes(action)) {
+        actions[action]()
+      } else {
+        console.log(`action "${action}" unknown, therefore not executed`)
+        /*store.listError(
+          new Error(`action "${action}" unknown, therefore not executed`)
+        )*/
+      }
+    },
+  })
 )
 
 const Tree = ({
