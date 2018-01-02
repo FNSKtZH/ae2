@@ -1,23 +1,25 @@
 // @flow
 import React from 'react'
-import { ContextMenu, MenuItem } from 'react-contextmenu'
-import compose from 'recompose/compose'
+import { ContextMenu, MenuItem, connectMenu } from 'react-contextmenu'
 
-const enhance = compose()
+const DynamicMenu = ({ id, trigger }) => {
+  const handleItemClick = trigger ? trigger.onClick : null
+  return (
+    <ContextMenu id={id} collect={props => props}>
+      <div className="react-contextmenu-title">Benutzer</div>
+      <MenuItem
+        onClick={handleItemClick}
+        data={{
+          action: 'insert',
+          table: 'user',
+        }}
+      >
+        erstelle neuen
+      </MenuItem>
+    </ContextMenu>
+  )
+}
 
-const BenutzerFolder = ({ onClick }: { onClick: () => void }) => (
-  <ContextMenu id="CmBenutzerFolder" collect={props => props}>
-    <div className="react-contextmenu-title">Art</div>
-    <MenuItem
-      onClick={onClick}
-      data={{
-        action: 'insert',
-        table: 'user',
-      }}
-    >
-      erstelle neuen
-    </MenuItem>
-  </ContextMenu>
-)
+const ConnectedMenu = connectMenu('CmBenutzerFolder')(DynamicMenu)
 
-export default enhance(BenutzerFolder)
+export default ConnectedMenu

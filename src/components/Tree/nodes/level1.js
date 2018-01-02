@@ -45,6 +45,7 @@ export default ({
       label: 'Benutzer',
       info: `(${userCount})`,
       childrenCount: userCount,
+      menuType: 'CmBenutzerFolder',
     })
     const tokenDecoded = jwtDecode(token)
     const { role, username } = tokenDecoded

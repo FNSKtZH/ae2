@@ -11,5 +11,6 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
     sort: [3, node.name],
     label: node.name,
     childrenCount: 0,
+    menuType: 'CmBenutzer',
   }))
 }

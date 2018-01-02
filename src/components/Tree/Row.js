@@ -72,6 +72,10 @@ const InfoSpan = styled.span`
   line-height: 20px;
 `
 
+function collect(props) {
+  return props
+}
+
 const enhance = compose(
   withApollo,
   withHandlers({
@@ -107,7 +111,6 @@ const Row = ({
     node.url,
     activeNodeArray
   )
-  const myProps = { key: index }
   // build symbols
   let useSymbolIcon = true
   let useSymbolSpan = false
@@ -127,8 +130,8 @@ const Row = ({
   return (
     <div key={key} style={style}>
       <ContextMenuTrigger
-        id={node.id}
-        collect={props => myProps}
+        id={node.menuType || node.id}
+        collect={collect}
         nodeId={node.id}
         nodeLabel={node.label}
         key={node.id}

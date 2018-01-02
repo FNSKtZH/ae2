@@ -72,25 +72,25 @@ const enhance = compose(
   treeData,
   loginData,
   withHandlers({
-    handleClick: props => (e, data, element) => {
+    handleClick: props => (e, data, target) => {
+      console.log('hi from handleClick')
       if (!data) return console.log('no data passed with click')
-      if (!element) {
-        return console.log('no element passed with click')
+      if (!target) {
+        return console.log('no target passed with click')
       }
       const { table, action } = data
-      const { firstElementChild } = element
-      if (!firstElementChild) {
-        return console.log('no firstElementChild passed with click')
-      }
-      let id = firstElementChild.getAttribute('data-id')
+      let id = target.getAttribute('data-id')
+      console.log('Tree, handleClick: id:', id)
       const actions = {
         insert() {
-          if (table === 'ap') {
+          if (table === 'user') {
             // TODO
+            console.log('Tree, hancleClick: should create new user')
           }
         },
         delete() {
           // TODO
+          console.log('Tree, hancleClick: should delete user with id:', id)
         },
       }
       if (Object.keys(actions).includes(action)) {
@@ -112,12 +112,14 @@ const Tree = ({
   loginData,
   // dimensions is passed down from ReflexElement
   dimensions,
+  handleClick,
 }: {
   activeNodeArrayData: Object,
   allCategoriesData: Object,
   treeData: Object,
   loginData: Object,
   dimensions: Object,
+  handleClick: () => void,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
   const { error, loading: treeDataLoading } = treeData
@@ -172,6 +174,8 @@ const Tree = ({
           backgroundColor: '#2E7D32',
         }}
       />
+      <CmBenutzerFolder onClick={handleClick} />
+      <CmBenutzer onClick={handleClick} />
     </Container>
   )
 }
