@@ -79,8 +79,10 @@ CREATE POLICY
 DROP TABLE IF EXISTS ae.user CASCADE;
 CREATE TABLE ae.user (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  name text NOT NULL UNIQUE,
-  email text NOT NULL UNIQUE,
+  name text UNIQUE,
+  email text UNIQUE,
+  role name NOT NULL DEFAULT 'org_writer' check (length(role) < 512),
+  pass text NOT NULL DEFAULT 'secret' check (length(pass) > 5),
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
 -- TODO: org_admin should be able to edit user
@@ -95,6 +97,7 @@ CREATE POLICY
 --alter table ae.user add column pass text NULL;
 -- add data from auth.user
 --alter table ae.user alter column role set not null;
+--alter table ae.user alter column role set DEFAULT 'org_writer';
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (

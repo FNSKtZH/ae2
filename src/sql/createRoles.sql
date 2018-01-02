@@ -68,3 +68,9 @@ alter default privileges in schema ae
 alter default privileges in schema ae
   grant all on functions to org_writer;
 grant org_writer to authenticator;
+
+-- secure pass and role in ae.user:
+revoke all on ae.user from public;
+grant select (id, name, email) on ae.user to anon;
+grant select (id, name, email) on ae.user to org_writer;
+grant select (id, name, email) on ae.user to org_admin;
