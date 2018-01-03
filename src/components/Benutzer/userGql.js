@@ -2,14 +2,14 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  query userQuery($name: String!) {
+  query userQuery($id: UUID!) {
     categoriesOfTaxonomiesFunction {
       nodes {
         taxonomyId
         categoryName
       }
     }
-    userByName(name: $name) {
+    userById(id: $id) {
       id
       name
       email

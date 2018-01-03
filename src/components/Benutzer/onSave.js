@@ -22,7 +22,7 @@ export default async ({
 }) => {
   const { name: usernameNew, email, pass, passNew } = state
   const { userData, client } = props
-  const { name: username } = get(userData, 'userByName', {})
+  const { name: username } = get(userData, 'userById', {})
   let result
   try {
     result = await client.mutate({

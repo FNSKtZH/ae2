@@ -50,8 +50,8 @@ class User extends Component<Props, State> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const propsUser = get(this.props.userData, 'userByName', {})
-    const prevPropsUser = get(prevProps.userData, 'userByName', {})
+    const propsUser = get(this.props.userData, 'userById', {})
+    const prevPropsUser = get(prevProps.userData, 'userById', {})
 
     if (
       !!propsUser &&
@@ -99,7 +99,7 @@ class User extends Component<Props, State> {
       passErrorText,
       passNew,
     } = this.state
-    const user = get(userData, 'userByName', {})
+    const user = get(userData, 'userById', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
     const tcs = get(user, 'taxonomiesByImportedBy.nodes', [])
