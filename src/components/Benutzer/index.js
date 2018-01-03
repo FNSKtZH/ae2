@@ -90,7 +90,7 @@ class User extends Component<Props, State> {
   }
 
   render() {
-    const { userData } = this.props
+    const { userData, loginData } = this.props
     const {
       name,
       nameErrorText,
@@ -99,6 +99,7 @@ class User extends Component<Props, State> {
       passErrorText,
       passNew,
     } = this.state
+    const loginUsername = get(loginData, 'login.username')
     const user = get(userData, 'userById', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
@@ -110,6 +111,8 @@ class User extends Component<Props, State> {
       !!user.email &&
       (name !== user.name || email !== user.email)
     const saveEnabled = !!pass && showPass
+    const userIsLoggedIn =
+      !!user && !!loginUsername && user.name === loginUsername
 
     return (
       <Container>
@@ -130,15 +133,17 @@ class User extends Component<Props, State> {
           fullWidth
           autoComplete="email"
         />
-        <TextField
-          name="passNew"
-          floatingLabelText="Passwort ändern"
-          type="password"
-          value={passNew}
-          onChange={this.onChangeVal}
-          fullWidth
-          autoComplete="new-password"
-        />
+        {userIsLoggedIn && (
+          <TextField
+            name="passNew"
+            floatingLabelText="Passwort ändern"
+            type="password"
+            value={passNew}
+            onChange={this.onChangeVal}
+            fullWidth
+            autoComplete="new-password"
+          />
+        )}
         {showPass && (
           <TextField
             name="pass"
