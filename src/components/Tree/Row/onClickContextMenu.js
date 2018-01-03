@@ -3,6 +3,7 @@ import get from 'lodash/get'
 import app from 'ampersand-app'
 
 import createUserMutation from '../../Benutzer/createUserMutation'
+import deleteUserMutation from '../../Benutzer/deleteUserMutation'
 
 export default async ({
   e,
@@ -10,12 +11,14 @@ export default async ({
   target,
   client,
   userData,
+  treeData,
 }: {
   e: Object,
   data: Object,
   target: Object,
   client: Object,
   userData: Object,
+  treeData: Object,
 }) => {
   if (!data) return console.log('no data passed with click')
   if (!target) {
@@ -26,7 +29,6 @@ export default async ({
   const actions = {
     insert: async () => {
       if (table === 'user') {
-        //createUserMutation
         let newUser
         try {
           newUser = await client.mutate({
@@ -36,13 +38,25 @@ export default async ({
           console.log(error)
         }
         const newUserId = get(newUser, 'data.createUser.user.id')
-        await userData.refetch()
+        userData.refetch()
+        treeData.refetch()
         !!newUserId && app.history.push(`/Benutzer/${newUserId}`)
       }
     },
-    delete() {
-      // TODO
-      console.log('Row, hancleClick: should delete user with id:', id)
+    delete: async () => {
+      if (table === 'user') {
+        try {
+          await client.mutate({
+            mutation: deleteUserMutation,
+            variables: { id },
+          })
+        } catch (error) {
+          console.log(error)
+        }
+        userData.refetch()
+        treeData.refetch()
+        app.history.push('/Benutzer')
+      }
     },
   }
   if (Object.keys(actions).includes(action)) {
