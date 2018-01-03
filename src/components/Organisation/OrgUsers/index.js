@@ -3,9 +3,12 @@ import React from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import { withApollo } from 'react-apollo'
 
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import orgUsersData from './orgUsersData'
+import AutocompleteFromArray from '../../shared/AutocompleteFromArray'
+import updateOrgUserMutation from './updateOrgUserMutation'
 
 const Container = styled.div`
   display: flex;
@@ -24,14 +27,28 @@ const List = styled.div`
   }
 `
 
-const enhance = compose(activeNodeArrayData, orgUsersData)
+const enhance = compose(withApollo, activeNodeArrayData, orgUsersData)
 
-const OrgUsers = ({ orgUsersData }: { orgUsersData: Object }) => {
+const OrgUsers = ({
+  orgUsersData,
+  client,
+}: {
+  orgUsersData: Object,
+  client: Object,
+}) => {
   const orgUsers = get(
     orgUsersData,
     'organizationByName.organizationUsersByOrganizationId.nodes',
     []
   )
+  const users = get(orgUsersData, 'allUsers.nodes', [])
+    .map(u => u.name)
+    .sort()
+  const roles = get(orgUsersData, 'allRoles.nodes', [])
+    .map(u => u.name)
+    .sort()
+  const organizationId = get(orgUsersData, 'organizationByName.id')
+
   return (
     <Container>
       <Label>Benutzer mit Rollen:</Label>
@@ -40,8 +57,39 @@ const OrgUsers = ({ orgUsersData }: { orgUsersData: Object }) => {
           const key = `${get(u, 'userByUserId.id')}/${u.role}`
           return (
             <div key={key}>
-              <span>{get(u, 'userByUserId.name')}</span>
-              <span>{u.role}</span>
+              <AutocompleteFromArray
+                label="Benutzer"
+                valueText={get(u, 'userByUserId.name')}
+                dataSource={users}
+                updatePropertyInDb={val => {
+                  const userId = users.find(u => u.name === val).id
+                  client.mutate({
+                    mutation: updateOrgUserMutation,
+                    variables: {
+                      nodeId: u.nodeId,
+                      organizationId,
+                      userId,
+                      role: u.role,
+                    },
+                  })
+                }}
+              />
+              <AutocompleteFromArray
+                label="Rolle"
+                valueText={u.role}
+                dataSource={roles}
+                updatePropertyInDb={role => {
+                  client.mutate({
+                    mutation: updateOrgUserMutation,
+                    variables: {
+                      nodeId: u.nodeId,
+                      organizationId,
+                      userId: get(u, 'userByUserId.id'),
+                      role,
+                    },
+                  })
+                }}
+              />
             </div>
           )
         })}

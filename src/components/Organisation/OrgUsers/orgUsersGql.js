@@ -8,12 +8,24 @@ export default gql`
       organizationUsersByOrganizationId {
         totalCount
         nodes {
+          nodeId
           userByUserId {
             id
             name
           }
           role
         }
+      }
+    }
+    allUsers {
+      nodes {
+        id
+        name
+      }
+    }
+    allRoles {
+      nodes {
+        name
       }
     }
   }
