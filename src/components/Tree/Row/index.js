@@ -10,7 +10,7 @@ import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
-import createUserMutation from '../../Benutzer/createUserMutation'
+import onClickContextMenu from './onClickContextMenu'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -89,36 +89,7 @@ const enhance = compose(
       }
     },
     onClickContextMenu: ({ client }) => (e, data, target) => {
-      if (!data) return console.log('no data passed with click')
-      if (!target) {
-        return console.log('no target passed with click')
-      }
-      const { table, action } = data
-      const id = target.firstElementChild.getAttribute('data-id')
-      const actions = {
-        insert() {
-          if (table === 'user') {
-            // TODO
-            console.log('Row, hancleClick: should create new user')
-            //createUserMutation
-            client.mutate({
-              mutation: createUserMutation,
-            })
-          }
-        },
-        delete() {
-          // TODO
-          console.log('Row, hancleClick: should delete user with id:', id)
-        },
-      }
-      if (Object.keys(actions).includes(action)) {
-        actions[action]()
-      } else {
-        console.log(`action "${action}" unknown, therefore not executed`)
-        /*store.listError(
-          new Error(`action "${action}" unknown, therefore not executed`)
-        )*/
-      }
+      onClickContextMenu({ e, data, target, client })
     },
   })
 )
