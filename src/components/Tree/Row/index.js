@@ -11,6 +11,7 @@ import app from 'ampersand-app'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenu from './onClickContextMenu'
+import userData from '../../Benutzer/userData'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -79,6 +80,7 @@ function collect(props) {
 
 const enhance = compose(
   withApollo,
+  userData,
   withHandlers({
     onClickNode: ({ node, index, activeNodeArray }) => event => {
       // do nothing when loading indicator is clicked
@@ -88,8 +90,8 @@ const enhance = compose(
         app.history.push(`/${url.join('/')}`)
       }
     },
-    onClickContextMenu: ({ client }) => (e, data, target) => {
-      onClickContextMenu({ e, data, target, client })
+    onClickContextMenu: ({ client, userData }) => (e, data, target) => {
+      onClickContextMenu({ e, data, target, client, userData })
     },
   })
 )

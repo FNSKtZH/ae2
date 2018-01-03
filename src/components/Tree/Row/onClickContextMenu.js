@@ -1,16 +1,18 @@
 // @flow
 import createUserMutation from '../../Benutzer/createUserMutation'
 
-export default ({
+export default async ({
   e,
   data,
   target,
   client,
+  userData,
 }: {
   e: Object,
   data: Object,
   target: Object,
   client: Object,
+  userData: Object,
 }) => {
   if (!data) return console.log('no data passed with click')
   if (!target) {
@@ -19,14 +21,23 @@ export default ({
   const { table, action } = data
   const id = target.firstElementChild.getAttribute('data-id')
   const actions = {
-    insert() {
+    insert: async () => {
       if (table === 'user') {
         // TODO
         console.log('Row, hancleClick: should create new user')
         //createUserMutation
-        client.mutate({
-          mutation: createUserMutation,
-        })
+        let newUser
+        try {
+          newUser = await client.mutate({
+            mutation: createUserMutation,
+          })
+        } catch (error) {
+          console.log(error)
+        }
+        console.log('newUser:', newUser)
+        console.log('userData:', userData)
+        const refetchResult = await userData.refetch()
+        console.log('refetchResult:', refetchResult)
       }
     },
     delete() {
@@ -38,8 +49,5 @@ export default ({
     actions[action]()
   } else {
     console.log(`action "${action}" unknown, therefore not executed`)
-    /*store.listError(
-      new Error(`action "${action}" unknown, therefore not executed`)
-    )*/
   }
 }
