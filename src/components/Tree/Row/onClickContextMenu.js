@@ -1,4 +1,7 @@
 // @flow
+import get from 'lodash/get'
+import app from 'ampersand-app'
+
 import createUserMutation from '../../Benutzer/createUserMutation'
 
 export default async ({
@@ -23,8 +26,6 @@ export default async ({
   const actions = {
     insert: async () => {
       if (table === 'user') {
-        // TODO
-        console.log('Row, hancleClick: should create new user')
         //createUserMutation
         let newUser
         try {
@@ -34,10 +35,9 @@ export default async ({
         } catch (error) {
           console.log(error)
         }
-        console.log('newUser:', newUser)
-        console.log('userData:', userData)
-        const refetchResult = await userData.refetch()
-        console.log('refetchResult:', refetchResult)
+        const newUserId = get(newUser, 'data.createUser.user.id')
+        await userData.refetch()
+        !!newUserId && app.history.push(`/Benutzer/${newUserId}`)
       }
     },
     delete() {

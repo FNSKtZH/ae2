@@ -120,7 +120,7 @@ class User extends Component<Props, State> {
           name="name"
           floatingLabelText="Name"
           errorText={nameErrorText}
-          value={name}
+          value={name || ''}
           onChange={this.onChangeVal}
           fullWidth
           autoComplete="username"
@@ -128,7 +128,7 @@ class User extends Component<Props, State> {
         <TextField
           name="email"
           floatingLabelText="Email"
-          value={email}
+          value={email || ''}
           onChange={this.onChangeVal}
           fullWidth
           autoComplete="email"
@@ -138,7 +138,7 @@ class User extends Component<Props, State> {
             name="passNew"
             floatingLabelText="Passwort ändern"
             type="password"
-            value={passNew}
+            value={passNew || ''}
             onChange={this.onChangeVal}
             fullWidth
             autoComplete="new-password"
@@ -153,7 +153,7 @@ class User extends Component<Props, State> {
               color: 'green',
             }}
             type="password"
-            value={pass}
+            value={pass || ''}
             onChange={this.onChangeVal}
             fullWidth
             autoComplete="current-password"
