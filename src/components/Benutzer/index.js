@@ -35,6 +35,7 @@ type State = {
   name: string,
   nameErrorText: string,
   email: string,
+  emailErrorText: string,
   pass: string,
   passErrorText: string,
   passNew: string,
@@ -51,6 +52,7 @@ class User extends Component<Props, State> {
   state = {
     name: '',
     nameErrorText: '',
+    emailErrorText: '',
     email: '',
     pass: '',
     passErrorText: 'Bitte Passwort eingeben, um Änderungen zu speichern',
@@ -91,6 +93,7 @@ class User extends Component<Props, State> {
     }).then(() =>
       this.setState({
         nameErrorText: '',
+        emailErrorText: '',
         passErrorText: '',
         pass: '',
       })
@@ -102,6 +105,7 @@ class User extends Component<Props, State> {
     const {
       name,
       nameErrorText,
+      emailErrorText,
       email,
       pass,
       passErrorText,
@@ -134,6 +138,7 @@ class User extends Component<Props, State> {
         <TextField
           name="email"
           floatingLabelText="Email"
+          errorText={emailErrorText}
           value={email || ''}
           onChange={this.onChangeVal}
           fullWidth

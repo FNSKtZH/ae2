@@ -31,14 +31,23 @@ export default async ({
     })
   } catch (error) {
     const messages = error.graphQLErrors.map(x => x.message)
+    const isProperEmailError = messages.toString().includes('proper_email')
+    console.log('messages:', messages)
+    console.log('isProperEmailError:', isProperEmailError)
     const isNamePassError =
       messages.includes('invalid user or password') ||
       messages.includes('permission denied for relation user')
     if (isNamePassError) {
       const message = 'Name oder Passwort nicht bekannt'
-      return this.setState({
+      return setState({
         nameErrorText: message,
         passErrorText: message,
+      })
+    }
+    if (isProperEmailError) {
+      const message = 'Email ist nicht gültig'
+      return setState({
+        emailErrorText: message,
       })
     }
     return console.log(error)
