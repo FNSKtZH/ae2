@@ -10,6 +10,7 @@ import get from 'lodash/get'
 import loginData from '../../modules/loginData'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import userData from './userData'
+import treeData from '../Tree/treeData'
 import Roles from './Roles'
 import PCs from './PCs'
 import TCs from './TCs'
@@ -22,7 +23,13 @@ const SaveButton = styled(RaisedButton)`
   margin-bottom: 15px;
 `
 
-const enhance = compose(withApollo, activeNodeArrayData, loginData, userData)
+const enhance = compose(
+  withApollo,
+  activeNodeArrayData,
+  loginData,
+  userData,
+  treeData
+)
 
 type State = {
   name: string,
@@ -37,6 +44,7 @@ type Props = {
   client: Object,
   loginData: Object,
   userData: Object,
+  treeData: Object,
 }
 
 class User extends Component<Props, State> {
@@ -105,11 +113,9 @@ class User extends Component<Props, State> {
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
     const tcs = get(user, 'taxonomiesByImportedBy.nodes', [])
     const showPass =
-      !!name &&
-      !!user.name &&
-      !!email &&
-      !!user.email &&
-      (name !== user.name || email !== user.email)
+      !userData.loading &&
+      user &&
+      ((name && name !== user.name) || (email && email !== user.email))
     const saveEnabled = !!pass && showPass
     const userIsLoggedIn =
       !!user && !!loginUsername && user.name === loginUsername

@@ -18,7 +18,7 @@ export default async ({
   setState: () => void,
 }) => {
   const { name: username, email } = state
-  const { userData, client } = props
+  const { userData, treeData, client } = props
   const id = get(userData, 'userById.id')
   try {
     await client.mutate({
@@ -45,4 +45,5 @@ export default async ({
   }
   // refetch to update
   userData.refetch()
+  treeData.refetch()
 }
