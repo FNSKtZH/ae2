@@ -99,9 +99,10 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen, exportieren sowie über die API ([GraphQL](https://github.com/facebook/graphql)) direkt auf die Daten zugreifen.<br/>
     Angemeldete Benutzer können Daten gemäss den ihnen von Organisationen erteilten Rollen verändern.
   - [x] Benutzer<br/>
-    Benutzer können Name, Email und Passwort verändern.
+    Benutzer können Name, Email und Passwort verändern.<br/>
+    Organisations-Administratoren können neue Benutzer erstellen.
   - [ ] Organisationen (in Arbeit)<br/>
-    Organisationen erstellen Benutzer und geben ihnen Rollen.
+    Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen.
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen (in Arbeit)
   - [ ] Lebensräume bearbeiten
 
