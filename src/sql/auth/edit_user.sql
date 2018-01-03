@@ -1,6 +1,7 @@
 -- function takes an user name, old password, new password, email
 -- and updates this data if the credentials match a user in the internal table
 -- and returns an updated token
+-- NO MORE IN USE
 create or replace function ae.edit_user(username text, username_new text, pass text, pass_new text, email text)
 returns auth.jwt_token
   as $$

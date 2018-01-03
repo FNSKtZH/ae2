@@ -4,12 +4,9 @@
  * is built directly in class
  * that is why this is modularized
  */
-import app from 'ampersand-app'
 import get from 'lodash/get'
-import jwtDecode from 'jwt-decode'
 
-import setLoginMutation from '../../modules/loginMutation'
-import userMutation from './userMutation'
+import updateUserMutation from './updateUserMutation'
 
 export default async ({
   props,
@@ -20,19 +17,16 @@ export default async ({
   state: Object,
   setState: () => void,
 }) => {
-  const { name: usernameNew, email, pass, passNew } = state
+  const { name: username, email } = state
   const { userData, client } = props
-  const { name: username } = get(userData, 'userById', {})
-  let result
+  const id = get(userData, 'userById.id')
   try {
-    result = await client.mutate({
-      mutation: userMutation,
+    await client.mutate({
+      mutation: updateUserMutation,
       variables: {
         username,
-        usernameNew,
         email,
-        pass,
-        passNew: passNew ? passNew : pass,
+        id,
       },
     })
   } catch (error) {
@@ -49,44 +43,6 @@ export default async ({
     }
     return console.log(error)
   }
-  const jwtToken = get(result, 'data.editUser.jwtToken')
-  if (jwtToken) {
-    const tokenDecoded = jwtDecode(jwtToken)
-    const { role, username } = tokenDecoded
-    // refresh currentUser in idb
-    await app.idb.users.clear()
-    // seems that need to reset first?
-    await client.mutate({
-      mutation: setLoginMutation,
-      variables: {
-        username: '',
-        role: '',
-        token: '',
-      },
-    })
-    try {
-      await app.idb.users.put({
-        username,
-        token: jwtToken,
-        role,
-      })
-    } catch (error) {
-      console.log(('Error putting new user to idb': error))
-    }
-    try {
-      await client.mutate({
-        mutation: setLoginMutation,
-        variables: {
-          username,
-          role,
-          token: jwtToken,
-        },
-      })
-    } catch (error) {
-      console.log(('Error during setLoginMutation': error))
-    }
-    // need to refetch so pass disappears
-    userData.refetch()
-    return
-  }
+  // refetch to update
+  userData.refetch()
 }
