@@ -9,7 +9,8 @@ import isEqual from 'lodash/isEqual'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 
-import isUrlInActiveNodePath from '../../modules/isUrlInActiveNodePath'
+import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
+import createUserMutation from '../../Benutzer/createUserMutation'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -87,7 +88,7 @@ const enhance = compose(
         app.history.push(`/${url.join('/')}`)
       }
     },
-    onClickContextMenu: props => (e, data, target) => {
+    onClickContextMenu: ({ client }) => (e, data, target) => {
       if (!data) return console.log('no data passed with click')
       if (!target) {
         return console.log('no target passed with click')
@@ -99,6 +100,10 @@ const enhance = compose(
           if (table === 'user') {
             // TODO
             console.log('Row, hancleClick: should create new user')
+            //createUserMutation
+            client.mutate({
+              mutation: createUserMutation,
+            })
           }
         },
         delete() {
