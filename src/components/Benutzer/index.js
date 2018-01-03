@@ -14,7 +14,8 @@ import treeData from '../Tree/treeData'
 import Roles from './Roles'
 import PCs from './PCs'
 import TCs from './TCs'
-import onSave from './onSave'
+import updateUserMutation from './updateUserMutation'
+import updateUserMutationWithPass from './updateUserMutationWithPass'
 
 const Container = styled.form`
   padding: 10px;
@@ -36,8 +37,6 @@ type State = {
   nameErrorText: string,
   email: string,
   emailErrorText: string,
-  pass: string,
-  passErrorText: string,
   passNew: string,
 }
 
@@ -54,8 +53,6 @@ class User extends Component<Props, State> {
     nameErrorText: '',
     emailErrorText: '',
     email: '',
-    pass: '',
-    passErrorText: 'Bitte Passwort eingeben, um Änderungen zu speichern',
     passNew: '',
   }
 
@@ -82,45 +79,62 @@ class User extends Component<Props, State> {
     })
   }
 
-  onSave = () => {
-    const props = this.props
-    const state = this.state
-    const setState = this.setState
-    onSave({
-      props,
-      state,
-      setState,
-    }).then(() =>
-      this.setState({
-        nameErrorText: '',
-        emailErrorText: '',
-        passErrorText: '',
-        pass: '',
+  onSave = async () => {
+    const { name: username, email, passNew } = this.state
+    const { userData, treeData, client } = this.props
+    const id = get(userData, 'userById.id')
+    const variables = passNew
+      ? {
+          username,
+          email,
+          id,
+          pass: passNew,
+        }
+      : {
+          username,
+          email,
+          id,
+        }
+    const mutation = passNew ? updateUserMutationWithPass : updateUserMutation
+    try {
+      await client.mutate({
+        mutation,
+        variables,
       })
-    )
+    } catch (error) {
+      const messages = error.graphQLErrors.map(x => x.message).toString()
+      const isProperEmailError = messages.includes('proper_email')
+      if (isProperEmailError) {
+        const message = 'Email ist nicht gültig'
+        return this.setState({
+          emailErrorText: message,
+        })
+      }
+      return console.log(error)
+    }
+    // refetch to update
+    userData.refetch()
+    treeData.refetch()
+    this.setState({
+      nameErrorText: '',
+      emailErrorText: '',
+      passNew: '',
+    })
   }
 
   render() {
     const { userData, loginData } = this.props
-    const {
-      name,
-      nameErrorText,
-      emailErrorText,
-      email,
-      pass,
-      passErrorText,
-      passNew,
-    } = this.state
+    const { name, nameErrorText, emailErrorText, email, passNew } = this.state
     const loginUsername = get(loginData, 'login.username')
     const user = get(userData, 'userById', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
     const tcs = get(user, 'taxonomiesByImportedBy.nodes', [])
-    const showPass =
+    const saveEnabled =
       !userData.loading &&
-      user &&
-      ((name && name !== user.name) || (email && email !== user.email))
-    const saveEnabled = !!pass && showPass
+      (passNew ||
+        ((name && userData && name !== user.name) ||
+          (email && userData && email !== user.email)))
     const userIsLoggedIn =
       !!user && !!loginUsername && user.name === loginUsername
 
@@ -153,21 +167,6 @@ class User extends Component<Props, State> {
             onChange={this.onChangeVal}
             fullWidth
             autoComplete="new-password"
-          />
-        )}
-        {showPass && (
-          <TextField
-            name="pass"
-            floatingLabelText="Passwort (aktuell)"
-            errorText={passErrorText}
-            errorStyle={{
-              color: 'green',
-            }}
-            type="password"
-            value={pass || ''}
-            onChange={this.onChangeVal}
-            fullWidth
-            autoComplete="current-password"
           />
         )}
         <SaveButton
