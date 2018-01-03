@@ -8,6 +8,7 @@ import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import orgData from './orgData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import UserReadOnly from '../shared/UserReadOnly'
+import OrgUsers from './OrgUsers'
 
 const enhance = compose(activeNodeArrayData, orgData)
 
@@ -31,6 +32,7 @@ const Organization = ({ orgData }: { orgData: Object }) => {
         label="Link(s)"
       />
       <UserReadOnly key="contact" user={org.userByContact} label="Kontakt" />
+      <OrgUsers />
     </Container>
   )
 }
