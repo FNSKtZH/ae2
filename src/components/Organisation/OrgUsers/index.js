@@ -27,11 +27,17 @@ const Label = styled.div`
   margin-bottom: -10px;
 `
 const List = styled.div`
-  column-width: 400px;
-  margin-bottom: 10px;
-  ul {
-    -webkit-margin-before: 0px;
-  }
+  display: flex;
+  flex-direction: column;
+`
+const OrgUserDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+`
+const DeleteButton = styled(IconButton)`
+  top: 10px !important;
 `
 
 const enhance = compose(withApollo, activeNodeArrayData, orgUsersData)
@@ -65,7 +71,7 @@ const OrgUsers = ({
               u.role ? u.role : 'zzzzz'
             }`
         ).map(u => (
-          <div key={`${get(u, 'userByUserId.id')}/${u.role}`}>
+          <OrgUserDiv key={`${get(u, 'userByUserId.id')}/${u.role}`}>
             <AutocompleteFromArray
               label="Benutzer"
               valueText={get(u, 'userByUserId.name')}
@@ -112,9 +118,9 @@ const OrgUsers = ({
             >
               <ContentClear color={red500} />
             </IconButton>
-          </div>
+          </OrgUserDiv>
         ))}
-        <IconButton
+        <DeleteButton
           tooltip="Neue Rolle vergeben"
           tooltipPosition="top-right"
           onClick={async () => {
@@ -132,7 +138,7 @@ const OrgUsers = ({
           }}
         >
           <ContentAdd color={red500} />
-        </IconButton>
+        </DeleteButton>
       </List>
     </Container>
   )
