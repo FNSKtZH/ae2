@@ -298,6 +298,7 @@ ALTER TABLE ae.organization_user ADD CONSTRAINT fk_user FOREIGN KEY (user_id) RE
 --delete from ae.organization_user where organization_id not in ('a8e5bc98-696f-11e7-b453-3741aafa0388')
 --ALTER TABLE  ae.organization_user ALTER COLUMN user_id DROP NOT NULL;
 --ALTER TABLE  ae.organization_user ALTER COLUMN role DROP NOT NULL;
+--ALTER TABLE  ae.organization_user ALTER COLUMN organization_id DROP NOT NULL;
 --ALTER TABLE  ae.organization_user DROP constraint organization_user_pkey;
 --ALTER TABLE  ae.organization_user add column id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc();
 
