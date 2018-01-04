@@ -8,6 +8,9 @@ export default gql`
       organizationUsersByOrganizationId {
         totalCount
         nodes {
+          id
+          organizationId
+          userId
           nodeId
           userByUserId {
             id

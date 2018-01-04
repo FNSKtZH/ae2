@@ -3,6 +3,7 @@ import React from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import sortBy from 'lodash/sortBy'
 import { withApollo } from 'react-apollo'
 import IconButton from 'material-ui/IconButton'
 import ContentClear from 'material-ui/svg-icons/content/clear'
@@ -12,6 +13,7 @@ import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import orgUsersData from './orgUsersData'
 import AutocompleteFromArray from '../../shared/AutocompleteFromArray'
 import updateOrgUserMutation from './updateOrgUserMutation'
+import deleteOrgUserMutation from './deleteOrgUserMutation'
 
 const Container = styled.div`
   display: flex;
@@ -50,14 +52,14 @@ const OrgUsers = ({
   const roles = get(orgUsersData, 'allRoles.nodes', [])
     .map(u => u.name)
     .sort()
-  const organizationId = get(orgUsersData, 'organizationByName.id')
 
   return (
     <Container>
       <Label>Benutzer mit Rollen:</Label>
       <List>
-        {orgUsers.map(u => {
+        {sortBy(orgUsers, u => `${u.userByUserId.name}${u.role}`).map(u => {
           const key = `${get(u, 'userByUserId.id')}/${u.role}`
+          console.log('u:', u)
           return (
             <div key={key}>
               <AutocompleteFromArray
@@ -69,8 +71,8 @@ const OrgUsers = ({
                     mutation: updateOrgUserMutation,
                     variables: {
                       nodeId: u.nodeId,
-                      organizationId,
-                      userId: users.find(u => u.name === val).id,
+                      organizationId: u.organizationId,
+                      userId: u.userId,
                       role: u.role,
                     },
                   })
@@ -85,14 +87,26 @@ const OrgUsers = ({
                     mutation: updateOrgUserMutation,
                     variables: {
                       nodeId: u.nodeId,
-                      organizationId,
-                      userId: get(u, 'userByUserId.id'),
+                      organizationId: u.organizationId,
+                      userId: u.userId,
                       role,
                     },
                   })
                 }}
               />
-              <IconButton tooltip="löschen" onClick={() => console.log('todo')}>
+              <IconButton
+                tooltip="löschen"
+                onClick={async () => {
+                  console.log('todo')
+                  await client.mutate({
+                    mutation: deleteOrgUserMutation,
+                    variables: {
+                      id: u.id,
+                    },
+                  })
+                  orgUsersData.refetch()
+                }}
+              >
                 <ContentClear color={red500} />
               </IconButton>
             </div>
