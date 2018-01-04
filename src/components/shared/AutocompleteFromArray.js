@@ -16,21 +16,16 @@ const enhance = compose(
   withState('searchTextWasChanged', 'changeSearchTextWasChanged', ''),
   withHandlers({
     onNewRequest: props => val => {
-      const { updatePropertyInDb } = props
-      updatePropertyInDb(val)
+      props.updatePropertyInDb(val)
     },
     onFocus: props => () => props.changeFocused(true),
-    onBlur: props => () => {
-      const {
-        changeFocused,
-        searchText,
-        searchTextWasChanged,
-        updatePropertyInDb,
-      } = props
+    onBlur: props => val => {
+      const { changeFocused, searchText, searchTextWasChanged } = props
       changeFocused(false)
       if (!searchText && searchTextWasChanged) {
         // onNewRequest does not happen when value was removed by deleting text
-        updatePropertyInDb(null)
+        // BUT: for organization_user should never set null in db
+        //updatePropertyInDb(null)
       }
     },
     onUpdateSearchText: props => searchText => {

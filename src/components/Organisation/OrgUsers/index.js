@@ -42,8 +42,8 @@ const OrgUsers = ({
     []
   )
   const users = get(orgUsersData, 'allUsers.nodes', [])
-    .map(u => u.name)
-    .sort()
+  const userNames = users.map(u => u.name).sort()
+  console.log('users:', users)
   const roles = get(orgUsersData, 'allRoles.nodes', [])
     .map(u => u.name)
     .sort()
@@ -60,8 +60,9 @@ const OrgUsers = ({
               <AutocompleteFromArray
                 label="Benutzer"
                 valueText={get(u, 'userByUserId.name')}
-                dataSource={users}
+                dataSource={userNames}
                 updatePropertyInDb={val => {
+                  console.log('val:', val)
                   const userId = users.find(u => u.name === val).id
                   client.mutate({
                     mutation: updateOrgUserMutation,
