@@ -16,6 +16,16 @@ const enhance = compose(activeNodeArrayData, orgData)
 const Container = styled.div`
   padding: 10px;
 `
+const StyledTabs = styled(Tabs)`
+  > div {
+    background-color: transparent !important;
+    > button {
+      color: grey !important;
+    }
+  }
+`
+const tabButtonStyle = { whiteSpace: 'normal' }
+const tabInkBarStyle = { backgroundColor: 'rgb(230, 81, 0)' }
 
 const Organization = ({ orgData }: { orgData: Object }) => {
   const { loading } = orgData
@@ -33,17 +43,17 @@ const Organization = ({ orgData }: { orgData: Object }) => {
         label="Link(s)"
       />
       <UserReadOnly key="contact" user={org.userByContact} label="Kontakt" />
-      <Tabs>
-        <Tab label="Benutzer mit Rollen">
+      <StyledTabs inkBarStyle={tabInkBarStyle}>
+        <Tab label="Benutzer mit Rollen" buttonStyle={tabButtonStyle}>
           <OrgUsers />
         </Tab>
-        <Tab label="Taxonomien">
+        <Tab label="Taxonomien" buttonStyle={tabButtonStyle}>
           <OrgUsers />
         </Tab>
-        <Tab label="Eigenschaften-Sammlungen">
+        <Tab label="Eigenschaften-Sammlungen" buttonStyle={tabButtonStyle}>
           <OrgUsers />
         </Tab>
-      </Tabs>
+      </StyledTabs>
     </Container>
   )
 }
