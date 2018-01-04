@@ -284,10 +284,10 @@ CREATE TABLE ae.role (
 
 DROP TABLE IF EXISTS ae.organization_user;
 CREATE TABLE ae.organization_user (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   organization_id UUID REFERENCES ae.organization (id) ON DELETE CASCADE ON UPDATE CASCADE,
   user_id UUID REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  role text REFERENCES ae.role (name) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (organization_id, user_id, role)
+  role text REFERENCES ae.role (name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- TODO: does not work because there are organization_id's that do not exist in ae.organization
@@ -298,6 +298,8 @@ ALTER TABLE ae.organization_user ADD CONSTRAINT fk_user FOREIGN KEY (user_id) RE
 --delete from ae.organization_user where organization_id not in ('a8e5bc98-696f-11e7-b453-3741aafa0388')
 --ALTER TABLE  ae.organization_user ALTER COLUMN user_id DROP NOT NULL;
 --ALTER TABLE  ae.organization_user ALTER COLUMN role DROP NOT NULL;
+--ALTER TABLE  ae.organization_user DROP constraint organization_user_pkey;
+--ALTER TABLE  ae.organization_user add column id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc();
 
 ALTER TABLE ae.organization_user ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.organization_user;
