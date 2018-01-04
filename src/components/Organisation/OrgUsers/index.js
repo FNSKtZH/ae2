@@ -4,6 +4,9 @@ import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import { withApollo } from 'react-apollo'
+import IconButton from 'material-ui/IconButton'
+import ContentClear from 'material-ui/svg-icons/content/clear'
+import { red500 } from 'material-ui/styles/colors'
 
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import orgUsersData from './orgUsersData'
@@ -62,14 +65,12 @@ const OrgUsers = ({
                 valueText={get(u, 'userByUserId.name')}
                 dataSource={userNames}
                 updatePropertyInDb={val => {
-                  console.log('val:', val)
-                  const userId = users.find(u => u.name === val).id
                   client.mutate({
                     mutation: updateOrgUserMutation,
                     variables: {
                       nodeId: u.nodeId,
                       organizationId,
-                      userId,
+                      userId: users.find(u => u.name === val).id,
                       role: u.role,
                     },
                   })
@@ -91,6 +92,9 @@ const OrgUsers = ({
                   })
                 }}
               />
+              <IconButton tooltip="löschen" onClick={() => console.log('todo')}>
+                <ContentClear color={red500} />
+              </IconButton>
             </div>
           )
         })}
