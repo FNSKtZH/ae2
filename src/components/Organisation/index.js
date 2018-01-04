@@ -3,6 +3,7 @@ import React from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import { Tabs, Tab } from 'material-ui/Tabs'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import orgData from './orgData'
@@ -32,7 +33,17 @@ const Organization = ({ orgData }: { orgData: Object }) => {
         label="Link(s)"
       />
       <UserReadOnly key="contact" user={org.userByContact} label="Kontakt" />
-      <OrgUsers />
+      <Tabs>
+        <Tab label="Benutzer mit Rollen">
+          <OrgUsers />
+        </Tab>
+        <Tab label="Taxonomien">
+          <OrgUsers />
+        </Tab>
+        <Tab label="Eigenschaften-Sammlungen">
+          <OrgUsers />
+        </Tab>
+      </Tabs>
     </Container>
   )
 }
