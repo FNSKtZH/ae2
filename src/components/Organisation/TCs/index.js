@@ -49,6 +49,7 @@ const TCs = ({ tcsData }: { tcsData: Object }) => {
       <List>
         <ul>
           {tcs.map(u => {
+            // NOPE: need to fetch category as by User
             const link = `${appBaseUrl}Eigenschaften-Sammlungen/${u.id}`
             return (
               <li key={u.name}>
