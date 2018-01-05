@@ -9,7 +9,9 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
     url: ['Taxonomien', node.name],
     sort: [1, node.name],
     label: node.name,
-    info: `(${node.count} ${node.count === '1' ? 'Taxonomie' : 'Taxonomien'})`,
+    info: `(${node.count.toLocaleString('de-CH')} ${
+      node.count === '1' ? 'Taxonomie' : 'Taxonomien'
+    })`,
     childrenCount: node.count,
     menuType: 'taxonomy',
   }))

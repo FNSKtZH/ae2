@@ -162,9 +162,11 @@ const RCO = ({
   return (
     <Container>
       <GridContainer>
-        <TotalDiv>{`${rCO.length} Datensätze, ${columns.length - 5} Feld${
-          columns.length === 6 ? '' : 'er'
-        }${rCO.length > 0 ? ':' : ''}`}</TotalDiv>
+        <TotalDiv>{`${rCO.length.toLocaleString('de-CH')} Datensätze, ${(
+          columns.length - 5
+        ).toLocaleString('de-CH')} Feld${columns.length === 6 ? '' : 'er'}${
+          rCO.length > 0 ? ':' : ''
+        }`}</TotalDiv>
         {rCO.length > 0 && (
           <ReactDataGrid
             onGridSort={(column, direction) => {

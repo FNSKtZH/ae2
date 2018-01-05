@@ -152,9 +152,11 @@ const PCO = ({
   return (
     <Container>
       <GridContainer>
-        <TotalDiv>{`${pCO.length} Datensätze, ${columns.length - 2} Feld${
-          columns.length === 3 ? '' : 'er'
-        }${pCO.length > 0 ? ':' : ''}`}</TotalDiv>
+        <TotalDiv>{`${pCO.length.toLocaleString('de-CH')} Datensätze, ${(
+          columns.length - 2
+        ).toLocaleString('de-CH')} Feld${columns.length === 3 ? '' : 'er'}${
+          pCO.length > 0 ? ':' : ''
+        }`}</TotalDiv>
         {pCO.length > 0 && (
           <ReactDataGrid
             onGridSort={(column, direction) => {

@@ -64,7 +64,7 @@ export default ({
         url: ['Organisationen'],
         sort: [4],
         label: 'Organisationen',
-        info: `(${userOrganizations.length})`,
+        info: `(${userOrganizations.length.toLocaleString('de-CH')})`,
         childrenCount: userOrganizations.length,
         menuType: 'orgFolder',
       })

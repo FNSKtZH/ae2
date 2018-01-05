@@ -22,7 +22,7 @@ export default ({
       url: ['Taxonomien', activeLevel2TaxonomyName, node.id],
       sort: [1, activeLevel2TaxonomyName, node.name],
       label: node.name,
-      info: `(${childrenCount})`,
+      info: `(${childrenCount.toLocaleString('de-CH')})`,
       childrenCount,
       menuType: 'taxLevel3',
     }

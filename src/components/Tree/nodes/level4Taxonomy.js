@@ -32,7 +32,7 @@ export default ({
       ],
       sort: [1, activeLevel2TaxonomyName, activeLevel3TaxonomyName, node.name],
       label: node.name,
-      info: labelCount,
+      info: labelCount.toLocaleString('de-CH'),
       childrenCount,
       menuType: 'taxLevel4',
     }

@@ -142,7 +142,11 @@ const Preview = ({
   //console.log('Preview: exportData:', exportData)
   const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
-  const objectsCount = get(exportData, 'exportObject.totalCount', null)
+  const objectsCount = get(
+    exportData,
+    'exportObject.totalCount',
+    0
+  ).toLocaleString('de-CH')
   //console.log('Preview: objects:', objects)
   //console.log('Preview: objectsCount:', objectsCount)
   const pco = get(exportData, 'exportPco.nodes', [])
@@ -272,9 +276,11 @@ const Preview = ({
             minHeight={500}
             minColumnWidth={120}
           />
-          <TotalDiv>{`${rows.length} Datensätze, ${
-            Object.keys(rows[0]).length
-          } Felder`}</TotalDiv>
+          <TotalDiv>{`${rows.length.toLocaleString(
+            'de-CH'
+          )} Datensätze, ${Object.keys(rows[0]).length.toLocaleString(
+            'de-CH'
+          )} Felder`}</TotalDiv>
         </SpreadsheetContainer>
       )}
       {rows.length === 0 && (
