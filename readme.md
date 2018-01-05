@@ -93,7 +93,11 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Datenstruktur")
     - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaftensammlung](/etc/eigenschaftensammlung.png?raw=true "Eigenschaftensammlung")
     - [x] inklusive Synonymen<br/>
-    - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>![Synonym](/etc/synonym.png?raw=true "Synonym")
+    - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>
+      ![Synonym](/etc/synonym.png?raw=true "Synonym")
+  - Neu: Eigenschaften-Sammlungen anzeigen:<br/>
+    Die Liste aller:<br/>
+    ![Eigenschaften-Sammlungen: Liste](/etc/pcs_list.png?raw=true "Eigenschaften-Sammlungen: Liste")
   - [x] Daten exportieren
     ![exportieren](/etc/export.png?raw=true "exportieren")
   - [x] Anmeldung<br/>
