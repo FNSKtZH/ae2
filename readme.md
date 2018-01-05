@@ -101,9 +101,23 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     ![anmelden](/etc/anmeldung.png?raw=true "anmelden")
   - [x] Benutzer<br/>
     Benutzer können Name, Email und Passwort verändern.<br/>
-    Organisations-Administratoren können neue Benutzer erstellen.
+    Sie sehen die ihnen erteilten Rollen:<br/>
+    ![Benutzer-Rollen](/etc/user_rollen.png?raw=true "Benutzer-Rollen")
+    ... die von ihnen importierten Taxonomien:<br/>
+    ![Benutzer-Taxonomien](/etc/user_tax.png?raw=true "Benutzer-Taxonomien")
+    ... und die von ihnen importierten Eigenschaften-Sammlungen:<br/>
+    ![Benutzer-Eigenschaftensammlungen](/etc/user_pcs.png?raw=true "Benutzer-Eigenschaftensammlungen")
+    Organisations-Administratoren können neue Benutzer erstellen:
+    ![Neuen Benutzer erstellen](/etc/user_create_new.png?raw=true "Neuen Benutzer erstellen")
+    ...und bestehende löschen:
+    ![Benutzer löschen](/etc/user_delete.png?raw=true "Benutzer löschen")
   - [x] Organisationen<br/>
-    Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen.
+    Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen:
+    ![Rollen verwalten](/etc/org_rollen.png?raw=true "Rollen verwalten")
+    ...sehen, für welche Taxonomien sie zuständig sind: 
+    ![Taxonomien](/etc/org_tax.png?raw=true "Taxonomien")
+    ...sehen, für welche Eigenschaften-Sammlungen sie zuständig sind:
+    ![Eigenschaften-Sammlungen](/etc/org_pcs.png?raw=true "Eigenschaften-Sammlungen")
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen (in Arbeit)
   - [ ] Lebensräume bearbeiten
 
