@@ -5,7 +5,7 @@ import compose from 'recompose/compose'
 import get from 'lodash/get'
 
 import exportPcoPropertiesData from '../exportPcoPropertiesData'
-import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
+import exportRcoPropertiesData from '../exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 
 const level1CardStyle = { margin: '10px 0' }

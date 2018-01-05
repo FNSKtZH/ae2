@@ -5,7 +5,7 @@ import app from 'ampersand-app'
 import exportTaxPropertiesGql from '../../modules/exportTaxPropertiesGql'
 import exportPcoPropertiesGql from '../../components/Export/exportPcoPropertiesGql'
 import exportPcoFiltersGql from '../../components/Export/exportPcoFiltersGql'
-import exportRcoPropertiesGql from '../../modules/exportRcoPropertiesGql'
+import exportRcoPropertiesGql from '../../components/Export/exportRcoPropertiesGql'
 import exportTooManyPropertiesMutation from '../../modules/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
 

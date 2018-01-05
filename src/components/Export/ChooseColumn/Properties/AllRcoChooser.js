@@ -8,7 +8,7 @@ import { withApollo } from 'react-apollo'
 
 import addExportRcoPropertyMutation from '../../../../modules/addExportRcoPropertyMutation'
 import removeExportRcoPropertyMutation from '../../../../modules/removeExportRcoPropertyMutation'
-import exportRcoPropertiesData from '../../../../modules/exportRcoPropertiesData'
+import exportRcoPropertiesData from '../../exportRcoPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;

@@ -7,7 +7,7 @@ import get from 'lodash/get'
 
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import exportPcoPropertiesData from '../exportPcoPropertiesData'
-import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
+import exportRcoPropertiesData from '../exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
