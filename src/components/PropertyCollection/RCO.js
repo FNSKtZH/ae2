@@ -151,7 +151,6 @@ const RCO = ({
   const writerNames = union(rCOWriters.map(w => w.userByUserId.name))
   const loginName = get(loginData, 'login.username')
   const userIsWriter = !!loginName && writerNames.includes(loginName)
-  console.log('PCO: userIsWriter:', userIsWriter)
   /**
    * TODO
    * if user is writer:
