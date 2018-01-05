@@ -17,7 +17,7 @@ import exportPcoPropertiesData from '../../../modules/exportPcoPropertiesData'
 import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
-import exportPcoFiltersData from '../../../modules/exportPcoFiltersData'
+import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
 
 const Level1Card = styled(Card)`
