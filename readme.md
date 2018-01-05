@@ -95,9 +95,11 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     - [x] inklusive Synonymen<br/>
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>
       ![Synonym](/etc/synonym.png?raw=true "Synonym")
-  - Neu: Eigenschaften-Sammlungen anzeigen:<br/>
+  - [x] Neu: Eigenschaften-Sammlungen anzeigen:<br/>
     Die Liste aller:<br/>
-    ![Eigenschaften-Sammlungen: Liste](/etc/pcs_list.png?raw=true "Eigenschaften-Sammlungen: Liste")
+    ![Eigenschaften-Sammlungen: Liste](/etc/pcs_list.png?raw=true "Eigenschaften-Sammlungen: Liste")<br/>
+    Die Daten der Eigenschaften-Sammlung selbst:<br/>
+    ![Eigenschaften-Sammlung: Daten](/etc/pcs_form.png?raw=true "Eigenschaften-Sammlung: Daten")
   - [x] Daten exportieren
     ![exportieren](/etc/export.png?raw=true "exportieren")
   - [x] Anmeldung<br/>
