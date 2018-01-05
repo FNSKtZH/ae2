@@ -8,7 +8,7 @@ import { withApollo } from 'react-apollo'
 
 import addExportPcoPropertyMutation from '../../../../modules/addExportPcoPropertyMutation'
 import removeExportPcoPropertyMutation from '../../../../modules/removeExportPcoPropertyMutation'
-import exportPcoPropertiesData from '../../../../modules/exportPcoPropertiesData'
+import exportPcoPropertiesData from '../../exportPcoPropertiesData'
 
 const Container = styled.div``
 const Count = styled.span`

@@ -4,7 +4,7 @@ import { Card, CardHeader, CardText } from 'material-ui/Card'
 import compose from 'recompose/compose'
 import get from 'lodash/get'
 
-import exportPcoPropertiesData from '../../../modules/exportPcoPropertiesData'
+import exportPcoPropertiesData from '../exportPcoPropertiesData'
 import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 

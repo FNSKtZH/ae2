@@ -12,7 +12,7 @@ import orderBy from 'lodash/orderBy'
 
 import exportData from '../../../modules/exportData'
 import exportTaxonomiesData from '../exportTaxonomiesData'
-import exportPcoPropertiesData from '../../../modules/exportPcoPropertiesData'
+import exportPcoPropertiesData from '../exportPcoPropertiesData'
 import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
