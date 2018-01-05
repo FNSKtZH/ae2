@@ -11,7 +11,7 @@ import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
 import exportTaxFiltersData from '../../../modules/exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
-import exportRcoFiltersData from '../../../modules/exportRcoFiltersData'
+import exportRcoFiltersData from '../exportRcoFiltersData'
 import exportWithSynonymDataData from '../../../modules/exportWithSynonymDataData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 
