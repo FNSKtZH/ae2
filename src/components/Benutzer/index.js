@@ -18,7 +18,8 @@ import TCs from './TCs'
 import updateUserMutation from './updateUserMutation'
 import updateUserMutationWithPass from './updateUserMutationWithPass'
 
-const Container = styled.form`
+const Container = styled.div``
+const OrgContainer = styled.div`
   padding: 10px;
 `
 const SaveButton = styled(RaisedButton)`
@@ -151,40 +152,42 @@ class User extends Component<Props, State> {
 
     return (
       <Container>
-        <TextField
-          name="name"
-          floatingLabelText="Name"
-          errorText={nameErrorText}
-          value={name || ''}
-          onChange={this.onChangeVal}
-          fullWidth
-          autoComplete="username"
-        />
-        <TextField
-          name="email"
-          floatingLabelText="Email"
-          errorText={emailErrorText}
-          value={email || ''}
-          onChange={this.onChangeVal}
-          fullWidth
-          autoComplete="email"
-        />
-        {userIsLoggedIn && (
+        <OrgContainer>
           <TextField
-            name="passNew"
-            floatingLabelText="Passwort ändern"
-            type="password"
-            value={passNew || ''}
+            name="name"
+            floatingLabelText="Name"
+            errorText={nameErrorText}
+            value={name || ''}
             onChange={this.onChangeVal}
             fullWidth
-            autoComplete="new-password"
+            autoComplete="username"
           />
-        )}
-        <SaveButton
-          label="Änderungen speichern"
-          onClick={this.onSave}
-          disabled={!saveEnabled}
-        />
+          <TextField
+            name="email"
+            floatingLabelText="Email"
+            errorText={emailErrorText}
+            value={email || ''}
+            onChange={this.onChangeVal}
+            fullWidth
+            autoComplete="email"
+          />
+          {userIsLoggedIn && (
+            <TextField
+              name="passNew"
+              floatingLabelText="Passwort ändern"
+              type="password"
+              value={passNew || ''}
+              onChange={this.onChangeVal}
+              fullWidth
+              autoComplete="new-password"
+            />
+          )}
+          <SaveButton
+            label="Änderungen speichern"
+            onClick={this.onSave}
+            disabled={!saveEnabled}
+          />
+        </OrgContainer>
         <StyledTabs inkBarStyle={tabInkBarStyle}>
           <Tab
             label={`Rollen (${orgUsers.length})`}

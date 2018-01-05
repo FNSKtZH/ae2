@@ -20,11 +20,8 @@ import createOrgUserMutation from './createOrgUserMutation'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
-`
-const Label = styled.div`
-  color: rgba(0, 0, 0, 0.3);
-  margin-bottom: -10px;
+  padding-left: 10px;
+  padding-right: 10px;
 `
 const List = styled.div`
   display: flex;
@@ -62,7 +59,6 @@ const OrgUsers = ({
 
   return (
     <Container>
-      <Label>Benutzer mit Rollen:</Label>
       <List>
         {sortBy(
           orgUsers,

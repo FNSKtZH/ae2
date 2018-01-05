@@ -10,10 +10,6 @@ const Container = styled.div`
   flex-direction: column;
   margin-top: 10px;
 `
-const Label = styled.div`
-  color: rgba(0, 0, 0, 0.3);
-  margin-bottom: 10px;
-`
 const List = styled.div`
   column-width: 400px;
   margin-bottom: 10px;
@@ -34,7 +30,6 @@ const TCs = ({ tcs, userData }: { tcs: Array<Object>, userData: Object }) => {
 
   return (
     <Container>
-      <Label>Importierte Taxonomien:</Label>
       <List>
         <ul>
           {tcs.map(u => {

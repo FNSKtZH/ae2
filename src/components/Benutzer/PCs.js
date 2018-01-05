@@ -9,10 +9,6 @@ const Container = styled.div`
   flex-direction: column;
   margin-top: 10px;
 `
-const Label = styled.div`
-  color: rgba(0, 0, 0, 0.3);
-  margin-bottom: 10px;
-`
 const List = styled.div`
   column-width: 400px;
   margin-bottom: 10px;
@@ -31,7 +27,6 @@ const StyledA = styled.a`
 const PCs = ({ pcs }: { pcs: Array<Object> }) => {
   return (
     <Container>
-      <Label>Importierte Eigenschaften-Sammlungen:</Label>
       <List>
         <ul>
           {pcs.map(u => {

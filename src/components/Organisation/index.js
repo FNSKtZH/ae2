@@ -15,7 +15,8 @@ import PCs from './PCs'
 
 const enhance = compose(activeNodeArrayData, orgData)
 
-const Container = styled.div`
+const Container = styled.div``
+const OrgContainer = styled.div`
   padding: 10px;
 `
 const StyledTabs = styled(Tabs)`
@@ -38,13 +39,15 @@ const Organization = ({ orgData }: { orgData: Object }) => {
 
   return (
     <Container>
-      <PropertyReadOnly key="name" value={org.name} label="Name" />
-      <PropertyReadOnly
-        key="links"
-        value={org.links ? org.links.join(', ') : ''}
-        label="Link(s)"
-      />
-      <UserReadOnly key="contact" user={org.userByContact} label="Kontakt" />
+      <OrgContainer>
+        <PropertyReadOnly key="name" value={org.name} label="Name" />
+        <PropertyReadOnly
+          key="links"
+          value={org.links ? org.links.join(', ') : ''}
+          label="Link(s)"
+        />
+        <UserReadOnly key="contact" user={org.userByContact} label="Kontakt" />
+      </OrgContainer>
       <StyledTabs inkBarStyle={tabInkBarStyle}>
         <Tab label="Benutzer mit Rollen" buttonStyle={tabButtonStyle}>
           <OrgUsers />
