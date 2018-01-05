@@ -6,7 +6,7 @@ import get from 'lodash/get'
 
 import exportPcoPropertiesData from '../exportPcoPropertiesData'
 import exportRcoPropertiesData from '../exportRcoPropertiesData'
-import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
+import exportTaxPropertiesData from '../exportTaxPropertiesData'
 
 const level1CardStyle = { margin: '10px 0' }
 const level1CardTitleStyle = { fontWeight: 'bold' }

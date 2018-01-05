@@ -8,7 +8,7 @@ import { withApollo } from 'react-apollo'
 
 import addExportTaxPropertyMutation from '../../../../modules/addExportTaxPropertyMutation'
 import removeExportTaxPropertyMutation from '../../../../modules/removeExportTaxPropertyMutation'
-import exportTaxPropertiesData from '../../../../modules/exportTaxPropertiesData'
+import exportTaxPropertiesData from '../../exportTaxPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
