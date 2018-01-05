@@ -13,7 +13,7 @@ import activeObjectData from './activeObjectData'
 
 const Container = styled.div`
   padding: 5px;
-  height: calc(100% - 48px);
+  height: 100%;
   overflow: auto !important;
 `
 const Title = styled.h3`
