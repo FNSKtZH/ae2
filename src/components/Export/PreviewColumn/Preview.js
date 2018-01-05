@@ -11,7 +11,7 @@ import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
 
 import exportData from '../../../modules/exportData'
-import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
+import exportTaxonomiesData from '../exportTaxonomiesData'
 import exportPcoPropertiesData from '../../../modules/exportPcoPropertiesData'
 import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'

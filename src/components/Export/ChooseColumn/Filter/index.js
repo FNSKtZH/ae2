@@ -20,7 +20,7 @@ import RcoField from './RcoField'
 //import RcoChooser from './RcoChooser'
 import constants from '../../../../modules/constants'
 import propsByTaxData from '../../../../modules/propsByTaxData'
-import exportTaxonomiesData from '../../../../modules/exportTaxonomiesData'
+import exportTaxonomiesData from '../../exportTaxonomiesData'
 import exportWithSynonymDataData from '../../../../modules/exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../../../modules/exportWithSynonymDataMutation'
 

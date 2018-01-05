@@ -12,8 +12,8 @@ import HowTo from './HowTo'
 
 import exportCategoriesMutation from '../../../../modules/exportCategoriesMutation'
 import exportCategoriesData from '../../../../modules/exportCategoriesData'
-import exportTaxonomiesMutation from '../../../../modules/exportTaxonomiesMutation'
-import exportTaxonomiesData from '../../../../modules/exportTaxonomiesData'
+import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
+import exportTaxonomiesData from '../../exportTaxonomiesData'
 import propsByTaxData from '../../../../modules/propsByTaxData'
 import allCategoriesData from '../../../../modules/allCategoriesData'
 import taxonomiesOfCategoriesData from '../../../../modules/taxonomiesOfCategoriesData'
@@ -63,6 +63,8 @@ const enhance = compose(
         mutation: exportCategoriesMutation,
         variables: { value: categories },
       })
+      // TODO: check if only one Taxonomy exists
+      // if so, check it
     },
     onCheckTaxonomy: ({ client, exportTaxonomiesData }) => (
       event,

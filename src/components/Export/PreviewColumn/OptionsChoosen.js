@@ -5,7 +5,7 @@ import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
-import exportTaxonomiesData from '../../../modules/exportTaxonomiesData'
+import exportTaxonomiesData from '../exportTaxonomiesData'
 import exportPcoPropertiesData from '../../../modules/exportPcoPropertiesData'
 import exportRcoPropertiesData from '../../../modules/exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../../modules/exportTaxPropertiesData'
