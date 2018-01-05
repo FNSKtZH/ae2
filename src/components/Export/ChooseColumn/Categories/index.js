@@ -50,10 +50,12 @@ const enhance = compose(
   allCategoriesData,
   taxonomiesOfCategoriesData,
   withHandlers({
-    onCheckCategory: ({ client, exportCategoriesData }) => (
-      event,
-      isChecked
-    ) => {
+    onCheckCategory: ({
+      client,
+      exportCategoriesData,
+      exportTaxonomiesData,
+      taxonomiesOfCategoriesData,
+    }) => (event, isChecked) => {
       const { exportCategories } = exportCategoriesData
       const { name } = event.target
       const categories = isChecked
@@ -63,8 +65,29 @@ const enhance = compose(
         mutation: exportCategoriesMutation,
         variables: { value: categories },
       })
-      // TODO: check if only one Taxonomy exists
+      // check if only one Taxonomy exists
       // if so, check it
+      const taxonomiesOfCategories = get(
+        taxonomiesOfCategoriesData,
+        'taxonomiesOfCategoriesFunction.nodes',
+        []
+      )
+      const taxonomiesOfCategory = taxonomiesOfCategories.filter(
+        t => t.categoryName === name
+      )
+      if (taxonomiesOfCategory.length === 1) {
+        const taxonomyName = taxonomiesOfCategory[0].taxonomyName
+        const exportTaxonomies = get(
+          exportTaxonomiesData,
+          'exportTaxonomies',
+          []
+        )
+        const taxonomies = [...exportTaxonomies, taxonomyName]
+        client.mutate({
+          mutation: exportTaxonomiesMutation,
+          variables: { value: taxonomies },
+        })
+      }
     },
     onCheckTaxonomy: ({ client, exportTaxonomiesData }) => (
       event,
