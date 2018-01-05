@@ -101,7 +101,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
   - [x] Benutzer<br/>
     Benutzer können Name, Email und Passwort verändern.<br/>
     Organisations-Administratoren können neue Benutzer erstellen.
-  - [ ] Organisationen (in Arbeit)<br/>
+  - [x] Organisationen<br/>
     Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen.
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen (in Arbeit)
   - [ ] Lebensräume bearbeiten
