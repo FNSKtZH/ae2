@@ -99,7 +99,13 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     Die Liste aller:<br/>
     ![Eigenschaften-Sammlungen: Liste](/etc/pcs_list.png?raw=true "Eigenschaften-Sammlungen: Liste")<br/>
     Die Daten der Eigenschaften-Sammlung selbst:<br/>
-    ![Eigenschaften-Sammlung: Daten](/etc/pcs_form.png?raw=true "Eigenschaften-Sammlung: Daten")
+    ![Eigenschaften-Sammlung: Daten](/etc/pcs_form.png?raw=true "Eigenschaften-Sammlung: Daten")<br/>
+    Die Eigenschaften der Eigenschaften-Sammlung:<br/>
+    ![Eigenschaften-Sammlung: Eigenschaften](/etc/pcs_p.png?raw=true "Eigenschaften-Sammlung: Eigenschaften")<br/>
+    Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
+    Die Beziehungen der Eigenschaften-Sammlung:<br/>
+    ![Eigenschaften-Sammlung: Beziehungen](/etc/pcs_p.png?raw=true "Eigenschaften-Sammlung: Beziehungen")<br/>
+    Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
   - [x] Daten exportieren
     ![exportieren](/etc/export.png?raw=true "exportieren")
   - [x] Anmeldung<br/>
