@@ -7,7 +7,7 @@ import compose from 'recompose/compose'
 
 import appBaseUrl from '../../../modules/appBaseUrl'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
-import tcsData from './tcsData'
+import pcsData from './pcsData'
 
 const Container = styled.div`
   display: flex;
@@ -29,28 +29,24 @@ const StyledA = styled.a`
   text-decoration-style: dotted;
 `
 
-const enhance = compose(activeNodeArrayData, tcsData)
+const enhance = compose(activeNodeArrayData, pcsData)
 
-const TCs = ({ tcsData }: { tcsData: Object }) => {
-  const tcs = sortBy(
-    get(tcsData, 'organizationByName.taxonomiesByOrganizationId.nodes', []),
+const PCs = ({ pcsData }: { pcsData: Object }) => {
+  const pcs = sortBy(
+    get(
+      pcsData,
+      'organizationByName.propertyCollectionsByOrganizationId.nodes',
+      []
+    ),
     'name'
   )
-  const taxByCategories = get(tcsData, 'categoriesOfTaxonomiesFunction.nodes')
 
   return (
     <Container>
       <List>
         <ul>
-          {tcs.map(u => {
-            const taxByCategory = taxByCategories.find(
-              tbc => tbc.taxonomyId === u.id
-            )
-            const category = taxByCategory ? taxByCategory.categoryName : null
-            const link = `${appBaseUrl}/Taxonomien/${encodeURIComponent(
-              category
-            )}/${u.id}`
-
+          {pcs.map(u => {
+            const link = `${appBaseUrl}Eigenschaften-Sammlungen/${u.id}`
             return (
               <li key={u.name}>
                 <StyledA href={link} target="_blank">
@@ -65,4 +61,4 @@ const TCs = ({ tcsData }: { tcsData: Object }) => {
   )
 }
 
-export default enhance(TCs)
+export default enhance(PCs)

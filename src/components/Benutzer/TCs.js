@@ -44,7 +44,7 @@ const TCs = ({ tcs, userData }: { tcs: Array<Object>, userData: Object }) => {
             const category = taxByCategory ? taxByCategory.categoryName : null
             const link = `${appBaseUrl}/Taxonomien/${encodeURIComponent(
               category
-            )}/${encodeURIComponent(u.id)}`
+            )}/${u.id}`
             return (
               <li key={u.name}>
                 <StyledA href={link} target="_blank">

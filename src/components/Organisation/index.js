@@ -11,6 +11,7 @@ import PropertyReadOnly from '../shared/PropertyReadOnly'
 import UserReadOnly from '../shared/UserReadOnly'
 import OrgUsers from './OrgUsers'
 import TCs from './TCs'
+import PCs from './PCs'
 
 const enhance = compose(activeNodeArrayData, orgData)
 
@@ -52,7 +53,7 @@ const Organization = ({ orgData }: { orgData: Object }) => {
           <TCs />
         </Tab>
         <Tab label="Eigenschaften-Sammlungen" buttonStyle={tabButtonStyle}>
-          <OrgUsers />
+          <PCs />
         </Tab>
       </StyledTabs>
     </Container>
