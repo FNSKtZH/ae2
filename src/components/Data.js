@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import Tree from './Tree'
 import DataType from './DataType'
 
-const StyledReflexElement = styled(ReflexElement)`
+const DataElement = styled(ReflexElement)`
   overflow-x: hidden !important;
   overflow-y: auto !important;
 `
@@ -23,13 +23,13 @@ const Data = () => (
       <Tree />
     </ReflexElement>
     <ReflexSplitter key="treeSplitter" />
-    <StyledReflexElement
+    <DataElement
       propagateDimensions={true}
       renderOnResizeRate={50}
       renderOnResize={true}
     >
       <DataType />
-    </StyledReflexElement>
+    </DataElement>
   </ReflexContainer>
 )
 
