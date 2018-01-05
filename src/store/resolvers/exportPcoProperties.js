@@ -6,25 +6,20 @@ import exportTaxPropertiesGql from '../../components/Export/exportTaxPropertiesG
 import exportPcoPropertiesGql from '../../components/Export/exportPcoPropertiesGql'
 import exportPcoFiltersGql from '../../components/Export/exportPcoFiltersGql'
 import exportRcoPropertiesGql from '../../components/Export/exportRcoPropertiesGql'
-import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutationexportData'
+import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
 
 export default {
   Mutation: {
-    addExportPcoProperty: (_, {
-      pcname,
-      pname
-    }, {
-      cache
-    }) => {
+    addExportPcoProperty: (_, { pcname, pname }, { cache }) => {
       const currentPco = cache.readQuery({
-        query: exportPcoPropertiesGql
+        query: exportPcoPropertiesGql,
       })
       const currentRco = cache.readQuery({
-        query: exportRcoPropertiesGql
+        query: exportRcoPropertiesGql,
       })
       const currentTax = cache.readQuery({
-        query: exportTaxPropertiesGql
+        query: exportTaxPropertiesGql,
       })
       const nrOfPropertiesExported =
         currentTax.exportTaxProperties.length +
@@ -34,7 +29,7 @@ export default {
         app.client.mutate({
           mutation: exportTooManyPropertiesMutation,
           variables: {
-            value: true
+            value: true,
           },
         })
       } else {
@@ -45,7 +40,7 @@ export default {
               {
                 pcname,
                 pname,
-                __typename: 'ExportPcoProperty'
+                __typename: 'ExportPcoProperty',
               },
             ],
           },
@@ -53,38 +48,26 @@ export default {
       }
       return null
     },
-    removeExportPcoProperty: (_, {
-      pcname,
-      pname
-    }, {
-      cache
-    }) => {
+    removeExportPcoProperty: (_, { pcname, pname }, { cache }) => {
       const current = cache.readQuery({
-        query: exportPcoPropertiesGql
+        query: exportPcoPropertiesGql,
       })
       const exportPcoProperties = current.exportPcoProperties.filter(
         x => !(x.pcname === pcname && x.pname === pname)
       )
       cache.writeData({
         data: {
-          exportPcoProperties
-        }
+          exportPcoProperties,
+        },
       })
       return null
     },
     setExportPcoFilters: (
-      _, {
-        pcname,
-        pname,
-        comparator,
-        value
-      }, {
-        cache
-      }
+      _,
+      { pcname, pname, comparator, value },
+      { cache }
     ) => {
-      const {
-        exportPcoFilters
-      } = cache.readQuery({
+      const { exportPcoFilters } = cache.readQuery({
         query: exportPcoFiltersGql,
       })
       const exportPcoFilter = exportPcoFilters.find(
