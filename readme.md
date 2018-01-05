@@ -109,8 +109,10 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     ![Benutzer-Eigenschaftensammlungen](/etc/user_pcs.png?raw=true "Benutzer-Eigenschaftensammlungen")
     Organisations-Administratoren können neue Benutzer erstellen:<br/>
     ![Neuen Benutzer erstellen](/etc/user_create_new.png?raw=true "Neuen Benutzer erstellen")<br/>
-    ...und bestehende löschen:<br/>
-    ![Benutzer löschen](/etc/user_delete.png?raw=true "Benutzer löschen")
+    ... bestehende löschen:<br/>
+    ![Benutzer löschen](/etc/user_delete.png?raw=true "Benutzer löschen")<br/>
+    ... und bei bestehenden Namen und Email ändern, nicht aber das Passwort:<br/>
+    ![Benutzer ändern](/etc/user_from_admin.png?raw=true "Benutzer ändern")
   - [x] Organisationen<br/>
     Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen:
     ![Rollen verwalten](/etc/org_rollen.png?raw=true "Rollen verwalten")
