@@ -6,7 +6,7 @@ import exportTaxPropertiesGql from '../../components/Export/exportTaxPropertiesG
 import exportTaxFiltersGql from '../../components/Export/exportTaxFiltersGql'
 import exportPcoPropertiesGql from '../../components/Export/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from '../../components/Export/exportRcoPropertiesGql'
-import exportTooManyPropertiesMutation from '../../modules/exportTooManyPropertiesMutation'
+import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
 
 export default {
