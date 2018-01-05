@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
 
-import exportData from '../../../modules/exportData'
+import exportData from './exportData'
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import exportPcoPropertiesData from '../exportPcoPropertiesData'
 import exportRcoPropertiesData from '../exportRcoPropertiesData'
