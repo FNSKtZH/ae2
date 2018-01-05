@@ -98,6 +98,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
   - [x] Anmeldung<br/>
     Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen, exportieren sowie über die API ([GraphQL](https://github.com/facebook/graphql)) direkt auf die Daten zugreifen.<br/>
     Angemeldete Benutzer können Daten gemäss den ihnen von Organisationen erteilten Rollen verändern.
+    ![anmelden](/etc/anmeldung.png?raw=true "anmelden")
   - [x] Benutzer<br/>
     Benutzer können Name, Email und Passwort verändern.<br/>
     Organisations-Administratoren können neue Benutzer erstellen.
