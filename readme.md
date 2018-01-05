@@ -108,7 +108,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     ... und die von ihnen importierten Eigenschaften-Sammlungen:<br/>
     ![Benutzer-Eigenschaftensammlungen](/etc/user_pcs.png?raw=true "Benutzer-Eigenschaftensammlungen")
     Organisations-Administratoren können neue Benutzer erstellen:<br/>
-    ![Neuen Benutzer erstellen](/etc/user_create_new.png?raw=true "Neuen Benutzer erstellen")
+    ![Neuen Benutzer erstellen](/etc/user_create_new.png?raw=true "Neuen Benutzer erstellen")<br/>
     ...und bestehende löschen:<br/>
     ![Benutzer löschen](/etc/user_delete.png?raw=true "Benutzer löschen")
   - [x] Organisationen<br/>
