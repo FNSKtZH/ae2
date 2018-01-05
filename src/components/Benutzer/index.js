@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
@@ -23,6 +24,16 @@ const Container = styled.form`
 const SaveButton = styled(RaisedButton)`
   margin-bottom: 15px;
 `
+const StyledTabs = styled(Tabs)`
+  > div {
+    background-color: transparent !important;
+    > button {
+      color: grey !important;
+    }
+  }
+`
+const tabButtonStyle = { whiteSpace: 'normal' }
+const tabInkBarStyle = { backgroundColor: 'rgb(230, 81, 0)' }
 
 const enhance = compose(
   withApollo,
@@ -133,8 +144,8 @@ class User extends Component<Props, State> {
     const saveEnabled =
       !userData.loading &&
       (passNew ||
-        ((name && userData && name !== user.name) ||
-          (email && userData && email !== user.email)))
+        ((!!name && !!userData && !!user && name !== user.name) ||
+          (!!email && !!userData && !!user && email !== user.email)))
     const userIsLoggedIn =
       !!user && !!loginUsername && user.name === loginUsername
 
@@ -174,9 +185,26 @@ class User extends Component<Props, State> {
           onClick={this.onSave}
           disabled={!saveEnabled}
         />
-        {orgUsers.length > 0 && <Roles orgUsers={orgUsers} />}
-        {pcs.length > 0 && <PCs pcs={pcs} />}
-        {tcs.length > 0 && <TCs userData={userData} tcs={tcs} />}
+        <StyledTabs inkBarStyle={tabInkBarStyle}>
+          <Tab
+            label={`Rollen (${orgUsers.length})`}
+            buttonStyle={tabButtonStyle}
+          >
+            <Roles orgUsers={orgUsers} />
+          </Tab>
+          <Tab
+            label={`importierte Taxonomien (${tcs.length})`}
+            buttonStyle={tabButtonStyle}
+          >
+            <TCs userData={userData} tcs={tcs} />
+          </Tab>
+          <Tab
+            label={`importierte Eigenschaften-Sammlungen (${pcs.length})`}
+            buttonStyle={tabButtonStyle}
+          >
+            <PCs pcs={pcs} />
+          </Tab>
+        </StyledTabs>
       </Container>
     )
   }
