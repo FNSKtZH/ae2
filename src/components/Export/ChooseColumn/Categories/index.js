@@ -10,8 +10,8 @@ import get from 'lodash/get'
 
 import HowTo from './HowTo'
 
-import exportCategoriesMutation from '../../../../modules/exportCategoriesMutation'
-import exportCategoriesData from '../../../../modules/exportCategoriesData'
+import exportCategoriesMutation from '../exportCategoriesMutation'
+import exportCategoriesData from '../exportCategoriesData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import propsByTaxData from '../../../../modules/propsByTaxData'
