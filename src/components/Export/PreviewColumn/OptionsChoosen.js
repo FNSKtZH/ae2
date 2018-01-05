@@ -12,7 +12,7 @@ import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import exportTaxFiltersData from '../exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
-import exportWithSynonymDataData from '../../../modules/exportWithSynonymDataData'
+import exportWithSynonymDataData from '../exportWithSynonymDataData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 
 const level1CardStyle = { margin: '10px 0' }

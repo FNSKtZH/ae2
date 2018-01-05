@@ -21,8 +21,8 @@ import RcoField from './RcoField'
 import constants from '../../../../modules/constants'
 import propsByTaxData from '../../../../modules/propsByTaxData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
-import exportWithSynonymDataData from '../../../../modules/exportWithSynonymDataData'
-import exportWithSynonymDataMutation from '../../../../modules/exportWithSynonymDataMutation'
+import exportWithSynonymDataData from '../../exportWithSynonymDataData'
+import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 
 const Container = styled.div`
   padding: 5px 10px;
