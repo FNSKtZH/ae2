@@ -139,22 +139,22 @@ const Export = ({
         actAsExpander={true}
         showExpandableButton={true}
         titleStyle={level1CardTitleStyle}
-      />{' '}
+      />
       <Level1CardText expandable={true}>
         <Categories />
-      </Level1CardText>{' '}
-    </Level1Card>{' '}
+      </Level1CardText>
+    </Level1Card>
     <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
       <Level1CardHeader
         title="2. filtern"
         actAsExpander={true}
         showExpandableButton={true}
         titleStyle={level1CardTitleStyle}
-      />{' '}
+      />
       <Level1CardText expandable={true}>
         <Filter />
-      </Level1CardText>{' '}
-    </Level1Card>{' '}
+      </Level1CardText>
+    </Level1Card>
     <Level1Card
       expanded={propertiesExpanded}
       onExpandChange={onToggleProperties}
@@ -164,11 +164,11 @@ const Export = ({
         actAsExpander={true}
         showExpandableButton={true}
         titleStyle={level1CardTitleStyle}
-      />{' '}
+      />
       <Level1CardText expandable={true}>
         <Properties />
-      </Level1CardText>{' '}
-    </Level1Card>{' '}
+      </Level1CardText>
+    </Level1Card>
     <Snackbar
       open={!!message}
       message={message}
@@ -177,7 +177,7 @@ const Export = ({
         minWidth: 'auto',
         backgroundColor: '#2E7D32',
       }}
-    />{' '}
+    />
   </Container>
 )
 
