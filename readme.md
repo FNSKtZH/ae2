@@ -107,9 +107,9 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     ![Benutzer-Taxonomien](/etc/user_tax.png?raw=true "Benutzer-Taxonomien")
     ... und die von ihnen importierten Eigenschaften-Sammlungen:<br/>
     ![Benutzer-Eigenschaftensammlungen](/etc/user_pcs.png?raw=true "Benutzer-Eigenschaftensammlungen")
-    Organisations-Administratoren können neue Benutzer erstellen:
+    Organisations-Administratoren können neue Benutzer erstellen:<br/>
     ![Neuen Benutzer erstellen](/etc/user_create_new.png?raw=true "Neuen Benutzer erstellen")
-    ...und bestehende löschen:
+    ...und bestehende löschen:<br/>
     ![Benutzer löschen](/etc/user_delete.png?raw=true "Benutzer löschen")
   - [x] Organisationen<br/>
     Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen:
