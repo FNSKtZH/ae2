@@ -58,15 +58,6 @@ const enhance = compose(
     }) => (event, isChecked) => {
       const { exportCategories } = exportCategoriesData
       const { name } = event.target
-      const categories = isChecked
-        ? [...exportCategories, name]
-        : exportCategories.filter(c => c !== name)
-      client.mutate({
-        mutation: exportCategoriesMutation,
-        variables: { value: categories },
-      })
-      // check if only one Taxonomy exists
-      // if so, check it
       const taxonomiesOfCategories = get(
         taxonomiesOfCategoriesData,
         'taxonomiesOfCategoriesFunction.nodes',
@@ -75,33 +66,84 @@ const enhance = compose(
       const taxonomiesOfCategory = taxonomiesOfCategories.filter(
         t => t.categoryName === name
       )
-      if (taxonomiesOfCategory.length === 1) {
-        const taxonomyName = taxonomiesOfCategory[0].taxonomyName
-        const exportTaxonomies = get(
-          exportTaxonomiesData,
-          'exportTaxonomies',
-          []
+      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+      let categories
+      if (isChecked) {
+        categories = [...exportCategories, name]
+        client.mutate({
+          mutation: exportCategoriesMutation,
+          variables: { value: categories },
+        })
+        // check if only one Taxonomy exists
+        // if so, check it
+        if (taxonomiesOfCategory.length === 1) {
+          const taxonomyName = taxonomiesOfCategory[0].taxonomyName
+          const taxonomies = [...exportTaxonomies, taxonomyName]
+          client.mutate({
+            mutation: exportTaxonomiesMutation,
+            variables: { value: taxonomies },
+          })
+        }
+      } else {
+        categories = exportCategories.filter(c => c !== name)
+        client.mutate({
+          mutation: exportCategoriesMutation,
+          variables: { value: categories },
+        })
+        // uncheck all taxonomies of this category
+        const taxonomiesToUncheck = taxonomiesOfCategory.map(
+          t => t.taxonomyName
         )
-        const taxonomies = [...exportTaxonomies, taxonomyName]
+        const remainingTaxonomies = exportTaxonomies.filter(
+          t => !taxonomiesToUncheck.includes(t)
+        )
+        client.mutate({
+          mutation: exportTaxonomiesMutation,
+          variables: { value: remainingTaxonomies },
+        })
+      }
+    },
+    onCheckTaxonomy: ({
+      client,
+      exportTaxonomiesData,
+      taxonomiesOfCategoriesData,
+      exportCategoriesData,
+    }) => (event, isChecked) => {
+      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+      const { name } = event.target
+      let taxonomies
+      if (isChecked) {
+        taxonomies = [...exportTaxonomies, name]
         client.mutate({
           mutation: exportTaxonomiesMutation,
           variables: { value: taxonomies },
         })
+      } else {
+        taxonomies = exportTaxonomies.filter(c => c !== name)
+        client.mutate({
+          mutation: exportTaxonomiesMutation,
+          variables: { value: taxonomies },
+        })
+        // check if sole category is left
+        // if so: uncheck it
+        const taxonomiesOfCategories = get(
+          taxonomiesOfCategoriesData,
+          'taxonomiesOfCategoriesFunction.nodes',
+          []
+        )
+        const taxonomiesOfCategory = taxonomiesOfCategories.filter(
+          t => t.taxonomyName === name
+        )
+        if (taxonomiesOfCategory.length === 1) {
+          const categoryName = taxonomiesOfCategory[0].categoryName
+          const { exportCategories } = exportCategoriesData
+          const categories = exportCategories.filter(c => c !== categoryName)
+          client.mutate({
+            mutation: exportCategoriesMutation,
+            variables: { value: categories },
+          })
+        }
       }
-    },
-    onCheckTaxonomy: ({ client, exportTaxonomiesData }) => (
-      event,
-      isChecked
-    ) => {
-      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      const { name } = event.target
-      const taxonomies = isChecked
-        ? [...exportTaxonomies, name]
-        : exportTaxonomies.filter(c => c !== name)
-      client.mutate({
-        mutation: exportTaxonomiesMutation,
-        variables: { value: taxonomies },
-      })
     },
   })
 )
