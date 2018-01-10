@@ -86,7 +86,7 @@ import resolvers from './store/resolvers'
     const isLocalhost = hostnameWithoutWww === 'localhost'
     const uri = isLocalhost
       ? 'http://localhost:5000/graphql'
-      : `https://localhost:5000/graphql`
+      : `https://${window.location.hostname}/graphql`
     const httpLink = createHttpLink({
       uri,
     })
