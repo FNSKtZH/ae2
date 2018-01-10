@@ -7,9 +7,7 @@ create extension if not exists pgcrypto;
 create role anon;
 create role authenticator with login password 'secret' noinherit;
 create role org_admin;
-create role org_collection_writer;
-create role org_habitat_writer;
-create role org_taxonomy_writer;
+create role org_writer;
 -- restore from backup, then:
 -- run this once with real secret
 ALTER DATABASE ae SET "app.jwt_secret" TO 'secret';
