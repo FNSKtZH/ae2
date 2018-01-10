@@ -174,35 +174,29 @@ const Preview = ({
       return (row[`${conv(p.taxname)}__${conv(p.pname)}`] = val)
     })
     // 2. pco
-    const thisPco = pco.find(p => p.objectId === o.id)
-    const thisSynonymPco = synonymPco.find(p => p.objectId === o.id)
-    if (thisPco) {
-      const thisPcoProperties = JSON.parse(thisPco.properties)
-      exportPcoProperties.forEach(p => {
-        if (thisPcoProperties && thisPcoProperties[p.pname] !== undefined) {
-          let val = thisPcoProperties[p.pname]
-          if (typeof val === 'boolean') {
-            val = booleanToJaNein(val)
-          }
-          row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
-        }
-      })
-    } else if (exportWithSynonymData && thisSynonymPco) {
-      // only use of this pco does not exist on original object
-      const thisSynonymPcoProperties = JSON.parse(thisSynonymPco.properties)
-      exportPcoProperties.forEach(p => {
-        if (
-          thisSynonymPcoProperties &&
-          thisSynonymPcoProperties[p.pname] !== undefined
-        ) {
-          let val = thisSynonymPcoProperties[p.pname]
-          if (typeof val === 'boolean') {
-            val = booleanToJaNein(val)
-          }
-          row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
-        }
+    const thesePco = pco.filter(p => p.objectId === o.id)
+    const theseSynonymPco = synonymPco.filter(p => p.objectId === o.id)
+    const pcoToUse = [...thesePco]
+    if (exportWithSynonymData) {
+      theseSynonymPco.forEach(sPco => {
+        // add if not yet contained
+        const idContained = pcoToUse.find(pco => pco.id === sPco.id)
+        if (!idContained) pcoToUse.push(sPco)
       })
     }
+    pcoToUse.forEach(pco => {
+      const pcoProperties = JSON.parse(pco.properties)
+      //console.log('Preview: pcoProperties:', pcoProperties)
+      exportPcoProperties.forEach(p => {
+        if (pcoProperties && pcoProperties[p.pname] !== undefined) {
+          let val = pcoProperties[p.pname]
+          if (typeof val === 'boolean') {
+            val = booleanToJaNein(val)
+          }
+          row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
+        }
+      })
+    })
     // add every field if still missing
     exportPcoProperties.forEach(p => {
       if (row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined) {
@@ -210,35 +204,28 @@ const Preview = ({
       }
     })
     // 3. rco
-    const thisRco = rco.find(p => p.objectId === o.id)
-    const thisSynonymRco = synonymRco.find(p => p.objectId === o.id)
-    if (thisRco) {
-      const thisRcoProperties = JSON.parse(thisRco.properties)
-      exportRcoProperties.forEach(p => {
-        if (thisRcoProperties && thisRcoProperties[p.pname] !== undefined) {
-          let val = thisRcoProperties[p.pname]
-          if (typeof val === 'boolean') {
-            val = booleanToJaNein(val)
-          }
-          row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
-        }
-      })
-    } else if (exportWithSynonymData && thisSynonymRco) {
-      // only use of this rco does not exist on original object
-      const thisSynonymRcoProperties = JSON.parse(thisSynonymRco.properties)
-      exportRcoProperties.forEach(p => {
-        if (
-          thisSynonymRcoProperties &&
-          thisSynonymRcoProperties[p.pname] !== undefined
-        ) {
-          let val = thisSynonymRcoProperties[p.pname]
-          if (typeof val === 'boolean') {
-            val = booleanToJaNein(val)
-          }
-          row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
-        }
+    const theseRco = rco.filter(p => p.objectId === o.id)
+    const theseSynonymRco = synonymRco.filter(p => p.objectId === o.id)
+    const rcoToUse = [...theseRco]
+    if (exportWithSynonymData) {
+      theseSynonymRco.forEach(sRco => {
+        // add if not yet contained
+        const idContained = rcoToUse.find(rco => rco.id === sRco.id)
+        if (!idContained) rcoToUse.push(sRco)
       })
     }
+    rcoToUse.forEach(rco => {
+      const rcoProperties = JSON.parse(rco.properties)
+      exportRcoProperties.forEach(p => {
+        if (rcoProperties && rcoProperties[p.pname] !== undefined) {
+          let val = rcoProperties[p.pname]
+          if (typeof val === 'boolean') {
+            val = booleanToJaNein(val)
+          }
+          row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
+        }
+      })
+    })
     // add every field if still missing
     exportRcoProperties.forEach(p => {
       if (row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined) {
