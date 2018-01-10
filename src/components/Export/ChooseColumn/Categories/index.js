@@ -134,7 +134,7 @@ const enhance = compose(
         const taxonomiesOfCategory = taxonomiesOfCategories.filter(
           t => t.taxonomyName === name
         )
-        if (taxonomiesOfCategory.length === 1) {
+        if (taxonomies.length === 0) {
           const categoryName = taxonomiesOfCategory[0].categoryName
           const { exportCategories } = exportCategoriesData
           const categories = exportCategories.filter(c => c !== categoryName)
