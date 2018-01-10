@@ -40,6 +40,9 @@
     "postgraphile-plugin-connection-filter": "1.0.0-alpha.5",
     "react-scripts": "1.0.17"
   },
+  "peerDependencies": {
+    "create-react-class": "15.6.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
