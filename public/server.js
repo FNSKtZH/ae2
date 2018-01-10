@@ -13,20 +13,13 @@ const serverOptionsDevelopment = {
     request: ['error']
   }
 }*/
-const server = new Hapi.Server()
+const server = new Hapi.Server({
+  host: '0.0.0.0',
+  port: 3000,
+})
 
-server.register(Inert, function() {
-  server.connection({
-    host: '0.0.0.0',
-    port: 5000,
-  })
-
-  server.start(function(err) {
-    if (err) {
-      throw err
-    }
-    console.log('Server running at:', server.info.uri)
-  })
+const provision = async () => {
+  await server.register(Inert)
 
   server.route({
     method: 'GET',
@@ -111,4 +104,9 @@ server.register(Inert, function() {
       },
     },
   })
-})
+
+  await server.start()
+  console.log('Server running at:', server.info.uri)
+}
+
+provision()
