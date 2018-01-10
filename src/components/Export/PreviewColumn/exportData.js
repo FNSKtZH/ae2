@@ -45,17 +45,17 @@ export default graphql(exportDataGql, {
       exportTaxPropertiesData,
       'exportTaxProperties',
       []
-    )
+    ).map(d => omit(d, ['__typename']))
     const pcoProperties = get(
       exportPcoPropertiesData,
       'exportPcoProperties',
       []
-    )
+    ).map(d => omit(d, ['__typename']))
     const rcoProperties = get(
       exportRcoPropertiesData,
       'exportRcoProperties',
       []
-    )
+    ).map(d => omit(d, ['__typename']))
     const fetchTaxProperties = taxProperties.length > 0
     const fetchPcoProperties = pcoProperties.length > 0
     const fetchRcoProperties = rcoProperties.length > 0
