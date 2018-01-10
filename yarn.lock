@@ -5974,9 +5974,9 @@ react-contextmenu@2.9.2:
     classnames "^2.2.5"
     object-assign "^4.1.0"
 
-react-data-grid@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-3.0.1.tgz#124f22373cf162fb5be7a2a3c173c91769a8e37e"
+react-data-grid@2.0.80:
+  version "2.0.80"
+  resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-2.0.80.tgz#e6ee6eb33ac9421ec8bd7ddb760f43537f6a1c1d"
 
 react-dev-utils@^4.2.1:
   version "4.2.1"
