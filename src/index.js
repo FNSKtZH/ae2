@@ -82,8 +82,13 @@ import resolvers from './store/resolvers'
       defaults,
     })
     //console.log('index: stateLink:', stateLink)
+    const hostnameWithoutWww = window.location.hostname.replace('www.', '')
+    const isLocalhost = hostnameWithoutWww === 'localhost'
+    const uri = isLocalhost
+      ? 'http://localhost:5000/graphql'
+      : `https://localhost:5000/graphql`
     const httpLink = createHttpLink({
-      uri: 'http://localhost:5000/graphql',
+      uri,
     })
     const client = new ApolloClient({
       link: ApolloLink.from([stateLink, authMiddleware, httpLink]),
