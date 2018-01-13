@@ -18,38 +18,42 @@ const server = new Hapi.Server({
   port: 3000,
 })
 
-const provision = async () => {
-  await server.register(Inert)
+async function start() {
+  try {
+    await server.register(Inert)
+  } catch (error) {
+    throw error
+  }
 
   server.route({
     method: 'GET',
     path: '/manifest.json',
-    handler: function(request, reply) {
-      reply.file('manifest.json')
+    handler: {
+      file: 'manifest.json'
     },
   })
 
   server.route({
     method: 'GET',
     path: '/asset-manifest.json',
-    handler: function(request, reply) {
-      reply.file('asset-manifest.json')
+    handler: {
+      file: 'asset-manifest.json'
     },
   })
 
   server.route({
     method: 'GET',
     path: '/service-worker.js',
-    handler: function(request, reply) {
-      reply.file('service-worker.js').type('text/javascript')
+    handler: {
+      file: 'service-worker.js'
     },
   })
 
   server.route({
     method: 'GET',
     path: '/favicon.ico',
-    handler: function(request, reply) {
-      reply.file('favicon.ico')
+    handler: {
+      file: 'favicon.ico'
     },
   })
 
@@ -105,8 +109,13 @@ const provision = async () => {
     },
   })
 
-  await server.start()
+  try {
+    await server.start()
+  } catch (err) {
+    console.log(err)
+    process.exit(1)
+  }
   console.log('Server running at:', server.info.uri)
 }
 
-provision()
+start()
