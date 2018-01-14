@@ -76,7 +76,7 @@ const enhance = compose(
   exportTaxonomiesData,
   propsByTaxData,
   exportWithSynonymDataData,
-  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
+  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
   withState('pcoExpanded', 'setFilterExpanded', false),
   withState('rcoExpanded', 'setPropertiesExpanded', false),
   withHandlers({
@@ -185,9 +185,20 @@ const Filter = ({
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
-  //console.log('Filter: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
+  console.log('Filter: taxProperties:', taxProperties)
+  console.log('Filter: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
   const taxCount = Object.keys(taxPropertiesByTaxonomy).length
   const taxFieldsCount = Object.keys(taxPropertiesFields).length
+  let taxPropertiesByPropertyAndtype
+  if (taxCount > 1) {
+    taxPropertiesByPropertyAndtype = Object.values(
+      groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`)
+    ).filter(v => v.length > 1)
+    console.log(
+      'Filter: taxPropertiesByPropertyAndtype:',
+      taxPropertiesByPropertyAndtype
+    )
+  }
 
   return (
     <Container>
