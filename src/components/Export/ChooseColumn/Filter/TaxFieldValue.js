@@ -39,12 +39,14 @@ const enhance = compose(
 )
 
 const TaxFieldValue = ({
+  taxname,
   pname,
   value,
   jsontype,
   properties,
   onChange,
 }: {
+  taxname: string,
   pname: string,
   value: string,
   jsontype: string,

@@ -31,7 +31,7 @@ const TaxField = ({
   const { exportTaxFilters } = exportTaxFiltersData
   //console.log('TaxField: exportTaxFilters:', exportTaxFilters)
   const exportTaxFilter = exportTaxFilters.find(
-    x => /*x.taxname === taxname &&*/ x.pname === pname
+    x => x.taxname === taxname && x.pname === pname
   ) || { comparator: null, value: null }
   const { comparator, value } = exportTaxFilter
 

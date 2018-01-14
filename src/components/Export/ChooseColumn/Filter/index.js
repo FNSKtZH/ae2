@@ -226,6 +226,7 @@ const Filter = ({
         jsontype: t[0].jsontype,
         propertyName: t[0].propertyName,
         taxonomies: t.map(x => x.taxonomyName),
+        taxname: 'Taxonomie',
       }))
     //console.log('Filter: jointTaxProperties:', jointTaxProperties)
   }
@@ -285,7 +286,7 @@ const Filter = ({
                   {jointTaxProperties.map(field => (
                     <TaxField
                       key={`${field.propertyName}${field.jsontype}`}
-                      taxname={''}
+                      taxname="Taxonomie"
                       pname={field.propertyName}
                       jsontype={field.jsontype}
                     />

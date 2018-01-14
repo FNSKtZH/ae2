@@ -100,7 +100,8 @@ const enhance = compose(
     }) => () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
       // close all others
-      setJointTaxonomiesExpanded(false), setFilterExpanded(false)
+      setJointTaxonomiesExpanded(false)
+      setFilterExpanded(false)
       setPropertiesExpanded(false)
     },
     onTogglePco: ({
@@ -221,7 +222,6 @@ const Properties = ({
         taxonomies: t.map(x => x.taxonomyName),
         taxname: 'Taxonomie',
       }))
-    console.log('Filter: jointTaxProperties:', jointTaxProperties)
   }
 
   return (
