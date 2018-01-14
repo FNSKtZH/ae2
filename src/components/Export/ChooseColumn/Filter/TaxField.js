@@ -44,12 +44,15 @@ const TaxField = ({
         jsontype={jsontype}
         comparator={comparator}
       />
-      <Comparator
-        taxname={taxname}
-        pname={pname}
-        comparator={comparator}
-        value={value}
-      />
+      {value !== undefined &&
+        value !== null && (
+          <Comparator
+            taxname={taxname}
+            pname={pname}
+            comparator={comparator}
+            value={value}
+          />
+        )}
     </Container>
   )
 }

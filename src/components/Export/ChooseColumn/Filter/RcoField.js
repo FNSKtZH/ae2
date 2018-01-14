@@ -44,12 +44,15 @@ const RcoField = ({
         comparator={comparator}
         jsontype={jsontype}
       />
-      <Comparator
-        pcname={pcname}
-        pname={pname}
-        comparator={comparator}
-        value={value}
-      />
+      {value !== undefined &&
+        value !== null && (
+          <Comparator
+            pcname={pcname}
+            pname={pname}
+            comparator={comparator}
+            value={value}
+          />
+        )}
     </Container>
   )
 }
