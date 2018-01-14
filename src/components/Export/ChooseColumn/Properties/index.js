@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
+import sumBy from 'lodash/sumBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
@@ -72,23 +73,39 @@ const enhance = compose(
   withApollo,
   exportTaxonomiesData,
   propsByTaxData,
+  withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
   withState('pcoExpanded', 'setFilterExpanded', false),
   withState('rcoExpanded', 'setPropertiesExpanded', false),
   withHandlers({
+    onToggleJointTaxonomies: ({
+      jointTaxonomiesExpanded,
+      setJointTaxonomiesExpanded,
+      setTaxonomiesExpanded,
+      setFilterExpanded,
+      setPropertiesExpanded,
+    }) => () => {
+      setJointTaxonomiesExpanded(!jointTaxonomiesExpanded)
+      // close all others
+      setTaxonomiesExpanded(false)
+      setFilterExpanded(false)
+      setPropertiesExpanded(false)
+    },
     onToggleTaxonomies: ({
       taxonomiesExpanded,
+      setJointTaxonomiesExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
     }) => () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
       // close all others
-      setFilterExpanded(false)
+      setJointTaxonomiesExpanded(false), setFilterExpanded(false)
       setPropertiesExpanded(false)
     },
     onTogglePco: ({
       pcoExpanded,
+      setJointTaxonomiesExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
@@ -96,6 +113,7 @@ const enhance = compose(
       if (!pcoExpanded) {
         setFilterExpanded(true)
         // close all others
+        setJointTaxonomiesExpanded(false)
         setTaxonomiesExpanded(false)
         setPropertiesExpanded(false)
       } else {
@@ -104,6 +122,7 @@ const enhance = compose(
     },
     onToggleRco: ({
       rcoExpanded,
+      setJointTaxonomiesExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
@@ -111,6 +130,7 @@ const enhance = compose(
       if (!rcoExpanded) {
         setPropertiesExpanded(true)
         // close all others
+        setJointTaxonomiesExpanded(false)
         setTaxonomiesExpanded(false)
         setFilterExpanded(false)
       } else {
@@ -123,22 +143,24 @@ const enhance = compose(
 
 const Properties = ({
   propsByTaxData,
+  jointTaxonomiesExpanded,
   taxonomiesExpanded,
   pcoExpanded,
   rcoExpanded,
+  onToggleJointTaxonomies,
   onToggleTaxonomies,
   onTogglePco,
   onToggleRco,
-}: //width,
-{
+}: {
   propsByTaxData: Object,
+  onToggleJointTaxonomies: Boolean,
+  jointTaxonomiesExpanded: Boolean,
   taxonomiesExpanded: Boolean,
   pcoExpanded: Boolean,
   rcoExpanded: Boolean,
   onToggleTaxonomies: () => {},
   onTogglePco: () => {},
   onToggleRco: () => {},
-  //width: number,
 }) => {
   //console.log('Properties: propsByTaxData:', propsByTaxData)
   const pcoProperties = get(
@@ -186,6 +208,20 @@ const Properties = ({
   //console.log('Properties: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
   const taxCount = Object.keys(taxPropertiesByTaxonomy).length
   const taxFieldsCount = Object.keys(taxPropertiesFields).length
+  let jointTaxProperties = []
+  if (taxCount > 1) {
+    jointTaxProperties = Object.values(
+      groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`)
+    )
+      .filter(v => v.length === taxCount)
+      .map(t => ({
+        count: sumBy(t, x => Number(x.count)),
+        jsontype: t[0].jsontype,
+        propertyName: t[0].propertyName,
+        taxonomies: t.map(x => x.taxonomyName),
+      }))
+    console.log('Filter: jointTaxProperties:', jointTaxProperties)
+  }
 
   return (
     <Container>
@@ -211,6 +247,39 @@ const Properties = ({
           titleStyle={level2CardTitleStyle}
         />
         <Level2CardText expandable={true}>
+          {jointTaxProperties.length > 0 && (
+            <Level3Card key="jointTax">
+              <Level3CardHeader
+                title={
+                  <div>
+                    {`Gemeinsame Felder`}
+                    <Level3Count>{`(${
+                      jointTaxProperties.length
+                    })`}</Level3Count>
+                  </div>
+                }
+                actAsExpander={true}
+                showExpandableButton={true}
+                titleStyle={level2CardTitleStyle}
+              />
+              <Level3CardText expandable={true}>
+                {jointTaxProperties.length > 1 && (
+                  <AllTaxChooser properties={jointTaxProperties} />
+                )}
+                <PropertiesContainer data-width={window.innerWidth - 84}>
+                  {jointTaxProperties.map(field => (
+                    <TaxChooser
+                      key={`${field.propertyName}${field.jsontype}`}
+                      taxname={''}
+                      pname={field.propertyName}
+                      jsontype={field.jsontype}
+                      count={field.count}
+                    />
+                  ))}
+                </PropertiesContainer>
+              </Level3CardText>
+            </Level3Card>
+          )}
           {Object.keys(taxPropertiesByTaxonomy).map(pc => (
             <Level3Card key={pc}>
               <Level3CardHeader

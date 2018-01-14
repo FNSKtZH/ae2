@@ -48,8 +48,9 @@ const TaxChooser = ({
 }) => {
   const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
   const checked =
-    exportTaxProperties.filter(x => x.taxname === taxname && x.pname === pname)
-      .length > 0
+    exportTaxProperties.filter(
+      x => /*x.taxname === taxname && */ x.pname === pname
+    ).length > 0
 
   return (
     <Container>
