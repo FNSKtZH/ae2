@@ -74,7 +74,7 @@ const enhance = compose(
   exportTaxonomiesData,
   propsByTaxData,
   withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),
-  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
+  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
   withState('pcoExpanded', 'setFilterExpanded', false),
   withState('rcoExpanded', 'setPropertiesExpanded', false),
   withHandlers({
@@ -219,6 +219,7 @@ const Properties = ({
         jsontype: t[0].jsontype,
         propertyName: t[0].propertyName,
         taxonomies: t.map(x => x.taxonomyName),
+        taxname: 'Taxonomie',
       }))
     console.log('Filter: jointTaxProperties:', jointTaxProperties)
   }
@@ -270,7 +271,7 @@ const Properties = ({
                   {jointTaxProperties.map(field => (
                     <TaxChooser
                       key={`${field.propertyName}${field.jsontype}`}
-                      taxname={''}
+                      taxname={'Taxonomie'}
                       pname={field.propertyName}
                       jsontype={field.jsontype}
                       count={field.count}
