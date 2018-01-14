@@ -41,6 +41,7 @@ const TaxField = ({
         taxname={taxname}
         pname={pname}
         value={value}
+        jsontype={jsontype}
         comparator={comparator}
       />
       <Comparator

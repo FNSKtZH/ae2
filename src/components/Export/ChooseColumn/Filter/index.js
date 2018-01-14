@@ -227,7 +227,7 @@ const Filter = ({
         propertyName: t[0].propertyName,
         taxonomies: t.map(x => x.taxonomyName),
       }))
-    console.log('Filter: jointTaxProperties:', jointTaxProperties)
+    //console.log('Filter: jointTaxProperties:', jointTaxProperties)
   }
 
   return (
