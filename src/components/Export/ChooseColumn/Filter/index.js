@@ -285,7 +285,7 @@ const Filter = ({
                   {jointTaxProperties.map(field => (
                     <TaxField
                       key={`${field.propertyName}${field.jsontype}`}
-                      taxname={field.taxonomyName}
+                      taxname={''}
                       pname={field.propertyName}
                       jsontype={field.jsontype}
                     />
