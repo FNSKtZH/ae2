@@ -220,7 +220,7 @@ const Filter = ({
     jointTaxProperties = Object.values(
       groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`)
     )
-      .filter(v => v.length > 1)
+      .filter(v => v.length === taxCount)
       .map(t => ({
         count: sumBy(t, x => Number(x.count)),
         jsontype: t[0].jsontype,
