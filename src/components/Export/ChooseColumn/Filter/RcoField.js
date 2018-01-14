@@ -42,6 +42,7 @@ const RcoField = ({
         pname={pname}
         value={value}
         comparator={comparator}
+        jsontype={jsontype}
       />
       <Comparator
         pcname={pcname}

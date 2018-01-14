@@ -1,10 +1,13 @@
 // @flow
 
 const typeTranslator = {
-  string: 'Text',
+  String: 'Text',
+  Integer: 'Ganzzahl',
   number: 'Zahl',
   boolean: 'ja/nein',
 }
 
-export default (type: string) =>
-  typeTranslator[type] ? typeTranslator[type] : type
+export default (type: string) => {
+  console.log('type:', type)
+  return typeTranslator[type] ? typeTranslator[type] : type
+}
