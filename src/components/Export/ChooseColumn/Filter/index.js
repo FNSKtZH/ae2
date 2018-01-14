@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
+import sumBy from 'lodash/sumBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
@@ -76,30 +77,49 @@ const enhance = compose(
   exportTaxonomiesData,
   propsByTaxData,
   exportWithSynonymDataData,
+  withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
   withState('pcoExpanded', 'setFilterExpanded', false),
   withState('rcoExpanded', 'setPropertiesExpanded', false),
   withHandlers({
-    onToggleTaxonomies: ({
+    onToggleJointTaxonomies: ({
+      jointTaxonomiesExpanded,
+      setJointTaxonomiesExpanded,
       taxonomiesExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
     }) => () => {
+      setJointTaxonomiesExpanded(!jointTaxonomiesExpanded)
+      // close all others
+      setTaxonomiesExpanded(false)
+      setFilterExpanded(false)
+      setPropertiesExpanded(false)
+    },
+    onToggleTaxonomies: ({
+      taxonomiesExpanded,
+      setTaxonomiesExpanded,
+      setJointTaxonomiesExpanded,
+      setFilterExpanded,
+      setPropertiesExpanded,
+    }) => () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
       // close all others
+      setJointTaxonomiesExpanded(false)
       setFilterExpanded(false)
       setPropertiesExpanded(false)
     },
     onTogglePco: ({
       pcoExpanded,
       setTaxonomiesExpanded,
+      setJointTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
     }) => () => {
       if (!pcoExpanded) {
         setFilterExpanded(true)
         // close all others
+        setJointTaxonomiesExpanded(false)
         setTaxonomiesExpanded(false)
         setPropertiesExpanded(false)
       } else {
@@ -109,12 +129,14 @@ const enhance = compose(
     onToggleRco: ({
       rcoExpanded,
       setTaxonomiesExpanded,
+      setJointTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
     }) => () => {
       if (!rcoExpanded) {
         setPropertiesExpanded(true)
         // close all others
+        setJointTaxonomiesExpanded(false)
         setTaxonomiesExpanded(false)
         setFilterExpanded(false)
       } else {
@@ -129,9 +151,11 @@ const Filter = ({
   propsByTaxData,
   exportWithSynonymDataData,
   taxonomiesExpanded,
+  jointTaxonomiesExpanded,
   pcoExpanded,
   rcoExpanded,
   onToggleTaxonomies,
+  onToggleJointTaxonomies,
   onTogglePco,
   onToggleRco,
 }: //width,
@@ -139,9 +163,11 @@ const Filter = ({
   propsByTaxData: Object,
   exportWithSynonymDataData: Object,
   taxonomiesExpanded: Boolean,
+  jointTaxonomiesExpanded: Boolean,
   pcoExpanded: Boolean,
   rcoExpanded: Boolean,
   onToggleTaxonomies: () => {},
+  onToggleJointTaxonomies: () => {},
   onTogglePco: () => {},
   onToggleRco: () => {},
   //width: number,
@@ -185,19 +211,23 @@ const Filter = ({
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
-  console.log('Filter: taxProperties:', taxProperties)
-  console.log('Filter: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
+  //console.log('Filter: taxProperties:', taxProperties)
+  //console.log('Filter: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
   const taxCount = Object.keys(taxPropertiesByTaxonomy).length
   const taxFieldsCount = Object.keys(taxPropertiesFields).length
-  let taxPropertiesByPropertyAndtype
+  let jointTaxProperties = []
   if (taxCount > 1) {
-    taxPropertiesByPropertyAndtype = Object.values(
+    jointTaxProperties = Object.values(
       groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`)
-    ).filter(v => v.length > 1)
-    console.log(
-      'Filter: taxPropertiesByPropertyAndtype:',
-      taxPropertiesByPropertyAndtype
     )
+      .filter(v => v.length > 1)
+      .map(t => ({
+        count: sumBy(t, x => Number(x.count)),
+        jsontype: t[0].jsontype,
+        propertyName: t[0].propertyName,
+        taxonomies: t.map(x => x.taxonomyName),
+      }))
+    console.log('Filter: jointTaxProperties:', jointTaxProperties)
   }
 
   return (
@@ -235,6 +265,35 @@ const Filter = ({
           titleStyle={level2CardTitleStyle}
         />
         <Level2CardText expandable={true}>
+          {jointTaxProperties.length > 0 && (
+            <Level3Card key="jointTax">
+              <Level3CardHeader
+                title={
+                  <div>
+                    {`Gemeinsame Felder`}
+                    <Level3Count>{`(${
+                      jointTaxProperties.length
+                    })`}</Level3Count>
+                  </div>
+                }
+                actAsExpander={true}
+                showExpandableButton={true}
+                titleStyle={level2CardTitleStyle}
+              />
+              <Level3CardText expandable={true}>
+                <PropertiesContainer data-width={window.innerWidth - 84}>
+                  {jointTaxProperties.map(field => (
+                    <TaxField
+                      key={`${field.propertyName}${field.jsontype}`}
+                      taxname={field.taxonomyName}
+                      pname={field.propertyName}
+                      jsontype={field.jsontype}
+                    />
+                  ))}
+                </PropertiesContainer>
+              </Level3CardText>
+            </Level3Card>
+          )}
           {Object.keys(taxPropertiesByTaxonomy).map(pc => (
             <Level3Card key={pc}>
               <Level3CardHeader
