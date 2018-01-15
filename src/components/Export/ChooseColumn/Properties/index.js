@@ -218,20 +218,34 @@ const Properties = ({
   // in every key of rcoPropertiesByPropertyCollection
   // add id and name of Beziehungspartner
 
-  Object.keys(rcoPropertiesByPropertyCollection).forEach(rpc => {
+  Object.values(rcoPropertiesByPropertyCollection).forEach(rpc => {
+    let rco = rcoCountByTaxonomyRelationType.filter(
+      r =>
+        r.propertyCollectionName === rpc.propertyCollectionName &&
+        r.relationType === rpc.relationType
+    )
+    if (!rco) {
+      rco = rcoCountByTaxonomyRelationType.filter(
+        r =>
+          `${r.propertyCollectionName}: ${r.relationType}` ===
+            rpc.propertyCollectionName && r.relationType === rpc.relationType
+      )
+    }
+    console.log('Properties: rco:', rco)
+    console.log('Properties: rpc:', rpc)
     rpc.push({
-      count: 'todo',
+      count: rco.count,
       jsontype: 'String',
-      propertyCollectionName: 'todo',
+      propertyCollectionName: rpc.propertyCollectionName,
       propertyName: 'Beziehungspartner_id',
-      relationType: 'todo',
+      relationType: rpc.relationType,
     })
     rpc.push({
-      count: 'todo',
+      count: rco.count,
       jsontype: 'String',
-      propertyCollectionName: 'todo',
+      propertyCollectionName: rpc.propertyCollectionName,
       propertyName: 'Beziehungspartner_Name',
-      relationType: 'todo',
+      relationType: rpc.relationType,
     })
   })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
