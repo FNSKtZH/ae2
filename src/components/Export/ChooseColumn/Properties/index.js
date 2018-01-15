@@ -171,7 +171,6 @@ const Properties = ({
   onTogglePco: () => {},
   onToggleRco: () => {},
 }) => {
-  //console.log('Properties: propsByTaxData:', propsByTaxData)
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
@@ -192,10 +191,7 @@ const Properties = ({
     'propertyCollectionName'
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
-  /*console.log(
-    'Properties: pcoPropertiesByPropertyCollection:',
-    pcoPropertiesByPropertyCollection
-  )*/
+  console.log('Properties: rcoProperties:', rcoProperties)
   const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
@@ -205,10 +201,24 @@ const Properties = ({
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
   // TODO: need to add BeziehungsPartnerId and BeziehungsPartnerName
-  const pcs = get(data, 'allPropertyCollections.nodes')
-  console.log('Properties: pcs:', pcs)
+  const rcoCountByTaxonomyRelationType = get(
+    data,
+    'rcoCountByTaxonomyRelationTypeFunction.nodes',
+    []
+  )
+  console.log(
+    'Properties: rcoCountByTaxonomyRelationType:',
+    rcoCountByTaxonomyRelationType
+  )
+  console.log(
+    'Properties: rcoPropertiesByPropertyCollection:',
+    rcoPropertiesByPropertyCollection
+  )
+  // TODO:
+  // in every key of rcoPropertiesByPropertyCollection
+  // add id and name of Beziehungspartner
 
-  rcoPropertiesByPropertyCollection.forEach(rpc => {
+  Object.keys(rcoPropertiesByPropertyCollection).forEach(rpc => {
     rpc.push({
       count: 'todo',
       jsontype: 'String',

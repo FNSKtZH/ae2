@@ -5,13 +5,11 @@ import gql from 'graphql-tag'
 export default graphql(
   gql`
     query dataQuery {
-      allPropertyCollections {
+      rcoCountByTaxonomyRelationTypeFunction {
         nodes {
-          id
-          name
-          relationsByPropertyCollectionId {
-            totalCount
-          }
+          propertyCollectionName
+          relationType
+          count
         }
       }
     }
