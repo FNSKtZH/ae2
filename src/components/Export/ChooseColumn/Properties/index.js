@@ -99,6 +99,10 @@ const enhance = compose(
       setPropertiesExpanded,
     }) => () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
+      // TODO (later)
+      // check if only one Taxonomy
+      // if so: open it
+
       // close all others
       setJointTaxonomiesExpanded(false)
       setFilterExpanded(false)
