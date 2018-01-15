@@ -24,3 +24,5 @@ yarn-error.log*
 # with great data losses
 # because of conflicts in the lock-files
 *.lock
+
+ecosystem.config.js
