@@ -35,6 +35,8 @@ export default graphql(exportDataGql, {
     const taxFilters = get(exportTaxFiltersData, 'exportTaxFilters', []).map(
       d => omit(d, ['__typename'])
     )
+    //console.log('exportData: exportTaxFiltersData:', exportTaxFiltersData)
+    //console.log('exportData: taxFilters:', taxFilters)
     const pcoFilters = get(exportPcoFiltersData, 'exportPcoFilters', []).map(
       d => omit(d, ['__typename'])
     )

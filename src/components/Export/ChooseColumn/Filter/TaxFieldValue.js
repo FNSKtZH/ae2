@@ -7,6 +7,7 @@ import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
 import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
+import readableType from '../../../../modules/readableType'
 
 const Container = styled.div`
   width: 100%;
@@ -38,20 +39,24 @@ const enhance = compose(
 )
 
 const TaxFieldValue = ({
+  taxname,
   pname,
   value,
+  jsontype,
   properties,
   onChange,
 }: {
+  taxname: string,
   pname: string,
   value: string,
+  jsontype: string,
   properties: Array<Object>,
   onChange: () => {},
 }) => (
   <Container>
     <TextField
       floatingLabelFixed
-      floatingLabelText={pname}
+      floatingLabelText={`${pname} (${readableType(jsontype)})`}
       floatingLabelStyle={floatingLabelStyle}
       value={value || ''}
       fullWidth

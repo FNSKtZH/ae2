@@ -7,6 +7,7 @@ import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
 import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
+import readableType from '../../../../modules/readableType'
 
 const Container = styled.div`
   width: 100%;
@@ -35,16 +36,18 @@ const enhance = compose(
 const PcoFieldValue = ({
   pname,
   value,
+  jsontype,
   onChange,
 }: {
   pname: string,
   value: string,
+  jsontype: string,
   onChange: () => {},
 }) => (
   <Container>
     <TextField
       floatingLabelFixed
-      floatingLabelText={pname}
+      floatingLabelText={`${pname} (${readableType(jsontype)})`}
       floatingLabelStyle={floatingLabelStyle}
       value={value || ''}
       fullWidth

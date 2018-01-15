@@ -1626,7 +1626,7 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@2.12.x, commander@~2.12.1:
+commander@2.12.x:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.12.2.tgz#0f5946c427ed9ec0d91a46bb9def53e54650e555"
 
@@ -1636,7 +1636,7 @@ commander@2.9.0:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-commander@^2.8.1:
+commander@^2.8.1, commander@~2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
 
@@ -3214,14 +3214,14 @@ graceful-fs@~3.0.2:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-graphile-build-pg@^0.1.0-alpha.37:
-  version "0.1.0-alpha.37"
-  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-0.1.0-alpha.37.tgz#32de7ecfa695538125356eb9272761a29bbaba89"
+graphile-build-pg@^0.1.0-alpha.38:
+  version "0.1.0-alpha.38"
+  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-0.1.0-alpha.38.tgz#529b1c80b2d4d230b53dc463ca25d1d4f46148c7"
   dependencies:
     babel-runtime ">=6 <7"
     chalk "^2.1.0"
     debug ">=2 <3"
-    graphile-build "^0.1.0-alpha.37"
+    graphile-build "^0.1.0-alpha.38"
     graphql-iso-date "^3.2.0"
     graphql-type-json "^0.1.4"
     jsonwebtoken "^7.4.1"
@@ -3232,9 +3232,9 @@ graphile-build-pg@^0.1.0-alpha.37:
     pluralize "^5.0.0"
     postgres-interval "1.1.1"
 
-graphile-build@^0.1.0-alpha.37:
-  version "0.1.0-alpha.37"
-  resolved "https://registry.yarnpkg.com/graphile-build/-/graphile-build-0.1.0-alpha.37.tgz#315320ba8c34a7ea8196de79090a8d707d25465f"
+graphile-build@^0.1.0-alpha.38:
+  version "0.1.0-alpha.38"
+  resolved "https://registry.yarnpkg.com/graphile-build/-/graphile-build-0.1.0-alpha.38.tgz#f9fcb14a6c8e79d345d6a5f707aa90eca0ec5ae4"
   dependencies:
     babel-runtime ">=6 <7"
     debug ">=2 <3"
@@ -4928,8 +4928,8 @@ node-libs-browser@^2.0.0:
     vm-browserify "0.0.4"
 
 node-notifier@^5.0.2:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/node-notifier/-/node-notifier-5.2.0.tgz#05f047a664258a430ec2f348875ba5a07c623cfc"
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/node-notifier/-/node-notifier-5.2.1.tgz#fa313dd08f5517db0e2502e5758d664ac69f9dea"
   dependencies:
     growly "^1.3.0"
     semver "^5.4.1"
@@ -5089,9 +5089,15 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-opn@5.1.0, opn@^5.1.0:
+opn@5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/opn/-/opn-5.1.0.tgz#72ce2306a17dbea58ff1041853352b4a8fc77519"
+  dependencies:
+    is-wsl "^1.1.0"
+
+opn@^5.1.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/opn/-/opn-5.2.0.tgz#71fdf934d6827d676cecbea1531f95d354641225"
   dependencies:
     is-wsl "^1.1.0"
 
@@ -5704,21 +5710,21 @@ postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.13:
     source-map "^0.6.1"
     supports-color "^5.1.0"
 
-postgraphile-core@0.1.0-alpha.37:
-  version "0.1.0-alpha.37"
-  resolved "https://registry.yarnpkg.com/postgraphile-core/-/postgraphile-core-0.1.0-alpha.37.tgz#ec23619c5a95223e5d9785ddac2fdc1b9a50cca7"
+postgraphile-core@0.1.0-alpha.38:
+  version "0.1.0-alpha.38"
+  resolved "https://registry.yarnpkg.com/postgraphile-core/-/postgraphile-core-0.1.0-alpha.38.tgz#c250ba4f1f41977e980e1558a8011b1af36004bd"
   dependencies:
     babel-runtime ">=6 <7"
-    graphile-build "^0.1.0-alpha.37"
-    graphile-build-pg "^0.1.0-alpha.37"
+    graphile-build "^0.1.0-alpha.38"
+    graphile-build-pg "^0.1.0-alpha.38"
 
 postgraphile-plugin-connection-filter@1.0.0-alpha.5:
   version "1.0.0-alpha.5"
   resolved "https://registry.yarnpkg.com/postgraphile-plugin-connection-filter/-/postgraphile-plugin-connection-filter-1.0.0-alpha.5.tgz#7b43bff61686784f569f9a18c171be0ffd72013b"
 
-postgraphile@4.0.0-alpha2.27:
-  version "4.0.0-alpha2.27"
-  resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.0.0-alpha2.27.tgz#8a699dd1be0bfaddb27e579786d905120c617486"
+postgraphile@4.0.0-alpha2.28:
+  version "4.0.0-alpha2.28"
+  resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.0.0-alpha2.28.tgz#81de9fffb22e6f54b7a8922b96507a4dc6cbfdd5"
   dependencies:
     body-parser "^1.15.2"
     chalk "1.1.3"
@@ -5736,7 +5742,7 @@ postgraphile@4.0.0-alpha2.27:
     pg-minify "~0.5.3"
     pg-sql2 "^1.0.0-alpha1.0"
     pluralize "^3.0.0"
-    postgraphile-core "0.1.0-alpha.37"
+    postgraphile-core "0.1.0-alpha.38"
     postgres-interval "^1.0.2"
     send "^0.16.1"
     tslib "^1.5.0"
@@ -6137,9 +6143,9 @@ react-transition-group@^1.2.1:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
-react-virtualized@9.16.1:
-  version "9.16.1"
-  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.16.1.tgz#2a9c8262094bc5cca309a3ee29f2b4b572ae95a1"
+react-virtualized@9.17.0:
+  version "9.17.0"
+  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.17.0.tgz#af4f7bcef1a9af3e3df1ee1dd911cefc747f89b0"
   dependencies:
     babel-runtime "^6.26.0"
     classnames "^2.2.3"
@@ -7220,10 +7226,10 @@ uc.micro@^1.0.1:
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.3.tgz#7ed50d5e0f9a9fb0a573379259f2a77458d50192"
 
 uglify-js@3.3.x, uglify-js@^3.0.13:
-  version "3.3.5"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.3.5.tgz#4c4143dfe08e8825746675cc49a6874a933b543e"
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.3.7.tgz#28463e7c7451f89061d2b235e30925bf5625e14d"
   dependencies:
-    commander "~2.12.1"
+    commander "~2.13.0"
     source-map "~0.6.1"
 
 uglify-js@^2.6, uglify-js@^2.8.29:
