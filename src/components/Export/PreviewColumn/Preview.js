@@ -139,6 +139,7 @@ const Preview = ({
     'exportRcoProperties',
     []
   )
+  console.log('Preview: exportRcoProperties:', exportRcoProperties)
   //console.log('Preview: exportData:', exportData)
   const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
@@ -205,6 +206,7 @@ const Preview = ({
     })
     // 3. rco
     const theseRco = rco.filter(p => p.objectId === o.id)
+    //theseRco.length > 0 && console.log('Preview: theseRco:', theseRco)
     const theseSynonymRco = synonymRco.filter(p => p.objectId === o.id)
     const rcoToUse = [...theseRco]
     if (exportWithSynonymData) {
@@ -215,6 +217,16 @@ const Preview = ({
       })
     }
     rcoToUse.forEach(rco => {
+      const bezPartnerId = get(rco, 'objectByObjectIdRelation.id', null)
+      row[`Beziehungspartner_id`] = bezPartnerId
+      const bezPartnerTaxonomyName = get(
+        rco,
+        'objectByObjectIdRelation.taxonomyByTaxonomyId.name',
+        ''
+      )
+      const bezPartnerName = get(rco, 'objectByObjectIdRelation.name', '')
+      const bezPartner = `${bezPartnerTaxonomyName}: ${bezPartnerName}`
+      row[`Beziehungspartner_Name`] = bezPartner
       const rcoProperties = JSON.parse(rco.properties)
       exportRcoProperties.forEach(p => {
         if (rcoProperties && rcoProperties[p.pname] !== undefined) {
@@ -235,7 +247,7 @@ const Preview = ({
     return row
   })
   rows = orderBy(rows, sortField, sortDirection)
-  //console.logconsole.log('Preview: rows:', rows)
+  //console.log('Preview: rows:', rows)
   const pvColumns = rows[0]
     ? Object.keys(rows[0]).map(k => ({
         key: k,
@@ -244,6 +256,7 @@ const Preview = ({
         sortable: true,
       }))
     : []
+  console.log('Preview: pvColumns:', pvColumns)
 
   return (
     <Container>

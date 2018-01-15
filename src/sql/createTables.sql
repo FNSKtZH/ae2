@@ -365,9 +365,13 @@ CREATE TABLE ae.rco_properties_by_taxonomy (
   count bigint
 );
 
--- this table is only needed because postgraphql does not pick up
--- the same named function without it
--- see: https://github.com/postgraphql/postgraphql/issues/491
+DROP TABLE IF EXISTS ae.rco_count_by_taxonomy_relation_type CASCADE;
+CREATE TABLE ae.rco_count_by_taxonomy_relation_type(
+  property_collection_name text,
+  relation_type text,
+  count bigint
+);
+
 DROP TABLE IF EXISTS ae.categories_of_taxonomies_count CASCADE;
 CREATE TABLE ae.categories_of_taxonomies_count (
   name text,
@@ -375,18 +379,12 @@ CREATE TABLE ae.categories_of_taxonomies_count (
   count bigint
 );
 
--- this table is only needed because postgraphql does not pick up
--- the same named function without it
--- see: https://github.com/postgraphql/postgraphql/issues/491
 DROP TABLE IF EXISTS ae.categories_of_taxonomies CASCADE;
 CREATE TABLE ae.categories_of_taxonomies (
   taxonomy_id uuid,
   category_name text
 );
 
--- this table is only needed because postgraphql does not pick up
--- the same named function without it
--- see: https://github.com/postgraphql/postgraphql/issues/491
 DROP TABLE IF EXISTS ae.taxonomies_of_category CASCADE;
 CREATE TABLE ae.taxonomies_of_category (
   category_name text,

@@ -21,6 +21,7 @@ import RcoChooser from './RcoChooser'
 import constants from '../../../../modules/constants'
 import propsByTaxData from '../../../../modules/propsByTaxData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
+import data from './data'
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -72,6 +73,7 @@ const level2CardTitleStyle = { fontWeight: 'bold' }
 const enhance = compose(
   withApollo,
   exportTaxonomiesData,
+  data,
   propsByTaxData,
   withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
@@ -148,6 +150,7 @@ const enhance = compose(
 
 const Properties = ({
   propsByTaxData,
+  data,
   jointTaxonomiesExpanded,
   taxonomiesExpanded,
   pcoExpanded,
@@ -158,6 +161,7 @@ const Properties = ({
   onToggleRco,
 }: {
   propsByTaxData: Object,
+  data: Object,
   onToggleJointTaxonomies: Boolean,
   jointTaxonomiesExpanded: Boolean,
   taxonomiesExpanded: Boolean,
@@ -200,12 +204,32 @@ const Properties = ({
     }
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
+  // TODO: need to add BeziehungsPartnerId and BeziehungsPartnerName
+  const pcs = get(data, 'allPropertyCollections.nodes')
+  console.log('Properties: pcs:', pcs)
+
+  rcoPropertiesByPropertyCollection.forEach(rpc => {
+    rpc.push({
+      count: 'todo',
+      jsontype: 'String',
+      propertyCollectionName: 'todo',
+      propertyName: 'Beziehungspartner_id',
+      relationType: 'todo',
+    })
+    rpc.push({
+      count: 'todo',
+      jsontype: 'String',
+      propertyCollectionName: 'todo',
+      propertyName: 'Beziehungspartner_Name',
+      relationType: 'todo',
+    })
+  })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   //console.log('Properties: pcoPropertiesFields:', pcoPropertiesFields)
-  /*console.log(
+  console.log(
     'Properties: rcoPropertiesByPropertyCollection:',
     rcoPropertiesByPropertyCollection
-  )*/
+  )
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')

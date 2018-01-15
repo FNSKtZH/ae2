@@ -67,6 +67,14 @@ export default gql`
       nodes {
         id
         objectId
+        objectByObjectIdRelation {
+          id
+          name
+          taxonomyByTaxonomyId {
+            id
+            name
+          }
+        }
         relationType
         properties
       }
@@ -82,6 +90,14 @@ export default gql`
       nodes {
         id
         objectId
+        objectByObjectIdRelation {
+          id
+          name
+          taxonomyByTaxonomyId {
+            id
+            name
+          }
+        }
         relationType
         properties
       }
