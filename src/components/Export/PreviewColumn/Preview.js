@@ -151,7 +151,6 @@ const Preview = ({
     []
   )
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
-  //console.log('Preview: exportData:', exportData)
   const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
   const objectsCount = get(
@@ -159,16 +158,10 @@ const Preview = ({
     'exportObject.totalCount',
     0
   ).toLocaleString('de-CH')
-  //console.log('Preview: objects:', objects)
-  //console.log('Preview: objectsCount:', objectsCount)
   const pco = get(exportData, 'exportPco.nodes', [])
-  //console.log('Preview: pco:', pco)
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
-  //console.log('Preview: synonymPco:', synonymPco)
   const rco = get(exportData, 'exportRco.nodes', [])
-  //console.log('Preview: rco:', rco)
   const synonymRco = get(exportData, 'exportSynonymRco.nodes', [])
-  //console.log('Preview: synonymRco:', synonymRco)
   // need taxFields to filter only data with properties
   const taxFields = ['id']
   let rows = objects.map(o => {
@@ -220,7 +213,6 @@ const Preview = ({
     })
     // 3. rco
     const theseRco = rco.filter(p => p.objectId === o.id)
-    //theseRco.length > 0 && console.log('Preview: theseRco:', theseRco)
     const theseSynonymRco = synonymRco.filter(p => p.objectId === o.id)
     const rcoToUse = [...theseRco]
     if (exportWithSynonymData) {
@@ -270,7 +262,6 @@ const Preview = ({
   if (exportOnlyRowsWithProperties && propertyFields.length > 0) {
     // filter rows that only contain values in taxFields
     rows = rows.filter(row => {
-      //console.log('row:', row)
       // check if any property field contains a value
       const propertyRow = omit(row, taxFields)
       const valueExists = some(propertyRow, v => v !== undefined && v !== null)
