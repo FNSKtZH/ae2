@@ -270,6 +270,7 @@ const Preview = ({
   if (exportOnlyRowsWithProperties && propertyFields.length > 0) {
     // filter rows that only contain values in taxFields
     rows = rows.filter(row => {
+      //console.log('row:', row)
       // check if any property field contains a value
       const propertyRow = omit(row, taxFields)
       const valueExists = some(propertyRow, v => v !== undefined && v !== null)
