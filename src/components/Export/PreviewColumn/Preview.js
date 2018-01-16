@@ -276,7 +276,6 @@ const Preview = ({
     sortable: true,
   }))
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
-  console.log('anzFelder:', anzFelder)
 
   return (
     <Container>
