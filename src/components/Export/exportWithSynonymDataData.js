@@ -1,8 +1,14 @@
 // @flow
 import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import exportWithSynonymDataGql from './exportWithSynonymDataGql'
-
-export default graphql(exportWithSynonymDataGql, {
-  name: 'exportWithSynonymDataData',
-})
+export default graphql(
+  gql`
+    query exportWithSynonymDataQuery {
+      exportWithSynonymData @client
+    }
+  `,
+  {
+    name: 'exportWithSynonymDataData',
+  }
+)
