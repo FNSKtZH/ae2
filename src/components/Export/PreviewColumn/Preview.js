@@ -139,7 +139,7 @@ const Preview = ({
     'exportRcoProperties',
     []
   )
-  console.log('Preview: exportRcoProperties:', exportRcoProperties)
+  const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
   //console.log('Preview: exportData:', exportData)
   const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
@@ -218,7 +218,9 @@ const Preview = ({
     }
     rcoToUse.forEach(rco => {
       const bezPartnerId = get(rco, 'objectByObjectIdRelation.id', null)
-      row[`Beziehungspartner_id`] = bezPartnerId
+      if (exportRcoPropertyNames.includes('Beziehungspartner_id')) {
+        row[`Beziehungspartner_id`] = bezPartnerId
+      }
       const bezPartnerTaxonomyName = get(
         rco,
         'objectByObjectIdRelation.taxonomyByTaxonomyId.name',
@@ -226,7 +228,9 @@ const Preview = ({
       )
       const bezPartnerName = get(rco, 'objectByObjectIdRelation.name', '')
       const bezPartner = `${bezPartnerTaxonomyName}: ${bezPartnerName}`
-      row[`Beziehungspartner_Name`] = bezPartner
+      if (exportRcoPropertyNames.includes('Beziehungspartner_Name')) {
+        row[`Beziehungspartner_Name`] = bezPartner
+      }
       const rcoProperties = JSON.parse(rco.properties)
       exportRcoProperties.forEach(p => {
         if (rcoProperties && rcoProperties[p.pname] !== undefined) {
@@ -256,7 +260,6 @@ const Preview = ({
         sortable: true,
       }))
     : []
-  console.log('Preview: pvColumns:', pvColumns)
 
   return (
     <Container>

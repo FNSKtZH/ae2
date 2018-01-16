@@ -181,6 +181,7 @@ const Properties = ({
     'rcoPropertiesByTaxonomiesFunction.nodes',
     []
   )
+  //console.log('Properties: rcoProperties:', rcoProperties)
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
@@ -191,7 +192,6 @@ const Properties = ({
     'propertyCollectionName'
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
-  console.log('Properties: rcoProperties:', rcoProperties)
   const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
@@ -206,6 +206,7 @@ const Properties = ({
     'rcoCountByTaxonomyRelationTypeFunction.nodes',
     []
   )
+  /*
   console.log(
     'Properties: rcoCountByTaxonomyRelationType:',
     rcoCountByTaxonomyRelationType
@@ -213,50 +214,48 @@ const Properties = ({
   console.log(
     'Properties: rcoPropertiesByPropertyCollection:',
     rcoPropertiesByPropertyCollection
-  )
+  )*/
   // TODO:
   // in every key of rcoPropertiesByPropertyCollection
   // add id and name of Beziehungspartner
 
   Object.values(rcoPropertiesByPropertyCollection).forEach(rpc => {
-    const myRpc = rpc[0]
-    let rco = rcoCountByTaxonomyRelationType.filter(
+    const myRpc = rpc[0] || {}
+    let rco = rcoCountByTaxonomyRelationType.find(
       r =>
         r.propertyCollectionName === myRpc.propertyCollectionName &&
         r.relationType === myRpc.relationType
     )
-    if (rco.length === 0) {
-      rco = rcoCountByTaxonomyRelationType.filter(
+    if (!rco) {
+      rco = rcoCountByTaxonomyRelationType.find(
         r =>
           `${r.propertyCollectionName}: ${r.relationType}` ===
             myRpc.propertyCollectionName &&
           r.relationType === myRpc.relationType
       )
     }
-    console.log('Properties: rco:', rco)
-    console.log('Properties: rpc:', rpc)
-    console.log('Properties: myRpc:', myRpc)
+    if (!rco) rco = {}
     rpc.push({
       count: rco.count,
       jsontype: 'String',
-      propertyCollectionName: rpc.propertyCollectionName,
+      propertyCollectionName: myRpc.propertyCollectionName,
       propertyName: 'Beziehungspartner_id',
-      relationType: rpc.relationType,
+      relationType: myRpc.relationType,
     })
     rpc.push({
       count: rco.count,
       jsontype: 'String',
-      propertyCollectionName: rpc.propertyCollectionName,
+      propertyCollectionName: myRpc.propertyCollectionName,
       propertyName: 'Beziehungspartner_Name',
-      relationType: rpc.relationType,
+      relationType: myRpc.relationType,
     })
   })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   //console.log('Properties: pcoPropertiesFields:', pcoPropertiesFields)
-  console.log(
+  /*console.log(
     'Properties: rcoPropertiesByPropertyCollection:',
     rcoPropertiesByPropertyCollection
-  )
+  )*/
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
