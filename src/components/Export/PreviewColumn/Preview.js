@@ -275,6 +275,8 @@ const Preview = ({
     resizable: true,
     sortable: true,
   }))
+  const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
+  console.log('anzFelder:', anzFelder)
 
   return (
     <Container>
@@ -293,9 +295,9 @@ const Preview = ({
           />
           <TotalDiv>{`${rows.length.toLocaleString(
             'de-CH'
-          )} Datensätze, ${Object.keys(rows[0]).length.toLocaleString(
-            'de-CH'
-          )} Felder`}</TotalDiv>
+          )} Datensätze, ${anzFelder.toLocaleString('de-CH')} ${
+            anzFelder === 1 ? 'Feld' : 'Felder'
+          }`}</TotalDiv>
         </SpreadsheetContainer>
       )}
       {rows.length === 0 && (
