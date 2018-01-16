@@ -168,7 +168,7 @@ const Preview = ({
     // 1. object
     const row = {}
     row.id = o.id
-    const properties = JSON.parse(o.properties)
+    const properties = o.properties ? JSON.parse(o.properties) : {}
     exportTaxProperties.forEach(p => {
       let val = null
       if (properties && properties[p.pname] !== undefined) {
