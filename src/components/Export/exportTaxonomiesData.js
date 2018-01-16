@@ -1,8 +1,14 @@
 // @flow
 import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import exportTaxonomiesGql from './exportTaxonomiesGql'
-
-export default graphql(exportTaxonomiesGql, {
-  name: 'exportTaxonomiesData',
-})
+export default graphql(
+  gql`
+    query exportTaxonomiesQuery {
+      exportTaxonomies @client
+    }
+  `,
+  {
+    name: 'exportTaxonomiesData',
+  }
+)
