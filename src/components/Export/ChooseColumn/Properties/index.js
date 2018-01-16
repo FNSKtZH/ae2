@@ -219,20 +219,23 @@ const Properties = ({
   // add id and name of Beziehungspartner
 
   Object.values(rcoPropertiesByPropertyCollection).forEach(rpc => {
+    const myRpc = rpc[0]
     let rco = rcoCountByTaxonomyRelationType.filter(
       r =>
-        r.propertyCollectionName === rpc.propertyCollectionName &&
-        r.relationType === rpc.relationType
+        r.propertyCollectionName === myRpc.propertyCollectionName &&
+        r.relationType === myRpc.relationType
     )
-    if (!rco) {
+    if (rco.length === 0) {
       rco = rcoCountByTaxonomyRelationType.filter(
         r =>
           `${r.propertyCollectionName}: ${r.relationType}` ===
-            rpc.propertyCollectionName && r.relationType === rpc.relationType
+            myRpc.propertyCollectionName &&
+          r.relationType === myRpc.relationType
       )
     }
     console.log('Properties: rco:', rco)
     console.log('Properties: rpc:', rpc)
+    console.log('Properties: myRpc:', myRpc)
     rpc.push({
       count: rco.count,
       jsontype: 'String',
