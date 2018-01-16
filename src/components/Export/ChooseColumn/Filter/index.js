@@ -24,6 +24,8 @@ import propsByTaxData from '../../../../modules/propsByTaxData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import exportWithSynonymDataData from '../../exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
+import exportOnlyRowsWithPropertiesData from '../../exportOnlyRowsWithPropertiesData'
+import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -77,6 +79,7 @@ const enhance = compose(
   exportTaxonomiesData,
   propsByTaxData,
   exportWithSynonymDataData,
+  exportOnlyRowsWithPropertiesData,
   withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
   withState('pcoExpanded', 'setFilterExpanded', false),
@@ -150,6 +153,7 @@ const enhance = compose(
 const Filter = ({
   propsByTaxData,
   exportWithSynonymDataData,
+  exportOnlyRowsWithPropertiesData,
   taxonomiesExpanded,
   jointTaxonomiesExpanded,
   pcoExpanded,
@@ -162,6 +166,7 @@ const Filter = ({
 {
   propsByTaxData: Object,
   exportWithSynonymDataData: Object,
+  exportOnlyRowsWithPropertiesData: Object,
   taxonomiesExpanded: Boolean,
   jointTaxonomiesExpanded: Boolean,
   pcoExpanded: Boolean,
@@ -175,6 +180,11 @@ const Filter = ({
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
     'exportWithSynonymData',
+    true
+  )
+  const exportOnlyRowsWithProperties = get(
+    exportOnlyRowsWithPropertiesData,
+    'exportOnlyRowsWithProperties',
     true
   )
   const pcoProperties = get(
@@ -241,6 +251,16 @@ const Filter = ({
         onCheck={(event, checked) => {
           app.client.mutate({
             mutation: exportWithSynonymDataMutation,
+            variables: { value: checked },
+          })
+        }}
+      />
+      <Checkbox
+        label="Nur Datensätze mit Eigenschaften exportieren"
+        checked={exportOnlyRowsWithProperties}
+        onCheck={(event, checked) => {
+          app.client.mutate({
+            mutation: exportOnlyRowsWithPropertiesMutation,
             variables: { value: checked },
           })
         }}

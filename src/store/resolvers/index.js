@@ -11,6 +11,7 @@ import exportPcoProperties from './exportPcoProperties'
 import exportRcoProperties from './exportRcoProperties'
 import exportTooManyProperties from './exportTooManyProperties'
 import exportWithSynonymData from './exportWithSynonymData'
+import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
 import historyAfterLogin from './historyAfterLogin'
 
 export default merge(
@@ -24,5 +25,6 @@ export default merge(
   exportRcoProperties,
   exportTooManyProperties,
   exportWithSynonymData,
+  exportOnlyRowsWithProperties,
   historyAfterLogin
 )

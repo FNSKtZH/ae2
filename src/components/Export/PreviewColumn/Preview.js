@@ -9,6 +9,8 @@ import withHandlers from 'recompose/withHandlers'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
+import omit from 'lodash/omit'
+import some from 'lodash/some'
 
 import exportData from './exportData'
 import exportTaxonomiesData from '../exportTaxonomiesData'
@@ -19,6 +21,7 @@ import exportTaxFiltersData from '../exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
+import exportOnlyRowsWithPropertiesData from '../exportOnlyRowsWithPropertiesData'
 import conv from '../../../modules/convertExportFieldName'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
@@ -72,6 +75,7 @@ const enhance = compose(
   exportRcoPropertiesData,
   exportRcoFiltersData,
   exportWithSynonymDataData,
+  exportOnlyRowsWithPropertiesData,
   exportData,
   withState('sortField', 'setSortField', 'id'),
   withState('sortDirection', 'setSortDirection', 'asc'),
@@ -96,6 +100,7 @@ const Preview = ({
   exportRcoPropertiesData,
   exportRcoFiltersData,
   exportWithSynonymDataData,
+  exportOnlyRowsWithPropertiesData,
   sortField,
   sortDirection,
   setSortField,
@@ -112,6 +117,7 @@ const Preview = ({
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
   exportWithSynonymDataData: Object,
+  exportOnlyRowsWithPropertiesData: Object,
   sortField: String,
   sortDirection: String,
   setSortField: () => void,
@@ -122,6 +128,11 @@ const Preview = ({
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
     'exportWithSynonymData',
+    true
+  )
+  const exportOnlyRowsWithProperties = get(
+    exportOnlyRowsWithPropertiesData,
+    'exportOnlyRowsWithProperties',
     true
   )
   const exportTaxProperties = get(
@@ -158,6 +169,8 @@ const Preview = ({
   //console.log('Preview: rco:', rco)
   const synonymRco = get(exportData, 'exportSynonymRco.nodes', [])
   //console.log('Preview: synonymRco:', synonymRco)
+  // need taxFields to filter only data with properties
+  const taxFields = ['id']
   let rows = objects.map(o => {
     // 1. object
     const row = {}
@@ -172,6 +185,7 @@ const Preview = ({
           val = properties[p.pname]
         }
       }
+      taxFields.push(`${conv(p.taxname)}__${conv(p.pname)}`)
       return (row[`${conv(p.taxname)}__${conv(p.pname)}`] = val)
     })
     // 2. pco
@@ -250,16 +264,25 @@ const Preview = ({
     })
     return row
   })
+
+  const fields = rows[0] ? Object.keys(rows[0]).map(k => k) : []
+  const propertyFields = fields.filter(f => !taxFields.includes(f))
+  if (exportOnlyRowsWithProperties && propertyFields.length > 0) {
+    // filter rows that only contain values in taxFields
+    rows = rows.filter(row => {
+      // check if any property field contains a value
+      const propertyRow = omit(row, taxFields)
+      const valueExists = some(propertyRow, v => v !== undefined && v !== null)
+      return valueExists
+    })
+  }
   rows = orderBy(rows, sortField, sortDirection)
-  //console.log('Preview: rows:', rows)
-  const pvColumns = rows[0]
-    ? Object.keys(rows[0]).map(k => ({
-        key: k,
-        name: k,
-        resizable: true,
-        sortable: true,
-      }))
-    : []
+  const pvColumns = fields.map(k => ({
+    key: k,
+    name: k,
+    resizable: true,
+    sortable: true,
+  }))
 
   return (
     <Container>

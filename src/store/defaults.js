@@ -9,6 +9,7 @@ export default {
   exportTaxFilters: [],
   exportPcoFilters: [],
   exportRcoFilters: [],
+  exportOnlyRowsWithProperties: true,
   exportTooManyProperties: false,
   exportWithSynonymData: true,
   treeFilter: {
