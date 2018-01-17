@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import ReactDataGrid from 'react-data-grid'
-import RaisedButton from 'material-ui/RaisedButton'
 import Button from 'material-ui-next/Button'
 import Snackbar from 'material-ui/Snackbar'
 import compose from 'recompose/compose'
@@ -307,10 +306,12 @@ const Preview = ({
       )}
       {rows.length > 0 && (
         <ButtonsContainer>
-          <Button onClick={() => exportXlsx({ rows, onSetMessage })}>
+          <Button raised onClick={() => exportXlsx({ rows, onSetMessage })}>
             .xlsx herunterladen
           </Button>
-          <Button onClick={() => exportCsv(rows)}>.csv herunterladen</Button>
+          <Button raised onClick={() => exportCsv(rows)}>
+            .csv herunterladen
+          </Button>
         </ButtonsContainer>
       )}
       <Snackbar

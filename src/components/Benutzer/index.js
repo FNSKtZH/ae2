@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui-next/Button'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -22,7 +22,7 @@ const Container = styled.div``
 const OrgContainer = styled.div`
   padding: 10px;
 `
-const SaveButton = styled(RaisedButton)`
+const SaveButton = styled(Button)`
   margin-bottom: 15px;
 `
 const StyledTabs = styled(Tabs)`
@@ -183,11 +183,9 @@ class User extends Component<Props, State> {
               autoComplete="new-password"
             />
           )}
-          <SaveButton
-            label="Änderungen speichern"
-            onClick={this.onSave}
-            disabled={!saveEnabled}
-          />
+          <SaveButton raised onClick={this.onSave} disabled={!saveEnabled}>
+            Änderungen speichern
+          </SaveButton>
         </OrgContainer>
         <StyledTabs inkBarStyle={tabInkBarStyle}>
           <Tab

@@ -2,7 +2,7 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
 import Snackbar from 'material-ui/Snackbar'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui-next/Button'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -148,8 +148,12 @@ const Login = ({
           autoComplete="current-password"
         />
       )}
-      {!token && <RaisedButton label="Anmelden" />}
-      {!!token && <RaisedButton label="abmelden" onClick={onLogout} />}
+      {!token && <Button raised>anmelden</Button>}
+      {!!token && (
+        <Button raised onClick={onLogout}>
+          abmelden
+        </Button>
+      )}
       <Snackbar
         open={loginSuccessfull}
         message={`Willkommen ${name}`}
