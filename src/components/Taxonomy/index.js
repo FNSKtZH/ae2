@@ -27,6 +27,7 @@ const Taxonomy = ({ taxData }: { taxData: Object }) => {
 
   return (
     <Container>
+      <PropertyReadOnly key="id" value={tax.id} label="ID" />
       {!!tax.name && (
         <PropertyReadOnly key="name" value={tax.name} label="Name" />
       )}
