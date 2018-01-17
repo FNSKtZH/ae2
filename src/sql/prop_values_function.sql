@@ -1,3 +1,4 @@
+-- example query:
 SELECT distinct properties->'Artwert' AS value
 FROM ae.property_collection_object
 INNER JOIN ae.property_collection ON ae.property_collection_object.property_collection_id = ae.property_collection.id
