@@ -16,7 +16,7 @@ import app from 'ampersand-app'
 import HowTo from './HowTo'
 import Tipps from './Tipps'
 import TaxField from './TaxField'
-import PcoField from './PcoField'
+import PcoFieldAutosuggest from './PcoFieldAutosuggest'
 import RcoField from './RcoField'
 //import RcoChooser from './RcoChooser'
 import constants from '../../../../modules/constants'
@@ -390,7 +390,7 @@ const Filter = ({
               <Level3CardText expandable={true}>
                 <PropertiesContainer data-width={window.innerWidth - 84}>
                   {pcoPropertiesByPropertyCollection[pc].map(field => (
-                    <PcoField
+                    <PcoFieldAutosuggest
                       key={`${field.propertyName}${field.jsontype}`}
                       pcname={field.propertyCollectionName}
                       pname={field.propertyName}
