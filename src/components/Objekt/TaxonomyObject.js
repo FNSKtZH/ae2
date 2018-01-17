@@ -22,8 +22,11 @@ const taxCardHeaderStyle = {
   backgroundColor: '#FFE0B2',
   borderBottom: '1px solid rgba(0,0,0,0.06)',
 }
-const taxCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
-const tOCardTextStyle = { padding: '5px 16px', columnWidth: '500px' }
+const taxCardTextStyle = {
+  backgroundColor: '#FFE0B2',
+  padding: '10px 16px 5px 16px',
+}
+const tOCardTextStyle = { padding: '10px 16px 5px 16px', columnWidth: '500px' }
 
 const SynonymContainer = styled.div`
   display: flex;
@@ -38,6 +41,23 @@ const SynomymLinkIcon = styled(FontIcon)`
   :hover {
     font-weight: 700;
   }
+`
+const PropertiesTitleContainer = styled.div`
+  display: flex;
+  padding-top: 10px;
+`
+const PropertiesTitleLabel = styled.p`
+  flex-basis: 250px;
+  text-align: right;
+  padding-right: 5px;
+  margin: 3px 0;
+  padding: 2px;
+  color: grey;
+`
+const PropertiesTitleValue = styled.p`
+  margin: 3px 0;
+  padding: 2px;
+  width: 100%;
 `
 
 const TaxonomyObject = ({
@@ -87,7 +107,7 @@ const TaxonomyObject = ({
   }
 
   return (
-    <Card style={tOCardStyle}>
+    <Card style={tOCardStyle} initiallyExpanded>
       <CardHeader
         title={title}
         actAsExpander={true}
@@ -108,6 +128,15 @@ const TaxonomyObject = ({
         </CardText>
       </Card>
       <CardText expandable={true} style={tOCardTextStyle}>
+        <PropertyReadOnly value={objekt.id} label="ID" />
+        <PropertyReadOnly value={objekt.name} label="Name" />
+        <PropertyReadOnly value={objekt.category} label="Gruppe" />
+        {Object.entries(properties).length > 0 && (
+          <PropertiesTitleContainer>
+            <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
+            <PropertiesTitleValue />
+          </PropertiesTitleContainer>
+        )}
         {sortBy(
           Object.entries(properties).filter(
             ([key, value]) => value || value === 0
