@@ -8,10 +8,9 @@ CREATE OR REPLACE FUNCTION ae.prop_values_function(table_name text, prop_name te
   RETURNS setof ae.prop_value AS
   $$
     DECLARE
-      --sql text := 'SELECT distinct ae.$1.properties->$2 AS value FROM ae.$1 ORDER BY value';
       sql text := 'SELECT DISTINCT properties->' || quote_literal(prop_name) || ' AS value FROM ae.' || table_name || ' WHERE ' || pcfield_name || ' = '  || quote_literal(pc_id) || ' ORDER BY value';
     BEGIN
-      RAISE EXCEPTION  'sql: %', sql;
+      --RAISE EXCEPTION  'sql: %', sql;
       RETURN QUERY EXECUTE sql;
     END
   $$
