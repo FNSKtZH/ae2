@@ -6,8 +6,8 @@ import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromN
 
 export default graphql(
   gql`
-    query ObjectQuery($activeObjectId: UUID!) {
-      objectById(id: $activeObjectId) {
+    query ObjectQuery($objectId: UUID!) {
+      objectById(id: $objectId) {
         id
         taxonomyId
         parentId
@@ -222,11 +222,11 @@ export default graphql(
   {
     options: ({ activeNodeArrayData }) => ({
       variables: {
-        activeObjectId: getActiveObjectIdFromNodeArray(
+        objectId: getActiveObjectIdFromNodeArray(
           activeNodeArrayData.activeNodeArray
         ),
       },
     }),
-    name: 'activeObjectData',
+    name: 'objectData',
   }
 )
