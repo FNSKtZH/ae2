@@ -12,10 +12,13 @@ import jwtDecode from 'jwt-decode'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { MuiThemeProvider as NewMuiThemeProvider } from 'material-ui-next/styles'
+import Reboot from 'material-ui-next/Reboot'
 import app from 'ampersand-app'
 import createHistory from 'history/createBrowserHistory'
 
 import myTheme from './styling/theme'
+import myThemeV1 from './styling/themeV1'
 import constants from './modules/constants'
 import './index.css'
 import 'react-reflex/styles.css'
@@ -139,11 +142,20 @@ import resolvers from './store/resolvers'
       },
     })
 
+    const themeV1 = Object.assign({}, myThemeV1, {
+      appBar: {
+        height: constants.appBarHeight,
+      },
+    })
+
     ReactDOM.render(
       <ApolloProvider client={client}>
-        <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-          <App />
-        </MuiThemeProvider>
+        <NewMuiThemeProvider mitTheme={themeV1}>
+          <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+            <Reboot />
+            <App />
+          </MuiThemeProvider>
+        </NewMuiThemeProvider>
       </ApolloProvider>,
       document.getElementById('root')
     )
