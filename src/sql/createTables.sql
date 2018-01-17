@@ -392,5 +392,10 @@ CREATE TABLE ae.taxonomies_of_category (
   object_count bigint
 );
 
+DROP TABLE IF EXISTS ae.prop_value CASCADE;
+CREATE TABLE ae.prop_value (
+  value jsonb
+);
+
 -- drop old tables
 DROP TABLE IF EXISTS ae.taxonomy_object CASCADE;
