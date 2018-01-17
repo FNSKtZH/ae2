@@ -37,7 +37,6 @@ const enhance = compose(activeNodeArrayData, objectData)
 
 const Objekt = ({ objectData }: { objectData: Object }) => {
   const activeObject = get(objectData, 'objectById')
-  console.log('Objekt: activeObject:', activeObject)
   if (!activeObject) return <div />
   const propertyCollectionObjects = get(
     activeObject,
