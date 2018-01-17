@@ -15,16 +15,18 @@ import {
   darkBlack,
   fullBlack,
 } from 'material-ui/styles/colors'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import { fade } from 'material-ui/utils/colorManipulator'
 import spacing from 'material-ui/styles/spacing'
+import constants from '../modules/constants'
 
 /**
  *  Light Theme is the default theme used in material-ui. It is guaranteed to
  *  have all theme variables needed for every component. Variables not defined
  *  in a custom theme will default to these values.
  */
-export default {
+const theme = {
   spacing: spacing,
   fontFamily: 'Roboto, sans-serif',
   borderRadius: 2,
@@ -45,4 +47,9 @@ export default {
     clockCircleColor: fade(darkBlack, 0.07),
     shadowColor: fullBlack,
   },
+  appBar: {
+    height: constants.appBarHeight,
+  },
 }
+
+export default getMuiTheme(theme)

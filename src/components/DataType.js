@@ -57,7 +57,7 @@ const DataType = ({
   if (showPC) return <PropertyCollection />
   if (showPCO) return <PCO dimensions={dimensions} />
   if (showRCO) return <RCO dimensions={dimensions} />
-  if (showBenutzer) return <Benutzer dimensions={dimensions} />
+  if (showBenutzer) return <Benutzer />
   if (showOrganization) return <Organisation dimensions={dimensions} />
   return null
 }

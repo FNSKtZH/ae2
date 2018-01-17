@@ -11,15 +11,12 @@ import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { MuiThemeProvider as NewMuiThemeProvider } from 'material-ui-next/styles'
-import Reboot from 'material-ui-next/Reboot'
 import app from 'ampersand-app'
 import createHistory from 'history/createBrowserHistory'
 
-import myTheme from './styling/theme'
-import myThemeV1 from './styling/themeV1'
-import constants from './modules/constants'
+import theme from './styling/theme'
+import themeV1 from './styling/themeV1'
 import './index.css'
 import 'react-reflex/styles.css'
 import App from './components/App'
@@ -136,23 +133,10 @@ import resolvers from './store/resolvers'
       },
     })
 
-    const theme = Object.assign({}, myTheme, {
-      appBar: {
-        height: constants.appBarHeight,
-      },
-    })
-
-    const themeV1 = Object.assign({}, myThemeV1, {
-      appBar: {
-        height: constants.appBarHeight,
-      },
-    })
-
     ReactDOM.render(
       <ApolloProvider client={client}>
-        <NewMuiThemeProvider mitTheme={themeV1}>
-          <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-            <Reboot />
+        <NewMuiThemeProvider theme={themeV1}>
+          <MuiThemeProvider muiTheme={theme}>
             <App />
           </MuiThemeProvider>
         </NewMuiThemeProvider>

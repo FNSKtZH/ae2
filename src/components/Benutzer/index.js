@@ -135,9 +135,8 @@ class User extends Component<Props, State> {
   }
 
   render() {
-    const { userData, loginData, dimensions } = this.props
+    const { userData, loginData } = this.props
     const { name, nameErrorText, emailErrorText, email, passNew } = this.state
-    console.log('dimensions:', dimensions)
     const loginUsername = get(loginData, 'login.username')
     const user = get(userData, 'userById', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])

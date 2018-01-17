@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
+import Reboot from 'material-ui-next/Reboot'
 
 import AppBar from './AppBar'
 import Data from './Data'
@@ -44,6 +45,7 @@ const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
 
   return (
     <Container>
+      <Reboot />
       <AppBar />
       {showData && <Data />}
       {showExport && <Export />}
