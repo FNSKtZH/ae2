@@ -222,7 +222,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
         inputProps={{
           value: value || '',
           autoFocus: true,
-          placeholder: 'Search a country (start with a)',
+          placeholder: 'Für Auswahlliste: Leerschlag tippen',
           onChange: this.handleChange,
         }}
       />
