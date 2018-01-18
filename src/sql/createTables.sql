@@ -394,7 +394,7 @@ CREATE TABLE ae.taxonomies_of_category (
 
 DROP TABLE IF EXISTS ae.prop_value CASCADE;
 CREATE TABLE ae.prop_value (
-  value jsonb
+  value text
 );
 
 -- drop old tables

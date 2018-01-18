@@ -10,7 +10,7 @@ CREATE OR REPLACE FUNCTION ae.prop_values_function(table_name text, prop_name te
   RETURNS setof ae.prop_value AS
   $$
     DECLARE
-      sql text := 'SELECT DISTINCT properties->' || quote_literal(prop_name) || ' AS value FROM ae.' || table_name || ' INNER JOIN ae.' || pc_table_name || ' ON ae.' || table_name || '.' || pc_field_name || ' = ae.' || pc_table_name || '.id WHERE ae.' || pc_table_name || '.name = '  || quote_literal(pc_name) || ' ORDER BY value';
+      sql text := 'SELECT DISTINCT properties->>' || quote_literal(prop_name) || ' AS value FROM ae.' || table_name || ' INNER JOIN ae.' || pc_table_name || ' ON ae.' || table_name || '.' || pc_field_name || ' = ae.' || pc_table_name || '.id WHERE ae.' || pc_table_name || '.name = '  || quote_literal(pc_name) || ' ORDER BY value';
     BEGIN
       --RAISE EXCEPTION  'sql: %', sql;
       RETURN QUERY EXECUTE sql;
