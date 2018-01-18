@@ -57,7 +57,6 @@ function getSuggestionValue(suggestion) {
 
 function shouldRenderSuggestions(value) {
   return true
-  //return value !== null && value !== undefined
 }
 
 const styles = theme => ({
@@ -100,6 +99,7 @@ type Props = {
   value: string,
   propData: Object,
   classes: Object,
+  fetchData: Boolean,
   setFetchData: () => void,
 }
 
@@ -115,26 +115,29 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.props.setFetchData(true)
+    //this.props.setFetchData(true)
   }
 
-  componentDidUpdate() {
-    const { propData, setFetchData } = this.props
-    const propValues = get(propData, 'propValuesFunction.nodes', [])
-      .map(v => v.value)
-      .filter(v => v !== null && v !== undefined)
-    if (propValues.length > 0) {
-      //console.log('PcoFieldValue, componentDidUpdate: propValues:', propValues)
-      this.setState({ propValues })
-      setFetchData(false)
+  componentDidUpdate(prevProps, prevState) {
+    const { propData, fetchData, setFetchData } = this.props
+    if (fetchData) {
+      const propValues = get(propData, 'propValuesFunction.nodes', [])
+        .map(v => v.value)
+        .filter(v => v !== null && v !== undefined)
+      if (propValues.length > 0) {
+        console.log(
+          'PcoFieldValue, componentDidUpdate: propValues:',
+          propValues
+        )
+        this.setState({ propValues })
+        setFetchData(false)
+      }
     }
   }
 
   getSuggestions = value => {
     const { propValues } = this.state
     const inputValue = value.toLowerCase()
-    console.log('inputValue:', inputValue)
-    console.log('propValues:', propValues)
 
     if (value === ' ') return propValues
     if (inputValue.length === 0) return []
@@ -143,6 +146,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
 
   handleSuggestionsFetchRequested = ({ value }) => {
     console.log('PcoFieldValue, handleSuggestionsFetchRequested: value:', value)
+
     this.setState({
       suggestions: this.getSuggestions(value),
     })
@@ -157,6 +161,12 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     this.setState({
       suggestions: this.getSuggestions(' '),
     })
+  }
+
+  onFocus = event => {
+    const { setFetchData } = this.props
+    // fetch data if not yet happened
+    setFetchData(true)
   }
 
   handleChange = (event, { newValue }) => {
@@ -224,6 +234,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
           autoFocus: true,
           placeholder: 'Für Auswahlliste: Leerschlag tippen',
           onChange: this.handleChange,
+          onFocus: this.onFocus,
         }}
       />
     )
