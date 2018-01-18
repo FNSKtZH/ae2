@@ -56,7 +56,8 @@ function getSuggestionValue(suggestion) {
 }
 
 function shouldRenderSuggestions(value) {
-  return value !== null && value !== undefined
+  return true
+  //return value !== null && value !== undefined
 }
 
 const styles = theme => ({
@@ -121,10 +122,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     const { propData, setFetchData } = this.props
     const propValues = get(propData, 'propValuesFunction.nodes', [])
       .map(v => v.value)
-      .filter(
-        // need to replace null with ''
-        v => v !== null && v !== undefined
-      )
+      .filter(v => v !== null && v !== undefined)
     if (propValues.length > 0) {
       //console.log('PcoFieldValue, componentDidUpdate: propValues:', propValues)
       this.setState({ propValues })
@@ -140,7 +138,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
 
     if (value === ' ') return propValues
     if (inputValue.length === 0) return []
-    return propValues.filter(v => v.includes(inputValue))
+    return propValues.filter(v => v.toLowerCase().includes(inputValue))
   }
 
   handleSuggestionsFetchRequested = ({ value }) => {
