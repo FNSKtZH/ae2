@@ -17,7 +17,17 @@ import pcoFieldPropData from './pcoFieldPropData'
 import get from 'lodash/get'
 
 const StyledPaper = styled(Paper)`
-  z-index: 10;
+  z-index: 1;
+  /* need this so text is visible when overflowing */
+  > ul > li > div {
+    overflow: inherit;
+  }
+`
+const StyledTextField = styled(TextField)`
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  width: 100%;
 `
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
@@ -81,9 +91,8 @@ const styles = theme => ({
     margin: 0,
     padding: 0,
     listStyleType: 'none',
-  },
-  textField: {
-    width: '100%',
+    maxHeight: '500px',
+    overflow: 'auto',
   },
 })
 
@@ -184,14 +193,13 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
 
   renderInput = inputProps => {
     const { classes, pname, jsontype, value } = this.props
-    const floatingLabelText = `${pname} (${readableType(jsontype)})`
+    const labelText = `${pname} (${readableType(jsontype)})`
     const { autoFocus, ref, ...other } = inputProps
 
     return (
-      <TextField
-        label={floatingLabelText}
+      <StyledTextField
+        label={labelText}
         fullWidth
-        className={classes.textField}
         value={value || ''}
         inputRef={ref}
         InputProps={{

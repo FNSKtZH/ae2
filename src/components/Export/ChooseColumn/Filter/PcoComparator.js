@@ -13,9 +13,17 @@ import { withApollo } from 'react-apollo'
 import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 
 const Container = styled.div``
+const StyledSelect = styled(Select)`
+  > div {
+    padding-left: 8px;
+  }
+`
 const StyledFormControl = styled(FormControl)`
   width: 150px !important;
   margin: 0 !important;
+  > label {
+    padding-left: 8px;
+  }
 `
 const styles = theme => ({
   container: {
@@ -57,7 +65,7 @@ const PcoComparator = ({
     <Container>
       <StyledFormControl className={classes.formControl}>
         <InputLabel htmlFor="v-op">Vergleichs-Operator</InputLabel>
-        <Select
+        <StyledSelect
           value={comparator}
           onChange={onChange}
           input={<Input id="v-op" />}
@@ -71,7 +79,7 @@ const PcoComparator = ({
           <MenuItem value=">=">&#62;&#61;</MenuItem>
           <MenuItem value="<">&#60;</MenuItem>
           <MenuItem value="<=">&#60;&#61;</MenuItem>
-        </Select>
+        </StyledSelect>
       </StyledFormControl>
     </Container>
   )

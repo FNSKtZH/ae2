@@ -11,7 +11,7 @@ import exportPcoFiltersData from '../../exportPcoFiltersData'
 const Container = styled.div`
   display: flex;
   align-content: stretch;
-  padding: 0 16px;
+  padding: 4px 16px;
   > div {
     height: auto;
   }
