@@ -12,6 +12,9 @@ const Container = styled.div`
   display: flex;
   align-content: stretch;
   padding: 0 16px;
+  > div {
+    height: auto;
+  }
 `
 
 const enhance = compose(exportPcoFiltersData)
