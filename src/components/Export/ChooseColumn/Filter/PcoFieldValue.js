@@ -121,8 +121,8 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     const propValues = get(propData, 'propValuesFunction.nodes', []).map(
       v => v.value
     )
-    console.log('PcoFieldValue, componentDidUpdate: propValues:', propValues)
     if (propValues.length > 0) {
+      console.log('PcoFieldValue, componentDidUpdate: propValues:', propValues)
       this.setState({ propValues })
       setFetchData(false)
     }
@@ -204,10 +204,9 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
 
   render() {
     const { classes, value } = this.props
-    console.log(
-      'PcoFieldValue, render: this.state.suggestions:',
-      this.state.suggestions
-    )
+    const { suggestions } = this.state
+    suggestions.length > 0 &&
+      console.log('PcoFieldValue, render: suggestions:', suggestions)
 
     return (
       <Autosuggest
@@ -218,7 +217,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
           suggestion: classes.suggestion,
         }}
         renderInputComponent={this.renderInput}
-        suggestions={this.state.suggestions}
+        suggestions={suggestions}
         onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
         renderSuggestionsContainer={renderSuggestionsContainer}
