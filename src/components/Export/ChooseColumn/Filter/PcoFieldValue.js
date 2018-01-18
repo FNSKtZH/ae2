@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
@@ -7,7 +6,7 @@ import TextField from 'material-ui-next/TextField'
 import Paper from 'material-ui-next/Paper'
 import { MenuItem } from 'material-ui-next/Menu'
 import { withStyles } from 'material-ui-next/styles'
-//import styled from 'styled-components'
+import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
@@ -16,6 +15,10 @@ import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 import readableType from '../../../../modules/readableType'
 import pcoFieldPropData from './pcoFieldPropData'
 import get from 'lodash/get'
+
+const StyledPaper = styled(Paper)`
+  z-index: 10;
+`
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
   const matches = match(suggestion, query)
@@ -44,14 +47,13 @@ function renderSuggestionsContainer(options) {
   const { containerProps, children } = options
 
   return (
-    <Paper {...containerProps} square>
+    <StyledPaper {...containerProps} square>
       {children}
-    </Paper>
+    </StyledPaper>
   )
 }
 
 function getSuggestionValue(suggestion) {
-  console.log('getSuggestionValue: suggestion:', suggestion)
   return suggestion
 }
 
@@ -88,6 +90,7 @@ const styles = theme => ({
 const enhance = compose(
   withApollo,
   withState('fetchData', 'setFetchData', false),
+  withState('dataFetched', 'setDataFetched', false),
   pcoFieldPropData,
   withStyles(styles)
 )
@@ -101,6 +104,8 @@ type Props = {
   classes: Object,
   fetchData: Boolean,
   setFetchData: () => void,
+  dataFetched: Boolean,
+  setDataFetched: () => void,
 }
 
 type State = {
@@ -114,23 +119,22 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     propValues: [],
   }
 
-  componentDidMount() {
-    //this.props.setFetchData(true)
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    const { propData, fetchData, setFetchData } = this.props
-    if (fetchData) {
+    const {
+      propData,
+      fetchData,
+      dataFetched,
+      setFetchData,
+      setDataFetched,
+    } = this.props
+    if (fetchData && !dataFetched) {
       const propValues = get(propData, 'propValuesFunction.nodes', [])
         .map(v => v.value)
         .filter(v => v !== null && v !== undefined)
       if (propValues.length > 0) {
-        console.log(
-          'PcoFieldValue, componentDidUpdate: propValues:',
-          propValues
-        )
         this.setState({ propValues })
         setFetchData(false)
+        setDataFetched(true)
       }
     }
   }
@@ -145,33 +149,25 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   handleSuggestionsFetchRequested = ({ value }) => {
-    console.log('PcoFieldValue, handleSuggestionsFetchRequested: value:', value)
-
     this.setState({
       suggestions: this.getSuggestions(value),
     })
   }
 
   handleSuggestionsClearRequested = () => {
-    const { propValues } = this.state
-    console.log(
-      'PcoFieldValue, handleSuggestionsClearRequested: propValues:',
-      propValues
-    )
     this.setState({
       suggestions: this.getSuggestions(' '),
     })
   }
 
   onFocus = event => {
-    const { setFetchData } = this.props
+    const { dataFetched, setFetchData } = this.props
     // fetch data if not yet happened
-    setFetchData(true)
+    if (!dataFetched) setFetchData(true)
   }
 
   handleChange = (event, { newValue }) => {
     const { pcname, pname, comparator, client } = this.props
-    console.log('PcoFieldValue, handleChange: newValue:', newValue)
     let comparatorValue = comparator
     if (!comparator && newValue) comparatorValue = 'ILIKE'
     if (!newValue) comparatorValue = null
@@ -211,7 +207,6 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   render() {
     const { classes, value } = this.props
     const { suggestions } = this.state
-    //suggestions.length > 0 && console.log('PcoFieldValue, render: suggestions:', suggestions)
 
     return (
       <Autosuggest
@@ -239,10 +234,6 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
       />
     )
   }
-}
-
-IntegrationAutosuggest.propTypes = {
-  classes: PropTypes.object.isRequired,
 }
 
 export default enhance(IntegrationAutosuggest)
