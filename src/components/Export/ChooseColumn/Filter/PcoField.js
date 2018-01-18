@@ -42,6 +42,7 @@ const PcoField = ({
   return (
     <Container>
       <PcoFieldValue
+        key={`${pcname}/${pname}/${jsontype}`}
         pcname={pcname}
         pname={pname}
         value={value}
