@@ -26,7 +26,7 @@
     "material-ui-next": "npm:material-ui@next",
     "react": "16.2.0",
     "react-apollo": "2.0.4",
-    "react-autosuggest": "^9.3.2",
+    "react-autosuggest": "9.3.2",
     "react-contextmenu": "2.9.2",
     "react-data-grid": "3.0.3",
     "react-dom": "16.2.0",
