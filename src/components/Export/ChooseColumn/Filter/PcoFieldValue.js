@@ -17,13 +17,9 @@ import readableType from '../../../../modules/readableType'
 import pcoFieldPropData from './pcoFieldPropData'
 import get from 'lodash/get'
 
-/*const floatingLabelStyle = {
-  color: 'rgba(0, 0, 0, 0.5)',
-}*/
-
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.label, query)
-  const parts = parse(suggestion.label, matches)
+  const matches = match(suggestion, query)
+  const parts = parse(suggestion, matches)
 
   return (
     <MenuItem selected={isHighlighted} component="div">
@@ -119,34 +115,25 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   componentDidUpdate() {
     const { propData, setFetchData } = this.props
     const propValues = get(propData, 'propValuesFunction.nodes', []).map(
-      v => v.value
+      // need to replace null with ''
+      v => (v.value === null ? '' : v.value)
     )
     if (propValues.length > 0) {
-      console.log('PcoFieldValue, componentDidUpdate: propValues:', propValues)
+      //console.log('PcoFieldValue, componentDidUpdate: propValues:', propValues)
       this.setState({ propValues })
       setFetchData(false)
     }
   }
 
   getSuggestions = value => {
-    // todo
-    const inputValue = value.trim().toLowerCase()
-    const inputLength = inputValue.length
-    let count = 0
+    const { propValues } = this.state
+    const inputValue = value.toLowerCase()
+    console.log('inputValue:', inputValue)
+    console.log('propValues:', propValues)
 
-    return inputLength === 0
-      ? []
-      : this.state.propValues.filter(propValue => {
-          const keep =
-            count < 5 &&
-            propValue.toLowerCase().slice(0, inputLength) === inputValue
-
-          if (keep) {
-            count += 1
-          }
-
-          return keep
-        })
+    if (value === ' ') return propValues
+    if (inputValue.length === 0) return []
+    return propValues.filter(v => v.includes(inputValue))
   }
 
   handleSuggestionsFetchRequested = ({ value }) => {
@@ -157,13 +144,19 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   handleSuggestionsClearRequested = () => {
+    const { propValues } = this.state
+    console.log(
+      'PcoFieldValue, handleSuggestionsClearRequested: propValues:',
+      propValues
+    )
     this.setState({
-      suggestions: [],
+      suggestions: this.getSuggestions(' '),
     })
   }
 
   handleChange = (event, { newValue }) => {
     const { pcname, pname, comparator, client } = this.props
+    console.log('PcoFieldValue, handleChange: newValue:', newValue)
     let comparatorValue = comparator
     if (!comparator && newValue) comparatorValue = 'ILIKE'
     if (!newValue) comparatorValue = null
@@ -181,14 +174,12 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   renderInput = inputProps => {
     const { classes, pname, jsontype, value } = this.props
     const floatingLabelText = `${pname} (${readableType(jsontype)})`
-    // TODO
     const { autoFocus, ref, ...other } = inputProps
 
     return (
       <TextField
         label={floatingLabelText}
         fullWidth
-        autoFocus={autoFocus}
         className={classes.textField}
         value={value || ''}
         inputRef={ref}
@@ -205,8 +196,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   render() {
     const { classes, value } = this.props
     const { suggestions } = this.state
-    suggestions.length > 0 &&
-      console.log('PcoFieldValue, render: suggestions:', suggestions)
+    //suggestions.length > 0 && console.log('PcoFieldValue, render: suggestions:', suggestions)
 
     return (
       <Autosuggest
