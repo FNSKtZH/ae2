@@ -34,15 +34,12 @@ const enhance = compose(
   withApollo,
   withStyles(styles),
   withHandlers({
-    onChange: ({ pcname, pname, value, client }) => (
-      event,
-      index,
-      comparator
-    ) =>
+    onChange: ({ pcname, pname, value, client }) => event => {
       client.mutate({
         mutation: exportPcoFiltersMutation,
-        variables: { pcname, pname, comparator, value },
-      }),
+        variables: { pcname, pname, comparator: event.target.value, value },
+      })
+    },
   })
 )
 
@@ -68,11 +65,11 @@ const PcoComparator = ({
           <MenuItem value="LIKE">
             enthalten (Grosschreibung berücksichtigt)
           </MenuItem>
-          <MenuItem value="=">{'&#61; (genau gleich)'}</MenuItem>
-          <MenuItem value=">">{'&#62;'}</MenuItem>
-          <MenuItem value=">=">{'&#62;&#61;'}</MenuItem>
-          <MenuItem value="<">{'&#60;'}</MenuItem>
-          <MenuItem value="<=">{'&#60;&#61;'}</MenuItem>
+          <MenuItem value="=">&#61; (genau gleich)</MenuItem>
+          <MenuItem value=">">&#62;</MenuItem>
+          <MenuItem value=">=">&#62;&#61;</MenuItem>
+          <MenuItem value="<">&#60;</MenuItem>
+          <MenuItem value="<=">&#60;&#61;</MenuItem>
         </Select>
       </StyledFormControl>
     </Container>
