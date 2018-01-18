@@ -53,7 +53,8 @@ const PcoField = ({
         jsontype={jsontype}
       />
       {value !== undefined &&
-        value !== null && (
+        value !== null &&
+        value !== ' ' && (
           <Comparator
             pcname={pcname}
             pname={pname}

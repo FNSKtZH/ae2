@@ -15,6 +15,7 @@ import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 const Container = styled.div``
 const StyledFormControl = styled(FormControl)`
   width: 150px !important;
+  margin: 0 !important;
 `
 const styles = theme => ({
   container: {

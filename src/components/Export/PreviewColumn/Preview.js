@@ -281,6 +281,11 @@ const Preview = ({
     <Container>
       {rows.length > 0 && (
         <SpreadsheetContainer>
+          <TotalDiv>{`${rows.length.toLocaleString(
+            'de-CH'
+          )} Datensätze, ${anzFelder.toLocaleString('de-CH')} ${
+            anzFelder === 1 ? 'Feld' : 'Felder'
+          }`}</TotalDiv>
           <ReactDataGrid
             onGridSort={(column, direction) => {
               setSortField(column)
@@ -292,11 +297,6 @@ const Preview = ({
             minHeight={500}
             minColumnWidth={120}
           />
-          <TotalDiv>{`${rows.length.toLocaleString(
-            'de-CH'
-          )} Datensätze, ${anzFelder.toLocaleString('de-CH')} ${
-            anzFelder === 1 ? 'Feld' : 'Felder'
-          }`}</TotalDiv>
         </SpreadsheetContainer>
       )}
       {rows.length === 0 && (
