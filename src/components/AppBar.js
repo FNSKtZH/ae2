@@ -30,10 +30,8 @@ const StyledAppBar = styled(AppBar)`
   }
 `
 const StyledButton = styled(Button)`
-  color: ${props =>
-    props['data-visible']
-      ? 'rgb(255, 255, 255) !important'
-      : 'rgba(255, 255, 255, 0.298039) !important'};
+  color: rgb(255, 255, 255) !important;
+  border: ${props => (props['data-visible'] ? 'none' : '1px solid !important')};
 `
 const MenuDiv = styled.div`
   display: flex;
