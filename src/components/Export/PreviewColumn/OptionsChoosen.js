@@ -185,9 +185,6 @@ const OptionsChoosen = ({
         style={level1CardHeaderStyle}
       />
       <CardText expandable={true} style={level1CardTextStyle}>
-        <Button className={classes.button} onClick={onClickResetAll}>
-          alle zurücksetzen
-        </Button>
         <ul>
           <li>
             {`Gruppe${exportCategories.length > 1 ? 'n' : ''}: ${
@@ -283,6 +280,9 @@ const OptionsChoosen = ({
             </ul>
           </li>
         </ul>
+        <Button className={classes.button} onClick={onClickResetAll}>
+          alle Optionen zurücksetzen
+        </Button>
       </CardText>
     </Card>
   )
