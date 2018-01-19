@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import TextField from 'material-ui-next/TextField'
 import { FormControl, FormHelperText } from 'material-ui-next/Form'
 import Button from 'material-ui-next/Button'
-import { withStyles } from 'material-ui-next/styles'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -25,7 +24,8 @@ const OrgContainer = styled.div`
   padding: 10px;
 `
 const SaveButton = styled(Button)`
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+  margin-top: 15px;
 `
 const StyledTabs = styled(Tabs)`
   > div {
@@ -38,20 +38,12 @@ const StyledTabs = styled(Tabs)`
 const tabButtonStyle = { whiteSpace: 'normal' }
 const tabInkBarStyle = { backgroundColor: 'rgb(230, 81, 0)' }
 
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-  },
-})
-
 const enhance = compose(
   withApollo,
   activeNodeArrayData,
   loginData,
   userData,
-  treeData,
-  withStyles(styles)
+  treeData
 )
 
 type State = {
@@ -67,7 +59,6 @@ type Props = {
   loginData: Object,
   userData: Object,
   treeData: Object,
-  classes: Object,
 }
 
 class User extends Component<Props, State> {
@@ -147,7 +138,7 @@ class User extends Component<Props, State> {
   }
 
   render() {
-    const { userData, loginData, classes } = this.props
+    const { userData, loginData } = this.props
     const { name, nameErrorText, emailErrorText, email, passNew } = this.state
     const loginUsername = get(loginData, 'login.username')
     const user = get(userData, 'userById', {})
@@ -168,12 +159,11 @@ class User extends Component<Props, State> {
           <FormControl
             fullWidth
             error={!!nameErrorText}
-            className={classes.formControl}
+            aria-describedby="name-error-text"
           >
             <TextField
               name="name"
               label="Name"
-              aria-describedby="name-error-text"
               value={name || ''}
               onChange={this.onChangeVal}
               fullWidth
@@ -186,12 +176,11 @@ class User extends Component<Props, State> {
           <FormControl
             fullWidth
             error={!!emailErrorText}
-            className={classes.formControl}
+            aria-describedby="email-error-text"
           >
             <TextField
               name="email"
               label="Email"
-              aria-describedby="email-error-text"
               value={email || ''}
               onChange={this.onChangeVal}
               fullWidth
@@ -202,7 +191,7 @@ class User extends Component<Props, State> {
             </FormHelperText>
           </FormControl>
           {userIsLoggedIn && (
-            <FormControl fullWidth className={classes.formControl}>
+            <FormControl fullWidth>
               <TextField
                 name="passNew"
                 label="Passwort ändern"

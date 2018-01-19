@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
-import TextField from 'material-ui/TextField'
+import TextField from 'material-ui-next/TextField'
+import { FormControl, FormHelperText } from 'material-ui-next/Form'
 import Snackbar from 'material-ui/Snackbar'
 import Button from 'material-ui-next/Button'
 import styled from 'styled-components'
@@ -18,6 +19,9 @@ import loginData from '../../modules/loginData'
 
 const Container = styled.form`
   padding: 10px;
+`
+const StyledButton = styled(Button)`
+  margin-top: 5px;
 `
 const snackbarBodyStyle = {
   maxWidth: 'auto',
@@ -117,42 +121,46 @@ const Login = ({
   return (
     <Container>
       {!token && (
-        <TextField
-          floatingLabelText="Name"
-          defaultValue={name}
-          onBlur={onBlurName}
-          errorText={nameErrorText}
-          fullWidth
-          autoFocus
-          onKeyPress={e => {
-            if (e.key === 'Enter') {
-              onBlurName(e)
-            }
-          }}
-          autoComplete="username"
-        />
+        <FormControl fullWidth error={!!nameErrorText}>
+          <TextField
+            label="Name"
+            defaultValue={name}
+            onBlur={onBlurName}
+            fullWidth
+            autoFocus
+            onKeyPress={e => {
+              if (e.key === 'Enter') {
+                onBlurName(e)
+              }
+            }}
+            autoComplete="username"
+          />
+          <FormHelperText id="name-error-text">{nameErrorText}</FormHelperText>
+        </FormControl>
       )}
       {!token && (
-        <TextField
-          floatingLabelText="Passwort"
-          type="password"
-          defaultValue={pass}
-          onBlur={onBlurPassword}
-          errorText={passErrorText}
-          fullWidth
-          onKeyPress={e => {
-            if (e.key === 'Enter') {
-              onBlurPassword(e)
-            }
-          }}
-          autoComplete="current-password"
-        />
+        <FormControl fullWidth error={!!passErrorText}>
+          <TextField
+            label="Passwort"
+            type="password"
+            defaultValue={pass}
+            onBlur={onBlurPassword}
+            fullWidth
+            onKeyPress={e => {
+              if (e.key === 'Enter') {
+                onBlurPassword(e)
+              }
+            }}
+            autoComplete="current-password"
+          />
+          <FormHelperText id="name-error-text">{passErrorText}</FormHelperText>
+        </FormControl>
       )}
-      {!token && <Button raised>anmelden</Button>}
+      {!token && <StyledButton raised>anmelden</StyledButton>}
       {!!token && (
-        <Button raised onClick={onLogout}>
+        <StyledButton raised onClick={onLogout}>
           abmelden
-        </Button>
+        </StyledButton>
       )}
       <Snackbar
         open={loginSuccessfull}
