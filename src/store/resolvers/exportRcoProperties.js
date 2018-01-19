@@ -101,5 +101,21 @@ export default {
       }
       return null
     },
+    resetExportRcoProperties: (_, values, { cache }) => {
+      cache.writeData({
+        data: {
+          exportRcoProperties: [],
+        },
+      })
+      return null
+    },
+    resetExportRcoFilters: (_, values, { cache }) => {
+      cache.writeData({
+        data: {
+          exportRcoFilters: [],
+        },
+      })
+      return null
+    },
   },
 }

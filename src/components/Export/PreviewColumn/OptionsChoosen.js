@@ -14,17 +14,17 @@ import exportCategoriesMutation from '../exportCategoriesMutation'
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
 import exportPcoPropertiesData from '../exportPcoPropertiesData'
-import exportPcoPropertiesMutation from '../exportPcoPropertiesMutation'
+import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
 import exportRcoPropertiesData from '../exportRcoPropertiesData'
-import exportRcoPropertiesMutation from '../exportRcoPropertiesMutation'
+import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutation'
 import exportTaxPropertiesData from '../exportTaxPropertiesData'
-import exportTaxPropertiesMutation from '../exportTaxPropertiesMutation'
+import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
 import exportTaxFiltersData from '../exportTaxFiltersData'
-import exportTaxFiltersMutation from '../exportTaxFiltersMutation'
+import exportTaxFiltersResetMutation from '../exportTaxFiltersResetMutation'
 import exportPcoFiltersData from '../exportPcoFiltersData'
-import exportPcoFiltersMutation from '../exportPcoFiltersMutation'
+import exportPcoFiltersResetMutation from '../exportPcoFiltersResetMutation'
 import exportRcoFiltersData from '../exportRcoFiltersData'
-import exportRcoFiltersMutation from '../exportRcoFiltersMutation'
+import exportRcoFiltersResetMutation from '../exportRcoFiltersResetMutation'
 import exportOnlyRowsWithPropertiesData from '../exportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../exportOnlyRowsWithPropertiesMutation'
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
@@ -55,40 +55,18 @@ const FilterValueSpan = styled.span`
 const enhance = compose(
   withApollo,
   exportCategoriesData,
-  exportCategoriesMutation,
   exportTaxonomiesData,
-  exportTaxonomiesMutation,
   exportTaxPropertiesData,
-  exportTaxPropertiesMutation,
   exportTaxFiltersData,
-  exportTaxFiltersMutation,
   exportPcoPropertiesData,
-  exportRcoPropertiesMutation,
-  exportPcoPropertiesMutation,
   exportPcoFiltersData,
-  exportPcoFiltersMutation,
   exportRcoPropertiesData,
   exportRcoFiltersData,
-  exportRcoFiltersMutation,
   exportOnlyRowsWithPropertiesData,
-  exportOnlyRowsWithPropertiesMutation,
   exportTooManyPropertiesData,
   exportWithSynonymDataData,
-  exportWithSynonymDataMutation,
   withHandlers({
-    onClickResetAll: ({
-      client,
-      exportCategoriesMutation,
-      exportTaxonomiesMutation,
-      exportPcoPropertiesMutation,
-      exportRcoPropertiesMutation,
-      exportTaxPropertiesMutation,
-      exportTaxFiltersMutation,
-      exportPcoFiltersMutation,
-      exportRcoFiltersMutation,
-      exportOnlyRowsWithPropertiesMutation,
-      exportWithSynonymDataMutation,
-    }) => () => {
+    onClickResetAll: ({ client }) => () => {
       client.mutate({
         mutation: exportCategoriesMutation,
         variables: { value: [] },
@@ -98,28 +76,22 @@ const enhance = compose(
         variables: { value: [] },
       })
       client.mutate({
-        mutation: exportPcoPropertiesMutation,
-        variables: { value: [] },
+        mutation: exportPcoPropertiesResetMutation,
       })
       client.mutate({
-        mutation: exportRcoPropertiesMutation,
-        variables: { value: [] },
+        mutation: exportRcoPropertiesResetMutation,
       })
       client.mutate({
-        mutation: exportTaxPropertiesMutation,
-        variables: { value: [] },
+        mutation: exportTaxPropertiesResetMutation,
       })
       client.mutate({
-        mutation: exportTaxFiltersMutation,
-        variables: { value: [] },
+        mutation: exportTaxFiltersResetMutation,
       })
       client.mutate({
-        mutation: exportPcoFiltersMutation,
-        variables: { value: [] },
+        mutation: exportPcoFiltersResetMutation,
       })
       client.mutate({
-        mutation: exportRcoFiltersMutation,
-        variables: { value: [] },
+        mutation: exportRcoFiltersResetMutation,
       })
       client.mutate({
         mutation: exportOnlyRowsWithPropertiesMutation,

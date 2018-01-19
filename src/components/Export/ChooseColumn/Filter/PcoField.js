@@ -33,7 +33,6 @@ const PcoField = ({
   exportPcoFiltersData: Object,
 }) => {
   const { exportPcoFilters } = exportPcoFiltersData
-  //console.log('PcoField: exportPcoFilters:', exportPcoFilters)
   const exportPcoFilter = exportPcoFilters.find(
     x => x.pcname === pcname && x.pname === pname
   ) || { comparator: null, value: null }

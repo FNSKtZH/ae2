@@ -119,5 +119,21 @@ export default {
       }
       return null
     },
+    resetExportPcoProperties: (_, values, { cache }) => {
+      cache.writeData({
+        data: {
+          exportPcoProperties: [],
+        },
+      })
+      return null
+    },
+    resetExportPcoFilters: (_, values, { cache }) => {
+      cache.writeData({
+        data: {
+          exportPcoFilters: [],
+        },
+      })
+      return null
+    },
   },
 }

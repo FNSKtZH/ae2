@@ -101,5 +101,21 @@ export default {
       }
       return null
     },
+    resetExportTaxProperties: (_, values, { cache }) => {
+      cache.writeData({
+        data: {
+          exportTaxProperties: [],
+        },
+      })
+      return null
+    },
+    resetExportTaxFilters: (_, values, { cache }) => {
+      cache.writeData({
+        data: {
+          exportTaxFilters: [],
+        },
+      })
+      return null
+    },
   },
 }
