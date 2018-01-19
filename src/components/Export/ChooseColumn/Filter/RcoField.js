@@ -10,7 +10,10 @@ import exportRcoFiltersData from '../../exportRcoFiltersData'
 const Container = styled.div`
   display: flex;
   align-content: stretch;
-  padding: 0 16px;
+  padding: 4px 16px;
+  > div {
+    height: auto;
+  }
 `
 
 const enhance = compose(exportRcoFiltersData)
@@ -29,12 +32,10 @@ const RcoField = ({
   exportRcoFiltersData: Object,
 }) => {
   const { exportRcoFilters } = exportRcoFiltersData
-  //console.log('RcoField: exportRcoFilters:', exportRcoFilters)
   const exportRcoFilter = exportRcoFilters.find(
     x => x.pcname === pcname && x.pname === pname
   ) || { comparator: null, value: null }
   const { comparator, value } = exportRcoFilter
-  console.log('RcoField: comparator:', comparator)
 
   return (
     <Container>

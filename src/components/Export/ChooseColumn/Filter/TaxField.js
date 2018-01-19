@@ -10,7 +10,10 @@ import exportTaxFiltersData from '../../exportTaxFiltersData'
 const Container = styled.div`
   display: flex;
   align-content: stretch;
-  padding: 0 16px;
+  padding: 4px 16px;
+  > div {
+    height: auto;
+  }
 `
 
 const enhance = compose(exportTaxFiltersData)
@@ -28,10 +31,7 @@ const TaxField = ({
   count: number,
   exportTaxFiltersData: Object,
 }) => {
-  console.log('TaxField: taxname:', taxname)
-  console.log('TaxField: exportTaxFiltersData:', exportTaxFiltersData)
   const { exportTaxFilters } = exportTaxFiltersData
-  console.log('TaxField: exportTaxFilters:', exportTaxFilters)
   const exportTaxFilter = exportTaxFilters.find(
     x => x.taxname === taxname && x.pname === pname
   ) || { comparator: null, value: null }
