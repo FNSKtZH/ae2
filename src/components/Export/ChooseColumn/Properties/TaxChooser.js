@@ -6,8 +6,8 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import addExportTaxPropertyMutation from '../../../../modules/addExportTaxPropertyMutation'
-import removeExportTaxPropertyMutation from '../../../../modules/removeExportTaxPropertyMutation'
+import addExportTaxPropertyMutation from '../../addExportTaxPropertyMutation'
+import removeExportTaxPropertyMutation from '../../removeExportTaxPropertyMutation'
 import exportTaxPropertiesData from '../../exportTaxPropertiesData'
 
 const Container = styled.div``

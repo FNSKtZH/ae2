@@ -9,8 +9,8 @@ export const exportDefaults = {
   exportPcoFilters: [],
   exportRcoFilters: [],
   exportOnlyRowsWithProperties: true,
-  exportTooManyProperties: false,
   exportWithSynonymData: true,
+  exportTooManyProperties: false,
 }
 
 const otherDefaults = {

@@ -1,7 +1,11 @@
 // @flow
 import React from 'react'
+import { withApollo } from 'react-apollo'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Button from 'material-ui-next/Button'
+import { withStyles } from 'material-ui-next/styles'
 import compose from 'recompose/compose'
+import withHandlers from 'recompose/withHandlers'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
@@ -28,6 +32,11 @@ import exportWithSynonymDataMutation from '../exportWithSynonymDataMutation'
 import exportTooManyPropertiesData from '../exportTooManyPropertiesData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+})
 const level1CardStyle = { margin: '10px 0' }
 const level1CardTitleStyle = { fontWeight: 'bold' }
 const level1CardHeaderStyle = {}
@@ -44,17 +53,85 @@ const FilterValueSpan = styled.span`
 `
 
 const enhance = compose(
+  withApollo,
   exportCategoriesData,
+  exportCategoriesMutation,
   exportTaxonomiesData,
+  exportTaxonomiesMutation,
   exportTaxPropertiesData,
+  exportTaxPropertiesMutation,
   exportTaxFiltersData,
+  exportTaxFiltersMutation,
   exportPcoPropertiesData,
+  exportRcoPropertiesMutation,
+  exportPcoPropertiesMutation,
   exportPcoFiltersData,
+  exportPcoFiltersMutation,
   exportRcoPropertiesData,
   exportRcoFiltersData,
+  exportRcoFiltersMutation,
   exportOnlyRowsWithPropertiesData,
+  exportOnlyRowsWithPropertiesMutation,
   exportTooManyPropertiesData,
-  exportWithSynonymDataData
+  exportWithSynonymDataData,
+  exportWithSynonymDataMutation,
+  withHandlers({
+    onClickResetAll: ({
+      client,
+      exportCategoriesMutation,
+      exportTaxonomiesMutation,
+      exportPcoPropertiesMutation,
+      exportRcoPropertiesMutation,
+      exportTaxPropertiesMutation,
+      exportTaxFiltersMutation,
+      exportPcoFiltersMutation,
+      exportRcoFiltersMutation,
+      exportOnlyRowsWithPropertiesMutation,
+      exportWithSynonymDataMutation,
+    }) => () => {
+      client.mutate({
+        mutation: exportCategoriesMutation,
+        variables: { value: [] },
+      })
+      client.mutate({
+        mutation: exportTaxonomiesMutation,
+        variables: { value: [] },
+      })
+      client.mutate({
+        mutation: exportPcoPropertiesMutation,
+        variables: { value: [] },
+      })
+      client.mutate({
+        mutation: exportRcoPropertiesMutation,
+        variables: { value: [] },
+      })
+      client.mutate({
+        mutation: exportTaxPropertiesMutation,
+        variables: { value: [] },
+      })
+      client.mutate({
+        mutation: exportTaxFiltersMutation,
+        variables: { value: [] },
+      })
+      client.mutate({
+        mutation: exportPcoFiltersMutation,
+        variables: { value: [] },
+      })
+      client.mutate({
+        mutation: exportRcoFiltersMutation,
+        variables: { value: [] },
+      })
+      client.mutate({
+        mutation: exportOnlyRowsWithPropertiesMutation,
+        variables: { value: true },
+      })
+      client.mutate({
+        mutation: exportWithSynonymDataMutation,
+        variables: { value: true },
+      })
+    },
+  }),
+  withStyles(styles)
 )
 
 const OptionsChoosen = ({
@@ -68,6 +145,8 @@ const OptionsChoosen = ({
   exportRcoFiltersData,
   exportOnlyRowsWithPropertiesData,
   exportWithSynonymDataData,
+  classes,
+  onClickResetAll,
 }: {
   exportCategoriesData: Object,
   exportTaxonomiesData: Object,
@@ -79,6 +158,8 @@ const OptionsChoosen = ({
   exportRcoFiltersData: Object,
   exportOnlyRowsWithPropertiesData: Object,
   exportWithSynonymDataData: Object,
+  classes: Object,
+  onClickResetAll: () => void,
 }) => {
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
@@ -132,6 +213,9 @@ const OptionsChoosen = ({
         style={level1CardHeaderStyle}
       />
       <CardText expandable={true} style={level1CardTextStyle}>
+        <Button className={classes.button} onClick={onClickResetAll}>
+          alle zurücksetzen
+        </Button>
         <ul>
           <li>
             {`Gruppe${exportCategories.length > 1 ? 'n' : ''}: ${

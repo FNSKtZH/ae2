@@ -6,7 +6,6 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FlatButton from 'material-ui/FlatButton'
-import { withApollo } from 'react-apollo'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -50,11 +49,10 @@ const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
 
 const enhance = compose(
-  withApollo,
   activeNodeArrayData,
   loginData,
   withHandlers({
-    onClickColumnButtonData: ({ client, activeNodeArrayData }) => () => {
+    onClickColumnButtonData: ({ activeNodeArrayData }) => () => {
       const { activeNodeArray } = activeNodeArrayData
       const pathIsMain = ['Taxonomien', 'Eigenschaften-Sammlungen'].includes(
         activeNodeArray[0]
@@ -63,10 +61,9 @@ const enhance = compose(
         app.history.push('/Taxonomien')
       }
     },
-    onClickColumnButtonExport: ({ client }) => () =>
-      app.history.push('/Export'),
-    onClickColumnButtonLogin: ({ client }) => () => app.history.push('/Login'),
-    onChangeImportButton: ({ client }) => (event, key, value) =>
+    onClickColumnButtonExport: () => () => app.history.push('/Export'),
+    onClickColumnButtonLogin: () => () => app.history.push('/Login'),
+    onChangeImportButton: () => (event, key, value) =>
       app.history.push(`/Import/${value}`),
     ueberArteigenschaftenOnClick: () => () =>
       window.open('https://github.com/barbalex/ae2'),
