@@ -22,7 +22,7 @@
     "json2csv": "3.11.5",
     "jwt-decode": "2.2.0",
     "lodash": "4.17.4",
-    "material-ui": "npm:material-ui@next",
+    "material-ui": "0.20.0",
     "material-ui-next": "npm:material-ui@next",
     "react": "16.2.0",
     "react-apollo": "2.0.4",

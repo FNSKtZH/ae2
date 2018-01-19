@@ -1,5 +1,5 @@
 // @flow
-export default {
+export const exportDefaults = {
   activeNodeArray: [],
   exportCategories: [],
   exportTaxonomies: [],
@@ -12,6 +12,9 @@ export default {
   exportOnlyRowsWithProperties: true,
   exportTooManyProperties: false,
   exportWithSynonymData: true,
+}
+
+const otherDefaults = {
   treeFilter: {
     text: '',
     id: null,
@@ -25,3 +28,5 @@ export default {
   },
   historyAfterLogin: '',
 }
+
+export default Object.assign({}, exportDefaults, otherDefaults)

@@ -4794,7 +4794,7 @@ match-stream@~0.0.2:
     buffers "~0.1.1"
     readable-stream "~1.0.0"
 
-"material-ui-next@npm:material-ui@next", "material-ui@npm:material-ui@next":
+"material-ui-next@npm:material-ui@next":
   version "1.0.0-beta.29"
   resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-1.0.0-beta.29.tgz#21ddf110d7aae4a6582584fc10ce948f144b1f2b"
   dependencies:
