@@ -48,6 +48,7 @@ const enhance = compose(
 )
 
 const OptionsChoosen = ({
+  exportCategoriesData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
@@ -58,6 +59,7 @@ const OptionsChoosen = ({
   exportOnlyRowsWithPropertiesData,
   exportWithSynonymDataData,
 }: {
+  exportCategoriesData: Object,
   exportTaxonomiesData: Object,
   exportTaxPropertiesData: Object,
   exportTaxFiltersData: Object,
@@ -78,6 +80,7 @@ const OptionsChoosen = ({
     'exportOnlyRowsWithProperties',
     true
   )
+  const exportCategories = get(exportCategoriesData, 'exportCategories', [])
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const exportTaxProperties = get(
     exportTaxPropertiesData,
@@ -120,6 +123,13 @@ const OptionsChoosen = ({
       />
       <CardText expandable={true} style={level1CardTextStyle}>
         <ul>
+          <li>
+            {`Gruppe${exportCategories.length > 1 ? 'n' : ''}: ${
+              exportCategories.length === 0
+                ? ' keine'
+                : exportCategories.join(', ')
+            }`}
+          </li>
           <li>
             {`Taxonomie${exportTaxonomies.length > 1 ? 'n' : ''}: ${
               exportTaxonomies.length === 0
