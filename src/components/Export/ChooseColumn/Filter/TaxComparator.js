@@ -1,7 +1,10 @@
 //@flow
 import React from 'react'
-import MenuItem from 'material-ui/MenuItem'
-import SelectField from 'material-ui/SelectField'
+import { withStyles } from 'material-ui-next/styles'
+import Input, { InputLabel } from 'material-ui-next/Input'
+import { MenuItem } from 'material-ui-next/Menu'
+import { FormControl } from 'material-ui-next/Form'
+import Select from 'material-ui-next/Select'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -14,12 +17,35 @@ const Container = styled.div`
   flex-shrink: 0;
   flex-grow: 1;
 `
-const StyledSelectField = styled(SelectField)`
-  width: 100% !important;
+const StyledFormControl = styled(FormControl)`
+  margin: 0 !important;
+  width: 100%;
+  > label {
+    padding-left: 8px;
+  }
 `
+const StyledSelect = styled(Select)`
+  > div {
+    padding-left: 8px;
+  }
+`
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
+})
 
 const enhance = compose(
   withApollo,
+  withStyles(styles),
   withHandlers({
     onChange: ({ taxname, pname, value, client }) => (
       event,
@@ -36,29 +62,32 @@ const enhance = compose(
 const Comparator = ({
   comparator,
   onChange,
+  classes,
 }: {
   comparator: String,
   onChange: () => {},
+  classes: Object,
 }) => {
   return (
     <Container>
-      <StyledSelectField
-        floatingLabelFixed
-        floatingLabelText="Vergleichs-Operator"
-        value={comparator}
-        onChange={onChange}
-      >
-        <MenuItem value="ILIKE" primaryText="enthalten" />
-        <MenuItem
-          value="LIKE"
-          primaryText="enthalten (Grosschreibung berücksichtigt)"
-        />
-        <MenuItem value="=" primaryText="&#61; (genau gleich)" />
-        <MenuItem value=">" primaryText="&#62;" />
-        <MenuItem value=">=" primaryText="&#62;&#61;" />
-        <MenuItem value="<" primaryText="&#60;" />
-        <MenuItem value="<=" primaryText="&#60;&#61;" />
-      </StyledSelectField>
+      <StyledFormControl className={classes.formControl}>
+        <InputLabel htmlFor="v-op">Vergleichs-Operator</InputLabel>
+        <StyledSelect
+          value={comparator}
+          onChange={onChange}
+          input={<Input id="v-op" />}
+        >
+          <MenuItem value="ILIKE">enthalten</MenuItem>
+          <MenuItem value="LIKE">
+            enthalten (Grosschreibung berücksichtigt)
+          </MenuItem>
+          <MenuItem value="=">&#61; (genau gleich)</MenuItem>
+          <MenuItem value=">">&#62;</MenuItem>
+          <MenuItem value=">=">&#62;&#61;</MenuItem>
+          <MenuItem value="<">&#60;</MenuItem>
+          <MenuItem value="<=">&#60;&#61;</MenuItem>
+        </StyledSelect>
+      </StyledFormControl>
     </Container>
   )
 }
