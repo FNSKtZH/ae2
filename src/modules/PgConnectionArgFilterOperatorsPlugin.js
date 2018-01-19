@@ -1,6 +1,6 @@
 module.exports = function PgConnectionArgFilterOperatorsPlugin(
   builder,
-  { connectionFilterUsesShortNames = false } = {}
+  { connectionFilterOperatorNames = false } = {}
 ) {
   builder.hook(
     'init',
@@ -15,7 +15,7 @@ module.exports = function PgConnectionArgFilterOperatorsPlugin(
       }
     ) => {
       addConnectionFilterOperator(
-        connectionFilterUsesShortNames ? 'conti' : 'containsInsensitive',
+        connectionFilterOperatorNames ? 'conti' : 'containsInsensitive',
         'Checks for strings containing this value.  Case insensitive.',
         typeName => getTypeByName(typeName),
         (identifier, val) => {
