@@ -10,7 +10,8 @@ import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
 import readableType from '../../../../modules/readableType'
 
 const Container = styled.div`
-  width: 100%;
+  flex-basis: 150px;
+  flex-grow: 1;
 `
 
 const floatingLabelStyle = {

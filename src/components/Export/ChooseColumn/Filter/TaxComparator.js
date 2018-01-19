@@ -9,9 +9,13 @@ import { withApollo } from 'react-apollo'
 
 import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
 
-const Container = styled.div``
+const Container = styled.div`
+  flex-basis: 150px;
+  flex-shrink: 0;
+  flex-grow: 1;
+`
 const StyledSelectField = styled(SelectField)`
-  width: 150px !important;
+  width: 100% !important;
 `
 
 const enhance = compose(

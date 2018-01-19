@@ -12,16 +12,20 @@ import { withApollo } from 'react-apollo'
 
 import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 
-const Container = styled.div``
-const StyledSelect = styled(Select)`
-  > div {
+const Container = styled.div`
+  flex-basis: 150px;
+  flex-shrink: 0;
+  flex-grow: 1;
+`
+const StyledFormControl = styled(FormControl)`
+  margin: 0 !important;
+  width: 100%;
+  > label {
     padding-left: 8px;
   }
 `
-const StyledFormControl = styled(FormControl)`
-  width: 150px !important;
-  margin: 0 !important;
-  > label {
+const StyledSelect = styled(Select)`
+  > div {
     padding-left: 8px;
   }
 `
