@@ -1,6 +1,5 @@
 // @flow
 export const exportDefaults = {
-  activeNodeArray: [],
   exportCategories: [],
   exportTaxonomies: [],
   exportTaxProperties: [],
@@ -15,6 +14,7 @@ export const exportDefaults = {
 }
 
 const otherDefaults = {
+  activeNodeArray: [],
   treeFilter: {
     text: '',
     id: null,
