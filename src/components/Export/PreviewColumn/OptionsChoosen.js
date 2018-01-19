@@ -5,6 +5,7 @@ import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
+import exportCategoriesData from '../exportCategoriesData'
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import exportPcoPropertiesData from '../exportPcoPropertiesData'
 import exportRcoPropertiesData from '../exportRcoPropertiesData'
@@ -12,6 +13,8 @@ import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import exportTaxFiltersData from '../exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
+import exportOnlyRowsWithPropertiesData from '../exportOnlyRowsWithPropertiesData'
+import exportTooManyPropertiesData from '../exportTooManyPropertiesData'
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 
@@ -31,6 +34,7 @@ const FilterValueSpan = styled.span`
 `
 
 const enhance = compose(
+  exportCategoriesData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
@@ -38,6 +42,8 @@ const enhance = compose(
   exportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
+  exportOnlyRowsWithPropertiesData,
+  exportTooManyPropertiesData,
   exportWithSynonymDataData
 )
 
@@ -49,6 +55,7 @@ const OptionsChoosen = ({
   exportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
+  exportOnlyRowsWithPropertiesData,
   exportWithSynonymDataData,
 }: {
   exportTaxonomiesData: Object,
@@ -58,11 +65,17 @@ const OptionsChoosen = ({
   exportPcoFiltersData: Object,
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
+  exportOnlyRowsWithPropertiesData: Object,
   exportWithSynonymDataData: Object,
 }) => {
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
     'exportWithSynonymData',
+    true
+  )
+  const exportOnlyRowsWithProperties = get(
+    exportOnlyRowsWithPropertiesData,
+    'exportOnlyRowsWithProperties',
     true
   )
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
@@ -119,10 +132,11 @@ const OptionsChoosen = ({
               ? 'Informationen von Synonymen mit exportieren'
               : 'Ohne Informationen von Synonymen'
           }`}</li>
-          <li>
-            Filterkriterien in Eigenschaften- und Beziehungssammlungen filtern
-            Arten bzw. Lebensräume
-          </li>
+          <li>{`${
+            exportOnlyRowsWithProperties
+              ? 'Nur Datensätze mit Eigenschaften exportieren'
+              : 'Auch Datensätze ohne Eigenschaften exportieren'
+          }`}</li>
           {exportPcoProperties.length > 0 && <li>Pro Beziehung eine Zeile</li>}
           <li>
             {`Filter:${
@@ -177,8 +191,8 @@ const OptionsChoosen = ({
                 ...exportPcoProperties,
                 ...exportRcoProperties,
               ].length === 0
-                ? ' keine'
-                : ''
+                ? ' keine (die id kommt immer mit)'
+                : ' (die id kommt immer mit)'
             }`}
             <ul>
               {exportTaxProperties.map((p, i) => (
