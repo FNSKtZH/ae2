@@ -28,8 +28,10 @@ const TaxField = ({
   count: number,
   exportTaxFiltersData: Object,
 }) => {
+  console.log('TaxField: taxname:', taxname)
+  console.log('TaxField: exportTaxFiltersData:', exportTaxFiltersData)
   const { exportTaxFilters } = exportTaxFiltersData
-  //console.log('TaxField: exportTaxFilters:', exportTaxFilters)
+  console.log('TaxField: exportTaxFilters:', exportTaxFilters)
   const exportTaxFilter = exportTaxFilters.find(
     x => x.taxname === taxname && x.pname === pname
   ) || { comparator: null, value: null }

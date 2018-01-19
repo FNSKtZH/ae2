@@ -34,6 +34,7 @@ const RcoField = ({
     x => x.pcname === pcname && x.pname === pname
   ) || { comparator: null, value: null }
   const { comparator, value } = exportRcoFilter
+  console.log('RcoField: comparator:', comparator)
 
   return (
     <Container>
