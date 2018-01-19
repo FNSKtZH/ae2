@@ -24,6 +24,7 @@ const OrgContainer = styled.div`
   padding: 10px;
 `
 const SaveButton = styled(Button)`
+  border: 1px solid !important;
   margin-bottom: 5px;
   margin-top: 15px;
 `
@@ -203,7 +204,7 @@ class User extends Component<Props, State> {
               />
             </FormControl>
           )}
-          <SaveButton raised onClick={this.onSave} disabled={!saveEnabled}>
+          <SaveButton onClick={this.onSave} disabled={!saveEnabled}>
             Änderungen speichern
           </SaveButton>
         </OrgContainer>

@@ -63,6 +63,9 @@ const ResetSpan = styled.span`
   cursor: pointer;
   text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
+const StyledButton = styled(Button)`
+  border: 1px solid !important;
+`
 
 const enhance = compose(
   withApollo,
@@ -446,9 +449,9 @@ const OptionsChoosen = ({
             </ul>
           </li>
         </ul>
-        <Button className={classes.button} onClick={onClickResetAll}>
+        <StyledButton className={classes.button} onClick={onClickResetAll}>
           alle Optionen zurücksetzen
-        </Button>
+        </StyledButton>
       </CardText>
     </Card>
   )

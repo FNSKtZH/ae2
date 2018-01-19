@@ -60,6 +60,9 @@ const TotalDiv = styled.div`
   padding-left: 9px;
   margin-top: 4px;
 `
+const StyledButton = styled(Button)`
+  border: 1px solid !important;
+`
 const snackbarBodyStyle = {
   maxWidth: 'auto',
   minWidth: 'auto',
@@ -306,12 +309,12 @@ const Preview = ({
       )}
       {rows.length > 0 && (
         <ButtonsContainer>
-          <Button raised onClick={() => exportXlsx({ rows, onSetMessage })}>
+          <StyledButton onClick={() => exportXlsx({ rows, onSetMessage })}>
             .xlsx herunterladen
-          </Button>
-          <Button raised onClick={() => exportCsv(rows)}>
+          </StyledButton>
+          <StyledButton onClick={() => exportCsv(rows)}>
             .csv herunterladen
-          </Button>
+          </StyledButton>
         </ButtonsContainer>
       )}
       <Snackbar

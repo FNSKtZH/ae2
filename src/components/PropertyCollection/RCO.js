@@ -59,6 +59,9 @@ const MutationButtons = styled.div`
   display: flex;
   justify-content: space-between;
 `
+const StyledButton = styled(Button)`
+  border: 1px solid !important;
+`
 
 const styles = theme => ({
   button: {
@@ -187,7 +190,7 @@ const RCO = ({
       <ButtonsContainer>
         {rCO.length > 0 && (
           <ExportButtons>
-            <Button
+            <StyledButton
               onClick={() =>
                 exportXlsx({
                   rows: rCO,
@@ -198,32 +201,35 @@ const RCO = ({
               className={classes.button}
             >
               xlsx exportieren
-            </Button>
-            <Button onClick={() => exportCsv(rCO)} className={classes.button}>
+            </StyledButton>
+            <StyledButton
+              onClick={() => exportCsv(rCO)}
+              className={classes.button}
+            >
               csv exportieren
-            </Button>
+            </StyledButton>
           </ExportButtons>
         )}
         {userIsWriter &&
           rCO.length > 0 && (
             <MutationButtons>
-              <Button
+              <StyledButton
                 onClick={() => console.log('TODO')}
                 className={classes.button}
               >
                 Daten löschen
-              </Button>
+              </StyledButton>
             </MutationButtons>
           )}
         {userIsWriter &&
           rCO.length === 0 && (
             <MutationButtons>
-              <Button
+              <StyledButton
                 onClick={() => console.log('TODO')}
                 className={classes.button}
               >
                 Daten importieren
-              </Button>
+              </StyledButton>
             </MutationButtons>
           )}
       </ButtonsContainer>

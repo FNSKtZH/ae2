@@ -21,6 +21,7 @@ const Container = styled.form`
   padding: 10px;
 `
 const StyledButton = styled(Button)`
+  border: 1px solid !important;
   margin-top: 5px;
 `
 const snackbarBodyStyle = {
@@ -156,12 +157,8 @@ const Login = ({
           <FormHelperText id="name-error-text">{passErrorText}</FormHelperText>
         </FormControl>
       )}
-      {!token && <StyledButton raised>anmelden</StyledButton>}
-      {!!token && (
-        <StyledButton raised onClick={onLogout}>
-          abmelden
-        </StyledButton>
-      )}
+      {!token && <StyledButton>anmelden</StyledButton>}
+      {!!token && <StyledButton onClick={onLogout}>abmelden</StyledButton>}
       <Snackbar
         open={loginSuccessfull}
         message={`Willkommen ${name}`}
