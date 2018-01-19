@@ -38,7 +38,7 @@ export default ({
     },
   ]
   const token = get(loginData, 'login.token', '')
-  const userCount = get(treeData, 'allUsers.totalCount')
+  const userCount = get(treeData, 'allUsers.totalCount', 0)
   if (!!token) {
     nodes.push({
       id: 'Benutzer',
