@@ -5,7 +5,8 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import FlatButton from 'material-ui/FlatButton'
+import Button from 'material-ui-next/Button'
+import { withStyles } from 'material-ui-next/styles'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -28,7 +29,7 @@ const StyledAppBar = styled(AppBar)`
     display: none !important;
   }
 `
-const Button = styled(FlatButton)`
+const StyledButton = styled(Button)`
   color: ${props =>
     props['data-visible']
       ? 'rgb(255, 255, 255) !important'
@@ -47,6 +48,12 @@ const StyledMoreVertIcon = styled(MoreVertIcon)`
 const iconMenuAnchorOrigin = { horizontal: 'left', vertical: 'bottom' }
 const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
 const iconMenuStyle = { paddingLeft: 10 }
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+})
 
 const enhance = compose(
   activeNodeArrayData,
@@ -67,7 +74,8 @@ const enhance = compose(
       app.history.push(`/Import/${value}`),
     ueberArteigenschaftenOnClick: () => () =>
       window.open('https://github.com/barbalex/ae2'),
-  })
+  }),
+  withStyles(styles)
 )
 
 const MyAppBar = ({
@@ -78,6 +86,7 @@ const MyAppBar = ({
   onClickColumnButtonLogin,
   ueberArteigenschaftenOnClick,
   loginData,
+  classes,
 }: {
   activeNodeArrayData: Object,
   onClickColumnButtonData: () => void,
@@ -86,6 +95,7 @@ const MyAppBar = ({
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
   loginData: Object,
+  classes: Object,
 }) => {
   const activeNodeArray = activeNodeArrayData.activeNodeArray || []
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
@@ -99,23 +109,29 @@ const MyAppBar = ({
         title="Arteigenschaften"
         iconElementRight={
           <MenuDiv>
-            <Button
-              label="Daten"
+            <StyledButton
               data-visible={
                 !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
               }
               onClick={onClickColumnButtonData}
-            />
-            <Button
-              label="Export"
+              className={classes.button}
+            >
+              Daten
+            </StyledButton>
+            <StyledButton
               data-visible={url0 !== 'export'}
               onClick={onClickColumnButtonExport}
-            />
-            <Button
-              label={loginLabel}
+              className={classes.button}
+            >
+              Export
+            </StyledButton>
+            <StyledButton
               data-visible={url0 !== 'login'}
               onClick={onClickColumnButtonLogin}
-            />
+              className={classes.button}
+            >
+              {loginLabel}
+            </StyledButton>
             <IconMenu
               iconButtonElement={
                 <IconButton>

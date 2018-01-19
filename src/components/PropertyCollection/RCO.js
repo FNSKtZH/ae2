@@ -9,7 +9,8 @@ import forOwn from 'lodash/forOwn'
 import union from 'lodash/union'
 import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
-import FlatButton from 'material-ui/FlatButton'
+import Button from 'material-ui-next/Button'
+import { withStyles } from 'material-ui-next/styles'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import booleanToJaNein from '../../modules/booleanToJaNein'
@@ -19,9 +20,10 @@ import rCOData from './rCOData'
 import loginData from '../../modules/loginData'
 
 const Container = styled.div`
-  padding-top: 10px;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   .react-grid-Container {
     font-size: small;
   }
@@ -40,13 +42,10 @@ const Container = styled.div`
     border: #ddd solid 1px !important;
   }
 `
-const GridContainer = styled.div`
-  height: 100%;
-`
 const TotalDiv = styled.div`
   font-size: small;
   padding-left: 9px;
-  margin-top: 4px;
+  margin-top: 8px;
 `
 const ButtonsContainer = styled.div`
   display: flex;
@@ -61,12 +60,19 @@ const MutationButtons = styled.div`
   justify-content: space-between;
 `
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+})
+
 const enhance = compose(
   activeNodeArrayData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
   rCOData,
-  loginData
+  loginData,
+  withStyles(styles)
 )
 
 const RCO = ({
@@ -77,6 +83,7 @@ const RCO = ({
   sortDirection,
   setSortField,
   setSortDirection,
+  classes,
 }: {
   rCOData: Object,
   loginData: Object,
@@ -85,14 +92,13 @@ const RCO = ({
   sortDirection: String,
   setSortField: () => void,
   setSortDirection: () => void,
+  classes: Object,
 }) => {
   const { loading } = rCOData
   if (loading) {
     return (
       <Container>
-        <GridContainer>
-          <TotalDiv>Lade Daten...</TotalDiv>
-        </GridContainer>
+        <TotalDiv>Lade Daten...</TotalDiv>
       </Container>
     )
   }
@@ -160,64 +166,67 @@ const RCO = ({
 
   return (
     <Container>
-      <GridContainer>
-        <TotalDiv>{`${rCO.length.toLocaleString('de-CH')} Datensätze, ${(
-          columns.length - 5
-        ).toLocaleString('de-CH')} Feld${columns.length === 6 ? '' : 'er'}${
-          rCO.length > 0 ? ':' : ''
-        }`}</TotalDiv>
+      <TotalDiv>{`${rCO.length.toLocaleString('de-CH')} Datensätze, ${(
+        columns.length - 5
+      ).toLocaleString('de-CH')} Feld${columns.length === 6 ? '' : 'er'}${
+        rCO.length > 0 ? ':' : ''
+      }`}</TotalDiv>
+      {rCO.length > 0 && (
+        <ReactDataGrid
+          onGridSort={(column, direction) => {
+            setSortField(column)
+            setSortDirection(direction.toLowerCase())
+          }}
+          columns={columns}
+          rowGetter={i => rCO[i]}
+          rowsCount={rCO.length}
+          minHeight={height - 33 - 37}
+          minWidth={width}
+        />
+      )}
+      <ButtonsContainer>
         {rCO.length > 0 && (
-          <ReactDataGrid
-            onGridSort={(column, direction) => {
-              setSortField(column)
-              setSortDirection(direction.toLowerCase())
-            }}
-            columns={columns}
-            rowGetter={i => rCO[i]}
-            rowsCount={rCO.length}
-            minHeight={height - 33 - 37}
-            minWidth={width}
-          />
+          <ExportButtons>
+            <Button
+              onClick={() =>
+                exportXlsx({
+                  rows: rCO,
+                  onSetMessage: console.log,
+                  columns: keys,
+                })
+              }
+              className={classes.button}
+            >
+              xlsx exportieren
+            </Button>
+            <Button onClick={() => exportCsv(rCO)} className={classes.button}>
+              csv exportieren
+            </Button>
+          </ExportButtons>
         )}
-        <ButtonsContainer>
-          {rCO.length > 0 && (
-            <ExportButtons>
-              <FlatButton
-                label="xlsx exportieren"
-                onClick={() =>
-                  exportXlsx({
-                    rows: rCO,
-                    onSetMessage: console.log,
-                    columns: keys,
-                  })
-                }
-              />
-              <FlatButton
-                label="csv exportieren"
-                onClick={() => exportCsv(rCO)}
-              />
-            </ExportButtons>
+        {userIsWriter &&
+          rCO.length > 0 && (
+            <MutationButtons>
+              <Button
+                onClick={() => console.log('TODO')}
+                className={classes.button}
+              >
+                Daten löschen
+              </Button>
+            </MutationButtons>
           )}
-          {userIsWriter &&
-            rCO.length > 0 && (
-              <MutationButtons>
-                <FlatButton
-                  label="Daten löschen"
-                  onClick={() => console.log('TODO')}
-                />
-              </MutationButtons>
-            )}
-          {userIsWriter &&
-            rCO.length === 0 && (
-              <MutationButtons>
-                <FlatButton
-                  label="Daten importieren"
-                  onClick={() => console.log('TODO')}
-                />
-              </MutationButtons>
-            )}
-        </ButtonsContainer>
-      </GridContainer>
+        {userIsWriter &&
+          rCO.length === 0 && (
+            <MutationButtons>
+              <Button
+                onClick={() => console.log('TODO')}
+                className={classes.button}
+              >
+                Daten importieren
+              </Button>
+            </MutationButtons>
+          )}
+      </ButtonsContainer>
     </Container>
   )
 }
