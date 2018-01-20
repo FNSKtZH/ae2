@@ -1,41 +1,74 @@
 // @flow
 import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Card, { CardActions, CardContent } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
+import compose from 'recompose/compose'
+import withState from 'recompose/withState'
+import styled from 'styled-components'
 
-const level1CardStyle = { margin: '10px 0' }
-const level1CardTitleStyle = { fontWeight: 'bold' }
-const level1CardHeaderStyle = {}
-const level1CardTextStyle = {
-  padding: '0 16px !important',
-  margin: '-10px 10px -5px 0',
-}
+const StyledCard = styled(Card)`
+  margin: 10px 0;
+  background-color: rgb(255, 243, 224) !important;
+`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+`
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardActionTitle = styled.div`
+  padding-left: 8px;
+  font-weight: bold;
+`
+const StyledCardContent = styled(CardContent)`
+  padding: 0 !important;
+  margin: -10px 0 0 0;
+`
 
-const HowToFilter = () => (
-  <Card style={level1CardStyle}>
-    <CardHeader
-      title="So geht's"
-      actAsExpander={true}
-      showExpandableButton={true}
-      titleStyle={level1CardTitleStyle}
-      style={level1CardHeaderStyle}
-    />
-    <CardText expandable={true} style={level1CardTextStyle}>
-      <ul>
-        <li>
-          Nachfolgend sind alle Eigenschaften aufgelistet, die in den gewählten
-          Gruppen vorkommen
-        </li>
-        <li>
-          Erfassen Sie in den Eigenschaften Ihrer Wahl die gewünschten
-          Filter-Kriterien...
-        </li>
-        <li>
-          ...und wählen Sie danach unter "3. Eigenschaften wählen", welche
-          Eigenschaften exportiert werden sollen
-        </li>
-      </ul>
-    </CardText>
-  </Card>
+const enhance = compose(withState('expanded', 'setExpanded', false))
+
+const HowToFilter = ({
+  expanded,
+  setExpanded,
+}: {
+  expanded: Boolean,
+  setExpanded: () => void,
+}) => (
+  <StyledCard>
+    <StyledCardActions
+      disableActionSpacing
+      onClick={() => setExpanded(!expanded)}
+    >
+      <CardActionTitle>So geht's</CardActionTitle>
+      <CardActionIconButton
+        data-expanded={expanded}
+        aria-expanded={expanded}
+        aria-label="Show more"
+      >
+        <ExpandMoreIcon />
+      </CardActionIconButton>
+    </StyledCardActions>
+    <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <StyledCardContent>
+        <ul>
+          <li>
+            Nachfolgend sind alle Eigenschaften aufgelistet, die in den
+            gewählten Gruppen vorkommen
+          </li>
+          <li>
+            Erfassen Sie in den Eigenschaften Ihrer Wahl die gewünschten
+            Filter-Kriterien...
+          </li>
+          <li>
+            ...und wählen Sie danach unter "3. Eigenschaften wählen", welche
+            Eigenschaften exportiert werden sollen
+          </li>
+        </ul>
+      </StyledCardContent>
+    </Collapse>
+  </StyledCard>
 )
 
-export default HowToFilter
+export default enhance(HowToFilter)
