@@ -5,6 +5,7 @@ import activeNodeArray from './activeNodeArray'
 import treeFilter from './treeFilter'
 import login from './login'
 import exportCategories from './exportCategories'
+import exportIds from './exportIds'
 import exportTaxonomies from './exportTaxonomies'
 import exportTaxProperties from './exportTaxProperties'
 import exportPcoProperties from './exportPcoProperties'
@@ -19,6 +20,7 @@ export default merge(
   treeFilter,
   login,
   exportCategories,
+  exportIds,
   exportTaxonomies,
   exportTaxProperties,
   exportPcoProperties,

@@ -2,6 +2,7 @@
 export const exportDefaults = {
   exportCategories: [],
   exportTaxonomies: [],
+  exportIds: [],
   exportTaxProperties: [],
   exportPcoProperties: [],
   exportRcoProperties: [],

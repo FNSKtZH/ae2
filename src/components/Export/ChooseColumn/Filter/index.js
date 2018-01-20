@@ -12,6 +12,7 @@ import app from 'ampersand-app'
 
 import HowTo from './HowTo'
 import Tipps from './Tipps'
+import Id from './Id'
 import TaxonomiesCard from './TaxonomiesCard'
 import PcoCard from './PcoCard'
 import RcoCard from './RcoCard'
@@ -181,6 +182,7 @@ const Filter = ({
           label="Nur Datensätze mit Eigenschaften exportieren"
         />
       </FormGroup>
+      <Id />
       <TaxonomiesCard
         taxonomiesExpanded={taxonomiesExpanded}
         jointTaxonomiesExpanded={jointTaxonomiesExpanded}
