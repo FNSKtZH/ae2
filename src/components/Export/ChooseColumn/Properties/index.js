@@ -19,7 +19,7 @@ import TaxChooser from './TaxChooser'
 import PcoChooser from './PcoChooser'
 import RcoChooser from './RcoChooser'
 import constants from '../../../../modules/constants'
-import propsByTaxData from '../../../../modules/propsByTaxData'
+import propsByTaxData from '../propsByTaxData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import data from './data'
 

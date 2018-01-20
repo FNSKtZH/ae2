@@ -9,7 +9,7 @@ import compose from 'recompose/compose'
 
 import PcoField from '../PcoField'
 import constants from '../../../../../modules/constants'
-import propsByTaxData from '../../../../../modules/propsByTaxData'
+import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 
 const Level2Card = styled(Card)`

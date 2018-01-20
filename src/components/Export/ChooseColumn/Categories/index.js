@@ -15,7 +15,7 @@ import exportCategoriesMutation from '../../exportCategoriesMutation'
 import exportCategoriesData from '../../exportCategoriesData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
-import propsByTaxData from '../../../../modules/propsByTaxData'
+import propsByTaxData from '../propsByTaxData'
 import allCategoriesData from '../../../../modules/allCategoriesData'
 import taxonomiesOfCategoriesData from '../../../../modules/taxonomiesOfCategoriesData'
 
