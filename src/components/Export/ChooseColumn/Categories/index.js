@@ -230,7 +230,6 @@ const Categories = ({
                 name={category}
                 checked={exportCategories.includes(category)}
                 onChange={onCheckCategory}
-                value={category}
               />
             }
             label={category}
@@ -254,7 +253,6 @@ const Categories = ({
                           name={tax.taxonomyName}
                           checked={exportTaxonomies.includes(tax.taxonomyName)}
                           onChange={onCheckTaxonomy}
-                          value={tax.taxonomyName}
                         />
                       }
                       label={tax.taxonomyName}
