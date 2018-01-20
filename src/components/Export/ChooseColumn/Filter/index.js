@@ -9,7 +9,6 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
 import app from 'ampersand-app'
-//import { withWindowSize } from 'react-fns'
 
 import HowTo from './HowTo'
 import Tipps from './Tipps'
