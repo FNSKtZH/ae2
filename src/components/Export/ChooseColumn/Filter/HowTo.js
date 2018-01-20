@@ -23,7 +23,7 @@ const CardActionTitle = styled.div`
   font-weight: bold;
 `
 const StyledCardContent = styled(CardContent)`
-  padding: 0 !important;
+  padding: 0 16px 0 0 !important;
   margin: -10px 0 0 0;
 `
 
