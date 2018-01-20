@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
-import Checkbox from 'material-ui/Checkbox'
+import { FormGroup, FormControlLabel } from 'material-ui-next/Form'
+import Checkbox from 'material-ui-next/Checkbox'
 import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
@@ -71,6 +72,14 @@ const PropertiesContainer = styled.div`
     props['data-width'] > 2 * constants.export.properties.columnWidth
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};
+`
+const Label = styled(FormControlLabel)`
+  height: 30px;
+  min-height: 30px;
+  > span {
+    font-weight: 500;
+    line-height: 1em;
+  }
 `
 
 const level2CardTitleStyle = { fontWeight: 'bold' }
@@ -246,26 +255,36 @@ const Filter = ({
     <Container>
       <HowTo />
       <Tipps />
-      <Checkbox
-        label="Informationen von Synonymen mit exportieren"
-        checked={exportWithSynonymData}
-        onCheck={(event, checked) => {
-          app.client.mutate({
-            mutation: exportWithSynonymDataMutation,
-            variables: { value: checked },
-          })
-        }}
-      />
-      <Checkbox
-        label="Nur Datensätze mit Eigenschaften exportieren"
-        checked={exportOnlyRowsWithProperties}
-        onCheck={(event, checked) => {
-          app.client.mutate({
-            mutation: exportOnlyRowsWithPropertiesMutation,
-            variables: { value: checked },
-          })
-        }}
-      />
+      <FormGroup>
+        <Label
+          control={
+            <Checkbox
+              checked={exportWithSynonymData}
+              onChange={(event, checked) => {
+                app.client.mutate({
+                  mutation: exportWithSynonymDataMutation,
+                  variables: { value: checked },
+                })
+              }}
+            />
+          }
+          label="Informationen von Synonymen mit exportieren"
+        />
+        <Label
+          control={
+            <Checkbox
+              checked={exportOnlyRowsWithProperties}
+              onChange={(event, checked) => {
+                app.client.mutate({
+                  mutation: exportOnlyRowsWithPropertiesMutation,
+                  variables: { value: checked },
+                })
+              }}
+            />
+          }
+          label="Nur Datensätze mit Eigenschaften exportieren"
+        />
+      </FormGroup>
       <Level2Card
         expanded={taxonomiesExpanded}
         onExpandChange={onToggleTaxonomies}

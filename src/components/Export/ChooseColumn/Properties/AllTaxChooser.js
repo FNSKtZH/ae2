@@ -1,6 +1,7 @@
 //@flow
 import React from 'react'
-import Checkbox from 'material-ui/Checkbox'
+import { FormControlLabel } from 'material-ui-next/Form'
+import Checkbox from 'material-ui-next/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -13,6 +14,14 @@ import exportTaxPropertiesData from '../../exportTaxPropertiesData'
 const Container = styled.div`
   margin-bottom: 16px;
 `
+const Label = styled(FormControlLabel)`
+  height: 30px;
+  min-height: 30px;
+  > span {
+    font-weight: 500;
+    line-height: 1em;
+  }
+`
 
 const enhance = compose(
   withApollo,
@@ -23,7 +32,7 @@ const enhance = compose(
         ? addExportTaxPropertyMutation
         : removeExportTaxPropertyMutation
       properties.forEach(p => {
-        const taxname = p.taxname
+        const taxname = p.taxonomyName
         const pname = p.propertyName
         client.mutate({
           mutation,
@@ -54,7 +63,10 @@ const AllTaxChooser = ({
 
   return (
     <Container>
-      <Checkbox label="alle" checked={checked} onCheck={onCheck} />
+      <Label
+        control={<Checkbox checked={checked} onChange={onCheck} />}
+        label="alle"
+      />
     </Container>
   )
 }

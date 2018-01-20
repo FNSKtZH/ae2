@@ -1,6 +1,7 @@
 //@flow
 import React from 'react'
-import Checkbox from 'material-ui/Checkbox'
+import { FormControlLabel } from 'material-ui-next/Form'
+import Checkbox from 'material-ui-next/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -13,6 +14,14 @@ import exportRcoPropertiesData from '../../exportRcoPropertiesData'
 const Container = styled.div``
 const Count = styled.span`
   font-size: xx-small;
+`
+const Label = styled(FormControlLabel)`
+  height: 30px;
+  min-height: 30px;
+  > span {
+    font-weight: 500;
+    line-height: 1em;
+  }
 `
 
 const enhance = compose(
@@ -53,14 +62,13 @@ const RcoChooser = ({
 
   return (
     <Container>
-      <Checkbox
+      <Label
+        control={<Checkbox checked={checked} onChange={onCheck} />}
         label={
           <div>
             {pname} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>
           </div>
         }
-        checked={checked}
-        onCheck={onCheck}
       />
     </Container>
   )
