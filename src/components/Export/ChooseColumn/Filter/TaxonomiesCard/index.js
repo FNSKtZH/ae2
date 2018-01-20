@@ -8,6 +8,7 @@ import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
 import compose from 'recompose/compose'
 
+import TaxonomyCard from './TaxonomyCard'
 import TaxField from '../TaxField'
 import constants from '../../../../../modules/constants'
 import propsByTaxData from '../../propsByTaxData'
@@ -58,7 +59,7 @@ const level2CardTitleStyle = { fontWeight: 'bold' }
 
 const enhance = compose(withApollo, exportTaxonomiesData, propsByTaxData)
 
-const Filter = ({
+const TaxonomiesCard = ({
   propsByTaxData,
   taxonomiesExpanded,
   jointTaxonomiesExpanded,
@@ -146,37 +147,11 @@ const Filter = ({
           </Level3Card>
         )}
         {Object.keys(taxPropertiesByTaxonomy).map(pc => (
-          <Level3Card key={pc}>
-            <Level3CardHeader
-              title={
-                <div>
-                  {pc}
-                  <Level3Count>{`(${taxPropertiesByTaxonomy[pc].length} ${
-                    taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
-                  })`}</Level3Count>
-                </div>
-              }
-              actAsExpander={true}
-              showExpandableButton={true}
-              titleStyle={level2CardTitleStyle}
-            />
-            <Level3CardText expandable={true}>
-              <PropertiesContainer data-width={window.innerWidth - 84}>
-                {taxPropertiesByTaxonomy[pc].map(field => (
-                  <TaxField
-                    key={`${field.propertyName}${field.jsontype}`}
-                    taxname={field.taxonomyName}
-                    pname={field.propertyName}
-                    jsontype={field.jsontype}
-                  />
-                ))}
-              </PropertiesContainer>
-            </Level3CardText>
-          </Level3Card>
+          <TaxonomyCard pc={pc} key={pc} />
         ))}
       </Level2CardText>
     </Level2Card>
   )
 }
 
-export default enhance(Filter)
+export default enhance(TaxonomiesCard)

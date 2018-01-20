@@ -57,7 +57,7 @@ const level2CardTitleStyle = { fontWeight: 'bold' }
 
 const enhance = compose(withApollo, exportTaxonomiesData, propsByTaxData)
 
-const Filter = ({
+const PcoCard = ({
   propsByTaxData,
   pcoExpanded,
   onTogglePco,
@@ -137,4 +137,4 @@ const Filter = ({
   )
 }
 
-export default enhance(Filter)
+export default enhance(PcoCard)
