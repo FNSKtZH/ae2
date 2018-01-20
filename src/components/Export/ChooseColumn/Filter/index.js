@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import sumBy from 'lodash/sumBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
@@ -16,10 +15,9 @@ import app from 'ampersand-app'
 
 import HowTo from './HowTo'
 import Tipps from './Tipps'
-import TaxField from './TaxField'
-import PcoField from './PcoField'
 import RcoField from './RcoField'
 import TaxonomiesCard from './TaxonomiesCard'
+import PcoCard from './PcoCard'
 //import RcoChooser from './RcoChooser'
 import constants from '../../../../modules/constants'
 import propsByTaxData from '../../../../modules/propsByTaxData'
@@ -198,27 +196,11 @@ const Filter = ({
     'exportOnlyRowsWithProperties',
     true
   )
-  const pcoProperties = get(
-    propsByTaxData,
-    'pcoPropertiesByTaxonomiesFunction.nodes',
-    []
-  )
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
     []
   )
-  const taxProperties = get(
-    propsByTaxData,
-    'taxPropertiesByTaxonomiesFunction.nodes',
-    []
-  )
-  const pcoPropertiesByPropertyCollection = groupBy(
-    pcoProperties,
-    'propertyCollectionName'
-  )
-  const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
-  const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
     if (x.propertyCollectionName.includes(x.relationType)) {
@@ -229,28 +211,6 @@ const Filter = ({
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   //console.log('Filter: pcoPropertiesFields:', pcoPropertiesFields)
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
-
-  const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
-  const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
-  //console.log('Filter: taxProperties:', taxProperties)
-  //console.log('Filter: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
-  const taxCount = Object.keys(taxPropertiesByTaxonomy).length
-  const taxFieldsCount = Object.keys(taxPropertiesFields).length
-  let jointTaxProperties = []
-  if (taxCount > 1) {
-    jointTaxProperties = Object.values(
-      groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`)
-    )
-      .filter(v => v.length === taxCount)
-      .map(t => ({
-        count: sumBy(t, x => Number(x.count)),
-        jsontype: t[0].jsontype,
-        propertyName: t[0].propertyName,
-        taxonomies: t.map(x => x.taxonomyName),
-        taxname: 'Taxonomie',
-      }))
-    //console.log('Filter: jointTaxProperties:', jointTaxProperties)
-  }
 
   return (
     <Container>
@@ -292,61 +252,7 @@ const Filter = ({
         onToggleTaxonomies={onToggleTaxonomies}
         onToggleJointTaxonomies={onToggleJointTaxonomies}
       />
-      <Level2Card expanded={pcoExpanded} onExpandChange={onTogglePco}>
-        <Level2CardHeader
-          title={
-            <div>
-              Eigenschaftensammlungen{pCCount > 0 && (
-                <Level2Count>{`(${pCCount} Sammlungen, ${
-                  Object.keys(pcoPropertiesFields).length
-                } ${
-                  Object.keys(pcoPropertiesFields).length === 1
-                    ? 'Feld'
-                    : 'Felder'
-                })`}</Level2Count>
-              )}
-            </div>
-          }
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level2CardTitleStyle}
-        />
-        <Level2CardText expandable={true}>
-          {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
-            <Level3Card key={pc}>
-              <Level3CardHeader
-                title={
-                  <div>
-                    {pc}
-                    <Level3Count>{`(${
-                      pcoPropertiesByPropertyCollection[pc].length
-                    } ${
-                      pcoPropertiesByPropertyCollection[pc].length === 1
-                        ? 'Feld'
-                        : 'Felder'
-                    })`}</Level3Count>
-                  </div>
-                }
-                actAsExpander={true}
-                showExpandableButton={true}
-                titleStyle={level2CardTitleStyle}
-              />
-              <Level3CardText expandable={true}>
-                <PropertiesContainer data-width={window.innerWidth - 84}>
-                  {pcoPropertiesByPropertyCollection[pc].map(field => (
-                    <PcoField
-                      key={`${field.propertyName}${field.jsontype}`}
-                      pcname={field.propertyCollectionName}
-                      pname={field.propertyName}
-                      jsontype={field.jsontype}
-                    />
-                  ))}
-                </PropertiesContainer>
-              </Level3CardText>
-            </Level3Card>
-          ))}
-        </Level2CardText>
-      </Level2Card>
+      <PcoCard pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
       <Level2Card expanded={rcoExpanded} onExpandChange={onToggleRco}>
         <Level2CardHeader
           title={
