@@ -109,7 +109,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
   - [x] Daten exportieren (wird noch erweitert und getestet)
     ![exportieren](/etc/export.png?raw=true "exportieren")
     - [x] Gewählte Optionen können einzeln oder als Ganzes zurückgesetzt werden
-    - [x] Die in Feldern enthaltenen Werte werden für das Filtern aufgelistet
+    - [x] Erfasst man in einem Feld einen Filter-Wert, werden die Werte aufgelistet, welche in diesem Feld vorkommen
   - [x] Anmeldung<br/>
     Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen, exportieren sowie über die API ([GraphQL](https://github.com/facebook/graphql)) direkt auf die Daten zugreifen.<br/>
     ![anmelden](/etc/anmeldung.png?raw=true "anmelden")<br/>
