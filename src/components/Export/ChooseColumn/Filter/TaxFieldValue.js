@@ -11,11 +11,12 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
+import get from 'lodash/get'
+import debounce from 'lodash/debounce'
 
 import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
 import readableType from '../../../../modules/readableType'
 import taxFieldPropData from './taxFieldPropData'
-import get from 'lodash/get'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;
@@ -122,12 +123,21 @@ type Props = {
 type State = {
   suggestions: Array<string>,
   propValues: Array<string>,
+  value: string,
 }
 
 class IntegrationAutosuggest extends React.Component<Props, State> {
-  state = {
-    suggestions: [],
-    propValues: [],
+  constructor() {
+    super()
+    this.change = debounce(this.change, 300, {
+      leading: false,
+      trailing: true,
+    })
+    this.state = {
+      suggestions: [],
+      propValues: [],
+      value: '',
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -177,7 +187,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     if (!dataFetched) setFetchData(true)
   }
 
-  handleChange = (event, { newValue }) => {
+  change = newValue => {
     const { taxname, pname, comparator, client } = this.props
     let comparatorValue = comparator
     if (!comparator && newValue) comparatorValue = 'ILIKE'
@@ -191,6 +201,11 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
         value: newValue,
       },
     })
+  }
+
+  handleChange = (event, { newValue }) => {
+    this.setState({ value: newValue })
+    this.change(newValue)
   }
 
   renderInput = inputProps => {
@@ -215,7 +230,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   render() {
-    const { classes, value } = this.props
+    const { classes } = this.props
     const { suggestions } = this.state
 
     return (
@@ -235,7 +250,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
         renderSuggestion={renderSuggestion}
         shouldRenderSuggestions={shouldRenderSuggestions}
         inputProps={{
-          value: value || '',
+          value: this.state.value,
           autoFocus: true,
           placeholder: 'Für Auswahlliste: Leerschlag tippen',
           onChange: this.handleChange,

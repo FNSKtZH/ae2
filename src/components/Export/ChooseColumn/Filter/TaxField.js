@@ -40,6 +40,7 @@ const TaxField = ({
   return (
     <Container>
       <TaxFieldValue
+        key={`${taxname}/${pname}/${jsontype}`}
         taxname={taxname}
         pname={pname}
         value={value}
