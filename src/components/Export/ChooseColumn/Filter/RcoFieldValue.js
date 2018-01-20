@@ -11,11 +11,13 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
+import get from 'lodash/get'
+import debounce from 'lodash/debounce'
+import trimStart from 'lodash/trimStart'
 
 import exportRcoFiltersMutation from '../../exportRcoFiltersMutation'
 import readableType from '../../../../modules/readableType'
 import rcoFieldPropData from './rcoFieldPropData'
-import get from 'lodash/get'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;
@@ -121,12 +123,21 @@ type Props = {
 type State = {
   suggestions: Array<string>,
   propValues: Array<string>,
+  value: string,
 }
 
 class IntegrationAutosuggest extends React.Component<Props, State> {
-  state = {
-    suggestions: [],
-    propValues: [],
+  constructor() {
+    super()
+    this.change = debounce(this.change, 200, {
+      leading: false,
+      trailing: true,
+    })
+    this.state = {
+      suggestions: [],
+      propValues: [],
+      value: '',
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -176,7 +187,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     if (!dataFetched) setFetchData(true)
   }
 
-  handleChange = (event, { newValue }) => {
+  change = newValue => {
     const { pcname, pname, comparator, client } = this.props
     let comparatorValue = comparator
     if (!comparator && newValue) comparatorValue = 'ILIKE'
@@ -190,6 +201,14 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
         value: newValue,
       },
     })
+  }
+
+  handleChange = (event, { newValue }) => {
+    // trim the start to enable entering space
+    // at start to open list
+    const value = trimStart(newValue)
+    this.setState({ value })
+    this.change(value)
   }
 
   renderInput = inputProps => {
