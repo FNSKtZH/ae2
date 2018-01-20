@@ -140,7 +140,8 @@ const enhance = compose(
           variables: { value: taxonomies },
         })
         // check if sole category is left
-        // if so: uncheck it
+        // and this was only taxonomy
+        // if so: uncheck category too
         const taxonomiesOfCategories = get(
           taxonomiesOfCategoriesData,
           'taxonomiesOfCategoriesFunction.nodes',
@@ -151,12 +152,19 @@ const enhance = compose(
         )
         if (taxonomies.length === 0) {
           const categoryName = taxonomiesOfCategory[0].categoryName
-          const { exportCategories } = exportCategoriesData
-          const categories = exportCategories.filter(c => c !== categoryName)
-          client.mutate({
-            mutation: exportCategoriesMutation,
-            variables: { value: categories },
-          })
+          const taxonomiesOfThisCategory = taxonomiesOfCategories.filter(
+            t => t.categoryName === categoryName
+          )
+          if (taxonomiesOfThisCategory.length === 1) {
+            // this was the only taxonomy in this category
+            // it makes sense to also uncheck the category
+            const { exportCategories } = exportCategoriesData
+            const categories = exportCategories.filter(c => c !== categoryName)
+            client.mutate({
+              mutation: exportCategoriesMutation,
+              variables: { value: categories },
+            })
+          }
         }
       }
     },
