@@ -14,6 +14,7 @@ const StyledCard = styled(Card)`
 `
 const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
+  cursor: pointer;
 `
 const CardActionIconButton = styled(IconButton)`
   transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
