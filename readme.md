@@ -111,7 +111,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     - [x] Gewählte Optionen können einzeln oder als Ganzes zurückgesetzt werden
     - [x] Erfasst man in einem Feld einen Filter-Wert, werden die Werte aufgelistet, welche in diesem Feld vorkommen
   - [x] Anmeldung<br/>
-    Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen, exportieren sowie über die API ([GraphQL](https://github.com/facebook/graphql)) direkt auf die Daten zugreifen.<br/>
+    Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen und exportieren.<br/>
     ![anmelden](/etc/anmeldung.png?raw=true "anmelden")<br/>
     Angemeldete Benutzer können Daten gemäss den ihnen von Organisationen erteilten Rollen verändern.
   - [x] Benutzer<br/>
@@ -137,6 +137,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     ![Eigenschaften-Sammlungen](/etc/org_pcs.png?raw=true "Eigenschaften-Sammlungen")
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen (in Arbeit)
   - [ ] Lebensräume bearbeiten
+  - [x] Last but not least: arteigenschaften.ch ist nicht nur eine Applikation, sondern auch eine API bzw. Daten-Schnittstelle ([GraphQL](https://github.com/facebook/graphql)). Alles, was ein Benutzer über die Anwendung machen kann, ist auch via die API möglich!
 
 ### Was kann arteigenschaften.ch?
 
