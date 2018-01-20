@@ -1,8 +1,16 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import Checkbox from 'material-ui/Checkbox'
 import Paper from 'material-ui/Paper'
+import { withStyles } from 'material-ui-next/styles'
+import {
+  FormLabel,
+  FormControl,
+  FormGroup,
+  FormControlLabel,
+  FormHelperText,
+} from 'material-ui-next/Form'
+import Checkbox from 'material-ui-next/Checkbox'
 import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -30,16 +38,17 @@ const TaxContainer = styled.div`
   margin-top: 3px;
 `
 const TaxTitle = styled.div``
-const CategoryCheckbox = styled(Checkbox)``
-const categoryCheckboxLabelStyle = {
-  fontWeight: 500,
-}
-const TaxonomyCheckbox = styled(Checkbox)``
 const PaperTextContainer = styled.div`
   padding: 16px;
 `
 const PropertyTextDiv = styled.div`
   padding-bottom: 5px;
+`
+const Label = styled(FormControlLabel)`
+  height: 26px;
+  > span {
+    font-weight: 500;
+  }
 `
 
 const enhance = compose(
@@ -56,6 +65,8 @@ const enhance = compose(
       exportTaxonomiesData,
       taxonomiesOfCategoriesData,
     }) => (event, isChecked) => {
+      console.log('event:', event)
+      console.log('isChecked:', isChecked)
       const { exportCategories } = exportCategoriesData
       const { name } = event.target
       const taxonomiesOfCategories = get(
@@ -201,12 +212,16 @@ const Categories = ({
       <HowTo />
       {categories.map(category => (
         <CategoryContainer key={category}>
-          <CategoryCheckbox
-            name={category}
+          <Label
+            control={
+              <Checkbox
+                name={category}
+                checked={exportCategories.includes(category)}
+                onChange={onCheckCategory}
+                value={category}
+              />
+            }
             label={category}
-            checked={exportCategories.includes(category)}
-            onCheck={onCheckCategory}
-            labelStyle={categoryCheckboxLabelStyle}
           />
           {exportCategories.includes(category) && (
             <TaxContainer>
@@ -219,12 +234,16 @@ const Categories = ({
               {taxonomiesOfCategories
                 .filter(t => t.categoryName === category)
                 .map(tax => (
-                  <TaxonomyCheckbox
+                  <Label
                     key={tax.taxonomyName}
-                    name={tax.taxonomyName}
+                    control={
+                      <Checkbox
+                        checked={exportTaxonomies.includes(tax.taxonomyName)}
+                        onChange={onCheckTaxonomy}
+                        value={tax.taxonomyName}
+                      />
+                    }
                     label={tax.taxonomyName}
-                    checked={exportTaxonomies.includes(tax.taxonomyName)}
-                    onCheck={onCheckTaxonomy}
                   />
                 ))}
             </TaxContainer>
