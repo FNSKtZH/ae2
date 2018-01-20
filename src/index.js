@@ -12,6 +12,7 @@ import jwtDecode from 'jwt-decode'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { MuiThemeProvider as NewMuiThemeProvider } from 'material-ui-next/styles'
+import SvgIcon from 'material-ui-next/SvgIcon'
 import app from 'ampersand-app'
 import createHistory from 'history/createBrowserHistory'
 
@@ -28,6 +29,7 @@ import setLoginFromIdb from './modules/setLoginFromIdb'
 import setLoginMutation from './modules/loginMutation'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
+global.__MUI_SvgIcon__ = SvgIcon
 ;(async () => {
   try {
     const idb = initializeIdb()
