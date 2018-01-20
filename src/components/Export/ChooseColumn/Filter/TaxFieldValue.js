@@ -13,6 +13,7 @@ import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
+import trimStart from 'lodash/trimStart'
 
 import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
 import readableType from '../../../../modules/readableType'
@@ -129,7 +130,7 @@ type State = {
 class IntegrationAutosuggest extends React.Component<Props, State> {
   constructor() {
     super()
-    this.change = debounce(this.change, 300, {
+    this.change = debounce(this.change, 200, {
       leading: false,
       trailing: true,
     })
@@ -204,8 +205,11 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   handleChange = (event, { newValue }) => {
-    this.setState({ value: newValue })
-    this.change(newValue)
+    // trim the start to enable entering space
+    // at start to open list
+    const value = trimStart(newValue)
+    this.setState({ value })
+    this.change(value)
   }
 
   renderInput = inputProps => {
