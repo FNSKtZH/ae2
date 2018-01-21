@@ -29,10 +29,10 @@
 ### Funktionale Ziele:
 
 1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaftensammlungen beschrieben werden kann. Das ermöglicht: 
-   - Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten. Wie bisher Eigenschaftensammlungen
-   -	Alle Taxonomien bleiben langfristig erhalten
-   -	Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
-   -	Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
+   - Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten.<br/>Wie bisher Eigenschaftensammlungen
+   - Alle Taxonomien bleiben langfristig erhalten
+   - Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
+   - Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
    - Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute Eigenschaftensammlungen
 2. Beziehungssammlungen werden in Eigenschaftensammlungen integriert: Es sind einfach Eigenschaftensammlungen mit Beziehungen
    - Ist einfacher zu verstehen
@@ -45,7 +45,7 @@
 ### Diese Technologien werden verwendet:
 
 - Als Datenbank [PostgreSQL](https://www.postgresql.org)
-  - Benutzer können dank [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) weiterhin eigene Datenstrukturen importieren
+  - Benutzer können dank [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) weiterhin eigene Datenstrukturen importieren (Eigenschaften-Sammlungen und Taxonomien)
   - Alle übrigen Datenstrukturen sind relational und ermöglichen damit:
     - Einfachere Verwaltung,
     - Datenauswertung
@@ -53,8 +53,8 @@
 - [GraphQL](https://github.com/facebook/graphql) in Form von [PostGraphQL](https://github.com/postgraphql/postgraphql)
   - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
   - Weniger Code = weniger Fehler<br/>
-  - Die Daten-Logik liegt in der Datenbank - wo sie hingehört<br/>
-  - GraphQL ist die kommende API-Technologie. Verglichen mit REST ist GraphQL einfach zu verstehen, extrem leistungsfähig und flexibel. Somit steht ein aussergewöhnlich benutzerfreundlicher API-Server zur Verfügung, mit dem jedermann/-frau ganz nach ihren Bedürfnissen alle Daten (ausser Benutzer-Daten) aus arteigenschaften.ch abgreifen kann. Es ist sogar möglich - die entsprechenden Benutzerrechte vorausgesetzt - die Daten mit einer beliebigen anderen Software zu bearbeiten. Das ist jederzeit direkt möglich, ohne dass an arteigenschaften.ch irgendwelche Eingriffe nötig wären
+  - Daten-Logik und Rechte-Verwaltung obliegen der Datenbank - wie es sein sollte<br/>
+  - GraphQL ist die kommende API-Technologie. Verglichen mit REST ist GraphQL einfach zu verstehen, extrem leistungsfähig und flexibel. Somit steht ein aussergewöhnlich benutzerfreundlicher API-Server zur Verfügung, mit dem jedermann/-frau ganz nach ihren Bedürfnissen alle öffentlichen Daten (ausser Benutzer-Daten) aus arteigenschaften.ch abfragen und - im Rahmen der Benutzer-Rechte - bearbeiten kann
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
 - [Apollo](https://www.apollodata.com). "React für Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQL und Apollo kümmern sich um die Bereitstellung
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
