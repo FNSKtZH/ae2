@@ -23,7 +23,7 @@ const Container = styled.div`
   display: block;
 `
 const StyledAppBar = styled(AppBar)`
-  background-color: #ef6c00 !important;
+  background-color: #e65100 !important;
   @media print {
     display: none !important;
   }
