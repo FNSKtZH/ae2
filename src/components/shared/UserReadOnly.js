@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Linkify from 'react-linkify'
 
 import appBaseUrl from '../../modules/appBaseUrl'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;
@@ -44,17 +45,19 @@ const UserReadOnly = ({ label, user }: { label: string, user: Object }) => {
   const link = `${appBaseUrl}/Benutzer/${encodeURIComponent(name)}`
 
   return (
-    <Linkify properties={linkifyProperties}>
-      <Container className="property">
-        <Label>{`${label}:`}</Label>
-        <UserContainer>
-          <StyledA href={link} target="_blank">
-            {name}
-          </StyledA>
-          <span>{` (${email})`}</span>
-        </UserContainer>
-      </Container>
-    </Linkify>
+    <ErrorBoundary>
+      <Linkify properties={linkifyProperties}>
+        <Container className="property">
+          <Label>{`${label}:`}</Label>
+          <UserContainer>
+            <StyledA href={link} target="_blank">
+              {name}
+            </StyledA>
+            <span>{` (${email})`}</span>
+          </UserContainer>
+        </Container>
+      </Linkify>
+    </ErrorBoundary>
   )
 }
 

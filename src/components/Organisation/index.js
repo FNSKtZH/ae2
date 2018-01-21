@@ -12,6 +12,7 @@ import UserReadOnly from '../shared/UserReadOnly'
 import OrgUsers from './OrgUsers'
 import TCs from './TCs'
 import PCs from './PCs'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const enhance = compose(activeNodeArrayData, orgData)
 
@@ -38,28 +39,34 @@ const Organization = ({ orgData }: { orgData: Object }) => {
   const org = get(orgData, 'organizationByName', {})
 
   return (
-    <Container>
-      <OrgContainer>
-        <PropertyReadOnly key="name" value={org.name} label="Name" />
-        <PropertyReadOnly
-          key="links"
-          value={org.links ? org.links.join(', ') : ''}
-          label="Link(s)"
-        />
-        <UserReadOnly key="contact" user={org.userByContact} label="Kontakt" />
-      </OrgContainer>
-      <StyledTabs inkBarStyle={tabInkBarStyle}>
-        <Tab label="Benutzer mit Rollen" buttonStyle={tabButtonStyle}>
-          <OrgUsers />
-        </Tab>
-        <Tab label="Taxonomien" buttonStyle={tabButtonStyle}>
-          <TCs />
-        </Tab>
-        <Tab label="Eigenschaften-Sammlungen" buttonStyle={tabButtonStyle}>
-          <PCs />
-        </Tab>
-      </StyledTabs>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <OrgContainer>
+          <PropertyReadOnly key="name" value={org.name} label="Name" />
+          <PropertyReadOnly
+            key="links"
+            value={org.links ? org.links.join(', ') : ''}
+            label="Link(s)"
+          />
+          <UserReadOnly
+            key="contact"
+            user={org.userByContact}
+            label="Kontakt"
+          />
+        </OrgContainer>
+        <StyledTabs inkBarStyle={tabInkBarStyle}>
+          <Tab label="Benutzer mit Rollen" buttonStyle={tabButtonStyle}>
+            <OrgUsers />
+          </Tab>
+          <Tab label="Taxonomien" buttonStyle={tabButtonStyle}>
+            <TCs />
+          </Tab>
+          <Tab label="Eigenschaften-Sammlungen" buttonStyle={tabButtonStyle}>
+            <PCs />
+          </Tab>
+        </StyledTabs>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

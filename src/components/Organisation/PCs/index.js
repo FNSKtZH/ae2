@@ -8,6 +8,7 @@ import compose from 'recompose/compose'
 import appBaseUrl from '../../../modules/appBaseUrl'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import pcsData from './pcsData'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;
@@ -42,22 +43,24 @@ const PCs = ({ pcsData }: { pcsData: Object }) => {
   )
 
   return (
-    <Container>
-      <List>
-        <ul>
-          {pcs.map(u => {
-            const link = `${appBaseUrl}Eigenschaften-Sammlungen/${u.id}`
-            return (
-              <li key={u.name}>
-                <StyledA href={link} target="_blank">
-                  {u.name}
-                </StyledA>
-              </li>
-            )
-          })}
-        </ul>
-      </List>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <List>
+          <ul>
+            {pcs.map(u => {
+              const link = `${appBaseUrl}Eigenschaften-Sammlungen/${u.id}`
+              return (
+                <li key={u.name}>
+                  <StyledA href={link} target="_blank">
+                    {u.name}
+                  </StyledA>
+                </li>
+              )
+            })}
+          </ul>
+        </List>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

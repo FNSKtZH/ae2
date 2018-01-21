@@ -3,6 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import Linkify from 'react-linkify'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
+
 const Container = styled.div`
   display: flex;
 `
@@ -42,12 +44,14 @@ const PropertyReadOnly = ({
   if (val === false) val = 'nein'
 
   return (
-    <Linkify properties={linkifyProperties}>
-      <Container className="property">
-        <Label>{`${label}:`}</Label>
-        <Value>{val}</Value>
-      </Container>
-    </Linkify>
+    <ErrorBoundary>
+      <Linkify properties={linkifyProperties}>
+        <Container className="property">
+          <Label>{`${label}:`}</Label>
+          <Value>{val}</Value>
+        </Container>
+      </Linkify>
+    </ErrorBoundary>
   )
 }
 

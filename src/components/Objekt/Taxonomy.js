@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import Linkify from 'react-linkify'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,29 +41,31 @@ const Taxonomy = ({ taxonomy }: { taxonomy: Object }) => {
   const organizationName = get(taxonomy, 'organizationByOrganizationId.name')
 
   return (
-    <Linkify properties={linkifyProperties}>
-      <Container>
-        {taxonomy.lastUpdated && (
-          <Row>
-            <Label>{'Stand:'}</Label>
-            <Value>{taxonomy.lastUpdated}</Value>
-          </Row>
-        )}
-        {taxonomy.links &&
-          taxonomy.links.length > 0 && (
+    <ErrorBoundary>
+      <Linkify properties={linkifyProperties}>
+        <Container>
+          {taxonomy.lastUpdated && (
             <Row>
-              <Label>{'Link:'}</Label>
-              <Value>{taxonomy.links}</Value>
+              <Label>{'Stand:'}</Label>
+              <Value>{taxonomy.lastUpdated}</Value>
             </Row>
           )}
-        {organizationName && (
-          <Row>
-            <Label>{'Organisation mit Schreibrecht:'}</Label>
-            <Value>{organizationName}</Value>
-          </Row>
-        )}
-      </Container>
-    </Linkify>
+          {taxonomy.links &&
+            taxonomy.links.length > 0 && (
+              <Row>
+                <Label>{'Link:'}</Label>
+                <Value>{taxonomy.links}</Value>
+              </Row>
+            )}
+          {organizationName && (
+            <Row>
+              <Label>{'Organisation mit Schreibrecht:'}</Label>
+              <Value>{organizationName}</Value>
+            </Row>
+          )}
+        </Container>
+      </Linkify>
+    </ErrorBoundary>
   )
 }
 

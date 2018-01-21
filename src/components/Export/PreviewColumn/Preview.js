@@ -27,6 +27,7 @@ import conv from '../../../modules/convertExportFieldName'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   .react-grid-Container {
@@ -291,53 +292,55 @@ const Preview = ({
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
 
   return (
-    <Container>
-      {rows.length > 0 && (
-        <SpreadsheetContainer>
-          <TotalDiv>{`${rows.length.toLocaleString(
-            'de-CH'
-          )} Datensätze, ${anzFelder.toLocaleString('de-CH')} ${
-            anzFelder === 1 ? 'Feld' : 'Felder'
-          }`}</TotalDiv>
-          <ReactDataGrid
-            onGridSort={(column, direction) => {
-              setSortField(column)
-              setSortDirection(direction.toLowerCase())
-            }}
-            columns={pvColumns}
-            rowGetter={i => rows[i]}
-            rowsCount={rows.length}
-            minHeight={500}
-            minColumnWidth={120}
-          />
-        </SpreadsheetContainer>
-      )}
-      {rows.length === 0 && (
-        <SpreadsheetContainer>
-          <TotalDiv>{`${objectsCount} Datensätze`}</TotalDiv>
-        </SpreadsheetContainer>
-      )}
-      {rows.length > 0 && (
-        <ButtonsContainer>
-          <StyledButton onClick={() => exportXlsx({ rows, onSetMessage })}>
-            .xlsx herunterladen
-          </StyledButton>
-          <StyledButton onClick={() => exportCsv(rows)}>
-            .csv herunterladen
-          </StyledButton>
-        </ButtonsContainer>
-      )}
-      <Snackbar
-        open={!!message}
-        message={message}
-        bodyStyle={snackbarBodyStyle}
-      />
-      <Snackbar
-        open={loading}
-        message="lade Daten..."
-        bodyStyle={snackbarBodyStyle}
-      />
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        {rows.length > 0 && (
+          <SpreadsheetContainer>
+            <TotalDiv>{`${rows.length.toLocaleString(
+              'de-CH'
+            )} Datensätze, ${anzFelder.toLocaleString('de-CH')} ${
+              anzFelder === 1 ? 'Feld' : 'Felder'
+            }`}</TotalDiv>
+            <ReactDataGrid
+              onGridSort={(column, direction) => {
+                setSortField(column)
+                setSortDirection(direction.toLowerCase())
+              }}
+              columns={pvColumns}
+              rowGetter={i => rows[i]}
+              rowsCount={rows.length}
+              minHeight={500}
+              minColumnWidth={120}
+            />
+          </SpreadsheetContainer>
+        )}
+        {rows.length === 0 && (
+          <SpreadsheetContainer>
+            <TotalDiv>{`${objectsCount} Datensätze`}</TotalDiv>
+          </SpreadsheetContainer>
+        )}
+        {rows.length > 0 && (
+          <ButtonsContainer>
+            <StyledButton onClick={() => exportXlsx({ rows, onSetMessage })}>
+              .xlsx herunterladen
+            </StyledButton>
+            <StyledButton onClick={() => exportCsv(rows)}>
+              .csv herunterladen
+            </StyledButton>
+          </ButtonsContainer>
+        )}
+        <Snackbar
+          open={!!message}
+          message={message}
+          bodyStyle={snackbarBodyStyle}
+        />
+        <Snackbar
+          open={loading}
+          message="lade Daten..."
+          bodyStyle={snackbarBodyStyle}
+        />
+      </Container>
+    </ErrorBoundary>
   )
 }
 

@@ -13,6 +13,7 @@ import get from 'lodash/get'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import loginData from '../../modules/loginData'
 import MoreMenu from './MoreMenu'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 /**
  * For unknown reason appbar does not follow display flex when
@@ -86,37 +87,39 @@ const MyAppBar = ({
   const loginLabel = username ? username : 'nicht angemeldet'
 
   return (
-    <Container>
-      <StyledAppBar position="static">
-        <Toolbar>
-          <StyledTypography type="title" color="inherit">
-            Arteigenschaften
-          </StyledTypography>
-          <StyledButton
-            data-visible={
-              !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
-            }
-            onClick={onClickColumnButtonData}
-            //className={classes.button}
-          >
-            Daten
-          </StyledButton>
-          <StyledButton
-            data-visible={url0 !== 'export'}
-            onClick={onClickColumnButtonExport}
-          >
-            Export
-          </StyledButton>
-          <StyledButton
-            data-visible={url0 !== 'login'}
-            onClick={onClickColumnButtonLogin}
-          >
-            {loginLabel}
-          </StyledButton>
-          <MoreMenu />
-        </Toolbar>
-      </StyledAppBar>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <StyledAppBar position="static">
+          <Toolbar>
+            <StyledTypography type="title" color="inherit">
+              Arteigenschaften
+            </StyledTypography>
+            <StyledButton
+              data-visible={
+                !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
+              }
+              onClick={onClickColumnButtonData}
+              //className={classes.button}
+            >
+              Daten
+            </StyledButton>
+            <StyledButton
+              data-visible={url0 !== 'export'}
+              onClick={onClickColumnButtonExport}
+            >
+              Export
+            </StyledButton>
+            <StyledButton
+              data-visible={url0 !== 'login'}
+              onClick={onClickColumnButtonLogin}
+            >
+              {loginLabel}
+            </StyledButton>
+            <MoreMenu />
+          </Toolbar>
+        </StyledAppBar>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

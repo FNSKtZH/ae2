@@ -17,6 +17,7 @@ import exportWithSynonymDataData from '../exportWithSynonymDataData'
 import HowTo from './HowTo'
 import OptionsChoosen from './OptionsChoosen'
 import Preview from './Preview'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const enhance = compose(
   withApollo,
@@ -59,11 +60,13 @@ const Filter = ({
   const objectsCount = get(exportData, 'exportObject.totalCount', 0)
 
   return (
-    <Container>
-      {objectsCount === 0 && <HowTo />}
-      <OptionsChoosen />
-      <Preview />
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        {objectsCount === 0 && <HowTo />}
+        <OptionsChoosen />
+        <Preview />
+      </Container>
+    </ErrorBoundary>
   )
 }
 

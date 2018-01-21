@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import ChooseColumn from './ChooseColumn'
 import PreviewColumn from './PreviewColumn'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const StyledReflexContainer = styled(ReflexContainer)`
   .reflex-element {
@@ -22,11 +23,15 @@ const Export = () => (
       renderOnResizeRate={50}
       renderOnResize={true}
     >
-      <ChooseColumn />
+      <ErrorBoundary>
+        <ChooseColumn />
+      </ErrorBoundary>
     </ReflexElement>
     <ReflexSplitter key="treeSplitter" />
     <ReflexElement>
-      <PreviewColumn />
+      <ErrorBoundary>
+        <PreviewColumn />
+      </ErrorBoundary>
     </ReflexElement>
   </StyledReflexContainer>
 )

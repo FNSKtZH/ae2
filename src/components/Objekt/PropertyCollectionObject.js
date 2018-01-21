@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyCollection from './ObjectPropertyCollection'
 import Relation from './Relation'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const pCOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {
@@ -54,43 +55,45 @@ const PropertyCollectionObject = ({
   const relationsTitle = `${relations.length} ${relationsTitleText}`
 
   return (
-    <Card style={pCOCardStyle}>
-      <CardHeader
-        title={pcname}
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={pCOTitleStyle}
-        style={pCOCardHeaderStyle}
-      />
-      <Card expandable={true} style={taxCardStyle}>
+    <ErrorBoundary>
+      <Card style={pCOCardStyle}>
         <CardHeader
-          title={get(pC, 'description', '')}
+          title={pcname}
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle={pCTitleStyle}
-          style={pCCardHeaderStyle}
+          titleStyle={pCOTitleStyle}
+          style={pCOCardHeaderStyle}
         />
-        <CardText expandable={true} style={pCCardTextStyle}>
-          <PropertyCollection pC={pC} />
+        <Card expandable={true} style={taxCardStyle}>
+          <CardHeader
+            title={get(pC, 'description', '')}
+            actAsExpander={true}
+            showExpandableButton={true}
+            titleStyle={pCTitleStyle}
+            style={pCCardHeaderStyle}
+          />
+          <CardText expandable={true} style={pCCardTextStyle}>
+            <PropertyCollection pC={pC} />
+          </CardText>
+        </Card>
+        <CardText expandable={true} style={pCOCardTextStyle}>
+          {propertiesArray.map(([key, value]) => (
+            <PropertyReadOnly key={key} value={value} label={key} />
+          ))}
+          {relations &&
+            relations.length > 0 && (
+              <RelationTitle>{relationsTitle}</RelationTitle>
+            )}
+          {relations.map((relation, index) => (
+            <Relation
+              key={relation.id}
+              relation={relation}
+              intermediateRelation={index < relations.length - 1}
+            />
+          ))}
         </CardText>
       </Card>
-      <CardText expandable={true} style={pCOCardTextStyle}>
-        {propertiesArray.map(([key, value]) => (
-          <PropertyReadOnly key={key} value={value} label={key} />
-        ))}
-        {relations &&
-          relations.length > 0 && (
-            <RelationTitle>{relationsTitle}</RelationTitle>
-          )}
-        {relations.map((relation, index) => (
-          <Relation
-            key={relation.id}
-            relation={relation}
-            intermediateRelation={index < relations.length - 1}
-          />
-        ))}
-      </CardText>
-    </Card>
+    </ErrorBoundary>
   )
 }
 

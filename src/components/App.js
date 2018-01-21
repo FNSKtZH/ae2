@@ -11,6 +11,7 @@ import Login from './Login'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
 import loginData from '../modules/loginData'
+import ErrorBoundary from './shared/ErrorBoundary'
 
 const Container = styled.div`
   height: 100%;
@@ -44,14 +45,16 @@ const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
   const showLogin = url0 === 'login'
 
   return (
-    <Container>
-      <Reboot />
-      <AppBar />
-      {showData && <Data />}
-      {showExport && <Export />}
-      {showLogin && <Login />}
-      {show404 && <FourOhFour />}
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <Reboot />
+        <AppBar />
+        {showData && <Data />}
+        {showExport && <Export />}
+        {showLogin && <Login />}
+        {show404 && <FourOhFour />}
+      </Container>
+    </ErrorBoundary>
   )
 }
 

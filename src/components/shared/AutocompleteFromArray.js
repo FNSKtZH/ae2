@@ -6,6 +6,8 @@ import withHandlers from 'recompose/withHandlers'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
+
 const StyledAutoComplete = styled(AutoComplete)`
   margin-bottom: -12px;
 `
@@ -101,22 +103,24 @@ const MyAutocomplete = ({
     : label
 
   return (
-    <StyledAutoComplete
-      hintText={dataSource.length === 0 ? 'lade Daten...' : ''}
-      floatingLabelText={labelText}
-      dataSource={dataSource}
-      searchText={searchTextToUse}
-      onUpdateInput={onUpdateSearchText}
-      filter={AutoComplete.caseInsensitiveFilter}
-      maxSearchResults={200}
-      onNewRequest={onNewRequest}
-      openOnFocus
-      onFocus={onFocus}
-      onBlur={onBlur}
-      menuStyle={{
-        maxHeight: `${window.innerHeight * 0.8}px`,
-      }}
-    />
+    <ErrorBoundary>
+      <StyledAutoComplete
+        hintText={dataSource.length === 0 ? 'lade Daten...' : ''}
+        floatingLabelText={labelText}
+        dataSource={dataSource}
+        searchText={searchTextToUse}
+        onUpdateInput={onUpdateSearchText}
+        filter={AutoComplete.caseInsensitiveFilter}
+        maxSearchResults={200}
+        onNewRequest={onNewRequest}
+        openOnFocus
+        onFocus={onFocus}
+        onBlur={onBlur}
+        menuStyle={{
+          maxHeight: `${window.innerHeight * 0.8}px`,
+        }}
+      />
+    </ErrorBoundary>
   )
 }
 

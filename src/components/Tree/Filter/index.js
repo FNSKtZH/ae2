@@ -13,6 +13,7 @@ import treeFilterData from './treeFilterData'
 import filterSuggestionsData from './filterSuggestionsData'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import objectUrlData from '../../../modules/objectUrlData'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 5px 16px 0 13px;
@@ -212,27 +213,29 @@ class TreeFilter extends Component {
       : dimensions.width - 29
 
     return (
-      <Container data-autosuggestwidth={autosuggestWidth}>
-        <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={() => {
-            // Autosuggest wants this function
-            // could maybe be used to indicate loading?
-            // console.log('fetch requested')
-          }}
-          onSuggestionsClearRequested={() => {
-            // need this?
-          }}
-          getSuggestionValue={suggestion => suggestion && suggestion.name}
-          onSuggestionSelected={onSuggestionSelected}
-          renderSuggestion={suggestion => <span>{suggestion.name}</span>}
-          multiSection={true}
-          renderSectionTitle={section => <strong>{section.title}</strong>}
-          getSectionSuggestions={section => section.suggestions}
-          inputProps={inputProps}
-          focusInputOnSuggestionClick={false}
-        />
-      </Container>
+      <ErrorBoundary>
+        <Container data-autosuggestwidth={autosuggestWidth}>
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={() => {
+              // Autosuggest wants this function
+              // could maybe be used to indicate loading?
+              // console.log('fetch requested')
+            }}
+            onSuggestionsClearRequested={() => {
+              // need this?
+            }}
+            getSuggestionValue={suggestion => suggestion && suggestion.name}
+            onSuggestionSelected={onSuggestionSelected}
+            renderSuggestion={suggestion => <span>{suggestion.name}</span>}
+            multiSection={true}
+            renderSectionTitle={section => <strong>{section.title}</strong>}
+            getSectionSuggestions={section => section.suggestions}
+            inputProps={inputProps}
+            focusInputOnSuggestionClick={false}
+          />
+        </Container>
+      </ErrorBoundary>
     )
   }
 }

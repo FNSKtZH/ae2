@@ -11,6 +11,7 @@ import PcoField from '../PcoField'
 import constants from '../../../../../modules/constants'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Level2Card = styled(Card)`
   margin: 10px 0;
@@ -79,61 +80,63 @@ const PcoCard = ({
   const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
 
   return (
-    <Level2Card expanded={pcoExpanded} onExpandChange={onTogglePco}>
-      <Level2CardHeader
-        title={
-          <div>
-            Eigenschaftensammlungen{pCCount > 0 && (
-              <Level2Count>{`(${pCCount} Sammlungen, ${
-                Object.keys(pcoPropertiesFields).length
-              } ${
-                Object.keys(pcoPropertiesFields).length === 1
-                  ? 'Feld'
-                  : 'Felder'
-              })`}</Level2Count>
-            )}
-          </div>
-        }
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level2CardTitleStyle}
-      />
-      <Level2CardText expandable={true}>
-        {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
-          <Level3Card key={pc}>
-            <Level3CardHeader
-              title={
-                <div>
-                  {pc}
-                  <Level3Count>{`(${
-                    pcoPropertiesByPropertyCollection[pc].length
-                  } ${
-                    pcoPropertiesByPropertyCollection[pc].length === 1
-                      ? 'Feld'
-                      : 'Felder'
-                  })`}</Level3Count>
-                </div>
-              }
-              actAsExpander={true}
-              showExpandableButton={true}
-              titleStyle={level2CardTitleStyle}
-            />
-            <Level3CardText expandable={true}>
-              <PropertiesContainer data-width={window.innerWidth - 84}>
-                {pcoPropertiesByPropertyCollection[pc].map(field => (
-                  <PcoField
-                    key={`${field.propertyName}${field.jsontype}`}
-                    pcname={field.propertyCollectionName}
-                    pname={field.propertyName}
-                    jsontype={field.jsontype}
-                  />
-                ))}
-              </PropertiesContainer>
-            </Level3CardText>
-          </Level3Card>
-        ))}
-      </Level2CardText>
-    </Level2Card>
+    <ErrorBoundary>
+      <Level2Card expanded={pcoExpanded} onExpandChange={onTogglePco}>
+        <Level2CardHeader
+          title={
+            <div>
+              Eigenschaftensammlungen{pCCount > 0 && (
+                <Level2Count>{`(${pCCount} Sammlungen, ${
+                  Object.keys(pcoPropertiesFields).length
+                } ${
+                  Object.keys(pcoPropertiesFields).length === 1
+                    ? 'Feld'
+                    : 'Felder'
+                })`}</Level2Count>
+              )}
+            </div>
+          }
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level2CardTitleStyle}
+        />
+        <Level2CardText expandable={true}>
+          {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
+            <Level3Card key={pc}>
+              <Level3CardHeader
+                title={
+                  <div>
+                    {pc}
+                    <Level3Count>{`(${
+                      pcoPropertiesByPropertyCollection[pc].length
+                    } ${
+                      pcoPropertiesByPropertyCollection[pc].length === 1
+                        ? 'Feld'
+                        : 'Felder'
+                    })`}</Level3Count>
+                  </div>
+                }
+                actAsExpander={true}
+                showExpandableButton={true}
+                titleStyle={level2CardTitleStyle}
+              />
+              <Level3CardText expandable={true}>
+                <PropertiesContainer data-width={window.innerWidth - 84}>
+                  {pcoPropertiesByPropertyCollection[pc].map(field => (
+                    <PcoField
+                      key={`${field.propertyName}${field.jsontype}`}
+                      pcname={field.propertyCollectionName}
+                      pname={field.propertyName}
+                      jsontype={field.jsontype}
+                    />
+                  ))}
+                </PropertiesContainer>
+              </Level3CardText>
+            </Level3Card>
+          ))}
+        </Level2CardText>
+      </Level2Card>
+    </ErrorBoundary>
   )
 }
 

@@ -10,6 +10,7 @@ import TaxonomyObject from './TaxonomyObject'
 import PropertyCollectionObject from './PropertyCollectionObject'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import objectData from './objectData'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 5px;
@@ -65,78 +66,80 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
   )
 
   return (
-    <Container>
-      <ScrollContainer>
-        <FirstTitle>
-          Taxonomie
-          <TaxTitleSpan>{`: ${activeObject.name}`}</TaxTitleSpan>
-        </FirstTitle>
-        <TaxonomyObject objekt={activeObject} />
-        {synonymObjects.length > 0 && (
-          <Title>
-            {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
-            <TitleSpan>
-              {synonymObjects.length > 1 ? ` (${synonymObjects.length})` : ''}
-            </TitleSpan>
-          </Title>
-        )}
-        {sortBy(synonymObjects, tO =>
-          get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
-        ).map(objekt => (
-          <TaxonomyObject key={objekt.id} objekt={objekt} showLink />
-        ))}
-        {propertyCollectionObjects.length > 0 && (
-          <Title>
-            Eigenschaften
-            <TitleSpan>{` (${propertyCollectionObjects.length} ${
-              propertyCollectionObjects.length > 1 ? 'Sammlungen' : 'Sammlung'
-            })`}</TitleSpan>
-          </Title>
-        )}
-        {sortBy(propertyCollectionObjects, pCO =>
-          get(
-            pCO,
-            'propertyCollectionByPropertyCollectionId.name',
-            '(Name fehlt)'
-          )
-        ).map((pCO, index) => (
-          <PropertyCollectionObject
-            key={`${pCO.propertyCollectionId}`}
-            pCO={pCO}
-            relations={relations.filter(
-              r => r.propertyCollectionId === pCO.propertyCollectionId
-            )}
-          />
-        ))}
-        {propertyCollectionObjectsOfSynonyms.length > 0 && (
-          <Title>
-            Eigenschaften von Synonymen
-            <TitleSpan>
-              {` (${propertyCollectionObjectsOfSynonyms.length} ${
-                propertyCollectionObjectsOfSynonyms.length > 1
-                  ? 'Sammlungen'
-                  : 'Sammlung'
-              })`}
-            </TitleSpan>
-          </Title>
-        )}
-        {sortBy(propertyCollectionObjectsOfSynonyms, pCO =>
-          get(
-            pCO,
-            'propertyCollectionByPropertyCollectionId.name',
-            '(Name fehlt)'
-          )
-        ).map((pCO, index) => (
-          <PropertyCollectionObject
-            key={`${pCO.propertyCollectionId}`}
-            pCO={pCO}
-            relations={relations.filter(
-              r => r.propertyCollectionId === pCO.propertyCollectionId
-            )}
-          />
-        ))}
-      </ScrollContainer>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <ScrollContainer>
+          <FirstTitle>
+            Taxonomie
+            <TaxTitleSpan>{`: ${activeObject.name}`}</TaxTitleSpan>
+          </FirstTitle>
+          <TaxonomyObject objekt={activeObject} />
+          {synonymObjects.length > 0 && (
+            <Title>
+              {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
+              <TitleSpan>
+                {synonymObjects.length > 1 ? ` (${synonymObjects.length})` : ''}
+              </TitleSpan>
+            </Title>
+          )}
+          {sortBy(synonymObjects, tO =>
+            get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
+          ).map(objekt => (
+            <TaxonomyObject key={objekt.id} objekt={objekt} showLink />
+          ))}
+          {propertyCollectionObjects.length > 0 && (
+            <Title>
+              Eigenschaften
+              <TitleSpan>{` (${propertyCollectionObjects.length} ${
+                propertyCollectionObjects.length > 1 ? 'Sammlungen' : 'Sammlung'
+              })`}</TitleSpan>
+            </Title>
+          )}
+          {sortBy(propertyCollectionObjects, pCO =>
+            get(
+              pCO,
+              'propertyCollectionByPropertyCollectionId.name',
+              '(Name fehlt)'
+            )
+          ).map((pCO, index) => (
+            <PropertyCollectionObject
+              key={`${pCO.propertyCollectionId}`}
+              pCO={pCO}
+              relations={relations.filter(
+                r => r.propertyCollectionId === pCO.propertyCollectionId
+              )}
+            />
+          ))}
+          {propertyCollectionObjectsOfSynonyms.length > 0 && (
+            <Title>
+              Eigenschaften von Synonymen
+              <TitleSpan>
+                {` (${propertyCollectionObjectsOfSynonyms.length} ${
+                  propertyCollectionObjectsOfSynonyms.length > 1
+                    ? 'Sammlungen'
+                    : 'Sammlung'
+                })`}
+              </TitleSpan>
+            </Title>
+          )}
+          {sortBy(propertyCollectionObjectsOfSynonyms, pCO =>
+            get(
+              pCO,
+              'propertyCollectionByPropertyCollectionId.name',
+              '(Name fehlt)'
+            )
+          ).map((pCO, index) => (
+            <PropertyCollectionObject
+              key={`${pCO.propertyCollectionId}`}
+              pCO={pCO}
+              relations={relations.filter(
+                r => r.propertyCollectionId === pCO.propertyCollectionId
+              )}
+            />
+          ))}
+        </ScrollContainer>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

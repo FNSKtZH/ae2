@@ -16,6 +16,7 @@ import AutocompleteFromArray from '../../shared/AutocompleteFromArray'
 import updateOrgUserMutation from './updateOrgUserMutation'
 import deleteOrgUserMutation from './deleteOrgUserMutation'
 import createOrgUserMutation from './createOrgUserMutation'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;
@@ -58,85 +59,87 @@ const OrgUsers = ({
     .sort()
 
   return (
-    <Container>
-      <List>
-        {sortBy(
-          orgUsers,
-          u =>
-            `${u.userByUserId ? u.userByUserId.name : 'zzzzz'}${
-              u.role ? u.role : 'zzzzz'
-            }`
-        ).map(u => (
-          <OrgUserDiv key={`${get(u, 'userByUserId.id')}/${u.role}`}>
-            <AutocompleteFromArray
-              label="Benutzer"
-              valueText={get(u, 'userByUserId.name')}
-              dataSource={userNames}
-              updatePropertyInDb={val => {
-                client.mutate({
-                  mutation: updateOrgUserMutation,
-                  variables: {
-                    nodeId: u.nodeId,
-                    organizationId: u.organizationId,
-                    userId: users.find(u => u.name === val).id,
-                    role: u.role,
-                  },
-                })
-              }}
-            />
-            <AutocompleteFromArray
-              label="Rolle"
-              valueText={u.role}
-              dataSource={roles}
-              updatePropertyInDb={role => {
-                client.mutate({
-                  mutation: updateOrgUserMutation,
-                  variables: {
-                    nodeId: u.nodeId,
-                    organizationId: u.organizationId,
-                    userId: u.userId,
-                    role,
-                  },
-                })
-              }}
-            />
-            <IconButton
-              tooltip="löschen"
-              onClick={async () => {
-                await client.mutate({
-                  mutation: deleteOrgUserMutation,
-                  variables: {
-                    id: u.id,
-                  },
-                })
-                orgUsersData.refetch()
-              }}
-            >
-              <ContentClear color={red500} />
-            </IconButton>
-          </OrgUserDiv>
-        ))}
-        <DeleteButton
-          tooltip="Neue Rolle vergeben"
-          tooltipPosition="top-right"
-          onClick={async () => {
-            await client.mutate({
-              mutation: createOrgUserMutation,
-              variables: {
-                organizationId: get(
-                  orgUsersData,
-                  'organizationByName.id',
-                  '99999999-9999-9999-9999-999999999999'
-                ),
-              },
-            })
-            orgUsersData.refetch()
-          }}
-        >
-          <ContentAdd color={red500} />
-        </DeleteButton>
-      </List>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <List>
+          {sortBy(
+            orgUsers,
+            u =>
+              `${u.userByUserId ? u.userByUserId.name : 'zzzzz'}${
+                u.role ? u.role : 'zzzzz'
+              }`
+          ).map(u => (
+            <OrgUserDiv key={`${get(u, 'userByUserId.id')}/${u.role}`}>
+              <AutocompleteFromArray
+                label="Benutzer"
+                valueText={get(u, 'userByUserId.name')}
+                dataSource={userNames}
+                updatePropertyInDb={val => {
+                  client.mutate({
+                    mutation: updateOrgUserMutation,
+                    variables: {
+                      nodeId: u.nodeId,
+                      organizationId: u.organizationId,
+                      userId: users.find(u => u.name === val).id,
+                      role: u.role,
+                    },
+                  })
+                }}
+              />
+              <AutocompleteFromArray
+                label="Rolle"
+                valueText={u.role}
+                dataSource={roles}
+                updatePropertyInDb={role => {
+                  client.mutate({
+                    mutation: updateOrgUserMutation,
+                    variables: {
+                      nodeId: u.nodeId,
+                      organizationId: u.organizationId,
+                      userId: u.userId,
+                      role,
+                    },
+                  })
+                }}
+              />
+              <IconButton
+                tooltip="löschen"
+                onClick={async () => {
+                  await client.mutate({
+                    mutation: deleteOrgUserMutation,
+                    variables: {
+                      id: u.id,
+                    },
+                  })
+                  orgUsersData.refetch()
+                }}
+              >
+                <ContentClear color={red500} />
+              </IconButton>
+            </OrgUserDiv>
+          ))}
+          <DeleteButton
+            tooltip="Neue Rolle vergeben"
+            tooltipPosition="top-right"
+            onClick={async () => {
+              await client.mutate({
+                mutation: createOrgUserMutation,
+                variables: {
+                  organizationId: get(
+                    orgUsersData,
+                    'organizationByName.id',
+                    '99999999-9999-9999-9999-999999999999'
+                  ),
+                },
+              })
+              orgUsersData.refetch()
+            }}
+          >
+            <ContentAdd color={red500} />
+          </DeleteButton>
+        </List>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

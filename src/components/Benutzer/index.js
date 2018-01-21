@@ -18,6 +18,7 @@ import PCs from './PCs'
 import TCs from './TCs'
 import updateUserMutation from './updateUserMutation'
 import updateUserMutationWithPass from './updateUserMutationWithPass'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div``
 const OrgContainer = styled.div`
@@ -155,80 +156,82 @@ class User extends Component<Props, State> {
       !!user && !!loginUsername && user.name === loginUsername
 
     return (
-      <Container>
-        <OrgContainer>
-          <FormControl
-            fullWidth
-            error={!!nameErrorText}
-            aria-describedby="name-error-text"
-          >
-            <TextField
-              name="name"
-              label="Name"
-              value={name || ''}
-              onChange={this.onChangeVal}
+      <ErrorBoundary>
+        <Container>
+          <OrgContainer>
+            <FormControl
               fullWidth
-              autoComplete="username"
-            />
-            <FormHelperText id="name-error-text">
-              {nameErrorText}
-            </FormHelperText>
-          </FormControl>
-          <FormControl
-            fullWidth
-            error={!!emailErrorText}
-            aria-describedby="email-error-text"
-          >
-            <TextField
-              name="email"
-              label="Email"
-              value={email || ''}
-              onChange={this.onChangeVal}
-              fullWidth
-              autoComplete="email"
-            />
-            <FormHelperText id="email-error-text">
-              {emailErrorText}
-            </FormHelperText>
-          </FormControl>
-          {userIsLoggedIn && (
-            <FormControl fullWidth>
+              error={!!nameErrorText}
+              aria-describedby="name-error-text"
+            >
               <TextField
-                name="passNew"
-                label="Passwort ändern"
-                type="password"
-                value={passNew || ''}
+                name="name"
+                label="Name"
+                value={name || ''}
                 onChange={this.onChangeVal}
                 fullWidth
-                autoComplete="new-password"
+                autoComplete="username"
               />
+              <FormHelperText id="name-error-text">
+                {nameErrorText}
+              </FormHelperText>
             </FormControl>
-          )}
-          <SaveButton onClick={this.onSave} disabled={!saveEnabled}>
-            Änderungen speichern
-          </SaveButton>
-        </OrgContainer>
-        <StyledTabs inkBarStyle={tabInkBarStyle}>
-          <Tab
-            label={`Rollen (${orgUsers.length})`}
-            buttonStyle={tabButtonStyle}
-          >
-            <Roles orgUsers={orgUsers} />
-          </Tab>
-          <Tab
-            label={`importierte Taxonomien (${tcs.length})`}
-            buttonStyle={tabButtonStyle}
-          >
-            <TCs userData={userData} tcs={tcs} />
-          </Tab>
-          <Tab
-            label={`importierte Eigenschaften-Sammlungen (${pcs.length})`}
-            buttonStyle={tabButtonStyle}
-          >
-            <PCs pcs={pcs} />
-          </Tab>
-        </StyledTabs>
-      </Container>
+            <FormControl
+              fullWidth
+              error={!!emailErrorText}
+              aria-describedby="email-error-text"
+            >
+              <TextField
+                name="email"
+                label="Email"
+                value={email || ''}
+                onChange={this.onChangeVal}
+                fullWidth
+                autoComplete="email"
+              />
+              <FormHelperText id="email-error-text">
+                {emailErrorText}
+              </FormHelperText>
+            </FormControl>
+            {userIsLoggedIn && (
+              <FormControl fullWidth>
+                <TextField
+                  name="passNew"
+                  label="Passwort ändern"
+                  type="password"
+                  value={passNew || ''}
+                  onChange={this.onChangeVal}
+                  fullWidth
+                  autoComplete="new-password"
+                />
+              </FormControl>
+            )}
+            <SaveButton onClick={this.onSave} disabled={!saveEnabled}>
+              Änderungen speichern
+            </SaveButton>
+          </OrgContainer>
+          <StyledTabs inkBarStyle={tabInkBarStyle}>
+            <Tab
+              label={`Rollen (${orgUsers.length})`}
+              buttonStyle={tabButtonStyle}
+            >
+              <Roles orgUsers={orgUsers} />
+            </Tab>
+            <Tab
+              label={`importierte Taxonomien (${tcs.length})`}
+              buttonStyle={tabButtonStyle}
+            >
+              <TCs userData={userData} tcs={tcs} />
+            </Tab>
+            <Tab
+              label={`importierte Eigenschaften-Sammlungen (${pcs.length})`}
+              buttonStyle={tabButtonStyle}
+            >
+              <PCs pcs={pcs} />
+            </Tab>
+          </StyledTabs>
+        </Container>
+      </ErrorBoundary>
     )
   }
 }

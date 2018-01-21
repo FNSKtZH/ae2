@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import Tree from './Tree'
 import DataType from './DataType'
+import ErrorBoundary from './shared/ErrorBoundary'
 
 const DataElement = styled(ReflexElement)`
   overflow-x: hidden !important;
@@ -12,25 +13,27 @@ const DataElement = styled(ReflexElement)`
 `
 
 const Data = () => (
-  <ReflexContainer orientation="vertical">
-    <ReflexElement
-      flex={0.35}
-      className="tree-reflex-element"
-      propagateDimensions={true}
-      renderOnResizeRate={50}
-      renderOnResize={true}
-    >
-      <Tree />
-    </ReflexElement>
-    <ReflexSplitter key="treeSplitter" />
-    <DataElement
-      propagateDimensions={true}
-      renderOnResizeRate={50}
-      renderOnResize={true}
-    >
-      <DataType />
-    </DataElement>
-  </ReflexContainer>
+  <ErrorBoundary>
+    <ReflexContainer orientation="vertical">
+      <ReflexElement
+        flex={0.35}
+        className="tree-reflex-element"
+        propagateDimensions={true}
+        renderOnResizeRate={50}
+        renderOnResize={true}
+      >
+        <Tree />
+      </ReflexElement>
+      <ReflexSplitter key="treeSplitter" />
+      <DataElement
+        propagateDimensions={true}
+        renderOnResizeRate={50}
+        renderOnResize={true}
+      >
+        <DataType />
+      </DataElement>
+    </ReflexContainer>
+  </ErrorBoundary>
 )
 
 export default Data

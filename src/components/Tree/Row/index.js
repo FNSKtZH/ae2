@@ -13,6 +13,7 @@ import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenu from './onClickContextMenu'
 import userData from '../../Benutzer/userData'
 import treeData from '../treeData'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -142,7 +143,7 @@ const Row = ({
   const level = node.url.length
 
   return (
-    <div key={key} style={style}>
+    <ErrorBoundary key={key} style={style}>
       <ContextMenuTrigger
         id={node.menuType}
         collect={collect}
@@ -177,7 +178,7 @@ const Row = ({
           <InfoSpan>{node.info || ''}</InfoSpan>
         </StyledNode>
       </ContextMenuTrigger>
-    </div>
+    </ErrorBoundary>
   )
 }
 

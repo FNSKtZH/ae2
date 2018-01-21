@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import styled from 'styled-components'
 
 import PropertyReadOnly from '../shared/PropertyReadOnly'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   border-bottom: ${props =>
@@ -31,24 +32,26 @@ const Relation = ({
     category === 'Lebensräume' ? 'Lebensraum' : `${category}-Art`
 
   return (
-    <Container data-intermediaterelation={intermediateRelation}>
-      <PropertyReadOnly
-        value={get(relation, 'objectByObjectIdRelation.name', '(kein Name)')}
-        label={rPartnerLabel}
-      />
-      {relation.relationType && (
+    <ErrorBoundary>
+      <Container data-intermediaterelation={intermediateRelation}>
         <PropertyReadOnly
-          value={relation.relationType}
-          label="Art der Beziehung"
+          value={get(relation, 'objectByObjectIdRelation.name', '(kein Name)')}
+          label={rPartnerLabel}
         />
-      )}
-      {properties &&
-        sortBy(Object.entries(properties), e => e[0])
-          .filter(([key, value]) => value || value === 0)
-          .map(([key, value]) => (
-            <PropertyReadOnly key={key} value={value} label={key} />
-          ))}
-    </Container>
+        {relation.relationType && (
+          <PropertyReadOnly
+            value={relation.relationType}
+            label="Art der Beziehung"
+          />
+        )}
+        {properties &&
+          sortBy(Object.entries(properties), e => e[0])
+            .filter(([key, value]) => value || value === 0)
+            .map(([key, value]) => (
+              <PropertyReadOnly key={key} value={value} label={key} />
+            ))}
+      </Container>
+    </ErrorBoundary>
   )
 }
 

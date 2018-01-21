@@ -8,6 +8,7 @@ import compose from 'recompose/compose'
 import appBaseUrl from '../../../modules/appBaseUrl'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import tcsData from './tcsData'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;
@@ -39,29 +40,31 @@ const TCs = ({ tcsData }: { tcsData: Object }) => {
   const taxByCategories = get(tcsData, 'categoriesOfTaxonomiesFunction.nodes')
 
   return (
-    <Container>
-      <List>
-        <ul>
-          {tcs.map(u => {
-            const taxByCategory = taxByCategories.find(
-              tbc => tbc.taxonomyId === u.id
-            )
-            const category = taxByCategory ? taxByCategory.categoryName : null
-            const link = `${appBaseUrl}/Taxonomien/${encodeURIComponent(
-              category
-            )}/${u.id}`
+    <ErrorBoundary>
+      <Container>
+        <List>
+          <ul>
+            {tcs.map(u => {
+              const taxByCategory = taxByCategories.find(
+                tbc => tbc.taxonomyId === u.id
+              )
+              const category = taxByCategory ? taxByCategory.categoryName : null
+              const link = `${appBaseUrl}/Taxonomien/${encodeURIComponent(
+                category
+              )}/${u.id}`
 
-            return (
-              <li key={u.name}>
-                <StyledA href={link} target="_blank">
-                  {u.name}
-                </StyledA>
-              </li>
-            )
-          })}
-        </ul>
-      </List>
-    </Container>
+              return (
+                <li key={u.name}>
+                  <StyledA href={link} target="_blank">
+                    {u.name}
+                  </StyledA>
+                </li>
+              )
+            })}
+          </ul>
+        </List>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

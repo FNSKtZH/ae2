@@ -8,6 +8,7 @@ import format from 'date-fns/format'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import pCData from './pCData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const enhance = compose(activeNodeArrayData, pCData)
 
@@ -25,42 +26,48 @@ const PropertyCollection = ({ pCData }: { pCData: Object }) => {
   const user = get(pC, 'userByImportedBy', '')
 
   return (
-    <Container>
-      <PropertyReadOnly key="name" value={pC.name} label="Name" />
-      <PropertyReadOnly
-        key="description"
-        value={pC.description}
-        label="Beschreibung"
-      />
-      <PropertyReadOnly
-        key="combining"
-        value={
-          pC.combining !== undefined
-            ? pC.combining
-                .toString()
-                .replace('true', 'ja')
-                .replace('false', 'nein')
-            : ''
-        }
-        label="zusammenfassend"
-      />
-      <PropertyReadOnly
-        key="lastUpdated"
-        value={format(new Date(pC.lastUpdated), 'DD.MM.YYYY')}
-        label="Zuletzt aktualisiert"
-      />
-      <PropertyReadOnly
-        key="links"
-        value={pC.links ? pC.links.join(', ') : ''}
-        label="Links"
-      />
-      <PropertyReadOnly key="org" value={org} label="Zuständige Organisation" />
-      <PropertyReadOnly
-        key="importedBy"
-        value={`${user.name} (${user.email})`}
-        label="Importiert von"
-      />
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <PropertyReadOnly key="name" value={pC.name} label="Name" />
+        <PropertyReadOnly
+          key="description"
+          value={pC.description}
+          label="Beschreibung"
+        />
+        <PropertyReadOnly
+          key="combining"
+          value={
+            pC.combining !== undefined
+              ? pC.combining
+                  .toString()
+                  .replace('true', 'ja')
+                  .replace('false', 'nein')
+              : ''
+          }
+          label="zusammenfassend"
+        />
+        <PropertyReadOnly
+          key="lastUpdated"
+          value={format(new Date(pC.lastUpdated), 'DD.MM.YYYY')}
+          label="Zuletzt aktualisiert"
+        />
+        <PropertyReadOnly
+          key="links"
+          value={pC.links ? pC.links.join(', ') : ''}
+          label="Links"
+        />
+        <PropertyReadOnly
+          key="org"
+          value={org}
+          label="Zuständige Organisation"
+        />
+        <PropertyReadOnly
+          key="importedBy"
+          value={`${user.name} (${user.email})`}
+          label="Importiert von"
+        />
+      </Container>
+    </ErrorBoundary>
   )
 }
 

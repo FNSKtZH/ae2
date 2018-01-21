@@ -11,6 +11,7 @@ import TaxField from '../../TaxField'
 import constants from '../../../../../../modules/constants'
 import propsByTaxData from '../../../propsByTaxData'
 import exportTaxonomiesData from '../../../../exportTaxonomiesData'
+import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const Level3Card = styled(Card)`
   margin: 0;
@@ -56,33 +57,35 @@ const TaxonomyCard = ({
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
 
   return (
-    <Level3Card>
-      <Level3CardHeader
-        title={
-          <div>
-            {pc}
-            <Level3Count>{`(${taxPropertiesByTaxonomy[pc].length} ${
-              taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
-            })`}</Level3Count>
-          </div>
-        }
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level2CardTitleStyle}
-      />
-      <Level3CardText expandable={true}>
-        <PropertiesContainer data-width={window.innerWidth - 84}>
-          {taxPropertiesByTaxonomy[pc].map(field => (
-            <TaxField
-              key={`${field.propertyName}${field.jsontype}`}
-              taxname={field.taxonomyName}
-              pname={field.propertyName}
-              jsontype={field.jsontype}
-            />
-          ))}
-        </PropertiesContainer>
-      </Level3CardText>
-    </Level3Card>
+    <ErrorBoundary>
+      <Level3Card>
+        <Level3CardHeader
+          title={
+            <div>
+              {pc}
+              <Level3Count>{`(${taxPropertiesByTaxonomy[pc].length} ${
+                taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
+              })`}</Level3Count>
+            </div>
+          }
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level2CardTitleStyle}
+        />
+        <Level3CardText expandable={true}>
+          <PropertiesContainer data-width={window.innerWidth - 84}>
+            {taxPropertiesByTaxonomy[pc].map(field => (
+              <TaxField
+                key={`${field.propertyName}${field.jsontype}`}
+                taxname={field.taxonomyName}
+                pname={field.propertyName}
+                jsontype={field.jsontype}
+              />
+            ))}
+          </PropertiesContainer>
+        </Level3CardText>
+      </Level3Card>
+    </ErrorBoundary>
   )
 }
 

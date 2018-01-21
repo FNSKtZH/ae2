@@ -7,6 +7,7 @@ import get from 'lodash/get'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import categoryData from './categoryData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const enhance = compose(activeNodeArrayData, categoryData)
 
@@ -22,10 +23,12 @@ const Taxonomy = ({ categoryData }: { categoryData: Object }) => {
   const category = get(categoryData, 'categoryByName', {})
 
   return (
-    <Container>
-      <PropertyReadOnly key="id" value={category.id} label="ID" />
-      <PropertyReadOnly key="name" value={category.name} label="Name" />
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <PropertyReadOnly key="id" value={category.id} label="ID" />
+        <PropertyReadOnly key="name" value={category.name} label="Name" />
+      </Container>
+    </ErrorBoundary>
   )
 }
 

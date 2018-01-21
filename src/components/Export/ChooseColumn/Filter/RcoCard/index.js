@@ -11,6 +11,7 @@ import RcoField from '../RcoField'
 import constants from '../../../../../modules/constants'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Level2Card = styled(Card)`
   margin: 10px 0;
@@ -83,61 +84,63 @@ const RcoCard = ({
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
   return (
-    <Level2Card expanded={rcoExpanded} onExpandChange={onToggleRco}>
-      <Level2CardHeader
-        title={
-          <div>
-            Beziehungssammlungen{rCCount > 0 && (
-              <Level2Count>{`(${rCCount} Sammlungen, ${
-                Object.keys(rcoPropertiesFields).length
-              } ${
-                Object.keys(rcoPropertiesFields).length === 1
-                  ? 'Feld'
-                  : 'Felder'
-              })`}</Level2Count>
-            )}
-          </div>
-        }
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level2CardTitleStyle}
-      />
-      <Level2CardText expandable={true}>
-        {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
-          <Level3Card key={pc}>
-            <Level3CardHeader
-              title={
-                <div>
-                  {pc}
-                  <Level3Count>{`(${
-                    rcoPropertiesByPropertyCollection[pc].length
-                  } ${
-                    rcoPropertiesByPropertyCollection[pc].length === 1
-                      ? 'Feld'
-                      : 'Felder'
-                  })`}</Level3Count>
-                </div>
-              }
-              actAsExpander={true}
-              showExpandableButton={true}
-              titleStyle={level2CardTitleStyle}
-            />
-            <Level3CardText expandable={true}>
-              <PropertiesContainer data-width={window.innerWidth - 84}>
-                {rcoPropertiesByPropertyCollection[pc].map(field => (
-                  <RcoField
-                    key={`${field.propertyName}${field.jsontype}`}
-                    pcname={field.propertyCollectionName}
-                    pname={field.propertyName}
-                    jsontype={field.jsontype}
-                  />
-                ))}
-              </PropertiesContainer>
-            </Level3CardText>
-          </Level3Card>
-        ))}
-      </Level2CardText>
-    </Level2Card>
+    <ErrorBoundary>
+      <Level2Card expanded={rcoExpanded} onExpandChange={onToggleRco}>
+        <Level2CardHeader
+          title={
+            <div>
+              Beziehungssammlungen{rCCount > 0 && (
+                <Level2Count>{`(${rCCount} Sammlungen, ${
+                  Object.keys(rcoPropertiesFields).length
+                } ${
+                  Object.keys(rcoPropertiesFields).length === 1
+                    ? 'Feld'
+                    : 'Felder'
+                })`}</Level2Count>
+              )}
+            </div>
+          }
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level2CardTitleStyle}
+        />
+        <Level2CardText expandable={true}>
+          {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
+            <Level3Card key={pc}>
+              <Level3CardHeader
+                title={
+                  <div>
+                    {pc}
+                    <Level3Count>{`(${
+                      rcoPropertiesByPropertyCollection[pc].length
+                    } ${
+                      rcoPropertiesByPropertyCollection[pc].length === 1
+                        ? 'Feld'
+                        : 'Felder'
+                    })`}</Level3Count>
+                  </div>
+                }
+                actAsExpander={true}
+                showExpandableButton={true}
+                titleStyle={level2CardTitleStyle}
+              />
+              <Level3CardText expandable={true}>
+                <PropertiesContainer data-width={window.innerWidth - 84}>
+                  {rcoPropertiesByPropertyCollection[pc].map(field => (
+                    <RcoField
+                      key={`${field.propertyName}${field.jsontype}`}
+                      pcname={field.propertyCollectionName}
+                      pname={field.propertyName}
+                      jsontype={field.jsontype}
+                    />
+                  ))}
+                </PropertiesContainer>
+              </Level3CardText>
+            </Level3Card>
+          ))}
+        </Level2CardText>
+      </Level2Card>
+    </ErrorBoundary>
   )
 }
 

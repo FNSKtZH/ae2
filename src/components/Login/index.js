@@ -16,6 +16,7 @@ import fetchLogin from './fetchLogin'
 import historyAfterLoginData from '../../modules/historyAfterLoginData'
 import setLoginMutation from '../../modules/loginMutation'
 import loginData from '../../modules/loginData'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.form`
   padding: 10px;
@@ -120,51 +121,57 @@ const Login = ({
   const token = get(loginData, 'login.token')
 
   return (
-    <Container>
-      {!token && (
-        <FormControl fullWidth error={!!nameErrorText}>
-          <TextField
-            label="Name"
-            defaultValue={name}
-            onBlur={onBlurName}
-            fullWidth
-            autoFocus
-            onKeyPress={e => {
-              if (e.key === 'Enter') {
-                onBlurName(e)
-              }
-            }}
-            autoComplete="username"
-          />
-          <FormHelperText id="name-error-text">{nameErrorText}</FormHelperText>
-        </FormControl>
-      )}
-      {!token && (
-        <FormControl fullWidth error={!!passErrorText}>
-          <TextField
-            label="Passwort"
-            type="password"
-            defaultValue={pass}
-            onBlur={onBlurPassword}
-            fullWidth
-            onKeyPress={e => {
-              if (e.key === 'Enter') {
-                onBlurPassword(e)
-              }
-            }}
-            autoComplete="current-password"
-          />
-          <FormHelperText id="name-error-text">{passErrorText}</FormHelperText>
-        </FormControl>
-      )}
-      {!token && <StyledButton>anmelden</StyledButton>}
-      {!!token && <StyledButton onClick={onLogout}>abmelden</StyledButton>}
-      <Snackbar
-        open={loginSuccessfull}
-        message={`Willkommen ${name}`}
-        bodyStyle={snackbarBodyStyle}
-      />
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        {!token && (
+          <FormControl fullWidth error={!!nameErrorText}>
+            <TextField
+              label="Name"
+              defaultValue={name}
+              onBlur={onBlurName}
+              fullWidth
+              autoFocus
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  onBlurName(e)
+                }
+              }}
+              autoComplete="username"
+            />
+            <FormHelperText id="name-error-text">
+              {nameErrorText}
+            </FormHelperText>
+          </FormControl>
+        )}
+        {!token && (
+          <FormControl fullWidth error={!!passErrorText}>
+            <TextField
+              label="Passwort"
+              type="password"
+              defaultValue={pass}
+              onBlur={onBlurPassword}
+              fullWidth
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  onBlurPassword(e)
+                }
+              }}
+              autoComplete="current-password"
+            />
+            <FormHelperText id="name-error-text">
+              {passErrorText}
+            </FormHelperText>
+          </FormControl>
+        )}
+        {!token && <StyledButton>anmelden</StyledButton>}
+        {!!token && <StyledButton onClick={onLogout}>abmelden</StyledButton>}
+        <Snackbar
+          open={loginSuccessfull}
+          message={`Willkommen ${name}`}
+          bodyStyle={snackbarBodyStyle}
+        />
+      </Container>
+    </ErrorBoundary>
   )
 }
 

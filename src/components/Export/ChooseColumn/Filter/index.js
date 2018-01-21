@@ -22,6 +22,7 @@ import exportWithSynonymDataData from '../../exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import exportOnlyRowsWithPropertiesData from '../../exportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -149,49 +150,51 @@ const Filter = ({
   )
 
   return (
-    <Container>
-      <HowTo />
-      <Tipps />
-      <FormGroup>
-        <Label
-          control={
-            <Checkbox
-              checked={exportWithSynonymData}
-              onChange={(event, checked) => {
-                app.client.mutate({
-                  mutation: exportWithSynonymDataMutation,
-                  variables: { value: checked },
-                })
-              }}
-            />
-          }
-          label="Informationen von Synonymen mit exportieren"
+    <ErrorBoundary>
+      <Container>
+        <HowTo />
+        <Tipps />
+        <FormGroup>
+          <Label
+            control={
+              <Checkbox
+                checked={exportWithSynonymData}
+                onChange={(event, checked) => {
+                  app.client.mutate({
+                    mutation: exportWithSynonymDataMutation,
+                    variables: { value: checked },
+                  })
+                }}
+              />
+            }
+            label="Informationen von Synonymen mit exportieren"
+          />
+          <Label
+            control={
+              <Checkbox
+                checked={exportOnlyRowsWithProperties}
+                onChange={(event, checked) => {
+                  app.client.mutate({
+                    mutation: exportOnlyRowsWithPropertiesMutation,
+                    variables: { value: checked },
+                  })
+                }}
+              />
+            }
+            label="Nur Datensätze mit Eigenschaften exportieren"
+          />
+        </FormGroup>
+        <Id />
+        <TaxonomiesCard
+          taxonomiesExpanded={taxonomiesExpanded}
+          jointTaxonomiesExpanded={jointTaxonomiesExpanded}
+          onToggleTaxonomies={onToggleTaxonomies}
+          onToggleJointTaxonomies={onToggleJointTaxonomies}
         />
-        <Label
-          control={
-            <Checkbox
-              checked={exportOnlyRowsWithProperties}
-              onChange={(event, checked) => {
-                app.client.mutate({
-                  mutation: exportOnlyRowsWithPropertiesMutation,
-                  variables: { value: checked },
-                })
-              }}
-            />
-          }
-          label="Nur Datensätze mit Eigenschaften exportieren"
-        />
-      </FormGroup>
-      <Id />
-      <TaxonomiesCard
-        taxonomiesExpanded={taxonomiesExpanded}
-        jointTaxonomiesExpanded={jointTaxonomiesExpanded}
-        onToggleTaxonomies={onToggleTaxonomies}
-        onToggleJointTaxonomies={onToggleJointTaxonomies}
-      />
-      <PcoCard pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
-      <RcoCard rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
-    </Container>
+        <PcoCard pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
+        <RcoCard rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
+      </Container>
+    </ErrorBoundary>
   )
 }
 

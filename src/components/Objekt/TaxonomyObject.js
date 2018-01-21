@@ -10,6 +10,7 @@ import PropertyReadOnly from '../shared/PropertyReadOnly'
 import Taxonomy from './Taxonomy'
 import getUrlForObject from '../../modules/getUrlForObject'
 import appBaseUrl from '../../modules/appBaseUrl'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const tOCardStyle = { margin: '10px 0' }
 const taxCardStyle = {
@@ -107,46 +108,48 @@ const TaxonomyObject = ({
   }
 
   return (
-    <Card style={tOCardStyle} initiallyExpanded>
-      <CardHeader
-        title={title}
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={tOTitleStyle}
-        style={tOCardHeaderStyle}
-      />
-      <Card expandable={true} style={taxCardStyle}>
+    <ErrorBoundary>
+      <Card style={tOCardStyle} initiallyExpanded>
         <CardHeader
-          title={get(taxonomy, 'description', '')}
+          title={title}
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle={taxTitleStyle}
-          style={taxCardHeaderStyle}
+          titleStyle={tOTitleStyle}
+          style={tOCardHeaderStyle}
         />
-        <CardText expandable={true} style={taxCardTextStyle}>
-          <Taxonomy taxonomy={taxonomy} />
+        <Card expandable={true} style={taxCardStyle}>
+          <CardHeader
+            title={get(taxonomy, 'description', '')}
+            actAsExpander={true}
+            showExpandableButton={true}
+            titleStyle={taxTitleStyle}
+            style={taxCardHeaderStyle}
+          />
+          <CardText expandable={true} style={taxCardTextStyle}>
+            <Taxonomy taxonomy={taxonomy} />
+          </CardText>
+        </Card>
+        <CardText expandable={true} style={tOCardTextStyle}>
+          <PropertyReadOnly value={objekt.id} label="ID" />
+          <PropertyReadOnly value={objekt.name} label="Name" />
+          <PropertyReadOnly value={objekt.category} label="Gruppe" />
+          {Object.entries(properties).length > 0 && (
+            <PropertiesTitleContainer>
+              <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
+              <PropertiesTitleValue />
+            </PropertiesTitleContainer>
+          )}
+          {sortBy(
+            Object.entries(properties).filter(
+              ([key, value]) => value || value === 0
+            ),
+            e => e[0]
+          ).map(([key, value]) => (
+            <PropertyReadOnly key={key} value={value} label={key} />
+          ))}
         </CardText>
       </Card>
-      <CardText expandable={true} style={tOCardTextStyle}>
-        <PropertyReadOnly value={objekt.id} label="ID" />
-        <PropertyReadOnly value={objekt.name} label="Name" />
-        <PropertyReadOnly value={objekt.category} label="Gruppe" />
-        {Object.entries(properties).length > 0 && (
-          <PropertiesTitleContainer>
-            <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
-            <PropertiesTitleValue />
-          </PropertiesTitleContainer>
-        )}
-        {sortBy(
-          Object.entries(properties).filter(
-            ([key, value]) => value || value === 0
-          ),
-          e => e[0]
-        ).map(([key, value]) => (
-          <PropertyReadOnly key={key} value={value} label={key} />
-        ))}
-      </CardText>
-    </Card>
+    </ErrorBoundary>
   )
 }
 

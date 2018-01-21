@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import Linkify from 'react-linkify'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,49 +43,51 @@ const PropertyCollection = ({ pC }: { pC: Object }) => {
   const organizationName = get(pC, 'organizationByOrganizationId.name')
 
   return (
-    <Linkify properties={linkifyProperties}>
-      <Container>
-        {pC.combining && (
-          <Row>
-            <Label>{'Zusammenfassend:'}</Label>
-            <Value>{pC.combining ? 'ja' : 'nein'}</Value>
-          </Row>
-        )}
-        {pC.lastUpdated && (
-          <Row>
-            <Label>{'Stand:'}</Label>
-            <Value>{pC.lastUpdated}</Value>
-          </Row>
-        )}
-        {pC.links &&
-          pC.links.length > 0 && (
+    <ErrorBoundary>
+      <Linkify properties={linkifyProperties}>
+        <Container>
+          {pC.combining && (
             <Row>
-              <Label>{'Link:'}</Label>
-              <Value>{pC.links}</Value>
+              <Label>{'Zusammenfassend:'}</Label>
+              <Value>{pC.combining ? 'ja' : 'nein'}</Value>
             </Row>
           )}
-        {pC.termsOfUse && (
-          <Row>
-            <Label>{'Nutzungsbedingungen:'}</Label>
-            <Value>{pC.termsOfUse}</Value>
-          </Row>
-        )}
-        {userImportedByName && (
-          <Row>
-            <Label>{'Importiert von:'}</Label>
-            <Value>{`${userImportedByName}${
-              userImportedByEmail ? ` (${userImportedByEmail})` : ``
-            }`}</Value>
-          </Row>
-        )}
-        {organizationName && (
-          <Row>
-            <Label>{'Organisation mit Schreibrecht:'}</Label>
-            <Value>{organizationName}</Value>
-          </Row>
-        )}
-      </Container>
-    </Linkify>
+          {pC.lastUpdated && (
+            <Row>
+              <Label>{'Stand:'}</Label>
+              <Value>{pC.lastUpdated}</Value>
+            </Row>
+          )}
+          {pC.links &&
+            pC.links.length > 0 && (
+              <Row>
+                <Label>{'Link:'}</Label>
+                <Value>{pC.links}</Value>
+              </Row>
+            )}
+          {pC.termsOfUse && (
+            <Row>
+              <Label>{'Nutzungsbedingungen:'}</Label>
+              <Value>{pC.termsOfUse}</Value>
+            </Row>
+          )}
+          {userImportedByName && (
+            <Row>
+              <Label>{'Importiert von:'}</Label>
+              <Value>{`${userImportedByName}${
+                userImportedByEmail ? ` (${userImportedByEmail})` : ``
+              }`}</Value>
+            </Row>
+          )}
+          {organizationName && (
+            <Row>
+              <Label>{'Organisation mit Schreibrecht:'}</Label>
+              <Value>{organizationName}</Value>
+            </Row>
+          )}
+        </Container>
+      </Linkify>
+    </ErrorBoundary>
   )
 }
 

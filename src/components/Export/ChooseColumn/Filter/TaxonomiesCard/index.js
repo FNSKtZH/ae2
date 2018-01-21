@@ -13,6 +13,7 @@ import TaxField from '../TaxField'
 import constants from '../../../../../modules/constants'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Level2Card = styled(Card)`
   margin: 10px 0;
@@ -98,59 +99,63 @@ const TaxonomiesCard = ({
   }
 
   return (
-    <Level2Card
-      expanded={taxonomiesExpanded}
-      onExpandChange={onToggleTaxonomies}
-    >
-      <Level2CardHeader
-        title={
-          <div>
-            Taxonomien{taxCount > 0 && (
-              <Level2Count>{`(${taxCount} ${
-                taxCount === 1 ? 'Taxonomie' : 'Taxonomien'
-              }, ${taxFieldsCount} ${
-                taxFieldsCount === 1 ? 'Feld' : 'Felder'
-              })`}</Level2Count>
-            )}
-          </div>
-        }
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level2CardTitleStyle}
-      />
-      <Level2CardText expandable={true}>
-        {jointTaxProperties.length > 0 && (
-          <Level3Card key="jointTax">
-            <Level3CardHeader
-              title={
-                <div>
-                  {`Gemeinsame Felder`}
-                  <Level3Count>{`(${jointTaxProperties.length})`}</Level3Count>
-                </div>
-              }
-              actAsExpander={true}
-              showExpandableButton={true}
-              titleStyle={level2CardTitleStyle}
-            />
-            <Level3CardText expandable={true}>
-              <PropertiesContainer data-width={window.innerWidth - 84}>
-                {jointTaxProperties.map(field => (
-                  <TaxField
-                    key={`${field.propertyName}${field.jsontype}`}
-                    taxname="Taxonomie"
-                    pname={field.propertyName}
-                    jsontype={field.jsontype}
-                  />
-                ))}
-              </PropertiesContainer>
-            </Level3CardText>
-          </Level3Card>
-        )}
-        {Object.keys(taxPropertiesByTaxonomy).map(pc => (
-          <TaxonomyCard pc={pc} key={pc} />
-        ))}
-      </Level2CardText>
-    </Level2Card>
+    <ErrorBoundary>
+      <Level2Card
+        expanded={taxonomiesExpanded}
+        onExpandChange={onToggleTaxonomies}
+      >
+        <Level2CardHeader
+          title={
+            <div>
+              Taxonomien{taxCount > 0 && (
+                <Level2Count>{`(${taxCount} ${
+                  taxCount === 1 ? 'Taxonomie' : 'Taxonomien'
+                }, ${taxFieldsCount} ${
+                  taxFieldsCount === 1 ? 'Feld' : 'Felder'
+                })`}</Level2Count>
+              )}
+            </div>
+          }
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level2CardTitleStyle}
+        />
+        <Level2CardText expandable={true}>
+          {jointTaxProperties.length > 0 && (
+            <Level3Card key="jointTax">
+              <Level3CardHeader
+                title={
+                  <div>
+                    {`Gemeinsame Felder`}
+                    <Level3Count>{`(${
+                      jointTaxProperties.length
+                    })`}</Level3Count>
+                  </div>
+                }
+                actAsExpander={true}
+                showExpandableButton={true}
+                titleStyle={level2CardTitleStyle}
+              />
+              <Level3CardText expandable={true}>
+                <PropertiesContainer data-width={window.innerWidth - 84}>
+                  {jointTaxProperties.map(field => (
+                    <TaxField
+                      key={`${field.propertyName}${field.jsontype}`}
+                      taxname="Taxonomie"
+                      pname={field.propertyName}
+                      jsontype={field.jsontype}
+                    />
+                  ))}
+                </PropertiesContainer>
+              </Level3CardText>
+            </Level3Card>
+          )}
+          {Object.keys(taxPropertiesByTaxonomy).map(pc => (
+            <TaxonomyCard pc={pc} key={pc} />
+          ))}
+        </Level2CardText>
+      </Level2Card>
+    </ErrorBoundary>
   )
 }
 

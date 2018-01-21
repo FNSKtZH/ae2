@@ -18,6 +18,7 @@ import exportTaxonomiesData from '../../exportTaxonomiesData'
 import propsByTaxData from '../propsByTaxData'
 import allCategoriesData from '../../../../modules/allCategoriesData'
 import taxonomiesOfCategoriesData from '../../../../modules/taxonomiesOfCategoriesData'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -220,55 +221,60 @@ const Categories = ({
   }
 
   return (
-    <Container>
-      <HowTo />
-      {categories.map(category => (
-        <CategoryContainer key={category}>
-          <CategoryLabel
-            control={
-              <Checkbox
-                name={category}
-                checked={exportCategories.includes(category)}
-                onChange={onCheckCategory}
-              />
-            }
-            label={category}
-          />
-          {exportCategories.includes(category) && (
-            <TaxContainer>
-              <TaxTitle>
-                {taxonomiesOfCategories.filter(t => t.categoryName === category)
-                  .length === 1
-                  ? 'Taxonomie:'
-                  : 'Taxonomien:'}
-              </TaxTitle>
-              <FormGroup>
-                {taxonomiesOfCategories
-                  .filter(t => t.categoryName === category)
-                  .map(tax => (
-                    <TaxonomyLabel
-                      key={tax.taxonomyName}
-                      control={
-                        <Checkbox
-                          name={tax.taxonomyName}
-                          checked={exportTaxonomies.includes(tax.taxonomyName)}
-                          onChange={onCheckTaxonomy}
-                        />
-                      }
-                      label={tax.taxonomyName}
-                    />
-                  ))}
-              </FormGroup>
-            </TaxContainer>
-          )}
-        </CategoryContainer>
-      ))}
-      <Paper style={paperStyle} zDepth={1}>
-        <PaperTextContainer>
-          <PropertyTextDiv>{textProperties}</PropertyTextDiv>
-        </PaperTextContainer>
-      </Paper>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <HowTo />
+        {categories.map(category => (
+          <CategoryContainer key={category}>
+            <CategoryLabel
+              control={
+                <Checkbox
+                  name={category}
+                  checked={exportCategories.includes(category)}
+                  onChange={onCheckCategory}
+                />
+              }
+              label={category}
+            />
+            {exportCategories.includes(category) && (
+              <TaxContainer>
+                <TaxTitle>
+                  {taxonomiesOfCategories.filter(
+                    t => t.categoryName === category
+                  ).length === 1
+                    ? 'Taxonomie:'
+                    : 'Taxonomien:'}
+                </TaxTitle>
+                <FormGroup>
+                  {taxonomiesOfCategories
+                    .filter(t => t.categoryName === category)
+                    .map(tax => (
+                      <TaxonomyLabel
+                        key={tax.taxonomyName}
+                        control={
+                          <Checkbox
+                            name={tax.taxonomyName}
+                            checked={exportTaxonomies.includes(
+                              tax.taxonomyName
+                            )}
+                            onChange={onCheckTaxonomy}
+                          />
+                        }
+                        label={tax.taxonomyName}
+                      />
+                    ))}
+                </FormGroup>
+              </TaxContainer>
+            )}
+          </CategoryContainer>
+        ))}
+        <Paper style={paperStyle} zDepth={1}>
+          <PaperTextContainer>
+            <PropertyTextDiv>{textProperties}</PropertyTextDiv>
+          </PaperTextContainer>
+        </Paper>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

@@ -19,6 +19,7 @@ import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import exportTaxFiltersData from '../exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Level1Card = styled(Card)`
   margin: 10px 0;
@@ -129,56 +130,58 @@ const Export = ({
   onToggleProperties: () => {},
   message: String,
 }) => (
-  <Container>
-    <Level1Card
-      expanded={taxonomiesExpanded}
-      onExpandChange={onToggleTaxonomies}
-    >
-      <Level1CardHeader
-        title="1. Gruppen und Taxonomien wählen"
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level1CardTitleStyle}
+  <ErrorBoundary>
+    <Container>
+      <Level1Card
+        expanded={taxonomiesExpanded}
+        onExpandChange={onToggleTaxonomies}
+      >
+        <Level1CardHeader
+          title="1. Gruppen und Taxonomien wählen"
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level1CardTitleStyle}
+        />
+        <Level1CardText expandable={true}>
+          <Categories />
+        </Level1CardText>
+      </Level1Card>
+      <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
+        <Level1CardHeader
+          title="2. filtern"
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level1CardTitleStyle}
+        />
+        <Level1CardText expandable={true}>
+          <Filter />
+        </Level1CardText>
+      </Level1Card>
+      <Level1Card
+        expanded={propertiesExpanded}
+        onExpandChange={onToggleProperties}
+      >
+        <Level1CardHeader
+          title="3. Eigenschaften wählen"
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle={level1CardTitleStyle}
+        />
+        <Level1CardText expandable={true}>
+          <Properties />
+        </Level1CardText>
+      </Level1Card>
+      <Snackbar
+        open={!!message}
+        message={message}
+        bodyStyle={{
+          maxWidth: 'auto',
+          minWidth: 'auto',
+          backgroundColor: '#2E7D32',
+        }}
       />
-      <Level1CardText expandable={true}>
-        <Categories />
-      </Level1CardText>
-    </Level1Card>
-    <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
-      <Level1CardHeader
-        title="2. filtern"
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level1CardTitleStyle}
-      />
-      <Level1CardText expandable={true}>
-        <Filter />
-      </Level1CardText>
-    </Level1Card>
-    <Level1Card
-      expanded={propertiesExpanded}
-      onExpandChange={onToggleProperties}
-    >
-      <Level1CardHeader
-        title="3. Eigenschaften wählen"
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level1CardTitleStyle}
-      />
-      <Level1CardText expandable={true}>
-        <Properties />
-      </Level1CardText>
-    </Level1Card>
-    <Snackbar
-      open={!!message}
-      message={message}
-      bodyStyle={{
-        maxWidth: 'auto',
-        minWidth: 'auto',
-        backgroundColor: '#2E7D32',
-      }}
-    />
-  </Container>
+    </Container>
+  </ErrorBoundary>
 )
 
 export default enhance(Export)
