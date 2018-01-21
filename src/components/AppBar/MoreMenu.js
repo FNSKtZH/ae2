@@ -10,7 +10,7 @@ const StyledMoreVertIcon = styled(MoreVertIcon)`
 
 const ITEM_HEIGHT = 48
 
-class LongMenu extends React.Component {
+class MoreMenu extends React.Component {
   state = {
     anchorEl: null,
   }
@@ -60,4 +60,4 @@ class LongMenu extends React.Component {
   }
 }
 
-export default LongMenu
+export default MoreMenu

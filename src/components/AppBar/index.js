@@ -1,9 +1,7 @@
 // @flow
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Button from 'material-ui-next/Button'
-import { withStyles } from 'material-ui-next/styles'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -12,7 +10,7 @@ import get from 'lodash/get'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import loginData from '../../modules/loginData'
-import More from './More'
+import MoreMenu from './MoreMenu'
 
 /**
  * For unknown reason appbar does not follow display flex when
@@ -30,26 +28,12 @@ const StyledAppBar = styled(AppBar)`
 const StyledButton = styled(Button)`
   color: rgb(255, 255, 255) !important;
   border: ${props => (props['data-visible'] ? 'none' : '1px solid !important')};
+  margin: 8px;
 `
 const MenuDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  > button {
-    padding-top: 4px !important;
-  }
 `
-const StyledMoreVertIcon = styled(MoreVertIcon)`
-  color: white !important;
-`
-const iconMenuAnchorOrigin = { horizontal: 'left', vertical: 'bottom' }
-const iconMenuTargetOrigin = { horizontal: 'left', vertical: 'top' }
-const iconMenuStyle = { paddingLeft: 10 }
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-})
 
 const enhance = compose(
   activeNodeArrayData,
@@ -70,8 +54,7 @@ const enhance = compose(
       app.history.push(`/Import/${value}`),
     ueberArteigenschaftenOnClick: () => () =>
       window.open('https://github.com/barbalex/ae2'),
-  }),
-  withStyles(styles)
+  })
 )
 
 const MyAppBar = ({
@@ -110,25 +93,23 @@ const MyAppBar = ({
                 !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
               }
               onClick={onClickColumnButtonData}
-              className={classes.button}
+              //className={classes.button}
             >
               Daten
             </StyledButton>
             <StyledButton
               data-visible={url0 !== 'export'}
               onClick={onClickColumnButtonExport}
-              className={classes.button}
             >
               Export
             </StyledButton>
             <StyledButton
               data-visible={url0 !== 'login'}
               onClick={onClickColumnButtonLogin}
-              className={classes.button}
             >
               {loginLabel}
             </StyledButton>
-            <More />
+            <MoreMenu />
           </MenuDiv>
         }
         showMenuIconButton={false}
