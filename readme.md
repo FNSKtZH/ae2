@@ -54,7 +54,7 @@
   - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
   - Weniger Code = weniger Fehler<br/>
   - Daten-Logik und Rechte-Verwaltung obliegen der Datenbank - wie es sein sollte<br/>
-  - GraphQL ist die kommende API-Technologie. Verglichen mit REST ist GraphQL einfach zu verstehen, extrem leistungsfähig und flexibel. Somit steht ein aussergewöhnlich benutzerfreundlicher API-Server zur Verfügung, mit dem jedermann/-frau ganz nach ihren Bedürfnissen alle öffentlichen Daten (ausser Benutzer-Daten) aus arteigenschaften.ch abfragen und - im Rahmen der Benutzer-Rechte - bearbeiten kann
+  - GraphQL ist die kommende API-Technologie. Verglichen mit REST ist GraphQL einfach zu verstehen, extrem leistungsfähig und flexibel. Somit steht ein aussergewöhnlich benutzerfreundlicher API-Server zur Verfügung, mit dem jedermann/-frau ganz nach ihren Bedürfnissen alle öffentlichen Daten aus arteigenschaften.ch abfragen und - im Rahmen ihrer Benutzer-Rechte - bearbeiten kann
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
 - [Apollo](https://www.apollodata.com). "React für Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQL und Apollo kümmern sich um die Bereitstellung
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
@@ -74,7 +74,9 @@
 
 - [x] Datenstruktur:<br/>![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
 - [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](/etc/import.png?raw=true "Import")
-- [x] Anwendungs-API-Server ([PostGraphQL](https://github.com/postgraphql/postgraphql))<br/>![API-Server](/etc/postgraphql.png?raw=true "API-Server")
+- [x] Anwendungs-API-Server ([PostGraphQL](https://github.com/postgraphql/postgraphql))<br/>
+  ![API-Server](/etc/postgraphql.png?raw=true "API-Server")
+  Ja, man sieht in diesem Bild ein Passwort :-( Aber es ist veraltet :-)
 - [x] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
 
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 2018. Aktueller Stand:
@@ -84,7 +86,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     - neu kann die Grenze zwischen Strukturbaum und Objekt stufenlos verschoben werden
     ![Layout & Navigation](/etc/layout.png?raw=true "Layout & Navigation")
   - [x] Struktur- und Navigationsbaum
-    - neu inklusive Gruppen, Taxonomien und Eigenschaftensammlungen
+    - neu inklusive Gruppen, Taxonomien, Eigenschaftensammlungen, Benutzer und Organisationen
     ![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
   - [x] Suche:
     - neu nach allen Gruppen und Taxonomien gleichzeitig
@@ -96,6 +98,18 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     - [x] inklusive Synonymen<br/>
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>
       ![Synonym](/etc/synonym.png?raw=true "Synonym")
+  - [x] Neu: Alle Hierarchiestufen des Taxonomie-Baums anzeigen:<br/>
+    Gruppe:<br/>
+    ![Strukturbaum: Gruppe](/etc/gruppe.png?raw=true "Strukturbaum: Gruppe")<br/>
+    Taxonomie:<br/>
+    ![Strukturbaum: Taxonomie](/etc/taxonomie.png?raw=true "Strukturbaum: Taxonomie")<br/>
+    Z.B. Klasse:<br/>
+    ![Strukturbaum: Klasse](/etc/klasse.png?raw=true "Strukturbaum: Klasse")<br/>
+    Z.B. Ordnung:<br/>
+    ![Strukturbaum: Ordnung](/etc/ordnung.png?raw=true "Strukturbaum: Ordnung")<br/>
+    Z.B. Familie:<br/>
+    ![Strukturbaum: Familie](/etc/familie.png?raw=true "Strukturbaum: Familie")<br/>
+    Diese Hierarchiestufen haben ihre eigene id und können gleich verwendet werden, wie Arten bzw. Lebensräume.
   - [x] Neu: Eigenschaften-Sammlungen anzeigen:<br/>
     Die Liste aller:<br/>
     ![Eigenschaften-Sammlungen: Liste](/etc/pcs_list.png?raw=true "Eigenschaften-Sammlungen: Liste")<br/>
