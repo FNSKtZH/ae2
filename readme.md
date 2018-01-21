@@ -39,7 +39,8 @@
    - Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
    - Vereinfacht die Datenstruktur
    - Vereinfacht Exporte und Importe
-3. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte.
+3. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte
+4. Die API stellt umfassende Funktionalitäten zur Verfügung. Externe Anwendungen können im Rahmen der Benutzerrechte alles realisieren, was mit den zugrundeliegenden Daten möglich ist
 
 ### Diese Technologien werden verwendet:
 
