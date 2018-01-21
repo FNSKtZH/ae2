@@ -1,9 +1,6 @@
 // @flow
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
-import IconButton from 'material-ui/IconButton/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
@@ -13,8 +10,9 @@ import withHandlers from 'recompose/withHandlers'
 import app from 'ampersand-app'
 import get from 'lodash/get'
 
-import activeNodeArrayData from '../modules/activeNodeArrayData'
-import loginData from '../modules/loginData'
+import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import loginData from '../../modules/loginData'
+import More from './More'
 
 /**
  * For unknown reason appbar does not follow display flex when
@@ -130,21 +128,7 @@ const MyAppBar = ({
             >
               {loginLabel}
             </StyledButton>
-            <IconMenu
-              iconButtonElement={
-                <IconButton>
-                  <StyledMoreVertIcon />
-                </IconButton>
-              }
-              anchorOrigin={iconMenuAnchorOrigin}
-              targetOrigin={iconMenuTargetOrigin}
-              style={iconMenuStyle}
-            >
-              <MenuItem
-                primaryText="über arteigenschaften.ch"
-                onClick={ueberArteigenschaftenOnClick}
-              />
-            </IconMenu>
+            <More />
           </MenuDiv>
         }
         showMenuIconButton={false}
