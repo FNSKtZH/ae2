@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
-import AppBar from 'material-ui/AppBar'
+import AppBar from 'material-ui-next/AppBar'
+import Toolbar from 'material-ui-next/Toolbar'
+import Typography from 'material-ui-next/Typography'
 import Button from 'material-ui-next/Button'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -21,18 +23,19 @@ const Container = styled.div`
   display: block;
 `
 const StyledAppBar = styled(AppBar)`
+  background-color: #ef6c00 !important;
   @media print {
     display: none !important;
   }
+`
+const StyledTypography = styled(Typography)`
+  flex: 1;
+  color: white !important;
 `
 const StyledButton = styled(Button)`
   color: rgb(255, 255, 255) !important;
   border: ${props => (props['data-visible'] ? 'none' : '1px solid !important')};
   margin: 8px;
-`
-const MenuDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
 `
 
 const enhance = compose(
@@ -84,36 +87,35 @@ const MyAppBar = ({
 
   return (
     <Container>
-      <StyledAppBar
-        title="Arteigenschaften"
-        iconElementRight={
-          <MenuDiv>
-            <StyledButton
-              data-visible={
-                !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
-              }
-              onClick={onClickColumnButtonData}
-              //className={classes.button}
-            >
-              Daten
-            </StyledButton>
-            <StyledButton
-              data-visible={url0 !== 'export'}
-              onClick={onClickColumnButtonExport}
-            >
-              Export
-            </StyledButton>
-            <StyledButton
-              data-visible={url0 !== 'login'}
-              onClick={onClickColumnButtonLogin}
-            >
-              {loginLabel}
-            </StyledButton>
-            <MoreMenu />
-          </MenuDiv>
-        }
-        showMenuIconButton={false}
-      />
+      <StyledAppBar position="static">
+        <Toolbar>
+          <StyledTypography type="title" color="inherit">
+            Arteigenschaften
+          </StyledTypography>
+          <StyledButton
+            data-visible={
+              !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
+            }
+            onClick={onClickColumnButtonData}
+            //className={classes.button}
+          >
+            Daten
+          </StyledButton>
+          <StyledButton
+            data-visible={url0 !== 'export'}
+            onClick={onClickColumnButtonExport}
+          >
+            Export
+          </StyledButton>
+          <StyledButton
+            data-visible={url0 !== 'login'}
+            onClick={onClickColumnButtonLogin}
+          >
+            {loginLabel}
+          </StyledButton>
+          <MoreMenu />
+        </Toolbar>
+      </StyledAppBar>
     </Container>
   )
 }

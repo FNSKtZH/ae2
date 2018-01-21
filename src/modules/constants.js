@@ -1,5 +1,5 @@
 // @flow
 export default {
-  appBarHeight: 55,
+  appBarHeight: 63,
   export: { properties: { columnWidth: 400 }, maxFields: 35 },
 }
