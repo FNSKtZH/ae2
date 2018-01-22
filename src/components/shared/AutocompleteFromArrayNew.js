@@ -115,7 +115,6 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     super(props)
     this.state = {
       suggestions: [],
-      values: [],
       value: props.value || '',
     }
   }
@@ -174,6 +173,10 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
           ...other,
         }}
         onBlur={this.handleBlur}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck="false"
       />
     )
   }
