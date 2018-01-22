@@ -19,6 +19,7 @@ const OrgUserDiv = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
+  width: 100%;
 `
 
 const enhance = compose(withApollo, activeNodeArrayData)

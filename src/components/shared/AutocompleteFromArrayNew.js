@@ -19,6 +19,9 @@ const StyledPaper = styled(Paper)`
     overflow: inherit;
   }
 `
+const StyledAutosuggest = styled(Autosuggest)`
+  height: auto;
+`
 const StyledTextField = styled(TextField)`
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
@@ -71,7 +74,7 @@ const styles = theme => ({
   container: {
     flexGrow: 1,
     position: 'relative',
-    height: 200,
+    paddingTop: '12px',
   },
   suggestionsContainerOpen: {
     position: 'absolute',
@@ -180,7 +183,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     const { suggestions } = this.state
 
     return (
-      <Autosuggest
+      <StyledAutosuggest
         theme={{
           container: classes.container,
           suggestionsContainerOpen: classes.suggestionsContainerOpen,
