@@ -18,7 +18,7 @@ import OrgUser from './OrgUser'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 5px;
 `
 const AddNewButton = styled(IconButton)`
   top: 10px !important;
