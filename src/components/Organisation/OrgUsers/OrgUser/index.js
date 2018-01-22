@@ -9,7 +9,7 @@ import ContentClear from 'material-ui/svg-icons/content/clear'
 import { red500 } from 'material-ui/styles/colors'
 
 import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
-import AutocompleteFromArrayNew from '../../../shared/AutocompleteFromArrayNew'
+import AutocompleteFromArray from '../../../shared/AutocompleteFromArray'
 import updateOrgUserMutation from '../updateOrgUserMutation'
 import deleteOrgUserMutation from '../deleteOrgUserMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
@@ -60,7 +60,7 @@ class OrgUser extends React.Component<Props, State> {
     return (
       <ErrorBoundary>
         <OrgUserDiv>
-          <AutocompleteFromArrayNew
+          <AutocompleteFromArray
             label="Benutzer"
             value={userName}
             values={userNames}
@@ -86,7 +86,7 @@ class OrgUser extends React.Component<Props, State> {
               }
             }}
           />
-          <AutocompleteFromArrayNew
+          <AutocompleteFromArray
             label="Rolle"
             value={this.state.role}
             values={roles}
