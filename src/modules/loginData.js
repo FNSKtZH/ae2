@@ -1,8 +1,18 @@
 // @flow
 import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import loginGql from './loginGql'
-
-export default graphql(loginGql, {
-  name: 'loginData',
-})
+export default graphql(
+  gql`
+    query loginQuery {
+      login @client {
+        token
+        role
+        username
+      }
+    }
+  `,
+  {
+    name: 'loginData',
+  }
+)
