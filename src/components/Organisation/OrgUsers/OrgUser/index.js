@@ -82,6 +82,7 @@ const OrgUsers = ({
         <IconButton
           tooltip="löschen"
           onClick={() => {
+            console.log('orgUser to delete:', orgUser)
             client.mutate({
               mutation: deleteOrgUserMutation,
               variables: {
