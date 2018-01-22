@@ -38,6 +38,7 @@ const OrgUsers = ({
     'organizationByName.organizationUsersByOrganizationId.nodes',
     []
   )
+  console.log('OrgUsers: orgUsers:', orgUsers)
   const orgUserSorted = sortBy(
     orgUsers,
     orgUser =>
