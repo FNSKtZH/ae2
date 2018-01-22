@@ -38,11 +38,6 @@ const OrgUsers = ({
     .map(role => role.name)
     .sort()
   const userName = get(orgUser, 'userByUserId.name')
-  /**
-   * TODO: use state
-   * initiate at componentDidMount
-   * when mutating, use state values
-   */
 
   return (
     <ErrorBoundary>
