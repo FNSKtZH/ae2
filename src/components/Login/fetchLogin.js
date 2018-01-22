@@ -72,6 +72,7 @@ export default async ({
   if (jwtToken) {
     const tokenDecoded = jwtDecode(jwtToken)
     const { role, username } = tokenDecoded
+    console.log('tokenDecoded:', tokenDecoded)
     // refresh currentUser in idb
     await app.idb.users.clear()
     await app.idb.users.put({

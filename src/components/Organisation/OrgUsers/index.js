@@ -57,6 +57,11 @@ const OrgUsers = ({
   const roles = get(orgUsersData, 'allRoles.nodes', [])
     .map(u => u.name)
     .sort()
+  /**
+   * TODO: use state
+   * initiate at componentDidMount
+   * when mutating, use state values
+   */
 
   return (
     <ErrorBoundary>
@@ -75,15 +80,17 @@ const OrgUsers = ({
                 valueText={get(u, 'userByUserId.name')}
                 dataSource={userNames}
                 updatePropertyInDb={val => {
+                  const userId = users.find(u => u.name === val).id
                   client.mutate({
                     mutation: updateOrgUserMutation,
                     variables: {
                       nodeId: u.nodeId,
                       organizationId: u.organizationId,
-                      userId: users.find(u => u.name === val).id,
+                      userId,
                       role: u.role,
                     },
                   })
+                  orgUsersData.refetch()
                 }}
               />
               <AutocompleteFromArray
@@ -111,7 +118,6 @@ const OrgUsers = ({
                       id: u.id,
                     },
                   })
-                  orgUsersData.refetch()
                 }}
               >
                 <ContentClear color={red500} />
