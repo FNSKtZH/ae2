@@ -27,6 +27,7 @@ const enhance = compose(withApollo, activeNodeArrayData)
 type Props = {
   orgUser: Object,
   orgUsersData: Object,
+  orgData: Object,
   client: Object,
 }
 
@@ -46,7 +47,7 @@ class OrgUser extends React.Component<Props, State> {
   }
 
   render() {
-    const { orgUser, orgUsersData, client } = this.props
+    const { orgUser, orgUsersData, orgData, client } = this.props
     // console.log('OrgUser: orgUser:', orgUser)
     const users = get(orgUsersData, 'allUsers.nodes', [])
     const user = users.find(user => user.id === this.state.userId)
@@ -111,15 +112,15 @@ class OrgUser extends React.Component<Props, State> {
           />
           <IconButton
             tooltip="löschen"
-            onClick={() => {
-              console.log('orgUser to delete:', orgUser)
+            onClick={async () => {
               client.mutate({
                 mutation: deleteOrgUserMutation,
                 variables: {
                   id: orgUser.id,
                 },
               })
-              orgUsersData.refetch()
+              await orgData.refetch()
+              await orgUsersData.refetch()
             }}
           >
             <ContentClear color={red500} />

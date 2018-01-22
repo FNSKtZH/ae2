@@ -27,9 +27,11 @@ const AddNewButton = styled(IconButton)`
 const enhance = compose(withApollo, activeNodeArrayData, orgUsersData)
 
 const OrgUsers = ({
+  orgData,
   orgUsersData,
   client,
 }: {
+  orgData: Object,
   orgUsersData: Object,
   client: Object,
 }) => {
@@ -38,7 +40,6 @@ const OrgUsers = ({
     'organizationByName.organizationUsersByOrganizationId.nodes',
     []
   )
-  console.log('OrgUsers: orgUsers:', orgUsers)
   const orgUserSorted = sortBy(
     orgUsers,
     orgUser =>
@@ -51,11 +52,6 @@ const OrgUsers = ({
     'organizationByName.id',
     '99999999-9999-9999-9999-999999999999'
   )
-  /**
-   * TODO: use state
-   * initiate at componentDidMount
-   * when mutating, use state values
-   */
 
   return (
     <ErrorBoundary>
@@ -64,6 +60,7 @@ const OrgUsers = ({
           <OrgUser
             orgUser={orgUser}
             orgUsersData={orgUsersData}
+            orgData={orgData}
             key={`${orgUser.id}/${orgUser.role}`}
           />
         ))}

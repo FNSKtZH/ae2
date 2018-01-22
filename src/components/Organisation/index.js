@@ -56,7 +56,7 @@ const Organization = ({ orgData }: { orgData: Object }) => {
         </OrgContainer>
         <StyledTabs inkBarStyle={tabInkBarStyle}>
           <Tab label="Benutzer mit Rollen" buttonStyle={tabButtonStyle}>
-            <OrgUsers key={org.id} />
+            <OrgUsers key={org.id} orgData={orgData} />
           </Tab>
           <Tab label="Taxonomien" buttonStyle={tabButtonStyle}>
             <TCs />

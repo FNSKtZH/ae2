@@ -150,10 +150,8 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   handleBlur = event => {
     const { value } = this.state
     const { values, updatePropertyInDb } = this.props
-    console.log('handleBlur, value:', value)
     // check if value is in values
     if (values.includes(value)) {
-      console.log('write value to db:', value)
       return updatePropertyInDb(value)
     }
     this.setState({ value: '' })
