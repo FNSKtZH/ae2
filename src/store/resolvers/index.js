@@ -13,6 +13,7 @@ import exportRcoProperties from './exportRcoProperties'
 import exportTooManyProperties from './exportTooManyProperties'
 import exportWithSynonymData from './exportWithSynonymData'
 import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
+import editingTaxonomies from './editingTaxonomies'
 import historyAfterLogin from './historyAfterLogin'
 
 export default merge(
@@ -27,6 +28,7 @@ export default merge(
   exportRcoProperties,
   exportTooManyProperties,
   exportWithSynonymData,
+  editingTaxonomies,
   exportOnlyRowsWithProperties,
   historyAfterLogin
 )

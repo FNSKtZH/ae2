@@ -1,7 +1,19 @@
 // @flow
+/**
+ * TODO editing
+ * first upgrade card to material v1
+ * if user is logged in and is orgAdmin or orgTaxonomyWriter
+ * show editing symbol
+ * if user klicks it, toggle store > editingTaxonomies
+ */
 import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
-import FontIcon from 'material-ui/FontIcon'
+import Card, { CardActions, CardContent } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
+import Icon from 'material-ui-next/Icon'
+import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
@@ -12,23 +24,41 @@ import getUrlForObject from '../../modules/getUrlForObject'
 import appBaseUrl from '../../modules/appBaseUrl'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
-const tOCardStyle = { margin: '10px 0' }
-const taxCardStyle = {
-  backgroundColor: '#FFE0B2',
-}
-const tOTitleStyle = { fontWeight: 'bold' }
-const taxTitleStyle = { fontWeight: 'normal' }
-const tOCardHeaderStyle = { backgroundColor: '#FFCC80' }
-const taxCardHeaderStyle = {
-  backgroundColor: '#FFE0B2',
-  borderBottom: '1px solid rgba(0,0,0,0.06)',
-}
-const taxCardTextStyle = {
-  backgroundColor: '#FFE0B2',
-  padding: '10px 16px 5px 16px',
-}
-const tOCardTextStyle = { padding: '10px 16px 5px 16px', columnWidth: '500px' }
-
+const StyledCard = styled(Card)`
+  margin: 10px 0;
+  background-color: #fff3e0 !important;
+`
+const StyledCard2 = styled(Card)`
+  margin: 10px 0;
+  background-color: #ffe0b2 !important;
+  margin-top: 0 !important;
+`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
+  background-color: #ffcc80 !important;
+`
+const StyledCardActions2 = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
+  background-color: #ffe0b2 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+`
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardActionTitle = styled.div`
+  padding-left: 8px;
+  font-weight: bold;
+`
+const CardActionTitle2 = styled.div`
+  padding-left: 8px;
+`
+const StyledCardContent = styled(CardContent)`
+  padding: 0 16px 0 0 !important;
+  margin: 5px 0;
+  column-width: 500px;
+`
 const SynonymContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -37,12 +67,13 @@ const SynonymText = styled.div``
 const SynonymLink = styled.a`
   margin-left: 5px;
 `
+/* TODO
 const SynomymLinkIcon = styled(FontIcon)`
   font-size: 17px !important;
   :hover {
     font-weight: 700;
   }
-`
+`*/
 const PropertiesTitleContainer = styled.div`
   display: flex;
   padding-top: 10px;
@@ -61,12 +92,25 @@ const PropertiesTitleValue = styled.p`
   width: 100%;
 `
 
+const enhance = compose(
+  withState('expanded', 'setExpanded', true),
+  withState('expanded2', 'setExpanded2', false)
+)
+
 const TaxonomyObject = ({
   objekt,
   showLink,
+  expanded,
+  setExpanded,
+  expanded2,
+  setExpanded2,
 }: {
   objekt: Object,
   showLink: Boolean,
+  expanded: Boolean,
+  setExpanded: () => void,
+  expanded2: Boolean,
+  setExpanded2: () => void,
 }) => {
   const taxonomy = get(objekt, 'taxonomyByTaxonomyId', {})
   let taxname = get(taxonomy, 'name', '(Name fehlt)')
@@ -99,9 +143,7 @@ const TaxonomyObject = ({
             window.open(`${appBaseUrl}/${linkUrl}`, 'target="_blank"')
           }
         >
-          <SynomymLinkIcon id="linkToSynonym" className="material-icons">
-            open_in_new
-          </SynomymLinkIcon>
+          <Icon>open_in_new</Icon>
         </SynonymLink>
       </SynonymContainer>
     )
@@ -109,48 +151,66 @@ const TaxonomyObject = ({
 
   return (
     <ErrorBoundary>
-      <Card style={tOCardStyle} initiallyExpanded>
-        <CardHeader
-          title={title}
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={tOTitleStyle}
-          style={tOCardHeaderStyle}
-        />
-        <Card expandable={true} style={taxCardStyle}>
-          <CardHeader
-            title={get(taxonomy, 'description', '')}
-            actAsExpander={true}
-            showExpandableButton={true}
-            titleStyle={taxTitleStyle}
-            style={taxCardHeaderStyle}
-          />
-          <CardText expandable={true} style={taxCardTextStyle}>
-            <Taxonomy taxonomy={taxonomy} />
-          </CardText>
-        </Card>
-        <CardText expandable={true} style={tOCardTextStyle}>
-          <PropertyReadOnly value={objekt.id} label="ID" />
-          <PropertyReadOnly value={objekt.name} label="Name" />
-          <PropertyReadOnly value={objekt.category} label="Gruppe" />
-          {Object.entries(properties).length > 0 && (
-            <PropertiesTitleContainer>
-              <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
-              <PropertiesTitleValue />
-            </PropertiesTitleContainer>
-          )}
-          {sortBy(
-            Object.entries(properties).filter(
-              ([key, value]) => value || value === 0
-            ),
-            e => e[0]
-          ).map(([key, value]) => (
-            <PropertyReadOnly key={key} value={value} label={key} />
-          ))}
-        </CardText>
-      </Card>
+      <StyledCard>
+        <StyledCardActions
+          disableActionSpacing
+          onClick={() => setExpanded(!expanded)}
+        >
+          <CardActionTitle>{title}</CardActionTitle>
+          <CardActionIconButton
+            data-expanded={expanded}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <ExpandMoreIcon />
+          </CardActionIconButton>
+        </StyledCardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <StyledCard2>
+            <StyledCardActions2
+              disableActionSpacing
+              onClick={() => setExpanded2(!expanded2)}
+            >
+              <CardActionTitle2>
+                {get(taxonomy, 'description', '')}
+              </CardActionTitle2>
+              <CardActionIconButton
+                data-expanded={expanded2}
+                aria-expanded={expanded2}
+                aria-label="Show more"
+              >
+                <ExpandMoreIcon />
+              </CardActionIconButton>
+            </StyledCardActions2>
+            <Collapse in={expanded2} timeout="auto" unmountOnExit>
+              <StyledCardContent>
+                <Taxonomy taxonomy={taxonomy} />
+              </StyledCardContent>
+            </Collapse>
+          </StyledCard2>
+          <StyledCardContent>
+            <PropertyReadOnly value={objekt.id} label="ID" />
+            <PropertyReadOnly value={objekt.name} label="Name" />
+            <PropertyReadOnly value={objekt.category} label="Gruppe" />
+            {Object.entries(properties).length > 0 && (
+              <PropertiesTitleContainer>
+                <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
+                <PropertiesTitleValue />
+              </PropertiesTitleContainer>
+            )}
+            {sortBy(
+              Object.entries(properties).filter(
+                ([key, value]) => value || value === 0
+              ),
+              e => e[0]
+            ).map(([key, value]) => (
+              <PropertyReadOnly key={key} value={value} label={key} />
+            ))}
+          </StyledCardContent>
+        </Collapse>
+      </StyledCard>
     </ErrorBoundary>
   )
 }
 
-export default TaxonomyObject
+export default enhance(TaxonomyObject)
