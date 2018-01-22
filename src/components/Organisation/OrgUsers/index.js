@@ -25,7 +25,7 @@ const List = styled.div`
   display: flex;
   flex-direction: column;
 `
-const DeleteButton = styled(IconButton)`
+const AddNewButton = styled(IconButton)`
   top: 10px !important;
 `
 
@@ -43,6 +43,18 @@ const OrgUsers = ({
     'organizationByName.organizationUsersByOrganizationId.nodes',
     []
   )
+  const orgUserSorted = sortBy(
+    orgUsers,
+    user =>
+      `${user.userByUserId ? user.userByUserId.name : 'zzzzz'}${
+        user.role ? user.role : 'zzzzz'
+      }`
+  )
+  const organizationId = get(
+    orgUsersData,
+    'organizationByName.id',
+    '99999999-9999-9999-9999-999999999999'
+  )
   /**
    * TODO: use state
    * initiate at componentDidMount
@@ -53,37 +65,24 @@ const OrgUsers = ({
     <ErrorBoundary>
       <Container>
         <List>
-          {sortBy(
-            orgUsers,
-            user =>
-              `${user.userByUserId ? user.userByUserId.name : 'zzzzz'}${
-                user.role ? user.role : 'zzzzz'
-              }`
-          ).map(user => (
-            <OrgUser
-              user={user}
-              key={`${get(user, 'userByUserId.id')}/${user.role}`}
-            />
+          {orgUserSorted.map(user => (
+            <OrgUser user={user} key={`${user.id}/${user.role}`} />
           ))}
-          <DeleteButton
+          <AddNewButton
             tooltip="Neue Rolle vergeben"
             tooltipPosition="top-right"
             onClick={async () => {
               await client.mutate({
                 mutation: createOrgUserMutation,
                 variables: {
-                  organizationId: get(
-                    orgUsersData,
-                    'organizationByName.id',
-                    '99999999-9999-9999-9999-999999999999'
-                  ),
+                  organizationId,
                 },
               })
               orgUsersData.refetch()
             }}
           >
             <ContentAdd color={red500} />
-          </DeleteButton>
+          </AddNewButton>
         </List>
       </Container>
     </ErrorBoundary>
