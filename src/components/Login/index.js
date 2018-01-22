@@ -18,7 +18,7 @@ import setLoginMutation from '../../modules/loginMutation'
 import loginData from '../../modules/loginData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
-const Container = styled.form`
+const Container = styled.div`
   padding: 10px;
 `
 const StyledButton = styled(Button)`
