@@ -1,7 +1,6 @@
 // @flow
 /**
  * TODO editing
- * first upgrade card to material v1
  * if user is logged in and is orgAdmin or orgTaxonomyWriter
  * show editing symbol
  * if user klicks it, toggle store > editingTaxonomies
