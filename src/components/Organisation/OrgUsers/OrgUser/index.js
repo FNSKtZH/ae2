@@ -63,22 +63,25 @@ class OrgUser extends React.Component<Props, State> {
             label="Benutzer"
             value={userName}
             values={userNames}
-            updatePropertyInDb={val => {
-              console.log('val:', val)
+            updatePropertyInDb={async val => {
               const user = users.find(u => u.name === val)
               if (user && user.id) {
-                this.setState({ userId: user.id })
                 const variables = {
                   nodeId: orgUser.nodeId,
                   organizationId: orgUser.organizationId,
                   userId: user.id,
                   role: this.state.role,
                 }
-                console.log('variables:', variables)
-                client.mutate({
-                  mutation: updateOrgUserMutation,
-                  variables,
-                })
+                try {
+                  await client.mutate({
+                    mutation: updateOrgUserMutation,
+                    variables,
+                  })
+                } catch (error) {
+                  console.log(error)
+                  this.setState({ userId: '' })
+                }
+                this.setState({ userId: user.id })
               }
             }}
           />
@@ -86,20 +89,23 @@ class OrgUser extends React.Component<Props, State> {
             label="Rolle"
             value={this.state.role}
             values={roles}
-            updatePropertyInDb={role => {
-              console.log('role:', role)
-              this.setState({ role })
+            updatePropertyInDb={async role => {
               const variables = {
                 nodeId: orgUser.nodeId,
                 organizationId: orgUser.organizationId,
                 userId: this.state.userId,
                 role: role,
               }
-              console.log('variables:', variables)
-              client.mutate({
-                mutation: updateOrgUserMutation,
-                variables,
-              })
+              try {
+                await client.mutate({
+                  mutation: updateOrgUserMutation,
+                  variables,
+                })
+              } catch (error) {
+                console.log(error)
+                this.setState({ role: '' })
+              }
+              this.setState({ role })
             }}
           />
           <IconButton
