@@ -18,12 +18,7 @@ import OrgUser from './OrgUser'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 10px;
-  padding-right: 10px;
-`
-const List = styled.div`
-  display: flex;
-  flex-direction: column;
+  padding: 10px;
 `
 const AddNewButton = styled(IconButton)`
   top: 10px !important;
@@ -45,9 +40,9 @@ const OrgUsers = ({
   )
   const orgUserSorted = sortBy(
     orgUsers,
-    user =>
-      `${user.userByUserId ? user.userByUserId.name : 'zzzzz'}${
-        user.role ? user.role : 'zzzzz'
+    orgUser =>
+      `${orgUser.userByUserId ? orgUser.userByUserId.name : 'zzzzz'}${
+        orgUser.role ? orgUser.role : 'zzzzz'
       }`
   )
   const organizationId = get(
@@ -64,26 +59,28 @@ const OrgUsers = ({
   return (
     <ErrorBoundary>
       <Container>
-        <List>
-          {orgUserSorted.map(user => (
-            <OrgUser user={user} key={`${user.id}/${user.role}`} />
-          ))}
-          <AddNewButton
-            tooltip="Neue Rolle vergeben"
-            tooltipPosition="top-right"
-            onClick={async () => {
-              await client.mutate({
-                mutation: createOrgUserMutation,
-                variables: {
-                  organizationId,
-                },
-              })
-              orgUsersData.refetch()
-            }}
-          >
-            <ContentAdd color={red500} />
-          </AddNewButton>
-        </List>
+        {orgUserSorted.map(orgUser => (
+          <OrgUser
+            orgUser={orgUser}
+            orgUsersData={orgUsersData}
+            key={`${orgUser.id}/${orgUser.role}`}
+          />
+        ))}
+        <AddNewButton
+          tooltip="Neue Rolle vergeben"
+          tooltipPosition="top-right"
+          onClick={async () => {
+            await client.mutate({
+              mutation: createOrgUserMutation,
+              variables: {
+                organizationId,
+              },
+            })
+            orgUsersData.refetch()
+          }}
+        >
+          <ContentAdd color={red500} />
+        </AddNewButton>
       </Container>
     </ErrorBoundary>
   )

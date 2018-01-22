@@ -9,8 +9,7 @@ import ContentClear from 'material-ui/svg-icons/content/clear'
 import { red500 } from 'material-ui/styles/colors'
 
 import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
-import orgUsersData from '../orgUsersData'
-import AutocompleteFromArray from '../../../shared/AutocompleteFromArray'
+import AutocompleteFromArrayNew from '../../../shared/AutocompleteFromArrayNew'
 import updateOrgUserMutation from '../updateOrgUserMutation'
 import deleteOrgUserMutation from '../deleteOrgUserMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
@@ -22,22 +21,23 @@ const OrgUserDiv = styled.div`
   align-items: flex-end;
 `
 
-const enhance = compose(withApollo, activeNodeArrayData, orgUsersData)
+const enhance = compose(withApollo, activeNodeArrayData)
 
 const OrgUsers = ({
-  user,
+  orgUser,
   orgUsersData,
   client,
 }: {
-  user: Object,
+  orgUser: Object,
   orgUsersData: Object,
   client: Object,
 }) => {
   const users = get(orgUsersData, 'allUsers.nodes', [])
   const userNames = users.map(u => u.name).sort()
   const roles = get(orgUsersData, 'allRoles.nodes', [])
-    .map(u => u.name)
+    .map(role => role.name)
     .sort()
+  const userName = get(orgUser, 'userByUserId.name')
   /**
    * TODO: use state
    * initiate at componentDidMount
@@ -47,49 +47,52 @@ const OrgUsers = ({
   return (
     <ErrorBoundary>
       <OrgUserDiv>
-        <AutocompleteFromArray
+        <AutocompleteFromArrayNew
           label="Benutzer"
-          valueText={get(user, 'userByUserId.name')}
-          dataSource={userNames}
+          value={userName}
+          values={userNames}
           updatePropertyInDb={val => {
-            const userId = users.find(u => u.name === val).id
-            client.mutate({
-              mutation: updateOrgUserMutation,
-              variables: {
-                nodeId: user.nodeId,
-                organizationId: user.organizationId,
-                userId,
-                role: user.role,
-              },
-            })
-            orgUsersData.refetch()
+            const user = users.find(u => u.name === val)
+            if (user && user.id) {
+              client.mutate({
+                mutation: updateOrgUserMutation,
+                variables: {
+                  nodeId: orgUser.nodeId,
+                  organizationId: orgUser.organizationId,
+                  userId: user.id,
+                  role: orgUser.role,
+                },
+              })
+              orgUsersData.refetch()
+            }
           }}
         />
-        <AutocompleteFromArray
+        <AutocompleteFromArrayNew
           label="Rolle"
-          valueText={user.role}
-          dataSource={roles}
+          value={orgUser.role}
+          values={roles}
           updatePropertyInDb={role => {
             client.mutate({
               mutation: updateOrgUserMutation,
               variables: {
-                nodeId: user.nodeId,
-                organizationId: user.organizationId,
-                userId: user.userId,
-                role,
+                nodeId: orgUser.nodeId,
+                organizationId: orgUser.organizationId,
+                userId: orgUser.userId,
+                role: role,
               },
             })
           }}
         />
         <IconButton
           tooltip="löschen"
-          onClick={async () => {
-            await client.mutate({
+          onClick={() => {
+            client.mutate({
               mutation: deleteOrgUserMutation,
               variables: {
-                id: user.id,
+                id: orgUser.id,
               },
             })
+            orgUsersData.refetch()
           }}
         >
           <ContentClear color={red500} />
