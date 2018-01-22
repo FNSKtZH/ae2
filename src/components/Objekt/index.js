@@ -21,9 +21,6 @@ const Title = styled.h3`
   margin: 15px 0 -5px 0;
   padding-left: 12px;
 `
-const TaxTitleSpan = styled.span`
-  font-weight: normal;
-`
 const TitleSpan = styled.span`
   font-weight: normal;
   font-size: small;

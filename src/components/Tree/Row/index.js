@@ -143,42 +143,44 @@ const Row = ({
   const level = node.url.length
 
   return (
-    <ErrorBoundary key={key} style={style}>
-      <ContextMenuTrigger
-        id={node.menuType}
-        collect={collect}
-        nodeId={node.id}
-        nodeLabel={node.label}
-        key={node.id}
-        onItemClick={onClickContextMenu}
-      >
-        <StyledNode
-          data-level={level}
-          data-nodeisinactivenodepath={nodeIsInActiveNodePath}
-          data-id={node.id}
-          onClick={onClickNode}
+    <div key={key} style={style}>
+      <ErrorBoundary>
+        <ContextMenuTrigger
+          id={node.menuType}
+          collect={collect}
+          nodeId={node.id}
+          nodeLabel={node.label}
+          key={node.id}
+          onItemClick={onClickContextMenu}
         >
-          {useSymbolIcon && (
-            <SymbolIcon
-              id="symbol"
-              data-nodeisinactivenodepath={nodeIsInActiveNodePath}
-              className="material-icons"
-            >
-              {symbolIcon}
-            </SymbolIcon>
-          )}
-          {useSymbolSpan && (
-            <SymbolSpan data-nodeisinactivenodepath={nodeIsInActiveNodePath}>
-              {'-'}
-            </SymbolSpan>
-          )}
-          <TextSpan data-nodeisinactivenodepath={nodeIsInActiveNodePath}>
-            {node.label}
-          </TextSpan>
-          <InfoSpan>{node.info || ''}</InfoSpan>
-        </StyledNode>
-      </ContextMenuTrigger>
-    </ErrorBoundary>
+          <StyledNode
+            data-level={level}
+            data-nodeisinactivenodepath={nodeIsInActiveNodePath}
+            data-id={node.id}
+            onClick={onClickNode}
+          >
+            {useSymbolIcon && (
+              <SymbolIcon
+                id="symbol"
+                data-nodeisinactivenodepath={nodeIsInActiveNodePath}
+                className="material-icons"
+              >
+                {symbolIcon}
+              </SymbolIcon>
+            )}
+            {useSymbolSpan && (
+              <SymbolSpan data-nodeisinactivenodepath={nodeIsInActiveNodePath}>
+                {'-'}
+              </SymbolSpan>
+            )}
+            <TextSpan data-nodeisinactivenodepath={nodeIsInActiveNodePath}>
+              {node.label}
+            </TextSpan>
+            <InfoSpan>{node.info || ''}</InfoSpan>
+          </StyledNode>
+        </ContextMenuTrigger>
+      </ErrorBoundary>
+    </div>
   )
 }
 
