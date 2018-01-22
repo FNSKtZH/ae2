@@ -12,15 +12,14 @@ import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import objectData from './objectData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
-const Container = styled.div`
-  padding: 5px;
-`
+const Container = styled.div``
 const ScrollContainer = styled.div`
   height: 100%;
   overflow: auto !important;
 `
 const Title = styled.h3`
   margin: 15px 0 -5px 0;
+  padding-left: 12px;
 `
 const TaxTitleSpan = styled.span`
   font-weight: normal;
@@ -69,10 +68,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
     <ErrorBoundary>
       <Container>
         <ScrollContainer>
-          <FirstTitle>
-            Taxonomie
-            <TaxTitleSpan>{`: ${activeObject.name}`}</TaxTitleSpan>
-          </FirstTitle>
+          <FirstTitle>Taxonomie</FirstTitle>
           <TaxonomyObject objekt={activeObject} />
           {synonymObjects.length > 0 && (
             <Title>
