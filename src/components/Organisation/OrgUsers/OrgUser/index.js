@@ -102,7 +102,8 @@ class OrgUser extends React.Component<Props, State> {
                   variables,
                 })
               } catch (error) {
-                console.log(error)
+                // TODO: surface this message
+                console.log('error.message:', error.message)
                 this.setState({ role: '' })
               }
               this.setState({ role })
