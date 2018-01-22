@@ -3,8 +3,6 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import get from 'lodash/get'
 
-import orgUsersGql from './orgUsersGql'
-
 export default graphql(
   gql`
     query orgUsersQuery($name: String!) {
