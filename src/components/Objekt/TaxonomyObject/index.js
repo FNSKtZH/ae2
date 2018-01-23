@@ -39,6 +39,7 @@ const StyledCard2 = styled(Card)`
   margin: 10px 0;
   background-color: #ffe0b2 !important;
   margin-top: 0 !important;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px !important;
 `
 const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
