@@ -166,7 +166,6 @@ const TaxonomyObject = ({
   let linkText
   if (showLink) {
     linkUrl = `${appBaseUrl}${getUrlForObject(objekt).join('/')}`
-    console.log('linkUrl:', linkUrl)
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
   }
