@@ -113,36 +113,38 @@ const Tree = ({
   }
 
   return (
-    <Container>
-      <Filter dimensions={dimensions} />
-      <AutoSizerContainer>
-        <AutoSizer>
-          {({ height, width }) => (
-            <ListContainer
-              height={height}
-              rowCount={nodes.length}
-              rowHeight={singleRowHeight}
-              rowRenderer={rowRenderer}
-              noRowsRenderer={noRowsRenderer}
-              scrollToIndex={activeNodeIndex}
-              width={width}
-              style={listContainerStyle}
-            />
-          )}
-        </AutoSizer>
-      </AutoSizerContainer>
-      <Snackbar
-        open={treeDataLoading}
-        message="lade Daten..."
-        bodyStyle={{
-          maxWidth: 'auto',
-          minWidth: 'auto',
-          backgroundColor: '#2E7D32',
-        }}
-      />
-      <CmBenutzerFolder />
-      <CmBenutzer />
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <Filter dimensions={dimensions} />
+        <AutoSizerContainer>
+          <AutoSizer>
+            {({ height, width }) => (
+              <ListContainer
+                height={height}
+                rowCount={nodes.length}
+                rowHeight={singleRowHeight}
+                rowRenderer={rowRenderer}
+                noRowsRenderer={noRowsRenderer}
+                scrollToIndex={activeNodeIndex}
+                width={width}
+                style={listContainerStyle}
+              />
+            )}
+          </AutoSizer>
+        </AutoSizerContainer>
+        <Snackbar
+          open={treeDataLoading}
+          message="lade Daten..."
+          bodyStyle={{
+            maxWidth: 'auto',
+            minWidth: 'auto',
+            backgroundColor: '#2E7D32',
+          }}
+        />
+        <CmBenutzerFolder />
+        <CmBenutzer />
+      </Container>
+    </ErrorBoundary>
   )
 }
 
