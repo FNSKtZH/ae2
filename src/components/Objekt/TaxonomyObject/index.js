@@ -2,6 +2,7 @@
 /**
  * TODO editing
  * if user is logged in and is orgAdmin or orgTaxonomyWriter
+ * and object is not synonym
  * show editing symbol
  * if user klicks it, toggle store > editingTaxonomies
  */
@@ -10,6 +11,8 @@ import Card, { CardActions, CardContent } from 'material-ui-next/Card'
 import Collapse from 'material-ui-next/transitions/Collapse'
 import IconButton from 'material-ui-next/IconButton'
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
+import EditIcon from 'material-ui-icons/Edit'
+import ViewIcon from 'material-ui-icons/Visibility'
 import Icon from 'material-ui-next/Icon'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
@@ -24,6 +27,7 @@ import appBaseUrl from '../../../modules/appBaseUrl'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import loginData from '../../../modules/loginData'
 import organizationUserData from '../../../modules/organizationUserData'
+import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 
 const StyledCard = styled(Card)`
   margin: 10px 0;
@@ -39,6 +43,9 @@ const StyledCardActions = styled(CardActions)`
   cursor: pointer;
   background-color: #ffcc80 !important;
 `
+const CardActionsButtons = styled.div`
+  display: flex;
+`
 const StyledCardActions2 = styled(CardActions)`
   justify-content: space-between;
   cursor: pointer;
@@ -47,6 +54,13 @@ const StyledCardActions2 = styled(CardActions)`
 `
 const CardActionIconButton = styled(IconButton)`
   transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardEditButton = styled(IconButton)`
+  :hover {
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.12);
+    text-decoration: none;
+  }
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -97,6 +111,7 @@ const PropertiesTitleValue = styled.p`
 const enhance = compose(
   loginData,
   organizationUserData,
+  editingTaxonomiesData,
   withState(
     'expanded',
     'setExpanded',
@@ -108,6 +123,7 @@ const enhance = compose(
 const TaxonomyObject = ({
   loginData,
   organizationUserData,
+  editingTaxonomiesData,
   objekt,
   showLink,
   expanded,
@@ -117,6 +133,7 @@ const TaxonomyObject = ({
 }: {
   loginData: Object,
   organizationUserData: Object,
+  editingTaxonomiesData: Object,
   objekt: Object,
   showLink: Boolean,
   expanded: Boolean,
@@ -131,14 +148,13 @@ const TaxonomyObject = ({
     'allOrganizationUsers.nodes',
     []
   )
+  const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
   const userRoles = organizationUsers
     .filter(oU => username === get(oU, 'userByUserId.name', ''))
     .map(oU => oU.role)
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
-  console.log('username:', username)
-  console.log('userRoles:', userRoles)
-  console.log('userIsTaxWriter:', userIsTaxWriter)
+  const userMayWrite = userIsTaxWriter && !showLink
   const taxonomy = get(objekt, 'taxonomyByTaxonomyId', {})
   let taxname = get(taxonomy, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
@@ -149,7 +165,8 @@ const TaxonomyObject = ({
   let linkUrl
   let linkText
   if (showLink) {
-    linkUrl = getUrlForObject(objekt).join('/')
+    linkUrl = `${appBaseUrl}${getUrlForObject(objekt).join('/')}`
+    console.log('linkUrl:', linkUrl)
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
   }
@@ -163,9 +180,10 @@ const TaxonomyObject = ({
           target="_blank"
           rel="noopener noreferrer"
           title={linkText}
-          onClick={event =>
-            window.open(`${appBaseUrl}/${linkUrl}`, 'target="_blank"')
-          }
+          onClick={event => {
+            event.stopPropagation()
+            window.open(linkUrl, 'target="_blank"')
+          }}
         >
           <SynonymIcon>open_in_new</SynonymIcon>
         </SynonymLink>
@@ -181,13 +199,41 @@ const TaxonomyObject = ({
           onClick={() => setExpanded(!expanded)}
         >
           <CardActionTitle>{title}</CardActionTitle>
-          <CardActionIconButton
-            data-expanded={expanded}
-            aria-expanded={expanded}
-            aria-label="Show more"
-          >
-            <ExpandMoreIcon />
-          </CardActionIconButton>
+          <CardActionsButtons>
+            {userMayWrite &&
+              editing && (
+                <CardEditButton
+                  aria-label="Daten anzeigen"
+                  title="Daten anzeigen"
+                  onClick={event => {
+                    event.stopPropagation()
+                    console.log('click')
+                  }}
+                >
+                  <ViewIcon />
+                </CardEditButton>
+              )}
+            {userMayWrite &&
+              !editing && (
+                <CardEditButton
+                  aria-label="Daten bearbeiten"
+                  title="Daten bearbeiten"
+                  onClick={event => {
+                    event.stopPropagation()
+                    console.log('click')
+                  }}
+                >
+                  <EditIcon />
+                </CardEditButton>
+              )}
+            <CardActionIconButton
+              data-expanded={expanded}
+              aria-expanded={expanded}
+              aria-label="Show more"
+            >
+              <ExpandMoreIcon />
+            </CardActionIconButton>
+          </CardActionsButtons>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <StyledCard2>
