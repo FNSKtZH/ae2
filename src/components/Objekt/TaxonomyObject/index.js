@@ -17,11 +17,11 @@ import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 
-import PropertyReadOnly from '../shared/PropertyReadOnly'
-import Taxonomy from './Taxonomy'
-import getUrlForObject from '../../modules/getUrlForObject'
-import appBaseUrl from '../../modules/appBaseUrl'
-import ErrorBoundary from '../shared/ErrorBoundary'
+import PropertyReadOnly from '../../shared/PropertyReadOnly'
+import Taxonomy from '../Taxonomy'
+import getUrlForObject from '../../../modules/getUrlForObject'
+import appBaseUrl from '../../../modules/appBaseUrl'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 10px 0;
