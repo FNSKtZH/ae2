@@ -69,9 +69,12 @@ const CardEditButton = styled(IconButton)`
 const CardActionTitle = styled.div`
   padding-left: 8px;
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
-const CardActionTitle2 = styled.div`
-  padding-left: 8px;
+const CardActionTitle2 = styled(CardActionTitle)`
+  font-weight: normal;
 `
 const StyledCardContent = styled(CardContent)`
   padding: 0 16px 0 0 !important;
@@ -173,7 +176,8 @@ const TaxonomyObject = ({
               </SynonymButton>
             )}
             {userMayWrite &&
-              editing && (
+              editing &&
+              expanded && (
                 <CardEditButton
                   aria-label="Daten anzeigen"
                   title="Daten anzeigen"
@@ -189,7 +193,8 @@ const TaxonomyObject = ({
                 </CardEditButton>
               )}
             {userMayWrite &&
-              !editing && (
+              !editing &&
+              expanded && (
                 <CardEditButton
                   aria-label="Daten bearbeiten"
                   title="Daten bearbeiten"
