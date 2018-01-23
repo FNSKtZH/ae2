@@ -30,16 +30,12 @@ const enhance = compose(
       id,
     }) => event => {
       const { value } = event.target
-      console.log('key:', key)
-      console.log('value:', value)
       const prevValue = propertiesPrevious[key]
-      console.log('prevValue:', prevValue)
       if (value !== prevValue) {
         const properties = {
           ...propertiesPrevious,
           ...{ [key]: value },
         }
-        console.log('properties:', properties)
         client.mutate({
           mutation: updatePropertyMutation,
           variables: { properties: JSON.stringify(properties), id },
