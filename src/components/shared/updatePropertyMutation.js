@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation updateProperty($properties: Object, $id: UUID!) {
+  mutation updateProperty($properties: JSON!, $id: UUID!) {
     updateObjectById(
       input: { id: $id, objectPatch: { properties: $properties } }
     ) {

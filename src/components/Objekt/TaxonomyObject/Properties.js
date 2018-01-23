@@ -91,7 +91,12 @@ const Properties = ({
       ).map(
         ([key, value]) =>
           editing ? (
-            <Property id={id} properties={properties} key={key} field={key} />
+            <Property
+              key={`${id}/${key}`}
+              id={id}
+              properties={properties}
+              field={key}
+            />
           ) : (
             <PropertyReadOnly key={key} value={value} label={key} />
           )
