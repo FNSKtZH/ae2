@@ -13,6 +13,7 @@ import IconButton from 'material-ui-next/IconButton'
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import EditIcon from 'material-ui-icons/Edit'
 import ViewIcon from 'material-ui-icons/Visibility'
+import SynonymIcon from 'material-ui-icons/OpenInNew'
 import Icon from 'material-ui-next/Icon'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
@@ -77,21 +78,11 @@ const StyledCardContent = styled(CardContent)`
   margin: 5px 0;
   column-width: 500px;
 `
-const SynonymContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-const SynonymText = styled.div``
-const SynonymLink = styled.a`
-  margin-left: 5px;
-  margin-top: 2px;
-`
-const SynonymIcon = styled(Icon)`
-  color: black;
-  font-size: 17px !important;
+const SynonymButton = styled(IconButton)`
   :hover {
     font-weight: 700;
     background-color: rgba(0, 0, 0, 0.12);
+    text-decoration: none;
   }
 `
 const PropertiesTitleContainer = styled.div`
@@ -176,26 +167,6 @@ const TaxonomyObject = ({
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
   }
-  let title = taxname
-  if (showLink) {
-    title = (
-      <SynonymContainer>
-        <SynonymText>{taxname}</SynonymText>
-        <SynonymLink
-          href={linkUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          title={linkText}
-          onClick={event => {
-            event.stopPropagation()
-            window.open(linkUrl, 'target="_blank"')
-          }}
-        >
-          <SynonymIcon>open_in_new</SynonymIcon>
-        </SynonymLink>
-      </SynonymContainer>
-    )
-  }
 
   return (
     <ErrorBoundary>
@@ -204,8 +175,20 @@ const TaxonomyObject = ({
           disableActionSpacing
           onClick={() => setExpanded(!expanded)}
         >
-          <CardActionTitle>{title}</CardActionTitle>
+          <CardActionTitle>{taxname}</CardActionTitle>
           <CardActionsButtons>
+            {showLink && (
+              <SynonymButton
+                aria-label={linkText}
+                title={linkText}
+                onClick={event => {
+                  event.stopPropagation()
+                  window.open(linkUrl, 'target="_blank"')
+                }}
+              >
+                <SynonymIcon />
+              </SynonymButton>
+            )}
             {userMayWrite &&
               editing && (
                 <CardEditButton
