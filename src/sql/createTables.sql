@@ -123,22 +123,16 @@ CREATE POLICY
   ON ae.object
   USING (true)
   WITH CHECK (
-    current_user_name() IN (
-      SELECT DISTINCT
-        cast(ae.user.name as text)
-      FROM
-        ae.organization_user
-        INNER JOIN ae.taxonomy
-          INNER JOIN ae.object
-          ON ae.taxonomy.id = ae.object.taxonomy_id
-        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
-        INNER JOIN ae.user
-        ON ae.user.id = ae.organization_user.user_id
-      WHERE
-        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
-        ae.organization_user.role IN ('orgTaxonomyWriter', 'orgAdmin')
-    )
+    taxonomy_id IN (select * from ae.current_user_writable_taxonomies)
   );
+
+-- only once:
+alter policy writer on ae.object
+USING (true)
+WITH CHECK (
+  taxonomy_id IN (select * from ae.current_user_writable_taxonomies)
+);
+
 
 -- ae.object to ae.object relationship
 -- best to add every relationship twice, see: https://stackoverflow.com/a/17128606/712005

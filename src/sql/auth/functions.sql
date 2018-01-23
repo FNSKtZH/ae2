@@ -90,6 +90,6 @@ begin
 end;
 $$ language plpgsql;
 
-create function current_user_name() returns text as $$
+create or replace function current_user_name() returns text as $$
   select nullif(current_setting('jwt.claims.username', true), '')::text;
 $$ language sql stable security definer;
