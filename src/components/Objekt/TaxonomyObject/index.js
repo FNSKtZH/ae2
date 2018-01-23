@@ -91,6 +91,7 @@ const SynonymIcon = styled(Icon)`
   font-size: 17px !important;
   :hover {
     font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.12);
   }
 `
 const PropertiesTitleContainer = styled.div`
