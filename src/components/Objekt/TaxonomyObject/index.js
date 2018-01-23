@@ -13,19 +13,18 @@ import IconButton from 'material-ui-next/IconButton'
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import EditIcon from 'material-ui-icons/Edit'
 import ViewIcon from 'material-ui-icons/Visibility'
-import SynonymIcon from 'material-ui-icons/OpenInNew'
-import Icon from 'material-ui-next/Icon'
+import SynonymIcon from 'material-ui-icons/Forward'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
+import app from 'ampersand-app'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import Taxonomy from '../Taxonomy'
 import getUrlForObject from '../../../modules/getUrlForObject'
-import appBaseUrl from '../../../modules/appBaseUrl'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import loginData from '../../../modules/loginData'
 import organizationUserData from '../../../modules/organizationUserData'
@@ -163,9 +162,9 @@ const TaxonomyObject = ({
   let linkUrl
   let linkText
   if (showLink) {
-    linkUrl = `${appBaseUrl}${getUrlForObject(objekt).join('/')}`
+    linkUrl = `/${getUrlForObject(objekt).join('/')}`
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
-    linkText = `${linkText} in neuem Tab öffnen`
+    linkText = `${linkText} öffnen`
   }
 
   return (
@@ -183,7 +182,7 @@ const TaxonomyObject = ({
                 title={linkText}
                 onClick={event => {
                   event.stopPropagation()
-                  window.open(linkUrl, 'target="_blank"')
+                  app.history.push(linkUrl)
                 }}
               >
                 <SynonymIcon />
