@@ -67,15 +67,14 @@ const SynonymContainer = styled.div`
 const SynonymText = styled.div``
 const SynonymLink = styled.a`
   margin-left: 5px;
-  color: black;
 `
-/* TODO
-const SynomymLinkIcon = styled(FontIcon)`
+const SynonymIcon = styled(Icon)`
+  color: black;
   font-size: 17px !important;
   :hover {
     font-weight: 700;
   }
-`*/
+`
 const PropertiesTitleContainer = styled.div`
   display: flex;
   padding-top: 10px;
@@ -166,7 +165,7 @@ const TaxonomyObject = ({
             window.open(`${appBaseUrl}/${linkUrl}`, 'target="_blank"')
           }
         >
-          <Icon>open_in_new</Icon>
+          <SynonymIcon>open_in_new</SynonymIcon>
         </SynonymLink>
       </SynonymContainer>
     )
