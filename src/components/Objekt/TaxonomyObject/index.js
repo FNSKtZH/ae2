@@ -67,6 +67,7 @@ const SynonymContainer = styled.div`
 const SynonymText = styled.div``
 const SynonymLink = styled.a`
   margin-left: 5px;
+  color: black;
 `
 /* TODO
 const SynomymLinkIcon = styled(FontIcon)`
