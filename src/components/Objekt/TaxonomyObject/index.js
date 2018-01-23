@@ -5,6 +5,7 @@
  * and object is not synonym
  * show editing symbol
  * if user klicks it, toggle store > editingTaxonomies
+ * edit prop: see https://stackoverflow.com/a/35349699/712005
  */
 import React from 'react'
 import Card, { CardActions, CardContent } from 'material-ui-next/Card'
@@ -23,6 +24,7 @@ import styled from 'styled-components'
 import app from 'ampersand-app'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
+import Property from '../../shared/Property'
 import Taxonomy from '../Taxonomy'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import ErrorBoundary from '../../shared/ErrorBoundary'
@@ -93,6 +95,11 @@ const PropertiesTitleLabel = styled.p`
   text-align: right;
   padding-right: 5px;
   margin: 3px 0;
+  padding: 2px;
+  color: grey;
+`
+const PropertiesTitleLabelEditing = styled.p`
+  margin: 3px 18px;
   padding: 2px;
   color: grey;
 `
@@ -258,7 +265,13 @@ const TaxonomyObject = ({
             <PropertyReadOnly value={objekt.category} label="Gruppe" />
             {Object.entries(properties).length > 0 && (
               <PropertiesTitleContainer>
-                <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
+                {editing ? (
+                  <PropertiesTitleLabelEditing>
+                    Eigenschaften:
+                  </PropertiesTitleLabelEditing>
+                ) : (
+                  <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
+                )}
                 <PropertiesTitleValue />
               </PropertiesTitleContainer>
             )}
@@ -267,9 +280,14 @@ const TaxonomyObject = ({
                 ([key, value]) => value || value === 0
               ),
               e => e[0]
-            ).map(([key, value]) => (
-              <PropertyReadOnly key={key} value={value} label={key} />
-            ))}
+            ).map(
+              ([key, value]) =>
+                editing ? (
+                  <Property properties={properties} key={key} field={key} />
+                ) : (
+                  <PropertyReadOnly key={key} value={value} label={key} />
+                )
+            )}
           </StyledCardContent>
         </Collapse>
       </StyledCard>
