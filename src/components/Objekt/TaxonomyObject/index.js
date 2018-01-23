@@ -16,6 +16,7 @@ import ViewIcon from 'material-ui-icons/Visibility'
 import Icon from 'material-ui-next/Icon'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
+import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
@@ -28,6 +29,7 @@ import ErrorBoundary from '../../shared/ErrorBoundary'
 import loginData from '../../../modules/loginData'
 import organizationUserData from '../../../modules/organizationUserData'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
+import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
 
 const StyledCard = styled(Card)`
   margin: 10px 0;
@@ -109,6 +111,7 @@ const PropertiesTitleValue = styled.p`
 `
 
 const enhance = compose(
+  withApollo,
   loginData,
   organizationUserData,
   editingTaxonomiesData,
@@ -121,6 +124,7 @@ const enhance = compose(
 )
 
 const TaxonomyObject = ({
+  client,
   loginData,
   organizationUserData,
   editingTaxonomiesData,
@@ -131,6 +135,7 @@ const TaxonomyObject = ({
   expanded2,
   setExpanded2,
 }: {
+  client: Object,
   loginData: Object,
   organizationUserData: Object,
   editingTaxonomiesData: Object,
@@ -206,7 +211,10 @@ const TaxonomyObject = ({
                   title="Daten anzeigen"
                   onClick={event => {
                     event.stopPropagation()
-                    console.log('click')
+                    client.mutate({
+                      mutation: editingTaxonomiesMutation,
+                      variables: { value: false },
+                    })
                   }}
                 >
                   <ViewIcon />
@@ -219,7 +227,10 @@ const TaxonomyObject = ({
                   title="Daten bearbeiten"
                   onClick={event => {
                     event.stopPropagation()
-                    console.log('click')
+                    client.mutate({
+                      mutation: editingTaxonomiesMutation,
+                      variables: { value: true },
+                    })
                   }}
                 >
                   <EditIcon />
