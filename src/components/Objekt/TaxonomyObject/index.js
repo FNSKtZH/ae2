@@ -22,6 +22,8 @@ import Taxonomy from '../Taxonomy'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import appBaseUrl from '../../../modules/appBaseUrl'
 import ErrorBoundary from '../../shared/ErrorBoundary'
+import loginData from '../../../modules/loginData'
+import organizationUserData from '../../../modules/organizationUserData'
 
 const StyledCard = styled(Card)`
   margin: 10px 0;
@@ -92,11 +94,15 @@ const PropertiesTitleValue = styled.p`
 `
 
 const enhance = compose(
+  loginData,
+  organizationUserData,
   withState('expanded', 'setExpanded', true),
   withState('expanded2', 'setExpanded2', false)
 )
 
 const TaxonomyObject = ({
+  loginData,
+  organizationUserData,
   objekt,
   showLink,
   expanded,
@@ -104,6 +110,8 @@ const TaxonomyObject = ({
   expanded2,
   setExpanded2,
 }: {
+  loginData: Object,
+  organizationUserData: Object,
   objekt: Object,
   showLink: Boolean,
   expanded: Boolean,
@@ -111,6 +119,21 @@ const TaxonomyObject = ({
   expanded2: Boolean,
   setExpanded2: () => void,
 }) => {
+  const login = get(loginData, 'login')
+  const username = login && login.username ? login.username : null
+  const organizationUsers = get(
+    organizationUserData,
+    'allOrganizationUsers.nodes',
+    []
+  )
+  const userRoles = organizationUsers
+    .filter(oU => username === get(oU, 'userByUserId.name', ''))
+    .map(oU => oU.role)
+  const userIsTaxWriter =
+    userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
+  console.log('username:', username)
+  console.log('userRoles:', userRoles)
+  console.log('userIsTaxWriter:', userIsTaxWriter)
   const taxonomy = get(objekt, 'taxonomyByTaxonomyId', {})
   let taxname = get(taxonomy, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
