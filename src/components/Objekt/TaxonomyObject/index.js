@@ -97,7 +97,11 @@ const PropertiesTitleValue = styled.p`
 const enhance = compose(
   loginData,
   organizationUserData,
-  withState('expanded', 'setExpanded', true),
+  withState(
+    'expanded',
+    'setExpanded',
+    ({ showLink }) => (showLink ? false : true)
+  ),
   withState('expanded2', 'setExpanded2', false)
 )
 
@@ -145,9 +149,6 @@ const TaxonomyObject = ({
   let linkUrl
   let linkText
   if (showLink) {
-    // NOPE. This will return data for active node
-    // Need to use own query to get needed data, then open new window
-    // so use button or icon button instead?
     linkUrl = getUrlForObject(objekt).join('/')
     linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
     linkText = `${linkText} in neuem Tab öffnen`
