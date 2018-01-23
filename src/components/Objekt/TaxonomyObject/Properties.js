@@ -16,7 +16,6 @@ import styled from 'styled-components'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import Property from '../../shared/Property'
-import ErrorBoundary from '../../shared/ErrorBoundary'
 import loginData from '../../../modules/loginData'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 
@@ -49,16 +48,16 @@ const Properties = ({
   client,
   loginData,
   editingTaxonomiesData,
+  id,
   properties,
 }: {
   client: Object,
   loginData: Object,
   editingTaxonomiesData: Object,
+  id: string,
   properties: Object,
 }) => {
   const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
-  // never pass null to object.entries!!!
-  console.log('properties:', properties)
 
   return (
     <Fragment>
@@ -92,7 +91,7 @@ const Properties = ({
       ).map(
         ([key, value]) =>
           editing ? (
-            <Property properties={properties} key={key} field={key} />
+            <Property id={id} properties={properties} key={key} field={key} />
           ) : (
             <PropertyReadOnly key={key} value={value} label={key} />
           )

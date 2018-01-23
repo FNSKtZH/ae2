@@ -19,12 +19,10 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
-import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 import app from 'ampersand-app'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
-import Property from '../../shared/Property'
 import Taxonomy from '../Taxonomy'
 import Properties from './Properties'
 import getUrlForObject from '../../../modules/getUrlForObject'
@@ -86,28 +84,6 @@ const SynonymButton = styled(IconButton)`
     background-color: rgba(0, 0, 0, 0.12);
     text-decoration: none;
   }
-`
-const PropertiesTitleContainer = styled.div`
-  display: flex;
-  padding-top: 10px;
-`
-const PropertiesTitleLabel = styled.p`
-  flex-basis: 250px;
-  text-align: right;
-  padding-right: 5px;
-  margin: 3px 0;
-  padding: 2px;
-  color: grey;
-`
-const PropertiesTitleLabelEditing = styled.p`
-  margin: 3px 18px;
-  padding: 2px;
-  color: grey;
-`
-const PropertiesTitleValue = styled.p`
-  margin: 3px 0;
-  padding: 2px;
-  width: 100%;
 `
 
 const enhance = compose(
@@ -264,7 +240,7 @@ const TaxonomyObject = ({
             <PropertyReadOnly value={objekt.id} label="ID" />
             <PropertyReadOnly value={objekt.name} label="Name" />
             <PropertyReadOnly value={objekt.category} label="Gruppe" />
-            <Properties properties={properties} />
+            <Properties id={objekt.id} properties={properties} />
           </StyledCardContent>
         </Collapse>
       </StyledCard>
