@@ -26,6 +26,7 @@ import app from 'ampersand-app'
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import Property from '../../shared/Property'
 import Taxonomy from '../Taxonomy'
+import Properties from './Properties'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import loginData from '../../../modules/loginData'
@@ -263,31 +264,7 @@ const TaxonomyObject = ({
             <PropertyReadOnly value={objekt.id} label="ID" />
             <PropertyReadOnly value={objekt.name} label="Name" />
             <PropertyReadOnly value={objekt.category} label="Gruppe" />
-            {Object.entries(properties).length > 0 && (
-              <PropertiesTitleContainer>
-                {editing ? (
-                  <PropertiesTitleLabelEditing>
-                    Eigenschaften:
-                  </PropertiesTitleLabelEditing>
-                ) : (
-                  <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
-                )}
-                <PropertiesTitleValue />
-              </PropertiesTitleContainer>
-            )}
-            {sortBy(
-              Object.entries(properties).filter(
-                ([key, value]) => value || value === 0
-              ),
-              e => e[0]
-            ).map(
-              ([key, value]) =>
-                editing ? (
-                  <Property properties={properties} key={key} field={key} />
-                ) : (
-                  <PropertyReadOnly key={key} value={value} label={key} />
-                )
-            )}
+            <Properties properties={properties} />
           </StyledCardContent>
         </Collapse>
       </StyledCard>
