@@ -5,9 +5,9 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import { withApollo } from 'react-apollo'
-import IconButton from 'material-ui/IconButton'
-import ContentAdd from 'material-ui/svg-icons/content/add'
-import { red500 } from 'material-ui/styles/colors'
+import IconButton from 'material-ui-next/IconButton'
+import AddIcon from 'material-ui-icons/Add'
+import red from 'material-ui-next/colors/red'
 
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import orgUsersData from './orgUsersData'
@@ -65,8 +65,8 @@ const OrgUsers = ({
           />
         ))}
         <AddNewButton
-          tooltip="Neue Rolle vergeben"
-          tooltipPosition="top-right"
+          title="Neuen Benutzer mit Rolle erstellen"
+          aria-label="Neue Rolle vergeben"
           onClick={async () => {
             await client.mutate({
               mutation: createOrgUserMutation,
@@ -77,7 +77,7 @@ const OrgUsers = ({
             orgUsersData.refetch()
           }}
         >
-          <ContentAdd color={red500} />
+          <AddIcon color={red[500]} />
         </AddNewButton>
       </Container>
     </ErrorBoundary>
