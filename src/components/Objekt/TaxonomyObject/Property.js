@@ -7,29 +7,28 @@ import withHandlers from 'recompose/withHandlers'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 import updateObjectMutation from '../updateObjectMutation'
 
 const Container = styled.div`
   margin: 12px 10px;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: flex-end;
-  width: 100%;
 `
 
 const enhance = compose(
   withApollo,
-  withState('value', 'setValue', ({ value }) => value || ''),
+  withState('value', 'setValue', ({ objekt, field }) => objekt[field] || ''),
   withHandlers({
     onChange: ({ setValue }) => event => setValue(event.target.value),
-    onBlur: ({ client, field, id }) => event => {
+    onBlur: ({ client, field, objekt }) => event => {
       const { value } = event.target
       if (value !== 'prevValue') {
         client.mutate({
           mutation: updateObjectMutation,
-          variables: { [field]: value, id },
+          variables: {
+            name: field === 'name' ? value : objekt.name,
+            category: field === 'category' ? value : objekt.category,
+            id: objekt.id,
+          },
         })
       }
     },
@@ -38,16 +37,18 @@ const enhance = compose(
 
 const Property = ({
   client,
-  id,
   field,
+  label,
+  objekt,
   value,
   onChange,
   onBlur,
 }: {
   client: Object,
-  id: string,
-  field: string,
-  value: string,
+  field: String,
+  label: String,
+  objekt: Object,
+  value: String,
   onChange: () => void,
   onBlur: () => void,
 }) => {
@@ -55,7 +56,7 @@ const Property = ({
     <ErrorBoundary>
       <Container>
         <TextField
-          label={field}
+          label={label}
           value={value}
           onChange={onChange}
           onBlur={onBlur}

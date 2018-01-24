@@ -2,9 +2,9 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation updateObject($field: String, $value: String, $id: UUID!) {
+  mutation updateObject($name: String, $category: String, $id: UUID!) {
     updateObjectById(
-      input: { id: $id, objectPatch: { [field]: $value } }
+      input: { id: $id, objectPatch: { name: $name, category: $category } }
     ) {
       object {
         id
