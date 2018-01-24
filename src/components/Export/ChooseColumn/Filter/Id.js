@@ -24,18 +24,11 @@ type State = {
 }
 
 class IdFilterField extends React.Component<Props, State> {
-  constructor() {
-    super()
-    this.change = debounce(this.change, 200, {
-      leading: false,
-      trailing: true,
-    })
-    this.state = {
-      value: '',
-    }
+  state = {
+    value: '',
   }
 
-  change = value => {
+  change = debounce(value => {
     const { client } = this.props
     client.mutate({
       mutation: exportIdsMutation,
@@ -43,7 +36,7 @@ class IdFilterField extends React.Component<Props, State> {
         value,
       },
     })
-  }
+  }, 200)
 
   handleChange = event => {
     const { value } = event.target
