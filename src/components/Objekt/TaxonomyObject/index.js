@@ -7,7 +7,7 @@
  * if user klicks it, toggle store > editingTaxonomies
  * edit prop: see https://stackoverflow.com/a/35349699/712005
  */
-import React from 'react'
+import React, { Fragment } from 'react'
 import Card, { CardActions, CardContent } from 'material-ui-next/Card'
 import Collapse from 'material-ui-next/transitions/Collapse'
 import IconButton from 'material-ui-next/IconButton'
@@ -24,6 +24,7 @@ import app from 'ampersand-app'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import Taxonomy from '../Taxonomy'
+import Property from './Property'
 import Properties from './Properties'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import ErrorBoundary from '../../shared/ErrorBoundary'
@@ -250,8 +251,17 @@ const TaxonomyObject = ({
           </StyledCard2>
           <StyledCardContent>
             <PropertyReadOnly value={objekt.id} label="ID" />
-            <PropertyReadOnly value={objekt.name} label="Name" />
-            <PropertyReadOnly value={objekt.category} label="Gruppe" />
+            {editing ? (
+              <Fragment>
+                <Property value={objekt.name} label="Name" />
+                <Property value={objekt.category} label="Gruppe" />
+              </Fragment>
+            ) : (
+              <Fragment>
+                <PropertyReadOnly value={objekt.name} label="Name" />
+                <PropertyReadOnly value={objekt.category} label="Gruppe" />
+              </Fragment>
+            )}
             <Properties
               id={objekt.id}
               properties={properties}

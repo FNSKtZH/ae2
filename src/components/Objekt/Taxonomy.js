@@ -44,6 +44,12 @@ const Taxonomy = ({ taxonomy }: { taxonomy: Object }) => {
     <ErrorBoundary>
       <Linkify properties={linkifyProperties}>
         <Container>
+          {taxonomy.description && (
+            <Row>
+              <Label>{'Beschreibung:'}</Label>
+              <Value>{taxonomy.description}</Value>
+            </Row>
+          )}
           {taxonomy.lastUpdated && (
             <Row>
               <Label>{'Stand:'}</Label>
