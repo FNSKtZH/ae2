@@ -13,6 +13,9 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
+import IconButton from 'material-ui-next/IconButton'
+import AddIcon from 'material-ui-icons/Add'
+import red from 'material-ui-next/colors/red'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import Property from '../../shared/Property'
@@ -41,6 +44,16 @@ const PropertiesTitleValue = styled.p`
   padding: 2px;
   width: 100%;
 `
+const AddNewButton = styled(IconButton)`
+  margin-left: 10px;
+  margin-top: -7px;
+  :hover {
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.12);
+    text-decoration: none;
+  }
+`
+const StyledAddIcon = styled(AddIcon)``
 
 const enhance = compose(withApollo, loginData, editingTaxonomiesData)
 
@@ -61,16 +74,6 @@ const Properties = ({
 
   return (
     <Fragment>
-      <PropertiesTitleContainer>
-        {editing ? (
-          <PropertiesTitleLabelEditing>
-            Eigenschaften:
-          </PropertiesTitleLabelEditing>
-        ) : (
-          <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
-        )}
-        <PropertiesTitleValue />
-      </PropertiesTitleContainer>
       {Object.entries(properties).length > 0 && (
         <PropertiesTitleContainer>
           {editing ? (
@@ -100,6 +103,21 @@ const Properties = ({
           ) : (
             <PropertyReadOnly key={key} value={value} label={key} />
           )
+      )}
+      {editing && (
+        <AddNewButton
+          title="Neuen Benutzer mit Rolle erstellen"
+          aria-label="Neue Rolle vergeben"
+          onClick={async () => {
+            await client.mutate({
+              mutation: 'createOrgUserMutation',
+              variables: {},
+            })
+            //orgUsersData.refetch()
+          }}
+        >
+          <StyledAddIcon color={red[500]} />
+        </AddNewButton>
       )}
     </Fragment>
   )
