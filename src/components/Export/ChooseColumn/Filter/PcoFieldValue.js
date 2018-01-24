@@ -11,7 +11,6 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
-import debounce from 'lodash/debounce'
 import trimStart from 'lodash/trimStart'
 
 import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
@@ -126,17 +125,10 @@ type State = {
 }
 
 class IntegrationAutosuggest extends React.Component<Props, State> {
-  constructor() {
-    super()
-    this.change = debounce(this.change, 200, {
-      leading: false,
-      trailing: true,
-    })
-    this.state = {
-      suggestions: [],
-      propValues: [],
-      value: '',
-    }
+  state = {
+    suggestions: [],
+    propValues: [],
+    value: '',
   }
 
   componentDidUpdate(prevProps, prevState) {
