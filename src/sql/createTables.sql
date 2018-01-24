@@ -45,36 +45,25 @@ CREATE TABLE ae.taxonomy (
   habitat_nr_fns_max integer DEFAULT NULL,
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
-
--- only once:
-ALTER TABLE ae.taxonomy add CONSTRAINT taxonomy_imported_by_fkey FOREIGN KEY (imported_by)
-  REFERENCES ae.user (id) MATCH SIMPLE
-  ON UPDATE CASCADE
-  ON DELETE SET NULL;
-
-
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
 ALTER TABLE ae.taxonomy ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.taxonomy;
-CREATE POLICY
-  writer
-  ON ae.taxonomy
-  USING (true)
-  WITH CHECK (
-    current_user_name() IN (
-      SELECT DISTINCT
-        cast(ae.user.name as text)
-      FROM
-        ae.taxonomy
-        INNER JOIN ae.organization_user
-          INNER JOIN ae.user
-          ON ae.user.id = ae.organization_user.user_id
-        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
-      WHERE
-        ae.organization_user.role IN ('orgTaxonomyWriter', 'orgAdmin')
-    )
-  );
+-- once: drop policy writer
+CREATE POLICY updater ON ae.taxonomy
+USING (TRUE)
+WITH CHECK (
+  organization_id in (select * from ae.organizations_currentuser_is_taxonomywriter)
+);
+CREATE POLICY inserter ON ae.taxonomy for insert
+WITH CHECK (
+  (
+    organization_id is null
+    or organization_id in (select * from ae.organizations_currentuser_is_taxonomywriter)
+  ) and (
+    current_user_name() in (select * from ae.taxonomy_writers)
+  )
+);
 
 DROP TABLE IF EXISTS ae.user CASCADE;
 CREATE TABLE ae.user (
@@ -85,12 +74,15 @@ CREATE TABLE ae.user (
   pass text NOT NULL DEFAULT 'secret' check (length(pass) > 5),
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
--- TODO: org_admin should be able to edit user
 CREATE POLICY
   reader_writer
   ON ae.user
-  USING (name = current_user_name())
-  WITH CHECK (name = current_user_name());
+  USING (
+    name = current_user_name()
+    OR current_user_name() in (
+      select * from ae.organization_admins
+    )
+  );
 
 -- only once:
 --alter table ae.user add column role name check (length(role) < 512);
@@ -117,21 +109,23 @@ CREATE TABLE ae.object (
 );
 CREATE INDEX ON ae.object USING btree (name);
 ALTER TABLE ae.object ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.object;
-CREATE POLICY
-  writer
-  ON ae.object
+-- once: DROP POLICY IF EXISTS writer ON ae.object;
+DROP POLICY IF EXISTS updater ON ae.object;
+CREATE POLICY updater ON ae.object
   USING (true)
   WITH CHECK (
-    taxonomy_id IN (select * from ae.current_user_writable_taxonomies)
+    -- need to use view
+    -- if use sql, postgre surfaces recursion error
+    taxonomy_id IN (SELECT * FROM ae.current_user_writable_taxonomies)
   );
-
--- only once:
-alter policy writer on ae.object
-USING (true)
-WITH CHECK (
-  taxonomy_id IN (select * from ae.current_user_writable_taxonomies)
-);
+CREATE POLICY inserter on ae.object for insert
+  WITH CHECK (
+    (
+      taxonomy_id is null
+      and current_user_name() in (select * from ae.taxonomy_writers)
+    )
+    or taxonomy_id IN (SELECT * FROM ae.current_user_writable_taxonomies)
+  );
 
 
 -- ae.object to ae.object relationship
