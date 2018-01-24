@@ -27,6 +27,8 @@ import Taxonomy from '../Taxonomy'
 import Properties from './Properties'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import ErrorBoundary from '../../shared/ErrorBoundary'
+import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import objectData from '../objectData'
 import loginData from '../../../modules/loginData'
 import organizationUserData from '../../../modules/organizationUserData'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
@@ -91,6 +93,8 @@ const SynonymButton = styled(IconButton)`
 
 const enhance = compose(
   withApollo,
+  activeNodeArrayData,
+  objectData,
   loginData,
   organizationUserData,
   editingTaxonomiesData,
@@ -104,10 +108,11 @@ const enhance = compose(
 
 const TaxonomyObject = ({
   client,
+  activeNodeArrayData,
+  objectData,
   loginData,
   organizationUserData,
   editingTaxonomiesData,
-  objekt,
   showLink,
   expanded,
   setExpanded,
@@ -115,16 +120,18 @@ const TaxonomyObject = ({
   setExpanded2,
 }: {
   client: Object,
+  activeNodeArrayData: Object,
+  objectData: Object,
   loginData: Object,
   organizationUserData: Object,
   editingTaxonomiesData: Object,
-  objekt: Object,
   showLink: Boolean,
   expanded: Boolean,
   setExpanded: () => void,
   expanded2: Boolean,
   setExpanded2: () => void,
 }) => {
+  const objekt = get(objectData, 'objectById')
   const login = get(loginData, 'login')
   const username = login && login.username ? login.username : null
   const organizationUsers = get(
@@ -245,7 +252,11 @@ const TaxonomyObject = ({
             <PropertyReadOnly value={objekt.id} label="ID" />
             <PropertyReadOnly value={objekt.name} label="Name" />
             <PropertyReadOnly value={objekt.category} label="Gruppe" />
-            <Properties id={objekt.id} properties={properties} />
+            <Properties
+              id={objekt.id}
+              properties={properties}
+              objectData={objectData}
+            />
           </StyledCardContent>
         </Collapse>
       </StyledCard>

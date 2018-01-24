@@ -33,15 +33,15 @@ const FirstTitle = styled(Title)`
 const enhance = compose(activeNodeArrayData, objectData)
 
 const Objekt = ({ objectData }: { objectData: Object }) => {
-  const activeObject = get(objectData, 'objectById')
-  if (!activeObject) return <div />
+  const objekt = get(objectData, 'objectById')
+  if (!objekt) return <div />
   const propertyCollectionObjects = get(
-    activeObject,
+    objekt,
     'propertyCollectionObjectsByObjectId.nodes',
     []
   )
-  const relations = get(activeObject, 'relationsByObjectId.nodes', [])
-  const synonyms = get(activeObject, 'synonymsByObjectId.nodes', [])
+  const relations = get(objekt, 'relationsByObjectId.nodes', [])
+  const synonyms = get(objekt, 'synonymsByObjectId.nodes', [])
   const synonymObjects = synonyms.map(s => s.objectByObjectIdSynonym)
   const propertyCollectionIds = propertyCollectionObjects.map(
     pco => pco.propertyCollectionId
@@ -66,7 +66,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
       <Container>
         <ScrollContainer>
           <FirstTitle>Taxonomie</FirstTitle>
-          <TaxonomyObject objekt={activeObject} />
+          <TaxonomyObject />
           {synonymObjects.length > 0 && (
             <Title>
               {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
@@ -77,9 +77,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
           )}
           {sortBy(synonymObjects, tO =>
             get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
-          ).map(objekt => (
-            <TaxonomyObject key={objekt.id} objekt={objekt} showLink />
-          ))}
+          ).map(o => <TaxonomyObject key={o.id} showLink />)}
           {propertyCollectionObjects.length > 0 && (
             <Title>
               Eigenschaften

@@ -64,7 +64,6 @@ const Property = ({
     <ErrorBoundary>
       <Container>
         <TextField
-          name={key}
           label={key}
           value={value}
           onChange={onChange}

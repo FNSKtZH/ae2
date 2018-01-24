@@ -13,12 +13,10 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
-import IconButton from 'material-ui-next/IconButton'
-import AddIcon from 'material-ui-icons/Add'
-import red from 'material-ui-next/colors/red'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import Property from '../../shared/Property'
+import NewProperty from '../../shared/NewProperty'
 import loginData from '../../../modules/loginData'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 
@@ -44,16 +42,6 @@ const PropertiesTitleValue = styled.p`
   padding: 2px;
   width: 100%;
 `
-const AddNewButton = styled(IconButton)`
-  margin-left: 10px;
-  margin-top: -7px;
-  :hover {
-    font-weight: 700;
-    background-color: rgba(0, 0, 0, 0.12);
-    text-decoration: none;
-  }
-`
-const StyledAddIcon = styled(AddIcon)``
 
 const enhance = compose(withApollo, loginData, editingTaxonomiesData)
 
@@ -63,18 +51,21 @@ const Properties = ({
   editingTaxonomiesData,
   id,
   properties,
+  objectData,
 }: {
   client: Object,
   loginData: Object,
   editingTaxonomiesData: Object,
   id: string,
   properties: Object,
+  objectData: Object,
 }) => {
   const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
+  const propertiesArray = Object.entries(properties)
 
   return (
     <Fragment>
-      {Object.entries(properties).length > 0 && (
+      {propertiesArray.length > 0 && (
         <PropertiesTitleContainer>
           {editing ? (
             <PropertiesTitleLabelEditing>
@@ -87,15 +78,13 @@ const Properties = ({
         </PropertiesTitleContainer>
       )}
       {sortBy(
-        Object.entries(properties).filter(
-          ([key, value]) => value || value === 0
-        ),
+        propertiesArray.filter(([key, value]) => value || value === 0),
         e => e[0]
       ).map(
         ([key, value]) =>
           editing ? (
             <Property
-              key={`${id}/${key}`}
+              key={`${id}/${key}/${value}`}
               id={id}
               properties={properties}
               field={key}
@@ -105,19 +94,12 @@ const Properties = ({
           )
       )}
       {editing && (
-        <AddNewButton
-          title="Neuen Benutzer mit Rolle erstellen"
-          aria-label="Neue Rolle vergeben"
-          onClick={async () => {
-            await client.mutate({
-              mutation: 'createOrgUserMutation',
-              variables: {},
-            })
-            //orgUsersData.refetch()
-          }}
-        >
-          <StyledAddIcon color={red[500]} />
-        </AddNewButton>
+        <NewProperty
+          key={`${id}/newProperty`}
+          id={id}
+          properties={properties}
+          objectData={objectData}
+        />
       )}
     </Fragment>
   )
