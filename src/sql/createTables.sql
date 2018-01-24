@@ -143,23 +143,7 @@ CREATE POLICY
   ON ae.synonym
   USING (true)
   WITH CHECK (
-    current_user_name() IN (
-      SELECT DISTINCT
-        cast(ae.user.name as text)
-      FROM
-        ae.organization_user
-        INNER JOIN ae.taxonomy
-          INNER JOIN ae.object
-            INNER JOIN ae.synonym
-            ON ae.object.id = ae.synonym.object_id
-          ON ae.taxonomy.id = ae.object.taxonomy_id
-        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
-        INNER JOIN ae.user
-        ON ae.user.id = ae.organization_user.user_id
-      WHERE
-        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
-        ae.organization_user.role IN ('orgTaxonomyWriter', 'orgAdmin')
-    )
+    current_user_name() in (select * from ae.taxonomy_writers)
   );
 
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
