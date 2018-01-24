@@ -19,6 +19,7 @@ const Container = styled.div`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
+  align-items: flex-end;
   width: 100%;
 `
 const DeleteButton = styled(IconButton)`
