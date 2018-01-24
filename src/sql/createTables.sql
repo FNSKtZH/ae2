@@ -244,6 +244,13 @@ DROP TABLE IF EXISTS ae.role CASCADE;
 CREATE TABLE ae.role (
   name text PRIMARY KEY
 );
+ALTER TABLE ae.role ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS writer ON ae.role;
+CREATE POLICY writer ON ae.role
+  USING (true)
+  WITH CHECK (
+    current_user_name() in (select * from ae.organization_admins)
+  );
 
 DROP TABLE IF EXISTS ae.organization_user;
 CREATE TABLE ae.organization_user (
