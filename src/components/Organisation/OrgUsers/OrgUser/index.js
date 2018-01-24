@@ -4,9 +4,9 @@ import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import { withApollo } from 'react-apollo'
-import IconButton from 'material-ui/IconButton'
-import ContentClear from 'material-ui/svg-icons/content/clear'
-import { red500 } from 'material-ui/styles/colors'
+import IconButton from 'material-ui-next/IconButton'
+import ClearIcon from 'material-ui-icons/Clear'
+import red from 'material-ui-next/colors/red'
 
 import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
 import AutocompleteFromArray from '../../../shared/AutocompleteFromArray'
@@ -20,6 +20,13 @@ const OrgUserDiv = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   width: 100%;
+`
+const DeleteButton = styled(IconButton)`
+  :hover {
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.12);
+    text-decoration: none;
+  }
 `
 
 const enhance = compose(withApollo, activeNodeArrayData)
@@ -110,8 +117,9 @@ class OrgUser extends React.Component<Props, State> {
               this.setState({ role })
             }}
           />
-          <IconButton
-            tooltip="löschen"
+          <DeleteButton
+            title="löschen"
+            aria-label="löschen"
             onClick={async () => {
               client.mutate({
                 mutation: deleteOrgUserMutation,
@@ -123,8 +131,8 @@ class OrgUser extends React.Component<Props, State> {
               await orgUsersData.refetch()
             }}
           >
-            <ContentClear color={red500} />
-          </IconButton>
+            <ClearIcon color={red[500]} />
+          </DeleteButton>
         </OrgUserDiv>
       </ErrorBoundary>
     )

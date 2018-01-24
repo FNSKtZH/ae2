@@ -22,6 +22,11 @@ const Container = styled.div`
 `
 const AddNewButton = styled(IconButton)`
   top: 10px !important;
+  :hover {
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.12);
+    text-decoration: none;
+  }
 `
 
 const enhance = compose(withApollo, activeNodeArrayData, orgUsersData)
