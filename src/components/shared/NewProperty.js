@@ -45,7 +45,7 @@ const enhance = compose(
           mutation: updatePropertyMutation,
           variables: { properties: JSON.stringify(properties), id },
         })
-        await objectData.refetch()
+        objectData.refetch()
         setLabel('')
         setValue('')
       }

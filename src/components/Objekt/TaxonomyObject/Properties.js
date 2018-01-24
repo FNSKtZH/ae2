@@ -88,6 +88,7 @@ const Properties = ({
               id={id}
               properties={properties}
               field={key}
+              objectData={objectData}
             />
           ) : (
             <PropertyReadOnly key={key} value={value} label={key} />
