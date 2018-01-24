@@ -5,6 +5,13 @@ CREATE TABLE ae.data_type (
   name text PRIMARY KEY
 );
 INSERT INTO ae.data_type VALUES ('Taxonomien'), ('Eigenschaften-Sammlungen');
+ALTER TABLE ae.data_type ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS writer ON ae.data_type;
+CREATE POLICY writer ON ae.data_type
+  USING (true)
+  WITH CHECK (
+    current_user_name() in (select * from ae.organization_admins)
+  );
 
 DROP TABLE IF EXISTS ae.category CASCADE;
 CREATE TABLE ae.category (
@@ -13,6 +20,13 @@ CREATE TABLE ae.category (
   data_type text DEFAULT 'Taxonomien' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   id UUID DEFAULT uuid_generate_v1mc()
 );
+ALTER TABLE ae.category ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS writer ON ae.category;
+CREATE POLICY writer ON ae.category
+  USING (true)
+  WITH CHECK (
+    current_user_name() in (select * from ae.organization_admins)
+  );
 
 DROP TABLE IF EXISTS ae.organization CASCADE;
 CREATE TABLE ae.organization (
@@ -22,6 +36,13 @@ CREATE TABLE ae.organization (
   contact UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE INDEX ON ae.organization USING btree (name);
+ALTER TABLE ae.organization ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS writer ON ae.organization;
+CREATE POLICY writer ON ae.organization
+  USING (true)
+  WITH CHECK (
+    current_user_name() in (select * from ae.organization_admins)
+  );
 
 -- only once:
 --ALTER TABLE ae.organization ADD COLUMN links text[] DEFAULT NULL;
