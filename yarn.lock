@@ -2439,8 +2439,8 @@ es6-promise@^3.0.2:
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
 
 es6-promise@^4.0.5:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.2.tgz#f722d7769af88bd33bc13ec6605e1f92966b82d9"
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.4.tgz#dc4221c2b16518760bd8c39a52d8f356fc00ed29"
 
 es6-promise@~3.0.2:
   version "3.0.2"
@@ -4260,8 +4260,8 @@ joi@^6.10.1:
     topo "1.x.x"
 
 js-base64@^2.1.9:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.1.tgz#e02813181cd53002888e918935467acb2910e596"
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.2.tgz#1896da010ef8862f385d8887648e9b6dc4a7a2e9"
 
 js-file-download@0.4.1:
   version "0.4.1"
@@ -6181,9 +6181,9 @@ react-contextmenu@2.9.2:
     classnames "^2.2.5"
     object-assign "^4.1.0"
 
-react-data-grid@3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-3.0.5.tgz#a6059ff7ed1653b51344d17adc7a5ddbc00f282d"
+react-data-grid@3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-3.0.6.tgz#3e0819696c265ed9fd380582d8c5ca5632ccf8ba"
 
 react-dev-utils@^5.0.0:
   version "5.0.0"
@@ -7175,9 +7175,9 @@ style-loader@0.19.0:
     loader-utils "^1.0.2"
     schema-utils "^0.3.0"
 
-styled-components@3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-3.0.2.tgz#dbcd66ee84d444ee4332a7f74027e8a675191593"
+styled-components@3.1.0-3:
+  version "3.1.0-3"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-3.1.0-3.tgz#477bcd7ddd116c88723d5a8639f56c095321beb8"
   dependencies:
     buffer "^5.0.3"
     css-to-react-native "^2.0.3"
@@ -7360,8 +7360,8 @@ timed-out@^3.0.0:
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-3.1.3.tgz#95860bfcc5c76c277f8f8326fd0f5b2e20eba217"
 
 timers-browserify@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.4.tgz#96ca53f4b794a5e7c0e1bd7cc88a372298fa01e6"
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.5.tgz#04878fb12a155a159c9d1e59faa1f77bf4ecc44c"
   dependencies:
     setimmediate "^1.0.4"
 
