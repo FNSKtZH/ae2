@@ -165,24 +165,23 @@ CREATE INDEX ON ae.property_collection USING btree (name);
 CREATE INDEX ON ae.property_collection USING btree (combining);
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.property_collection;
+DROP POLICY IF EXISTS updater ON ae.property_collection;
 CREATE POLICY
-  writer
+  updater
   ON ae.property_collection
   USING (true)
   WITH CHECK (
-    current_user_name() IN (
-      SELECT DISTINCT
-        cast(ae.user.name as text)
-      FROM
-        ae.property_collection
-        INNER JOIN ae.organization_user
-          INNER JOIN ae.user
-          ON ae.user.id = ae.organization_user.user_id
-        ON ae.organization_user.organization_id = ae.property_collection.organization_id
-      WHERE
-        ae.organization_user.role IN ('orgCollectionWriter', 'orgAdmin')
-    )
+    organization_id in (select * from ae.organizations_currentuser_is_collectionwriter)
   );
+CREATE POLICY inserter ON ae.property_collection for insert
+WITH CHECK (
+  (
+    organization_id is null
+    or organization_id in (select * from ae.organizations_currentuser_is_collectionwriter)
+  ) and (
+    current_user_name() in (select * from ae.collection_writers)
+  )
+);
 
 DROP TABLE IF EXISTS ae.property_collection_object CASCADE;
 CREATE TABLE ae.property_collection_object (
@@ -194,25 +193,21 @@ CREATE TABLE ae.property_collection_object (
 );
 ALTER TABLE ae.property_collection_object ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.property_collection_object;
+DROP POLICY IF EXISTS updater ON ae.property_collection_object;
 CREATE POLICY
-  writer
+  updater
   ON ae.property_collection_object
   USING (true)
   WITH CHECK (
-    current_user_name() IN (
-      SELECT DISTINCT
-        cast(ae.user.name as text)
-      FROM
-        ae.property_collection_object
-        INNER JOIN ae.property_collection
-          INNER JOIN ae.organization_user
-            INNER JOIN ae.user
-            ON ae.user.id = ae.organization_user.user_id
-          ON ae.organization_user.organization_id = ae.property_collection.organization_id
-        ON property_collection_object.property_collection_id = ae.property_collection.id
-      WHERE
-        ae.organization_user.role IN ('orgCollectionWriter', 'orgAdmin')
+    property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
+  );
+CREATE POLICY inserter on ae.property_collection_object for insert
+  WITH CHECK (
+    (
+      property_collection_id is null
+      and current_user_name() in (select * from ae.collection_writers)
     )
+    or property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
   );
 
 DROP TABLE IF EXISTS ae.relation CASCADE;
@@ -228,25 +223,21 @@ CREATE TABLE ae.relation (
 CREATE INDEX ON ae.relation USING btree (relation_type);
 ALTER TABLE ae.relation ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.relation;
+DROP POLICY IF EXISTS updater ON ae.relation;
 CREATE POLICY
-  writer
+  updater
   ON ae.relation
   USING (true)
   WITH CHECK (
-    current_user_name() IN (
-      SELECT DISTINCT
-        cast(ae.user.name as text)
-      FROM
-        ae.relation
-        INNER JOIN ae.property_collection
-          INNER JOIN ae.organization_user
-            INNER JOIN ae.user
-            ON ae.user.id = ae.organization_user.user_id
-          ON ae.property_collection.organization_id = ae.organization_user.organization_id
-        ON ae.property_collection.id = ae.relation.property_collection_id
-      WHERE
-        ae.organization_user.role IN ('orgCollectionWriter', 'orgAdmin')
+    property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
+  );
+CREATE POLICY inserter on ae.relation for insert
+  WITH CHECK (
+    (
+      property_collection_id is null
+      and current_user_name() in (select * from ae.collection_writers)
     )
+    or property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
   );
 
 DROP TABLE IF EXISTS ae.role CASCADE;
@@ -278,21 +269,21 @@ ALTER TABLE ae.organization_user ADD CONSTRAINT fk_user FOREIGN KEY (user_id) RE
 
 ALTER TABLE ae.organization_user ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.organization_user;
+DROP POLICY IF EXISTS updater ON ae.organization_user;
 CREATE POLICY
-  writer
+  updater
   ON ae.organization_user
   USING (true)
   WITH CHECK (
-    current_user_name() IN (
-      SELECT DISTINCT
-        cast(ae.user.name as text)
-      FROM
-        ae.organization_user
-        INNER JOIN ae.user
-        ON ae.user.id = ae.organization_user.user_id
-      WHERE
-        ae.organization_user.role IN ('orgAdmin')
+    organization_id in (select * from ae.organizations_currentuser_is_orgadmin)
+  );
+CREATE POLICY inserter on ae.organization_user for insert
+  WITH CHECK (
+    (
+      organization_id is null
+      and current_user_name() in (select * from ae.organization_admins)
     )
+    or organization_id IN (SELECT * FROM ae.organizations_currentuser_is_orgadmin)
   );
 
 -- this table is only needed because postgraphql does not pick up
