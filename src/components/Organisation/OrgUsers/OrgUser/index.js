@@ -8,14 +8,13 @@ import IconButton from 'material-ui-next/IconButton'
 import ClearIcon from 'material-ui-icons/Clear'
 import red from 'material-ui-next/colors/red'
 import set from 'lodash/set'
-import gql from 'graphql-tag'
 
 import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
 import AutocompleteFromArray from '../../../shared/AutocompleteFromArray'
 import updateOrgUserMutation from '../updateOrgUserMutation'
 import deleteOrgUserMutation from '../deleteOrgUserMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
-import orgUsersDataQuery from '../orgUsersData'
+import orgUsersGql from '../orgUsersGql'
 
 const OrgUserDiv = styled.div`
   display: flex;
@@ -151,7 +150,6 @@ class OrgUser extends React.Component<Props, State> {
             title="löschen"
             aria-label="löschen"
             onClick={async () => {
-              console.log('go!')
               client.mutate({
                 mutation: deleteOrgUserMutation,
                 variables: {
@@ -167,40 +165,8 @@ class OrgUser extends React.Component<Props, State> {
                   },
                 },
                 update: (proxy, { data: { deleteOrgUserMutation } }) => {
-                  const query = gql`
-                    query orgUsersQuery($name: String!) {
-                      organizationByName(name: $name) {
-                        id
-                        organizationUsersByOrganizationId {
-                          totalCount
-                          nodes {
-                            id
-                            organizationId
-                            userId
-                            nodeId
-                            userByUserId {
-                              id
-                              name
-                            }
-                            role
-                          }
-                        }
-                      }
-                      allUsers {
-                        nodes {
-                          id
-                          name
-                        }
-                      }
-                      allRoles {
-                        nodes {
-                          name
-                        }
-                      }
-                    }
-                  `
                   const data = proxy.readQuery({
-                    query,
+                    query: orgUsersGql,
                     variables: { name: orgName },
                   })
                   const orgUsers = get(
@@ -215,13 +181,12 @@ class OrgUser extends React.Component<Props, State> {
                     newOrgUsers
                   )
                   proxy.writeQuery({
-                    query,
+                    query: orgUsersGql,
                     variables: { name: orgName },
                     data,
                   })
                 },
               })
-              //await orgUsersData.refetch()
             }}
           >
             <ClearIcon color={red[500]} />
