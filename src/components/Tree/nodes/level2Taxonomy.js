@@ -13,6 +13,6 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
       node.count === '1' ? 'Taxonomie' : 'Taxonomien'
     })`,
     childrenCount: node.count,
-    menuType: 'taxonomy',
+    menuType: 'none',
   }))
 }

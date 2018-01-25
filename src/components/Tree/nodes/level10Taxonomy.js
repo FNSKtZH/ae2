@@ -75,7 +75,7 @@ export default ({
       label: node.name,
       info: labelCount.toLocaleString('de-CH'),
       childrenCount,
-      menuType: 'taxLevel10',
+      menuType: 'CmObject',
     }
   })
 }

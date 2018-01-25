@@ -18,6 +18,7 @@ import loginData from '../../modules/loginData'
 import treeData from './treeData'
 import CmBenutzerFolder from './contextmenu/BenutzerFolder'
 import CmBenutzer from './contextmenu/Benutzer'
+import CmObject from './contextmenu/Object'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const singleRowHeight = 23
@@ -143,6 +144,7 @@ const Tree = ({
         />
         <CmBenutzerFolder />
         <CmBenutzer />
+        <CmObject />
       </Container>
     </ErrorBoundary>
   )

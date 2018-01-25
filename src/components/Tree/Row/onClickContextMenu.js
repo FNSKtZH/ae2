@@ -42,6 +42,9 @@ export default async ({
         treeData.refetch()
         !!newUserId && app.history.push(`/Benutzer/${newUserId}`)
       }
+      if (table === 'object') {
+        console.log('create child of object id:', id)
+      }
     },
     delete: async () => {
       if (table === 'user') {
@@ -56,6 +59,9 @@ export default async ({
         userData.refetch()
         treeData.refetch()
         app.history.push('/Benutzer')
+      }
+      if (table === 'object') {
+        console.log('delete object with id:', id)
       }
     },
   }
