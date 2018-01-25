@@ -75,6 +75,10 @@ const OrgUsers = ({
               variables: {
                 organizationId,
               },
+              /**
+               * adding to cache seems to be darn hard
+               * so just refetch
+               */
             })
             orgUsersData.refetch()
           }}

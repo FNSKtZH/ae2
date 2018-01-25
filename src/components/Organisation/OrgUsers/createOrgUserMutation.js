@@ -7,7 +7,6 @@ export default gql`
       input: { organizationUser: { organizationId: $organizationId } }
     ) {
       organizationUser {
-        id
         organizationId
       }
     }
