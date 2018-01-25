@@ -195,6 +195,13 @@ const TaxonomyObject = ({
                     client.mutate({
                       mutation: editingTaxonomiesMutation,
                       variables: { value: false },
+                      optimisticResponse: {
+                        setEditingTaxonomies: {
+                          editingTaxonomies: false,
+                          __typename: 'EditingTaxonomies',
+                        },
+                        __typename: 'Mutation',
+                      },
                     })
                   }}
                 >
@@ -212,6 +219,13 @@ const TaxonomyObject = ({
                     client.mutate({
                       mutation: editingTaxonomiesMutation,
                       variables: { value: true },
+                      optimisticResponse: {
+                        setEditingTaxonomies: {
+                          editingTaxonomies: true,
+                          __typename: 'EditingTaxonomies',
+                        },
+                        __typename: 'Mutation',
+                      },
                     })
                   }}
                 >
