@@ -109,7 +109,11 @@ const Property = ({
           autoCapitalize="off"
           spellCheck="false"
         />
-        <DeleteButton title="löschen" aria-label="löschen" onClick={onDelete}>
+        <DeleteButton
+          title="Feld löschen"
+          aria-label="Feld löschen"
+          onClick={onDelete}
+        >
           <ClearIcon color={red[500]} />
         </DeleteButton>
       </Container>
