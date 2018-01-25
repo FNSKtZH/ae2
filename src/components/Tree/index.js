@@ -8,6 +8,7 @@ import compose from 'recompose/compose'
 import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
 import Snackbar from 'material-ui/Snackbar'
+import get from 'lodash/get'
 
 import Row from './Row'
 import Filter from './Filter'
@@ -15,6 +16,7 @@ import buildNodes from './buildNodes'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import allCategoriesData from '../../modules/allCategoriesData'
 import loginData from '../../modules/loginData'
+import organizationUserData from '../../modules/organizationUserData'
 import treeData from './treeData'
 import CmBenutzerFolder from './contextmenu/BenutzerFolder'
 import CmBenutzer from './contextmenu/Benutzer'
@@ -71,7 +73,8 @@ const enhance = compose(
   activeNodeArrayData,
   allCategoriesData,
   treeData,
-  loginData
+  loginData,
+  organizationUserData
 )
 
 const Tree = ({
@@ -79,6 +82,7 @@ const Tree = ({
   allCategoriesData,
   treeData,
   loginData,
+  organizationUserData,
   // dimensions is passed down from ReflexElement
   dimensions,
 }: {
@@ -86,6 +90,7 @@ const Tree = ({
   allCategoriesData: Object,
   treeData: Object,
   loginData: Object,
+  organizationUserData: Object,
   dimensions: Object,
 }) => {
   const { activeNodeArray } = activeNodeArrayData
@@ -112,6 +117,18 @@ const Tree = ({
     console.log('Tree: error:', error)
     return <div> {error.message} </div>
   }
+  const login = get(loginData, 'login')
+  const username = login && login.username ? login.username : null
+  const organizationUsers = get(
+    organizationUserData,
+    'allOrganizationUsers.nodes',
+    []
+  )
+  const userRoles = organizationUsers
+    .filter(oU => username === get(oU, 'userByUserId.name', ''))
+    .map(oU => oU.role)
+  const userIsTaxWriter =
+    userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
 
   return (
     <ErrorBoundary>
@@ -144,7 +161,7 @@ const Tree = ({
         />
         <CmBenutzerFolder />
         <CmBenutzer />
-        <CmObject />
+        {userIsTaxWriter && <CmObject />}
       </Container>
     </ErrorBoundary>
   )
