@@ -105,6 +105,7 @@ CREATE POLICY
     OR current_user_name() in (
       select * from ae.organization_admins
     )
+    OR current_user = 'anon'
   );
 
 -- only once:
