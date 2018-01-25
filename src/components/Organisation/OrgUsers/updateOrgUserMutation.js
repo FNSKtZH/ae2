@@ -20,6 +20,10 @@ export default gql`
     ) {
       organizationUser {
         nodeId
+        id
+        organizationId
+        userId
+        role
       }
     }
   }
