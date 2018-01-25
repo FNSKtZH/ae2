@@ -1,3 +1,9 @@
+CREATE TYPE auth.jwt_token AS (
+  token text,
+  role text,
+  username text,
+  exp integer
+);
 CREATE TYPE tax_filter AS (
     comparator text,
     pname text,

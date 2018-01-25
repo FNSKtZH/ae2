@@ -16,10 +16,4 @@ ALTER USER "authenticator" WITH PASSWORD 'secret';
 -- dont run these, they come with restoring ae:
 CREATE SCHEMA IF NOT EXISTS ae;
 CREATE SCHEMA IF NOT EXISTS auth;
-CREATE TYPE auth.jwt_token AS (
-  token text,
-  role text,
-  username text,
-  exp integer
-);
 -- once: alter TYPE auth.jwt_token add attribute exp integer;
