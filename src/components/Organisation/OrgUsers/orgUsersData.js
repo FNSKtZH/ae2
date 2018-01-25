@@ -8,6 +8,7 @@ export default graphql(
     query orgUsersQuery($name: String!) {
       organizationByName(name: $name) {
         id
+        name
         organizationUsersByOrganizationId {
           totalCount
           nodes {

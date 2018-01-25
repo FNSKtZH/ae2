@@ -7,12 +7,15 @@ import { withApollo } from 'react-apollo'
 import IconButton from 'material-ui-next/IconButton'
 import ClearIcon from 'material-ui-icons/Clear'
 import red from 'material-ui-next/colors/red'
+import set from 'lodash/set'
+import gql from 'graphql-tag'
 
 import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
 import AutocompleteFromArray from '../../../shared/AutocompleteFromArray'
 import updateOrgUserMutation from '../updateOrgUserMutation'
 import deleteOrgUserMutation from '../deleteOrgUserMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
+import orgUsersDataQuery from '../orgUsersData'
 
 const OrgUserDiv = styled.div`
   display: flex;
@@ -34,7 +37,6 @@ const enhance = compose(withApollo, activeNodeArrayData)
 type Props = {
   orgUser: Object,
   orgUsersData: Object,
-  orgData: Object,
   client: Object,
 }
 
@@ -54,9 +56,10 @@ class OrgUser extends React.Component<Props, State> {
   }
 
   render() {
-    const { orgUser, orgUsersData, orgData, client } = this.props
+    const { orgUser, orgUsersData, client } = this.props
     // console.log('OrgUser: orgUser:', orgUser)
     const users = get(orgUsersData, 'allUsers.nodes', [])
+    const orgName = get(orgUsersData, 'organizationByName.name', '')
     const user = users.find(user => user.id === this.state.userId)
     const userName = user ? user.name || '' : ''
     const userNames = users.map(u => u.name).sort()
@@ -148,14 +151,77 @@ class OrgUser extends React.Component<Props, State> {
             title="löschen"
             aria-label="löschen"
             onClick={async () => {
+              console.log('go!')
               client.mutate({
                 mutation: deleteOrgUserMutation,
                 variables: {
                   id: orgUser.id,
                 },
+                optimisticResponse: {
+                  deleteOrganizationUserById: {
+                    organizationUser: {
+                      id: orgUser.id,
+                      __typename: 'OrganizationUser',
+                    },
+                    __typename: 'Mutation',
+                  },
+                },
+                update: (proxy, { data: { deleteOrgUserMutation } }) => {
+                  const query = gql`
+                    query orgUsersQuery($name: String!) {
+                      organizationByName(name: $name) {
+                        id
+                        organizationUsersByOrganizationId {
+                          totalCount
+                          nodes {
+                            id
+                            organizationId
+                            userId
+                            nodeId
+                            userByUserId {
+                              id
+                              name
+                            }
+                            role
+                          }
+                        }
+                      }
+                      allUsers {
+                        nodes {
+                          id
+                          name
+                        }
+                      }
+                      allRoles {
+                        nodes {
+                          name
+                        }
+                      }
+                    }
+                  `
+                  const data = proxy.readQuery({
+                    query,
+                    variables: { name: orgName },
+                  })
+                  const orgUsers = get(
+                    data,
+                    'organizationByName.organizationUsersByOrganizationId.nodes',
+                    []
+                  )
+                  const newOrgUsers = orgUsers.filter(u => u.id !== orgUser.id)
+                  set(
+                    data,
+                    'organizationByName.organizationUsersByOrganizationId.nodes',
+                    newOrgUsers
+                  )
+                  proxy.writeQuery({
+                    query,
+                    variables: { name: orgName },
+                    data,
+                  })
+                },
               })
-              await orgData.refetch()
-              await orgUsersData.refetch()
+              //await orgUsersData.refetch()
             }}
           >
             <ClearIcon color={red[500]} />

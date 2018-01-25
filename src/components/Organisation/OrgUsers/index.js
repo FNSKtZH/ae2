@@ -32,11 +32,9 @@ const AddNewButton = styled(IconButton)`
 const enhance = compose(withApollo, activeNodeArrayData, orgUsersData)
 
 const OrgUsers = ({
-  orgData,
   orgUsersData,
   client,
 }: {
-  orgData: Object,
   orgUsersData: Object,
   client: Object,
 }) => {
@@ -65,7 +63,6 @@ const OrgUsers = ({
           <OrgUser
             orgUser={orgUser}
             orgUsersData={orgUsersData}
-            orgData={orgData}
             key={`${orgUser.id}/${orgUser.role}`}
           />
         ))}
