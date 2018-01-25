@@ -3,7 +3,7 @@ import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 import app from 'ampersand-app'
 
-import loginMutation from './loginMutation'
+import loginDbMutation from './loginDbMutation'
 import loginStoreMutation from '../../modules/loginMutation'
 import historyAfterLoginMutation from '../../modules/historyAfterLoginMutation'
 
@@ -57,7 +57,7 @@ export default async ({
   let result
   try {
     result = await client.mutate({
-      mutation: loginMutation,
+      mutation: loginDbMutation,
       variables: {
         username: name,
         pass,
@@ -117,11 +117,19 @@ export default async ({
       //const newPath = historyAfterLogin ? historyAfterLogin : '/Taxonomien'
       //app.history.push(newPath)
       if (!!historyAfterLogin) {
+        console.log('hi')
         app.history.push(historyAfterLogin)
         client.mutate({
           mutation: historyAfterLoginMutation,
           variables: {
             value: '',
+          },
+          optimisticResponse: {
+            setHistoryAfterLogin: {
+              historyAfterLogin,
+              __typename: 'HistoryAfterLogin',
+            },
+            __typename: 'Mutation',
           },
         })
       } else {
