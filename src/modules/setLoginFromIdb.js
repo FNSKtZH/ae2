@@ -10,7 +10,7 @@ export default async (client: Object): void => {
       mutation: setLoginMutation,
       variables: { username, token },
       optimisticResponse: {
-        setLogin: {
+        setLoginInStore: {
           username,
           token,
           __typename: 'Login',

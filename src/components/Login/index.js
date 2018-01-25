@@ -56,7 +56,7 @@ const enhance = compose(
           token: '',
         },
         optimisticResponse: {
-          setLogin: {
+          setLoginInStore: {
             username: '',
             token: '',
             __typename: 'Login',

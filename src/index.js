@@ -59,7 +59,7 @@ global.__MUI_SvgIcon__ = SvgIcon
               token: '',
             },
             optimisticResponse: {
-              setLogin: {
+              setLoginInStore: {
                 username: 'Login abgelaufen',
                 token: '',
                 __typename: 'Login',
@@ -76,7 +76,7 @@ global.__MUI_SvgIcon__ = SvgIcon
                   token: '',
                 },
                 optimisticResponse: {
-                  setLogin: {
+                  setLoginInStore: {
                     username: '',
                     token: '',
                     __typename: 'Login',

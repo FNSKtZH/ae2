@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode'
 import app from 'ampersand-app'
 
 import loginMutation from './loginMutation'
-import setLoginMutation from '../../modules/loginMutation'
+import loginStoreMutation from '../../modules/loginMutation'
 import historyAfterLoginMutation from '../../modules/historyAfterLoginMutation'
 
 export default async ({
@@ -39,13 +39,13 @@ export default async ({
   // reset existing token
   await app.idb.users.clear()
   client.mutate({
-    mutation: setLoginMutation,
+    mutation: loginStoreMutation,
     variables: {
       username: '',
       token: '',
     },
     optimisticResponse: {
-      setLogin: {
+      setLoginInStore: {
         username: '',
         token: '',
         __typename: 'Login',
@@ -89,13 +89,13 @@ export default async ({
     try {
       console.log('go!')
       client.mutate({
-        mutation: setLoginMutation,
+        mutation: loginStoreMutation,
         variables: {
           username,
           token: jwtToken,
         },
         optimisticResponse: {
-          setLogin: {
+          setLoginInStore: {
             username,
             token: jwtToken,
             __typename: 'Login',
