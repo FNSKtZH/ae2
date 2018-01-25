@@ -84,11 +84,25 @@ class OrgUser extends React.Component<Props, State> {
                   await client.mutate({
                     mutation: updateOrgUserMutation,
                     variables,
+                    optimisticResponse: {
+                      updateOrganizationUser: {
+                        organizationUser: {
+                          nodeId: orgUser.nodeId,
+                          id: orgUser.id,
+                          organizationId: orgUser.organizationId,
+                          userId: user.id,
+                          role: this.state.role,
+                          __typename: 'OrganizationUser',
+                        },
+                        __typename: 'Mutation',
+                      },
+                    },
                   })
                 } catch (error) {
                   console.log(error)
                   this.setState({ userId: '' })
                 }
+                console.log('done')
                 this.setState({ userId: user.id })
               }
             }}
@@ -108,6 +122,19 @@ class OrgUser extends React.Component<Props, State> {
                 await client.mutate({
                   mutation: updateOrgUserMutation,
                   variables,
+                  optimisticResponse: {
+                    updateOrganizationUser: {
+                      organizationUser: {
+                        nodeId: orgUser.nodeId,
+                        id: orgUser.id,
+                        organizationId: orgUser.organizationId,
+                        userId: user.id,
+                        role: this.state.role,
+                        __typename: 'OrganizationUser',
+                      },
+                      __typename: 'Mutation',
+                    },
+                  },
                 })
               } catch (error) {
                 // TODO: surface this message
