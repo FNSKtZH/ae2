@@ -55,6 +55,17 @@ const enhance = compose(
         client.mutate({
           mutation: updatePropertyMutation,
           variables: { properties: JSON.stringify(properties), id },
+          optimisticResponse: {
+            updateObjectById: {
+              object: {
+                id,
+                properties: JSON.stringify(properties),
+                __typename: 'Object',
+              },
+              __typename: 'Object',
+            },
+            __typename: 'Mutation',
+          },
         })
       }
     },

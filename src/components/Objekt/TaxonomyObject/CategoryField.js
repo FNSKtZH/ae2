@@ -45,6 +45,18 @@ const enhance = compose(
             category: value,
             id: objekt.id,
           },
+          optimisticResponse: {
+            updateObjectById: {
+              object: {
+                id: objekt.id,
+                category: value,
+                name: objekt.name,
+                __typename: 'Object',
+              },
+              __typename: 'Object',
+            },
+            __typename: 'Mutation',
+          },
         })
       }
     },

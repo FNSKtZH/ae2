@@ -8,6 +8,7 @@ export default gql`
     ) {
       object {
         id
+        properties
       }
     }
   }

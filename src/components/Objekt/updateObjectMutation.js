@@ -8,6 +8,8 @@ export default gql`
     ) {
       object {
         id
+        name
+        category
       }
     }
   }

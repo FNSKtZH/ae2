@@ -29,6 +29,18 @@ const enhance = compose(
             category: field === 'category' ? value : objekt.category,
             id: objekt.id,
           },
+          optimisticResponse: {
+            updateObjectById: {
+              object: {
+                id: objekt.id,
+                name: field === 'name' ? value : objekt.name,
+                category: field === 'category' ? value : objekt.category,
+                __typename: 'Object',
+              },
+              __typename: 'Object',
+            },
+            __typename: 'Mutation',
+          },
         })
       }
     },
