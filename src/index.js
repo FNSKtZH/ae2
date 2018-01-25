@@ -56,7 +56,6 @@ global.__MUI_SvgIcon__ = SvgIcon
             mutation: setLoginMutation,
             variables: {
               username: 'Login abgelaufen',
-              role: '',
               token: '',
             },
           })
@@ -66,7 +65,6 @@ global.__MUI_SvgIcon__ = SvgIcon
                 mutation: setLoginMutation,
                 variables: {
                   username: '',
-                  role: '',
                   token: '',
                 },
               }),

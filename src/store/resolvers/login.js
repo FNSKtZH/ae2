@@ -2,8 +2,8 @@
 
 export default {
   Mutation: {
-    setLogin: (_, { token, role, username }, { cache }) => {
-      const login = { token, role, username, __typename: 'Login' }
+    setLogin: (_, { token, username }, { cache }) => {
+      const login = { token, username, __typename: 'Login' }
       cache.writeData({ data: { login } })
       return null
     },

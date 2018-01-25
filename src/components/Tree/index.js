@@ -111,6 +111,8 @@ const Tree = ({
     console.log('Tree: error:', error)
     return <div> {error.message} </div>
   }
+  console.log('rendering tree, loginData:', loginData)
+  console.log('rendering tree, treeData:', treeData)
 
   return (
     <ErrorBoundary>

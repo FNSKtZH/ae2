@@ -34,6 +34,7 @@ export default gql`
         name
         organizationUsersByUserId {
           nodes {
+            id
             role
             organizationByOrganizationId {
               id

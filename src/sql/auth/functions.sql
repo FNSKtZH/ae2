@@ -64,6 +64,7 @@ $$;
 
 -- Login function which takes an user name and password
 -- and returns JWT if the credentials match a user in the internal table
+-- TODO: role is not needed, remove
 create or replace function ae.login(username text, pass text)
 returns auth.jwt_token
   as $$

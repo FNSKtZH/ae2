@@ -24,7 +24,6 @@ const otherDefaults = {
   },
   login: {
     token: '',
-    role: '',
     username: '',
     __typename: 'Login',
   },

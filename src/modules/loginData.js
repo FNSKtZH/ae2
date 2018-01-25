@@ -7,7 +7,6 @@ export default graphql(
     query loginQuery {
       login @client {
         token
-        role
         username
       }
     }

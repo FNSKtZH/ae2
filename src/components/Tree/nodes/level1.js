@@ -50,15 +50,19 @@ export default ({
       menuType: 'CmBenutzerFolder',
     })
     const tokenDecoded = jwtDecode(token)
-    const { role, username } = tokenDecoded
+    const { username } = tokenDecoded
     const user = get(treeData, 'allUsers.nodes', []).find(
       u => u.name === username
     )
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
+    const userRoles = orgUsers
+      .filter(u => get(u, 'organizationByOrganizationId.name', '' === username))
+      .map(u => u.role)
     const userOrganizations = union(
       orgUsers.map(u => get(u, 'organizationByOrganizationId.name'))
     )
-    if (role === 'org_admin') {
+    const userIsOrgAdmin = userRoles.includes('orgAdmin')
+    if (userIsOrgAdmin) {
       nodes.push({
         id: 'Organisationen',
         url: ['Organisationen'],

@@ -42,7 +42,6 @@ export default async ({
     mutation: setLoginMutation,
     variables: {
       username: '',
-      role: '',
       token: '',
     },
   })
@@ -71,22 +70,29 @@ export default async ({
   const jwtToken = get(result, 'data.login.jwtToken')
   if (jwtToken) {
     const tokenDecoded = jwtDecode(jwtToken)
-    const { role, username } = tokenDecoded
+    const { username } = tokenDecoded
     //console.log('tokenDecoded:', tokenDecoded)
     // refresh currentUser in idb
     await app.idb.users.clear()
     await app.idb.users.put({
       username,
       token: jwtToken,
-      role,
     })
     try {
+      console.log('go!')
       client.mutate({
         mutation: setLoginMutation,
         variables: {
           username,
-          role,
           token: jwtToken,
+        },
+        optimisticResponse: {
+          setLogin: {
+            username,
+            token: jwtToken,
+            __typename: 'Login',
+          },
+          __typename: 'Mutation',
         },
       })
     } catch (error) {

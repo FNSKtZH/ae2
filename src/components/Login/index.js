@@ -53,7 +53,6 @@ const enhance = compose(
         mutation: setLoginMutation,
         variables: {
           username: '',
-          role: '',
           token: '',
         },
       })
