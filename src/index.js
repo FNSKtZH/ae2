@@ -114,14 +114,22 @@ global.__MUI_SvgIcon__ = SvgIcon
     // configure history
     const history = createHistory()
     // make ui follow when user uses browser back and forward buttons
-    history.listen(location =>
+    history.listen(location => {
+      const activeNodeArray = getActiveNodeArrayFromPathname()
       client.mutate({
         mutation: activeNodeArrayMutation,
         variables: {
-          value: getActiveNodeArrayFromPathname(),
+          value: activeNodeArray,
+        },
+        optimisticResponse: {
+          setActiveNodeArray: {
+            activeNodeArray,
+            __typename: 'ActiveNodeArray',
+          },
+          __typename: 'Mutation',
         },
       })
-    )
+    })
 
     app.extend({
       init() {
@@ -146,6 +154,13 @@ global.__MUI_SvgIcon__ = SvgIcon
       mutation: activeNodeArrayMutation,
       variables: {
         value: activeNodeArray,
+      },
+      optimisticResponse: {
+        setActiveNodeArray: {
+          activeNodeArray,
+          __typename: 'ActiveNodeArray',
+        },
+        __typename: 'Mutation',
       },
     })
 
