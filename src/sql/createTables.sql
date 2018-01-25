@@ -70,7 +70,7 @@ CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
 ALTER TABLE ae.taxonomy ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.taxonomy;
--- once: drop policy writer
+-- once: drop policy writer ON ae.taxonomy
 CREATE POLICY updater ON ae.taxonomy
 USING (TRUE)
 WITH CHECK (
@@ -95,6 +95,8 @@ CREATE TABLE ae.user (
   pass text NOT NULL DEFAULT 'secret' check (length(pass) > 5),
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
+ALTER TABLE ae.user ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS reader_writer ON ae.user;
 CREATE POLICY
   reader_writer
   ON ae.user
