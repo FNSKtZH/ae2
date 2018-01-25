@@ -9,6 +9,14 @@ export default async (client: Object): void => {
     client.mutate({
       mutation: setLoginMutation,
       variables: { username, token },
+      optimisticResponse: {
+        setLogin: {
+          username,
+          token,
+          __typename: 'Login',
+        },
+        __typename: 'Mutation',
+      },
     })
   }
 }

@@ -58,6 +58,14 @@ global.__MUI_SvgIcon__ = SvgIcon
               username: 'Login abgelaufen',
               token: '',
             },
+            optimisticResponse: {
+              setLogin: {
+                username: 'Login abgelaufen',
+                token: '',
+                __typename: 'Login',
+              },
+              __typename: 'Mutation',
+            },
           })
           setTimeout(
             () =>
@@ -66,6 +74,14 @@ global.__MUI_SvgIcon__ = SvgIcon
                 variables: {
                   username: '',
                   token: '',
+                },
+                optimisticResponse: {
+                  setLogin: {
+                    username: '',
+                    token: '',
+                    __typename: 'Login',
+                  },
+                  __typename: 'Mutation',
                 },
               }),
             10000
