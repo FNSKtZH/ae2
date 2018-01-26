@@ -44,10 +44,6 @@ CREATE POLICY writer ON ae.organization
     current_user_name() in (select * from ae.organization_admins)
   );
 
--- only once:
---ALTER TABLE ae.organization ADD COLUMN links text[] DEFAULT NULL;
---ALTER TABLE ae.organization ADD COLUMN contact UUID DEFAULT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE;
-
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
   -- gets existing guids
@@ -70,12 +66,13 @@ CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
 ALTER TABLE ae.taxonomy ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.taxonomy;
--- once: drop policy writer ON ae.taxonomy
+drop policy if exists updater ON ae.taxonomy;
 CREATE POLICY updater ON ae.taxonomy
 USING (TRUE)
 WITH CHECK (
   organization_id in (select * from ae.organizations_currentuser_is_taxonomywriter)
 );
+drop POLICY if EXISTS inserter on ae.taxonomy;
 CREATE POLICY inserter ON ae.taxonomy for insert
 WITH CHECK (
   (
@@ -91,29 +88,22 @@ CREATE TABLE ae.user (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   name text UNIQUE,
   email text UNIQUE,
+  -- is this still used?
   role name NOT NULL DEFAULT 'org_writer' check (length(role) < 512),
   pass text NOT NULL DEFAULT 'secret' check (length(pass) > 5),
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
 ALTER TABLE ae.user ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS reader_writer ON ae.user;
-CREATE POLICY
-  reader_writer
-  ON ae.user
+CREATE POLICY reader_writer ON ae.user
   USING (
     name = current_user_name()
     OR current_user_name() in (
       select * from ae.organization_admins
     )
+    -- TODO: this only for USING, not for CHECK?
     OR current_user = 'anon'
   );
-
--- only once:
---alter table ae.user add column role name check (length(role) < 512);
---alter table ae.user add column pass text NULL;
--- add data from auth.user
---alter table ae.user alter column role set not null;
---alter table ae.user alter column role set DEFAULT 'org_writer';
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
@@ -131,15 +121,15 @@ CREATE TABLE ae.object (
   -- so keep them around in the original form
   id_old text DEFAULT NULL
 );
+--once: ALTER TABLE ae.object ADD CONSTRAINT fk_parent FOREIGN KEY (parent_id) REFERENCES ae.object (id);
 CREATE INDEX ON ae.object USING btree (name);
 ALTER TABLE ae.object ENABLE ROW LEVEL SECURITY;
--- once: DROP POLICY IF EXISTS writer ON ae.object;
 DROP POLICY IF EXISTS updater ON ae.object;
 CREATE POLICY updater ON ae.object
   USING (true)
   WITH CHECK (
     -- need to use view
-    -- if use sql, postgre surfaces recursion error
+    -- if use sql, postgre claims recursion error
     taxonomy_id IN (SELECT * FROM ae.current_user_writable_taxonomies)
   );
 CREATE POLICY inserter on ae.object for insert
@@ -185,18 +175,17 @@ CREATE TABLE ae.property_collection (
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
+-- once: ALTER TABLE ae.property_collection ADD UNIQUE (name);
 CREATE INDEX ON ae.property_collection USING btree (name);
 CREATE INDEX ON ae.property_collection USING btree (combining);
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.property_collection;
 DROP POLICY IF EXISTS updater ON ae.property_collection;
-CREATE POLICY
-  updater
-  ON ae.property_collection
+CREATE POLICY updater ON ae.property_collection
   USING (true)
   WITH CHECK (
     organization_id in (select * from ae.organizations_currentuser_is_collectionwriter)
   );
+drop policy if exists inserter on ae.property_collection;
 CREATE POLICY inserter ON ae.property_collection for insert
 WITH CHECK (
   (
@@ -216,15 +205,13 @@ CREATE TABLE ae.property_collection_object (
   UNIQUE (object_id, property_collection_id)
 );
 ALTER TABLE ae.property_collection_object ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.property_collection_object;
 DROP POLICY IF EXISTS updater ON ae.property_collection_object;
-CREATE POLICY
-  updater
-  ON ae.property_collection_object
+CREATE POLICY updater ON ae.property_collection_object
   USING (true)
   WITH CHECK (
     property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
   );
+DROP POLICY IF EXISTS inserter ON ae.property_collection_object;
 CREATE POLICY inserter on ae.property_collection_object for insert
   WITH CHECK (
     (
@@ -246,15 +233,13 @@ CREATE TABLE ae.relation (
 );
 CREATE INDEX ON ae.relation USING btree (relation_type);
 ALTER TABLE ae.relation ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.relation;
 DROP POLICY IF EXISTS updater ON ae.relation;
-CREATE POLICY
-  updater
-  ON ae.relation
+CREATE POLICY updater ON ae.relation
   USING (true)
   WITH CHECK (
     property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
   );
+DROP POLICY IF EXISTS inserter ON ae.relation;
 CREATE POLICY inserter on ae.relation for insert
   WITH CHECK (
     (
@@ -284,30 +269,14 @@ CREATE TABLE ae.organization_user (
   role text REFERENCES ae.role (name) ON DELETE CASCADE ON UPDATE CASCADE,
   unique(organization_id, user_id, role)
 );
-
--- only once: ALTER TABLE ae.organization_user ADD unique(organization_id, user_id, role);
--- TODO: does not work because there are organization_id's that do not exist in ae.organization
-ALTER TABLE ae.organization_user ADD CONSTRAINT fk_organization FOREIGN KEY (organization_id) REFERENCES ae.organization (id) ON DELETE CASCADE ON UPDATE CASCADE;
--- TODO: does not work because there are user_id's that do not exist in ae.organization
-ALTER TABLE ae.organization_user ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE;
--- run once:
---delete from ae.organization_user where organization_id not in ('a8e5bc98-696f-11e7-b453-3741aafa0388')
---ALTER TABLE  ae.organization_user ALTER COLUMN user_id DROP NOT NULL;
---ALTER TABLE  ae.organization_user ALTER COLUMN role DROP NOT NULL;
---ALTER TABLE  ae.organization_user ALTER COLUMN organization_id DROP NOT NULL;
---ALTER TABLE  ae.organization_user DROP constraint organization_user_pkey;
---ALTER TABLE  ae.organization_user add column id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc();
-
 ALTER TABLE ae.organization_user ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.organization_user;
 DROP POLICY IF EXISTS updater ON ae.organization_user;
-CREATE POLICY
-  updater
-  ON ae.organization_user
+CREATE POLICY updater ON ae.organization_user
   USING (true)
   WITH CHECK (
     organization_id in (select * from ae.organizations_currentuser_is_orgadmin)
   );
+DROP POLICY IF EXISTS inserter ON ae.organization_user;
 CREATE POLICY inserter on ae.organization_user for insert
   WITH CHECK (
     (
@@ -320,11 +289,6 @@ CREATE POLICY inserter on ae.organization_user for insert
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
 -- see: https://github.com/postgraphql/postgraphql/issues/491
-DROP TABLE IF EXISTS ae.tax_properties_by_category CASCADE;
-
--- this table is only needed because postgraphql does not pick up
--- the same named function without it
--- see: https://github.com/postgraphql/postgraphql/issues/491
 DROP TABLE IF EXISTS ae.tax_properties_by_taxonomy CASCADE;
 CREATE TABLE ae.tax_properties_by_taxonomy (
   taxonomy_name text,
@@ -332,9 +296,6 @@ CREATE TABLE ae.tax_properties_by_taxonomy (
   jsontype text,
   count bigint
 );
-
--- TODO: remove after replacing with ...by_taxonomy
-DROP TABLE IF EXISTS ae.pco_properties_by_category CASCADE;
 
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
@@ -346,8 +307,6 @@ CREATE TABLE ae.pco_properties_by_taxonomy (
   jsontype text,
   count bigint
 );
-
-DROP TABLE IF EXISTS ae.rco_properties_by_category CASCADE;
 
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
@@ -392,6 +351,3 @@ DROP TABLE IF EXISTS ae.prop_value CASCADE;
 CREATE TABLE ae.prop_value (
   value text
 );
-
--- drop old tables
-DROP TABLE IF EXISTS ae.taxonomy_object CASCADE;
