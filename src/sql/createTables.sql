@@ -1,3 +1,26 @@
+-- this one first because of references to it
+DROP TABLE IF EXISTS ae.user CASCADE;
+CREATE TABLE ae.user (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
+  name text UNIQUE,
+  email text UNIQUE,
+  -- is this still used?
+  role name NOT NULL DEFAULT 'org_writer' check (length(role) < 512),
+  pass text NOT NULL DEFAULT 'secret' check (length(pass) > 5),
+  CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
+);
+ALTER TABLE ae.user ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS reader_writer ON ae.user;
+CREATE POLICY reader_writer ON ae.user
+  USING (
+    name = current_user_name()
+    OR current_user_name() in (
+      select * from ae.organization_admins
+    )
+    -- TODO: this only for USING, not for CHECK?
+    OR current_user = 'anon'
+  );
+  
 -- data_type is used for root nodes in app's tree
 -- actually: is not used in app, values are directly set :-(
 DROP TABLE IF EXISTS ae.data_type CASCADE;
@@ -62,6 +85,7 @@ CREATE TABLE ae.taxonomy (
   habitat_nr_fns_max integer DEFAULT NULL,
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
+-- once on notebook: ALTER TABLE ae.taxonomy ADD CONSTRAINT fk_user FOREIGN KEY (imported_by) REFERENCES ae.user (id);
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
 ALTER TABLE ae.taxonomy ENABLE ROW LEVEL SECURITY;
@@ -82,28 +106,6 @@ WITH CHECK (
     current_user_name() in (select * from ae.taxonomy_writers)
   )
 );
-
-DROP TABLE IF EXISTS ae.user CASCADE;
-CREATE TABLE ae.user (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  name text UNIQUE,
-  email text UNIQUE,
-  -- is this still used?
-  role name NOT NULL DEFAULT 'org_writer' check (length(role) < 512),
-  pass text NOT NULL DEFAULT 'secret' check (length(pass) > 5),
-  CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
-);
-ALTER TABLE ae.user ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS reader_writer ON ae.user;
-CREATE POLICY reader_writer ON ae.user
-  USING (
-    name = current_user_name()
-    OR current_user_name() in (
-      select * from ae.organization_admins
-    )
-    -- TODO: this only for USING, not for CHECK?
-    OR current_user = 'anon'
-  );
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
