@@ -4,10 +4,11 @@ import { ContextMenu, MenuItem, connectMenu } from 'react-contextmenu'
 
 const DynamicMenu = ({ id, trigger }) => {
   const handleItemClick = trigger ? trigger.onItemClick : null
+  const nodeLabel = trigger ? trigger.nodeLabel : ''
 
   return (
     <ContextMenu id={id} collect={props => props}>
-      <div className="react-contextmenu-title">Art/Lebensraum</div>
+      <div className="react-contextmenu-title">{nodeLabel}</div>
       <MenuItem
         onClick={handleItemClick}
         data={{
@@ -15,7 +16,7 @@ const DynamicMenu = ({ id, trigger }) => {
           table: 'object',
         }}
       >
-        erstelle neu (eine Ebene tiefer)
+        erstelle neues Objekt (eine Ebene tiefer)
       </MenuItem>
       <MenuItem
         onClick={handleItemClick}

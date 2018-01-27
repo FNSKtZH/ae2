@@ -12,7 +12,6 @@ import app from 'ampersand-app'
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenu from './onClickContextMenu'
 import userData from '../../Benutzer/userData'
-import treeData from '../treeData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const singleRowHeight = 23
@@ -83,7 +82,6 @@ function collect(props) {
 const enhance = compose(
   withApollo,
   userData,
-  treeData,
   withHandlers({
     onClickNode: ({ node, index, activeNodeArray }) => event => {
       // do nothing when loading indicator is clicked

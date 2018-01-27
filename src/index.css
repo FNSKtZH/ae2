@@ -98,9 +98,6 @@ body {
   padding-bottom: 3px;
   opacity: 1;
 }
-:global .react-contextmenu-title::after {
-  content: ':';
-}
 
 :global .react-contextmenu > .react-contextmenu-item {
   display: inline-block;

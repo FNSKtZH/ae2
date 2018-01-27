@@ -5,6 +5,7 @@ import app from 'ampersand-app'
 import createUserMutation from '../../Benutzer/createUserMutation'
 import deleteUserMutation from '../../Benutzer/deleteUserMutation'
 import createObjectMutation from '../../Objekt/createObjectMutation'
+import deleteObjectMutation from '../../Objekt/deleteObjectMutation'
 
 export default async ({
   e,
@@ -69,7 +70,15 @@ export default async ({
         app.history.push('/Benutzer')
       }
       if (table === 'object') {
-        console.log('delete object with id:', id)
+        await client.mutate({
+          mutation: deleteObjectMutation,
+          variables: { id },
+        })
+        treeData.refetch()
+        if (url.includes(id)) {
+          url.length = url.indexOf(id)
+          app.history.push(`/${url.join('/')}`)
+        }
       }
     },
   }
