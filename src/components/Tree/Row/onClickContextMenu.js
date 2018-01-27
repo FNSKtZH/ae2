@@ -48,10 +48,15 @@ export default async ({
         console.log('create child of object id:', id)
         console.log('url:', url)
         console.log('taxonomyId:', url[2])
-        await client.mutate({
+        const newObjectData = await client.mutate({
           mutation: createObjectMutation,
           variables: { taxonomyId: url[2], parentId: id },
         })
+        console.log('newObjectData:', newObjectData)
+        const newId = get(newObjectData, 'data.createObject.object.id', null)
+        console.log('newId:', newId)
+        const newUrl = url.push(newId)
+        app.history.push(`/${[...url, newId].join('/')}`)
       }
     },
     delete: async () => {
