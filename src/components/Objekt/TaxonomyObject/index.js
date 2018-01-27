@@ -268,7 +268,12 @@ const TaxonomyObject = ({
             <PropertyReadOnly value={objekt.id} label="ID" />
             {editing ? (
               <Fragment>
-                <Property label="Name" field="name" objekt={objekt} />
+                <Property
+                  key={`${objekt.id}/name`}
+                  label="Name"
+                  field="name"
+                  objekt={objekt}
+                />
                 <CategoryField objekt={objekt} />
               </Fragment>
             ) : (
