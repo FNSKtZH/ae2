@@ -48,10 +48,10 @@ export default async ({
         console.log('create child of object id:', id)
         console.log('url:', url)
         console.log('taxonomyId:', url[2])
-        /*await client.mutate({
+        await client.mutate({
           mutation: createObjectMutation,
           variables: { taxonomyId: url[2], parentId: id },
-        })*/
+        })
       }
     },
     delete: async () => {
