@@ -37,6 +37,9 @@ export default ({
         ? node.objectsByParentId.totalCount
         : 0
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
+    // give nodeName a value if it does not yet exist
+    // otherwiese empty nodes are sorted before its parent
+    const nodeName = node.name || 'ZZZZ'
 
     return {
       id: node.id,
@@ -58,7 +61,7 @@ export default ({
         activeLevel5TaxonomyName,
         activeLevel6TaxonomyName,
         activeLevel7TaxonomyName,
-        node.name,
+        nodeName,
       ],
       label: node.name,
       info: labelCount.toLocaleString('de-CH'),

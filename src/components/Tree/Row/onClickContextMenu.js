@@ -45,18 +45,13 @@ export default async ({
         !!newUserId && app.history.push(`/Benutzer/${newUserId}`)
       }
       if (table === 'object') {
-        console.log('create child of object id:', id)
-        console.log('url:', url)
-        console.log('taxonomyId:', url[2])
         const newObjectData = await client.mutate({
           mutation: createObjectMutation,
           variables: { taxonomyId: url[2], parentId: id },
         })
-        console.log('newObjectData:', newObjectData)
         const newId = get(newObjectData, 'data.createObject.object.id', null)
-        console.log('newId:', newId)
-        const newUrl = url.push(newId)
         app.history.push(`/${[...url, newId].join('/')}`)
+        treeData.refetch()
       }
     },
     delete: async () => {
