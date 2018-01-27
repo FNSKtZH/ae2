@@ -74,11 +74,16 @@ export default async ({
           mutation: deleteObjectMutation,
           variables: { id },
         })
-        treeData.refetch()
         if (url.includes(id)) {
           url.length = url.indexOf(id)
           app.history.push(`/${url.join('/')}`)
         }
+        /**
+         * TODO
+         * refetch does not remove node from tree
+         * need to optimistically update
+         */
+        treeData.refetch()
       }
     },
   }
