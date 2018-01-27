@@ -63,7 +63,7 @@ CREATE TABLE ae.object (
   taxonomy_id UUID NOT NULL REFERENCES ae.taxonomy (id) ON DELETE CASCADE ON UPDATE CASCADE,
   -- need to temporarily turn off this reference because it is violated during import
   parent_id UUID DEFAULT NULL,-- REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  name text NOT NULL,
+  name text,
   properties jsonb DEFAULT NULL,
   category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
   -- UUID's are by definition lowercase
@@ -74,6 +74,7 @@ CREATE TABLE ae.object (
   id_old text DEFAULT NULL
 );
 --once: ALTER TABLE ae.object ADD CONSTRAINT fk_parent FOREIGN KEY (parent_id) REFERENCES ae.object (id);
+-- once: ALTER TABLE ae.object ALTER COLUMN name DROP NOT NULL
 CREATE INDEX ON ae.object USING btree (name);
 
 
