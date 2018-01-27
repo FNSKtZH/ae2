@@ -9,17 +9,6 @@ CREATE TABLE ae.user (
   pass text NOT NULL DEFAULT 'secret' check (length(pass) > 5),
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
-ALTER TABLE ae.user ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS reader_writer ON ae.user;
-CREATE POLICY reader_writer ON ae.user
-  USING (
-    name = current_user_name()
-    OR current_user_name() in (
-      select * from ae.organization_admins
-    )
-    -- TODO: this only for USING, not for CHECK?
-    OR current_user = 'anon'
-  );
   
 -- data_type is used for root nodes in app's tree
 -- actually: is not used in app, values are directly set :-(
@@ -28,13 +17,6 @@ CREATE TABLE ae.data_type (
   name text PRIMARY KEY
 );
 INSERT INTO ae.data_type VALUES ('Taxonomien'), ('Eigenschaften-Sammlungen');
-ALTER TABLE ae.data_type ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.data_type;
-CREATE POLICY writer ON ae.data_type
-  USING (true)
-  WITH CHECK (
-    current_user_name() in (select * from ae.organization_admins)
-  );
 
 DROP TABLE IF EXISTS ae.category CASCADE;
 CREATE TABLE ae.category (
@@ -43,13 +25,6 @@ CREATE TABLE ae.category (
   data_type text DEFAULT 'Taxonomien' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   id UUID DEFAULT uuid_generate_v1mc()
 );
-ALTER TABLE ae.category ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.category;
-CREATE POLICY writer ON ae.category
-  USING (true)
-  WITH CHECK (
-    current_user_name() in (select * from ae.organization_admins)
-  );
 
 DROP TABLE IF EXISTS ae.organization CASCADE;
 CREATE TABLE ae.organization (
@@ -59,13 +34,6 @@ CREATE TABLE ae.organization (
   contact UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE INDEX ON ae.organization USING btree (name);
-ALTER TABLE ae.organization ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.organization;
-CREATE POLICY writer ON ae.organization
-  USING (true)
-  WITH CHECK (
-    current_user_name() in (select * from ae.organization_admins)
-  );
 
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
@@ -88,24 +56,6 @@ CREATE TABLE ae.taxonomy (
 -- once on notebook: ALTER TABLE ae.taxonomy ADD CONSTRAINT fk_user FOREIGN KEY (imported_by) REFERENCES ae.user (id);
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
-ALTER TABLE ae.taxonomy ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.taxonomy;
-drop policy if exists updater ON ae.taxonomy;
-CREATE POLICY updater ON ae.taxonomy
-USING (TRUE)
-WITH CHECK (
-  organization_id in (select * from ae.organizations_currentuser_is_taxonomywriter)
-);
-drop POLICY if EXISTS inserter on ae.taxonomy;
-CREATE POLICY inserter ON ae.taxonomy for insert
-WITH CHECK (
-  (
-    organization_id is null
-    or organization_id in (select * from ae.organizations_currentuser_is_taxonomywriter)
-  ) and (
-    current_user_name() in (select * from ae.taxonomy_writers)
-  )
-);
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
@@ -125,23 +75,6 @@ CREATE TABLE ae.object (
 );
 --once: ALTER TABLE ae.object ADD CONSTRAINT fk_parent FOREIGN KEY (parent_id) REFERENCES ae.object (id);
 CREATE INDEX ON ae.object USING btree (name);
-ALTER TABLE ae.object ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS updater ON ae.object;
-CREATE POLICY updater ON ae.object
-  USING (true)
-  WITH CHECK (
-    -- need to use view
-    -- if use sql, postgre claims recursion error
-    taxonomy_id IN (SELECT * FROM ae.current_user_writable_taxonomies)
-  );
-CREATE POLICY inserter on ae.object for insert
-  WITH CHECK (
-    (
-      taxonomy_id is null
-      and current_user_name() in (select * from ae.taxonomy_writers)
-    )
-    or taxonomy_id IN (SELECT * FROM ae.current_user_writable_taxonomies)
-  );
 
 
 -- ae.object to ae.object relationship
@@ -152,15 +85,6 @@ CREATE TABLE ae.synonym (
   object_id_synonym UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (object_id, object_id_synonym)
 );
-ALTER TABLE ae.synonym ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.synonym;
-CREATE POLICY
-  writer
-  ON ae.synonym
-  USING (true)
-  WITH CHECK (
-    current_user_name() in (select * from ae.taxonomy_writers)
-  );
 
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (
@@ -180,23 +104,6 @@ CREATE TABLE ae.property_collection (
 -- once: ALTER TABLE ae.property_collection ADD UNIQUE (name);
 CREATE INDEX ON ae.property_collection USING btree (name);
 CREATE INDEX ON ae.property_collection USING btree (combining);
-ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS updater ON ae.property_collection;
-CREATE POLICY updater ON ae.property_collection
-  USING (true)
-  WITH CHECK (
-    organization_id in (select * from ae.organizations_currentuser_is_collectionwriter)
-  );
-drop policy if exists inserter on ae.property_collection;
-CREATE POLICY inserter ON ae.property_collection for insert
-WITH CHECK (
-  (
-    organization_id is null
-    or organization_id in (select * from ae.organizations_currentuser_is_collectionwriter)
-  ) and (
-    current_user_name() in (select * from ae.collection_writers)
-  )
-);
 
 DROP TABLE IF EXISTS ae.property_collection_object CASCADE;
 CREATE TABLE ae.property_collection_object (
@@ -206,22 +113,6 @@ CREATE TABLE ae.property_collection_object (
   properties jsonb DEFAULT NULL,
   UNIQUE (object_id, property_collection_id)
 );
-ALTER TABLE ae.property_collection_object ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS updater ON ae.property_collection_object;
-CREATE POLICY updater ON ae.property_collection_object
-  USING (true)
-  WITH CHECK (
-    property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
-  );
-DROP POLICY IF EXISTS inserter ON ae.property_collection_object;
-CREATE POLICY inserter on ae.property_collection_object for insert
-  WITH CHECK (
-    (
-      property_collection_id is null
-      and current_user_name() in (select * from ae.collection_writers)
-    )
-    or property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
-  );
 
 DROP TABLE IF EXISTS ae.relation CASCADE;
 CREATE TABLE ae.relation (
@@ -234,34 +125,11 @@ CREATE TABLE ae.relation (
   UNIQUE (property_collection_id, object_id, object_id_relation, relation_type)
 );
 CREATE INDEX ON ae.relation USING btree (relation_type);
-ALTER TABLE ae.relation ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS updater ON ae.relation;
-CREATE POLICY updater ON ae.relation
-  USING (true)
-  WITH CHECK (
-    property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
-  );
-DROP POLICY IF EXISTS inserter ON ae.relation;
-CREATE POLICY inserter on ae.relation for insert
-  WITH CHECK (
-    (
-      property_collection_id is null
-      and current_user_name() in (select * from ae.collection_writers)
-    )
-    or property_collection_id IN (SELECT * FROM ae.current_user_writable_collections)
-  );
 
 DROP TABLE IF EXISTS ae.role CASCADE;
 CREATE TABLE ae.role (
   name text PRIMARY KEY
 );
-ALTER TABLE ae.role ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.role;
-CREATE POLICY writer ON ae.role
-  USING (true)
-  WITH CHECK (
-    current_user_name() in (select * from ae.organization_admins)
-  );
 
 DROP TABLE IF EXISTS ae.organization_user;
 CREATE TABLE ae.organization_user (
@@ -271,22 +139,6 @@ CREATE TABLE ae.organization_user (
   role text REFERENCES ae.role (name) ON DELETE CASCADE ON UPDATE CASCADE,
   unique(organization_id, user_id, role)
 );
-ALTER TABLE ae.organization_user ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS updater ON ae.organization_user;
-CREATE POLICY updater ON ae.organization_user
-  USING (true)
-  WITH CHECK (
-    organization_id in (select * from ae.organizations_currentuser_is_orgadmin)
-  );
-DROP POLICY IF EXISTS inserter ON ae.organization_user;
-CREATE POLICY inserter on ae.organization_user for insert
-  WITH CHECK (
-    (
-      organization_id is null
-      and current_user_name() in (select * from ae.organization_admins)
-    )
-    or organization_id IN (SELECT * FROM ae.organizations_currentuser_is_orgadmin)
-  );
 
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
