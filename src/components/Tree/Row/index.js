@@ -157,6 +157,7 @@ const Row = ({
             data-level={level}
             data-nodeisinactivenodepath={nodeIsInActiveNodePath}
             data-id={node.id}
+            data-url={node.url}
             onClick={onClickNode}
           >
             {useSymbolIcon && (

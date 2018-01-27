@@ -4,6 +4,7 @@ import app from 'ampersand-app'
 
 import createUserMutation from '../../Benutzer/createUserMutation'
 import deleteUserMutation from '../../Benutzer/deleteUserMutation'
+import createObjectMutation from '../../Objekt/createObjectMutation'
 
 export default async ({
   e,
@@ -26,6 +27,7 @@ export default async ({
   }
   const { table, action } = data
   const id = target.firstElementChild.getAttribute('data-id')
+  const url = target.firstElementChild.getAttribute('data-url').split(',')
   const actions = {
     insert: async () => {
       if (table === 'user') {
@@ -44,6 +46,12 @@ export default async ({
       }
       if (table === 'object') {
         console.log('create child of object id:', id)
+        console.log('url:', url)
+        console.log('taxonomyId:', url[2])
+        /*await client.mutate({
+          mutation: createObjectMutation,
+          variables: { taxonomyId: url[2], parentId: id },
+        })*/
       }
     },
     delete: async () => {

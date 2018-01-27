@@ -1441,8 +1441,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000795"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000795.tgz#644f03fab00dd8bd1693e5e1e70d86b31c5cfece"
+  version "1.0.30000797"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000797.tgz#6eb0285c4db205dc8f46193f51b192d966d8f7e8"
 
 caniuse-lite@^1.0.30000748, caniuse-lite@^1.0.30000792:
   version "1.0.30000792"
@@ -4266,8 +4266,8 @@ joi@^6.10.1:
     topo "1.x.x"
 
 js-base64@^2.1.9:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.2.tgz#1896da010ef8862f385d8887648e9b6dc4a7a2e9"
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.3.tgz#2e545ec2b0f2957f41356510205214e98fad6582"
 
 js-file-download@0.4.1:
   version "0.4.1"
@@ -5496,8 +5496,8 @@ pg-int8@1.0.1:
   resolved "https://registry.yarnpkg.com/pg-int8/-/pg-int8-1.0.1.tgz#943bd463bf5b71b4170115f80f8efc9a0c0eb78c"
 
 pg-minify@~0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/pg-minify/-/pg-minify-0.5.3.tgz#aa09befa3cbe29fab6461bf819100e0471215011"
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/pg-minify/-/pg-minify-0.5.4.tgz#89d5261cacfd44dd7927fa052222a404e9b2a3c9"
 
 pg-pool@1.*:
   version "1.8.0"
@@ -6179,9 +6179,9 @@ react-contextmenu@2.9.2:
     classnames "^2.2.5"
     object-assign "^4.1.0"
 
-react-data-grid@3.0.7:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-3.0.7.tgz#554a56736a1e2898eca93a7225ed824d67e3ed84"
+react-data-grid@3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-3.0.8.tgz#e5125d5695c5bfbb0b4af3494661a5f1dff3b66d"
 
 react-dev-utils@^5.0.0:
   version "5.0.0"
