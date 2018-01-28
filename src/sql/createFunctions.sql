@@ -207,6 +207,10 @@ CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_count_function()
 ALTER FUNCTION ae.categories_of_taxonomies_count_function()
   OWNER TO postgres;
 
+
+
+  
+
 CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_function()
   RETURNS setof ae.categories_of_taxonomies AS
   $$
@@ -222,6 +226,10 @@ CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_function()
   LANGUAGE sql STABLE;
 ALTER FUNCTION ae.categories_of_taxonomies_function()
   OWNER TO postgres;
+
+
+
+
 
 CREATE OR REPLACE FUNCTION ae.categories_of_taxonomy_function(tax_id uuid)
   RETURNS setof ae.category AS
