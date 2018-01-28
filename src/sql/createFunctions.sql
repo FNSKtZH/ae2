@@ -190,13 +190,9 @@ CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_count_function()
   RETURNS setof ae.categories_of_taxonomies_count AS
   $$
     WITH categoryTaxonomies AS (
-      SELECT ae.category.name, ae.category.id, ae.taxonomy.id AS taxonomy_id
-      FROM ae.taxonomy
-        INNER JOIN ae.object
-          INNER JOIN ae.category
-          ON ae.category.name = ae.object.category
-        ON ae.object.taxonomy_id = ae.taxonomy.id
-      GROUP BY ae.category.name, ae.category.id, ae.taxonomy.id
+      SELECT category_name as name, category_id as id, taxonomy_id AS taxonomy_id
+      FROM ae.v_taxonomies_of_categories
+      GROUP BY category_name, category_id, taxonomy_id
     )
     SELECT name, id, count(*) AS count
     FROM categoryTaxonomies
@@ -207,44 +203,33 @@ CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_count_function()
 ALTER FUNCTION ae.categories_of_taxonomies_count_function()
   OWNER TO postgres;
 
-
-
-  
-
 CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_function()
   RETURNS setof ae.categories_of_taxonomies AS
   $$
     SELECT DISTINCT
-      ae.taxonomy.id as taxonomy_id,
-      ae.category.name as category_name
-    FROM ae.taxonomy
-      INNER JOIN ae.object
-        INNER JOIN ae.category
-        ON ae.category.name = ae.object.category
-      ON ae.object.taxonomy_id = ae.taxonomy.id
+      taxonomy_id,
+      category_name
+    FROM ae.v_taxonomies_of_categories
   $$
   LANGUAGE sql STABLE;
 ALTER FUNCTION ae.categories_of_taxonomies_function()
   OWNER TO postgres;
 
-
-
-
-
 CREATE OR REPLACE FUNCTION ae.categories_of_taxonomy_function(tax_id uuid)
   RETURNS setof ae.category AS
   $$
     SELECT DISTINCT ae.category.*
-    FROM ae.taxonomy
-      INNER JOIN ae.object
-        INNER JOIN ae.category
-        ON ae.category.name = ae.object.category
-      ON ae.object.taxonomy_id = ae.taxonomy.id
-    WHERE ae.taxonomy.id = $1
+    FROM ae.category
+    WHERE ae.category.name in (
+      select category_name from ae.v_taxonomies_of_categories
+      where taxonomy_id = $1
+    )
   $$
   LANGUAGE sql STABLE;
 ALTER FUNCTION ae.categories_of_taxonomy_function(tax_id uuid)
   OWNER TO postgres;
+
+
 
 CREATE OR REPLACE FUNCTION ae.category_by_data_type(datatype text)
   RETURNS setof ae.category AS
@@ -760,8 +745,7 @@ ALTER FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_names text[])
 CREATE OR REPLACE FUNCTION ae.taxonomies_of_categories_function()
   RETURNS setof ae.taxonomies_of_category AS
   $$
-    select * from ae.v_category_taxonomies
-    union select * from ae.v_category_taxonomies_without_objects;
+    select * from ae.v_taxonomies_of_categories
   $$
   LANGUAGE sql STABLE;
 ALTER FUNCTION ae.taxonomies_of_categories_function()
