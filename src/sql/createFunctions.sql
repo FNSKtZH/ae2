@@ -749,23 +749,11 @@ CREATE OR REPLACE FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_nam
 ALTER FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_names text[])
   OWNER TO postgres;
 
-
 CREATE OR REPLACE FUNCTION ae.taxonomies_of_categories_function()
   RETURNS setof ae.taxonomies_of_category AS
   $$
-    WITH categoryTaxonomies AS (
-      SELECT ae.object.id, ae.category.name AS category_name, ae.taxonomy.name AS taxonomy_name
-      FROM ae.taxonomy
-        INNER JOIN ae.object
-          INNER JOIN ae.category
-          ON ae.category.name = ae.object.category
-        ON ae.object.taxonomy_id = ae.taxonomy.id
-      GROUP BY ae.object.id, ae.category.name, ae.taxonomy.name
-    )
-    SELECT category_name, taxonomy_name, count(*) AS object_count
-    FROM categoryTaxonomies
-    GROUP BY category_name, taxonomy_name
-    ORDER BY category_name, taxonomy_name
+    select * from ae.v_category_taxonomies
+    union select * from ae.v_category_taxonomies_without_objects;
   $$
   LANGUAGE sql STABLE;
 ALTER FUNCTION ae.taxonomies_of_categories_function()
