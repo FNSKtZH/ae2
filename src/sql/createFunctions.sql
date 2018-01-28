@@ -764,15 +764,16 @@ CREATE OR REPLACE FUNCTION ae.taxonomies_of_category(category text)
   $$
     SELECT DISTINCT ae.taxonomy.*
     FROM ae.taxonomy
-      INNER JOIN ae.object
-        INNER JOIN ae.category
-        ON ae.category.name = ae.object.category
-      ON ae.object.taxonomy_id = ae.taxonomy.id
-    WHERE ae.category.name = $1
+    WHERE
+      ae.taxonomy.name in (
+        select taxonomy_name from ae.v_taxonomies_of_categories
+      where category_name = 'Fauna'
+      );
   $$
   LANGUAGE sql STABLE;
 ALTER FUNCTION ae.taxonomies_of_category(category text)
   OWNER TO postgres;
+
 
 CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy ae.taxonomy, taxonomy_id uuid)
   RETURNS setof ae.object AS

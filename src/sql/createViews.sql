@@ -101,3 +101,7 @@ WHERE NOT EXISTS (
   select ae.object.id from ae.object
   where ae.object.taxonomy_id = ae.taxonomy.id
 );
+
+create or replace view ae.v_taxonomies_of_categories as
+select * from ae.v_category_taxonomies
+    union select * from ae.v_category_taxonomies_without_objects;
