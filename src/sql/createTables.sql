@@ -39,11 +39,11 @@ DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
   -- gets existing guids
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  name text UNIQUE NOT NULL,
+  name text UNIQUE DEFAULT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
   last_updated date DEFAULT NULL,
-  organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
+  organization_id UUID DEFAULT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
   is_category_standard boolean DEFAULT FALSE,
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE,
   terms_of_use text DEFAULT NULL,
@@ -53,7 +53,10 @@ CREATE TABLE ae.taxonomy (
   habitat_nr_fns_max integer DEFAULT NULL,
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
--- once on notebook: ALTER TABLE ae.taxonomy ADD CONSTRAINT fk_user FOREIGN KEY (imported_by) REFERENCES ae.user (id);
+-- once on pc:
+ALTER TABLE ae.taxonomy ALTER COLUMN name DROP NOT NULL;
+ALTER TABLE ae.taxonomy ALTER COLUMN organization_id DROP NOT NULL;
+
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
 
