@@ -68,6 +68,7 @@ const Property = ({
     <ErrorBoundary>
       <Container>
         <TextField
+          autoFocus={label === 'Name' && !value}
           label={label}
           value={value}
           onChange={onChange}

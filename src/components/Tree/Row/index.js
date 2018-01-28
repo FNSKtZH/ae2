@@ -11,8 +11,9 @@ import app from 'ampersand-app'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenu from './onClickContextMenu'
-import userData from '../../Benutzer/userData'
 import treeData from '../treeData'
+import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
+import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const singleRowHeight = 23
@@ -82,8 +83,9 @@ function collect(props) {
 
 const enhance = compose(
   withApollo,
-  userData,
+  activeNodeArrayData,
   treeData,
+  editingTaxonomiesData,
   withHandlers({
     onClickNode: ({ node, index, activeNodeArray }) => event => {
       // do nothing when loading indicator is clicked
@@ -93,19 +95,20 @@ const enhance = compose(
         app.history.push(`/${url.join('/')}`)
       }
     },
-    onClickContextMenu: ({ client, userData, treeData, activeNodeArray }) => (
-      e,
-      data,
-      target
-    ) => {
+    onClickContextMenu: ({
+      client,
+      activeNodeArrayData,
+      treeData,
+      editingTaxonomiesData,
+    }) => (e, data, target) => {
       onClickContextMenu({
         e,
+        activeNodeArrayData,
         data,
         target,
         client,
-        userData,
         treeData,
-        activeNodeArray,
+        editingTaxonomiesData,
       })
     },
   })

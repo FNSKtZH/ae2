@@ -9,25 +9,27 @@ import createObjectMutation from '../../Objekt/createObjectMutation'
 import deleteObjectMutation from '../../Objekt/deleteObjectMutation'
 import treeDataGql from '../treeDataGql'
 import treeDataVariables from '../treeDataVariables'
-import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
 
 export default async ({
   e,
   data,
   target,
   client,
-  userData,
   treeData,
-  activeNodeArray,
+  editingTaxonomiesData,
+  activeNodeArrayData,
 }: {
   e: Object,
   data: Object,
   target: Object,
   client: Object,
-  userData: Object,
   treeData: Object,
-  activeNodeArray: Object,
+  editingTaxonomiesData: Object,
+  activeNodeArrayData: Object,
 }) => {
+  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
+  const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
   if (!data) return console.log('no data passed with click')
   if (!target) {
     return console.log('no target passed with click')
@@ -47,7 +49,6 @@ export default async ({
           console.log(error)
         }
         const newUserId = get(newUser, 'data.createUser.user.id')
-        userData.refetch()
         treeData.refetch()
         !!newUserId && app.history.push(`/Benutzer/${newUserId}`)
       }
@@ -58,6 +59,20 @@ export default async ({
         })
         const newId = get(newObjectData, 'data.createObject.object.id', null)
         app.history.push(`/${[...url, newId].join('/')}`)
+        // if not editing, set editing true
+        if (!editing) {
+          client.mutate({
+            mutation: editingTaxonomiesMutation,
+            variables: { value: true },
+            optimisticResponse: {
+              setEditingTaxonomies: {
+                editingTaxonomies: true,
+                __typename: 'EditingTaxonomies',
+              },
+              __typename: 'Mutation',
+            },
+          })
+        }
         treeData.refetch()
       }
     },
@@ -71,7 +86,6 @@ export default async ({
         } catch (error) {
           console.log(error)
         }
-        userData.refetch()
         treeData.refetch()
         app.history.push('/Benutzer')
       }
@@ -80,7 +94,7 @@ export default async ({
           mutation: deleteObjectMutation,
           variables: { id },
           optimisticResponse: {
-            deleteOrganizationUserById: {
+            deleteObjectById: {
               object: {
                 id,
                 __typename: 'Object',
@@ -89,18 +103,21 @@ export default async ({
             },
           },
           update: (proxy, { data: { deleteObjectMutation } }) => {
+            const variables = treeDataVariables({ activeNodeArray })
             const data = proxy.readQuery({
               query: treeDataGql,
-              variables: treeDataVariables({ activeNodeArrayData }),
+              variables,
             })
             const taxname = `level${url.length}Taxonomy`
-            const nodes = get(data, `${taxname}.nodes`, []).filter(
-              u => u.id !== id
-            )
-            set(data, `${taxname}.nodes`, nodes)
+            const nodes = get(
+              data,
+              `${taxname}.objectsByParentId.nodes`,
+              []
+            ).filter(u => u.id !== id)
+            set(data, `${taxname}.objectsByParentId.nodes`, nodes)
             proxy.writeQuery({
               query: treeDataGql,
-              variables: treeDataVariables({ activeNodeArrayData }),
+              variables,
               data,
             })
           },
@@ -109,12 +126,6 @@ export default async ({
           url.length = url.indexOf(id)
           app.history.push(`/${url.join('/')}`)
         }
-        /**
-         * TODO
-         * refetch does not remove node from tree
-         * need to optimistically update
-         */
-        treeData.refetch()
       }
     },
   }
