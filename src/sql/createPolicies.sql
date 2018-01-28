@@ -45,7 +45,8 @@ drop policy if exists updater ON ae.taxonomy;
 CREATE POLICY updater ON ae.taxonomy
   USING (TRUE)
   WITH CHECK (
-    organization_id in (select * from ae.organizations_currentuser_is_taxonomywriter)
+    organization_id is null
+    or organization_id in (select * from ae.organizations_currentuser_is_taxonomywriter)
   );
 drop POLICY if EXISTS inserter on ae.taxonomy;
 CREATE POLICY inserter ON ae.taxonomy for insert
