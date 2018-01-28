@@ -6,6 +6,7 @@ import app from 'ampersand-app'
 import createUserMutation from '../../Benutzer/createUserMutation'
 import deleteUserMutation from '../../Benutzer/deleteUserMutation'
 import createObjectMutation from '../../Objekt/createObjectMutation'
+import createRootObjectMutation from '../../Objekt/createRootObjectMutation'
 import deleteObjectMutation from '../../Objekt/deleteObjectMutation'
 import treeDataGql from '../treeDataGql'
 import treeDataVariables from '../treeDataVariables'
@@ -53,10 +54,20 @@ export default async ({
         !!newUserId && app.history.push(`/Benutzer/${newUserId}`)
       }
       if (table === 'object') {
-        const newObjectData = await client.mutate({
-          mutation: createObjectMutation,
-          variables: { taxonomyId: url[2], parentId: id },
-        })
+        let newObjectData
+        if (url.length === 3) {
+          // user clicke on the taxonomy
+          // need to create root level object, without parentId
+          newObjectData = await client.mutate({
+            mutation: createRootObjectMutation,
+            variables: { taxonomyId: url[2] },
+          })
+        } else {
+          newObjectData = await client.mutate({
+            mutation: createObjectMutation,
+            variables: { taxonomyId: url[2], parentId: id },
+          })
+        }
         const newId = get(newObjectData, 'data.createObject.object.id', null)
         app.history.push(`/${[...url, newId].join('/')}`)
         // if not editing, set editing true
@@ -109,12 +120,52 @@ export default async ({
               variables,
             })
             const taxname = `level${url.length}Taxonomy`
-            const nodes = get(
+            const nodesPath =
+              url.length === 4
+                ? `${taxname}.objectLevel1.nodes`
+                : `${taxname}.objectsByParentId.nodes`
+            const nodes = get(data, nodesPath, []).filter(u => u.id !== id)
+            set(data, nodesPath, nodes)
+            proxy.writeQuery({
+              query: treeDataGql,
+              variables,
               data,
-              `${taxname}.objectsByParentId.nodes`,
-              []
-            ).filter(u => u.id !== id)
-            set(data, `${taxname}.objectsByParentId.nodes`, nodes)
+            })
+          },
+        })
+        if (url.includes(id)) {
+          url.length = url.indexOf(id)
+          app.history.push(`/${url.join('/')}`)
+        }
+      }
+      if (table === 'taxonomy') {
+        await client.mutate({
+          mutation: deleteObjectMutation,
+          variables: { id },
+          optimisticResponse: {
+            deleteObjectById: {
+              object: {
+                id,
+                __typename: 'Object',
+              },
+              __typename: 'Mutation',
+            },
+          },
+          update: (proxy, { data: { deleteObjectMutation } }) => {
+            const variables = treeDataVariables({ activeNodeArray })
+            const data = proxy.readQuery({
+              query: treeDataGql,
+              variables,
+            })
+            console.log('data before:', data)
+            console.log('url:', url)
+            const taxname = `level${url.length}Taxonomy`
+            console.log('taxname:', taxname)
+            const nodes = get(data, `${taxname}.taxonomyById.nodes`, []).filter(
+              u => u.id !== id
+            )
+            console.log('nodes:', nodes)
+            set(data, `${taxname}.taxonomyById.nodes`, nodes)
             proxy.writeQuery({
               query: treeDataGql,
               variables,
