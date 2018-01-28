@@ -104,4 +104,4 @@ WHERE NOT EXISTS (
 
 create or replace view ae.v_taxonomies_of_categories as
 select * from ae.v_category_taxonomies
-    union select * from ae.v_category_taxonomies_without_objects;
+union select * from ae.v_category_taxonomies_without_objects;
