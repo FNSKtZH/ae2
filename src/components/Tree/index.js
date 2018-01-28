@@ -108,7 +108,6 @@ const Tree = ({
       style={style}
       node={nodes[index]}
       activeNodeArray={activeNodeArray}
-      treeData={treeData}
     />
   )
   const activeNodeIndex = findIndex(nodes, node =>

@@ -6,6 +6,9 @@ import createUserMutation from '../../Benutzer/createUserMutation'
 import deleteUserMutation from '../../Benutzer/deleteUserMutation'
 import createObjectMutation from '../../Objekt/createObjectMutation'
 import deleteObjectMutation from '../../Objekt/deleteObjectMutation'
+import treeDataGql from '../treeDataGql'
+import treeDataVariables from '../treeDataVariables'
+import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 
 export default async ({
   e,
@@ -14,6 +17,7 @@ export default async ({
   client,
   userData,
   treeData,
+  activeNodeArray,
 }: {
   e: Object,
   data: Object,
@@ -21,6 +25,7 @@ export default async ({
   client: Object,
   userData: Object,
   treeData: Object,
+  activeNodeArray: Object,
 }) => {
   if (!data) return console.log('no data passed with click')
   if (!target) {
@@ -73,6 +78,37 @@ export default async ({
         await client.mutate({
           mutation: deleteObjectMutation,
           variables: { id },
+          optimisticResponse: {
+            deleteOrganizationUserById: {
+              object: {
+                id,
+                __typename: 'Object',
+              },
+              __typename: 'Mutation',
+            },
+          },
+          update: (proxy, { data: { deleteObjectMutation } }) => {
+            const data = proxy.readQuery({
+              query: treeDataGql,
+              variables: treeDataVariables({ activeNodeArrayData }),
+            })
+            const orgUsers = get(
+              data,
+              'organizationByName.organizationUsersByOrganizationId.nodes',
+              []
+            )
+            const newOrgUsers = orgUsers.filter(u => u.id !== orgUser.id)
+            set(
+              data,
+              'organizationByName.organizationUsersByOrganizationId.nodes',
+              newOrgUsers
+            )
+            proxy.writeQuery({
+              query: orgUsersGql,
+              variables: { name: orgName },
+              data,
+            })
+          },
         })
         if (url.includes(id)) {
           url.length = url.indexOf(id)
