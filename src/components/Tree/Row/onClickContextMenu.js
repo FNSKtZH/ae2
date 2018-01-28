@@ -1,5 +1,6 @@
 // @flow
 import get from 'lodash/get'
+import set from 'lodash/set'
 import app from 'ampersand-app'
 
 import createUserMutation from '../../Benutzer/createUserMutation'
@@ -92,20 +93,14 @@ export default async ({
               query: treeDataGql,
               variables: treeDataVariables({ activeNodeArrayData }),
             })
-            const orgUsers = get(
-              data,
-              'organizationByName.organizationUsersByOrganizationId.nodes',
-              []
+            const taxname = `level${url.length}Taxonomy`
+            const nodes = get(data, `${taxname}.nodes`, []).filter(
+              u => u.id !== id
             )
-            const newOrgUsers = orgUsers.filter(u => u.id !== orgUser.id)
-            set(
-              data,
-              'organizationByName.organizationUsersByOrganizationId.nodes',
-              newOrgUsers
-            )
+            set(data, `${taxname}.nodes`, nodes)
             proxy.writeQuery({
-              query: orgUsersGql,
-              variables: { name: orgName },
+              query: treeDataGql,
+              variables: treeDataVariables({ activeNodeArrayData }),
               data,
             })
           },
