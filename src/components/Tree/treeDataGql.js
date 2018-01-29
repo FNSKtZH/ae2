@@ -8,7 +8,8 @@ export default gql`
     $notExistsLevel2Pc: Boolean!
     $existsLevel2Taxonomy: Boolean!
     $existsLevel3: Boolean!
-    $level3Taxonomy: String!
+    $level3Taxonomy: UUID!
+    $level3TaxonomyPossibleNull: UUID
     $existsLevel4: Boolean!
     $level4Taxonomy: UUID!
     $level4TaxonomyPossibleNull: UUID
@@ -76,10 +77,10 @@ export default gql`
         }
       }
     }
-    level3Taxonomy: taxonomyById(id: $level4Taxonomy)
+    level3Taxonomy: taxonomyById(id: $level3Taxonomy)
       @include(if: $existsLevel3) {
       id
-      objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
+      objectLevel1(taxonomyId: $level3TaxonomyPossibleNull) {
         nodes {
           id
           name

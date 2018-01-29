@@ -13,7 +13,10 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
   const existsLevel3 =
     activeNodeArray.length > 1 &&
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  const level3Taxonomy = existsLevel3 ? activeNodeArray[1] : 'none'
+  const level3Taxonomy = existsLevel3
+    ? activeNodeArray[1]
+    : '99999999-9999-9999-9999-999999999999'
+  const level3TaxonomyPossibleNull = activeNodeArray[1] || null
   const existsLevel4 =
     activeNodeArray.length > 2 &&
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
@@ -57,6 +60,7 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
     existsLevel2Taxonomy,
     existsLevel3,
     level3Taxonomy,
+    level3TaxonomyPossibleNull,
     existsLevel4,
     level4Taxonomy,
     level4TaxonomyPossibleNull,
