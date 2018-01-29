@@ -31,7 +31,15 @@ export default ({
   loginData: Object,
 }): Array<Object> => {
   console.log('buildNodes, treeData:', treeData)
-  const activeLevel2TaxonomyNodes = get(treeData, 'level2Taxonomy.nodes')
+  console.log('buildNodes, activeNodeArray[0]:', activeNodeArray[0])
+  const activeLevel2TaxonomyNodes = get(
+    treeData,
+    'level2Taxonomy.nodes',
+    []
+  ).filter(n => {
+    if (activeNodeArray[0] === 'Arten') return n.type === 'ART'
+    return n.type === 'LEBENSRAUM'
+  })
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
     activeLevel2TaxonomyNodes.find(n => n.name === activeNodeArray[1])
@@ -130,9 +138,7 @@ export default ({
       default:
       case 'Arten':
       case 'Lebensräume': {
-        nodes = nodes.concat(
-          level2Taxonomy({ treeData, activeLevel2TaxonomyName })
-        )
+        nodes = nodes.concat(level2Taxonomy({ treeData }))
         break
       }
     }
