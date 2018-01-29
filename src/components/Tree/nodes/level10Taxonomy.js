@@ -40,7 +40,7 @@ export default ({
   if (!treeData.level10Taxonomy) return []
   if (!treeData.level10Taxonomy.objectsByParentId) return []
   if (!treeData.level10Taxonomy.objectsByParentId.nodes) return []
-  const taxonomy = get(treeData, 'level2Taxonomy.nodes').find(
+  const taxonomy = get(treeData, 'allTaxonomies.nodes').find(
     tax => tax.name === activeLevel2TaxonomyName
   )
   if (!taxonomy) return []

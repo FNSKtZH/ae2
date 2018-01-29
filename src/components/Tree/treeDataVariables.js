@@ -23,7 +23,6 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
   const level4Taxonomy = existsLevel4
     ? activeNodeArray[2]
     : '99999999-9999-9999-9999-999999999999'
-  const level4TaxonomyPossibleNull = activeNodeArray[2] || null
   const existsLevel5 = activeNodeArray.length > 3
   const level5Taxonomy = existsLevel5
     ? activeNodeArray[3]
@@ -63,7 +62,6 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
     level3TaxonomyPossibleNull,
     existsLevel4,
     level4Taxonomy,
-    level4TaxonomyPossibleNull,
     existsLevel5,
     level5Taxonomy,
     existsLevel6,

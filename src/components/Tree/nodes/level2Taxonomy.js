@@ -7,11 +7,11 @@ export default ({
   activeLevel2TaxonomyName: Object,
 }): Array<Object> => {
   if (!treeData) return []
-  if (!treeData.level2Taxonomy) return []
-  if (!treeData.level2Taxonomy.nodes) return []
-  console.log('level2 nodes:', treeData.level2Taxonomy.nodes)
+  if (!treeData.allTaxonomies) return []
+  if (!treeData.allTaxonomies.nodes) return []
+  console.log('level2 nodes:', treeData.allTaxonomies.nodes)
 
-  return treeData.level2Taxonomy.nodes.map(node => {
+  return treeData.allTaxonomies.nodes.map(node => {
     const taxType = node.type
     const elem1 = taxType === 'ART' ? 'Arten' : 'Lebensräume'
     const sort1 = taxType === 'ART' ? 1 : 2

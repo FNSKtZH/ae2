@@ -34,7 +34,7 @@ export default ({
   console.log('buildNodes, activeNodeArray[0]:', activeNodeArray[0])
   const activeLevel2TaxonomyNodes = get(
     treeData,
-    'level2Taxonomy.nodes',
+    'allTaxonomies.nodes',
     []
   ).filter(n => {
     if (activeNodeArray[0] === 'Arten') return n.type === 'ART'

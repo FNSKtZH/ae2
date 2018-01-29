@@ -12,7 +12,6 @@ export default gql`
     $level3TaxonomyPossibleNull: UUID
     $existsLevel4: Boolean!
     $level4Taxonomy: UUID!
-    $level4TaxonomyPossibleNull: UUID
     $existsLevel5: Boolean!
     $level5Taxonomy: UUID!
     $existsLevel6: Boolean!
@@ -68,12 +67,13 @@ export default gql`
         totalCount
       }
     }
-    level2Taxonomy: allTaxonomies @include(if: $existsLevel2Taxonomy) {
+    allTaxonomies {
       nodes {
         id
         name
         type
-        objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
+        objectLevel1(taxonomyId: $level3TaxonomyPossibleNull)
+          @include(if: $existsLevel2Taxonomy) {
           totalCount
         }
       }
@@ -93,35 +93,35 @@ export default gql`
     }
     level4Taxonomy: objectById(id: $level4Taxonomy)
       @include(if: $existsLevel4) {
-      ...ObjektLevel5AndUp
+      ...ObjektLevel4AndUp
     }
     level5Taxonomy: objectById(id: $level5Taxonomy)
       @include(if: $existsLevel5) {
-      ...ObjektLevel5AndUp
+      ...ObjektLevel4AndUp
     }
     level6Taxonomy: objectById(id: $level6Taxonomy)
       @include(if: $existsLevel6) {
-      ...ObjektLevel5AndUp
+      ...ObjektLevel4AndUp
     }
     level7Taxonomy: objectById(id: $level7Taxonomy)
       @include(if: $existsLevel7) {
-      ...ObjektLevel5AndUp
+      ...ObjektLevel4AndUp
     }
     level8Taxonomy: objectById(id: $level8Taxonomy)
       @include(if: $existsLevel8) {
-      ...ObjektLevel5AndUp
+      ...ObjektLevel4AndUp
     }
     level9Taxonomy: objectById(id: $level9Taxonomy)
       @include(if: $existsLevel9) {
-      ...ObjektLevel5AndUp
+      ...ObjektLevel4AndUp
     }
     level10Taxonomy: objectById(id: $level10Taxonomy)
       @include(if: $existsLevel10) {
-      ...ObjektLevel5AndUp
+      ...ObjektLevel4AndUp
     }
   }
   ${gql`
-    fragment ObjektLevel5AndUp on Object {
+    fragment ObjektLevel4AndUp on Object {
       id
       objectsByParentId {
         nodes {
