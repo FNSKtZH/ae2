@@ -23,7 +23,9 @@ export default ({
       url: ['Arten'],
       sort: [1],
       label: 'Arten',
-      info: `(${artTaxonomies.length} Taxonomien)`,
+      info: `(${artTaxonomies.length} Taxonomie${
+        artTaxonomies.length !== 1 ? 'n' : ''
+      })`,
       childrenCount: artTaxonomies.length,
       menuType: 'CmTaxFolder',
     },
@@ -32,7 +34,9 @@ export default ({
       url: ['Lebensräume'],
       sort: [2],
       label: 'Lebensräume',
-      info: `(${lrTaxonomies.length} Taxonomien)`,
+      info: `(${lrTaxonomies.length} Taxonomie${
+        lrTaxonomies.length !== 1 ? 'n' : ''
+      })`,
       childrenCount: lrTaxonomies.length,
       menuType: 'CmTaxFolder',
     },
