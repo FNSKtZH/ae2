@@ -221,7 +221,7 @@ class User extends Component<Props, State> {
               label={`importierte Taxonomien (${tcs.length})`}
               buttonStyle={tabButtonStyle}
             >
-              <TCs userData={userData} tcs={tcs} />
+              <TCs tcs={tcs} />
             </Tab>
             <Tab
               label={`importierte Eigenschaften-Sammlungen (${pcs.length})`}

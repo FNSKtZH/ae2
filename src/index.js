@@ -146,10 +146,6 @@ global.__MUI_SvgIcon__ = SvgIcon
 
     // initiate activeNodeArray
     let activeNodeArray = getActiveNodeArrayFromPathname()
-    if (activeNodeArray.length === 0) {
-      // forward / to /Taxonomien
-      activeNodeArray = ['Taxonomien']
-    }
     client.mutate({
       mutation: activeNodeArrayMutation,
       variables: {

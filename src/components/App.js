@@ -28,7 +28,9 @@ const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
       ? activeNodeArray[0].toLowerCase()
       : null
   const show404 = ![
-    'taxonomien',
+    null,
+    'arten',
+    'lebensräume',
     'eigenschaften-sammlungen',
     'organisationen',
     'export',
@@ -36,7 +38,9 @@ const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
     'benutzer',
   ].includes(url0)
   const showData = [
-    'taxonomien',
+    null,
+    'arten',
+    'lebensräume',
     'eigenschaften-sammlungen',
     'benutzer',
     'organisationen',

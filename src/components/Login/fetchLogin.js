@@ -79,7 +79,6 @@ export default async ({
   if (jwtToken) {
     const tokenDecoded = jwtDecode(jwtToken)
     const { username } = tokenDecoded
-    //console.log('tokenDecoded:', tokenDecoded)
     // refresh currentUser in idb
     await app.idb.users.clear()
     await app.idb.users.put({
@@ -87,7 +86,6 @@ export default async ({
       token: jwtToken,
     })
     try {
-      console.log('go!')
       client.mutate({
         mutation: loginStoreMutation,
         variables: {
@@ -114,10 +112,7 @@ export default async ({
       changePass('')
       changeLoginSuccessfull(false)
       const historyAfterLogin = get(historyAfterLoginData, 'historyAfterLogin')
-      //const newPath = historyAfterLogin ? historyAfterLogin : '/Taxonomien'
-      //app.history.push(newPath)
       if (!!historyAfterLogin) {
-        console.log('hi')
         app.history.push(historyAfterLogin)
         client.mutate({
           mutation: historyAfterLoginMutation,
@@ -133,7 +128,7 @@ export default async ({
           },
         })
       } else {
-        app.history.push('/Taxonomien')
+        app.history.push('/')
       }
     }, 2000)
   }

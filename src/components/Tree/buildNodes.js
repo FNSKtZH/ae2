@@ -130,8 +130,11 @@ export default ({
         break
       }
       default:
-      case 'Taxonomien': {
-        nodes = nodes.concat(level2Taxonomy({ treeData }))
+      case 'Arten':
+      case 'Lebensräume': {
+        nodes = nodes.concat(
+          level2Taxonomy({ treeData, activeLevel2TaxonomyName })
+        )
         break
       }
     }

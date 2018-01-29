@@ -91,7 +91,7 @@ export default gql`
     }
     level4Taxonomy: objectById(id: $level4Taxonomy)
       @include(if: $existsLevel4) {
-      ...ObjektLevel4AndUp
+      ...ObjektLevel5AndUp
     }
     level5Taxonomy: objectById(id: $level5Taxonomy)
       @include(if: $existsLevel5) {

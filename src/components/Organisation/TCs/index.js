@@ -37,7 +37,6 @@ const TCs = ({ tcsData }: { tcsData: Object }) => {
     get(tcsData, 'organizationByName.taxonomiesByOrganizationId.nodes', []),
     'name'
   )
-  const taxByCategories = get(tcsData, 'categoriesOfTaxonomiesFunction.nodes')
 
   return (
     <ErrorBoundary>
@@ -45,13 +44,8 @@ const TCs = ({ tcsData }: { tcsData: Object }) => {
         <List>
           <ul>
             {tcs.map(u => {
-              const taxByCategory = taxByCategories.find(
-                tbc => tbc.taxonomyId === u.id
-              )
-              const category = taxByCategory ? taxByCategory.categoryName : null
-              const link = `${appBaseUrl}/Taxonomien/${encodeURIComponent(
-                category
-              )}/${u.id}`
+              const elem2 = u.type === 'Art' ? 'Arten' : 'Lebensräume'
+              const link = `${appBaseUrl}/${encodeURIComponent(elem2)}/${u.id}`
 
               return (
                 <li key={u.name}>

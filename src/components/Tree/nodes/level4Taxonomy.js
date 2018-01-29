@@ -1,4 +1,6 @@
 // @flow
+import get from 'lodash/get'
+
 export default ({
   treeData,
   activeLevel2TaxonomyName,
@@ -24,16 +26,24 @@ export default ({
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
     const nodeName = node.name || 'ZZZZ'
+    const taxonomy = get(treeData, 'level2Taxonomy.nodes').find(
+      tax => tax.name === activeLevel2TaxonomyName
+    )
+    if (!taxonomy) return []
+    const taxType = taxonomy.type
+    if (!taxType) return []
+    const elem1 = taxType === 'Art' ? 'Arten' : 'Lebensräume'
+    const sort1 = taxType === 'Art' ? 1 : 2
 
     return {
       id: node.id,
-      url: [
-        'Taxonomien',
+      url: [elem1, activeLevel2TaxonomyName, activeLevel3TaxonomyId, node.id],
+      sort: [
+        sort1,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyId,
-        node.id,
+        activeLevel3TaxonomyName,
+        nodeName,
       ],
-      sort: [1, activeLevel2TaxonomyName, activeLevel3TaxonomyName, nodeName],
       label: node.name,
       info: labelCount.toLocaleString('de-CH'),
       childrenCount,

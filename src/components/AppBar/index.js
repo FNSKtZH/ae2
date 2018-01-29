@@ -43,14 +43,8 @@ const enhance = compose(
   activeNodeArrayData,
   loginData,
   withHandlers({
-    onClickColumnButtonData: ({ activeNodeArrayData }) => () => {
-      const { activeNodeArray } = activeNodeArrayData
-      const pathIsMain = ['Taxonomien', 'Eigenschaften-Sammlungen'].includes(
-        activeNodeArray[0]
-      )
-      if (!pathIsMain) {
-        app.history.push('/Taxonomien')
-      }
+    onClickColumnButtonData: () => () => {
+      app.history.push('/')
     },
     onClickColumnButtonExport: () => () => app.history.push('/Export'),
     onClickColumnButtonLogin: () => () => app.history.push('/Login'),
@@ -96,10 +90,11 @@ const MyAppBar = ({
             </StyledTypography>
             <StyledButton
               data-visible={
-                !['taxonomien', 'eigenschaften-sammlungen'].includes(url0)
+                !['arten', 'lebensräume', 'eigenschaften-sammlungen'].includes(
+                  url0
+                )
               }
               onClick={onClickColumnButtonData}
-              //className={classes.button}
             >
               Daten
             </StyledButton>

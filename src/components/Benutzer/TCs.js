@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import get from 'lodash/get'
 import styled from 'styled-components'
 
 import appBaseUrl from '../../modules/appBaseUrl'
@@ -25,33 +24,24 @@ const StyledA = styled.a`
   text-decoration-style: dotted;
 `
 
-const TCs = ({ tcs, userData }: { tcs: Array<Object>, userData: Object }) => {
-  const taxByCategories = get(userData, 'categoriesOfTaxonomiesFunction.nodes')
-
-  return (
-    <Container>
-      <List>
-        <ul>
-          {tcs.map(u => {
-            const taxByCategory = taxByCategories.find(
-              tbc => tbc.taxonomyId === u.id
-            )
-            const category = taxByCategory ? taxByCategory.categoryName : null
-            const link = `${appBaseUrl}/Taxonomien/${encodeURIComponent(
-              category
-            )}/${u.id}`
-            return (
-              <li key={u.name}>
-                <StyledA href={link} target="_blank">
-                  {u.name}
-                </StyledA>
-              </li>
-            )
-          })}
-        </ul>
-      </List>
-    </Container>
-  )
-}
+const TCs = ({ tcs }: { tcs: Array<Object> }) => (
+  <Container>
+    <List>
+      <ul>
+        {tcs.map(u => {
+          const elem2 = tcs.type === 'Art' ? 'Arten' : 'Lebensräume'
+          const link = `${appBaseUrl}/${encodeURIComponent(elem2)}/${u.id}`
+          return (
+            <li key={u.name}>
+              <StyledA href={link} target="_blank">
+                {u.name}
+              </StyledA>
+            </li>
+          )
+        })}
+      </ul>
+    </List>
+  </Container>
+)
 
 export default TCs
