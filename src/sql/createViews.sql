@@ -81,37 +81,23 @@ where
 
 create or replace view ae.v_category_taxonomies as
 WITH categoryTaxonomies AS (
-  SELECT
-    ae.object.id,
-    ae.category.name AS category_name,
-    ae.category.id AS category_id,
-    ae.taxonomy.name AS taxonomy_name,
-    ae.taxonomy.id AS taxonomy_id
-  FROM ae.taxonomy
-    INNER JOIN ae.object
-      INNER JOIN ae.category
-      ON ae.category.name = ae.object.category
-    ON ae.object.taxonomy_id = ae.taxonomy.id
-  GROUP BY ae.object.id, ae.category.name, ae.category.id, ae.taxonomy.id
-)
-SELECT category_name, category_id, taxonomy_name, taxonomy_id, count(*) AS object_count
-FROM categoryTaxonomies
-GROUP BY category_name, category_id, taxonomy_name, taxonomy_id
-ORDER BY category_name, taxonomy_name;
+    SELECT ae.object.id, ae.category.name AS category_name, ae.taxonomy.name AS taxonomy_name
+    FROM ae.taxonomy
+      INNER JOIN ae.object
+        INNER JOIN ae.category
+        ON ae.category.name = ae.object.category
+      ON ae.object.taxonomy_id = ae.taxonomy.id
+    GROUP BY ae.object.id, ae.category.name, ae.taxonomy.name
+  )
+  SELECT category_name, taxonomy_name, count(*) AS object_count
+  FROM categoryTaxonomies
+  GROUP BY category_name, taxonomy_name
+  ORDER BY category_name, taxonomy_name;
 
 create or replace view ae.v_category_taxonomies_without_objects as
-SELECT
-  ae.category.name AS category_name,
-  ae.category.id AS category_id,
-  ae.taxonomy.name AS taxonomy_name,
-  ae.taxonomy.id AS taxonomy_id,
-  1::bigint as object_count
+SELECT ae.category.name AS category_name, ae.taxonomy.name AS taxonomy_name, 1::bigint as object_count
 FROM ae.taxonomy, ae.category
 WHERE NOT EXISTS (
   select ae.object.id from ae.object
   where ae.object.taxonomy_id = ae.taxonomy.id
 );
-
-create or replace view ae.v_taxonomies_of_categories as
-select * from ae.v_category_taxonomies
-union select * from ae.v_category_taxonomies_without_objects;
