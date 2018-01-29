@@ -11,14 +11,14 @@ import level2Organization from './nodes/level2Organization'
 import level2Pc from './nodes/level2Pc'
 import level3Pc from './nodes/level3Pc'
 import level2Taxonomy from './nodes/level2Taxonomy'
-import level3Taxonomy from './nodes/level3Taxonomy'
-import level4Taxonomy from './nodes/level4Taxonomy'
-import level5Taxonomy from './nodes/level5Taxonomy'
-import level6Taxonomy from './nodes/level6Taxonomy'
-import level7Taxonomy from './nodes/level7Taxonomy'
-import level8Taxonomy from './nodes/level8Taxonomy'
-import level9Taxonomy from './nodes/level9Taxonomy'
-import level10Taxonomy from './nodes/level10Taxonomy'
+import level3Object from './nodes/level3Object'
+import level4Object from './nodes/level4Object'
+import level5Object from './nodes/level5Object'
+import level6Object from './nodes/level6Object'
+import level7Object from './nodes/level7Object'
+import level8Object from './nodes/level8Object'
+import level9Object from './nodes/level9Object'
+import level10Object from './nodes/level10Object'
 import sort from './nodes/sort'
 
 export default ({
@@ -42,76 +42,71 @@ export default ({
   })
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
-    activeLevel2TaxonomyNodes.find(n => n.name === activeNodeArray[1])
+    activeLevel2TaxonomyNodes.find(n => n.id === activeNodeArray[1])
   const activeLevel2TaxonomyName =
     activeLevel2Taxonomy && activeLevel2Taxonomy.name
-  const activeLevel3TaxonomyNodes = get(treeData, 'level3Taxonomy.nodes')
-  const activeLevel3Taxonomy =
-    activeLevel3TaxonomyNodes &&
-    activeLevel3TaxonomyNodes.find(n => n.id === activeNodeArray[2])
-  const activeLevel3TaxonomyName =
-    activeLevel3Taxonomy && activeLevel3Taxonomy.name
-  const activeLevel3TaxonomyId = activeLevel3Taxonomy && activeLevel3Taxonomy.id
-  const activeLevel4TaxonomyNodes = get(
+  const activeLevel3ObjectNodes = get(treeData, 'taxonomyObjectLevel1.nodes')
+  const activeLevel3Object =
+    activeLevel3ObjectNodes &&
+    activeLevel3ObjectNodes.find(n => n.id === activeNodeArray[2])
+  const activeLevel3ObjectName = activeLevel3Object && activeLevel3Object.name
+  const activeLevel3ObjectId = activeLevel3Object && activeLevel3Object.id
+
+  const activeLevel4ObjectNodes = get(
     treeData,
-    'level4Taxonomy.objectLevel1.nodes'
+    'level4Object.objectsByParentId.nodes'
   )
-  const activeLevel4Taxonomy =
-    activeLevel4TaxonomyNodes &&
-    activeLevel4TaxonomyNodes.find(n => n.id === activeNodeArray[3])
-  const activeLevel4TaxonomyName =
-    activeLevel4Taxonomy && activeLevel4Taxonomy.name
-  const activeLevel4TaxonomyId = activeLevel4Taxonomy && activeLevel4Taxonomy.id
-  const activeLevel5TaxonomyNodes = get(
+  const activeLevel4Object =
+    activeLevel4ObjectNodes &&
+    activeLevel4ObjectNodes.find(n => n.id === activeNodeArray[3])
+  const activeLevel4ObjectName = activeLevel4Object && activeLevel4Object.name
+  const activeLevel4ObjectId = activeLevel4Object && activeLevel4Object.id
+
+  const activeLevel5ObjectNodes = get(
     treeData,
-    'level5Taxonomy.objectsByParentId.nodes'
+    'level5Object.objectsByParentId.nodes'
   )
-  const activeLevel5Taxonomy =
-    activeLevel5TaxonomyNodes &&
-    activeLevel5TaxonomyNodes.find(n => n.id === activeNodeArray[4])
-  const activeLevel5TaxonomyName =
-    activeLevel5Taxonomy && activeLevel5Taxonomy.name
-  const activeLevel5TaxonomyId = activeLevel5Taxonomy && activeLevel5Taxonomy.id
-  const activeLevel6TaxonomyNodes = get(
+  const activeLevel5Object =
+    activeLevel5ObjectNodes &&
+    activeLevel5ObjectNodes.find(n => n.id === activeNodeArray[4])
+  const activeLevel5ObjectName = activeLevel5Object && activeLevel5Object.name
+  const activeLevel5ObjectId = activeLevel5Object && activeLevel5Object.id
+  const activeLevel6ObjectNodes = get(
     treeData,
-    'level6Taxonomy.objectsByParentId.nodes'
+    'level6Object.objectsByParentId.nodes'
   )
-  const activeLevel6Taxonomy =
-    activeLevel6TaxonomyNodes &&
-    activeLevel6TaxonomyNodes.find(n => n.id === activeNodeArray[5])
-  const activeLevel6TaxonomyName =
-    activeLevel6Taxonomy && activeLevel6Taxonomy.name
-  const activeLevel6TaxonomyId = activeLevel6Taxonomy && activeLevel6Taxonomy.id
-  const activeLevel7TaxonomyNodes = get(
+  const activeLevel6Object =
+    activeLevel6ObjectNodes &&
+    activeLevel6ObjectNodes.find(n => n.id === activeNodeArray[5])
+  const activeLevel6ObjectName = activeLevel6Object && activeLevel6Object.name
+  const activeLevel6ObjectId = activeLevel6Object && activeLevel6Object.id
+  const activeLevel7ObjectNodes = get(
     treeData,
-    'level7Taxonomy.objectsByParentId.nodes'
+    'level7Object.objectsByParentId.nodes'
   )
-  const activeLevel7Taxonomy =
-    activeLevel7TaxonomyNodes &&
-    activeLevel7TaxonomyNodes.find(n => n.id === activeNodeArray[6])
-  const activeLevel7TaxonomyName =
-    activeLevel7Taxonomy && activeLevel7Taxonomy.name
-  const activeLevel7TaxonomyId = activeLevel7Taxonomy && activeLevel7Taxonomy.id
-  const activeLevel8TaxonomyNodes = get(
+  const activeLevel7Object =
+    activeLevel7ObjectNodes &&
+    activeLevel7ObjectNodes.find(n => n.id === activeNodeArray[6])
+  const activeLevel7ObjectName = activeLevel7Object && activeLevel7Object.name
+  const activeLevel7ObjectId = activeLevel7Object && activeLevel7Object.id
+  const activeLevel8ObjectNodes = get(
     treeData,
-    'level8Taxonomy.objectsByParentId.nodes'
+    'level8Object.objectsByParentId.nodes'
   )
-  const activeLevel8Taxonomy =
-    activeLevel8TaxonomyNodes &&
-    activeLevel8TaxonomyNodes.find(n => n.id === activeNodeArray[7])
-  const activeLevel8TaxonomyName =
-    activeLevel8Taxonomy && activeLevel8Taxonomy.name
-  const activeLevel8TaxonomyId = activeLevel8Taxonomy && activeLevel8Taxonomy.id
-  const activeLevel9TaxonomyNodes = get(
+  const activeLevel8Object =
+    activeLevel8ObjectNodes &&
+    activeLevel8ObjectNodes.find(n => n.id === activeNodeArray[7])
+  const activeLevel8ObjectName = activeLevel8Object && activeLevel8Object.name
+  const activeLevel8ObjectId = activeLevel8Object && activeLevel8Object.id
+  const activeLevel9ObjectNodes = get(
     treeData,
-    'level9Taxonomy.objectsByParentId.nodes'
+    'level9Object.objectsByParentId.nodes'
   )
-  const activeLevel9Taxonomy =
-    activeLevel9TaxonomyNodes &&
-    activeLevel9TaxonomyNodes.find(n => n.id === activeNodeArray[8])
-  const activeLevel9TaxonomyName =
-    activeLevel9Taxonomy && activeLevel9Taxonomy.name
-  const activeLevel9TaxonomyId = activeLevel9Taxonomy && activeLevel9Taxonomy.id
+  const activeLevel9Object =
+    activeLevel9ObjectNodes &&
+    activeLevel9ObjectNodes.find(n => n.id === activeNodeArray[8])
+  const activeLevel9ObjectName = activeLevel9Object && activeLevel9Object.name
+  const activeLevel9ObjectId = activeLevel9Object && activeLevel9Object.id
   let nodes = level1({
     treeData,
     activeNodeArray,
@@ -158,7 +153,7 @@ export default ({
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   ) {
     nodes = nodes.concat(
-      level3Taxonomy({
+      level3Object({
         treeData,
         activeLevel2TaxonomyName,
       })
@@ -169,11 +164,11 @@ export default ({
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   ) {
     nodes = nodes.concat(
-      level4Taxonomy({
+      level4Object({
         treeData,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        activeLevel3TaxonomyId,
+        activeLevel3ObjectName,
+        activeLevel3ObjectId,
       })
     )
   }
@@ -182,13 +177,13 @@ export default ({
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   ) {
     nodes = nodes.concat(
-      level5Taxonomy({
+      level5Object({
         treeData,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        activeLevel3TaxonomyId,
-        activeLevel4TaxonomyName,
-        activeLevel4TaxonomyId,
+        activeLevel3ObjectName,
+        activeLevel3ObjectId,
+        activeLevel4ObjectName,
+        activeLevel4ObjectId,
       })
     )
   }
@@ -197,15 +192,15 @@ export default ({
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   ) {
     nodes = nodes.concat(
-      level6Taxonomy({
+      level6Object({
         treeData,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        activeLevel3TaxonomyId,
-        activeLevel4TaxonomyName,
-        activeLevel4TaxonomyId,
-        activeLevel5TaxonomyName,
-        activeLevel5TaxonomyId,
+        activeLevel3ObjectName,
+        activeLevel3ObjectId,
+        activeLevel4ObjectName,
+        activeLevel4ObjectId,
+        activeLevel5ObjectName,
+        activeLevel5ObjectId,
       })
     )
   }
@@ -214,17 +209,17 @@ export default ({
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   ) {
     nodes = nodes.concat(
-      level7Taxonomy({
+      level7Object({
         treeData,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        activeLevel3TaxonomyId,
-        activeLevel4TaxonomyName,
-        activeLevel4TaxonomyId,
-        activeLevel5TaxonomyName,
-        activeLevel5TaxonomyId,
-        activeLevel6TaxonomyName,
-        activeLevel6TaxonomyId,
+        activeLevel3ObjectName,
+        activeLevel3ObjectId,
+        activeLevel4ObjectName,
+        activeLevel4ObjectId,
+        activeLevel5ObjectName,
+        activeLevel5ObjectId,
+        activeLevel6ObjectName,
+        activeLevel6ObjectId,
       })
     )
   }
@@ -233,19 +228,19 @@ export default ({
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   ) {
     nodes = nodes.concat(
-      level8Taxonomy({
+      level8Object({
         treeData,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        activeLevel3TaxonomyId,
-        activeLevel4TaxonomyName,
-        activeLevel4TaxonomyId,
-        activeLevel5TaxonomyName,
-        activeLevel5TaxonomyId,
-        activeLevel6TaxonomyName,
-        activeLevel6TaxonomyId,
-        activeLevel7TaxonomyName,
-        activeLevel7TaxonomyId,
+        activeLevel3ObjectName,
+        activeLevel3ObjectId,
+        activeLevel4ObjectName,
+        activeLevel4ObjectId,
+        activeLevel5ObjectName,
+        activeLevel5ObjectId,
+        activeLevel6ObjectName,
+        activeLevel6ObjectId,
+        activeLevel7ObjectName,
+        activeLevel7ObjectId,
       })
     )
   }
@@ -254,21 +249,21 @@ export default ({
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   ) {
     nodes = nodes.concat(
-      level9Taxonomy({
+      level9Object({
         treeData,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        activeLevel3TaxonomyId,
-        activeLevel4TaxonomyName,
-        activeLevel4TaxonomyId,
-        activeLevel5TaxonomyName,
-        activeLevel5TaxonomyId,
-        activeLevel6TaxonomyName,
-        activeLevel6TaxonomyId,
-        activeLevel7TaxonomyName,
-        activeLevel7TaxonomyId,
-        activeLevel8TaxonomyName,
-        activeLevel8TaxonomyId,
+        activeLevel3ObjectName,
+        activeLevel3ObjectId,
+        activeLevel4ObjectName,
+        activeLevel4ObjectId,
+        activeLevel5ObjectName,
+        activeLevel5ObjectId,
+        activeLevel6ObjectName,
+        activeLevel6ObjectId,
+        activeLevel7ObjectName,
+        activeLevel7ObjectId,
+        activeLevel8ObjectName,
+        activeLevel8ObjectId,
       })
     )
   }
@@ -277,23 +272,23 @@ export default ({
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   ) {
     nodes = nodes.concat(
-      level10Taxonomy({
+      level10Object({
         treeData,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        activeLevel3TaxonomyId,
-        activeLevel4TaxonomyName,
-        activeLevel4TaxonomyId,
-        activeLevel5TaxonomyName,
-        activeLevel5TaxonomyId,
-        activeLevel6TaxonomyName,
-        activeLevel6TaxonomyId,
-        activeLevel7TaxonomyName,
-        activeLevel7TaxonomyId,
-        activeLevel8TaxonomyName,
-        activeLevel8TaxonomyId,
-        activeLevel9TaxonomyName,
-        activeLevel9TaxonomyId,
+        activeLevel3ObjectName,
+        activeLevel3ObjectId,
+        activeLevel4ObjectName,
+        activeLevel4ObjectId,
+        activeLevel5ObjectName,
+        activeLevel5ObjectId,
+        activeLevel6ObjectName,
+        activeLevel6ObjectId,
+        activeLevel7ObjectName,
+        activeLevel7ObjectId,
+        activeLevel8ObjectName,
+        activeLevel8ObjectId,
+        activeLevel9ObjectName,
+        activeLevel9ObjectId,
       })
     )
   }

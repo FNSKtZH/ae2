@@ -7,23 +7,21 @@ export default gql`
     $existsLevel2Pc: Boolean!
     $notExistsLevel2Pc: Boolean!
     $existsLevel2Taxonomy: Boolean!
-    $existsLevel3: Boolean!
-    $level3Taxonomy: UUID!
-    $level3TaxonomyPossibleNull: UUID
-    $existsLevel4: Boolean!
-    $level4Taxonomy: UUID!
-    $existsLevel5: Boolean!
-    $level5Taxonomy: UUID!
-    $existsLevel6: Boolean!
-    $level6Taxonomy: UUID!
-    $existsLevel7: Boolean!
-    $level7Taxonomy: UUID!
-    $existsLevel8: Boolean!
-    $level8Taxonomy: UUID!
-    $existsLevel9: Boolean!
-    $level9Taxonomy: UUID!
-    $existsLevel10: Boolean!
-    $level10Taxonomy: UUID!
+    $level2TaxonomyPossibleNull: UUID
+    $existsLevel3Object: Boolean!
+    $level3Object: UUID!
+    $existsLevel4Object: Boolean!
+    $level4Object: UUID!
+    $existsLevel5Object: Boolean!
+    $level5Object: UUID!
+    $existsLevel6Object: Boolean!
+    $level6Object: UUID!
+    $existsLevel7Object: Boolean!
+    $level7Object: UUID!
+    $existsLevel8Object: Boolean!
+    $level8Object: UUID!
+    $existsLevel9Object: Boolean!
+    $level9Object: UUID!
     $pCId: UUID!
     $existsPCId: Boolean!
   ) {
@@ -72,51 +70,38 @@ export default gql`
         id
         name
         type
-        objectLevel1(taxonomyId: $level3TaxonomyPossibleNull)
-          @include(if: $existsLevel2Taxonomy) {
-          totalCount
-        }
       }
     }
-    level3Taxonomy: taxonomyById(id: $level3Taxonomy)
-      @include(if: $existsLevel3) {
-      id
-      objectLevel1(taxonomyId: $level3TaxonomyPossibleNull) {
-        nodes {
-          id
-          name
-          objectsByParentId {
-            totalCount
-          }
-        }
-      }
-    }
-    level4Taxonomy: objectById(id: $level4Taxonomy)
-      @include(if: $existsLevel4) {
+    taxonomyObjectLevel1(taxonomyId: $level2TaxonomyPossibleNull)
+      @include(if: $existsLevel2Taxonomy) {
       ...ObjektLevel4AndUp
     }
-    level5Taxonomy: objectById(id: $level5Taxonomy)
-      @include(if: $existsLevel5) {
+    level3Object: objectById(id: $level3Object)
+      @include(if: $existsLevel3Object) {
       ...ObjektLevel4AndUp
     }
-    level6Taxonomy: objectById(id: $level6Taxonomy)
-      @include(if: $existsLevel6) {
+    level4Object: objectById(id: $level4Object)
+      @include(if: $existsLevel4Object) {
       ...ObjektLevel4AndUp
     }
-    level7Taxonomy: objectById(id: $level7Taxonomy)
-      @include(if: $existsLevel7) {
+    level5Object: objectById(id: $level5Object)
+      @include(if: $existsLevel5Object) {
       ...ObjektLevel4AndUp
     }
-    level8Taxonomy: objectById(id: $level8Taxonomy)
-      @include(if: $existsLevel8) {
+    level6Object: objectById(id: $level6Object)
+      @include(if: $existsLevel6Object) {
       ...ObjektLevel4AndUp
     }
-    level9Taxonomy: objectById(id: $level9Taxonomy)
-      @include(if: $existsLevel9) {
+    level7Object: objectById(id: $level7Object)
+      @include(if: $existsLevel7Object) {
       ...ObjektLevel4AndUp
     }
-    level10Taxonomy: objectById(id: $level10Taxonomy)
-      @include(if: $existsLevel10) {
+    level8Object: objectById(id: $level8Object)
+      @include(if: $existsLevel8Object) {
+      ...ObjektLevel4AndUp
+    }
+    level9Object: objectById(id: $level9Object)
+      @include(if: $existsLevel9Object) {
       ...ObjektLevel4AndUp
     }
   }

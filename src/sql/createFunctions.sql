@@ -774,21 +774,21 @@ CREATE OR REPLACE FUNCTION ae.taxonomies_of_category(category text)
 ALTER FUNCTION ae.taxonomies_of_category(category text)
   OWNER TO postgres;
 
-CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy ae.taxonomy, taxonomy_id uuid)
+CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
   RETURNS setof ae.object AS
   $$
-    SELECT to1.*
-    FROM ae.object AS to1
+    SELECT ae.object.*
+    FROM ae.object
       INNER JOIN ae.taxonomy
-      ON ae.taxonomy.id = to1.taxonomy_id
+      ON ae.taxonomy.id = ae.object.taxonomy_id
     WHERE
-      to1.parent_id IS NULL AND
+      ae.object.parent_id IS NULL AND
       1 = CASE
-        WHEN $2 IS NULL THEN 1
-        WHEN ae.taxonomy.id = $2 THEN 1
+        WHEN $1 IS NULL THEN 1
+        WHEN ae.taxonomy.id = $1 THEN 1
         ELSE 2
       END
   $$
   LANGUAGE sql STABLE;
-ALTER FUNCTION ae.taxonomy_object_level1(taxonomy ae.taxonomy, taxonomy_id uuid)
+ALTER FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
   OWNER TO postgres;

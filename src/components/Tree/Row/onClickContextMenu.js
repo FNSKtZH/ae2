@@ -121,8 +121,8 @@ export default async ({
             })
             const taxname = `level${url.length}Taxonomy`
             const nodesPath =
-              url.length === 4
-                ? `${taxname}.objectLevel1.nodes`
+              url.length === 3
+                ? `${taxname}.taxonomyObjectLevel1.nodes`
                 : `${taxname}.objectsByParentId.nodes`
             const nodes = get(data, nodesPath, []).filter(u => u.id !== id)
             set(data, nodesPath, nodes)

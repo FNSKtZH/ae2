@@ -24,7 +24,7 @@ export default ({
 
     return {
       id: node.id,
-      url: [elem1, node.name],
+      url: [elem1, node.id],
       sort: [sort1, node.name],
       label: node.name,
       info: `(${nodeCount.toLocaleString('de-CH')} ${

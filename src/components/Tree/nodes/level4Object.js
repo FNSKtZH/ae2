@@ -4,28 +4,20 @@ import get from 'lodash/get'
 export default ({
   treeData,
   activeLevel2TaxonomyName,
-  activeLevel3TaxonomyName,
-  activeLevel3TaxonomyId,
-  activeLevel4TaxonomyName,
-  activeLevel4TaxonomyId,
-  activeLevel5TaxonomyName,
-  activeLevel5TaxonomyId,
+  activeLevel3ObjectName,
+  activeLevel3ObjectId,
 }: {
   treeData: Object,
   activeLevel2TaxonomyName: ?String,
-  activeLevel3TaxonomyName: ?String,
-  activeLevel3TaxonomyId: ?String,
-  activeLevel4TaxonomyName: ?String,
-  activeLevel4TaxonomyId: ?String,
-  activeLevel5TaxonomyName: ?String,
-  activeLevel5TaxonomyId: ?String,
+  activeLevel3ObjectName: ?String,
+  activeLevel3ObjectId: ?String,
 }): Array<Object> => {
   if (!treeData) return []
-  if (!treeData.level6Taxonomy) return []
-  if (!treeData.level6Taxonomy.objectsByParentId) return []
-  if (!treeData.level6Taxonomy.objectsByParentId.nodes) return []
+  if (!treeData.level4Object) return []
+  if (!treeData.level4Object.taxonomyObjectLevel1) return []
+  if (!treeData.level4Object.taxonomyObjectLevel1.nodes) return []
 
-  return treeData.level6Taxonomy.objectsByParentId.nodes.map(node => {
+  return treeData.level4Object.taxonomyObjectLevel1.nodes.map(node => {
     const childrenCount =
       node.objectsByParentId && node.objectsByParentId.totalCount
         ? node.objectsByParentId.totalCount
@@ -45,22 +37,8 @@ export default ({
 
     return {
       id: node.id,
-      url: [
-        elem1,
-        activeLevel2TaxonomyName,
-        activeLevel3TaxonomyId,
-        activeLevel4TaxonomyId,
-        activeLevel5TaxonomyId,
-        node.id,
-      ],
-      sort: [
-        sort1,
-        activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        activeLevel4TaxonomyName,
-        activeLevel5TaxonomyName,
-        nodeName,
-      ],
+      url: [elem1, activeLevel2TaxonomyName, activeLevel3ObjectId, node.id],
+      sort: [sort1, activeLevel2TaxonomyName, activeLevel3ObjectName, nodeName],
       label: node.name,
       info: labelCount.toLocaleString('de-CH'),
       childrenCount,

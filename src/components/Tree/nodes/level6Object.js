@@ -4,32 +4,28 @@ import get from 'lodash/get'
 export default ({
   treeData,
   activeLevel2TaxonomyName,
-  activeLevel3TaxonomyName,
-  activeLevel3TaxonomyId,
-  activeLevel4TaxonomyName,
-  activeLevel4TaxonomyId,
-  activeLevel5TaxonomyName,
-  activeLevel5TaxonomyId,
-  activeLevel6TaxonomyName,
-  activeLevel6TaxonomyId,
+  activeLevel3ObjectName,
+  activeLevel3ObjectId,
+  activeLevel4ObjectName,
+  activeLevel4ObjectId,
+  activeLevel5ObjectName,
+  activeLevel5ObjectId,
 }: {
   treeData: Object,
   activeLevel2TaxonomyName: ?String,
-  activeLevel3TaxonomyName: ?String,
-  activeLevel3TaxonomyId: ?String,
-  activeLevel4TaxonomyName: ?String,
-  activeLevel4TaxonomyId: ?String,
-  activeLevel5TaxonomyName: ?String,
-  activeLevel5TaxonomyId: ?String,
-  activeLevel6TaxonomyName: ?String,
-  activeLevel6TaxonomyId: ?String,
+  activeLevel3ObjectName: ?String,
+  activeLevel3ObjectId: ?String,
+  activeLevel4ObjectName: ?String,
+  activeLevel4ObjectId: ?String,
+  activeLevel5ObjectName: ?String,
+  activeLevel5ObjectId: ?String,
 }): Array<Object> => {
   if (!treeData) return []
-  if (!treeData.level7Taxonomy) return []
-  if (!treeData.level7Taxonomy.objectsByParentId) return []
-  if (!treeData.level7Taxonomy.objectsByParentId.nodes) return []
+  if (!treeData.level6Object) return []
+  if (!treeData.level6Object.objectsByParentId) return []
+  if (!treeData.level6Object.objectsByParentId.nodes) return []
 
-  return treeData.level7Taxonomy.objectsByParentId.nodes.map(node => {
+  return treeData.level6Object.objectsByParentId.nodes.map(node => {
     const childrenCount =
       node.objectsByParentId && node.objectsByParentId.totalCount
         ? node.objectsByParentId.totalCount
@@ -52,19 +48,17 @@ export default ({
       url: [
         elem1,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyId,
-        activeLevel4TaxonomyId,
-        activeLevel5TaxonomyId,
-        activeLevel6TaxonomyId,
+        activeLevel3ObjectId,
+        activeLevel4ObjectId,
+        activeLevel5ObjectId,
         node.id,
       ],
       sort: [
         sort1,
         activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        activeLevel4TaxonomyName,
-        activeLevel5TaxonomyName,
-        activeLevel6TaxonomyName,
+        activeLevel3ObjectName,
+        activeLevel4ObjectName,
+        activeLevel5ObjectName,
         nodeName,
       ],
       label: node.name,

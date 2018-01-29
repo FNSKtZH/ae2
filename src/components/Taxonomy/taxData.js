@@ -34,7 +34,7 @@ export default graphql(
       variables: {
         taxId: get(
           activeNodeArrayData,
-          'activeNodeArray[2]',
+          'activeNodeArray[1]',
           '99999999-9999-9999-9999-999999999999'
         ),
       },

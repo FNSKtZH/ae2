@@ -1,50 +1,46 @@
 // @flow
 export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
   const existsLevel1 = activeNodeArray.length > 0
-  const existsLevel2Taxonomy =
-    existsLevel1 &&
-    ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
-    activeNodeArray.length > 0
   const existsLevel2Pc =
     existsLevel1 &&
     activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
     activeNodeArray.length > 0
   const notExistsLevel2Pc = !existsLevel2Pc
-  const existsLevel3 =
+  const existsLevel2Taxonomy =
     activeNodeArray.length > 1 &&
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  const level3Taxonomy = existsLevel3
+  const level2Taxonomy = existsLevel2Taxonomy
     ? activeNodeArray[1]
     : '99999999-9999-9999-9999-999999999999'
-  const level3TaxonomyPossibleNull = activeNodeArray[1] || null
-  const existsLevel4 =
+  const level2TaxonomyPossibleNull = activeNodeArray[1] || null
+  const existsLevel3Object =
     activeNodeArray.length > 2 &&
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  const level4Taxonomy = existsLevel4
+  const level3Object = existsLevel3Object
     ? activeNodeArray[2]
     : '99999999-9999-9999-9999-999999999999'
-  const existsLevel5 = activeNodeArray.length > 3
-  const level5Taxonomy = existsLevel5
+  const existsLevel4Object = activeNodeArray.length > 3
+  const level4Object = existsLevel4Object
     ? activeNodeArray[3]
     : '99999999-9999-9999-9999-999999999999'
-  const existsLevel6 = activeNodeArray.length > 4
-  const level6Taxonomy = existsLevel6
+  const existsLevel5Object = activeNodeArray.length > 4
+  const level5Object = existsLevel5Object
     ? activeNodeArray[4]
     : '99999999-9999-9999-9999-999999999999'
-  const existsLevel7 = activeNodeArray.length > 5
-  const level7Taxonomy = existsLevel7
+  const existsLevel6Object = activeNodeArray.length > 5
+  const level6Object = existsLevel6Object
     ? activeNodeArray[5]
     : '99999999-9999-9999-9999-999999999999'
-  const existsLevel8 = activeNodeArray.length > 6
-  const level8Taxonomy = existsLevel8
+  const existsLevel7Object = activeNodeArray.length > 6
+  const level7Object = existsLevel7Object
     ? activeNodeArray[6]
     : '99999999-9999-9999-9999-999999999999'
-  const existsLevel9 = activeNodeArray.length > 7
-  const level9Taxonomy = existsLevel9
+  const existsLevel8Object = activeNodeArray.length > 7
+  const level8Object = existsLevel8Object
     ? activeNodeArray[7]
     : '99999999-9999-9999-9999-999999999999'
-  const existsLevel10 = activeNodeArray.length > 8
-  const level10Taxonomy = existsLevel10
+  const existsLevel9Object = activeNodeArray.length > 8
+  const level9Object = existsLevel9Object
     ? activeNodeArray[8]
     : '99999999-9999-9999-9999-999999999999'
   let pCId = '99999999-9999-9999-9999-999999999999'
@@ -57,23 +53,23 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
     existsLevel2Pc,
     notExistsLevel2Pc,
     existsLevel2Taxonomy,
-    existsLevel3,
-    level3Taxonomy,
-    level3TaxonomyPossibleNull,
-    existsLevel4,
-    level4Taxonomy,
-    existsLevel5,
-    level5Taxonomy,
-    existsLevel6,
-    level6Taxonomy,
-    existsLevel7,
-    level7Taxonomy,
-    existsLevel8,
-    level8Taxonomy,
-    existsLevel9,
-    level9Taxonomy,
-    existsLevel10,
-    level10Taxonomy,
+    existsLevel2Taxonomy,
+    level2Taxonomy,
+    level2TaxonomyPossibleNull,
+    existsLevel3Object,
+    level3Object,
+    existsLevel4Object,
+    level4Object,
+    existsLevel5Object,
+    level5Object,
+    existsLevel6Object,
+    level6Object,
+    existsLevel7Object,
+    level7Object,
+    existsLevel8Object,
+    level8Object,
+    existsLevel9Object,
+    level9Object,
     pCId,
     existsPCId,
   }

@@ -4,25 +4,20 @@ import get from 'lodash/get'
 export default ({
   treeData,
   activeLevel2TaxonomyName,
-  activeLevel3TaxonomyName,
-  activeLevel3TaxonomyId,
 }: {
   treeData: Object,
   activeLevel2TaxonomyName: ?String,
-  activeLevel3TaxonomyName: ?String,
-  activeLevel3TaxonomyId: ?String,
 }): Array<Object> => {
   if (!treeData) return []
-  if (!treeData.level4Taxonomy) return []
-  if (!treeData.level4Taxonomy.objectLevel1) return []
-  if (!treeData.level4Taxonomy.objectLevel1.nodes) return []
+  if (!treeData.level3Object) return []
+  if (!treeData.level3Object) return []
+  if (!treeData.level3Object.nodes) return []
 
-  return treeData.level4Taxonomy.objectLevel1.nodes.map(node => {
+  return treeData.level3Object.nodes.map(node => {
     const childrenCount =
-      node.objectsByParentId && node.objectsByParentId.totalCount
-        ? node.objectsByParentId.totalCount
+      node.taxonomyObjectLevel1 && node.taxonomyObjectLevel1.totalCount
+        ? node.taxonomyObjectLevel1.totalCount
         : 0
-    const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
     const nodeName = node.name || 'ZZZZ'
@@ -37,17 +32,12 @@ export default ({
 
     return {
       id: node.id,
-      url: [elem1, activeLevel2TaxonomyName, activeLevel3TaxonomyId, node.id],
-      sort: [
-        sort1,
-        activeLevel2TaxonomyName,
-        activeLevel3TaxonomyName,
-        nodeName,
-      ],
+      url: [elem1, activeLevel2TaxonomyName, node.id],
+      sort: [sort1, activeLevel2TaxonomyName, nodeName],
       label: node.name,
-      info: labelCount.toLocaleString('de-CH'),
+      info: `(${childrenCount.toLocaleString('de-CH')})`,
       childrenCount,
-      menuType: 'CmObject',
+      menuType: 'CmTaxonomy',
     }
   })
 }
