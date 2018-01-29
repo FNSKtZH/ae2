@@ -37,10 +37,12 @@ CREATE INDEX ON ae.organization USING btree (name);
 
 -- once: ALTER TABLE ae.organization ADD CONSTRAINT fk_contact FOREIGN KEY (contact) REFERENCES ae.user (id)
 
+CREATE TYPE taxonomy_type AS ENUM ('Art', 'Lebensraum');
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
   -- gets existing guids
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
+  type taxonomy_type DEFAULT NULL,
   name text UNIQUE DEFAULT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
