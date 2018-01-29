@@ -74,7 +74,10 @@ export default gql`
     }
     taxonomyObjectLevel1(taxonomyId: $level2TaxonomyPossibleNull)
       @include(if: $existsLevel2Taxonomy) {
-      ...ObjektLevel4AndUp
+      totalCount
+      nodes {
+        ...ObjektLevel4AndUp
+      }
     }
     level3Object: objectById(id: $level3Object)
       @include(if: $existsLevel3Object) {
