@@ -5,26 +5,29 @@ import jwtDecode from 'jwt-decode'
 
 export default ({
   treeData,
-  allCategoriesData,
   activeNodeArray,
   loginData,
 }: {
   treeData: Object,
-  allCategoriesData: Object,
   activeNodeArray: Array<String>,
   loginData: Object,
 }): Array<Object> => {
   if (!treeData) return []
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
-  const catCount = get(allCategoriesData, 'allCategories.totalCount', 0)
+  const taxonomies = get(treeData, 'level2Taxonomy.nodes', [])
+  console.log('level1: taxonomies:', taxonomies)
+  const artTaxonomies = taxonomies.filter(t => t.type === 'ART')
+  const lrTaxonomies = taxonomies.filter(t => t.type === 'LEBENSRAUM')
+  console.log('level1: artTaxonomies:', artTaxonomies)
+  console.log('level1: lrTaxonomies:', lrTaxonomies)
   const nodes = [
     {
       id: 'Arten',
       url: ['Arten'],
       sort: [1],
       label: 'Arten',
-      info: `(${catCount} Gruppen)`,
-      childrenCount: catCount,
+      info: `(${artTaxonomies.length} Taxonomien)`,
+      childrenCount: artTaxonomies.length,
       menuType: 'CmTaxFolder',
     },
     {
@@ -32,8 +35,8 @@ export default ({
       url: ['Lebensräume'],
       sort: [2],
       label: 'Lebensräume',
-      info: `(${catCount} Gruppen)`,
-      childrenCount: catCount,
+      info: `(${lrTaxonomies.length} Taxonomien)`,
+      childrenCount: lrTaxonomies.length,
       menuType: 'CmTaxFolder',
     },
     {

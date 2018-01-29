@@ -14,7 +14,6 @@ import Row from './Row'
 import Filter from './Filter'
 import buildNodes from './buildNodes'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
-import allCategoriesData from '../../modules/allCategoriesData'
 import loginData from '../../modules/loginData'
 import organizationUserData from '../../modules/organizationUserData'
 import treeData from './treeData'
@@ -73,7 +72,6 @@ const noRowsRenderer = nodes => (
 
 const enhance = compose(
   activeNodeArrayData,
-  allCategoriesData,
   treeData,
   loginData,
   organizationUserData
@@ -81,7 +79,6 @@ const enhance = compose(
 
 const Tree = ({
   activeNodeArrayData,
-  allCategoriesData,
   treeData,
   loginData,
   organizationUserData,
@@ -89,7 +86,6 @@ const Tree = ({
   dimensions,
 }: {
   activeNodeArrayData: Object,
-  allCategoriesData: Object,
   treeData: Object,
   loginData: Object,
   organizationUserData: Object,
@@ -99,7 +95,6 @@ const Tree = ({
   const { error, loading: treeDataLoading } = treeData
   const nodes = buildNodes({
     treeData,
-    allCategoriesData,
     activeNodeArray,
     loginData,
   })

@@ -17,8 +17,8 @@ export default ({
   if (!taxonomy) return []
   const taxType = taxonomy.type
   if (!taxType) return []
-  const elem1 = taxType === 'Art' ? 'Arten' : 'Lebensräume'
-  const sort1 = taxType === 'Art' ? 1 : 2
+  const elem1 = taxType === 'ART' ? 'Arten' : 'Lebensräume'
+  const sort1 = taxType === 'ART' ? 1 : 2
 
   return treeData.level2Taxonomy.nodes.map(node => ({
     id: node.id,

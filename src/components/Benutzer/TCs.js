@@ -29,7 +29,7 @@ const TCs = ({ tcs }: { tcs: Array<Object> }) => (
     <List>
       <ul>
         {tcs.map(u => {
-          const elem2 = tcs.type === 'Art' ? 'Arten' : 'Lebensräume'
+          const elem2 = tcs.type === 'ART' ? 'Arten' : 'Lebensräume'
           const link = `${appBaseUrl}/${encodeURIComponent(elem2)}/${u.id}`
           return (
             <li key={u.name}>

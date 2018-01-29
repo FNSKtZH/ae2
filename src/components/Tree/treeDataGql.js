@@ -72,6 +72,7 @@ export default gql`
       nodes {
         id
         name
+        type
         objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
           totalCount
         }

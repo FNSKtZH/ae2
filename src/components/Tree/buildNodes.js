@@ -23,15 +23,14 @@ import sort from './nodes/sort'
 
 export default ({
   treeData,
-  allCategoriesData,
   activeNodeArray,
   loginData,
 }: {
   treeData: Object,
-  allCategoriesData: Object,
   activeNodeArray: Object,
   loginData: Object,
 }): Array<Object> => {
+  console.log('buildNodes, treeData:', treeData)
   const activeLevel2TaxonomyNodes = get(treeData, 'level2Taxonomy.nodes')
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
@@ -107,7 +106,6 @@ export default ({
   const activeLevel9TaxonomyId = activeLevel9Taxonomy && activeLevel9Taxonomy.id
   let nodes = level1({
     treeData,
-    allCategoriesData,
     activeNodeArray,
     loginData,
   })
