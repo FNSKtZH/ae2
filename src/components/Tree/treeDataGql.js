@@ -67,16 +67,7 @@ export default gql`
         totalCount
       }
     }
-    level2Taxonomy: categoriesOfTaxonomiesCountFunction
-      @include(if: $existsLevel2Taxonomy) {
-      nodes {
-        id
-        name
-        count
-      }
-    }
-    level3Taxonomy: taxonomiesOfCategory(category: $level3Taxonomy)
-      @include(if: $existsLevel3) {
+    level2Taxonomy: allTaxonomies @include(if: $existsLevel2Taxonomy) {
       nodes {
         id
         name
@@ -85,8 +76,8 @@ export default gql`
         }
       }
     }
-    level4Taxonomy: taxonomyById(id: $level4Taxonomy)
-      @include(if: $existsLevel4) {
+    level3Taxonomy: taxonomyById(id: $level4Taxonomy)
+      @include(if: $existsLevel3) {
       id
       objectLevel1(taxonomyId: $level4TaxonomyPossibleNull) {
         nodes {
@@ -97,6 +88,10 @@ export default gql`
           }
         }
       }
+    }
+    level4Taxonomy: objectById(id: $level4Taxonomy)
+      @include(if: $existsLevel4) {
+      ...ObjektLevel4AndUp
     }
     level5Taxonomy: objectById(id: $level5Taxonomy)
       @include(if: $existsLevel5) {
