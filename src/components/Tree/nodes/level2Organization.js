@@ -27,7 +27,7 @@ export default ({
   return userOrganizations.map(org => ({
     id: org,
     url: ['Organisationen', org],
-    sort: [4, org],
+    sort: [5, org],
     label: org,
     childrenCount: 0,
     menuType: 'organization',

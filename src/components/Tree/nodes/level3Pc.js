@@ -21,7 +21,7 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
     {
       id: `${pCId}pC`,
       url: ['Eigenschaften-Sammlungen', pCId, 'Eigenschaften'],
-      sort: [2, pCName, 1],
+      sort: [3, pCName, 1],
       label: 'Eigenschaften',
       info: `(${pCCount.toLocaleString('de-CH')} Datensätze)`,
       childrenCount: 0,
@@ -30,7 +30,7 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
     {
       id: `${pCId}pC`,
       url: ['Eigenschaften-Sammlungen', pCId, 'Beziehungen'],
-      sort: [2, pCName, 2],
+      sort: [3, pCName, 2],
       label: 'Beziehungen',
       info: `(${rCCount.toLocaleString('de-CH')} Datensätze)`,
       childrenCount: 0,

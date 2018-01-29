@@ -8,7 +8,7 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
   return treeData.allUsers.nodes.map(node => ({
     id: node.id,
     url: ['Benutzer', node.id],
-    sort: [3, node.name],
+    sort: [4, node.name],
     label: node.name,
     childrenCount: 0,
     menuType: 'CmBenutzer',

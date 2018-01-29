@@ -4,7 +4,6 @@ import compose from 'recompose/compose'
 
 import Objekt from './Objekt'
 import Taxonomy from './Taxonomy'
-import Category from './Category'
 import PropertyCollection from './PropertyCollection'
 import PCO from './PropertyCollection/PCO'
 import RCO from './PropertyCollection/RCO'
@@ -25,13 +24,12 @@ const DataType = ({
   const { activeNodeArray } = activeNodeArrayData
   const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const showObjekt =
-    activeNodeArray[0] === 'Taxonomien' &&
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
     activeNodeArray.length > 3 &&
     !!activeObjectId
-  const showCategory =
-    activeNodeArray[0] === 'Taxonomien' && activeNodeArray.length === 2
   const showTaxonomy =
-    activeNodeArray[0] === 'Taxonomien' && activeNodeArray.length === 3
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
+    activeNodeArray.length === 2
   const showPC =
     activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
     activeNodeArray[1] &&
@@ -51,7 +49,6 @@ const DataType = ({
   const showOrganization =
     activeNodeArray[0] === 'Organisationen' && activeNodeArray.length === 2
 
-  if (showCategory) return <Category />
   if (showTaxonomy) return <Taxonomy />
   if (showObjekt) return <Objekt />
   if (showPC) return <PropertyCollection />

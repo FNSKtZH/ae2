@@ -146,7 +146,10 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 1 && activeNodeArray[0] === 'Taxonomien') {
+  if (
+    activeNodeArray.length > 1 &&
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
+  ) {
     nodes = nodes.concat(
       level3Taxonomy({
         treeData,
@@ -154,7 +157,10 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 2 && activeNodeArray[0] === 'Taxonomien') {
+  if (
+    activeNodeArray.length > 2 &&
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
+  ) {
     nodes = nodes.concat(
       level4Taxonomy({
         treeData,
@@ -164,7 +170,10 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 3 && activeNodeArray[0] === 'Taxonomien') {
+  if (
+    activeNodeArray.length > 3 &&
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
+  ) {
     nodes = nodes.concat(
       level5Taxonomy({
         treeData,
@@ -176,7 +185,10 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 4 && activeNodeArray[0] === 'Taxonomien') {
+  if (
+    activeNodeArray.length > 4 &&
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
+  ) {
     nodes = nodes.concat(
       level6Taxonomy({
         treeData,
@@ -190,7 +202,10 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 5 && activeNodeArray[0] === 'Taxonomien') {
+  if (
+    activeNodeArray.length > 5 &&
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
+  ) {
     nodes = nodes.concat(
       level7Taxonomy({
         treeData,
@@ -206,7 +221,10 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 6 && activeNodeArray[0] === 'Taxonomien') {
+  if (
+    activeNodeArray.length > 6 &&
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
+  ) {
     nodes = nodes.concat(
       level8Taxonomy({
         treeData,
@@ -224,7 +242,10 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 7 && activeNodeArray[0] === 'Taxonomien') {
+  if (
+    activeNodeArray.length > 7 &&
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
+  ) {
     nodes = nodes.concat(
       level9Taxonomy({
         treeData,
@@ -244,7 +265,10 @@ export default ({
       })
     )
   }
-  if (activeNodeArray.length > 8 && activeNodeArray[0] === 'Taxonomien') {
+  if (
+    activeNodeArray.length > 8 &&
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
+  ) {
     nodes = nodes.concat(
       level10Taxonomy({
         treeData,

@@ -3,10 +3,8 @@ import get from 'lodash/get'
 
 export default (tO: Object) => {
   let url = []
-  const dataType = get(tO, 'categoryByCategory.dataType')
-  if (dataType) url.push(dataType)
-  const category = get(tO, 'categoryByCategory.name')
-  if (category) url.push(category)
+  const type = get(tO, 'taxonomyByTaxonomyId.type')
+  if (type) url.push(type)
   const taxonomyId = get(tO, 'taxonomyByTaxonomyId.id')
   if (taxonomyId) url.push(taxonomyId)
   let tOIdsArray = []

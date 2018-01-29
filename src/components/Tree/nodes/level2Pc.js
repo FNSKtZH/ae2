@@ -26,7 +26,7 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
     return {
       id: node.id,
       url: ['Eigenschaften-Sammlungen', node.id],
-      sort: [2, node.name],
+      sort: [3, node.name],
       label: node.name,
       info: `(${count.toLocaleString('de-CH')} Arten/Lebensräume)`,
       childrenCount: pCCount + rCCount,

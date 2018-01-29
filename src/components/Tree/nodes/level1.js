@@ -19,10 +19,19 @@ export default ({
   const catCount = get(allCategoriesData, 'allCategories.totalCount', 0)
   const nodes = [
     {
-      id: 'Taxonomien',
-      url: ['Taxonomien'],
+      id: 'Arten',
+      url: ['Arten'],
       sort: [1],
-      label: 'Arten und Lebensräume',
+      label: 'Arten',
+      info: `(${catCount} Gruppen)`,
+      childrenCount: catCount,
+      menuType: 'CmTaxFolder',
+    },
+    {
+      id: 'Lebensräume',
+      url: ['Lebensräume'],
+      sort: [2],
+      label: 'Lebensräume',
       info: `(${catCount} Gruppen)`,
       childrenCount: catCount,
       menuType: 'CmTaxFolder',
@@ -30,7 +39,7 @@ export default ({
     {
       id: 'Eigenschaften-Sammlungen',
       url: ['Eigenschaften-Sammlungen'],
-      sort: [2],
+      sort: [3],
       label: 'Eigenschaften-Sammlungen',
       info: `(${pcCount})`,
       childrenCount: pcCount,
@@ -43,7 +52,7 @@ export default ({
     nodes.push({
       id: 'Benutzer',
       url: ['Benutzer'],
-      sort: [3],
+      sort: [4],
       label: 'Benutzer',
       info: `(${userCount})`,
       childrenCount: userCount,
@@ -66,7 +75,7 @@ export default ({
       nodes.push({
         id: 'Organisationen',
         url: ['Organisationen'],
-        sort: [4],
+        sort: [5],
         label: 'Organisationen',
         info: `(${userOrganizations.length.toLocaleString('de-CH')})`,
         childrenCount: userOrganizations.length,
