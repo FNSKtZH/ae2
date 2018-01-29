@@ -57,15 +57,9 @@ CREATE TABLE ae.taxonomy (
   habitat_nr_fns_max integer DEFAULT NULL,
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
--- once: alter table ae.taxonomy add type taxonomy_type DEFAULT NULL;
--- once: alter table ae.taxonomy drop typ;
 CREATE INDEX ON ae.taxonomy USING btree (type);
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
-
--- once:
--- update ae.taxonomy set type = 'Lebensraum' where habitat_label is not null;
--- update ae.taxonomy set type = 'Art' where habitat_label is null;
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
