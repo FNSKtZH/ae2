@@ -30,8 +30,8 @@ export default ({
   activeNodeArray: Object,
   loginData: Object,
 }): Array<Object> => {
-  console.log('buildNodes, treeData:', treeData)
-  console.log('buildNodes, activeNodeArray[0]:', activeNodeArray[0])
+  //console.log('buildNodes, treeData:', treeData)
+  //console.log('buildNodes, activeNodeArray[0]:', activeNodeArray[0])
   const activeLevel2TaxonomyNodes = get(
     treeData,
     'allTaxonomies.nodes',
@@ -138,7 +138,7 @@ export default ({
       default:
       case 'Arten':
       case 'Lebensräume': {
-        nodes = nodes.concat(level2Taxonomy({ treeData }))
+        nodes = nodes.concat(level2Taxonomy({ treeData, activeNodeArray }))
         break
       }
     }

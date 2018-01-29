@@ -15,7 +15,6 @@ export default ({
   if (!treeData) return []
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
   const taxonomies = get(treeData, 'allTaxonomies.nodes', [])
-  console.log('level1: taxonomies:', taxonomies)
   const artTaxonomies = taxonomies.filter(t => t.type === 'ART')
   const lrTaxonomies = taxonomies.filter(t => t.type === 'LEBENSRAUM')
   const nodes = [

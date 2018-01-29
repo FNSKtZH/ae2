@@ -1,17 +1,22 @@
 // @flow
+import get from 'lodash/get'
 
 export default ({
   treeData,
+  activeNodeArray,
 }: {
   treeData: Object,
-  activeLevel2TaxonomyName: Object,
+  activeNodeArray: Object,
 }): Array<Object> => {
   if (!treeData) return []
-  if (!treeData.allTaxonomies) return []
-  if (!treeData.allTaxonomies.nodes) return []
-  console.log('level2 nodes:', treeData.allTaxonomies.nodes)
+  const nodes = get(treeData, 'allTaxonomies.nodes', []).filter(node => {
+    if (activeNodeArray[0] === 'Arten') {
+      return node.type === 'ART'
+    }
+    return node.type === 'LEBENSRAUM'
+  })
 
-  return treeData.allTaxonomies.nodes.map(node => {
+  return nodes.map(node => {
     const taxType = node.type
     const elem1 = taxType === 'ART' ? 'Arten' : 'Lebensräume'
     const sort1 = taxType === 'ART' ? 1 : 2
