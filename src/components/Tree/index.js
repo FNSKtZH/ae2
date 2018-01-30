@@ -114,8 +114,7 @@ const Tree = ({
     console.log('Tree: error:', error)
     return <div> {error.message} </div>
   }
-  const login = get(loginData, 'login')
-  const username = login && login.username ? login.username : null
+  const username = get(loginData, 'login.username', null)
   const organizationUsers = get(
     organizationUserData,
     'allOrganizationUsers.nodes',

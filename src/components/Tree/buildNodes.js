@@ -30,9 +30,6 @@ export default ({
   activeNodeArray: Object,
   loginData: Object,
 }): Array<Object> => {
-  console.log('buildNodes, treeData:', treeData)
-  console.log('buildNodes, activeNodeArray:', activeNodeArray)
-  console.log('buildNodes, activeNodeArray[0]:', activeNodeArray[0])
   const activeLevel2TaxonomyNodes = activeNodeArray[0]
     ? get(treeData, 'allTaxonomies.nodes', []).filter(n => {
         if (activeNodeArray[0] === 'Arten') return n.type === 'ART'

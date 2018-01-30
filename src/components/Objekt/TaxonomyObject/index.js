@@ -134,8 +134,7 @@ const TaxonomyObject = ({
   setExpanded2: () => void,
 }) => {
   const objekt = get(objectData, 'objectById')
-  const login = get(loginData, 'login')
-  const username = login && login.username ? login.username : null
+  const username = get(loginData, 'login.username', null)
   const organizationUsers = get(
     organizationUserData,
     'allOrganizationUsers.nodes',

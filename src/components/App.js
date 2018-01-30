@@ -11,7 +11,6 @@ import Export from './Export'
 import Login from './Login'
 import FourOhFour from './FourOhFour'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
-import loginData from '../modules/loginData'
 import ErrorBoundary from './shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -20,7 +19,7 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const enhance = compose(activeNodeArrayData, loginData)
+const enhance = compose(activeNodeArrayData)
 
 const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])

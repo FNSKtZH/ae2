@@ -158,8 +158,8 @@ const RCO = ({
     []
   ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
   const writerNames = union(rCOWriters.map(w => w.userByUserId.name))
-  const loginName = get(loginData, 'login.username')
-  const userIsWriter = !!loginName && writerNames.includes(loginName)
+  const username = get(loginData, 'login.username')
+  const userIsWriter = !!username && writerNames.includes(username)
   /**
    * TODO
    * if user is writer:

@@ -11,14 +11,15 @@ export default ({
   loginData: Object,
 }): Array<Object> => {
   if (!treeData) return []
-  if (!treeData.allUsers) return []
-  if (!treeData.allUsers.nodes) return []
-  const token = get(loginData, 'login.token', '')
+  const token = get(loginData, 'login.token')
+  if (!token) return []
   const tokenDecoded = jwtDecode(token)
-  const { username } = tokenDecoded
+  const username = get(tokenDecoded, 'username')
+  if (!username) return []
   const user = get(treeData, 'allUsers.nodes', []).find(
     u => u.name === username
   )
+  if (!user) return []
   const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
   const userOrganizations = union(
     orgUsers.map(u => get(u, 'organizationByOrganizationId.name'))

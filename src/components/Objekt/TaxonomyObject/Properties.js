@@ -17,7 +17,6 @@ import styled from 'styled-components'
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import Property from '../../shared/Property'
 import NewProperty from '../../shared/NewProperty'
-import loginData from '../../../modules/loginData'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 
 const PropertiesTitleContainer = styled.div`
@@ -43,18 +42,16 @@ const PropertiesTitleValue = styled.p`
   width: 100%;
 `
 
-const enhance = compose(withApollo, loginData, editingTaxonomiesData)
+const enhance = compose(withApollo, editingTaxonomiesData)
 
 const Properties = ({
   client,
-  loginData,
   editingTaxonomiesData,
   id,
   properties,
   objectData,
 }: {
   client: Object,
-  loginData: Object,
   editingTaxonomiesData: Object,
   id: string,
   properties: Object,

@@ -50,7 +50,7 @@ export default ({
       menuType: 'CmPCFolder',
     },
   ]
-  const token = get(loginData, 'login.token', '')
+  const token = get(loginData, 'login.token')
   const userCount = get(treeData, 'allUsers.totalCount', 0)
   if (!!token) {
     nodes.push({
