@@ -76,8 +76,7 @@ const MyAppBar = ({
 }) => {
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
-  const login = get(loginData, 'login')
-  const username = login && login.username ? login.username : null
+  const username = get(loginData, 'login.username')
   const loginLabel = username ? username : 'nicht angemeldet'
 
   return (
