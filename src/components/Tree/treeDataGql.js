@@ -76,7 +76,11 @@ export default gql`
       @include(if: $existsLevel2Taxonomy) {
       totalCount
       nodes {
-        ...ObjektLevel4AndUp
+        id
+        name
+        objectsByParentId {
+          totalCount
+        }
       }
     }
     level3Object: objectById(id: $level3Object)

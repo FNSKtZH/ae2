@@ -53,7 +53,6 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
     existsLevel2Pc,
     notExistsLevel2Pc,
     existsLevel2Taxonomy,
-    existsLevel2Taxonomy,
     level2Taxonomy,
     level2TaxonomyPossibleNull,
     existsLevel3Object,
