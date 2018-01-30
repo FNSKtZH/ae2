@@ -39,7 +39,7 @@
    - Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
    - Vereinfacht die Datenstruktur
    - Vereinfacht Exporte und Importe
-3. Gruppen sind nicht mehr Teil der Taxonomie
+3. Gruppen sind nicht mehr Teil der Taxonomie<br/>
    Bisher wurden Arten in Gruppen eingeteilt (Fauna, Flora, Moose, Pilze). Das wird aufgehoben, denn:
    - Taxonomien können Gruppen-übergreifend sein
    - Die Bildung von Kategorien innerhalb der Biota ist Sache der Taxonomien, nicht dieser Datenbank
