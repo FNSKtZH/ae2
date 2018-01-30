@@ -86,10 +86,10 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     - neu kann die Grenze zwischen Strukturbaum und Objekt stufenlos verschoben werden
     ![Layout & Navigation](/etc/layout.png?raw=true "Layout & Navigation")
   - [x] Struktur- und Navigationsbaum
-    - neu inklusive Gruppen, Taxonomien, Eigenschaftensammlungen, Benutzer und Organisationen
+    - neu inklusive Taxonomien, Eigenschaftensammlungen, Benutzer und Organisationen
     ![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
   - [x] Suche:
-    - neu nach allen Gruppen und Taxonomien gleichzeitig
+    - neu nach allen Taxonomien gleichzeitig
     - neu nach allen Hierarchiestufen (z.B. Ordnungen, Familien)
     - neu und gleichzeitig nach Eigenschaftensammlungen
     ![Datenstruktur](/etc/suche.png?raw=true "Suche")
@@ -99,8 +99,6 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>
       ![Synonym](/etc/synonym.png?raw=true "Synonym")
   - [x] Neu: Alle Hierarchiestufen des Taxonomie-Baums anzeigen:<br/>
-    Gruppe:<br/>
-    ![Strukturbaum: Gruppe](/etc/gruppe.png?raw=true "Strukturbaum: Gruppe")<br/>
     Taxonomie:<br/>
     ![Strukturbaum: Taxonomie](/etc/taxonomie.png?raw=true "Strukturbaum: Taxonomie")<br/>
     Z.B. Klasse:<br/>
