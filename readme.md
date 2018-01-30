@@ -42,7 +42,7 @@
 3. Gruppen sind nicht mehr Teil der Taxonomie<br/>
    Bisher wurden Arten in Gruppen eingeteilt (Fauna, Flora, Moose, Pilze). Das wird aufgehoben, denn:
    - Taxonomien können Gruppen-übergreifend sein
-   - Die Bildung von Kategorien ist Sache der Taxonomien, nicht dieser Datenbank
+   - Die Kategorisierung von Biota ist Sache der Taxonomien, nicht dieser Datenbank
    - Sollen trotzdem für gewisse Werkzeuge Gruppen gebildet werden, ist das einfach mittels Eigenschaften-Sammlung möglich. Beispiele: GIS-Layer, Artgruppen-ID in EvAB
 4. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte
 5. Die API stellt umfassende Funktionalitäten zur Verfügung. Externe Anwendungen können im Rahmen der Benutzerrechte alles realisieren, was mit den zugrundeliegenden Daten möglich ist
