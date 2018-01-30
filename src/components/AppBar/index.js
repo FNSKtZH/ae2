@@ -57,21 +57,21 @@ const enhance = compose(
 
 const MyAppBar = ({
   activeNodeArrayData,
+  loginData,
   onClickColumnButtonData,
   onClickColumnButtonExport,
   onChangeImportButton,
   onClickColumnButtonLogin,
   ueberArteigenschaftenOnClick,
-  loginData,
   classes,
 }: {
   activeNodeArrayData: Object,
+  loginData: Object,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
   onChangeImportButton: () => void,
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
-  loginData: Object,
   classes: Object,
 }) => {
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
