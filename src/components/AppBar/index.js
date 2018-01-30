@@ -74,7 +74,7 @@ const MyAppBar = ({
   loginData: Object,
   classes: Object,
 }) => {
-  const activeNodeArray = activeNodeArrayData.activeNodeArray || []
+  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const login = get(loginData, 'login')
   const username = login && login.username ? login.username : null

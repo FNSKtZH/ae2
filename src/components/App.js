@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import Reboot from 'material-ui-next/Reboot'
+import get from 'lodash/get'
 
 import AppBar from './AppBar'
 import Data from './Data'
@@ -22,7 +23,7 @@ const Container = styled.div`
 const enhance = compose(activeNodeArrayData, loginData)
 
 const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
-  const activeNodeArray = activeNodeArrayData.activeNodeArray || []
+  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const url0 =
     activeNodeArray[0] && activeNodeArray[0].toLowerCase()
       ? activeNodeArray[0].toLowerCase()
