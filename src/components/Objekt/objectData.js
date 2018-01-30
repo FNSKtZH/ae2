@@ -1,6 +1,7 @@
 // @flow
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import get from 'lodash/get'
 
 import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
 
@@ -223,7 +224,7 @@ export default graphql(
     options: ({ activeNodeArrayData }) => ({
       variables: {
         objectId: getActiveObjectIdFromNodeArray(
-          activeNodeArrayData.activeNodeArray
+          get(activeNodeArrayData, 'activeNodeArray', [])
         ),
       },
     }),

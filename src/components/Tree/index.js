@@ -91,7 +91,7 @@ const Tree = ({
   organizationUserData: Object,
   dimensions: Object,
 }) => {
-  const { activeNodeArray } = activeNodeArrayData
+  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const { error, loading: treeDataLoading } = treeData
   const nodes = buildNodes({
     treeData,

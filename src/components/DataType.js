@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import compose from 'recompose/compose'
+import get from 'lodash/get'
 
 import Objekt from './Objekt'
 import Taxonomy from './Taxonomy'
@@ -21,7 +22,7 @@ const DataType = ({
   activeNodeArrayData: Object,
   dimensions: Object,
 }) => {
-  const { activeNodeArray } = activeNodeArrayData
+  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const showObjekt =
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
