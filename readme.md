@@ -39,8 +39,13 @@
    - Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
    - Vereinfacht die Datenstruktur
    - Vereinfacht Exporte und Importe
-3. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte
-4. Die API stellt umfassende Funktionalitäten zur Verfügung. Externe Anwendungen können im Rahmen der Benutzerrechte alles realisieren, was mit den zugrundeliegenden Daten möglich ist
+3. Gruppen sind nicht mehr Teil der Taxonomie.
+   Bisher wurden Arten in Gruppen eingeteilt (Fauna, Flora, Moose, Pilze). Das wird aufgehoben, denn:
+   - Taxonomien können Gruppen-übergreifend sein
+   - Die Bildung von Kategorien innerhalb der Biota ist Sache der Taxonomien, nicht dieser Datenbank
+   - Sollen trotzdem für gewisse Werkzeuge Gruppen gebildet werden, ist das einfach mittels Eigenschaften-Sammlung möglich. Beispiele: GIS-Layer, Artgruppen-ID in EvAB
+4. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte
+5. Die API stellt umfassende Funktionalitäten zur Verfügung. Externe Anwendungen können im Rahmen der Benutzerrechte alles realisieren, was mit den zugrundeliegenden Daten möglich ist
 
 ### Diese Technologien werden verwendet:
 
