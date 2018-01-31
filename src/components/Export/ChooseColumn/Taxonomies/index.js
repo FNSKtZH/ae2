@@ -16,6 +16,7 @@ import exportCategoriesData from '../../exportCategoriesData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import propsByTaxData from '../propsByTaxData'
+import taxonomiesData from './taxonomiesData'
 import allCategoriesData from '../../../../modules/allCategoriesData'
 import taxonomiesOfCategoriesData from '../../../../modules/taxonomiesOfCategoriesData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
@@ -60,6 +61,7 @@ const TaxonomyLabel = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
+  taxonomiesData,
   exportTaxonomiesData,
   exportCategoriesData,
   propsByTaxData,
@@ -68,19 +70,15 @@ const enhance = compose(
   withHandlers({
     onCheckCategory: ({
       client,
+      taxonomiesData,
       exportCategoriesData,
       exportTaxonomiesData,
-      taxonomiesOfCategoriesData,
     }) => (event, isChecked) => {
-      const { exportCategories } = exportCategoriesData
+      const exportCategories = get(exportCategoriesData, 'exportCategories', [])
       const { name } = event.target
-      const taxonomiesOfCategories = get(
-        taxonomiesOfCategoriesData,
-        'taxonomiesOfCategoriesFunction.nodes',
-        []
-      )
-      const taxonomiesOfCategory = taxonomiesOfCategories.filter(
-        t => t.categoryName === name
+      const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
+      const taxonomiesOfCategory = allTaxonomies.filter(
+        t => t.type.toLowerCase() === name.toLowerCase()
       )
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       let categories
@@ -122,9 +120,11 @@ const enhance = compose(
     onCheckTaxonomy: ({
       client,
       exportTaxonomiesData,
+      taxonomiesData,
       taxonomiesOfCategoriesData,
       exportCategoriesData,
     }) => (event, isChecked) => {
+      const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       const { name } = event.target
       let taxonomies
@@ -143,29 +143,19 @@ const enhance = compose(
         // check if sole category is left
         // and this was only taxonomy
         // if so: uncheck category too
-        const taxonomiesOfCategories = get(
-          taxonomiesOfCategoriesData,
-          'taxonomiesOfCategoriesFunction.nodes',
-          []
-        )
-        const taxonomiesOfCategory = taxonomiesOfCategories.filter(
-          t => t.taxonomyName === name
-        )
+        const thisTaxonomy = allTaxonomies.find(t => t.name === name)
         if (taxonomies.length === 0) {
-          const categoryName = taxonomiesOfCategory[0].categoryName
-          const taxonomiesOfThisCategory = taxonomiesOfCategories.filter(
-            t => t.categoryName === categoryName
-          )
-          if (taxonomiesOfThisCategory.length === 1) {
-            // this was the only taxonomy in this category
-            // it makes sense to also uncheck the category
-            const { exportCategories } = exportCategoriesData
-            const categories = exportCategories.filter(c => c !== categoryName)
-            client.mutate({
-              mutation: exportCategoriesMutation,
-              variables: { value: categories },
-            })
-          }
+          // this was the only taxonomy in this category
+          // it makes sense to also uncheck the category
+          const { exportCategories } = exportCategoriesData
+          const categories = exportCategories.filter(c => {
+            if (c === 'Arten') return thisTaxonomy.type !== 'ART'
+            return thisTaxonomy.type !== 'LEBENSRAUM'
+          })
+          client.mutate({
+            mutation: exportCategoriesMutation,
+            variables: { value: categories },
+          })
         }
       }
     },
@@ -173,6 +163,7 @@ const enhance = compose(
 )
 
 const Categories = ({
+  taxonomiesData,
   propsByTaxData,
   taxonomiesOfCategoriesData,
   exportCategoriesData,
@@ -181,6 +172,7 @@ const Categories = ({
   onCheckCategory,
   onCheckTaxonomy,
 }: {
+  taxonomiesData: Object,
   propsByTaxData: Object,
   taxonomiesOfCategoriesData: Array<Object>,
   exportCategoriesData: Object,
@@ -191,14 +183,14 @@ const Categories = ({
 }) => {
   const exportCategories = get(exportCategoriesData, 'exportCategories', [])
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-  const taxonomiesOfCategories = get(
-    taxonomiesOfCategoriesData,
-    'taxonomiesOfCategoriesFunction.nodes',
-    []
-  )
-  const categories = get(allCategoriesData, 'allCategories.nodes', []).map(
-    c => c.name
-  )
+  const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
+  const artTaxonomies = allTaxonomies.filter(t => t.type === 'ART')
+  const lrTaxonomies = allTaxonomies.filter(t => t.type === 'LEBENSRAUM')
+  const categoryObject = {
+    Arten: artTaxonomies,
+    Lebensräume: lrTaxonomies,
+  }
+  const categories = ['Arten', 'Lebensräume']
   const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
@@ -239,30 +231,24 @@ const Categories = ({
             {exportCategories.includes(category) && (
               <TaxContainer>
                 <TaxTitle>
-                  {taxonomiesOfCategories.filter(
-                    t => t.categoryName === category
-                  ).length === 1
+                  {categoryObject[category].length === 1
                     ? 'Taxonomie:'
                     : 'Taxonomien:'}
                 </TaxTitle>
                 <FormGroup>
-                  {taxonomiesOfCategories
-                    .filter(t => t.categoryName === category)
-                    .map(tax => (
-                      <TaxonomyLabel
-                        key={tax.taxonomyName}
-                        control={
-                          <Checkbox
-                            name={tax.taxonomyName}
-                            checked={exportTaxonomies.includes(
-                              tax.taxonomyName
-                            )}
-                            onChange={onCheckTaxonomy}
-                          />
-                        }
-                        label={tax.taxonomyName}
-                      />
-                    ))}
+                  {categoryObject[category].map(tax => (
+                    <TaxonomyLabel
+                      key={tax.name}
+                      control={
+                        <Checkbox
+                          name={tax.name}
+                          checked={exportTaxonomies.includes(tax.name)}
+                          onChange={onCheckTaxonomy}
+                        />
+                      }
+                      label={tax.name}
+                    />
+                  ))}
                 </FormGroup>
               </TaxContainer>
             )}

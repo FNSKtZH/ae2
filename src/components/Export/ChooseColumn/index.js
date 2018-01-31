@@ -8,7 +8,7 @@ import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
 import get from 'lodash/get'
 
-import Categories from './Categories'
+import Taxonomies from './Taxonomies'
 import Properties from './Properties'
 import Filter from './Filter'
 import exportCategoriesData from '../exportCategoriesData'
@@ -143,7 +143,7 @@ const Export = ({
           titleStyle={level1CardTitleStyle}
         />
         <Level1CardText expandable={true}>
-          <Categories />
+          <Taxonomies />
         </Level1CardText>
       </Level1Card>
       <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
