@@ -35,7 +35,7 @@ const StyledTypography = styled(Typography)`
 `
 const StyledButton = styled(Button)`
   color: rgb(255, 255, 255) !important;
-  border: ${props => (props['data-visible'] ? 'none' : '1px solid !important')};
+  border: ${props => (props['data-active'] ? '1px solid !important' : 'none')};
   margin: 8px;
 `
 
@@ -88,23 +88,24 @@ const MyAppBar = ({
               Arteigenschaften
             </StyledTypography>
             <StyledButton
-              data-visible={
-                !['arten', 'lebensräume', 'eigenschaften-sammlungen'].includes(
-                  url0
-                )
-              }
+              data-active={[
+                undefined,
+                'arten',
+                'lebensräume',
+                'eigenschaften-sammlungen',
+              ].includes(url0)}
               onClick={onClickColumnButtonData}
             >
               Daten
             </StyledButton>
             <StyledButton
-              data-visible={url0 !== 'export'}
+              data-active={url0 === 'export'}
               onClick={onClickColumnButtonExport}
             >
               Export
             </StyledButton>
             <StyledButton
-              data-visible={url0 !== 'login'}
+              data-active={url0 === 'login'}
               onClick={onClickColumnButtonLogin}
             >
               {loginLabel}
