@@ -33,6 +33,7 @@ export default graphql(
         }
         taxonomyByTaxonomyId {
           id
+          type
         }
       }
     }

@@ -4,6 +4,8 @@ import get from 'lodash/get'
 export default (tO: Object) => {
   let url = []
   const type = get(tO, 'taxonomyByTaxonomyId.type')
+    .replace('ART', 'Arten')
+    .replace('LEBENSRAUM', 'Lebensräume')
   if (type) url.push(type)
   const taxonomyId = get(tO, 'taxonomyByTaxonomyId.id')
   if (taxonomyId) url.push(taxonomyId)
