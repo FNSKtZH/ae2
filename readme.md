@@ -13,7 +13,7 @@
   - [Grundlage](#grundlage)
   - [Projektziele](#projektziele)
   - [Funktionale Ziele](#funktionale-ziele)
-  - [Diese Technologien werden verwendet](#diese-technologien-werden-verwendet)
+  - [Technologien](#diese-technologien-werden-verwendet)
   - [Aktueller Stand](#aktueller-stand)
 
 # Was ist arteigenschaften.ch?
