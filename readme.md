@@ -5,17 +5,16 @@
 <a name="top"></a>
 
 **Inhaltsverzeichnis**
-- [Was ist arteigenschaften.ch?](#was-ist-arteigenschaften.ch?)
+- [Was ist arteigenschaften.ch?](#was-ist-arteigenschaftench?)
   - [Ziele](#ziele)
   - [Fachliches Konzept](#fachliches-konzept)
   - [Open source](#open-source)
-- [Neu-Aufbau 2017/2018](#neu-aufbau-2017/2018)
+- [Neu-Aufbau 2017/2018](#neu-aufbau-20172018)
   - [Grundlage](#grundlage)
   - [Projektziele](#projektziele)
   - [Funktionale Ziele](#funktionale-ziele)
   - [Diese Technologien werden verwendet](#diese-technologien-werden-verwendet)
   - [Aktueller Stand](#aktueller-stand)
-  - [Was kann arteigenschaften.ch?](#was-kann-arteigenschaftench)
 
 # Was ist arteigenschaften.ch?
 
@@ -338,7 +337,3 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
   - [ ] Arten und Lebensräume bearbeiten (in Arbeit)
   - [x] Last but not least: arteigenschaften.ch ist nicht nur eine Applikation, sondern auch eine API bzw. Daten-Schnittstelle, aufgebaut mit [GraphQL](https://github.com/facebook/graphql). Alles, was ein Benutzer über die Anwendung machen kann, ist auch via die API möglich!
-
-### Was kann arteigenschaften.ch?
-
-Siehe [hier](https://github.com/FNSKtZH/artendb_v1/blob/master/README.md).
