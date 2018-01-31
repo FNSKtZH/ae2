@@ -93,18 +93,16 @@ Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich diese
 Ja, das ist alles :-)
 
 ### Taxonomien
-[Taxonomien](http://de.wikipedia.org/wiki/Taxonomie) klassifizieren <a href="http://de.wikipedia.org/wiki/Objekt_(Programmierung)">Objekte</a> mit einer [Hierarchie](http://de.wikipedia.org/wiki/Hierarchie). In arteigenschaften.ch sind Objekte Arten und Lebensräume. Darauf bauen alle Eigenschaften-Sammlungen und deren [Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft) auf. Die Entwicklung von Taxonomien und der Umgang mit unterschiedlichen und sich laufend verändernden Taxonomien sind höchst anspruchsvoll.
+[Taxonomien](http://de.wikipedia.org/wiki/Taxonomie) klassifizieren <a href="http://de.wikipedia.org/wiki/Objekt_(Programmierung)">Objekte</a> (z.B. Arten) mit einer [Hierarchie](http://de.wikipedia.org/wiki/Hierarchie). Die Entwicklung von Taxonomien und der Umgang mit unterschiedlichen und sich laufend verändernden Taxonomien sind höchst anspruchsvoll.
 
 Andere geläufige Begriffe: Nomenklatur, Index, Flora, Kartierschlüssel, Lebensraumschlüssel.
 
 Beispiele: Indizes der nationalen Artdatenzentren, "Flora der Schweiz (Ausgabe 2012)", "Lebensraumkartierung Neeracher Riet 2009", "Flora Europaea (Ellenberg, 1991)".
 
-Die Benutzerin kann die Arten wahlweise nach allen in den Daten enthaltenen Taxonomien darstellen.
-
 Im Idealfall enthielte die aktuell vom nationalen Zentrum verwendete Taxonomie nur "offizielle" Arten und z.B. keine Synonyme. Stattdessen würden Beziehungen zwischen offiziellen Arten und Arten anderer Taxonomien beschrieben. Da die Daten von den nationalen Zentren unseres Wissens (noch?) nicht so erhältlich sind, ist das in arteigenschaften.ch nicht realisiert aber im Design vorgesehen und bei Vorliegen entsprechender Daten direkt umsetzbar.
 
 ### Objekte
-<a href="http://de.wikipedia.org/wiki/Objekt_(Programmierung)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Aber nicht nur die Arten selbst, sondern jede Stufe der Hierarchie, z.B. Gattung, Familie.
+<a href="http://de.wikipedia.org/wiki/Objekt_(Programmierung)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Aber nicht nur die Arten selbst, sondern jede Stufe der Hierarchie, z.B. Gattung, Familie, Unterart.
 
 ### Eigenschaften-Sammlungen
 Systematische Informationen über Arten kommen in ganzen Sammlungen, z.B. „Flora Indicativa 2010“. Solche Sammlungen haben gemeinsame Eigenschaften wie z.B.:
@@ -147,7 +145,7 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 - Die Eigenschaften werden nochmals in die zusammenfassende Eigenschaften-Sammlung "Rote Listen (aktuell)" importiert. Dabei werden bisherige Rote-Listen-Angaben der entsprechenden Heuschrecken überschrieben
 - Falls einige 1985 beschriebene Arten 2012 nicht mehr beschrieben wurden, bleibt der Rote-Liste-Status von 1985 erhalten. Um dies kenntlich zu machen, soll in der zusammenfassenden Eigenschaften-Sammlung in einem zusätzlichen Feld immer der Name der Ursprungs-Eigenschaften-Sammlung mitgeliefert werden
 
-### Art- und Lebensraumeigenschaften
+### [Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft)
 ...beschreiben einzelne Objekte. Beispiele: Artwert, Rote-Liste-Status, nationale Priorität.
 
 ### Beziehungen
