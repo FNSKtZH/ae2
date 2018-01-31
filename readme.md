@@ -146,10 +146,20 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 - Falls einige 1985 beschriebene Arten 2012 nicht mehr beschrieben wurden, bleibt der Rote-Liste-Status von 1985 erhalten. Um dies kenntlich zu machen, soll in der zusammenfassenden Eigenschaften-Sammlung in einem zusätzlichen Feld immer der Name der Ursprungs-Eigenschaften-Sammlung mitgeliefert werden
 
 ### [Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft)
-...beschreiben einzelne Objekte. Beispiele: Artwert, Rote-Liste-Status, nationale Priorität.
+...beschreiben einzelne Objekte. Beispiele:
+
+- Artwert
+- Rote-Liste-Status
+- nationale Priorität.
 
 ### Beziehungen
-...beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele: Bindung von Arten an Biotope, Frasspflanzen von Insekten, Wirte von Parasiten, Beutespektrum von Räubern. Aber auch taxonomische Beziehungen wie "synonym". Die eine Beziehung beschreibenden Attribute sind spezielle Art- und Lebensraumeigenschaften und wie diese (oft gemeinsam mit ihnen) Teil von Eigenschaften-Sammlungen.
+...beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele:
+
+- Bindung von Arten an Biotope
+- Frasspflanzen von Insekten
+- Wirte von Parasiten
+- Beutespektrum von Räubern
+- aber auch taxonomische Beziehungen wie "synonym"
 
 ### Daten decodieren
 Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in der bisherigen arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist sehr kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind (nur) codierte Informationen zu vermeiden.
