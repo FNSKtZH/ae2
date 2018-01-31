@@ -20,7 +20,7 @@
 
 ## Ziele
 ### Ausgangspunkt
-...sind Erfahrungen, welche in der Fachstelle Naturschutz mit früheren Datenbanken gemacht wurden:
+...sind Erfahrungen, welche in der Fachstelle Naturschutz gemacht wurden:
 
 - Bezieht man Daten aus anderen Quellen, ist es schwierig, sie vollständig, fehlerfrei und aktuell zu (er-)halten
 - Entscheidend für die Aktualität der Datenbank ist es, die Informationen einfach und mit geringem Aufwand importieren und danach direkt nutzen zu können
@@ -71,7 +71,7 @@ arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, die An
 - gut verfügbar:
   - von jedem Gerät im Internet
   - als Export in den Formaten <a href="http://de.wikipedia.org/wiki/CSV_(Dateiformat)">csv</a> und Excel
-  - über die API für GIS, [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content), [EvAB mobile](https://github.com/barbalex/EvabMobile), beliebige Applikationen<br>
+  - über die API für GIS, [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content), [EvAB mobile](https://github.com/barbalex/EvabMobile) und beliebige weitere Applikationen<br>
     (da die API mit [GraphQL](https://github.com/facebook/graphql) aufgebaut ist, kann jede Applikation ohne Rückfrage mit der FNS flexibel auf die Daten zugreifen. Rückfragen bzw. entsprechende Benutzer-Rechte sind nur nötig, um Daten von externen Applikationen aus zu verändern)
 - und kann über alle Artengruppen hinweg exportiert werden
 
@@ -85,10 +85,12 @@ arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, die An
 
 ## Fachliches Konzept
 ### Der Grundgedanke
-Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich die Grundstrukturen der Datenbank ab:
+Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich diese Grundstrukturen der Datenbank ab:
 
 - Taxonomien mit Objekten
 - Eigenschaften-Sammlungen mit Eigenschaften und Beziehungen
+
+Ja, das ist alles :-)
 
 ### Taxonomien
 [Taxonomien](http://de.wikipedia.org/wiki/Taxonomie) klassifizieren <a href="http://de.wikipedia.org/wiki/Objekt_(Programmierung)">Objekte</a> mit einer [Hierarchie](http://de.wikipedia.org/wiki/Hierarchie). In arteigenschaften.ch sind Objekte Arten und Lebensräume. Darauf bauen alle Eigenschaften-Sammlungen und deren [Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft) auf. Die Entwicklung von Taxonomien und der Umgang mit unterschiedlichen und sich laufend verändernden Taxonomien sind höchst anspruchsvoll.
@@ -132,7 +134,7 @@ Für bestimmte Zwecke ist zusätzlich das Gegenteil interessant: Daten aus versc
 
 Das geht so:
 
-- In den jeweiligen Objekten wird eine zusätzliche Eigenschaften-Sammlung mit Eigenschaft "zusammenfassend" geschaffen
+- Eine zusätzliche Eigenschaften-Sammlung mit Eigenschaft "zusammenfassend" schaffen
 - Die entsprechenden Daten werden zwei mal importiert:
  - Ein mal in die Ursprungs-Eigenschaften-Sammlung
  - Ein mal in die zusammenfassende
@@ -148,16 +150,11 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 ### Art- und Lebensraumeigenschaften
 ...beschreiben einzelne Objekte. Beispiele: Artwert, Rote-Liste-Status, nationale Priorität.
 
-### Beziehungssammlungen
-Beziehungen beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele: Bindung von Arten an Biotope, Frasspflanzen von Insekten, Wirte von Parasiten, Beutespektrum von Räubern. Aber auch taxonomische Beziehungen wie "synonym". Die eine Beziehung beschreibenden Attribute sind spezielle Art- und Lebensraumeigenschaften und wie diese (oft gemeinsam mit ihnen) Teil von Eigenschaften-Sammlungen. Sammlungen von Beziehungen werden in Analogie zu Eigenschaften-Sammlungen "Beziehungssammlungen" genannt. Sie sind Spezialfälle von Eigenschaften-Sammlungen und werden separat behandelt, weil sie eine leicht abweichende Datenstruktur erfordern.
-
-### Gruppen vereinen
-In der bisherigen, relationalen Datenbank werden die Gruppen (Flora, Fauna, Moose, Pilze, Lebensräume) in unterschiedlichen Tabellen verwaltet. Das erhöht die Komplexität der Anwendung und erschwert jede Auswertung enorm. Beispielweise müssen alle Beziehungen zu anderen Arten oder Lebensräumen für jede Gruppe separat verwaltet werden, d.h. bis zu 10-fach. Und in Auswertungen mittels Union-Abfragen wieder zusammengeführt werden.
-
-Zumindest in Access kann das aber nicht mehr geändert werden, weil z.B. in der Floratabelle die maximale Anzahl möglicher Indizes (32) erreicht ist und jede Beziehung einen Index voraussetzt. Die (schlechte) Variante, alle Informationen in einer einzigen Riesentabelle zu vereinigen, scheitert wiederum an der maximalen Anzahl Felder (255) und an der maximalen Datenmenge pro Datensatz (2KB).
+### Beziehungen
+...beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele: Bindung von Arten an Biotope, Frasspflanzen von Insekten, Wirte von Parasiten, Beutespektrum von Räubern. Aber auch taxonomische Beziehungen wie "synonym". Die eine Beziehung beschreibenden Attribute sind spezielle Art- und Lebensraumeigenschaften und wie diese (oft gemeinsam mit ihnen) Teil von Eigenschaften-Sammlungen.
 
 ### Daten decodieren
-Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in der bisherigen arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist sehr kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind codierte Informationen zu vermeiden.
+Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in der bisherigen arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist sehr kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind (nur) codierte Informationen zu vermeiden.
 
 ### Eigenschaften-Sammlungen aktualisieren
 Wie soll eine bestehende Eigenschaften-Sammlung aktualisiert werden? Zu bedenken sind u.a.:
@@ -173,7 +170,7 @@ Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgender
 <a href="#top">&#8593; top</a>
 
 **Ideen für die Zukunft**
-- Listen von Beobachtungen/Lebensräumen mit Eigenschaften verknüpfen:
+- Eigene Listen von Objekten (z.B. Art-Beobachtungen, Lebensräume) mit Eigenschaften verknüpfen:
   - Benutzerin lädt eine Tabelle mit ihren Beobachtungen oder Lebensräumen (wie bei Importen)
   - Sie wählt, mit welcher ID diese Daten mit Eigenschaften verknüpft werden sollen (wie bei Importen)
   - Anwendung meldet, wie erfolgreich die Verknüpfung ist (wie bei Importen)
@@ -182,9 +179,8 @@ Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgender
 
 <a href="#top">&#8593; top</a>
 
-<a name="OpenSource"></a>
 ## Open source
-Die für die Anwendung verwendete [Lizenz](https://github.com/FNSKtZH/artendb/blob/master/License.md) ist sehr freizügig. Eine Weiterverbreitung der in der Anwendung enthaltenen Daten ist aber nur mit Einverständnis der Autoren zulässig.
+Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/master/license.md) ist sehr freizügig. Eine Weiterverbreitung der in der Anwendung enthaltenen Daten ist aber nur mit Einverständnis der Autoren zulässig.
 
 <a href="#top">&#8593; top</a>
 
