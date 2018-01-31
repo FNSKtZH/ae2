@@ -26,8 +26,7 @@ const OrgContainer = styled.div`
 `
 const SaveButton = styled(Button)`
   border: 1px solid !important;
-  margin-bottom: 5px;
-  margin-top: 15px;
+  margin-top: 10px !important;
 `
 const StyledTabs = styled(Tabs)`
   > div {
