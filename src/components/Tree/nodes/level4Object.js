@@ -13,15 +13,10 @@ export default ({
   activeLevel3ObjectId: ?String,
 }): Array<Object> => {
   if (!treeData) return []
-  if (!treeData.level4Object) return []
-  if (!treeData.level4Object.taxonomyObjectLevel1) return []
-  if (!treeData.level4Object.taxonomyObjectLevel1.nodes) return []
+  const nodes = get(treeData, 'level4Object.objectsByParentId.nodes', [])
 
-  return treeData.level4Object.taxonomyObjectLevel1.nodes.map(node => {
-    const childrenCount =
-      node.objectsByParentId && node.objectsByParentId.totalCount
-        ? node.objectsByParentId.totalCount
-        : 0
+  return nodes.map(node => {
+    const childrenCount = get(node, 'objectsByParentId.totalCount', 0)
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
@@ -37,7 +32,7 @@ export default ({
 
     return {
       id: node.id,
-      url: [elem1, activeLevel2TaxonomyName, activeLevel3ObjectId, node.id],
+      url: [elem1, taxonomy.id, activeLevel3ObjectId, node.id],
       sort: [sort1, activeLevel2TaxonomyName, activeLevel3ObjectName, nodeName],
       label: node.name,
       info: labelCount.toLocaleString('de-CH'),

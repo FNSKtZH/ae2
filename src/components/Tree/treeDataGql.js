@@ -83,31 +83,31 @@ export default gql`
         }
       }
     }
-    level3Object: objectById(id: $level3Object)
+    level4Object: objectById(id: $level3Object)
       @include(if: $existsLevel3Object) {
       ...ObjektLevel4AndUp
     }
-    level4Object: objectById(id: $level4Object)
+    level5Object: objectById(id: $level4Object)
       @include(if: $existsLevel4Object) {
       ...ObjektLevel4AndUp
     }
-    level5Object: objectById(id: $level5Object)
+    level6Object: objectById(id: $level5Object)
       @include(if: $existsLevel5Object) {
       ...ObjektLevel4AndUp
     }
-    level6Object: objectById(id: $level6Object)
+    level7Object: objectById(id: $level6Object)
       @include(if: $existsLevel6Object) {
       ...ObjektLevel4AndUp
     }
-    level7Object: objectById(id: $level7Object)
+    level8Object: objectById(id: $level7Object)
       @include(if: $existsLevel7Object) {
       ...ObjektLevel4AndUp
     }
-    level8Object: objectById(id: $level8Object)
+    level9Object: objectById(id: $level8Object)
       @include(if: $existsLevel8Object) {
       ...ObjektLevel4AndUp
     }
-    level9Object: objectById(id: $level9Object)
+    level10Object: objectById(id: $level9Object)
       @include(if: $existsLevel9Object) {
       ...ObjektLevel4AndUp
     }

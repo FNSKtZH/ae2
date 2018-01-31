@@ -33,9 +33,7 @@ export default ({
   activeLevel8ObjectId: ?String,
 }): Array<Object> => {
   if (!treeData) return []
-  if (!treeData.level9Object) return []
-  if (!treeData.level9Object.objectsByParentId) return []
-  if (!treeData.level9Object.objectsByParentId.nodes) return []
+  const nodes = get(treeData, 'level9Object.objectsByParentId.nodes', [])
   const taxonomy = get(treeData, 'allTaxonomies.nodes').find(
     tax => tax.name === activeLevel2TaxonomyName
   )
@@ -45,11 +43,8 @@ export default ({
   const elem1 = taxType === 'ART' ? 'Arten' : 'Lebensräume'
   const sort1 = taxType === 'ART' ? 1 : 2
 
-  return treeData.level9Object.objectsByParentId.nodes.map(node => {
-    const childrenCount =
-      node.objectsByParentId && node.objectsByParentId.totalCount
-        ? node.objectsByParentId.totalCount
-        : 0
+  return nodes.map(node => {
+    const childrenCount = get(node, 'objectsByParentId.totalCount', 0)
     const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
@@ -59,7 +54,7 @@ export default ({
       id: node.id,
       url: [
         elem1,
-        activeLevel2TaxonomyName,
+        taxonomy.id,
         activeLevel3ObjectId,
         activeLevel4ObjectId,
         activeLevel5ObjectId,
