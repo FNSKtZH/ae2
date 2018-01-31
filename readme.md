@@ -5,11 +5,11 @@
 <a name="top"></a>
 
 **Inhaltsverzeichnis**
-- Was ist arteigenschaften.ch?(#was-ist-arteigenschaften.ch?)
+- [Was ist arteigenschaften.ch?](#was-ist-arteigenschaften.ch?)
   - [Ziele](#ziele)
   - [Fachliches Konzept](#fachliches-konzept)
   - [Open source](#open-source)
-- Neu-Aufbau 2017/2018(#neu-aufbau-2017/2018)
+- [Neu-Aufbau 2017/2018](#neu-aufbau-2017/2018)
   - [Grundlage](#grundlage)
   - [Projektziele](#projektziele)
   - [Funktionale Ziele](#funktionale-ziele)
