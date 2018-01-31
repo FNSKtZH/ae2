@@ -25,7 +25,6 @@ import app from 'ampersand-app'
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import Taxonomy from '../Taxonomy'
 import Property from './Property'
-import CategoryField from './CategoryField'
 import Properties from './Properties'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import ErrorBoundary from '../../shared/ErrorBoundary'
@@ -273,7 +272,6 @@ const TaxonomyObject = ({
                   field="name"
                   objekt={objekt}
                 />
-                <CategoryField objekt={objekt} />
               </Fragment>
             ) : (
               <Fragment>
