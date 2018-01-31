@@ -30,7 +30,7 @@ const StyledCardContent = styled(CardContent)`
 
 const enhance = compose(withState('expanded', 'setExpanded', false))
 
-const HowToCategories = ({
+const HowToTaxonomies = ({
   expanded,
   setExpanded,
 }: {
@@ -54,7 +54,7 @@ const HowToCategories = ({
     <Collapse in={expanded} timeout="auto" unmountOnExit>
       <StyledCardContent>
         <ul>
-          <li>Wählen Sie eine oder mehrere Gruppen...</li>
+          <li>Wählen Sie Arten oder Lebensräume...</li>
           <li>...und darin Taxonomien</li>
           <li>...dann werden ihre Eigenschaften aufgebaut</li>
           <li>...und Sie können filtern und Eigenschaften wählen</li>
@@ -64,4 +64,4 @@ const HowToCategories = ({
   </StyledCard>
 )
 
-export default enhance(HowToCategories)
+export default enhance(HowToTaxonomies)

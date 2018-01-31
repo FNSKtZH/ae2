@@ -177,26 +177,6 @@ CREATE TABLE ae.rco_count_by_taxonomy_relation_type(
   count bigint
 );
 
-DROP TABLE IF EXISTS ae.categories_of_taxonomies_count CASCADE;
-CREATE TABLE ae.categories_of_taxonomies_count (
-  name text,
-  id uuid,
-  count bigint
-);
-
-DROP TABLE IF EXISTS ae.categories_of_taxonomies CASCADE;
-CREATE TABLE ae.categories_of_taxonomies (
-  taxonomy_id uuid,
-  category_name text
-);
-
-DROP TABLE IF EXISTS ae.taxonomies_of_category CASCADE;
-CREATE TABLE ae.taxonomies_of_category (
-  category_name text,
-  taxonomy_name text,
-  object_count bigint
-);
-
 DROP TABLE IF EXISTS ae.prop_value CASCADE;
 CREATE TABLE ae.prop_value (
   value text
