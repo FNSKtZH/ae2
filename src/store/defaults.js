@@ -27,7 +27,7 @@ const otherDefaults = {
     username: '',
     __typename: 'Login',
   },
-  historyAfterLogin: '',
+  'historyAfterLogin@client': '',
 }
 
 export default Object.assign({}, exportDefaults, otherDefaults)
