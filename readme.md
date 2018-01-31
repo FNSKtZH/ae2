@@ -78,82 +78,78 @@ arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, die An
 ### Ziele für Datenpfleger und Systemverantwortliche
 
 - Daten können in wenigen Minuten importiert werden.<br>Es werden keine besonderen technischen Fähigkeiten vorausgesetzt
-- Die Datenstruktur ist bereits in den Rohdaten sichtbar und verständlich
+- Die Datenstruktur ist via die API klar definiert
 - Der Code ist offen und dokumentiert. Nutzer können eigene Erweiterungen entwickeln (lassen) und/oder arteigenschaften.ch gemeinsam weiter entwickeln
 
 <a href="#top">&#8593; top</a>
 
 ## Fachliches Konzept
 ### Der Grundgedanke
-Die bisherige Access-Datenbank ist über zehn Jahre gewachsen. Nach und nach entstand ein komplexes Instrument. Es ist schwer zu verstehen und zu unterhalten und stösst an diverse technische Grenzen.
+Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich die Grundstrukturen der Datenbank ab:
 
-Ist etwas schwer verständlich, passieren Fehler. Wird es nicht verstanden, nützt es (früher oder später) nichts.
-
-Der Grundgedanke hinter arteigenschaften.ch ist daher: Komplexität minimieren. Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich lediglich drei Grundstrukturen ab: Objekte, ihre Eigenschaften- und Beziehungssammlungen.
+- Taxonomien mit Objekten
+- Eigenschaften-Sammlungen mit Eigenschaften und Beziehungen
 
 ### Taxonomien
-[Taxonomien](http://de.wikipedia.org/wiki/Taxonomie) klassifizieren <a href="http://de.wikipedia.org/wiki/Objekt_(Programmierung)">Objekte</a> (in arteigenschaften.ch: Arten und Lebensräume) mit einer [Hierarchie](http://de.wikipedia.org/wiki/Hierarchie). Darauf bauen alle Eigenschaftensammlungen, Beziehungssammlungen und deren [Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft) auf. Die Entwicklung von Taxonomien und der Umgang mit unterschiedlichen und sich laufend verändernden Taxonomien sind höchst anspruchsvoll.
+[Taxonomien](http://de.wikipedia.org/wiki/Taxonomie) klassifizieren <a href="http://de.wikipedia.org/wiki/Objekt_(Programmierung)">Objekte</a> mit einer [Hierarchie](http://de.wikipedia.org/wiki/Hierarchie). In arteigenschaften.ch sind Objekte Arten und Lebensräume. Darauf bauen alle Eigenschaften-Sammlungen und deren [Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft) auf. Die Entwicklung von Taxonomien und der Umgang mit unterschiedlichen und sich laufend verändernden Taxonomien sind höchst anspruchsvoll.
 
 Andere geläufige Begriffe: Nomenklatur, Index, Flora, Kartierschlüssel, Lebensraumschlüssel.
 
 Beispiele: Indizes der nationalen Artdatenzentren, "Flora der Schweiz (Ausgabe 2012)", "Lebensraumkartierung Neeracher Riet 2009", "Flora Europaea (Ellenberg, 1991)".
 
-Die Benutzerin soll die Arten wahlweise nach allen in den Daten enthaltenen Taxonomien darstellen können (noch nicht realisiert). Im Standard wird bei Arten die Hierarchie der vom zuständigen nationalen Zentrum verwendeten Taxonomie angezeigt.
+Die Benutzerin kann die Arten wahlweise nach allen in den Daten enthaltenen Taxonomien darstellen.
 
 Im Idealfall enthielte die aktuell vom nationalen Zentrum verwendete Taxonomie nur "offizielle" Arten und z.B. keine Synonyme. Stattdessen würden Beziehungen zwischen offiziellen Arten und Arten anderer Taxonomien beschrieben. Da die Daten von den nationalen Zentren unseres Wissens (noch?) nicht so erhältlich sind, ist das in arteigenschaften.ch nicht realisiert aber im Design vorgesehen und bei Vorliegen entsprechender Daten direkt umsetzbar.
 
 ### Objekte
-<a href="http://de.wikipedia.org/wiki/Objekt_(Programmierung)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Letztere Begriffe werden in der Benutzeroberfläche verwendet. "Objekte" ist eher von technischer und konzeptioneller Bedeutung.
+<a href="http://de.wikipedia.org/wiki/Objekt_(Programmierung)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Aber nicht nur die Arten selbst, sondern jede Stufe der Hierarchie, z.B. Gattung, Familie.
 
-### Gruppen
-Arten werden in Gruppen eingeteilt: Fauna, Flora, Moose und Pilze. Die nationalen Artdatenzentren sind so organisiert. Es hat sich eingebürgert und bewährt. Lebensräume bilden eine eigene Gruppe.
-
-### Eigenschaftensammlungen
-Systematische Informationen über Arten kommen in ganzen Eigenschaftensammlungen, z.B. „Flora Indicativa 2010“. Solche Eigenschaftensammlungen haben gemeinsame Eigenschaften wie z.B.:
+### Eigenschaften-Sammlungen
+Systematische Informationen über Arten kommen in ganzen Sammlungen, z.B. „Flora Indicativa 2010“. Solche Sammlungen haben gemeinsame Eigenschaften wie z.B.:
 
 - Dieselbe Herkunft (Autoren, Publikation, Publikationsdatum)
-- Denselben Zweck: Die Eigenschaftensammlung wurde in der Regel für einen bestimmten Zweck erarbeitet. Für das Verständnis der Daten kann diese Information sehr hilfreich sein
+- Denselben Zweck: Die Eigenschaften-Sammlung wurde in der Regel für einen bestimmten Zweck erarbeitet. Für das Verständnis der Daten kann diese Information sehr hilfreich sein
 - Bezug auf eine bestimmte Taxonomie
 - Meist eine bestimmte Artgruppe (z.B. Flora, Fauna, Schmetterlinge…)
 - Innerhalb der Artgruppe eine definierte Auswahl bearbeiteter Arten
 - Definierte Methodik und Auswahl erfasster Informationen
 
-Statt "Eigenschaftensammlung" könnte auch der Begriff "Publikation" verwendet werden. Damit würde klar:
+Statt "Eigenschaften-Sammlung" könnte auch der Begriff "Publikation" verwendet werden. Damit würde klar:
 
-- Dass arteigenschaften.ch an Eigenschaftensammlungen minimale Qualitätsansprüche stellt. Es muss nicht eine prominent publizierte wissenschaftliche Publikation sein aber die fachliche Qualität sollte dem definierten Zweck entsprechen
-- Dass eine aktualisierte Version einer bestehenden Eigenschaftensammlung in der Regel als neue Eigenschaftensammlung zu behandeln ist
+- Dass arteigenschaften.ch an Eigenschaften-Sammlungen minimale Qualitätsansprüche stellt. Es muss nicht eine prominent publizierte wissenschaftliche Publikation sein aber die fachliche Qualität sollte dem definierten Zweck entsprechen
+- Dass eine aktualisierte Version einer bestehenden Eigenschaften-Sammlung in der Regel als neue Eigenschaften-Sammlung zu behandeln ist
 
-Eigenschaftensammlungen sollten nur durch die Autoren nachgeführt werden (nicht zu verwechseln mit: importiert).
+Eigenschaften-Sammlungen sollten nur durch die Autoren nachgeführt werden (nicht zu verwechseln mit: importiert).
 
-Um Arten- und Lebensraumeigenschaften verstehen und verwalten zu können, ist es wichtig, Eigenschaftensammlungen als wesentlichen Teil der Struktur zu behandeln. In arteigenschaften.ch sind sie Eigenschaften der Objekte. Sie erleichtern dem Benutzer, die Übersicht über die riesige Menge von Eigenschaften zu gewinnen.
+Um Arten- und Lebensraumeigenschaften verstehen und verwalten zu können, ist es wichtig, Eigenschaften-Sammlungen als wesentlichen Teil der Struktur zu behandeln. In arteigenschaften.ch sind sie Eigenschaften der Objekte. Sie erleichtern dem Benutzer, die Übersicht über die riesige Menge von Eigenschaften zu gewinnen.
 
-arteigenschaften.ch kann auch Eigenschaftensammlungen von synonymen Objekten anzeigen und exportieren.
+arteigenschaften.ch kann auch Eigenschaften-Sammlungen von synonymen Objekten anzeigen und exportieren.
 
-In fast allen Fällen ist es sinnvoll, Eigenschaften und Beziehungen pro Eigenschaftensammlung darzustellen. Z.B. bei der Anzeige in der Anwendung oder wenn Daten für Exporte ausgewählt werden.
+In fast allen Fällen ist es sinnvoll, Eigenschaften und Beziehungen pro Eigenschaften-Sammlung darzustellen. Z.B. bei der Anzeige in der Anwendung oder wenn Daten für Exporte ausgewählt werden.
 
-### Zusammenfassende Eigenschaftensammlungen
-Für bestimmte Zwecke ist zusätzlich das Gegenteil interessant: Daten aus verschiedenen Eigenschaftensammlungen zusammenfassen. Z.B. wenn man über alle Artengruppen den aktuellsten Rote-Liste-Status darstellen will. Er steckt in diversen Eigenschaftensammlungen, da er häufig pro Artengruppe separat publiziert wird.
+### Zusammenfassende Eigenschaften-Sammlungen
+Für bestimmte Zwecke ist zusätzlich das Gegenteil interessant: Daten aus verschiedenen Eigenschaften-Sammlungen zusammenfassen. Z.B. wenn man über alle Artengruppen den aktuellsten Rote-Liste-Status darstellen will. Er steckt in diversen Eigenschaften-Sammlungen, da er häufig pro Artengruppe separat publiziert wird.
 
 Das geht so:
 
-- In den jeweiligen Objekten wird eine zusätzliche Eigenschaftensammlung mit Eigenschaft "zusammenfassend" geschaffen
+- In den jeweiligen Objekten wird eine zusätzliche Eigenschaften-Sammlung mit Eigenschaft "zusammenfassend" geschaffen
 - Die entsprechenden Daten werden zwei mal importiert:
- - Ein mal in die Ursprungs-Eigenschaftensammlung
+ - Ein mal in die Ursprungs-Eigenschaften-Sammlung
  - Ein mal in die zusammenfassende
-- Die zusammenfassende Eigenschaftensammlung kann genau gleich wie alle anderen Eigenschaftensammlungen in der Anwendung angezeigt, exportiert oder über eine Schnittstelle angezapft werden
+- Die zusammenfassende Eigenschaften-Sammlung kann genau gleich wie alle anderen Eigenschaften-Sammlungen in der Anwendung angezeigt, exportiert oder über eine Schnittstelle angezapft werden
 
 Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 
-- Es wird eine neue Eigenschaftensammlung geschaffen, z.B. "BAFU (2012): Rote Liste der Heuschrecken", und die Eigenschaften importiert
-- Die alte Eigenschaftensammlung bleibt bestehen, z.B. "BUWAL (1985): Rote Liste der Heuschrecken"
-- Die Eigenschaften werden nochmals in die zusammenfassende Eigenschaftensammlung "Rote Listen (aktuell)" importiert. Dabei werden bisherige Rote-Listen-Angaben der entsprechenden Heuschrecken überschrieben
-- Falls einige 1985 beschriebene Arten 2012 nicht mehr beschrieben wurden, bleibt der Rote-Liste-Status von 1985 erhalten. Um dies kenntlich zu machen, soll in der zusammenfassenden Eigenschaftensammlung in einem zusätzlichen Feld immer der Name der Ursprungs-Eigenschaftensammlung mitgeliefert werden
+- Es wird eine neue Eigenschaften-Sammlung geschaffen, z.B. "BAFU (2012): Rote Liste der Heuschrecken", und die Eigenschaften importiert
+- Die alte Eigenschaften-Sammlung bleibt bestehen, z.B. "BUWAL (1985): Rote Liste der Heuschrecken"
+- Die Eigenschaften werden nochmals in die zusammenfassende Eigenschaften-Sammlung "Rote Listen (aktuell)" importiert. Dabei werden bisherige Rote-Listen-Angaben der entsprechenden Heuschrecken überschrieben
+- Falls einige 1985 beschriebene Arten 2012 nicht mehr beschrieben wurden, bleibt der Rote-Liste-Status von 1985 erhalten. Um dies kenntlich zu machen, soll in der zusammenfassenden Eigenschaften-Sammlung in einem zusätzlichen Feld immer der Name der Ursprungs-Eigenschaften-Sammlung mitgeliefert werden
 
 ### Art- und Lebensraumeigenschaften
 ...beschreiben einzelne Objekte. Beispiele: Artwert, Rote-Liste-Status, nationale Priorität.
 
 ### Beziehungssammlungen
-Beziehungen beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele: Bindung von Arten an Biotope, Frasspflanzen von Insekten, Wirte von Parasiten, Beutespektrum von Räubern. Aber auch taxonomische Beziehungen wie "synonym". Die eine Beziehung beschreibenden Attribute sind spezielle Art- und Lebensraumeigenschaften und wie diese (oft gemeinsam mit ihnen) Teil von Eigenschaftensammlungen. Sammlungen von Beziehungen werden in Analogie zu Eigenschaftensammlungen "Beziehungssammlungen" genannt. Sie sind Spezialfälle von Eigenschaftensammlungen und werden separat behandelt, weil sie eine leicht abweichende Datenstruktur erfordern.
+Beziehungen beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele: Bindung von Arten an Biotope, Frasspflanzen von Insekten, Wirte von Parasiten, Beutespektrum von Räubern. Aber auch taxonomische Beziehungen wie "synonym". Die eine Beziehung beschreibenden Attribute sind spezielle Art- und Lebensraumeigenschaften und wie diese (oft gemeinsam mit ihnen) Teil von Eigenschaften-Sammlungen. Sammlungen von Beziehungen werden in Analogie zu Eigenschaften-Sammlungen "Beziehungssammlungen" genannt. Sie sind Spezialfälle von Eigenschaften-Sammlungen und werden separat behandelt, weil sie eine leicht abweichende Datenstruktur erfordern.
 
 ### Gruppen vereinen
 In der bisherigen, relationalen Datenbank werden die Gruppen (Flora, Fauna, Moose, Pilze, Lebensräume) in unterschiedlichen Tabellen verwaltet. Das erhöht die Komplexität der Anwendung und erschwert jede Auswertung enorm. Beispielweise müssen alle Beziehungen zu anderen Arten oder Lebensräumen für jede Gruppe separat verwaltet werden, d.h. bis zu 10-fach. Und in Auswertungen mittels Union-Abfragen wieder zusammengeführt werden.
@@ -163,16 +159,16 @@ Zumindest in Access kann das aber nicht mehr geändert werden, weil z.B. in der 
 ### Daten decodieren
 Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in der bisherigen arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist sehr kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind codierte Informationen zu vermeiden.
 
-### Eigenschaftensammlungen aktualisieren
-Wie soll eine bestehende Eigenschaftensammlung aktualisiert werden? Zu bedenken sind u.a.:
+### Eigenschaften-Sammlungen aktualisieren
+Wie soll eine bestehende Eigenschaften-Sammlung aktualisiert werden? Zu bedenken sind u.a.:
 
-- Müssen frühere Auswertungen nachvollzogen bzw. wiederholt werden können? Wenn ja, sollten frühere Datenstände (=Eigenschaftensammlungen) unverändert erhalten bleiben
-- Wird eine Eigenschaftensammlung periodisch teilweise aktualisiert (im Gegensatz zu vollständig)? Und soll ersichtlich sein, welche Eigenschaften welchen Datenstand haben?
+- Müssen frühere Auswertungen nachvollzogen bzw. wiederholt werden können? Wenn ja, sollten frühere Datenstände (=Eigenschaften-Sammlungen) unverändert erhalten bleiben
+- Wird eine Eigenschaften-Sammlung periodisch teilweise aktualisiert (im Gegensatz zu vollständig)? Und soll ersichtlich sein, welche Eigenschaften welchen Datenstand haben?
 
 Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgendermassen vorgegangen werden:
 
-- Neue Daten als neue Eigenschaftensammlung erfassen. Z.B. "ZH Artwert (2013)", wobei es schon "ZH Artwert (aktuell)" gibt und ev. weitere
-- Für die Auswertung unter Einbezug aller Artwerte eine zusammenfassende Eigenschaftensammlung schaffen, z.B. "ZH Artwert (aktuell)"
+- Neue Daten als neue Eigenschaften-Sammlung erfassen. Z.B. "ZH Artwert (2013)", wobei es schon "ZH Artwert (aktuell)" gibt und ev. weitere
+- Für die Auswertung unter Einbezug aller Artwerte eine zusammenfassende Eigenschaften-Sammlung schaffen, z.B. "ZH Artwert (aktuell)"
 
 <a href="#top">&#8593; top</a>
 
@@ -211,13 +207,13 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/FNSKtZH/artendb/bl
 
 ### Funktionale Ziele:
 
-1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaftensammlungen beschrieben werden kann. Das ermöglicht: 
-   - Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten.<br/>Wie bisher Eigenschaftensammlungen
+1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaften-Sammlungen beschrieben werden kann. Das ermöglicht: 
+   - Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten.<br/>Wie bisher Eigenschaften-Sammlungen
    - Alle Taxonomien bleiben langfristig erhalten
    - Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
    - Anwender oder Anwendungen (welche die Daten über Schnittstellen verwenden), werden durch den Import neuer Daten(-strukturen) nicht beeinträchtigt bzw. nicht gezwungen, ihre Anwendung anzupassen
-   - Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute Eigenschaftensammlungen
-2. Beziehungssammlungen werden in Eigenschaftensammlungen integriert: Es sind einfach Eigenschaftensammlungen mit Beziehungen
+   - Mögliche spätere Erweiterung: Import von Taxonomien über die Benutzeroberfläche, wie heute Eigenschaften-Sammlungen
+2. Beziehungssammlungen werden in Eigenschaften-Sammlungen integriert: Es sind einfach Eigenschaften-Sammlungen mit Beziehungen
    - Ist einfacher zu verstehen
    - Beziehungen und Eigenschaften einer Sammlung werden am selben Ort angezeigt
    - Vereinfacht die Datenstruktur
@@ -274,15 +270,15 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     - neu kann die Grenze zwischen Strukturbaum und Objekt stufenlos verschoben werden
     ![Layout & Navigation](/etc/layout.png?raw=true "Layout & Navigation")
   - [x] Struktur- und Navigationsbaum
-    - neu inklusive Taxonomien, Eigenschaftensammlungen, Benutzer und Organisationen
+    - neu inklusive Taxonomien, Eigenschaften-Sammlungen, Benutzer und Organisationen
     ![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
   - [x] Suche:
     - neu nach allen Taxonomien gleichzeitig
     - neu nach allen Hierarchiestufen (z.B. Ordnungen, Familien)
-    - neu und gleichzeitig nach Eigenschaftensammlungen
+    - neu und gleichzeitig nach Eigenschaften-Sammlungen
     ![Datenstruktur](/etc/suche.png?raw=true "Suche")
   - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Datenstruktur")
-    - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaftensammlung](/etc/eigenschaftensammlung.png?raw=true "Eigenschaftensammlung")
+    - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaften-Sammlung](/etc/eigenschaftensammlung.png?raw=true "Eigenschaften-Sammlung")
     - [x] inklusive Synonymen<br/>
     - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>
       ![Synonym](/etc/synonym.png?raw=true "Synonym")
@@ -322,7 +318,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     ... die von ihnen importierten Taxonomien:<br/>
     ![Benutzer-Taxonomien](/etc/user_tax.png?raw=true "Benutzer-Taxonomien")
     ... und die von ihnen importierten Eigenschaften-Sammlungen:<br/>
-    ![Benutzer-Eigenschaftensammlungen](/etc/user_pcs.png?raw=true "Benutzer-Eigenschaftensammlungen")
+    ![Benutzer-Eigenschaften-Sammlungen](/etc/user_pcs.png?raw=true "Benutzer-Eigenschaften-Sammlungen")
     Organisations-Administratoren können neue Benutzer erstellen:<br/>
     ![Neuen Benutzer erstellen](/etc/user_create_new.png?raw=true "Neuen Benutzer erstellen")<br/>
     ... bestehende löschen:<br/>
