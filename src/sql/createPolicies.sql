@@ -21,15 +21,6 @@ CREATE POLICY writer ON ae.data_type
   );
 
 
-ALTER TABLE ae.category ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.category;
-CREATE POLICY writer ON ae.category
-  USING (true)
-  WITH CHECK (
-    current_user_name() in (select * from ae.organization_admins)
-  );
-
-
 ALTER TABLE ae.organization ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.organization;
 CREATE POLICY writer ON ae.organization

@@ -25,16 +25,14 @@ const enhance = compose(
         client.mutate({
           mutation: updateObjectMutation,
           variables: {
-            name: field === 'name' ? value : objekt.name,
-            category: field === 'category' ? value : objekt.category,
+            name: value,
             id: objekt.id,
           },
           optimisticResponse: {
             updateObjectById: {
               object: {
                 id: objekt.id,
-                name: field === 'name' ? value : objekt.name,
-                category: field === 'category' ? value : objekt.category,
+                name: value,
                 __typename: 'Object',
               },
               __typename: 'Object',

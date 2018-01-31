@@ -62,11 +62,6 @@ query AppQueryQuery($existsLevel2Pc: Boolean!, $notExistsLevel2Pc: Boolean!, $ex
   }
   objectUrlData: objectById(id: $treeFilterId) @include(if: $existsTreeFilterId) {
     id
-    categoryByCategory {
-      id
-      name
-      dataType
-    }
     objectByParentId {
       id
       objectByParentId {

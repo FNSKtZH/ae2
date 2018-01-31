@@ -18,14 +18,6 @@ CREATE TABLE ae.data_type (
 );
 INSERT INTO ae.data_type VALUES ('Taxonomien'), ('Eigenschaften-Sammlungen');
 
-DROP TABLE IF EXISTS ae.category CASCADE;
-CREATE TABLE ae.category (
-  name text PRIMARY KEY,
-  -- data_type is used to attach categories to root node in app's tree
-  data_type text DEFAULT 'Taxonomien' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
-  id UUID DEFAULT uuid_generate_v1mc()
-);
-
 DROP TABLE IF EXISTS ae.organization CASCADE;
 CREATE TABLE ae.organization (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
@@ -59,7 +51,6 @@ CREATE TABLE ae.taxonomy (
 );
 CREATE INDEX ON ae.taxonomy USING btree (type);
 CREATE INDEX ON ae.taxonomy USING btree (name);
-CREATE INDEX ON ae.taxonomy USING btree (category);
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
@@ -69,7 +60,6 @@ CREATE TABLE ae.object (
   parent_id UUID DEFAULT NULL,-- REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   name text,
   properties jsonb DEFAULT NULL,
-  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
   -- UUID's are by definition lowercase
   -- postgresql converts them to it
   -- see: https://www.postgresql.org/docs/9.6/static/datatype-uuid.html
@@ -77,6 +67,7 @@ CREATE TABLE ae.object (
   -- so keep them around in the original form
   id_old text DEFAULT NULL
 );
+--once: alter table ae.object drop column category
 --once: ALTER TABLE ae.object ADD CONSTRAINT fk_parent FOREIGN KEY (parent_id) REFERENCES ae.object (id);
 -- once: ALTER TABLE ae.object ALTER COLUMN name DROP NOT NULL
 CREATE INDEX ON ae.object USING btree (name);

@@ -8,11 +8,6 @@ export default graphql(
     query objectUrlDataQuery($treeFilterId: UUID!) {
       objectById(id: $treeFilterId) {
         id
-        categoryByCategory {
-          id
-          name
-          dataType
-        }
         objectByParentId {
           id
           objectByParentId {

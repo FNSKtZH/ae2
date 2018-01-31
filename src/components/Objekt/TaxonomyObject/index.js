@@ -277,7 +277,6 @@ const TaxonomyObject = ({
             ) : (
               <Fragment>
                 <PropertyReadOnly value={objekt.name} label="Name" />
-                <PropertyReadOnly value={objekt.category} label="Gruppe" />
               </Fragment>
             )}
             <Properties id={objekt.id} properties={properties} />

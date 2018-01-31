@@ -14,7 +14,6 @@ export default graphql(
         parentId
         name
         properties
-        category
         idOld
         synonymsByObjectId {
           totalCount
@@ -27,7 +26,6 @@ export default graphql(
               parentId
               name
               properties
-              category
               idOld
               taxonomyByTaxonomyId {
                 id
@@ -107,14 +105,8 @@ export default graphql(
                   objectByObjectIdRelation {
                     id
                     name
-                    category
                   }
                 }
-              }
-              categoryByCategory {
-                id
-                name
-                dataType
               }
               objectByParentId {
                 id
@@ -215,7 +207,6 @@ export default graphql(
             objectByObjectIdRelation {
               id
               name
-              category
               taxonomyByTaxonomyId {
                 id
                 name
