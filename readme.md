@@ -5,7 +5,7 @@
 <a name="top"></a>
 
 **Inhaltsverzeichnis**
-- [Was ist arteigenschaften.ch?](#was-ist-arteigenschaftench?)
+- [Was ist arteigenschaften.ch?](#was-ist-arteigenschaftench)
   - [Ziele](#ziele)
   - [Fachliches Konzept](#fachliches-konzept)
   - [Open source](#open-source)
@@ -25,7 +25,6 @@
 - Bezieht man Daten aus anderen Quellen, ist es schwierig, sie vollständig, fehlerfrei und aktuell zu (er-)halten
 - Entscheidend für die Aktualität der Datenbank ist es, die Informationen einfach und mit geringem Aufwand importieren und danach direkt nutzen zu können
 - Art- und Lebensraumeigenschaften interessieren nicht nur die Fachstelle Naturschutz des Kantons Zürich. Ideal wäre eine von allen in diesem Bereich tätigen Stellen gemeinsam nachgeführte Datenbank. Oder realistischer: Ein Ort, an dem frei zugängliche Daten mit wenig Aufwand vereint werden können
-- Die aktuelle Datenbank basiert auf Microsoft Access. Eine sinnvolle Weiterentwicklung im Sinne der nachfolgend dargelegten Ideen ist damit nicht möglich
 
 ### Was zeichnet arteigenschaften.ch aus?
 Die wichtigsten Merkmale dürften sein:
@@ -33,7 +32,7 @@ Die wichtigsten Merkmale dürften sein:
 - Die verwendeten Begriffe und Datenstrukturen sind auf Eigenschaften von Arten und Lebensräumen zugeschnitten
 - Daten können einfach und rasch importiert werden...
 - ...weshalb prinzipiell alle beteiligten Stellen ihre Daten an einem Ort und in einem gemeinsamen Format anbieten könnten. Das mag etwas naiv und utopisch sein. Zumindest aber kann man innert Minuten anderswo verfügbare Daten in arteigenschaften.ch vereinen und in Auswertungen mit anderen Daten kombinieren
-- Daten können einfach und rasch kombiniert und exportiert werden, um anschliessend mit ihrer Hilfe Auswertungen durchzuführen
+- Daten können beim Export für anschliessende Auswertungen einfach und rasch kombiniert werden
 
 ### Wozu wird arteigenschaften.ch benutzt?
 ##### Nachschlagen
