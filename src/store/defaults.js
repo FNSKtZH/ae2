@@ -1,28 +1,28 @@
 // @flow
 export const exportDefaults = {
-  exportCategories: [],
-  exportTaxonomies: [],
-  exportIds: [],
-  exportTaxProperties: [],
-  exportPcoProperties: [],
-  exportRcoProperties: [],
-  exportTaxFilters: [],
-  exportPcoFilters: [],
-  exportRcoFilters: [],
-  exportOnlyRowsWithProperties: true,
-  exportWithSynonymData: true,
-  exportTooManyProperties: false,
-  editingTaxonomies: false,
+  'exportCategories@client': [],
+  'exportTaxonomies@client': [],
+  'exportIds@client': [],
+  'exportTaxProperties@client': [],
+  'exportPcoProperties@client': [],
+  'exportRcoProperties@client': [],
+  'exportTaxFilters@client': [],
+  'exportPcoFilters@client': [],
+  'exportRcoFilters@client': [],
+  'exportOnlyRowsWithProperties@client': true,
+  'exportWithSynonymData@client': true,
+  'exportTooManyProperties@client': false,
+  'editingTaxonomies@client': false,
 }
 
 const otherDefaults = {
-  activeNodeArray: [],
-  treeFilter: {
+  'activeNodeArray@client': [],
+  'treeFilter@client': {
     text: '',
     id: null,
     __typename: 'TreeFilter',
   },
-  login: {
+  'login@client': {
     token: '',
     username: '',
     __typename: 'Login',
