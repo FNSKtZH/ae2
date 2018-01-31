@@ -35,7 +35,7 @@ export default {
       } else {
         cache.writeData({
           data: {
-            exportPcoProperties: [
+            'exportPcoProperties@client': [
               ...currentPco.exportPcoProperties,
               {
                 pcname,
@@ -57,7 +57,7 @@ export default {
       )
       cache.writeData({
         data: {
-          exportPcoProperties,
+          'exportPcoProperties@client': exportPcoProperties,
         },
       })
       return null
@@ -77,7 +77,7 @@ export default {
         // remove
         cache.writeData({
           data: {
-            exportPcoFilters: exportPcoFilters.filter(
+            'exportPcoFilters@client': exportPcoFilters.filter(
               x => !(x.pcname === pcname && x.pname === pname)
             ),
           },
@@ -86,7 +86,7 @@ export default {
         // add new one
         cache.writeData({
           data: {
-            exportPcoFilters: [
+            'exportPcoFilters@client': [
               ...exportPcoFilters,
               {
                 pcname,
@@ -102,7 +102,7 @@ export default {
         // edit = add new one instead of existing
         cache.writeData({
           data: {
-            exportPcoFilters: [
+            'exportPcoFilters@client': [
               ...exportPcoFilters.filter(
                 x => !(x.pcname === pcname && x.pname === pname)
               ),
@@ -122,7 +122,7 @@ export default {
     resetExportPcoProperties: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          exportPcoProperties: [],
+          'exportPcoProperties@client': [],
         },
       })
       return null
@@ -130,7 +130,7 @@ export default {
     resetExportPcoFilters: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          exportPcoFilters: [],
+          'exportPcoFilters@client': [],
         },
       })
       return null

@@ -9,7 +9,7 @@ export default {
   Mutation: {
     // update values in the store on mutations
     setActiveNodeArray: (_, { value }, { cache }) => {
-      cache.writeData({ data: { activeNodeArray: value } })
+      cache.writeData({ data: { 'activeNodeArray@client': value } })
       const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
       if (!isEqual(activeNodeArrayFromUrl, value)) {
         app.history.push(`/${value.join('/')}`)

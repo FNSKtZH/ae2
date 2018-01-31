@@ -3,7 +3,7 @@
 export default {
   Mutation: {
     setExportIds: (_, { value }, { cache }) => {
-      cache.writeData({ data: { exportIds: value } })
+      cache.writeData({ data: { 'exportIds@client': value } })
       return null
     },
   },

@@ -4,7 +4,7 @@ export default {
   Mutation: {
     setLoginInStore: (_, { token, username }, { cache }) => {
       const login = { token, username, __typename: 'Login' }
-      cache.writeData({ data: { login } })
+      cache.writeData({ data: { 'login@client': login } })
       return null
     },
   },

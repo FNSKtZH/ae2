@@ -3,7 +3,7 @@
 export default {
   Mutation: {
     setHistoryAfterLogin: (_, { value }, { cache }) => {
-      cache.writeData({ data: { historyAfterLogin: value } })
+      cache.writeData({ data: { 'historyAfterLogin@client': value } })
       return null
     },
   },

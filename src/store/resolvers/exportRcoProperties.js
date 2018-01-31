@@ -27,7 +27,7 @@ export default {
       } else {
         cache.writeData({
           data: {
-            exportRcoProperties: [
+            'exportRcoProperties@client': [
               ...currentRco.exportRcoProperties,
               { pcname, pname, __typename: 'ExportRcoProperty' },
             ],
@@ -41,7 +41,9 @@ export default {
       const exportRcoProperties = current.exportRcoProperties.filter(
         x => !(x.pcname === pcname && x.pname === pname)
       )
-      cache.writeData({ data: { exportRcoProperties } })
+      cache.writeData({
+        data: { 'exportRcoProperties@client': exportRcoProperties },
+      })
       return null
     },
     setExportRcoFilters: (
@@ -59,7 +61,7 @@ export default {
         // remove
         cache.writeData({
           data: {
-            exportRcoFilters: exportRcoFilters.filter(
+            'exportRcoFilters@client': exportRcoFilters.filter(
               x => !(x.pcname === pcname && x.pname === pname)
             ),
           },
@@ -68,7 +70,7 @@ export default {
         // add new one
         cache.writeData({
           data: {
-            exportRcoFilters: [
+            'exportRcoFilters@client': [
               ...exportRcoFilters,
               {
                 pcname,
@@ -84,7 +86,7 @@ export default {
         // edit = add new one instead of existing
         cache.writeData({
           data: {
-            exportRcoFilters: [
+            'exportRcoFilters@client': [
               ...exportRcoFilters.filter(
                 x => !(x.pcname === pcname && x.pname === pname)
               ),
@@ -104,7 +106,7 @@ export default {
     resetExportRcoProperties: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          exportRcoProperties: [],
+          'exportRcoProperties@client': [],
         },
       })
       return null
@@ -112,7 +114,7 @@ export default {
     resetExportRcoFilters: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          exportRcoFilters: [],
+          'exportRcoFilters@client': [],
         },
       })
       return null

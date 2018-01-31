@@ -27,7 +27,7 @@ export default {
       } else {
         cache.writeData({
           data: {
-            exportTaxProperties: [
+            'exportTaxProperties@client': [
               ...currentTax.exportTaxProperties,
               { taxname, pname, __typename: 'ExportTaxProperty' },
             ],
@@ -41,7 +41,9 @@ export default {
       const exportTaxProperties = current.exportTaxProperties.filter(
         x => !(x.taxname === taxname && x.pname === pname)
       )
-      cache.writeData({ data: { exportTaxProperties } })
+      cache.writeData({
+        data: { 'exportTaxProperties@client': exportTaxProperties },
+      })
       return null
     },
     setExportTaxFilters: (
@@ -59,7 +61,7 @@ export default {
         // remove
         cache.writeData({
           data: {
-            exportTaxFilters: exportTaxFilters.filter(
+            'exportTaxFilters@client': exportTaxFilters.filter(
               x => !(x.taxname === taxname && x.pname === pname)
             ),
           },
@@ -68,7 +70,7 @@ export default {
         // add new one
         cache.writeData({
           data: {
-            exportTaxFilters: [
+            'exportTaxFilters@client': [
               ...exportTaxFilters,
               {
                 taxname,
@@ -84,7 +86,7 @@ export default {
         // edit = add new one instead of existing
         cache.writeData({
           data: {
-            exportTaxFilters: [
+            'exportTaxFilters@client': [
               ...exportTaxFilters.filter(
                 x => !(x.taxname === taxname && x.pname === pname)
               ),
@@ -104,7 +106,7 @@ export default {
     resetExportTaxProperties: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          exportTaxProperties: [],
+          'exportTaxProperties@client': [],
         },
       })
       return null
@@ -112,7 +114,7 @@ export default {
     resetExportTaxFilters: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          exportTaxFilters: [],
+          'exportTaxFilters@client': [],
         },
       })
       return null
