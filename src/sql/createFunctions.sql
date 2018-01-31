@@ -685,16 +685,6 @@ CREATE OR REPLACE FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_nam
 ALTER FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_names text[])
   OWNER TO postgres;
 
-CREATE OR REPLACE FUNCTION ae.taxonomies_of_categories_function()
-  RETURNS setof ae.taxonomies_of_category AS
-  $$
-    select * from ae.v_category_taxonomies
-    union select * from ae.v_category_taxonomies_without_objects;
-  $$
-  LANGUAGE sql STABLE;
-ALTER FUNCTION ae.taxonomies_of_categories_function()
-  OWNER TO postgres;
-
 CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
   RETURNS setof ae.object AS
   $$
