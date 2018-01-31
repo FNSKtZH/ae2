@@ -10,7 +10,8 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 const Container = styled.div`
   border-bottom: ${props =>
     `${props['data-intermediaterelation'] ? '1px solid #c6c6c6' : 'none'}`};
-  padding: 7px 0;
+  padding-top: ${props => `${props['data-intermediaterelation'] ? 0 : '7px'}`};
+  padding-bottom: 0;
   column-width: 500px;
   .property p {
     margin-top: 1px;
@@ -27,16 +28,24 @@ const Relation = ({
 }) => {
   // never pass null to Object.entries!!!
   const properties = JSON.parse(relation.properties) || {}
-  const category = relation.objectByObjectIdRelation.category
-  const rPartnerLabel =
-    category === 'Lebensräume' ? 'Lebensraum' : `${category}-Art`
+  const taxType = get(
+    relation,
+    'objectByObjectIdRelation.taxonomyByTaxonomyId.type',
+    'Objekt'
+  )
+    .replace('ART', 'Art')
+    .replace('LEBENSRAUM', 'Lebensraum')
 
   return (
     <ErrorBoundary>
       <Container data-intermediaterelation={intermediateRelation}>
         <PropertyReadOnly
-          value={get(relation, 'objectByObjectIdRelation.name', '(kein Name)')}
-          label={rPartnerLabel}
+          value={`${get(
+            relation,
+            'objectByObjectIdRelation.taxonomyByTaxonomyId.name',
+            ''
+          )}: ${get(relation, 'objectByObjectIdRelation.name', '(kein Name)')}`}
+          label={taxType}
         />
         {relation.relationType && (
           <PropertyReadOnly

@@ -139,6 +139,7 @@ export default graphql(
         taxonomyByTaxonomyId {
           id
           name
+          type
           description
           links
           lastUpdated
@@ -214,6 +215,11 @@ export default graphql(
               id
               name
               category
+              taxonomyByTaxonomyId {
+                id
+                name
+                type
+              }
             }
           }
         }
