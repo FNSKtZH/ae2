@@ -137,7 +137,7 @@ const Export = ({
         onExpandChange={onToggleTaxonomies}
       >
         <Level1CardHeader
-          title="1. Gruppen und Taxonomien wählen"
+          title="1. Taxonomie(n) wählen"
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level1CardTitleStyle}
