@@ -110,10 +110,10 @@ const enhance = compose(
 const TaxonomyObject = ({
   client,
   activeNodeArrayData,
-  objectData,
   loginData,
   organizationUserData,
   editingTaxonomiesData,
+  objekt,
   showLink,
   expanded,
   setExpanded,
@@ -122,17 +122,16 @@ const TaxonomyObject = ({
 }: {
   client: Object,
   activeNodeArrayData: Object,
-  objectData: Object,
   loginData: Object,
   organizationUserData: Object,
   editingTaxonomiesData: Object,
+  objekt: Object,
   showLink: Boolean,
   expanded: Boolean,
   setExpanded: () => void,
   expanded2: Boolean,
   setExpanded2: () => void,
 }) => {
-  const objekt = get(objectData, 'objectById')
   const username = get(loginData, 'login.username', null)
   const organizationUsers = get(
     organizationUserData,
@@ -157,7 +156,9 @@ const TaxonomyObject = ({
   let linkText
   if (showLink) {
     linkUrl = `/${getUrlForObject(objekt).join('/')}`
-    linkText = taxonomy.category === 'Lebensräume' ? 'Lebensraum' : 'Art'
+    linkText = taxonomy.type
+      .replace('ART', 'Art')
+      .replace('LEBENSRAUM', 'Lebensraum')
     linkText = `${linkText} öffnen`
   }
 
@@ -279,11 +280,7 @@ const TaxonomyObject = ({
                 <PropertyReadOnly value={objekt.category} label="Gruppe" />
               </Fragment>
             )}
-            <Properties
-              id={objekt.id}
-              properties={properties}
-              objectData={objectData}
-            />
+            <Properties id={objekt.id} properties={properties} />
           </StyledCardContent>
         </Collapse>
       </StyledCard>

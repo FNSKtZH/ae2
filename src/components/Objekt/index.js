@@ -66,7 +66,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
       <Container>
         <ScrollContainer>
           <FirstTitle>Taxonomie</FirstTitle>
-          <TaxonomyObject />
+          <TaxonomyObject objekt={objekt} />
           {synonymObjects.length > 0 && (
             <Title>
               {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
@@ -77,7 +77,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
           )}
           {sortBy(synonymObjects, tO =>
             get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
-          ).map(o => <TaxonomyObject key={o.id} showLink />)}
+          ).map(o => <TaxonomyObject key={o.id} objekt={o} showLink />)}
           {propertyCollectionObjects.length > 0 && (
             <Title>
               Eigenschaften

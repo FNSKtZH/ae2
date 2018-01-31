@@ -32,6 +32,7 @@ export default graphql(
               taxonomyByTaxonomyId {
                 id
                 name
+                type
                 description
                 links
                 lastUpdated
@@ -219,6 +220,33 @@ export default graphql(
                 id
                 name
                 type
+              }
+            }
+          }
+        }
+        objectByParentId {
+          id
+          objectByParentId {
+            id
+            objectByParentId {
+              id
+              objectByParentId {
+                id
+                objectByParentId {
+                  id
+                  objectByParentId {
+                    id
+                    objectByParentId {
+                      id
+                      objectByParentId {
+                        id
+                        objectByParentId {
+                          id
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }

@@ -61,7 +61,6 @@ const Property = ({
   onChangeLabel,
   onChangeValue,
   onBlurValue,
-  objectData,
 }: {
   id: string,
   properties: object,
@@ -70,7 +69,6 @@ const Property = ({
   onChangeLabel: () => void,
   onChangeValue: () => void,
   onBlurValue: () => void,
-  objectData: Object,
 }) => {
   return (
     <ErrorBoundary>

@@ -85,7 +85,6 @@ const Properties = ({
               id={id}
               properties={properties}
               field={key}
-              objectData={objectData}
             />
           ) : (
             <PropertyReadOnly key={key} value={value} label={key} />
@@ -96,7 +95,6 @@ const Properties = ({
           key={`${id}/newProperty`}
           id={id}
           properties={properties}
-          objectData={objectData}
         />
       )}
     </Fragment>
