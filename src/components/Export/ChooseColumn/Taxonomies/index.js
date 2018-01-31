@@ -17,8 +17,6 @@ import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import propsByTaxData from '../propsByTaxData'
 import taxonomiesData from './taxonomiesData'
-import allCategoriesData from '../../../../modules/allCategoriesData'
-import taxonomiesOfCategoriesData from '../../../../modules/taxonomiesOfCategoriesData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -65,8 +63,6 @@ const enhance = compose(
   exportTaxonomiesData,
   exportCategoriesData,
   propsByTaxData,
-  allCategoriesData,
-  taxonomiesOfCategoriesData,
   withHandlers({
     onCheckCategory: ({
       client,
@@ -121,7 +117,6 @@ const enhance = compose(
       client,
       exportTaxonomiesData,
       taxonomiesData,
-      taxonomiesOfCategoriesData,
       exportCategoriesData,
     }) => (event, isChecked) => {
       const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
@@ -165,31 +160,21 @@ const enhance = compose(
 const Categories = ({
   taxonomiesData,
   propsByTaxData,
-  taxonomiesOfCategoriesData,
   exportCategoriesData,
   exportTaxonomiesData,
-  allCategoriesData,
   onCheckCategory,
   onCheckTaxonomy,
 }: {
   taxonomiesData: Object,
   propsByTaxData: Object,
-  taxonomiesOfCategoriesData: Array<Object>,
   exportCategoriesData: Object,
   exportTaxonomiesData: Object,
-  allCategoriesData: Object,
   onCheckCategory: () => void,
   onCheckTaxonomy: () => void,
 }) => {
   const exportCategories = get(exportCategoriesData, 'exportCategories', [])
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
-  const artTaxonomies = allTaxonomies.filter(t => t.type === 'ART')
-  const lrTaxonomies = allTaxonomies.filter(t => t.type === 'LEBENSRAUM')
-  const categoryObject = {
-    Arten: artTaxonomies,
-    Lebensräume: lrTaxonomies,
-  }
   const categories = ['Arten', 'Lebensräume']
   const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'
@@ -231,24 +216,32 @@ const Categories = ({
             {exportCategories.includes(category) && (
               <TaxContainer>
                 <TaxTitle>
-                  {categoryObject[category].length === 1
+                  {allTaxonomies.filter(t => {
+                    if (category === 'Arten') return t.type === 'ART'
+                    return t.type === 'LEBENSRAUM'
+                  }).length === 1
                     ? 'Taxonomie:'
                     : 'Taxonomien:'}
                 </TaxTitle>
                 <FormGroup>
-                  {categoryObject[category].map(tax => (
-                    <TaxonomyLabel
-                      key={tax.name}
-                      control={
-                        <Checkbox
-                          name={tax.name}
-                          checked={exportTaxonomies.includes(tax.name)}
-                          onChange={onCheckTaxonomy}
-                        />
-                      }
-                      label={tax.name}
-                    />
-                  ))}
+                  {allTaxonomies
+                    .filter(t => {
+                      if (category === 'Arten') return t.type === 'ART'
+                      return t.type === 'LEBENSRAUM'
+                    })
+                    .map(tax => (
+                      <TaxonomyLabel
+                        key={tax.name}
+                        control={
+                          <Checkbox
+                            name={tax.name}
+                            checked={exportTaxonomies.includes(tax.name)}
+                            onChange={onCheckTaxonomy}
+                          />
+                        }
+                        label={tax.name}
+                      />
+                    ))}
                 </FormGroup>
               </TaxContainer>
             )}
