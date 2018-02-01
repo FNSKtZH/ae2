@@ -60,6 +60,7 @@ CREATE POLICY updater ON ae.object
     -- if use sql, postgre claims recursion error
     taxonomy_id IN (SELECT * FROM ae.current_user_writable_taxonomies)
   );
+DROP POLICY IF EXISTS inserter ON ae.object;
 CREATE POLICY inserter on ae.object for insert
   WITH CHECK (
     (
