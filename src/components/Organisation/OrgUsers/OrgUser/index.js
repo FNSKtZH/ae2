@@ -104,7 +104,6 @@ class OrgUser extends React.Component<Props, State> {
                   console.log(error)
                   this.setState({ userId: '' })
                 }
-                console.log('done')
                 this.setState({ userId: user.id })
               }
             }}
