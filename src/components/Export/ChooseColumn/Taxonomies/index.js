@@ -12,13 +12,19 @@ import sortBy from 'lodash/sortBy'
 
 import HowTo from './HowTo'
 
-import exportTypesMutation from '../../exportTypesMutation'
-import exportTypesData from '../../exportTypesData'
+import exportTypeMutation from '../../exportTypeMutation'
+import exportTypeData from '../../exportTypeData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import propsByTaxData from '../propsByTaxData'
 import taxonomiesData from './taxonomiesData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
+
+const exportTypes = ['Arten', 'Lebensräume']
+const exportTypeTAXToReadable = {
+  ART: 'Arten',
+  LEBENSRAUM: 'Lebensräume',
+}
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -62,28 +68,23 @@ const enhance = compose(
   withApollo,
   taxonomiesData,
   exportTaxonomiesData,
-  exportTypesData,
+  exportTypeData,
   propsByTaxData,
   withHandlers({
-    onCheckType: ({
-      client,
-      taxonomiesData,
-      exportTypesData,
-      exportTaxonomiesData,
-    }) => (event, isChecked) => {
-      const exportTypes = get(exportTypesData, 'exportTypes', [])
+    onCheckType: ({ client, taxonomiesData, exportTaxonomiesData }) => (
+      event,
+      isChecked
+    ) => {
       const { name } = event.target
       const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
       const taxonomiesOfType = allTaxonomies.filter(
         t => t.type.toLowerCase() === name.toLowerCase()
       )
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      let types
       if (isChecked) {
-        types = [...exportTypes, name]
         client.mutate({
-          mutation: exportTypesMutation,
-          variables: { value: types },
+          mutation: exportTypeMutation,
+          variables: { value: name },
         })
         // check if only one Taxonomy exists
         // if so, check it
@@ -95,11 +96,21 @@ const enhance = compose(
             variables: { value: taxonomies },
           })
         }
+        // check if taxonomy(s) of other type was choosen
+        // if so: uncheck
+        const exportTaxonomiesWithoutOtherType = exportTaxonomies.filter(
+          t => exportTypeTAXToReadable[t.type] === name
+        )
+        if (exportTaxonomiesWithoutOtherType.length < exportTaxonomies.length) {
+          client.mutate({
+            mutation: exportTaxonomiesMutation,
+            variables: { value: exportTaxonomiesWithoutOtherType },
+          })
+        }
       } else {
-        types = exportTypes.filter(c => c !== name)
         client.mutate({
-          mutation: exportTypesMutation,
-          variables: { value: types },
+          mutation: exportTypeMutation,
+          variables: { value: exportTypes.find(t => t !== name) },
         })
         // uncheck all taxonomies of this type
         const taxonomiesToUncheck = taxonomiesOfType.map(t => t.taxonomyName)
@@ -112,12 +123,10 @@ const enhance = compose(
         })
       }
     },
-    onCheckTaxonomy: ({
-      client,
-      exportTaxonomiesData,
-      taxonomiesData,
-      exportTypesData,
-    }) => (event, isChecked) => {
+    onCheckTaxonomy: ({ client, exportTaxonomiesData, taxonomiesData }) => (
+      event,
+      isChecked
+    ) => {
       const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       const { name } = event.target
@@ -141,14 +150,10 @@ const enhance = compose(
         if (taxonomies.length === 0) {
           // this was the only taxonomy in this type
           // it makes sense to also uncheck the type
-          const { exportTypes } = exportTypesData
-          const types = exportTypes.filter(c => {
-            if (c === 'Arten') return thisTaxonomy.type !== 'ART'
-            return thisTaxonomy.type !== 'LEBENSRAUM'
-          })
+          const value = thisTaxonomy.type === 'ART' ? 'Arten' : 'Lebensräume'
           client.mutate({
-            mutation: exportTypesMutation,
-            variables: { value: types },
+            mutation: exportTypeMutation,
+            variables: { value },
           })
         }
       }
@@ -159,30 +164,29 @@ const enhance = compose(
 const Types = ({
   taxonomiesData,
   propsByTaxData,
-  exportTypesData,
+  exportTypeData,
   exportTaxonomiesData,
   onCheckType,
   onCheckTaxonomy,
 }: {
   taxonomiesData: Object,
   propsByTaxData: Object,
-  exportTypesData: Object,
+  exportTypeData: Object,
   exportTaxonomiesData: Object,
   onCheckType: () => void,
   onCheckTaxonomy: () => void,
 }) => {
-  const exportTypes = get(exportTypesData, 'exportTypes', [])
+  const exportType = get(exportTypeData, 'exportType', null)
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const allTaxonomies = sortBy(
     get(taxonomiesData, 'allTaxonomies.nodes', []),
     'name'
   )
-  const types = ['Arten', 'Lebensräume']
   const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
-  if (exportTypes.length > 0) {
-    textProperties = 'Wählen Sie eine oder mehrere Taxonomien.'
+  if (!exportType) {
+    textProperties = 'Wählen Sie Arten oder Lebensräume.'
   }
   if (loading) {
     textProperties = 'Die Eigenschaften werden ergänzt...'
@@ -203,19 +207,19 @@ const Types = ({
     <ErrorBoundary>
       <Container>
         <HowTo />
-        {types.map(type => (
+        {exportTypes.map(type => (
           <TypeContainer key={type}>
             <TypeLabel
               control={
                 <Checkbox
                   name={type}
-                  checked={exportTypes.includes(type)}
+                  checked={exportType === type}
                   onChange={onCheckType}
                 />
               }
               label={type}
             />
-            {exportTypes.includes(type) && (
+            {exportType === type && (
               <TaxContainer>
                 <TaxTitle>
                   {allTaxonomies.filter(t => {

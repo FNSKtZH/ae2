@@ -9,8 +9,8 @@ import withHandlers from 'recompose/withHandlers'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
-import exportTypesData from '../exportTypesData'
-import exportTypesMutation from '../exportTypesMutation'
+import exportTypeData from '../exportTypeData'
+import exportTypeMutation from '../exportTypeMutation'
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
 import exportPcoPropertiesData from '../exportPcoPropertiesData'
@@ -69,7 +69,7 @@ const StyledButton = styled(Button)`
 
 const enhance = compose(
   withApollo,
-  exportTypesData,
+  exportTypeData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
@@ -83,7 +83,7 @@ const enhance = compose(
   withHandlers({
     onClickResetAll: ({ client }) => () => {
       client.mutate({
-        mutation: exportTypesMutation,
+        mutation: exportTypeMutation,
         variables: { value: [] },
       })
       client.mutate({
@@ -117,9 +117,9 @@ const enhance = compose(
         variables: { value: true },
       })
     },
-    onClickResetTypes: ({ client }) => () => {
+    onClickResetType: ({ client }) => () => {
       client.mutate({
-        mutation: exportTypesMutation,
+        mutation: exportTypeMutation,
         variables: { value: [] },
       })
       client.mutate({
@@ -151,7 +151,7 @@ const enhance = compose(
 
 const OptionsChoosen = ({
   client,
-  exportTypesData,
+  exportTypeData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
@@ -164,12 +164,12 @@ const OptionsChoosen = ({
   classes,
   onClickResetAll,
   onClickResetTaxonomies,
-  onClickResetTypes,
+  onClickResetType,
   onClickResetExportWithSynonymData,
   onClickResetExportOnlyRowsWithProperties,
 }: {
   client: Object,
-  exportTypesData: Object,
+  exportTypeData: Object,
   exportTaxonomiesData: Object,
   exportTaxPropertiesData: Object,
   exportTaxFiltersData: Object,
@@ -182,7 +182,7 @@ const OptionsChoosen = ({
   classes: Object,
   onClickResetAll: () => void,
   onClickResetTaxonomies: () => void,
-  onClickResetTypes: () => void,
+  onClickResetType: () => void,
   onClickResetExportWithSynonymData: () => void,
   onClickResetExportOnlyRowsWithProperties: () => void,
 }) => {
@@ -196,7 +196,7 @@ const OptionsChoosen = ({
     'exportOnlyRowsWithProperties',
     true
   )
-  const exportTypes = get(exportTypesData, 'exportTypes', [])
+  const exportType = get(exportTypeData, 'exportType', null)
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const exportTaxProperties = get(
     exportTaxPropertiesData,
@@ -240,11 +240,9 @@ const OptionsChoosen = ({
       <CardText expandable={true} style={level1CardTextStyle}>
         <ul>
           <li>
-            {`Gruppe${exportTypes.length > 1 ? 'n' : ''}: ${
-              exportTypes.length === 0 ? ' keine' : exportTypes.join(', ')
-            }`}
-            {exportTypes.length > 0 && (
-              <ResetSpan onClick={onClickResetTypes}>zurücksetzen</ResetSpan>
+            {`Typ: ${!exportType ? ' keiner' : exportType}`}
+            {!!exportType && (
+              <ResetSpan onClick={onClickResetType}>zurücksetzen</ResetSpan>
             )}
           </li>
           <li>

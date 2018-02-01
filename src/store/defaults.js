@@ -1,6 +1,6 @@
 // @flow
 export const exportDefaults = {
-  'exportTypes@client': [],
+  'exportType@client': null,
   'exportTaxonomies@client': [],
   'exportIds@client': [],
   'exportTaxProperties@client': [],
