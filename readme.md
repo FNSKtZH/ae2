@@ -87,9 +87,9 @@ arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, die An
 
 ## Fachliches Konzept
 ### Der Grundgedanke
-Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich diese Grundstrukturen der Datenbank ab:
+Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich diese [Grundstrukturen der Datenbank](#aktueller-stand) ab:
 
-- Taxonomien mit Objekten
+- Taxonomien mit Objekten und Synonymen
 - Eigenschaften-Sammlungen mit Eigenschaften und Beziehungen
 
 Ja, das ist alles :-)
@@ -104,7 +104,7 @@ Beispiele: Indizes der nationalen Artdatenzentren, "Flora der Schweiz (Ausgabe 2
 Im Idealfall enthielte die aktuell vom nationalen Zentrum verwendete Taxonomie nur "offizielle" Arten und z.B. keine Synonyme. Stattdessen würden Beziehungen zwischen offiziellen Arten und Arten anderer Taxonomien beschrieben. Da die Daten von den nationalen Zentren unseres Wissens (noch?) nicht so erhältlich sind, ist das in arteigenschaften.ch nicht realisiert aber im Design vorgesehen und bei Vorliegen entsprechender Daten direkt umsetzbar.
 
 ### Objekte
-<a href="https://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Aber nicht nur die Arten selbst, sondern jede Stufe der Hierarchie, z.B. Gattung, Familie, Unterart.
+<a href="https://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Aber nicht nur die Arten selbst, sondern jede Stufe der Hierarchie darüber und darunter, z.B. Familie, Gattung, Unterart.
 
 ### Eigenschaften-Sammlungen
 Systematische Informationen über Arten kommen in ganzen Sammlungen, z.B. „Flora Indicativa 2010“. Solche Sammlungen haben gemeinsame Eigenschaften wie z.B.:
@@ -118,14 +118,14 @@ Systematische Informationen über Arten kommen in ganzen Sammlungen, z.B. „Flo
 
 Statt "Eigenschaften-Sammlung" könnte auch der Begriff "Publikation" verwendet werden. Damit würde klar:
 
-- Dass arteigenschaften.ch an Eigenschaften-Sammlungen minimale Qualitätsansprüche stellt. Es muss nicht eine prominent publizierte wissenschaftliche Publikation sein aber die fachliche Qualität sollte dem definierten Zweck entsprechen
+- Dass arteigenschaften.ch an Eigenschaften-Sammlungen minimale Qualitätsansprüche stellt. Es muss nicht eine prominent publizierte wissenschaftliche Publikation sein. Aber die fachliche Qualität sollte dem definierten Zweck entsprechen
 - Dass eine aktualisierte Version einer bestehenden Eigenschaften-Sammlung in der Regel als neue Eigenschaften-Sammlung zu behandeln ist
 
-Eigenschaften-Sammlungen sollten nur durch die Autoren nachgeführt werden (nicht zu verwechseln mit: importiert).
+Eigenschaften-Sammlungen und Taxonomien sollten nur durch die Autoren nachgeführt werden (nicht zu verwechseln mit: importiert).
 
 Um Arten- und Lebensraumeigenschaften verstehen und verwalten zu können, ist es wichtig, Eigenschaften-Sammlungen als wesentlichen Teil der Struktur zu behandeln. In arteigenschaften.ch sind sie Eigenschaften der Objekte. Sie erleichtern dem Benutzer, die Übersicht über die riesige Menge von Eigenschaften zu gewinnen.
 
-arteigenschaften.ch kann auch Eigenschaften-Sammlungen von synonymen Objekten anzeigen und exportieren.
+arteigenschaften.ch kann auch Eigenschaften und Beziehungen von synonymen Objekten anzeigen und exportieren.
 
 In fast allen Fällen ist es sinnvoll, Eigenschaften und Beziehungen pro Eigenschaften-Sammlung darzustellen. Z.B. bei der Anzeige in der Anwendung oder wenn Daten für Exporte ausgewählt werden.
 
@@ -147,15 +147,15 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 - Die Eigenschaften werden nochmals in die zusammenfassende Eigenschaften-Sammlung "Rote Listen (aktuell)" importiert. Dabei werden bisherige Rote-Listen-Angaben der entsprechenden Heuschrecken überschrieben
 - Falls einige 1985 beschriebene Arten 2012 nicht mehr beschrieben wurden, bleibt der Rote-Liste-Status von 1985 erhalten. Um dies kenntlich zu machen, soll in der zusammenfassenden Eigenschaften-Sammlung in einem zusätzlichen Feld immer der Name der Ursprungs-Eigenschaften-Sammlung mitgeliefert werden
 
-### [Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft)
-...beschreiben einzelne Objekte. Beispiele:
+### Eigenschaften
+[Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft) beschreiben einzelne Objekte. Beispiele:
 
 - Artwert
 - Rote-Liste-Status
 - nationale Priorität.
 
 ### Beziehungen
-...beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele:
+[Beziehungen](https://de.wikipedia.org/wiki/Relation) beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele:
 
 - Bindung von Arten an Biotope
 - Frasspflanzen von Insekten
