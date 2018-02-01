@@ -8,6 +8,7 @@ import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import get from 'lodash/get'
+import sortBy from 'lodash/sortBy'
 
 import HowTo from './HowTo'
 
@@ -172,7 +173,10 @@ const Types = ({
 }) => {
   const exportTypes = get(exportTypesData, 'exportTypes', [])
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-  const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
+  const allTaxonomies = sortBy(
+    get(taxonomiesData, 'allTaxonomies.nodes', []),
+    'name'
+  )
   const types = ['Arten', 'Lebensräume']
   const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'
@@ -227,6 +231,7 @@ const Types = ({
                       if (type === 'Arten') return t.type === 'ART'
                       return t.type === 'LEBENSRAUM'
                     })
+                    .sort(t => t.name)
                     .map(tax => (
                       <TaxonomyLabel
                         key={tax.name}
