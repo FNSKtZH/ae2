@@ -69,19 +69,19 @@ arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, die An
 
 - Die Anwendung ist einfach zu bedienen,
 - die Datenflut überschaubar,
-- möglichst selbsterklärend,
+- möglichst selbsterklärend und
 - gut verfügbar:
   - von jedem Gerät im Internet
   - als Export in den Formaten <a href="http://de.wikipedia.org/wiki/CSV_(Dateiformat)">csv</a> und Excel
   - über die API für GIS, [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content), [EvAB mobile](https://github.com/barbalex/EvabMobile) und beliebige weitere Applikationen<br>
     (da die API mit [GraphQL](https://github.com/facebook/graphql) aufgebaut ist, kann jede Applikation ohne Rückfrage mit der FNS flexibel auf die Daten zugreifen. Rückfragen bzw. entsprechende Benutzer-Rechte sind nur nötig, um Daten von externen Applikationen aus zu verändern)
-- und kann über alle Artengruppen hinweg exportiert werden
+- Daten können über alle Artengruppen hinweg exportiert werden
 
 ### Ziele für Datenpfleger und Systemverantwortliche
 
 - Daten können in wenigen Minuten importiert werden.<br>Es werden keine besonderen technischen Fähigkeiten vorausgesetzt
 - Die Datenstruktur ist via die API klar definiert
-- Der Code ist offen und dokumentiert. Nutzer können eigene Erweiterungen entwickeln (lassen) und/oder arteigenschaften.ch gemeinsam weiter entwickeln
+- Der Code ist offen und dokumentiert. Nutzer können eigene Erweiterungen entwickeln (lassen) und/oder arteigenschaften.ch gemeinsam weiter entwickeln. Oder eine eigene Anwendung entwickeln, welche die Daten via die API bezieht oder gar bearbeitet
 
 <a href="#top">&#8593; top</a>
 
