@@ -31,7 +31,6 @@ const enhance = compose(
       properties: propertiesPrevious,
       id,
       label,
-      objectData,
       setLabel,
       setValue,
     }) => async event => {
