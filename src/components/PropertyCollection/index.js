@@ -24,6 +24,7 @@ const PropertyCollection = ({ pCData }: { pCData: Object }) => {
   const pC = get(pCData, 'propertyCollectionById', {})
   const org = get(pC, 'organizationByOrganizationId.name', '')
   const user = get(pC, 'userByImportedBy', '')
+  console.log('pC:', pC)
 
   return (
     <ErrorBoundary>
@@ -65,6 +66,11 @@ const PropertyCollection = ({ pCData }: { pCData: Object }) => {
           key="importedBy"
           value={`${user.name} (${user.email})`}
           label="Importiert von"
+        />
+        <PropertyReadOnly
+          key="termsOfUse"
+          value={pC.termsOfUse}
+          label="Nutzungs-Bedingungen"
         />
       </Container>
     </ErrorBoundary>

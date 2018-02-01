@@ -12,6 +12,7 @@ export default gql`
       combining
       organizationId
       lastUpdated
+      termsOfUse
       organizationByOrganizationId {
         id
         name
