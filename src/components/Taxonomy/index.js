@@ -6,7 +6,6 @@ import get from 'lodash/get'
 import format from 'date-fns/format'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
-import booleanToJaNein from '../../modules/booleanToJaNein'
 import taxData from './taxData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import ErrorBoundary from '../shared/ErrorBoundary'
@@ -73,13 +72,6 @@ const Taxonomy = ({ taxData }: { taxData: Object }) => {
             key="organizationByOrganizationId"
             value={organizationName}
             label="Zuständige Organisation"
-          />
-        )}
-        {!!tax.isCategoryStandard && (
-          <PropertyReadOnly
-            key="isCategoryStandard"
-            value={booleanToJaNein(tax.isCategoryStandard)}
-            label="Ist Standard-Taxonomie für Gruppe"
           />
         )}
         {!!tax.habitatLabel && (

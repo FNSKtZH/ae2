@@ -40,7 +40,6 @@ CREATE TABLE ae.taxonomy (
   links text[] DEFAULT NULL,
   last_updated date DEFAULT NULL,
   organization_id UUID DEFAULT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
-  is_category_standard boolean DEFAULT FALSE,
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE,
   terms_of_use text DEFAULT NULL,
   habitat_label varchar(50) DEFAULT NULL,
@@ -51,6 +50,9 @@ CREATE TABLE ae.taxonomy (
 );
 CREATE INDEX ON ae.taxonomy USING btree (type);
 CREATE INDEX ON ae.taxonomy USING btree (name);
+
+--once:
+--alter table ae.taxonomy drop column is_category_standard;
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (

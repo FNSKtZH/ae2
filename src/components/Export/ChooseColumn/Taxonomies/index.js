@@ -24,7 +24,7 @@ const Container = styled.div`
   height: calc(100% - 48px);
   overflow: auto !important;
 `
-const CategoryContainer = styled.div``
+const TypeContainer = styled.div``
 const TaxContainer = styled.div`
   margin-left: 39px;
   margin-bottom: 10px;
@@ -39,7 +39,7 @@ const PaperTextContainer = styled.div`
 const PropertyTextDiv = styled.div`
   padding-bottom: 5px;
 `
-const CategoryLabel = styled(FormControlLabel)`
+const TypeLabel = styled(FormControlLabel)`
   height: 30px;
   min-height: 30px;
   > span {
@@ -64,7 +64,7 @@ const enhance = compose(
   exportTypesData,
   propsByTaxData,
   withHandlers({
-    onCheckCategory: ({
+    onCheckType: ({
       client,
       taxonomiesData,
       exportTypesData,
@@ -73,21 +73,21 @@ const enhance = compose(
       const exportTypes = get(exportTypesData, 'exportTypes', [])
       const { name } = event.target
       const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
-      const taxonomiesOfCategory = allTaxonomies.filter(
+      const taxonomiesOfType = allTaxonomies.filter(
         t => t.type.toLowerCase() === name.toLowerCase()
       )
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      let categories
+      let types
       if (isChecked) {
-        categories = [...exportTypes, name]
+        types = [...exportTypes, name]
         client.mutate({
           mutation: exportTypesMutation,
-          variables: { value: categories },
+          variables: { value: types },
         })
         // check if only one Taxonomy exists
         // if so, check it
-        if (taxonomiesOfCategory.length === 1) {
-          const taxonomyName = taxonomiesOfCategory[0].taxonomyName
+        if (taxonomiesOfType.length === 1) {
+          const taxonomyName = taxonomiesOfType[0].taxonomyName
           const taxonomies = [...exportTaxonomies, taxonomyName]
           client.mutate({
             mutation: exportTaxonomiesMutation,
@@ -95,15 +95,13 @@ const enhance = compose(
           })
         }
       } else {
-        categories = exportTypes.filter(c => c !== name)
+        types = exportTypes.filter(c => c !== name)
         client.mutate({
           mutation: exportTypesMutation,
-          variables: { value: categories },
+          variables: { value: types },
         })
-        // uncheck all taxonomies of this category
-        const taxonomiesToUncheck = taxonomiesOfCategory.map(
-          t => t.taxonomyName
-        )
+        // uncheck all taxonomies of this type
+        const taxonomiesToUncheck = taxonomiesOfType.map(t => t.taxonomyName)
         const remainingTaxonomies = exportTaxonomies.filter(
           t => !taxonomiesToUncheck.includes(t)
         )
@@ -135,21 +133,21 @@ const enhance = compose(
           mutation: exportTaxonomiesMutation,
           variables: { value: taxonomies },
         })
-        // check if sole category is left
+        // check if sole type is left
         // and this was only taxonomy
-        // if so: uncheck category too
+        // if so: uncheck type too
         const thisTaxonomy = allTaxonomies.find(t => t.name === name)
         if (taxonomies.length === 0) {
-          // this was the only taxonomy in this category
-          // it makes sense to also uncheck the category
+          // this was the only taxonomy in this type
+          // it makes sense to also uncheck the type
           const { exportTypes } = exportTypesData
-          const categories = exportTypes.filter(c => {
+          const types = exportTypes.filter(c => {
             if (c === 'Arten') return thisTaxonomy.type !== 'ART'
             return thisTaxonomy.type !== 'LEBENSRAUM'
           })
           client.mutate({
             mutation: exportTypesMutation,
-            variables: { value: categories },
+            variables: { value: types },
           })
         }
       }
@@ -157,25 +155,25 @@ const enhance = compose(
   })
 )
 
-const Categories = ({
+const Types = ({
   taxonomiesData,
   propsByTaxData,
   exportTypesData,
   exportTaxonomiesData,
-  onCheckCategory,
+  onCheckType,
   onCheckTaxonomy,
 }: {
   taxonomiesData: Object,
   propsByTaxData: Object,
   exportTypesData: Object,
   exportTaxonomiesData: Object,
-  onCheckCategory: () => void,
+  onCheckType: () => void,
   onCheckTaxonomy: () => void,
 }) => {
   const exportTypes = get(exportTypesData, 'exportTypes', [])
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
-  const categories = ['Arten', 'Lebensräume']
+  const types = ['Arten', 'Lebensräume']
   const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
@@ -201,23 +199,23 @@ const Categories = ({
     <ErrorBoundary>
       <Container>
         <HowTo />
-        {categories.map(category => (
-          <CategoryContainer key={category}>
-            <CategoryLabel
+        {types.map(type => (
+          <TypeContainer key={type}>
+            <TypeLabel
               control={
                 <Checkbox
-                  name={category}
-                  checked={exportTypes.includes(category)}
-                  onChange={onCheckCategory}
+                  name={type}
+                  checked={exportTypes.includes(type)}
+                  onChange={onCheckType}
                 />
               }
-              label={category}
+              label={type}
             />
-            {exportTypes.includes(category) && (
+            {exportTypes.includes(type) && (
               <TaxContainer>
                 <TaxTitle>
                   {allTaxonomies.filter(t => {
-                    if (category === 'Arten') return t.type === 'ART'
+                    if (type === 'Arten') return t.type === 'ART'
                     return t.type === 'LEBENSRAUM'
                   }).length === 1
                     ? 'Taxonomie:'
@@ -226,7 +224,7 @@ const Categories = ({
                 <FormGroup>
                   {allTaxonomies
                     .filter(t => {
-                      if (category === 'Arten') return t.type === 'ART'
+                      if (type === 'Arten') return t.type === 'ART'
                       return t.type === 'LEBENSRAUM'
                     })
                     .map(tax => (
@@ -245,7 +243,7 @@ const Categories = ({
                 </FormGroup>
               </TaxContainer>
             )}
-          </CategoryContainer>
+          </TypeContainer>
         ))}
         <Paper style={paperStyle} zDepth={1}>
           <PaperTextContainer>
@@ -257,4 +255,4 @@ const Categories = ({
   )
 }
 
-export default enhance(Categories)
+export default enhance(Types)

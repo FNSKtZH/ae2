@@ -16,7 +16,6 @@ export default graphql(
           id
           name
         }
-        isCategoryStandard
         userByImportedBy {
           id
           name

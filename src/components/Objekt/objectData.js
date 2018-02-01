@@ -34,7 +34,6 @@ export default graphql(
                 description
                 links
                 lastUpdated
-                isCategoryStandard
                 importedBy
                 termsOfUse
                 habitatLabel
@@ -136,7 +135,6 @@ export default graphql(
           description
           links
           lastUpdated
-          isCategoryStandard
           importedBy
           termsOfUse
           habitatLabel

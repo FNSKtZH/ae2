@@ -117,7 +117,7 @@ const enhance = compose(
         variables: { value: true },
       })
     },
-    onClickResetCategories: ({ client }) => () => {
+    onClickResetTypes: ({ client }) => () => {
       client.mutate({
         mutation: exportTypesMutation,
         variables: { value: [] },
@@ -164,7 +164,7 @@ const OptionsChoosen = ({
   classes,
   onClickResetAll,
   onClickResetTaxonomies,
-  onClickResetCategories,
+  onClickResetTypes,
   onClickResetExportWithSynonymData,
   onClickResetExportOnlyRowsWithProperties,
 }: {
@@ -182,7 +182,7 @@ const OptionsChoosen = ({
   classes: Object,
   onClickResetAll: () => void,
   onClickResetTaxonomies: () => void,
-  onClickResetCategories: () => void,
+  onClickResetTypes: () => void,
   onClickResetExportWithSynonymData: () => void,
   onClickResetExportOnlyRowsWithProperties: () => void,
 }) => {
@@ -244,9 +244,7 @@ const OptionsChoosen = ({
               exportTypes.length === 0 ? ' keine' : exportTypes.join(', ')
             }`}
             {exportTypes.length > 0 && (
-              <ResetSpan onClick={onClickResetCategories}>
-                zurücksetzen
-              </ResetSpan>
+              <ResetSpan onClick={onClickResetTypes}>zurücksetzen</ResetSpan>
             )}
           </li>
           <li>
