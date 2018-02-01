@@ -60,12 +60,12 @@ export default async ({
           // need to create root level object, without parentId
           newObjectData = await client.mutate({
             mutation: createRootObjectMutation,
-            variables: { taxonomyId: url[2] },
+            variables: { taxonomyId: url[1] },
           })
         } else {
           newObjectData = await client.mutate({
             mutation: createObjectMutation,
-            variables: { taxonomyId: url[2], parentId: id },
+            variables: { taxonomyId: url[1], parentId: id },
           })
         }
         const newId = get(newObjectData, 'data.createObject.object.id', null)
