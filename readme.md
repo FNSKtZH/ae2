@@ -152,7 +152,7 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 
 - Artwert
 - Rote-Liste-Status
-- nationale Priorität.
+- nationale Priorität
 
 ### Beziehungen
 [Beziehungen](https://de.wikipedia.org/wiki/Relation) beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele:
@@ -169,7 +169,7 @@ Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Dat
 ### Eigenschaften-Sammlungen aktualisieren
 Wie soll eine bestehende Eigenschaften-Sammlung aktualisiert werden? Zu bedenken sind u.a.:
 
-- Müssen frühere Auswertungen nachvollzogen bzw. wiederholt werden können? Wenn ja, sollten frühere Datenstände (=Eigenschaften-Sammlungen) unverändert erhalten bleiben
+- Müssen frühere Auswertungen nachvollzogen bzw. wiederholt werden können? Wenn ja, sollten ältere Versionen unverändert erhalten bleiben
 - Wird eine Eigenschaften-Sammlung periodisch teilweise aktualisiert (im Gegensatz zu vollständig)? Und soll ersichtlich sein, welche Eigenschaften welchen Datenstand haben?
 
 Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgendermassen vorgegangen werden:
@@ -180,7 +180,7 @@ Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgender
 <a href="#top">&#8593; top</a>
 
 **Ideen für die Zukunft**
-- Eigene Listen von Objekten (z.B. Art-Beobachtungen, Lebensräume) mit Eigenschaften verknüpfen:
+- Benutzer können eigene Listen von Objekten (z.B. Art-Beobachtungen, Lebensräume) mit Eigenschaften verknüpfen:
   - Benutzerin lädt eine Tabelle mit ihren Beobachtungen oder Lebensräumen (wie bei Importen)
   - Sie wählt, mit welcher ID diese Daten mit Eigenschaften verknüpft werden sollen (wie bei Importen)
   - Anwendung meldet, wie erfolgreich die Verknüpfung ist (wie bei Importen)
@@ -190,7 +190,7 @@ Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgender
 <a href="#top">&#8593; top</a>
 
 ## Open source
-Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/master/license.md) ist sehr freizügig. Eine Weiterverbreitung der in der Anwendung enthaltenen Daten ist aber nur mit Einverständnis der Autoren zulässig.
+Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/master/license.md) ist sehr freizügig. Eine Weiterverbreitung der in der Anwendung enthaltenen und nicht von der FNS stammenden Daten ist aber nur mit Einverständnis der Autoren zulässig (diejenigen der FNS sind open data).
 
 <a href="#top">&#8593; top</a>
 
@@ -227,9 +227,10 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 3. Gruppen sind nicht mehr Teil der Taxonomie<br/>
    Bisher wurden Arten in Gruppen eingeteilt (Fauna, Flora, Moose, Pilze). Das wird aufgehoben, denn:
    - Taxonomien können Gruppen-übergreifend sein
+   - Die bisher verwendeten Kategorien sind letztlich nicht klar voneinander abzugrenzen
    - Die Kategorisierung von Biota ist Sache der Taxonomien, nicht dieser Datenbank
    - Sollen trotzdem für gewisse Werkzeuge Gruppen gebildet werden, ist das einfach mittels Eigenschaften-Sammlung möglich. Beispiele: GIS-Layer, Artgruppen-ID in EvAB
-4. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte
+4. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte. Diese Benutzer können Daten importieren und teilweise direkt in arteigenschaften.ch bearbeiten
 5. Die API stellt umfassende Funktionalitäten zur Verfügung. Externe Anwendungen können im Rahmen der Benutzerrechte alles realisieren, was mit den zugrundeliegenden Daten möglich ist
 
 ### Diese Technologien werden verwendet:
