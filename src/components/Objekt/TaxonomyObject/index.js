@@ -273,9 +273,15 @@ const TaxonomyObject = ({
             </Collapse>
           </StyledCard2>
           <StyledCardContent>
-            <PropertyReadOnly value={objekt.id} label="ID" />
             {editing ? (
               <Fragment>
+                <Property
+                  key={`${objekt.id}/id`}
+                  label="ID"
+                  field="id"
+                  objekt={objekt}
+                  disabled={true}
+                />
                 <Property
                   key={`${objekt.id}/name`}
                   label="Name"
@@ -285,7 +291,16 @@ const TaxonomyObject = ({
               </Fragment>
             ) : (
               <Fragment>
-                <PropertyReadOnly value={objekt.name} label="Name" />
+                <PropertyReadOnly
+                  key={`${objekt.id}/id`}
+                  value={objekt.id}
+                  label="ID"
+                />
+                <PropertyReadOnly
+                  key={`${objekt.id}/name`}
+                  value={objekt.name}
+                  label="Name"
+                />
               </Fragment>
             )}
             <Properties id={objekt.id} properties={properties} />

@@ -51,6 +51,7 @@ const Property = ({
   label,
   objekt,
   value,
+  disabled,
   onChange,
   onBlur,
 }: {
@@ -58,6 +59,7 @@ const Property = ({
   field: String,
   label: String,
   objekt: Object,
+  disabled: Boolean,
   value: String,
   onChange: () => void,
   onBlur: () => void,
@@ -77,6 +79,7 @@ const Property = ({
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck="false"
+          disabled={!!disabled}
         />
       </Container>
     </ErrorBoundary>
