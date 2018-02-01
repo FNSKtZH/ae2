@@ -4,7 +4,7 @@ import merge from 'lodash.merge'
 import activeNodeArray from './activeNodeArray'
 import treeFilter from './treeFilter'
 import login from './login'
-import exportCategories from './exportCategories'
+import exportTypes from './exportTypes'
 import exportIds from './exportIds'
 import exportTaxonomies from './exportTaxonomies'
 import exportTaxProperties from './exportTaxProperties'
@@ -20,7 +20,7 @@ export default merge(
   activeNodeArray,
   treeFilter,
   login,
-  exportCategories,
+  exportTypes,
   exportIds,
   exportTaxonomies,
   exportTaxProperties,

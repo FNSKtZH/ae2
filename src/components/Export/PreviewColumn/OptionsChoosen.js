@@ -9,8 +9,8 @@ import withHandlers from 'recompose/withHandlers'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
-import exportCategoriesData from '../exportCategoriesData'
-import exportCategoriesMutation from '../exportCategoriesMutation'
+import exportTypesData from '../exportTypesData'
+import exportTypesMutation from '../exportTypesMutation'
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
 import exportPcoPropertiesData from '../exportPcoPropertiesData'
@@ -69,7 +69,7 @@ const StyledButton = styled(Button)`
 
 const enhance = compose(
   withApollo,
-  exportCategoriesData,
+  exportTypesData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
@@ -83,7 +83,7 @@ const enhance = compose(
   withHandlers({
     onClickResetAll: ({ client }) => () => {
       client.mutate({
-        mutation: exportCategoriesMutation,
+        mutation: exportTypesMutation,
         variables: { value: [] },
       })
       client.mutate({
@@ -119,7 +119,7 @@ const enhance = compose(
     },
     onClickResetCategories: ({ client }) => () => {
       client.mutate({
-        mutation: exportCategoriesMutation,
+        mutation: exportTypesMutation,
         variables: { value: [] },
       })
       client.mutate({
@@ -151,7 +151,7 @@ const enhance = compose(
 
 const OptionsChoosen = ({
   client,
-  exportCategoriesData,
+  exportTypesData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
@@ -169,7 +169,7 @@ const OptionsChoosen = ({
   onClickResetExportOnlyRowsWithProperties,
 }: {
   client: Object,
-  exportCategoriesData: Object,
+  exportTypesData: Object,
   exportTaxonomiesData: Object,
   exportTaxPropertiesData: Object,
   exportTaxFiltersData: Object,
@@ -196,7 +196,7 @@ const OptionsChoosen = ({
     'exportOnlyRowsWithProperties',
     true
   )
-  const exportCategories = get(exportCategoriesData, 'exportCategories', [])
+  const exportTypes = get(exportTypesData, 'exportTypes', [])
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const exportTaxProperties = get(
     exportTaxPropertiesData,
@@ -240,12 +240,10 @@ const OptionsChoosen = ({
       <CardText expandable={true} style={level1CardTextStyle}>
         <ul>
           <li>
-            {`Gruppe${exportCategories.length > 1 ? 'n' : ''}: ${
-              exportCategories.length === 0
-                ? ' keine'
-                : exportCategories.join(', ')
+            {`Gruppe${exportTypes.length > 1 ? 'n' : ''}: ${
+              exportTypes.length === 0 ? ' keine' : exportTypes.join(', ')
             }`}
-            {exportCategories.length > 0 && (
+            {exportTypes.length > 0 && (
               <ResetSpan onClick={onClickResetCategories}>
                 zurücksetzen
               </ResetSpan>

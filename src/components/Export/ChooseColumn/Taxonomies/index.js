@@ -11,8 +11,8 @@ import get from 'lodash/get'
 
 import HowTo from './HowTo'
 
-import exportCategoriesMutation from '../../exportCategoriesMutation'
-import exportCategoriesData from '../../exportCategoriesData'
+import exportTypesMutation from '../../exportTypesMutation'
+import exportTypesData from '../../exportTypesData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import propsByTaxData from '../propsByTaxData'
@@ -61,16 +61,16 @@ const enhance = compose(
   withApollo,
   taxonomiesData,
   exportTaxonomiesData,
-  exportCategoriesData,
+  exportTypesData,
   propsByTaxData,
   withHandlers({
     onCheckCategory: ({
       client,
       taxonomiesData,
-      exportCategoriesData,
+      exportTypesData,
       exportTaxonomiesData,
     }) => (event, isChecked) => {
-      const exportCategories = get(exportCategoriesData, 'exportCategories', [])
+      const exportTypes = get(exportTypesData, 'exportTypes', [])
       const { name } = event.target
       const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
       const taxonomiesOfCategory = allTaxonomies.filter(
@@ -79,9 +79,9 @@ const enhance = compose(
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       let categories
       if (isChecked) {
-        categories = [...exportCategories, name]
+        categories = [...exportTypes, name]
         client.mutate({
-          mutation: exportCategoriesMutation,
+          mutation: exportTypesMutation,
           variables: { value: categories },
         })
         // check if only one Taxonomy exists
@@ -95,9 +95,9 @@ const enhance = compose(
           })
         }
       } else {
-        categories = exportCategories.filter(c => c !== name)
+        categories = exportTypes.filter(c => c !== name)
         client.mutate({
-          mutation: exportCategoriesMutation,
+          mutation: exportTypesMutation,
           variables: { value: categories },
         })
         // uncheck all taxonomies of this category
@@ -117,7 +117,7 @@ const enhance = compose(
       client,
       exportTaxonomiesData,
       taxonomiesData,
-      exportCategoriesData,
+      exportTypesData,
     }) => (event, isChecked) => {
       const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
@@ -142,13 +142,13 @@ const enhance = compose(
         if (taxonomies.length === 0) {
           // this was the only taxonomy in this category
           // it makes sense to also uncheck the category
-          const { exportCategories } = exportCategoriesData
-          const categories = exportCategories.filter(c => {
+          const { exportTypes } = exportTypesData
+          const categories = exportTypes.filter(c => {
             if (c === 'Arten') return thisTaxonomy.type !== 'ART'
             return thisTaxonomy.type !== 'LEBENSRAUM'
           })
           client.mutate({
-            mutation: exportCategoriesMutation,
+            mutation: exportTypesMutation,
             variables: { value: categories },
           })
         }
@@ -160,26 +160,26 @@ const enhance = compose(
 const Categories = ({
   taxonomiesData,
   propsByTaxData,
-  exportCategoriesData,
+  exportTypesData,
   exportTaxonomiesData,
   onCheckCategory,
   onCheckTaxonomy,
 }: {
   taxonomiesData: Object,
   propsByTaxData: Object,
-  exportCategoriesData: Object,
+  exportTypesData: Object,
   exportTaxonomiesData: Object,
   onCheckCategory: () => void,
   onCheckTaxonomy: () => void,
 }) => {
-  const exportCategories = get(exportCategoriesData, 'exportCategories', [])
+  const exportTypes = get(exportTypesData, 'exportTypes', [])
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
   const categories = ['Arten', 'Lebensräume']
   const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
-  if (exportCategories.length > 0) {
+  if (exportTypes.length > 0) {
     textProperties = 'Wählen Sie eine oder mehrere Taxonomien.'
   }
   if (loading) {
@@ -207,13 +207,13 @@ const Categories = ({
               control={
                 <Checkbox
                   name={category}
-                  checked={exportCategories.includes(category)}
+                  checked={exportTypes.includes(category)}
                   onChange={onCheckCategory}
                 />
               }
               label={category}
             />
-            {exportCategories.includes(category) && (
+            {exportTypes.includes(category) && (
               <TaxContainer>
                 <TaxTitle>
                   {allTaxonomies.filter(t => {

@@ -4,11 +4,11 @@ import gql from 'graphql-tag'
 
 export default graphql(
   gql`
-    query exportCategoriesQuery {
-      exportCategories @client
+    query exportTypesQuery {
+      exportTypes @client
     }
   `,
   {
-    name: 'exportCategoriesData',
+    name: 'exportTypesData',
   }
 )
