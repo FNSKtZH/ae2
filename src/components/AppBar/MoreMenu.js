@@ -1,5 +1,6 @@
 import React from 'react'
 import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
 import Menu, { MenuItem } from 'material-ui-next/Menu'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
 import styled from 'styled-components'
@@ -34,7 +35,9 @@ class MoreMenu extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-          <StyledMoreVertIcon />
+          <Icon>
+            <StyledMoreVertIcon />
+          </Icon>
         </IconButton>
         <Menu
           id="long-menu"

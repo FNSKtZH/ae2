@@ -2,6 +2,7 @@
 import React from 'react'
 import TextField from 'material-ui-next/TextField'
 import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
 import ClearIcon from 'material-ui-icons/Clear'
 import red from 'material-ui-next/colors/red'
 import styled from 'styled-components'
@@ -125,7 +126,9 @@ const Property = ({
           aria-label="Feld löschen"
           onClick={onDelete}
         >
-          <ClearIcon color={red[500]} />
+          <Icon>
+            <ClearIcon color={red[500]} />
+          </Icon>
         </DeleteButton>
       </Container>
     </ErrorBoundary>

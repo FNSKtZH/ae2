@@ -6,6 +6,7 @@ import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import { withApollo } from 'react-apollo'
 import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
 import AddIcon from 'material-ui-icons/Add'
 import red from 'material-ui-next/colors/red'
 
@@ -83,7 +84,9 @@ const OrgUsers = ({
             orgUsersData.refetch()
           }}
         >
-          <AddIcon color={red[500]} />
+          <Icon>
+            <AddIcon color={red[500]} />
+          </Icon>
         </AddNewButton>
       </Container>
     </ErrorBoundary>

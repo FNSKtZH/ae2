@@ -11,6 +11,7 @@ import React, { Fragment } from 'react'
 import Card, { CardActions, CardContent } from 'material-ui-next/Card'
 import Collapse from 'material-ui-next/transitions/Collapse'
 import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import EditIcon from 'material-ui-icons/Edit'
 import ViewIcon from 'material-ui-icons/Visibility'
@@ -204,7 +205,9 @@ const TaxonomyObject = ({
                     })
                   }}
                 >
-                  <ViewIcon />
+                  <Icon>
+                    <ViewIcon />
+                  </Icon>
                 </CardEditButton>
               )}
             {userMayWrite &&
@@ -228,7 +231,9 @@ const TaxonomyObject = ({
                     })
                   }}
                 >
-                  <EditIcon />
+                  <Icon>
+                    <EditIcon />
+                  </Icon>
                 </CardEditButton>
               )}
             <CardActionIconButton
@@ -236,7 +241,9 @@ const TaxonomyObject = ({
               aria-expanded={expanded}
               aria-label="Show more"
             >
-              <ExpandMoreIcon />
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
             </CardActionIconButton>
           </CardActionsButtons>
         </StyledCardActions>
@@ -254,7 +261,9 @@ const TaxonomyObject = ({
                 aria-expanded={expanded2}
                 aria-label="Show more"
               >
-                <ExpandMoreIcon />
+                <Icon>
+                  <ExpandMoreIcon />
+                </Icon>
               </CardActionIconButton>
             </StyledCardActions2>
             <Collapse in={expanded2} timeout="auto" unmountOnExit>

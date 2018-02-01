@@ -3,6 +3,7 @@ import React from 'react'
 import Card, { CardActions, CardContent } from 'material-ui-next/Card'
 import Collapse from 'material-ui-next/transitions/Collapse'
 import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
@@ -48,7 +49,9 @@ const HowToTaxonomies = ({
         aria-expanded={expanded}
         aria-label="Show more"
       >
-        <ExpandMoreIcon />
+        <Icon>
+          <ExpandMoreIcon />
+        </Icon>
       </CardActionIconButton>
     </StyledCardActions>
     <Collapse in={expanded} timeout="auto" unmountOnExit>

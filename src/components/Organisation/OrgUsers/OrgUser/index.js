@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { withApollo } from 'react-apollo'
 import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
 import ClearIcon from 'material-ui-icons/Clear'
 import red from 'material-ui-next/colors/red'
 import set from 'lodash/set'
@@ -188,7 +189,9 @@ class OrgUser extends React.Component<Props, State> {
               })
             }}
           >
-            <ClearIcon color={red[500]} />
+            <Icon>
+              <ClearIcon color={red[500]} />
+            </Icon>
           </DeleteButton>
         </OrgUserDiv>
       </ErrorBoundary>
