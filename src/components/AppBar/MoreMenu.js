@@ -1,14 +1,16 @@
 import React from 'react'
-import IconButton from 'material-ui-next/IconButton'
 import Icon from 'material-ui-next/Icon'
 import Menu, { MenuItem } from 'material-ui-next/Menu'
+import Button from 'material-ui-next/Button'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
 import styled from 'styled-components'
 
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
 `
-const StyledIconButton = styled(IconButton)`
+const StyledButton = styled(Button)`
+  min-width: 50px !important;
+  margin-right: -8px !important;
   :hover {
     background-color: rgba(0, 0, 0, 0.12);
   }
@@ -34,7 +36,7 @@ class MoreMenu extends React.Component {
 
     return (
       <div>
-        <StyledIconButton
+        <StyledButton
           aria-label="More"
           aria-owns={anchorEl ? 'long-menu' : null}
           aria-haspopup="true"
@@ -43,7 +45,7 @@ class MoreMenu extends React.Component {
           <Icon>
             <StyledMoreVertIcon />
           </Icon>
-        </StyledIconButton>
+        </StyledButton>
         <Menu
           id="long-menu"
           anchorEl={this.state.anchorEl}
