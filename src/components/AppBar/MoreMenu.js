@@ -8,6 +8,11 @@ import styled from 'styled-components'
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
 `
+const StyledIconButton = styled(IconButton)`
+  :hover {
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+`
 
 const ITEM_HEIGHT = 48
 
@@ -29,7 +34,7 @@ class MoreMenu extends React.Component {
 
     return (
       <div>
-        <IconButton
+        <StyledIconButton
           aria-label="More"
           aria-owns={anchorEl ? 'long-menu' : null}
           aria-haspopup="true"
@@ -38,7 +43,7 @@ class MoreMenu extends React.Component {
           <Icon>
             <StyledMoreVertIcon />
           </Icon>
-        </IconButton>
+        </StyledIconButton>
         <Menu
           id="long-menu"
           anchorEl={this.state.anchorEl}
