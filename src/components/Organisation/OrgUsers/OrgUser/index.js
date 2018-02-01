@@ -50,7 +50,7 @@ class OrgUser extends React.Component<Props, State> {
     const { orgUser } = props
     this.state = {
       userId: orgUser.userId,
-      role: orgUser.role || '',
+      role: orgUser.role || null,
     }
   }
 
