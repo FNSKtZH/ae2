@@ -39,20 +39,8 @@ const CardEditButton = styled(IconButton)`
     text-decoration: none;
   }
 `
-const StyledSelect = styled(Select)`
-  margin-left: 20px;
-  margin-right: 20px;
-`
 const StyledFormControl = styled(FormControl)`
-  margin: 0 !important;
-  width: 100%;
-  > label {
-    padding-left: 8px;
-  }
-`
-const StyledInputLabel = styled(InputLabel)`
-  margin-left: 15px;
-  margin-right: 15px;
+  margin: 10px 0 5px 0 !important;
 `
 
 const enhance = compose(
@@ -92,6 +80,7 @@ const Taxonomy = ({
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
   const allUsers = get(taxData, 'allUsers.nodes', [])
+  const allOrganizations = get(taxData, 'allOrganizations.nodes', [])
 
   return (
     <ErrorBoundary>
@@ -246,10 +235,8 @@ const Taxonomy = ({
               taxonomy={tax}
             />
             <StyledFormControl>
-              <StyledInputLabel htmlFor="importedByArten">
-                Importiert von
-              </StyledInputLabel>
-              <StyledSelect
+              <InputLabel htmlFor="importedByArten">Importiert von</InputLabel>
+              <Select
                 key={`${tax.id}/importedBy`}
                 value={tax.importedBy}
                 onChange={event =>
@@ -268,7 +255,32 @@ const Taxonomy = ({
                     {u.name}
                   </MenuItem>
                 ))}
-              </StyledSelect>
+              </Select>
+            </StyledFormControl>
+            <StyledFormControl>
+              <InputLabel htmlFor="organizationIdArten">
+                Zuständige Organisation
+              </InputLabel>
+              <Select
+                key={`${tax.id}/organizationId`}
+                value={tax.organizationId || ''}
+                onChange={event =>
+                  onBlurArten({
+                    client,
+                    field: 'organizationId',
+                    taxonomy: tax,
+                    value: event.target.value,
+                    prevValue: tax.organizationId,
+                  })
+                }
+                input={<Input id="organizationIdArten" />}
+              >
+                {allOrganizations.map(o => (
+                  <MenuItem key={o.id} value={o.id}>
+                    {o.name}
+                  </MenuItem>
+                ))}
+              </Select>
             </StyledFormControl>
             <PropertyArten
               key={`${tax.id}/lastUpdated`}
@@ -307,10 +319,8 @@ const Taxonomy = ({
               taxonomy={tax}
             />
             <StyledFormControl>
-              <StyledInputLabel htmlFor="importedByLr">
-                Importiert von
-              </StyledInputLabel>
-              <StyledSelect
+              <InputLabel htmlFor="importedByLr">Importiert von</InputLabel>
+              <Select
                 key={`${tax.id}/importedBy`}
                 value={tax.importedBy}
                 onChange={event =>
@@ -329,7 +339,7 @@ const Taxonomy = ({
                     {u.name}
                   </MenuItem>
                 ))}
-              </StyledSelect>
+              </Select>
             </StyledFormControl>
             <PropertyLr
               key={`${tax.id}/lastUpdated`}

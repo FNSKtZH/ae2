@@ -3,6 +3,7 @@ import updateTaxonomyMutationLr from './updateTaxonomyMutationLr'
 
 export default ({ client, field, taxonomy, value, prevValue }) => {
   if (value !== prevValue) {
+    const lastUpdated = new Date()
     const variables = {
       id: taxonomy.id,
       name: field === 'name' ? value : taxonomy.name,
@@ -10,7 +11,7 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
       links: field === 'links' ? value : taxonomy.links,
       organizationId:
         field === 'organizationId' ? value : taxonomy.organizationId,
-      lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
+      lastUpdated,
       importedBy: field === 'importedBy' ? value : taxonomy.importedBy,
       termsOfUse: field === 'termsOfUse' ? value : taxonomy.termsOfUse,
       habitatLabel: field === 'habitatLabel' ? value : taxonomy.habitatLabel,
@@ -34,7 +35,7 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
             links: field === 'links' ? value : taxonomy.links,
             organizationId:
               field === 'organizationId' ? value : taxonomy.organizationId,
-            lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
+            lastUpdated,
             importedBy: field === 'importedBy' ? value : taxonomy.importedBy,
             termsOfUse: field === 'termsOfUse' ? value : taxonomy.termsOfUse,
             habitatLabel:

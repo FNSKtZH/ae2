@@ -6,12 +6,13 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
+import format from 'date-fns/format'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
 import onBlur from './onBlurLr'
 
 const Container = styled.div`
-  margin: 12px 10px;
+  margin: 5px 0;
 `
 
 const enhance = compose(
@@ -59,7 +60,11 @@ const Property = ({
         <TextField
           autoFocus={label === 'Name' && !value}
           label={label}
-          value={value}
+          value={
+            field === 'lastUpdated' && value
+              ? format(new Date(value), 'DD.MM.YYYY')
+              : value
+          }
           onChange={onChange}
           onBlur={onBlur}
           fullWidth

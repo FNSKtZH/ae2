@@ -47,6 +47,12 @@ export default graphql(
           name
         }
       }
+      allOrganizations {
+        nodes {
+          id
+          name
+        }
+      }
     }
   `,
   {

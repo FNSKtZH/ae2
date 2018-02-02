@@ -1,8 +1,10 @@
 // #flow
+
 import updateTaxonomyMutationArten from './updateTaxonomyMutationArten'
 
 export default ({ client, field, taxonomy, value, prevValue }) => {
   if (value !== prevValue) {
+    const lastUpdated = new Date()
     const variables = {
       id: taxonomy.id,
       name: field === 'name' ? value : taxonomy.name,
@@ -10,7 +12,7 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
       links: field === 'links' ? value : taxonomy.links,
       organizationId:
         field === 'organizationId' ? value : taxonomy.organizationId,
-      lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
+      lastUpdated,
       importedBy: field === 'importedBy' ? value : taxonomy.importedBy,
       termsOfUse: field === 'termsOfUse' ? value : taxonomy.termsOfUse,
       type: taxonomy.type,
@@ -27,7 +29,7 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
             links: field === 'links' ? value : taxonomy.links,
             organizationId:
               field === 'organizationId' ? value : taxonomy.organizationId,
-            lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
+            lastUpdated,
             importedBy: field === 'importedBy' ? value : taxonomy.importedBy,
             termsOfUse: field === 'termsOfUse' ? value : taxonomy.termsOfUse,
             type: taxonomy.type,
