@@ -10,6 +10,21 @@ where
   ae.user.name = current_user_name()
   and ae.organization_user.role in ('orgTaxonomyWriter', 'orgAdmin');
 
+select distinct ae.taxonomy.id
+from ae.taxonomy
+where ae.taxonomy.id in (
+	select distinct ae.taxonomy.id
+	from  
+    ae.taxonomy
+    inner join ae.organization_user
+              inner join ae.user
+              on ae.user.id = ae.organization_user.user_id
+    on ae.organization_user.organization_id = ae.taxonomy.organization_id
+	where
+						ae.user.name = 'Alexander Gabriel'
+						and ae.organization_user.role in ('orgTaxonomyWriter', 'orgAdmin')
+	) or ae.taxonomy.id in (select taxonomy.id from ae.taxonomy where organization_id is null)
+
 create or replace view ae.organizations_currentuser_is_taxonomywriter as
 select distinct ae.organization_user.organization_id
 FROM
