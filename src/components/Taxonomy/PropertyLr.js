@@ -8,7 +8,7 @@ import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
-import updateTaxonomyMutationArten from './updateTaxonomyMutationArten'
+import updateTaxonomyMutationLr from './updateTaxonomyMutationLr'
 
 const Container = styled.div`
   margin: 12px 10px;
@@ -36,10 +36,18 @@ const enhance = compose(
           lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
           importedBy: field === 'importedBy' ? value : taxonomy.importedBy,
           termsOfUse: field === 'termsOfUse' ? value : taxonomy.termsOfUse,
+          habitatLabel:
+            field === 'habitatLabel' ? value : taxonomy.habitatLabel,
+          habitatComments:
+            field === 'habitatComments' ? value : taxonomy.habitatComments,
+          habitatNrFnsMin:
+            field === 'habitatNrFnsMin' ? value : taxonomy.habitatNrFnsMin,
+          habitatNrFnsMax:
+            field === 'habitatNrFnsMax' ? value : taxonomy.habitatNrFnsMax,
           type: taxonomy.type,
         }
         client.mutate({
-          mutation: updateTaxonomyMutationArten,
+          mutation: updateTaxonomyMutationLr,
           variables,
           optimisticResponse: {
             updateTaxonomyById: {
@@ -57,6 +65,20 @@ const enhance = compose(
                   field === 'importedBy' ? value : taxonomy.importedBy,
                 termsOfUse:
                   field === 'termsOfUse' ? value : taxonomy.termsOfUse,
+                habitatLabel:
+                  field === 'habitatLabel' ? value : taxonomy.habitatLabel,
+                habitatComments:
+                  field === 'habitatComments'
+                    ? value
+                    : taxonomy.habitatComments,
+                habitatNrFnsMin:
+                  field === 'habitatNrFnsMin'
+                    ? value
+                    : taxonomy.habitatNrFnsMin,
+                habitatNrFnsMax:
+                  field === 'habitatNrFnsMax'
+                    ? value
+                    : taxonomy.habitatNrFnsMax,
                 type: taxonomy.type,
                 __typename: 'Taxonomy',
               },

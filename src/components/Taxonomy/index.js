@@ -10,6 +10,7 @@ import editingTaxonomiesData from '../../modules/editingTaxonomiesData'
 import taxData from './taxData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyArten from './PropertyArten'
+import PropertyLr from './PropertyLr'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const enhance = compose(activeNodeArrayData, taxData, editingTaxonomiesData)
@@ -34,7 +35,7 @@ const Taxonomy = ({
   const organizationName = get(tax, 'organizationByOrganizationId.name')
   const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
   const editingArten = editing && tax.type === 'ART'
-  //const editingLr = editing && tax.type === 'LEBENSRAUM'
+  const editingLr = editing && tax.type === 'LEBENSRAUM'
 
   return (
     <ErrorBoundary>
@@ -127,6 +128,12 @@ const Taxonomy = ({
               disabled={true}
             />
             <PropertyArten
+              key={`${tax.id}/name`}
+              label="Name"
+              field="name"
+              taxonomy={tax}
+            />
+            <PropertyArten
               key={`${tax.id}/description`}
               label="Beschreibung"
               field="description"
@@ -144,6 +151,68 @@ const Taxonomy = ({
               label="Nutzungs-Bedingungen"
               field="termsOfUse"
               taxonomy={tax}
+            />
+          </Fragment>
+        )}
+        {editingLr && (
+          <Fragment>
+            <PropertyLr
+              key={`${tax.id}/id`}
+              label="ID"
+              field="id"
+              taxonomy={tax}
+              disabled={true}
+            />
+            <PropertyLr
+              key={`${tax.id}/name`}
+              label="Name"
+              field="name"
+              taxonomy={tax}
+            />
+            <PropertyLr
+              key={`${tax.id}/description`}
+              label="Beschreibung"
+              field="description"
+              taxonomy={tax}
+            />
+            <PropertyLr
+              key={`${tax.id}/lastUpdated`}
+              label="Zuletzt aktualisiert"
+              field="lastUpdated"
+              taxonomy={tax}
+              disabled={true}
+            />
+            <PropertyLr
+              key={`${tax.id}/termsOfUse`}
+              label="Nutzungs-Bedingungen"
+              field="termsOfUse"
+              taxonomy={tax}
+            />
+            <PropertyLr
+              key={`${tax.id}/habitatLabel`}
+              label="Einheit-Abkürzung"
+              field="habitatLabel"
+              taxonomy={tax}
+            />
+            <PropertyLr
+              key={`${tax.id}/habitatComments`}
+              label="Bemerkungen"
+              field="habitatComments"
+              taxonomy={tax}
+            />
+            <PropertyLr
+              key={`${tax.id}/habitatNrFnsMin`}
+              label="Einheit-Nrn FNS von"
+              field="habitatNrFnsMin"
+              taxonomy={tax}
+              type="number"
+            />
+            <PropertyLr
+              key={`${tax.id}/habitatNrFnsMax`}
+              label="Einheit-Nrn FNS bis"
+              field="habitatNrFnsMax"
+              taxonomy={tax}
+              type="number"
             />
           </Fragment>
         )}
