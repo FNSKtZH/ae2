@@ -6,10 +6,6 @@
 
 **Inhaltsverzeichnis**
 
-
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
-
-
 - [Was ist arteigenschaften.ch?](#was-ist-arteigenschaftench)
   - [Ziele](#ziele)
   - [Fachliches Konzept](#fachliches-konzept)
@@ -31,6 +27,8 @@
 - Entscheidend für die Aktualität der Datenbank ist es, die Informationen einfach und mit geringem Aufwand importieren und danach direkt nutzen zu können
 - Eigenschaften von Arten und Lebensräumen interessieren nicht nur die Fachstelle Naturschutz des Kantons Zürich. Ideal wäre eine von allen in diesem Bereich tätigen Stellen gemeinsam nachgeführte Datenbank. Oder realistischer: Ein Ort, an dem frei zugängliche Daten mit wenig Aufwand vereint werden können
 
+<a href="#top">&#8593; top</a>
+
 ### Was zeichnet arteigenschaften.ch aus?
 Die wichtigsten Merkmale dürften sein:
 
@@ -39,11 +37,15 @@ Die wichtigsten Merkmale dürften sein:
 - ...weshalb prinzipiell alle beteiligten Stellen ihre Daten an einem Ort und in einem gemeinsamen Format anbieten könnten. Das mag etwas naiv und utopisch sein. Zumindest aber kann man innert Minuten anderswo verfügbare Daten in arteigenschaften.ch vereinen und in Auswertungen mit anderen Daten kombinieren
 - Daten können beim Export für anschliessende Auswertungen einfach und rasch kombiniert werden
 
+<a href="#top">&#8593; top</a>
+
 ### Wozu wird arteigenschaften.ch benutzt?
 ##### Nachschlagen
 Man kann arteigenschaften.ch benutzen, um Informationen nachzuschlagen. Das dürfte sogar der häufigste Anwendungszweck sein. Die Darstellung ist aber eingeschränkt, da die Benutzeroberfläche dynamisch aus flexiblen Datenstrukturen generiert wird und arteigenschaften.ch keine Bilder enthält. Anwendungen mit statischer Datenstruktur können Informationen benutzerfreundlicher darstellen.
 
 Hilfreich könnte allerdings sein, wenn der einfache Import (wie erhofft) dazu führen sollte, dass arteigenschaften.ch besonders umfassende und aktuelle Informationen enthält.
+
+<a href="#top">&#8593; top</a>
 
 ##### Auswerten
 arteigenschaften.ch wurde entwickelt, um mit Hilfe der darin enthaltenen Daten Auswertungen durchzuführen. Meist in Kombination mit Artbeobachtungen oder Lebensraumkartierungen. Beispiele:
@@ -57,6 +59,8 @@ arteigenschaften.ch wurde entwickelt, um mit Hilfe der darin enthaltenen Daten A
 
 Besonders geeignet ist arteigenschaften.ch, wenn in einem Projekt eigene Art- oder Lebensraumeigenschaften erhoben und mit anderen für die Auswertung kombiniert werden sollen.
 
+<a href="#top">&#8593; top</a>
+
 ##### Daten für andere Anwendung abholen
 Andere Anwendungen können Daten aus arteigenschaften.ch direkt abholen und nutzen. Mehr Infos [hier](#diese-technologien-werden-verwendet).
 
@@ -67,8 +71,12 @@ Es können nur Daten akzeptiert werden, deren Eigner mit der Veröffentlichung e
 
 arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, die Anwendung zu kopieren und selber zu betreiben, ohne allfälligen Einfluss der FNS oder mit Daten, die man nicht veröffentlichen will.
 
+<a href="#top">&#8593; top</a>
+
 ### Das Zielpublikum
 ...befasst sich mit Arten und Lebensräumen. Es arbeitet primär in den Sachbereichen Naturschutz, Jagd und Fischerei, Gewässer, Wald, Landwirtschaft und Problemarten. Angesprochen sein dürften Fachstellen bei Bund, Kantonen, Gemeinden, Forschungseinrichtungen und freischaffende Fachleute bzw. Ökobüros.
+
+<a href="#top">&#8593; top</a>
 
 ### Ziele für die Benutzerin
 
@@ -81,6 +89,8 @@ arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, die An
   - über die API für GIS, [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content), [EvAB mobile](https://github.com/barbalex/EvabMobile) und beliebige weitere Applikationen<br>
     (da die API mit [GraphQL](https://github.com/facebook/graphql) aufgebaut ist, kann jede Applikation ohne Rückfrage mit der FNS flexibel auf die Daten zugreifen. Rückfragen bzw. entsprechende Benutzer-Rechte sind nur nötig, um Daten von externen Applikationen aus zu verändern)
 - Daten können über alle Artengruppen hinweg exportiert werden
+
+<a href="#top">&#8593; top</a>
 
 ### Ziele für Datenpfleger und Systemverantwortliche
 
@@ -99,6 +109,8 @@ Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich diese
 
 Ja, das ist alles :-)
 
+<a href="#top">&#8593; top</a>
+
 ### Taxonomien
 [Taxonomien](http://de.wikipedia.org/wiki/Taxonomie) klassifizieren <a href="http://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> (z.B. Arten) mit einer [Hierarchie](http://de.wikipedia.org/wiki/Hierarchie). Die Entwicklung von Taxonomien und der Umgang mit unterschiedlichen und sich laufend verändernden Taxonomien sind höchst anspruchsvoll.
 
@@ -108,8 +120,12 @@ Beispiele: Indizes der nationalen Artdatenzentren, "Flora der Schweiz (Ausgabe 2
 
 Im Idealfall enthielte die aktuell vom nationalen Zentrum verwendete Taxonomie nur "offizielle" Arten und z.B. keine Synonyme. Stattdessen würden Beziehungen zwischen offiziellen Arten und Arten anderer Taxonomien beschrieben. Da die Daten von den nationalen Zentren unseres Wissens (noch?) nicht so erhältlich sind, ist das in arteigenschaften.ch nicht realisiert aber im Design vorgesehen und bei Vorliegen entsprechender Daten direkt umsetzbar.
 
+<a href="#top">&#8593; top</a>
+
 ### Objekte
 <a href="https://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Aber nicht nur die Arten selbst, sondern jede Stufe der Hierarchie darüber und darunter, z.B. Familie, Gattung, Unterart.
+
+<a href="#top">&#8593; top</a>
 
 ### Eigenschaften-Sammlungen
 Systematische Informationen über Arten kommen in ganzen Sammlungen, z.B. „Flora Indicativa 2010“. Solche Sammlungen haben gemeinsame Eigenschaften wie z.B.:
@@ -134,6 +150,8 @@ arteigenschaften.ch kann auch Eigenschaften und Beziehungen von synonymen Objekt
 
 In fast allen Fällen ist es sinnvoll, Eigenschaften und Beziehungen pro Eigenschaften-Sammlung darzustellen. Z.B. bei der Anzeige in der Anwendung oder wenn Daten für Exporte ausgewählt werden.
 
+<a href="#top">&#8593; top</a>
+
 ### Zusammenfassende Eigenschaften-Sammlungen
 Für bestimmte Zwecke ist zusätzlich das Gegenteil interessant: Daten aus verschiedenen Eigenschaften-Sammlungen zusammenfassen. Z.B. wenn man über alle Artengruppen den aktuellsten Rote-Liste-Status darstellen will. Er steckt in diversen Eigenschaften-Sammlungen, da er häufig pro Artengruppe separat publiziert wird.
 
@@ -152,12 +170,16 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 - Die Eigenschaften werden nochmals in die zusammenfassende Eigenschaften-Sammlung "Rote Listen (aktuell)" importiert. Dabei werden bisherige Rote-Listen-Angaben der entsprechenden Heuschrecken überschrieben
 - Falls einige 1985 beschriebene Arten 2012 nicht mehr beschrieben wurden, bleibt der Rote-Liste-Status von 1985 erhalten. Um dies kenntlich zu machen, soll in der zusammenfassenden Eigenschaften-Sammlung in einem zusätzlichen Feld immer der Name der Ursprungs-Eigenschaften-Sammlung mitgeliefert werden
 
+<a href="#top">&#8593; top</a>
+
 ### Eigenschaften
 [Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft) beschreiben einzelne Objekte. Beispiele:
 
 - Artwert
 - Rote-Liste-Status
 - nationale Priorität
+
+<a href="#top">&#8593; top</a>
 
 ### Beziehungen
 [Beziehungen](https://de.wikipedia.org/wiki/Relation) beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele:
@@ -168,8 +190,12 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 - Beutespektrum von Räubern
 - aber auch taxonomische Beziehungen wie "synonym"
 
+<a href="#top">&#8593; top</a>
+
 ### Daten decodieren
 Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in einer früheren Version von arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist sehr kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind (nur) codierte Informationen zu vermeiden oder um uncodierte zu ergänzen.
+
+<a href="#top">&#8593; top</a>
 
 ### Eigenschaften-Sammlungen aktualisieren
 Wie soll eine bestehende Eigenschaften-Sammlung aktualisiert werden? Zu bedenken sind u.a.:
@@ -209,12 +235,16 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 -	Anpassungen an der aktuellen Anwendung sind anspruchsvoll und Nebenwirkungen schwierig zu vermeiden
 -	Web- und Datenbanktechnologie entwickeln sich rasant weiter. Daher stehen heute viel [besser geeignete Mittel](#diese-technologien-werden-verwendet) zur Verfügung, um eine solche Anwendung aufzubauen
 
+<a href="#top">&#8593; top</a>
+
 ### Projektziele:
 -	Hauptziel: Unterhaltbarkeit verbessern und künftige Erweiterungen ermöglichen
 -	Abhängigkeit von wenig verbreiteten Technologien verringern
 -	Aufwand für und Risiken bei künftigem Unterhalt und Erweiterungen verringern
 -	Verwaltung der Daten vereinfachen
 -	Datenintegrität besser gewährleisten
+
+<a href="#top">&#8593; top</a>
 
 ### Funktionale Ziele:
 
@@ -237,6 +267,8 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
    - Sollen trotzdem für gewisse Werkzeuge Gruppen gebildet werden, ist das einfach mittels Eigenschaften-Sammlung möglich. Beispiele: GIS-Layer, Artgruppen-ID in EvAB
 4. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte. Diese Benutzer können Daten importieren und teilweise direkt in arteigenschaften.ch bearbeiten
 5. Die API stellt umfassende Funktionalitäten zur Verfügung. Externe Anwendungen können im Rahmen der Benutzerrechte alles realisieren, was mit den zugrundeliegenden Daten möglich ist
+
+<a href="#top">&#8593; top</a>
 
 ### Diese Technologien werden verwendet:
 
@@ -264,6 +296,8 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
   - Die Benutzeroberfläche ist eine Funktion der anwendungsseitigen Daten
   - Vereinfacht die Steuerung der Benutzeroberfläche
   - Die Benutzeroberfläche wird aus wiederverwertbaren und testbaren Komponenten aufgebaut
+
+<a href="#top">&#8593; top</a>
 
 ### Aktueller Stand
 
@@ -346,3 +380,5 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
   - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
   - [ ] Arten und Lebensräume bearbeiten (in Arbeit)
   - [x] Last but not least: arteigenschaften.ch ist nicht nur eine Applikation, sondern auch eine API bzw. Daten-Schnittstelle, aufgebaut mit [GraphQL](https://github.com/facebook/graphql). Alles, was ein Benutzer über die Anwendung machen kann, ist auch via die API möglich!
+
+<a href="#top">&#8593; top</a>
