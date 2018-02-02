@@ -5,6 +5,11 @@
 <a name="top"></a>
 
 **Inhaltsverzeichnis**
+
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+
 - [Was ist arteigenschaften.ch?](#was-ist-arteigenschaftench)
   - [Ziele](#ziele)
   - [Fachliches Konzept](#fachliches-konzept)
