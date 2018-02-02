@@ -11,7 +11,6 @@ import RCO from './PropertyCollection/RCO'
 import Benutzer from './Benutzer'
 import Organisation from './Organisation'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
-import getActiveObjectIdFromNodeArray from '../modules/getActiveObjectIdFromNodeArray'
 
 const enhance = compose(activeNodeArrayData)
 
@@ -23,11 +22,9 @@ const DataType = ({
   dimensions: Object,
 }) => {
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
-  const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const showObjekt =
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
-    activeNodeArray.length > 2 &&
-    !!activeObjectId
+    activeNodeArray.length > 1
   const showTaxonomy =
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
     activeNodeArray.length === 2

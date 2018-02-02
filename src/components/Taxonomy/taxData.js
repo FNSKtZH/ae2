@@ -25,6 +25,7 @@ export default graphql(
         habitatComments
         habitatNrFnsMin
         habitatNrFnsMax
+        type
       }
     }
   `,
