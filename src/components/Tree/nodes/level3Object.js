@@ -32,7 +32,7 @@ export default ({
       label: node.name,
       info: `(${childrenCount.toLocaleString('de-CH')})`,
       childrenCount,
-      menuType: 'CmTaxonomy',
+      menuType: 'CmObject',
     }
   })
 }

@@ -26,7 +26,7 @@ const DataType = ({
   const activeObjectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const showObjekt =
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
-    activeNodeArray.length > 3 &&
+    activeNodeArray.length > 2 &&
     !!activeObjectId
   const showTaxonomy =
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&

@@ -27,7 +27,7 @@ export default ({
         artTaxonomies.length !== 1 ? 'n' : ''
       })`,
       childrenCount: artTaxonomies.length,
-      menuType: 'CmTaxFolder',
+      menuType: 'CmType',
     },
     {
       id: 'Lebensräume',
@@ -38,7 +38,7 @@ export default ({
         lrTaxonomies.length !== 1 ? 'n' : ''
       })`,
       childrenCount: lrTaxonomies.length,
-      menuType: 'CmTaxFolder',
+      menuType: 'CmType',
     },
     {
       id: 'Eigenschaften-Sammlungen',

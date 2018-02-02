@@ -55,8 +55,8 @@ export default async ({
       }
       if (table === 'object') {
         let newObjectData
-        if (url.length === 3) {
-          // user clicke on the taxonomy
+        if (url.length === 2) {
+          // user clicked on the taxonomy
           // need to create root level object, without parentId
           newObjectData = await client.mutate({
             mutation: createRootObjectMutation,
@@ -121,7 +121,7 @@ export default async ({
             })
             const taxname = `level${url.length}Taxonomy`
             const nodesPath =
-              url.length === 3
+              url.length === 2
                 ? `${taxname}.taxonomyObjectLevel1.nodes`
                 : `${taxname}.objectsByParentId.nodes`
             const nodes = get(data, nodesPath, []).filter(u => u.id !== id)

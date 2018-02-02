@@ -60,6 +60,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
     pco => !propertyCollectionIds.includes(pco.propertyCollectionId)
   )
+  console.log('Objekt: objekt:', objekt)
 
   return (
     <ErrorBoundary>

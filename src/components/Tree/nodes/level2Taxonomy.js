@@ -31,7 +31,7 @@ export default ({
         nodeCount === '1' ? 'Taxonomie' : 'Taxonomien'
       })`,
       childrenCount: nodeCount,
-      menuType: 'CmType',
+      menuType: 'CmTaxonomy',
     }
   })
 }
