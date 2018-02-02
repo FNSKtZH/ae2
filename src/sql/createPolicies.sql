@@ -64,11 +64,6 @@ DROP POLICY IF EXISTS inserter ON ae.object;
 CREATE POLICY inserter ON ae.object FOR INSERT
   WITH CHECK (
     taxonomy_id IN (SELECT * FROM ae.current_user_writable_taxonomies)
-    OR
-    (
-      organization_id IS NULL
-      AND current_user_name() IN (SELECT * FROM ae.taxonomy_writers)
-    )
   );
 
 
