@@ -9,6 +9,7 @@ import createObjectMutation from '../../Objekt/createObjectMutation'
 import createRootObjectMutation from '../../Objekt/createRootObjectMutation'
 import deleteObjectMutation from '../../Objekt/deleteObjectMutation'
 import createTaxonomyMutation from '../../Taxonomy/createTaxonomyMutation'
+import deleteTaxonomyMutation from '../../Taxonomy/deleteTaxonomyMutation'
 import treeDataGql from '../treeDataGql'
 import treeDataVariables from '../treeDataVariables'
 import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
@@ -175,18 +176,18 @@ export default async ({
       }
       if (table === 'taxonomy') {
         await client.mutate({
-          mutation: deleteObjectMutation,
+          mutation: deleteTaxonomyMutation,
           variables: { id },
           optimisticResponse: {
-            deleteObjectById: {
-              object: {
+            deleteTaxonomyById: {
+              taxonomy: {
                 id,
-                __typename: 'Object',
+                __typename: 'Taxonomy',
               },
               __typename: 'Mutation',
             },
           },
-          update: (proxy, { data: { deleteObjectMutation } }) => {
+          update: (proxy, { data: { deleteTaxonomyMutation } }) => {
             const variables = treeDataVariables({ activeNodeArray })
             const data = proxy.readQuery({
               query: treeDataGql,
