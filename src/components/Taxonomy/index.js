@@ -5,6 +5,10 @@ import IconButton from 'material-ui-next/IconButton'
 import Icon from 'material-ui-next/Icon'
 import EditIcon from 'material-ui-icons/Edit'
 import ViewIcon from 'material-ui-icons/Visibility'
+import Select from 'material-ui-next/Select'
+import { MenuItem } from 'material-ui-next/Menu'
+import Input, { InputLabel } from 'material-ui-next/Input'
+import { FormControl } from 'material-ui-next/Form'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import format from 'date-fns/format'
@@ -12,7 +16,6 @@ import { withApollo } from 'react-apollo'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import editingTaxonomiesData from '../../modules/editingTaxonomiesData'
-import organizationUserData from '../../modules/organizationUserData'
 import loginData from '../../modules/loginData'
 import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
 import taxData from './taxData'
@@ -20,6 +23,8 @@ import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyArten from './PropertyArten'
 import PropertyLr from './PropertyLr'
 import ErrorBoundary from '../shared/ErrorBoundary'
+import onBlurArten from './onBlurArten'
+import onBlurLr from './onBlurLr'
 
 const Container = styled.div`
   padding: 10px;
@@ -34,27 +39,39 @@ const CardEditButton = styled(IconButton)`
     text-decoration: none;
   }
 `
+const StyledSelect = styled(Select)`
+  margin-left: 20px;
+  margin-right: 20px;
+`
+const StyledFormControl = styled(FormControl)`
+  margin: 0 !important;
+  width: 100%;
+  > label {
+    padding-left: 8px;
+  }
+`
+const StyledInputLabel = styled(InputLabel)`
+  margin-left: 15px;
+  margin-right: 15px;
+`
 
 const enhance = compose(
   withApollo,
   activeNodeArrayData,
   taxData,
   loginData,
-  editingTaxonomiesData,
-  organizationUserData
+  editingTaxonomiesData
 )
 
 const Taxonomy = ({
   client,
   taxData,
   editingTaxonomiesData,
-  organizationUserData,
   loginData,
 }: {
   client: Object,
   taxData: Object,
   editingTaxonomiesData: Object,
-  organizationUserData: Object,
   loginData: Object,
 }) => {
   const { loading } = taxData
@@ -68,16 +85,13 @@ const Taxonomy = ({
   const editingArten = editing && tax.type === 'ART'
   const editingLr = editing && tax.type === 'LEBENSRAUM'
   const username = get(loginData, 'login.username', null)
-  const organizationUsers = get(
-    organizationUserData,
-    'allOrganizationUsers.nodes',
-    []
-  )
+  const organizationUsers = get(taxData, 'allOrganizationUsers.nodes', [])
   const userRoles = organizationUsers
     .filter(oU => username === get(oU, 'userByUserId.name', ''))
     .map(oU => oU.role)
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
+  const allUsers = get(taxData, 'allUsers.nodes', [])
 
   return (
     <ErrorBoundary>
@@ -231,6 +245,31 @@ const Taxonomy = ({
               field="description"
               taxonomy={tax}
             />
+            <StyledFormControl>
+              <StyledInputLabel htmlFor="importedByArten">
+                Importiert von
+              </StyledInputLabel>
+              <StyledSelect
+                key={`${tax.id}/importedBy`}
+                value={tax.importedBy}
+                onChange={event =>
+                  onBlurArten({
+                    client,
+                    field: 'importedBy',
+                    taxonomy: tax,
+                    value: event.target.value,
+                    prevValue: tax.importedBy,
+                  })
+                }
+                input={<Input id="importedByArten" />}
+              >
+                {allUsers.map(u => (
+                  <MenuItem key={u.id} value={u.id}>
+                    {u.name}
+                  </MenuItem>
+                ))}
+              </StyledSelect>
+            </StyledFormControl>
             <PropertyArten
               key={`${tax.id}/lastUpdated`}
               label="Zuletzt aktualisiert"
@@ -267,6 +306,31 @@ const Taxonomy = ({
               field="description"
               taxonomy={tax}
             />
+            <StyledFormControl>
+              <StyledInputLabel htmlFor="importedByLr">
+                Importiert von
+              </StyledInputLabel>
+              <StyledSelect
+                key={`${tax.id}/importedBy`}
+                value={tax.importedBy}
+                onChange={event =>
+                  onBlurLr({
+                    client,
+                    field: 'importedBy',
+                    taxonomy: tax,
+                    value: event.target.value,
+                    prevValue: tax.importedBy,
+                  })
+                }
+                input={<Input id="importedByLr" />}
+              >
+                {allUsers.map(u => (
+                  <MenuItem key={u.id} value={u.id}>
+                    {u.name}
+                  </MenuItem>
+                ))}
+              </StyledSelect>
+            </StyledFormControl>
             <PropertyLr
               key={`${tax.id}/lastUpdated`}
               label="Zuletzt aktualisiert"

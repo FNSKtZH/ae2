@@ -29,6 +29,24 @@ export default graphql(
         habitatNrFnsMax
         type
       }
+      allOrganizationUsers {
+        nodes {
+          nodeId
+          organizationId
+          userId
+          role
+          userByUserId {
+            id
+            name
+          }
+        }
+      }
+      allUsers {
+        nodes {
+          id
+          name
+        }
+      }
     }
   `,
   {
