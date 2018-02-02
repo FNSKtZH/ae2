@@ -8,6 +8,7 @@ import deleteUserMutation from '../../Benutzer/deleteUserMutation'
 import createObjectMutation from '../../Objekt/createObjectMutation'
 import createRootObjectMutation from '../../Objekt/createRootObjectMutation'
 import deleteObjectMutation from '../../Objekt/deleteObjectMutation'
+import createTaxonomyMutation from '../../Taxonomy/createTaxonomyMutation'
 import treeDataGql from '../treeDataGql'
 import treeDataVariables from '../treeDataVariables'
 import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
@@ -18,6 +19,7 @@ export default async ({
   target,
   client,
   treeData,
+  rowData,
   editingTaxonomiesData,
   activeNodeArrayData,
 }: {
@@ -26,9 +28,11 @@ export default async ({
   target: Object,
   client: Object,
   treeData: Object,
+  rowData: Object,
   editingTaxonomiesData: Object,
   activeNodeArrayData: Object,
 }) => {
+  const userId = get(rowData, 'userByName.id', null)
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
   if (!data) return console.log('no data passed with click')
@@ -69,6 +73,38 @@ export default async ({
           })
         }
         const newId = get(newObjectData, 'data.createObject.object.id', null)
+        app.history.push(`/${[...url, newId].join('/')}`)
+        // if not editing, set editing true
+        if (!editing) {
+          client.mutate({
+            mutation: editingTaxonomiesMutation,
+            variables: { value: true },
+            optimisticResponse: {
+              setEditingTaxonomies: {
+                editingTaxonomies: true,
+                __typename: 'EditingTaxonomies',
+              },
+              __typename: 'Mutation',
+            },
+          })
+        }
+        treeData.refetch()
+      }
+      if (table === 'taxonomy') {
+        console.log('TODO: insert taxonomy for type:', { id, url })
+        const typeConverter = {
+          Arten: 'ART',
+          Lebensräume: 'LEBENSRAUM',
+        }
+        const newTaxonomyData = await client.mutate({
+          mutation: createTaxonomyMutation,
+          variables: { type: typeConverter[id], importedBy: userId },
+        })
+        const newId = get(
+          newTaxonomyData,
+          'data.createTaxonomy.taxonomy.id',
+          null
+        )
         app.history.push(`/${[...url, newId].join('/')}`)
         // if not editing, set editing true
         if (!editing) {

@@ -14,6 +14,8 @@ import onClickContextMenu from './onClickContextMenu'
 import treeData from '../treeData'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import loginData from '../../../modules/loginData'
+import rowData from './rowData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const singleRowHeight = 23
@@ -83,7 +85,9 @@ function collect(props) {
 
 const enhance = compose(
   withApollo,
+  loginData,
   activeNodeArrayData,
+  rowData,
   treeData,
   editingTaxonomiesData,
   withHandlers({
@@ -99,6 +103,7 @@ const enhance = compose(
       client,
       activeNodeArrayData,
       treeData,
+      rowData,
       editingTaxonomiesData,
     }) => (e, data, target) => {
       onClickContextMenu({
@@ -108,6 +113,7 @@ const enhance = compose(
         target,
         client,
         treeData,
+        rowData,
         editingTaxonomiesData,
       })
     },
