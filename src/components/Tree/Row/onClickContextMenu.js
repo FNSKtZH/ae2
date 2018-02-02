@@ -91,7 +91,6 @@ export default async ({
         treeData.refetch()
       }
       if (table === 'taxonomy') {
-        console.log('TODO: insert taxonomy for type:', { id, url })
         const typeConverter = {
           Arten: 'ART',
           Lebensräume: 'LEBENSRAUM',
