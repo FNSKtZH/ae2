@@ -87,12 +87,19 @@ const Taxonomy = ({
     }))
   console.log('Taxonomy: orgsUserIsTaxWriter:', orgsUserIsTaxWriter)
   const userIsTaxWriter = orgsUserIsTaxWriter.length > 0
+  const userIsThisTaxWriter = !!orgsUserIsTaxWriter.find(
+    o => o.id === tax.organizationId
+  )
   console.log('Taxonomy: userIsTaxWriter:', userIsTaxWriter)
+  console.log('Taxonomy: userIsThisTaxWriter:', userIsThisTaxWriter)
+  /**
+   * wTF is happening???!!!
+   */
 
   return (
     <ErrorBoundary>
       <Container>
-        {userIsTaxWriter &&
+        {userIsThisTaxWriter &&
           editing && (
             <CardEditButton
               aria-label="Daten anzeigen"
@@ -117,7 +124,7 @@ const Taxonomy = ({
               </Icon>
             </CardEditButton>
           )}
-        {userIsTaxWriter &&
+        {userIsThisTaxWriter &&
           !editing && (
             <CardEditButton
               aria-label="Daten bearbeiten"
