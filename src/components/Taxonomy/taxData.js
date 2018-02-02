@@ -16,6 +16,17 @@ export default graphql(
         organizationByOrganizationId {
           id
           name
+          organizationUsersByOrganizationId {
+            nodes {
+              id
+              role
+              userId
+              userByUserId {
+                id
+                name
+              }
+            }
+          }
         }
         importedBy
         userByImportedBy {
@@ -29,28 +40,20 @@ export default graphql(
         habitatNrFnsMax
         type
       }
-      allOrganizationUsers {
-        nodes {
-          nodeId
-          organizationId
-          userId
-          role
-          userByUserId {
-            id
-            name
-          }
-        }
-      }
       allUsers {
         nodes {
           id
           name
-        }
-      }
-      allOrganizations {
-        nodes {
-          id
-          name
+          organizationUsersByUserId {
+            nodes {
+              organizationId
+              role
+              organizationByOrganizationId {
+                id
+                name
+              }
+            }
+          }
         }
       }
     }

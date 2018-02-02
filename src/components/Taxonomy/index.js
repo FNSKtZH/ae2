@@ -73,14 +73,21 @@ const Taxonomy = ({
   const editingArten = editing && tax.type === 'ART'
   const editingLr = editing && tax.type === 'LEBENSRAUM'
   const username = get(loginData, 'login.username', null)
-  const organizationUsers = get(taxData, 'allOrganizationUsers.nodes', [])
-  const userRoles = organizationUsers
-    .filter(oU => username === get(oU, 'userByUserId.name', ''))
-    .map(oU => oU.role)
-  const userIsTaxWriter =
-    userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
+
   const allUsers = get(taxData, 'allUsers.nodes', [])
-  const allOrganizations = get(taxData, 'allOrganizations.nodes', [])
+  console.log('Taxonomy: username:', username)
+  console.log('Taxonomy: allUsers:', allUsers)
+  const user = allUsers.find(u => u.name === username)
+  console.log('Taxonomy: user:', user)
+  const orgsUserIsTaxWriter = get(user, 'organizationUsersByUserId.nodes', [])
+    .filter(o => ['orgTaxonomyWriter', 'orgAdmin'].includes(o.role))
+    .map(o => ({
+      id: o.organizationId,
+      name: get(o, 'organizationByOrganizationId.name', ''),
+    }))
+  console.log('Taxonomy: orgsUserIsTaxWriter:', orgsUserIsTaxWriter)
+  const userIsTaxWriter = orgsUserIsTaxWriter.length > 0
+  console.log('Taxonomy: userIsTaxWriter:', userIsTaxWriter)
 
   return (
     <ErrorBoundary>
@@ -275,7 +282,7 @@ const Taxonomy = ({
                 }
                 input={<Input id="organizationIdArten" />}
               >
-                {allOrganizations.map(o => (
+                {orgsUserIsTaxWriter.map(o => (
                   <MenuItem key={o.id} value={o.id}>
                     {o.name}
                   </MenuItem>
