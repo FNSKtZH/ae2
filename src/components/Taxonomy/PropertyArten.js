@@ -8,7 +8,7 @@ import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
-import updateTaxonomyMutationArten from './updateTaxonomyMutationArten'
+import onBlur from './onBlurArten'
 
 const Container = styled.div`
   margin: 12px 10px;
@@ -23,50 +23,14 @@ const enhance = compose(
   ),
   withHandlers({
     onChange: ({ setValue }) => event => setValue(event.target.value),
-    onBlur: ({ client, field, taxonomy }) => event => {
-      const { value } = event.target
-      if (value !== 'prevValue') {
-        const variables = {
-          id: taxonomy.id,
-          name: field === 'name' ? value : taxonomy.name,
-          description: field === 'description' ? value : taxonomy.description,
-          links: field === 'links' ? value : taxonomy.links,
-          organizationId:
-            field === 'organizationId' ? value : taxonomy.organizationId,
-          lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
-          importedBy: field === 'importedBy' ? value : taxonomy.importedBy,
-          termsOfUse: field === 'termsOfUse' ? value : taxonomy.termsOfUse,
-          type: taxonomy.type,
-        }
-        client.mutate({
-          mutation: updateTaxonomyMutationArten,
-          variables,
-          optimisticResponse: {
-            updateTaxonomyById: {
-              taxonomy: {
-                id: taxonomy.id,
-                name: field === 'name' ? value : taxonomy.name,
-                description:
-                  field === 'description' ? value : taxonomy.description,
-                links: field === 'links' ? value : taxonomy.links,
-                organizationId:
-                  field === 'organizationId' ? value : taxonomy.organizationId,
-                lastUpdated:
-                  field === 'lastUpdated' ? value : taxonomy.lastUpdated,
-                importedBy:
-                  field === 'importedBy' ? value : taxonomy.importedBy,
-                termsOfUse:
-                  field === 'termsOfUse' ? value : taxonomy.termsOfUse,
-                type: taxonomy.type,
-                __typename: 'Taxonomy',
-              },
-              __typename: 'Taxonomy',
-            },
-            __typename: 'Mutation',
-          },
-        })
-      }
-    },
+    onBlur: ({ client, field, taxonomy, value }) => event =>
+      onBlur({
+        client,
+        field,
+        taxonomy,
+        value: event.target.value,
+        prevValue: taxonomy[field],
+      }),
   })
 )
 
