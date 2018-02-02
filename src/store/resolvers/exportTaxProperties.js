@@ -27,7 +27,7 @@ export default {
       } else {
         cache.writeData({
           data: {
-            'exportTaxProperties@client': [
+            exportTaxProperties: [
               ...currentTax.exportTaxProperties,
               { taxname, pname, __typename: 'ExportTaxProperty' },
             ],
@@ -42,7 +42,7 @@ export default {
         x => !(x.taxname === taxname && x.pname === pname)
       )
       cache.writeData({
-        data: { 'exportTaxProperties@client': exportTaxProperties },
+        data: { exportTaxProperties },
       })
       return null
     },
@@ -61,7 +61,7 @@ export default {
         // remove
         cache.writeData({
           data: {
-            'exportTaxFilters@client': exportTaxFilters.filter(
+            exportTaxFilters: exportTaxFilters.filter(
               x => !(x.taxname === taxname && x.pname === pname)
             ),
           },
@@ -70,7 +70,7 @@ export default {
         // add new one
         cache.writeData({
           data: {
-            'exportTaxFilters@client': [
+            exportTaxFilters: [
               ...exportTaxFilters,
               {
                 taxname,
@@ -86,7 +86,7 @@ export default {
         // edit = add new one instead of existing
         cache.writeData({
           data: {
-            'exportTaxFilters@client': [
+            exportTaxFilters: [
               ...exportTaxFilters.filter(
                 x => !(x.taxname === taxname && x.pname === pname)
               ),
@@ -106,7 +106,7 @@ export default {
     resetExportTaxProperties: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          'exportTaxProperties@client': [],
+          exportTaxProperties: [],
         },
       })
       return null
@@ -114,7 +114,7 @@ export default {
     resetExportTaxFilters: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          'exportTaxFilters@client': [],
+          exportTaxFilters: [],
         },
       })
       return null

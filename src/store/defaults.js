@@ -1,33 +1,33 @@
 // @flow
 export const exportDefaults = {
-  'exportType@client': null,
-  'exportTaxonomies@client': [],
-  'exportIds@client': [],
-  'exportTaxProperties@client': [],
-  'exportPcoProperties@client': [],
-  'exportRcoProperties@client': [],
-  'exportTaxFilters@client': [],
-  'exportPcoFilters@client': [],
-  'exportRcoFilters@client': [],
-  'exportOnlyRowsWithProperties@client': true,
-  'exportWithSynonymData@client': true,
-  'exportTooManyProperties@client': false,
-  'editingTaxonomies@client': false,
+  exportType: null,
+  exportTaxonomies: [],
+  exportIds: [],
+  exportTaxProperties: [],
+  exportPcoProperties: [],
+  exportRcoProperties: [],
+  exportTaxFilters: [],
+  exportPcoFilters: [],
+  exportRcoFilters: [],
+  exportOnlyRowsWithProperties: true,
+  exportWithSynonymData: true,
+  exportTooManyProperties: false,
+  editingTaxonomies: false,
 }
 
 const otherDefaults = {
-  'activeNodeArray@client': [],
-  'treeFilter@client': {
+  activeNodeArray: [],
+  treeFilter: {
     text: '',
     id: null,
     __typename: 'TreeFilter',
   },
-  'login@client': {
+  login: {
     token: '',
     username: '',
     __typename: 'Login',
   },
-  'historyAfterLogin@client': '',
+  historyAfterLogin: '',
 }
 
 export default Object.assign({}, exportDefaults, otherDefaults)

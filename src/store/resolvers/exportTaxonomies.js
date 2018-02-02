@@ -3,7 +3,7 @@
 export default {
   Mutation: {
     setExportTaxonomies: (_, { value }, { cache }) => {
-      cache.writeData({ data: { 'exportTaxonomies@client': value } })
+      cache.writeData({ data: { exportTaxonomies: value } })
       return null
     },
   },

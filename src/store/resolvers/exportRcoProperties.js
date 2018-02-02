@@ -27,7 +27,7 @@ export default {
       } else {
         cache.writeData({
           data: {
-            'exportRcoProperties@client': [
+            exportRcoProperties: [
               ...currentRco.exportRcoProperties,
               { pcname, pname, __typename: 'ExportRcoProperty' },
             ],
@@ -42,7 +42,7 @@ export default {
         x => !(x.pcname === pcname && x.pname === pname)
       )
       cache.writeData({
-        data: { 'exportRcoProperties@client': exportRcoProperties },
+        data: { exportRcoProperties },
       })
       return null
     },
@@ -61,7 +61,7 @@ export default {
         // remove
         cache.writeData({
           data: {
-            'exportRcoFilters@client': exportRcoFilters.filter(
+            exportRcoFilters: exportRcoFilters.filter(
               x => !(x.pcname === pcname && x.pname === pname)
             ),
           },
@@ -70,7 +70,7 @@ export default {
         // add new one
         cache.writeData({
           data: {
-            'exportRcoFilters@client': [
+            exportRcoFilters: [
               ...exportRcoFilters,
               {
                 pcname,
@@ -86,7 +86,7 @@ export default {
         // edit = add new one instead of existing
         cache.writeData({
           data: {
-            'exportRcoFilters@client': [
+            exportRcoFilters: [
               ...exportRcoFilters.filter(
                 x => !(x.pcname === pcname && x.pname === pname)
               ),
@@ -106,7 +106,7 @@ export default {
     resetExportRcoProperties: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          'exportRcoProperties@client': [],
+          exportRcoProperties: [],
         },
       })
       return null
@@ -114,7 +114,7 @@ export default {
     resetExportRcoFilters: (_, values, { cache }) => {
       cache.writeData({
         data: {
-          'exportRcoFilters@client': [],
+          exportRcoFilters: [],
         },
       })
       return null
