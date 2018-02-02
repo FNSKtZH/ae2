@@ -1,30 +1,61 @@
 // @flow
 import React, { Fragment } from 'react'
 import compose from 'recompose/compose'
+import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
+import EditIcon from 'material-ui-icons/Edit'
+import ViewIcon from 'material-ui-icons/Visibility'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import format from 'date-fns/format'
+import { withApollo } from 'react-apollo'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import editingTaxonomiesData from '../../modules/editingTaxonomiesData'
+import organizationUserData from '../../modules/organizationUserData'
+import loginData from '../../modules/loginData'
+import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
 import taxData from './taxData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyArten from './PropertyArten'
 import PropertyLr from './PropertyLr'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
-const enhance = compose(activeNodeArrayData, taxData, editingTaxonomiesData)
-
 const Container = styled.div`
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+`
+const CardEditButton = styled(IconButton)`
+  align-self: flex-end;
+  :hover {
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.12);
+    text-decoration: none;
+  }
 `
 
+const enhance = compose(
+  withApollo,
+  activeNodeArrayData,
+  taxData,
+  loginData,
+  editingTaxonomiesData,
+  organizationUserData
+)
+
 const Taxonomy = ({
+  client,
   taxData,
   editingTaxonomiesData,
+  organizationUserData,
+  loginData,
 }: {
+  client: Object,
   taxData: Object,
   editingTaxonomiesData: Object,
+  organizationUserData: Object,
+  loginData: Object,
 }) => {
   const { loading } = taxData
   if (loading) {
@@ -36,10 +67,71 @@ const Taxonomy = ({
   const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
   const editingArten = editing && tax.type === 'ART'
   const editingLr = editing && tax.type === 'LEBENSRAUM'
+  const username = get(loginData, 'login.username', null)
+  const organizationUsers = get(
+    organizationUserData,
+    'allOrganizationUsers.nodes',
+    []
+  )
+  const userRoles = organizationUsers
+    .filter(oU => username === get(oU, 'userByUserId.name', ''))
+    .map(oU => oU.role)
+  const userIsTaxWriter =
+    userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
 
   return (
     <ErrorBoundary>
       <Container>
+        {userIsTaxWriter &&
+          editing && (
+            <CardEditButton
+              aria-label="Daten anzeigen"
+              title="Daten anzeigen"
+              onClick={event => {
+                event.stopPropagation()
+                client.mutate({
+                  mutation: editingTaxonomiesMutation,
+                  variables: { value: false },
+                  optimisticResponse: {
+                    setEditingTaxonomies: {
+                      editingTaxonomies: false,
+                      __typename: 'EditingTaxonomies',
+                    },
+                    __typename: 'Mutation',
+                  },
+                })
+              }}
+            >
+              <Icon>
+                <ViewIcon />
+              </Icon>
+            </CardEditButton>
+          )}
+        {userIsTaxWriter &&
+          !editing && (
+            <CardEditButton
+              aria-label="Daten bearbeiten"
+              title="Daten bearbeiten"
+              onClick={event => {
+                event.stopPropagation()
+                client.mutate({
+                  mutation: editingTaxonomiesMutation,
+                  variables: { value: true },
+                  optimisticResponse: {
+                    setEditingTaxonomies: {
+                      editingTaxonomies: true,
+                      __typename: 'EditingTaxonomies',
+                    },
+                    __typename: 'Mutation',
+                  },
+                })
+              }}
+            >
+              <Icon>
+                <EditIcon />
+              </Icon>
+            </CardEditButton>
+          )}
         {!editing && (
           <Fragment>
             <PropertyReadOnly key="id" value={tax.id} label="ID" />
