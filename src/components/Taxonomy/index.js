@@ -34,9 +34,7 @@ const Taxonomy = ({
   const organizationName = get(tax, 'organizationByOrganizationId.name')
   const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
   const editingArten = editing && tax.type === 'ART'
-  const editingLr = editing && tax.type === 'LEBENSRAUM'
-  console.log('Taxonomy: editingArten:', editingArten)
-  console.log('Taxonomy: tax:', tax)
+  //const editingLr = editing && tax.type === 'LEBENSRAUM'
 
   return (
     <ErrorBoundary>
@@ -127,6 +125,25 @@ const Taxonomy = ({
               field="id"
               taxonomy={tax}
               disabled={true}
+            />
+            <PropertyArten
+              key={`${tax.id}/description`}
+              label="Beschreibung"
+              field="description"
+              taxonomy={tax}
+            />
+            <PropertyArten
+              key={`${tax.id}/lastUpdated`}
+              label="Zuletzt aktualisiert"
+              field="lastUpdated"
+              taxonomy={tax}
+              disabled={true}
+            />
+            <PropertyArten
+              key={`${tax.id}/termsOfUse`}
+              label="Nutzungs-Bedingungen"
+              field="termsOfUse"
+              taxonomy={tax}
             />
           </Fragment>
         )}

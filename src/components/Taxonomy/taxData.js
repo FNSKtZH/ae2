@@ -12,10 +12,12 @@ export default graphql(
         description
         links
         lastUpdated
+        organizationId
         organizationByOrganizationId {
           id
           name
         }
+        importedBy
         userByImportedBy {
           id
           name
