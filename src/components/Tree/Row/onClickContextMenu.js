@@ -193,15 +193,10 @@ export default async ({
               query: treeDataGql,
               variables,
             })
-            console.log('data before:', data)
-            console.log('url:', url)
-            const taxname = `level${url.length}Taxonomy`
-            console.log('taxname:', taxname)
-            const nodes = get(data, `${taxname}.taxonomyById.nodes`, []).filter(
+            const nodes = get(data, 'allTaxonomies.nodes', []).filter(
               u => u.id !== id
             )
-            console.log('nodes:', nodes)
-            set(data, `${taxname}.taxonomyById.nodes`, nodes)
+            set(data, 'allTaxonomies.nodes', nodes)
             proxy.writeQuery({
               query: treeDataGql,
               variables,

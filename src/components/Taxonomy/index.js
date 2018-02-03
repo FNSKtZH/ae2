@@ -73,7 +73,6 @@ const Taxonomy = ({
   const editingArten = editing && tax.type === 'ART'
   const editingLr = editing && tax.type === 'LEBENSRAUM'
   const username = get(loginData, 'login.username', null)
-
   const allUsers = get(taxData, 'allUsers.nodes', [])
   const user = allUsers.find(u => u.name === username)
   const orgsUserIsTaxWriter = get(user, 'organizationUsersByUserId.nodes', [])
