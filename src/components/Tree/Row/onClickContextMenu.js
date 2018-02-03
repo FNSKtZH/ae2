@@ -129,6 +129,31 @@ export default async ({
           await client.mutate({
             mutation: deleteUserMutation,
             variables: { id },
+            optimisticResponse: {
+              deleteUserById: {
+                user: {
+                  id,
+                  __typename: 'User',
+                },
+                __typename: 'Mutation',
+              },
+            },
+            update: (proxy, { data: { deleteUserMutation } }) => {
+              const variables = treeDataVariables({ activeNodeArray })
+              const data = proxy.readQuery({
+                query: treeDataGql,
+                variables,
+              })
+              const nodes = get(data, 'allUsers.nodes', []).filter(
+                u => u.id !== id
+              )
+              set(data, 'allUsers.nodes', nodes)
+              proxy.writeQuery({
+                query: treeDataGql,
+                variables,
+                data,
+              })
+            },
           })
         } catch (error) {
           console.log(error)
@@ -155,11 +180,10 @@ export default async ({
               query: treeDataGql,
               variables,
             })
-            const taxname = `level${url.length}Taxonomy`
             const nodesPath =
-              url.length === 2
-                ? `${taxname}.taxonomyObjectLevel1.nodes`
-                : `${taxname}.objectsByParentId.nodes`
+              url.length === 3
+                ? `taxonomyObjectLevel1.nodes`
+                : `level${url.length}Object.objectsByParentId.nodes`
             const nodes = get(data, nodesPath, []).filter(u => u.id !== id)
             set(data, nodesPath, nodes)
             proxy.writeQuery({
