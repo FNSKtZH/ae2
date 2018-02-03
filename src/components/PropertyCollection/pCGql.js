@@ -13,14 +13,28 @@ export default gql`
       organizationId
       lastUpdated
       termsOfUse
+      importedBy
       organizationByOrganizationId {
         id
         name
       }
-      userByImportedBy {
+    }
+    allUsers {
+      nodes {
         id
         name
         email
+        organizationUsersByUserId {
+          nodes {
+            id
+            organizationId
+            role
+            organizationByOrganizationId {
+              id
+              name
+            }
+          }
+        }
       }
     }
   }
