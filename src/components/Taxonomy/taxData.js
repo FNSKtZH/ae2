@@ -46,6 +46,7 @@ export default graphql(
           name
           organizationUsersByUserId {
             nodes {
+              id
               organizationId
               role
               organizationByOrganizationId {

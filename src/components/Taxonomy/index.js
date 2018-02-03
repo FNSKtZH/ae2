@@ -75,26 +75,16 @@ const Taxonomy = ({
   const username = get(loginData, 'login.username', null)
 
   const allUsers = get(taxData, 'allUsers.nodes', [])
-  console.log('Taxonomy: username:', username)
-  console.log('Taxonomy: allUsers:', allUsers)
   const user = allUsers.find(u => u.name === username)
-  console.log('Taxonomy: user:', user)
   const orgsUserIsTaxWriter = get(user, 'organizationUsersByUserId.nodes', [])
     .filter(o => ['orgTaxonomyWriter', 'orgAdmin'].includes(o.role))
     .map(o => ({
       id: o.organizationId,
       name: get(o, 'organizationByOrganizationId.name', ''),
     }))
-  console.log('Taxonomy: orgsUserIsTaxWriter:', orgsUserIsTaxWriter)
-  const userIsTaxWriter = orgsUserIsTaxWriter.length > 0
   const userIsThisTaxWriter = !!orgsUserIsTaxWriter.find(
     o => o.id === tax.organizationId
   )
-  console.log('Taxonomy: userIsTaxWriter:', userIsTaxWriter)
-  console.log('Taxonomy: userIsThisTaxWriter:', userIsThisTaxWriter)
-  /**
-   * wTF is happening???!!!
-   */
 
   return (
     <ErrorBoundary>
