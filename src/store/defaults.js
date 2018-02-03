@@ -14,6 +14,7 @@ export const exportDefaults = {
   exportTooManyProperties: false,
   exportAddFilterFields: true,
   editingTaxonomies: false,
+  editingPCs: false,
 }
 
 const otherDefaults = {
