@@ -31,20 +31,15 @@ CREATE POLICY writer ON ae.organization
 
 
 ALTER TABLE ae.taxonomy ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS writer ON ae.taxonomy;
 drop policy if exists updater ON ae.taxonomy;
-CREATE POLICY updater ON ae.taxonomy
+DROP POLICY IF EXISTS writer ON ae.taxonomy;
+CREATE POLICY writer ON ae.taxonomy
   USING (TRUE)
   WITH CHECK (
-    organization_id IS NULL AND current_user_name() IN (SELECT * FROM ae.taxonomy_writers)
+    (organization_id IS NULL AND current_user_name() IN (SELECT * FROM ae.taxonomy_writers))
     OR organization_id IN (SELECT * FROM ae.organizations_currentuser_is_taxonomywriter)
   );
 DROP POLICY IF EXISTS inserter ON ae.taxonomy;
-CREATE POLICY inserter ON ae.taxonomy FOR INSERT
-  WITH CHECK (
-    organization_id IS NULL AND current_user_name() IN (SELECT * FROM ae.taxonomy_writers)
-    OR organization_id IN (SELECT * FROM ae.organizations_currentuser_is_taxonomywriter)
-  );
 
 
 ALTER TABLE ae.object ENABLE ROW LEVEL SECURITY;

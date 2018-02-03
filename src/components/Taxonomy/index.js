@@ -81,9 +81,10 @@ const Taxonomy = ({
       id: o.organizationId,
       name: get(o, 'organizationByOrganizationId.name', ''),
     }))
-  const userIsThisTaxWriter = !!orgsUserIsTaxWriter.find(
-    o => o.id === tax.organizationId
-  )
+  const userIsTaxWriter = orgsUserIsTaxWriter.length > 0
+  const userIsThisTaxWriter =
+    !!orgsUserIsTaxWriter.find(o => o.id === tax.organizationId) ||
+    (userIsTaxWriter && !tax.organizationId)
 
   return (
     <ErrorBoundary>
@@ -340,6 +341,31 @@ const Taxonomy = ({
                 {allUsers.map(u => (
                   <MenuItem key={u.id} value={u.id}>
                     {u.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </StyledFormControl>
+            <StyledFormControl>
+              <InputLabel htmlFor="organizationIdLr">
+                Zuständige Organisation
+              </InputLabel>
+              <Select
+                key={`${tax.id}/organizationId`}
+                value={tax.organizationId || ''}
+                onChange={event =>
+                  onBlurLr({
+                    client,
+                    field: 'organizationId',
+                    taxonomy: tax,
+                    value: event.target.value,
+                    prevValue: tax.organizationId,
+                  })
+                }
+                input={<Input id="organizationIdLr" />}
+              >
+                {orgsUserIsTaxWriter.map(o => (
+                  <MenuItem key={o.id} value={o.id}>
+                    {o.name}
                   </MenuItem>
                 ))}
               </Select>
