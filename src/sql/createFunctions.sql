@@ -544,17 +544,8 @@ CREATE OR REPLACE FUNCTION ae.prop_values_function(table_name text, prop_name te
 ALTER FUNCTION ae.prop_values_function(table_name text, prop_name text, pc_field_name text, pc_table_name text, pc_name text)
   OWNER TO postgres;
 
-CREATE OR REPLACE FUNCTION ae.property_collection_by_data_type(datatype text)
-  RETURNS setof ae.property_collection AS
-  $$
-    SELECT ae.property_collection.*
-    FROM ae.property_collection
-    WHERE
-      ae.property_collection.data_type = $1
-  $$
-  LANGUAGE sql STABLE;
-ALTER FUNCTION ae.property_collection_by_data_type(datatype text)
-  OWNER TO postgres;
+-- keep until removed from pc:
+drop function ae.property_collection_by_data_type;
 
 CREATE OR REPLACE FUNCTION ae.property_collection_by_property_name(property_name text)
   RETURNS setof ae.property_collection AS

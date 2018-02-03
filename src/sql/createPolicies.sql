@@ -11,15 +11,8 @@ CREATE POLICY reader_writer ON ae.user
     OR current_user = 'anon'
   );
 
-
-ALTER TABLE ae.data_type ENABLE ROW LEVEL SECURITY;
+-- keep until droped on pc:
 DROP POLICY IF EXISTS writer ON ae.data_type;
-CREATE POLICY writer ON ae.data_type
-  USING (true)
-  WITH CHECK (
-    current_user_name() in (select * from ae.organization_admins)
-  );
-
 
 ALTER TABLE ae.organization ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS writer ON ae.organization;
