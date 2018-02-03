@@ -5,7 +5,6 @@ export default gql`
   query pCQuery($pCId: UUID!) {
     propertyCollectionById(id: $pCId) {
       id
-      dataType
       name
       description
       links

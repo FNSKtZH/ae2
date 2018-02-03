@@ -5,9 +5,11 @@ import IconButton from 'material-ui-next/IconButton'
 import Icon from 'material-ui-next/Icon'
 import EditIcon from 'material-ui-icons/Edit'
 import ViewIcon from 'material-ui-icons/Visibility'
+import { FormControl } from 'material-ui-next/Form'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import format from 'date-fns/format'
+import { withApollo } from 'react-apollo'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import editingPCsData from '../../modules/editingPCsData'
@@ -17,17 +19,38 @@ import pCData from './pCData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
-const enhance = compose(activeNodeArrayData, loginData, editingPCsData, pCData)
-
 const Container = styled.div`
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+`
+const CardEditButton = styled(IconButton)`
+  align-self: flex-end;
+  :hover {
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.12);
+    text-decoration: none;
+  }
+`
+const StyledFormControl = styled(FormControl)`
+  margin: 10px 0 5px 0 !important;
 `
 
+const enhance = compose(
+  withApollo,
+  activeNodeArrayData,
+  loginData,
+  editingPCsData,
+  pCData
+)
+
 const PropertyCollection = ({
+  client,
   pCData,
   loginData,
   editingPCsData,
 }: {
+  client: Object,
   pCData: Object,
   loginData: Object,
   editingPCsData: Object,
@@ -56,6 +79,56 @@ const PropertyCollection = ({
   return (
     <ErrorBoundary>
       <Container>
+        {userIsThisPCWriter &&
+          editing && (
+            <CardEditButton
+              aria-label="Daten anzeigen"
+              title="Daten anzeigen"
+              onClick={event => {
+                event.stopPropagation()
+                client.mutate({
+                  mutation: editingPCsMutation,
+                  variables: { value: false },
+                  optimisticResponse: {
+                    setEditingPCs: {
+                      editingPCs: false,
+                      __typename: 'EditingPCs',
+                    },
+                    __typename: 'Mutation',
+                  },
+                })
+              }}
+            >
+              <Icon>
+                <ViewIcon />
+              </Icon>
+            </CardEditButton>
+          )}
+        {userIsThisPCWriter &&
+          !editing && (
+            <CardEditButton
+              aria-label="Daten bearbeiten"
+              title="Daten bearbeiten"
+              onClick={event => {
+                event.stopPropagation()
+                client.mutate({
+                  mutation: editingPCsMutation,
+                  variables: { value: true },
+                  optimisticResponse: {
+                    setEditingPCs: {
+                      editingPCs: true,
+                      __typename: 'EditingPCs',
+                    },
+                    __typename: 'Mutation',
+                  },
+                })
+              }}
+            >
+              <Icon>
+                <EditIcon />
+              </Icon>
+            </CardEditButton>
+          )}
         <PropertyReadOnly key="name" value={pC.name} label="Name" />
         <PropertyReadOnly
           key="description"
