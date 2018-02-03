@@ -15,6 +15,7 @@ import exportWithSynonymData from './exportWithSynonymData'
 import exportAddFilterFields from './exportAddFilterFields'
 import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
 import editingTaxonomies from './editingTaxonomies'
+import editingPCs from './editingPCs'
 import historyAfterLogin from './historyAfterLogin'
 
 export default merge(
@@ -31,6 +32,7 @@ export default merge(
   exportWithSynonymData,
   exportAddFilterFields,
   editingTaxonomies,
+  editingPCs,
   exportOnlyRowsWithProperties,
   historyAfterLogin
 )
