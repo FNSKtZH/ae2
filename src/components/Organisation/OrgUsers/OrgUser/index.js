@@ -8,10 +8,13 @@ import IconButton from 'material-ui-next/IconButton'
 import Icon from 'material-ui-next/Icon'
 import ClearIcon from 'material-ui-icons/Clear'
 import red from 'material-ui-next/colors/red'
+import Select from 'material-ui-next/Select'
+import { MenuItem } from 'material-ui-next/Menu'
+import { FormControl } from 'material-ui-next/Form'
+import Input, { InputLabel } from 'material-ui-next/Input'
 import set from 'lodash/set'
 
 import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
-import AutocompleteFromArray from '../../../shared/AutocompleteFromArray'
 import updateOrgUserMutation from '../updateOrgUserMutation'
 import deleteOrgUserMutation from '../deleteOrgUserMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
@@ -30,6 +33,10 @@ const DeleteButton = styled(IconButton)`
     background-color: rgba(0, 0, 0, 0.12);
     text-decoration: none;
   }
+`
+const StyledFormControl = styled(FormControl)`
+  margin: 10px 0 5px 0 !important;
+  width: calc(50% - 24px);
 `
 
 const enhance = compose(withApollo, activeNodeArrayData)
@@ -70,18 +77,65 @@ class OrgUser extends React.Component<Props, State> {
     return (
       <ErrorBoundary>
         <OrgUserDiv>
-          <AutocompleteFromArray
-            label="Benutzer"
-            value={userName}
-            values={userNames}
-            updatePropertyInDb={async val => {
-              const user = users.find(u => u.name === val)
-              if (user && user.id) {
+          <StyledFormControl>
+            <InputLabel htmlFor="Benutzer">Benutzer</InputLabel>
+            <Select
+              value={userName}
+              onChange={async event => {
+                const val = event.target.value
+                const user = users.find(u => u.name === val)
+                if (user && user.id) {
+                  const variables = {
+                    nodeId: orgUser.nodeId,
+                    organizationId: orgUser.organizationId,
+                    userId: user.id,
+                    role: this.state.role,
+                  }
+                  try {
+                    await client.mutate({
+                      mutation: updateOrgUserMutation,
+                      variables,
+                      optimisticResponse: {
+                        updateOrganizationUser: {
+                          organizationUser: {
+                            nodeId: orgUser.nodeId,
+                            id: orgUser.id,
+                            organizationId: orgUser.organizationId,
+                            userId: user.id,
+                            role: this.state.role,
+                            __typename: 'OrganizationUser',
+                          },
+                          __typename: 'Mutation',
+                        },
+                      },
+                    })
+                  } catch (error) {
+                    console.log(error)
+                    this.setState({ userId: '' })
+                  }
+                  this.setState({ userId: user.id })
+                }
+              }}
+              input={<Input id="Benutzer" />}
+            >
+              {userNames.map(u => (
+                <MenuItem key={u} value={u}>
+                  {u}
+                </MenuItem>
+              ))}
+            </Select>
+          </StyledFormControl>
+          <StyledFormControl>
+            <InputLabel htmlFor="Rolle">Rolle</InputLabel>
+            <Select
+              value={this.state.role || ''}
+              onChange={async event => {
+                const role = event.target.value
                 const variables = {
                   nodeId: orgUser.nodeId,
                   organizationId: orgUser.organizationId,
-                  userId: user.id,
-                  role: this.state.role,
+                  userId: this.state.userId,
+                  role: role,
                 }
                 try {
                   await client.mutate({
@@ -102,50 +156,21 @@ class OrgUser extends React.Component<Props, State> {
                     },
                   })
                 } catch (error) {
-                  console.log(error)
-                  this.setState({ userId: '' })
+                  // TODO: surface this message
+                  console.log('error.message:', error.message)
+                  this.setState({ role: '' })
                 }
-                this.setState({ userId: user.id })
-              }
-            }}
-          />
-          <AutocompleteFromArray
-            label="Rolle"
-            value={this.state.role}
-            values={roles}
-            updatePropertyInDb={async role => {
-              const variables = {
-                nodeId: orgUser.nodeId,
-                organizationId: orgUser.organizationId,
-                userId: this.state.userId,
-                role: role,
-              }
-              try {
-                await client.mutate({
-                  mutation: updateOrgUserMutation,
-                  variables,
-                  optimisticResponse: {
-                    updateOrganizationUser: {
-                      organizationUser: {
-                        nodeId: orgUser.nodeId,
-                        id: orgUser.id,
-                        organizationId: orgUser.organizationId,
-                        userId: user.id,
-                        role: this.state.role,
-                        __typename: 'OrganizationUser',
-                      },
-                      __typename: 'Mutation',
-                    },
-                  },
-                })
-              } catch (error) {
-                // TODO: surface this message
-                console.log('error.message:', error.message)
-                this.setState({ role: '' })
-              }
-              this.setState({ role })
-            }}
-          />
+                this.setState({ role })
+              }}
+              input={<Input id="Rolle" />}
+            >
+              {roles.map(u => (
+                <MenuItem key={u} value={u}>
+                  {u}
+                </MenuItem>
+              ))}
+            </Select>
+          </StyledFormControl>
           <DeleteButton
             title="löschen"
             aria-label="löschen"
