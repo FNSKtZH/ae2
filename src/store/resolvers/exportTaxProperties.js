@@ -25,14 +25,21 @@ export default {
           variables: { value: true },
         })
       } else {
-        cache.writeData({
-          data: {
-            exportTaxProperties: [
-              ...currentTax.exportTaxProperties,
-              { taxname, pname, __typename: 'ExportTaxProperty' },
-            ],
-          },
-        })
+        // only add if not yet done
+        if (
+          !currentTax.exportTaxProperties.find(
+            t => t.taxname === taxname && t.pname === pname
+          )
+        ) {
+          cache.writeData({
+            data: {
+              exportTaxProperties: [
+                ...currentTax.exportTaxProperties,
+                { taxname, pname, __typename: 'ExportTaxProperty' },
+              ],
+            },
+          })
+        }
       }
       return null
     },

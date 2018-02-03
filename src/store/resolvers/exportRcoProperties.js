@@ -25,14 +25,21 @@ export default {
           variables: { value: true },
         })
       } else {
-        cache.writeData({
-          data: {
-            exportRcoProperties: [
-              ...currentRco.exportRcoProperties,
-              { pcname, pname, __typename: 'ExportRcoProperty' },
-            ],
-          },
-        })
+        // only add if not yet done
+        if (
+          !currentRco.exportRcoProperties.find(
+            t => t.pcname === pcname && t.pname === pname
+          )
+        ) {
+          cache.writeData({
+            data: {
+              exportRcoProperties: [
+                ...currentRco.exportRcoProperties,
+                { pcname, pname, __typename: 'ExportRcoProperty' },
+              ],
+            },
+          })
+        }
       }
       return null
     },

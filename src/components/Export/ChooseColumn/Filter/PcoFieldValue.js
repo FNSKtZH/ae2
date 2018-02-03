@@ -16,6 +16,8 @@ import trimStart from 'lodash/trimStart'
 import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 import readableType from '../../../../modules/readableType'
 import pcoFieldPropData from './pcoFieldPropData'
+import exportAddFilterFieldsData from '../../exportAddFilterFieldsData'
+import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;
@@ -102,6 +104,7 @@ const enhance = compose(
   withState('fetchData', 'setFetchData', false),
   withState('dataFetched', 'setDataFetched', false),
   pcoFieldPropData,
+  exportAddFilterFieldsData,
   withStyles(styles)
 )
 
@@ -116,6 +119,7 @@ type Props = {
   setFetchData: () => void,
   dataFetched: Boolean,
   setDataFetched: () => void,
+  exportAddFilterFieldsData: Object,
 }
 
 type State = {
@@ -195,11 +199,24 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   handleChange = (event, { newValue }) => {
+    const { pcname, pname, client, exportAddFilterFieldsData } = this.props
     // trim the start to enable entering space
     // at start to open list
     const value = trimStart(newValue)
     this.setState({ value })
     this.change(value)
+    // TODO: if value and not choosen, choose
+    const exportAddFilterFields = get(
+      exportAddFilterFieldsData,
+      'exportAddFilterFields',
+      true
+    )
+    if (exportAddFilterFields) {
+      client.mutate({
+        mutation: addExportPcoPropertyMutation,
+        variables: { pcname, pname },
+      })
+    }
   }
 
   renderInput = inputProps => {

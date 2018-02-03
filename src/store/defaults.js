@@ -12,6 +12,7 @@ export const exportDefaults = {
   exportOnlyRowsWithProperties: true,
   exportWithSynonymData: true,
   exportTooManyProperties: false,
+  exportAddFilterFields: true,
   editingTaxonomies: false,
 }
 

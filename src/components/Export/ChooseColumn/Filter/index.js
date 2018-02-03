@@ -20,6 +20,8 @@ import propsByTaxData from '../propsByTaxData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import exportWithSynonymDataData from '../../exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
+import exportAddFilterFieldsData from '../../exportAddFilterFieldsData'
+import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
 import exportOnlyRowsWithPropertiesData from '../../exportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
@@ -43,6 +45,7 @@ const enhance = compose(
   exportTaxonomiesData,
   propsByTaxData,
   exportWithSynonymDataData,
+  exportAddFilterFieldsData,
   exportOnlyRowsWithPropertiesData,
   withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
@@ -116,6 +119,7 @@ const enhance = compose(
 const Filter = ({
   propsByTaxData,
   exportWithSynonymDataData,
+  exportAddFilterFieldsData,
   exportOnlyRowsWithPropertiesData,
   taxonomiesExpanded,
   jointTaxonomiesExpanded,
@@ -128,6 +132,7 @@ const Filter = ({
 }: {
   propsByTaxData: Object,
   exportWithSynonymDataData: Object,
+  exportAddFilterFieldsData: Object,
   exportOnlyRowsWithPropertiesData: Object,
   taxonomiesExpanded: Boolean,
   jointTaxonomiesExpanded: Boolean,
@@ -141,6 +146,11 @@ const Filter = ({
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
     'exportWithSynonymData',
+    true
+  )
+  const exportAddFilterFields = get(
+    exportAddFilterFieldsData,
+    'exportAddFilterFields',
     true
   )
   const exportOnlyRowsWithProperties = get(
@@ -182,6 +192,20 @@ const Filter = ({
               />
             }
             label="Nur Datensätze mit Eigenschaften exportieren"
+          />
+          <Label
+            control={
+              <Checkbox
+                checked={exportAddFilterFields}
+                onChange={(event, checked) => {
+                  app.client.mutate({
+                    mutation: exportAddFilterFieldsMutation,
+                    variables: { value: checked },
+                  })
+                }}
+              />
+            }
+            label="Gefilterte Felder immer exportieren"
           />
         </FormGroup>
         <Id />

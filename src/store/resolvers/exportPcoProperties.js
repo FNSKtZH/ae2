@@ -33,18 +33,25 @@ export default {
           },
         })
       } else {
-        cache.writeData({
-          data: {
-            exportPcoProperties: [
-              ...currentPco.exportPcoProperties,
-              {
-                pcname,
-                pname,
-                __typename: 'ExportPcoProperty',
-              },
-            ],
-          },
-        })
+        // only add if not yet done
+        if (
+          !currentPco.exportPcoProperties.find(
+            t => t.pcname === pcname && t.pname === pname
+          )
+        ) {
+          cache.writeData({
+            data: {
+              exportPcoProperties: [
+                ...currentPco.exportPcoProperties,
+                {
+                  pcname,
+                  pname,
+                  __typename: 'ExportPcoProperty',
+                },
+              ],
+            },
+          })
+        }
       }
       return null
     },
