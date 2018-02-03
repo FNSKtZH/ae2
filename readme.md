@@ -377,8 +377,8 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     ![Taxonomien](/etc/org_tax.png?raw=true "Taxonomien")
     ...sehen, für welche Eigenschaften-Sammlungen sie zuständig sind:
     ![Eigenschaften-Sammlungen](/etc/org_pcs.png?raw=true "Eigenschaften-Sammlungen")
-  - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen
-  - [ ] Arten und Lebensräume bearbeiten (in Arbeit)
+  - [ ] Import von Eigenschaften- und Beziehungs-Sammlungen (in Arbeit)
+  - [x] Arten und Lebensräume bearbeiten
   - [x] Last but not least: arteigenschaften.ch ist nicht nur eine Applikation, sondern auch eine API bzw. Daten-Schnittstelle, aufgebaut mit [GraphQL](https://github.com/facebook/graphql). Alles, was ein Benutzer über die Anwendung machen kann, ist auch via die API möglich!
 
 <a href="#top">&#8593; top</a>
