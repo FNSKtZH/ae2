@@ -90,7 +90,6 @@ CREATE TABLE ae.property_collection (
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
--- once on pc: alter table ae.property_collection drop data_type;
 -- once: ALTER TABLE ae.property_collection ADD UNIQUE (name);
 CREATE INDEX ON ae.property_collection USING btree (name);
 CREATE INDEX ON ae.property_collection USING btree (combining);

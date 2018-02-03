@@ -8,7 +8,7 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
       id: taxonomy.id,
       name: field === 'name' ? value : taxonomy.name,
       description: field === 'description' ? value : taxonomy.description,
-      links: field === 'links' ? value : taxonomy.links,
+      links: field === 'links' ? value.split(',') : taxonomy.links,
       organizationId:
         field === 'organizationId' ? value : taxonomy.organizationId,
       lastUpdated,
@@ -32,7 +32,7 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
             id: taxonomy.id,
             name: field === 'name' ? value : taxonomy.name,
             description: field === 'description' ? value : taxonomy.description,
-            links: field === 'links' ? value : taxonomy.links,
+            links: field === 'links' ? value.split(',') : taxonomy.links,
             organizationId:
               field === 'organizationId' ? value : taxonomy.organizationId,
             lastUpdated,
