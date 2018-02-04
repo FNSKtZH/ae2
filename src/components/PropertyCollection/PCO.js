@@ -62,6 +62,14 @@ const MutationButtons = styled.div`
 const StyledButton = styled(Button)`
   border: 1px solid !important;
 `
+const HowToImportContainer = styled.div`
+  padding: 0 8px;
+`
+const EmSpan = styled.span`
+  background-color: #8d8c8c40;
+  padding: 1px 3px;
+  border-radius: 4px;
+`
 
 const styles = theme => ({
   button: {
@@ -176,6 +184,49 @@ const PCO = ({
           minHeight={height - 33 - 37}
           minWidth={width}
         />
+      )}
+      {pCO.length === 0 && (
+        <HowToImportContainer>
+          <h2>Anforderungen an zu importierende Eigenschaften:</h2>
+          <h3>Generelle:</h3>
+          <ul>
+            <li>
+              Tabelle im Format <EmSpan>.csv</EmSpan> oder{' '}
+              <EmSpan>.xlsx</EmSpan>
+            </li>
+            <li>Die erste Zeile enthält Feld-Namen</li>
+            <li>Jeder Wert hat einen Feld-Namen bzw. Spaltentitel</li>
+            <li>Jede Zeile enthält Werte</li>
+          </ul>
+          <h3>Spezifisch für Eigenschaften:</h3>
+          <h4>Zuordnungs-Felder:</h4>
+          <ul>
+            <li>
+              Ein Feld namens <EmSpan>id</EmSpan> kann enthalten sein.<br />
+              Wenn nicht, wird eine id erzeugt
+            </li>
+            <li>Die id muss eine gültige UUID sein</li>
+            <li>
+              Ein Feld namens <EmSpan>object_id</EmSpan> muss enthalten sein
+            </li>
+            <li>
+              Die object_id muss die id eines Objekts aus arteigenschaften.ch
+              sein
+            </li>
+          </ul>
+          <h4>Eigenschaften:</h4>
+          <p>Alle weiteren Felder sind Eigenschaften des Objekts.</p>
+          <ul>
+            <li>Es muss mindestens eine Eigenschaft vorkommen</li>
+            <li>
+              Feld-Namen dürfen beinahe alles enthalten. Ausser:
+              <ul>
+                <li>"</li>
+                <li>\</li>
+              </ul>
+            </li>
+          </ul>
+        </HowToImportContainer>
       )}
       <ButtonsContainer>
         {pCO.length > 0 && (
