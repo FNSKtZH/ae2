@@ -53,6 +53,9 @@ const StyledLabel = styled(FormControlLabel)`
     line-height: 1em;
   }
 `
+const StyledA = styled.a`
+  color: rgba(0, 0, 0, 0.54);
+`
 
 const enhance = compose(
   withApollo,
@@ -312,13 +315,13 @@ const PropertyCollection = ({
                 <br />
                 <span>
                   Mehr infos{' '}
-                  <a
+                  <StyledA
                     href="https://github.com/barbalex/ae2#zusammenfassende-eigenschaften-sammlungen"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     hier
-                  </a>
+                  </StyledA>.
                 </span>
               </FormHelperText>
             </StyledFormControl>
