@@ -36,6 +36,7 @@ const Property = ({
   field,
   label,
   value,
+  helperText,
   type = 'text',
   disabled,
   onChange,
@@ -46,6 +47,7 @@ const Property = ({
   label: String,
   disabled: Boolean,
   value: String,
+  helperText: Element,
   type: String,
   onChange: () => void,
   onBlur: () => void,
@@ -71,6 +73,7 @@ const Property = ({
           spellCheck="false"
           disabled={!!disabled}
           type={type}
+          helperText={helperText ? helperText : ''}
         />
       </Container>
     </ErrorBoundary>

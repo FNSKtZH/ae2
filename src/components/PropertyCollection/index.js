@@ -200,12 +200,81 @@ const PropertyCollection = ({
               pC={pC}
               disabled={true}
             />
-            <Property key={`${pC.id}/name`} label="Name" field="name" pC={pC} />
+            <Property
+              key={`${pC.id}/name`}
+              label="Name"
+              field="name"
+              pC={pC}
+              helperText={
+                <Fragment>
+                  <span>
+                    Ziel: der Leser sieht in der Liste der
+                    Eigenschaften-Sammlungen auf einen Blick, worum es geht.
+                  </span>
+                  <br />
+                  <br />
+                  <span>
+                    Der Name sollte ungefähr dem ersten Teil eines
+                    Literaturzitats entsprechen. Aber möglichst kurz.
+                  </span>
+                  <br />
+                  <span>Beispiel: "Artwert (2000)".</span>
+                  <br />
+                  <br />
+                  <span>
+                    Wurden die Informationen spezifisch für einen bestimmten
+                    Kanton oder die ganze Schweiz erarbeitet?<br />
+                    Dann bitte das entsprechende Kürzel voranstellen.
+                  </span>
+                  <br />
+                  <span>Beispiel: "ZH Artwert (2000)".</span>
+                </Fragment>
+              }
+            />
             <Property
               key={`${pC.id}/description`}
               label="Beschreibung"
               field="description"
               pC={pC}
+              helperText={
+                <Fragment>
+                  <span>
+                    Ziel: der Leser kann urteilen, ob er diese Daten für seinen
+                    Zweck benutzen kann.
+                  </span>
+                  <br />
+                  <br />
+                  <span>
+                    Die Beschreibung sollte im ersten Teil etwa einem
+                    klassischen Literaturzitat entsprechen.
+                  </span>
+                  <br />
+                  <span>
+                    Beispiel: "Gigon A. et al. (1998): Blaue Listen der
+                    erfolgreich erhaltenen oder geförderten Tier- und
+                    Pflanzenarten der Roten Listen. Methodik und Anwendung in
+                    der nördlichen Schweiz. Veröff. Geobot. Inst. ETH, Stiftung
+                    Rübel, Zürich 129: 1-137 + 180 pp. Appendicesn".
+                  </span>
+                  <br />
+                  <br />
+                  <span>
+                    In einem zweiten Teil sollte beschrieben werden, welche
+                    Informationen die Eigenschaftensammlung enthält.
+                  </span>
+                  <br />
+                  <span>
+                    Beispiel: "Eigenschaften von 207 Tier- und 885
+                    Pflanzenarten".
+                  </span>
+                  <br />
+                  <br />
+                  <span>
+                    Oft ist es zudem hilfreich zu wissen, für welchen Zweck die
+                    Informationen zusammengestellt wurden.
+                  </span>
+                </Fragment>
+              }
             />
             <StyledLabel
               control={
@@ -230,12 +299,25 @@ const PropertyCollection = ({
               field="lastUpdated"
               pC={pC}
               disabled={true}
+              helperText="Wann wurden die Eigenschaften dieser Sammlung zuletzt aktualisiert?"
             />
             <Property
               key={`${pC.id}/links`}
               label="Links"
               field="links"
               pC={pC}
+              helperText={
+                <Fragment>
+                  <span>
+                    Z.B. zu Originalpublikation, erläuternde Webseite...
+                  </span>
+                  <br />
+                  <br />
+                  <span>
+                    Mehrere Links können komma-getrennt erfasst werden.
+                  </span>
+                </Fragment>
+              }
             />
             <StyledFormControl>
               <InputLabel htmlFor="organizationIdArten">
