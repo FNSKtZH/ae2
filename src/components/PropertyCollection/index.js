@@ -101,8 +101,6 @@ const PropertyCollection = ({
     id: d.id,
     value: d.name,
   }))
-  console.log('pC:', pC)
-  console.log('pCs:', pCs)
 
   return (
     <ErrorBoundary>
