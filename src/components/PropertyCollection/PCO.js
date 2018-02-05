@@ -187,8 +187,15 @@ const PCO = ({
       )}
       {pCO.length === 0 && (
         <HowToImportContainer>
-          <h2>Anforderungen an zu importierende Eigenschaften:</h2>
-          <h3>Generelle:</h3>
+          <h3>Anforderungen an zu importierende Eigenschaften</h3>
+          <h4>Autorenrechte</h4>
+          <ul>
+            <li>
+              Die Autoren müssen mit der Veröffentlichung einverstanden sein
+            </li>
+            <li>Dafür verantwortlich ist, wer Daten importiert</li>
+          </ul>
+          <h4>Tabelle</h4>
           <ul>
             <li>
               Tabelle im Format <EmSpan>.csv</EmSpan> oder{' '}
@@ -198,8 +205,7 @@ const PCO = ({
             <li>Jeder Wert hat einen Feld-Namen bzw. Spaltentitel</li>
             <li>Jede Zeile enthält Werte</li>
           </ul>
-          <h3>Spezifisch für Eigenschaften:</h3>
-          <h4>Zuordnungs-Felder:</h4>
+          <h4>Zuordnungs-Felder</h4>
           <ul>
             <li>
               Ein Feld namens <EmSpan>id</EmSpan> kann enthalten sein.<br />
@@ -214,12 +220,13 @@ const PCO = ({
               sein
             </li>
           </ul>
-          <h4>Eigenschaften:</h4>
           <p>Alle weiteren Felder sind Eigenschaften des Objekts.</p>
+          <h4>Eigenschaften</h4>
           <ul>
             <li>Es muss mindestens eine Eigenschaft vorkommen</li>
             <li>
-              Feld-Namen dürfen beinahe alles enthalten. Ausser:
+              Feld-Namen dürfen beinahe alles enthalten.<br />
+              Ausser diese Zeichen:
               <ul>
                 <li>"</li>
                 <li>\</li>
