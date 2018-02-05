@@ -84,7 +84,7 @@ const MyAppBar = ({
       <Container>
         <StyledAppBar position="static">
           <Toolbar>
-            <StyledTypography type="title" color="inherit">
+            <StyledTypography variant="title" color="inherit">
               Arteigenschaften
             </StyledTypography>
             <StyledButton
