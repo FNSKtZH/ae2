@@ -13,6 +13,7 @@ export default gql`
       lastUpdated
       termsOfUse
       importedBy
+      pcOfOrigin
       organizationByOrganizationId {
         id
         name
