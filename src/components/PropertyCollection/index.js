@@ -8,8 +8,11 @@ import ViewIcon from 'material-ui-icons/Visibility'
 import Select from 'material-ui-next/Select'
 import { MenuItem } from 'material-ui-next/Menu'
 import Input, { InputLabel } from 'material-ui-next/Input'
-import { FormControl } from 'material-ui-next/Form'
-import { FormControlLabel } from 'material-ui-next/Form'
+import {
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+} from 'material-ui-next/Form'
 import Checkbox from 'material-ui-next/Checkbox'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -276,23 +279,49 @@ const PropertyCollection = ({
                 </Fragment>
               }
             />
-            <StyledLabel
-              control={
-                <Checkbox
-                  checked={pC.combining}
-                  onChange={(event, isChecked) =>
-                    onBlur({
-                      client,
-                      field: 'combining',
-                      pC,
-                      value: isChecked,
-                      prevValue: pC.combining,
-                    })
-                  }
-                />
-              }
-              label={'zusammenfassend'}
-            />
+            <StyledFormControl>
+              <StyledLabel
+                control={
+                  <Checkbox
+                    checked={pC.combining}
+                    onChange={(event, isChecked) =>
+                      onBlur({
+                        client,
+                        field: 'combining',
+                        pC,
+                        value: isChecked,
+                        prevValue: pC.combining,
+                      })
+                    }
+                  />
+                }
+                label={'zusammenfassend'}
+              />
+              <FormHelperText>
+                <span>
+                  Für eine zusammenfassende Eigenschaftensammlung importieren
+                  Sie die Daten zwei mal:
+                </span>
+                <br />
+                <span>1. zuerst in die Ursprungs-Eigenschaftensammlung</span>
+                <br />
+                <span>
+                  2. dann in die zusammenfassende. Bitte die
+                  Ursprungs-Eigenschaftensammlung angeben
+                </span>
+                <br />
+                <span>
+                  Mehr infos{' '}
+                  <a
+                    href="https://github.com/barbalex/ae2#zusammenfassende-eigenschaften-sammlungen"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    hier
+                  </a>
+                </span>
+              </FormHelperText>
+            </StyledFormControl>
             <Property
               key={`${pC.id}/lastUpdated`}
               label="Zuletzt aktualisiert"
