@@ -10,6 +10,7 @@ import createRootObjectMutation from '../../Objekt/createRootObjectMutation'
 import deleteObjectMutation from '../../Objekt/deleteObjectMutation'
 import createTaxonomyMutation from '../../Taxonomy/createTaxonomyMutation'
 import createPCMutation from '../../PropertyCollection/createPCMutation'
+import deletePCMutation from '../../PropertyCollection/deletePCMutation'
 import deleteTaxonomyMutation from '../../Taxonomy/deleteTaxonomyMutation'
 import treeDataGql from '../treeDataGql'
 import treeDataVariables from '../treeDataVariables'
@@ -254,6 +255,41 @@ export default async ({
               u => u.id !== id
             )
             set(data, 'allTaxonomies.nodes', nodes)
+            proxy.writeQuery({
+              query: treeDataGql,
+              variables,
+              data,
+            })
+          },
+        })
+        if (url.includes(id)) {
+          url.length = url.indexOf(id)
+          app.history.push(`/${url.join('/')}`)
+        }
+      }
+      if (table === 'pc') {
+        await client.mutate({
+          mutation: deletePCMutation,
+          variables: { id },
+          optimisticResponse: {
+            deletePropertyCollectionById: {
+              propertyCollection: {
+                id,
+                __typename: 'PropertyCollection',
+              },
+              __typename: 'Mutation',
+            },
+          },
+          update: (proxy, { data: { deletePCMutation } }) => {
+            const variables = treeDataVariables({ activeNodeArray })
+            const data = proxy.readQuery({
+              query: treeDataGql,
+              variables,
+            })
+            const nodes = get(data, 'allPropertyCollections.nodes', []).filter(
+              u => u.id !== id
+            )
+            set(data, 'allPropertyCollections.nodes', nodes)
             proxy.writeQuery({
               query: treeDataGql,
               variables,

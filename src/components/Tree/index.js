@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
 // if observer is active, forceUpdate during rendering happens
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
@@ -23,6 +23,7 @@ import CmObject from './contextmenu/Object'
 import CmTaxonomy from './contextmenu/Taxonomy'
 import CmType from './contextmenu/Type'
 import CmPCFolder from './contextmenu/PCFolder'
+import CmPC from './contextmenu/PC'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const singleRowHeight = 23
@@ -158,10 +159,15 @@ const Tree = ({
         />
         <CmBenutzerFolder />
         <CmBenutzer />
-        {userIsTaxWriter && <CmObject />}
-        {userIsTaxWriter && <CmTaxonomy />}
-        {userIsTaxWriter && <CmType />}
-        {userIsTaxWriter && <CmPCFolder />}
+        {userIsTaxWriter && (
+          <Fragment>
+            <CmObject />
+            <CmTaxonomy />
+            <CmType />
+            <CmPCFolder />
+            <CmPC />
+          </Fragment>
+        )}
       </Container>
     </ErrorBoundary>
   )
