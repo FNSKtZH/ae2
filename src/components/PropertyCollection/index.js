@@ -27,6 +27,7 @@ import editingPCsMutation from '../../modules/editingPCsMutation'
 import loginData from '../../modules/loginData'
 import pCData from './pCData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
+import AutocompleteFromObjectArray from '../shared/AutocompleteFromObjectArray'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -96,6 +97,7 @@ const PropertyCollection = ({
   const userIsThisPCWriter =
     !!orgsUserIsPCWriter.find(o => o.id === pC.organizationId) ||
     (userIsPCWriter && !pC.organizationId)
+  console.log('pC:', pC)
 
   return (
     <ErrorBoundary>
@@ -170,6 +172,13 @@ const PropertyCollection = ({
               }
               label="zusammenfassend"
             />
+            {pC.combining && (
+              <PropertyReadOnly
+                key="pcOfOrigin"
+                value={pC.pcOfOrigin}
+                label="Ursprungs-Eigenschaften-Sammlung"
+              />
+            )}
             <PropertyReadOnly
               key="lastUpdated"
               value={format(new Date(pC.lastUpdated), 'DD.MM.YYYY')}
