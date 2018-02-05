@@ -61,21 +61,15 @@ CREATE POLICY
 
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS updater ON ae.property_collection;
-CREATE POLICY updater ON ae.property_collection
+DROP POLICY IF EXISTS writer ON ae.property_collection;
+CREATE POLICY writer ON ae.property_collection
   USING (true)
   WITH CHECK (
-    organization_id in (select * from ae.organizations_currentuser_is_collectionwriter)
+    (organization_id IS NULL AND current_user_name() IN (SELECT * FROM ae.collection_writers))
+    OR organization_id IN (SELECT * FROM ae.organizations_currentuser_is_collectionwriter)
   );
 drop policy if exists inserter on ae.property_collection;
-CREATE POLICY inserter ON ae.property_collection for insert
-  WITH CHECK (
-    (
-      organization_id is null
-      or organization_id in (select * from ae.organizations_currentuser_is_collectionwriter)
-    ) and (
-      current_user_name() in (select * from ae.collection_writers)
-    )
-  );
+
 
 ALTER TABLE ae.property_collection_object ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS updater ON ae.property_collection_object;
