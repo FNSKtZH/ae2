@@ -19,6 +19,12 @@ export default gql`
         name
       }
     }
+    allPropertyCollections {
+      nodes {
+        id
+        name
+      }
+    }
     allUsers {
       nodes {
         id

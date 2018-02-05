@@ -97,7 +97,12 @@ const PropertyCollection = ({
   const userIsThisPCWriter =
     !!orgsUserIsPCWriter.find(o => o.id === pC.organizationId) ||
     (userIsPCWriter && !pC.organizationId)
+  const pCs = get(pCData, 'allPropertyCollections.nodes', []).map(d => ({
+    id: d.id,
+    value: d.name,
+  }))
   console.log('pC:', pC)
+  console.log('pCs:', pCs)
 
   return (
     <ErrorBoundary>
@@ -175,7 +180,7 @@ const PropertyCollection = ({
             {pC.combining && (
               <PropertyReadOnly
                 key="pcOfOrigin"
-                value={pC.pcOfOrigin}
+                value={pCs.find(p => p.id === pC.pcOfOrigin).value}
                 label="Ursprungs-Eigenschaften-Sammlung"
               />
             )}
@@ -334,6 +339,23 @@ const PropertyCollection = ({
                 </span>
               </FormHelperText>
             </StyledFormControl>
+            {pC.combining && (
+              <AutocompleteFromObjectArray
+                key={`${pC.id}/pcOfOrigin`}
+                value={pCs.find(p => p.id === pC.pcOfOrigin).value}
+                label="Ursprungs-Eigenschaften-Sammlung"
+                objects={pCs}
+                updatePropertyInDb={value =>
+                  onBlur({
+                    client,
+                    field: 'pcOfOrigin',
+                    pC,
+                    value,
+                    prevValue: pC.pcOfOrigin,
+                  })
+                }
+              />
+            )}
             <Property
               key={`${pC.id}/lastUpdated`}
               label="Zuletzt aktualisiert"
