@@ -404,6 +404,33 @@ const PropertyCollection = ({
               label="Nutzungs-Bedingungen"
               field="termsOfUse"
               pC={pC}
+              helperText={
+                <Fragment>
+                  <span>
+                    Beispiel, wenn Fremddaten mit Einverständnis des Autors
+                    importiert werden:
+                  </span>
+                  <br />
+                  <span>
+                    "Importiert mit Einverständnis des Autors. Eine allfällige
+                    Weiterverbreitung ist nur mit dessen Zustimmung möglich"
+                  </span>
+                  <br />
+                  <br />
+                  <span>Beispiel, wenn eigene Daten importiert werden:</span>
+                  <br />
+                  <span>
+                    "Open Data: Die veröffentlichten Daten dürfen mit Hinweis
+                    auf die Quelle vervielfältigt, verbreitet und weiter
+                    zugänglich gemacht, angereichert und bearbeitet sowie
+                    kommerziell genutzt werden. Für die Richtigkeit,
+                    Genauigkeit, Zuverlässigkeit und Vollständigkeit der
+                    bezogenen, ebenso wie der daraus erzeugten Daten und anderer
+                    mit Hilfe dieser Daten hergestellten Produkte wird indessen
+                    keine Haftung übernommen.
+                  </span>
+                </Fragment>
+              }
             />
           </Fragment>
         )}
