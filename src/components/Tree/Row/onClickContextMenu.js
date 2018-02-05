@@ -9,10 +9,12 @@ import createObjectMutation from '../../Objekt/createObjectMutation'
 import createRootObjectMutation from '../../Objekt/createRootObjectMutation'
 import deleteObjectMutation from '../../Objekt/deleteObjectMutation'
 import createTaxonomyMutation from '../../Taxonomy/createTaxonomyMutation'
+import createPCMutation from '../../PropertyCollection/createPCMutation'
 import deleteTaxonomyMutation from '../../Taxonomy/deleteTaxonomyMutation'
 import treeDataGql from '../treeDataGql'
 import treeDataVariables from '../treeDataVariables'
 import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
+import editingPCsMutation from '../../../modules/editingPCsMutation'
 
 export default async ({
   e,
@@ -98,7 +100,11 @@ export default async ({
         }
         const newTaxonomyData = await client.mutate({
           mutation: createTaxonomyMutation,
-          variables: { type: typeConverter[id], importedBy: userId },
+          variables: {
+            type: typeConverter[id],
+            importedBy: userId,
+            lastUpdated: new Date(),
+          },
         })
         const newId = get(
           newTaxonomyData,
@@ -115,6 +121,33 @@ export default async ({
               setEditingTaxonomies: {
                 editingTaxonomies: true,
                 __typename: 'EditingTaxonomies',
+              },
+              __typename: 'Mutation',
+            },
+          })
+        }
+        treeData.refetch()
+      }
+      if (table === 'pc') {
+        const newPCData = await client.mutate({
+          mutation: createPCMutation,
+          variables: { importedBy: userId, lastUpdated: new Date() },
+        })
+        const newId = get(
+          newPCData,
+          'data.createPropertyCollection.propertyCollection.id',
+          null
+        )
+        app.history.push(`/${[...url, newId].join('/')}`)
+        // if not editing, set editing true
+        if (!editing) {
+          client.mutate({
+            mutation: editingPCsMutation,
+            variables: { value: true },
+            optimisticResponse: {
+              setEditingPCs: {
+                editingPCs: true,
+                __typename: 'EditingPCs',
               },
               __typename: 'Mutation',
             },

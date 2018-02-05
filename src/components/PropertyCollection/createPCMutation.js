@@ -2,23 +2,17 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation createTaxonomy(
-    $type: TaxonomyType!
-    $importedBy: UUID!
-    $lastUpdated: Date!
-  ) {
-    createTaxonomy(
+  mutation createPC($importedBy: UUID!, $lastUpdated: Date!) {
+    createPropertyCollection(
       input: {
-        taxonomy: {
-          type: $type
+        propertyCollection: {
           importedBy: $importedBy
           lastUpdated: $lastUpdated
         }
       }
     ) {
-      taxonomy {
+      propertyCollection {
         id
-        type
         importedBy
         lastUpdated
       }

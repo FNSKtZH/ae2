@@ -22,6 +22,7 @@ import CmBenutzer from './contextmenu/Benutzer'
 import CmObject from './contextmenu/Object'
 import CmTaxonomy from './contextmenu/Taxonomy'
 import CmType from './contextmenu/Type'
+import CmPCFolder from './contextmenu/PCFolder'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const singleRowHeight = 23
@@ -160,6 +161,7 @@ const Tree = ({
         {userIsTaxWriter && <CmObject />}
         {userIsTaxWriter && <CmTaxonomy />}
         {userIsTaxWriter && <CmType />}
+        {userIsTaxWriter && <CmPCFolder />}
       </Container>
     </ErrorBoundary>
   )
