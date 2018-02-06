@@ -100,21 +100,16 @@ CREATE TABLE ae.property_collection (
 --alter table ae.property_collection add column pc_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE;
 --alter table ae.property_collection add column pc_of_origin_name text DEFAULT NULL;
 
-update ae.property_collection set pc_of_origin = null;
+--update ae.property_collection set pc_of_origin = null;
 
 -- only do on import:
+/*
 update ae.property_collection as x
 set pc_of_origin = y.id
 from ae.property_collection as y
 where
-  y.name = x.pc_of_origin_name
-
-
-set pc_of_origin = (select id from ae.property_collection where name = pc1.pc_of_origin_name)
-from ae.property_collection pc
-where pc.pc_of_origin_name is not null;
-
-select id from ae.property_collection where name = 'todo'
+  y.name = x.pc_of_origin_name;
+*/
 
 --alter table ae.property_collection drop pc_of_origin_name;
 
