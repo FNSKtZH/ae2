@@ -96,10 +96,6 @@ const PropertyCollection = ({
   const userIsThisPCWriter =
     !!orgsUserIsPCWriter.find(o => o.id === pC.organizationId) ||
     (userIsPCWriter && !pC.organizationId)
-  const pCs = get(pCData, 'allPropertyCollections.nodes', []).map(d => ({
-    id: d.id,
-    value: d.name,
-  }))
 
   return (
     <ErrorBoundary>
