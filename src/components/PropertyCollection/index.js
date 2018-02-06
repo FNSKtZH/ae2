@@ -27,7 +27,6 @@ import editingPCsMutation from '../../modules/editingPCsMutation'
 import loginData from '../../modules/loginData'
 import pCData from './pCData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
-import AutocompleteFromObjectArray from '../shared/AutocompleteFromObjectArray'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -175,13 +174,6 @@ const PropertyCollection = ({
               }
               label="zusammenfassend"
             />
-            {pC.combining && (
-              <PropertyReadOnly
-                key="pcOfOrigin"
-                value={pCs.find(p => p.id === pC.pcOfOrigin).value}
-                label="Ursprungs-Eigenschaften-Sammlung"
-              />
-            )}
             <PropertyReadOnly
               key="lastUpdated"
               value={format(new Date(pC.lastUpdated), 'DD.MM.YYYY')}
@@ -337,23 +329,6 @@ const PropertyCollection = ({
                 </span>
               </FormHelperText>
             </StyledFormControl>
-            {pC.combining && (
-              <AutocompleteFromObjectArray
-                key={`${pC.id}/pcOfOrigin`}
-                value={pCs.find(p => p.id === pC.pcOfOrigin).value}
-                label="Ursprungs-Eigenschaften-Sammlung"
-                objects={pCs}
-                updatePropertyInDb={value =>
-                  onBlur({
-                    client,
-                    field: 'pcOfOrigin',
-                    pC,
-                    value,
-                    prevValue: pC.pcOfOrigin,
-                  })
-                }
-              />
-            )}
             <Property
               key={`${pC.id}/lastUpdated`}
               label="Zuletzt aktualisiert"

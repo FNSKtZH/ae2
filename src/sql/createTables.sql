@@ -97,19 +97,8 @@ CREATE TABLE ae.property_collection (
 -- once on notebook:
 --ALTER TABLE ae.property_collection alter column name drop not null;
 --ALTER TABLE ae.property_collection alter column organization_id drop not null;
---alter table ae.property_collection add column pc_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE;
---alter table ae.property_collection add column pc_of_origin_name text DEFAULT NULL;
-
---update ae.property_collection set pc_of_origin = null;
-
--- only do on import:
-/*
-update ae.property_collection as x
-set pc_of_origin = y.id
-from ae.property_collection as y
-where
-  y.name = x.pc_of_origin_name;
-*/
+alter table ae.property_collection drop column pc_of_origin;
+alter table ae.property_collection drop column pc_of_origin_name;
 
 --alter table ae.property_collection drop pc_of_origin_name;
 
@@ -121,9 +110,26 @@ CREATE TABLE ae.property_collection_object (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   object_id UUID REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   property_collection_id UUID REFERENCES ae.property_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  -- this is only for import because pc_of_origin are saved as names
+  property_collection_of_origin_name text DEFAULT NULL,
   properties jsonb DEFAULT NULL,
   UNIQUE (object_id, property_collection_id)
 );
+-- once
+--alter table ae.property_collection_object add column property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE;
+--alter table ae.property_collection_object add column property_collection_of_origin_name text DEFAULT NULL;
+
+--update ae.property_collection set pc_of_origin = null;
+
+-- only do on import:
+/*
+update ae.property_collection_object as x
+  set property_collection_of_origin = y.id
+  from ae.property_collection as y
+  where
+    y.name = x.property_collection_of_origin_name;
+*/
 
 DROP TABLE IF EXISTS ae.relation CASCADE;
 CREATE TABLE ae.relation (
@@ -131,11 +137,16 @@ CREATE TABLE ae.relation (
   property_collection_id UUID NOT NULL REFERENCES ae.property_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
   object_id UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   object_id_relation UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  -- this is only for import because pc_of_origin are saved as names
+  property_collection_of_origin_name text DEFAULT NULL,
   relation_type text NOT NULL,
   properties jsonb DEFAULT NULL,
   UNIQUE (property_collection_id, object_id, object_id_relation, relation_type)
 );
 CREATE INDEX ON ae.relation USING btree (relation_type);
+--alter table ae.relation add column property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE;
+--alter table ae.relation add column property_collection_of_origin_name text DEFAULT NULL;
 
 DROP TABLE IF EXISTS ae.role CASCADE;
 CREATE TABLE ae.role (

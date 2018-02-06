@@ -51,6 +51,7 @@ export default graphql(
                   id
                   objectId
                   propertyCollectionId
+                  propertyCollectionOfOrigin
                   properties
                   propertyCollectionByPropertyCollectionId {
                     id
@@ -152,6 +153,7 @@ export default graphql(
             id
             objectId
             propertyCollectionId
+            propertyCollectionOfOrigin
             properties
             propertyCollectionByPropertyCollectionId {
               id
