@@ -26,7 +26,7 @@ const HowToProperties = () => (
           Taxonomien vorkommen
         </li>
         <li>Markieren Sie die Eigenschaften, die Sie exportieren möchten...</li>
-        <li>...und fahren Sie danach mit "4. exportieren" weiter</li>
+        <li>...und laden Sie danach die Daten herunter</li>
       </ul>
     </CardText>
   </Card>
