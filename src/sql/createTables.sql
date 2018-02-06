@@ -111,7 +111,7 @@ CREATE TABLE ae.property_collection_object (
   object_id UUID REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   property_collection_id UUID REFERENCES ae.property_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
   property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  -- this is only for import because pc_of_origin are saved as names
+  -- this is only for import because property_collection_of_origin are saved as names
   property_collection_of_origin_name text DEFAULT NULL,
   properties jsonb DEFAULT NULL,
   UNIQUE (object_id, property_collection_id)
@@ -120,7 +120,7 @@ CREATE TABLE ae.property_collection_object (
 --alter table ae.property_collection_object add column property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE;
 --alter table ae.property_collection_object add column property_collection_of_origin_name text DEFAULT NULL;
 
---update ae.property_collection set pc_of_origin = null;
+--update ae.property_collection set property_collection_of_origin = null;
 
 -- only do on import:
 /*
@@ -138,15 +138,12 @@ CREATE TABLE ae.relation (
   object_id UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   object_id_relation UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  -- this is only for import because pc_of_origin are saved as names
-  property_collection_of_origin_name text DEFAULT NULL,
   relation_type text NOT NULL,
   properties jsonb DEFAULT NULL,
   UNIQUE (property_collection_id, object_id, object_id_relation, relation_type)
 );
 CREATE INDEX ON ae.relation USING btree (relation_type);
 --alter table ae.relation add column property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE;
---alter table ae.relation add column property_collection_of_origin_name text DEFAULT NULL;
 
 DROP TABLE IF EXISTS ae.role CASCADE;
 CREATE TABLE ae.role (
