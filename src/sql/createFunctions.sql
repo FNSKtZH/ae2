@@ -691,3 +691,23 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
   LANGUAGE sql STABLE;
 ALTER FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
   OWNER TO postgres;
+
+CREATE OR REPLACE FUNCTION ae.taxonomy_with_level1_count()
+  RETURNS setof ae.taxonomy_with_level1_count AS
+  $$
+    SELECT
+      ae.taxonomy.id as taxonomy_id,
+      count(*)
+    FROM ae.taxonomy
+      INNER JOIN ae.object
+      ON ae.taxonomy.id = ae.object.taxonomy_id
+    WHERE
+      ae.object.parent_id IS NULL
+    group by ae.taxonomy.id;
+  $$
+  LANGUAGE sql STABLE;
+ALTER FUNCTION ae.taxonomy_with_level1_count()
+  OWNER TO postgres;
+
+
+

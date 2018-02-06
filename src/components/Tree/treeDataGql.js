@@ -25,6 +25,12 @@ export default gql`
     $pCId: UUID!
     $existsPCId: Boolean!
   ) {
+    taxonomyWithLevel1Count {
+      nodes {
+        taxonomyId
+        count
+      }
+    }
     allUsers {
       totalCount
       nodes {
@@ -70,6 +76,9 @@ export default gql`
         id
         name
         type
+        objectsByTaxonomyId {
+          totalCount
+        }
       }
     }
     taxonomyObjectLevel1(taxonomyId: $level2TaxonomyPossibleNull)

@@ -30,3 +30,7 @@ CREATE TYPE rco_property AS (
     pname text,
     pcname text
 );
+CREATE TYPE ae.taxonomy_with_level1_count AS (
+    taxonomy_id uuid,
+    count bigint
+);

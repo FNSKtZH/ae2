@@ -18,20 +18,42 @@ export default ({
     }
     return node.type === 'LEBENSRAUM'
   })
-  const childrenCount = get(treeData, 'taxonomyObjectLevel1.totalCount', 0)
+  const taxonomiesWithLevel1Counts = get(
+    treeData,
+    'taxonomyWithLevel1Count.nodes',
+    []
+  )
 
   return nodes.map(node => {
+    const taxonomy = get(treeData, 'allTaxonomies.nodes', []).find(
+      n => n.id === node.id
+    )
+    const level1Count = taxonomiesWithLevel1Counts.find(
+      c => c.taxonomyId === node.id
+    ).count
+    const allObjectsCount = get(taxonomy, 'objectsByTaxonomyId.totalCount', 0)
     const taxType = node.type
     const elem1 = taxType === 'ART' ? 'Arten' : 'Lebensräume'
     const sort1 = taxType === 'ART' ? 1 : 2
+    /**
+     * This number is not very helpful:
+     * it includes all hierarchical levels
+     * so show nothing
+     */
+    /*
+    const info =
+      allObjectsCount > 0
+        ? `(${childrenCount.toLocaleString('de-CH')} ${elem1})`
+        : ''
+    */
 
     return {
       id: node.id,
       url: [elem1, node.id],
       sort: [sort1, node.name],
       label: node.name,
-      info: `(${childrenCount.toLocaleString('de-CH')})`,
-      childrenCount,
+      info: `(${level1Count})`,
+      childrenCount: allObjectsCount,
       menuType: 'CmTaxonomy',
     }
   })
