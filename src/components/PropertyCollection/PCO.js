@@ -82,7 +82,7 @@ const DropzoneDiv = styled.div`
   padding: 8px;
 `
 const DropzoneDivActive = styled(DropzoneDiv)`
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: #ffe0b2;
 `
 
 const styles = theme => ({
