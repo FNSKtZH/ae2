@@ -133,12 +133,13 @@ const Row = ({
   key?: number,
   index: number,
   style: Object,
-  node: Array<Object>,
+  node: Object,
   client: Object,
   onClickNode: () => void,
   onClickContextMenu: () => void,
   activeNodeArray: Array<String>,
 }) => {
+  //console.log('Row: node:', node)
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     node.url,
     activeNodeArray
@@ -157,6 +158,7 @@ const Row = ({
     useSymbolSpan = true
     useSymbolIcon = false
   }
+  if (!node.url) console.log('Row: node:', node)
   const level = node.url.length
 
   return (

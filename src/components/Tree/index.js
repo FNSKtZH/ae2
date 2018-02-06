@@ -100,6 +100,7 @@ const Tree = ({
     activeNodeArray,
     loginData,
   })
+  //console.log('Tree: nodes:', nodes)
   const rowRenderer = ({ key, index, style }) => (
     <Row
       key={key}
