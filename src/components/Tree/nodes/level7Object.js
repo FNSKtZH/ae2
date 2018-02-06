@@ -29,7 +29,6 @@ export default ({
 
   return nodes.map(node => {
     const childrenCount = get(node, 'objectsByParentId.totalCount', 0)
-    const labelCount = childrenCount > 0 ? ` (${childrenCount})` : ''
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
     const nodeName = node.name || 'ZZZZ'
@@ -63,7 +62,8 @@ export default ({
         nodeName,
       ],
       label: node.name,
-      info: labelCount.toLocaleString('de-CH'),
+      info:
+        childrenCount > 0 ? ` (${childrenCount.toLocaleString('de-CH')})` : '',
       childrenCount,
       menuType: 'CmObject',
     }

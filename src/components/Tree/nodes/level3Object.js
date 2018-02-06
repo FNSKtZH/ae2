@@ -30,7 +30,8 @@ export default ({
       url: [elem1, taxonomy.id, node.id],
       sort: [sort1, activeLevel2TaxonomyName, nodeName],
       label: node.name,
-      info: `(${childrenCount.toLocaleString('de-CH')})`,
+      info:
+        childrenCount > 0 ? `(${childrenCount.toLocaleString('de-CH')})` : '',
       childrenCount,
       menuType: 'CmObject',
     }

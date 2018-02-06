@@ -8,7 +8,10 @@ export default ({
   treeData: Object,
   activeNodeArray: Object,
 }): Array<Object> => {
-  if (!treeData) return []
+  if (!treeData) {
+    console.log('no tree data for level2Taxonomy')
+    return []
+  }
   const nodes = get(treeData, 'allTaxonomies.nodes', []).filter(node => {
     if (activeNodeArray[0] === 'Arten') {
       return node.type === 'ART'
