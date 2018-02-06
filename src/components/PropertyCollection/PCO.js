@@ -81,6 +81,9 @@ const DropzoneContainer = styled.div`
 const DropzoneDiv = styled.div`
   padding: 8px;
 `
+const DropzoneDivActive = styled(DropzoneDiv)`
+  background-color: rgba(0, 0, 0, 0.1);
+`
 
 const styles = theme => ({
   button: {
@@ -287,13 +290,28 @@ const PCO = ({
                   console.log({ acceptedFiles, rejectedFiles })
                 }}
                 accept=".csv, .xls, .xlsx"
+                disablePreview
+                multiple={false}
               >
-                <DropzoneDiv>
-                  Datei hierhin ziehen.<br />
-                  Oder klicken, um sie auszuwählen.<br />
-                  <br />
-                  Akzeptierte Formate: .xlsx oder .csv
-                </DropzoneDiv>
+                {({
+                  isDragActive,
+                  isDragReject,
+                  acceptedFiles,
+                  rejectedFiles,
+                }) => {
+                  if (isDragActive)
+                    return <DropzoneDivActive>yep</DropzoneDivActive>
+                  if (isDragReject)
+                    return <DropzoneDivActive>njet</DropzoneDivActive>
+                  return (
+                    <DropzoneDiv>
+                      Datei hierhin ziehen.<br />
+                      Oder klicken, um sie auszuwählen.<br />
+                      <br />
+                      Akzeptierte Formate: .xlsx oder .csv
+                    </DropzoneDiv>
+                  )
+                }}
               </Dropzone>
             </DropzoneContainer>
           </Fragment>
