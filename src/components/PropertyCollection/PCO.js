@@ -12,6 +12,7 @@ import ReactDataGrid from 'react-data-grid'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
 import Dropzone from 'react-dropzone'
+import XLSX from 'xlsx'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import booleanToJaNein from '../../modules/booleanToJaNein'
@@ -82,7 +83,7 @@ const DropzoneDiv = styled.div`
   padding: 8px;
 `
 const DropzoneDivActive = styled(DropzoneDiv)`
-  background-color: #ffe0b2;
+  background-color: rgba(255, 224, 178, 0.2);
 `
 
 const styles = theme => ({
@@ -288,8 +289,29 @@ const PCO = ({
               <Dropzone
                 onDrop={(acceptedFiles, rejectedFiles) => {
                   console.log({ acceptedFiles, rejectedFiles })
+                  const file = acceptedFiles[0]
+                  if (!!file) {
+                    const reader = new FileReader()
+                    reader.onload = () => {
+                      const fileAsBinaryString = reader.result
+                      const workbook = XLSX.read(fileAsBinaryString, {
+                          type: 'binary',
+                        }),
+                        sheetName = workbook.SheetNames[0],
+                        worksheet = workbook.Sheets[sheetName]
+                      const data = XLSX.utils
+                        .sheet_to_json(worksheet)
+                        .map(d => omit(d, ['__rowNum__']))
+                      console.log('data:', data)
+                    }
+                    reader.onabort = () =>
+                      console.log('file reading was aborted')
+                    reader.onerror = () =>
+                      console.log('file reading has failed')
+                    reader.readAsBinaryString(file)
+                  }
                 }}
-                accept=".csv, .xls, .xlsx"
+                accept=".xlsx, .xls, .csv, .ods, .dbf, .dif"
                 disablePreview
                 multiple={false}
               >
@@ -300,15 +322,17 @@ const PCO = ({
                   rejectedFiles,
                 }) => {
                   if (isDragActive)
-                    return <DropzoneDivActive>yep</DropzoneDivActive>
+                    return (
+                      <DropzoneDivActive>Hier fallen lassen</DropzoneDivActive>
+                    )
                   if (isDragReject)
-                    return <DropzoneDivActive>njet</DropzoneDivActive>
+                    return <DropzoneDivActive>njet!</DropzoneDivActive>
                   return (
                     <DropzoneDiv>
                       Datei hierhin ziehen.<br />
                       Oder klicken, um sie auszuwählen.<br />
                       <br />
-                      Akzeptierte Formate: .xlsx oder .csv
+                      Akzeptierte Formate: .xlsx, .xls, .csv, .ods, .dbf, .dif
                     </DropzoneDiv>
                   )
                 }}
