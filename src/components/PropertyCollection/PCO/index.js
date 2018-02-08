@@ -135,7 +135,7 @@ const enhance = compose(
     'setPropertyKeysDontContainBackslash',
     undefined
   ),
-  withState('xxx', 'setXxx', 0),
+  withState('existsPropertyKey', 'setExistsPropertyKey', undefined),
   pCOData,
   loginData,
   withStyles(styles)
@@ -166,6 +166,8 @@ const PCO = ({
   setPropertyKeysDontContainApostroph,
   propertyKeysDontContainBackslash,
   setPropertyKeysDontContainBackslash,
+  existsPropertyKey,
+  setExistsPropertyKey,
 }: {
   pCOData: Object,
   loginData: Object,
@@ -191,6 +193,8 @@ const PCO = ({
   setPropertyKeysDontContainApostroph: () => void,
   propertyKeysDontContainBackslash: Boolean,
   setPropertyKeysDontContainBackslash: () => void,
+  existsPropertyKey: Boolean,
+  setExistsPropertyKey: () => void,
 }) => {
   const { loading } = pCOData
   if (loading) {
@@ -245,23 +249,6 @@ const PCO = ({
   const writerNames = union(pCOWriters.map(w => w.userByUserId.name))
   const username = get(loginData, 'login.username')
   const userIsWriter = !!username && writerNames.includes(username)
-  /**
-   * TODO
-   * if user is writer:
-   * enable removing pco data
-   * enable importing pco data if none exists
-   */
-  console.log('existsNoDataWithoutKey:', existsNoDataWithoutKey)
-  console.log('idsAreUuids:', idsAreUuids)
-  console.log('objectIdsAreUuid:', objectIdsAreUuid)
-  console.log(
-    'propertyKeysDontContainApostroph:',
-    propertyKeysDontContainApostroph
-  )
-  console.log(
-    'propertyKeysDontContainBackslash:',
-    propertyKeysDontContainBackslash
-  )
 
   return (
     <Container>
@@ -501,6 +488,20 @@ const PCO = ({
                 <li>
                   <HowToImportLiContainer>
                     <div>Es muss mindestens eine Eigenschaft vorkommen</div>
+                    {existsPropertyKey && (
+                      <div>
+                        <InlineIcon>
+                          <StyledDoneIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                    {existsPropertyKey === false && (
+                      <div>
+                        <InlineIcon>
+                          <StyledErrorIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
                   </HowToImportLiContainer>
                 </li>
                 <li>
@@ -587,7 +588,6 @@ const PCO = ({
                         .filter(d => d !== undefined)
                       const _objectIdsExist = objectIds.length === data.length
                       setObjectIdsExist(_objectIdsExist)
-                      console.log('objectIdsExist:', objectIdsExist)
                       setObjectIdsAreUuid(
                         _objectIdsExist
                           ? !objectIds
@@ -602,11 +602,17 @@ const PCO = ({
                           )
                         )
                       )
+                      const _existsPropertyKey = propertyKeys.length > 0
+                      setExistsPropertyKey(_existsPropertyKey)
                       setPropertyKeysDontContainApostroph(
-                        !some(propertyKeys, k => k.includes('"'))
+                        _existsPropertyKey
+                          ? !some(propertyKeys, k => k.includes('"'))
+                          : undefined
                       )
                       setPropertyKeysDontContainBackslash(
-                        !some(propertyKeys, k => k.includes('\\'))
+                        _existsPropertyKey
+                          ? !some(propertyKeys, k => k.includes('\\'))
+                          : undefined
                       )
                     }
                     reader.onabort = () =>
