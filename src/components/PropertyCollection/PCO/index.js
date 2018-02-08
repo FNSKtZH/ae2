@@ -17,12 +17,12 @@ import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
 
-import activeNodeArrayData from '../../modules/activeNodeArrayData'
-import booleanToJaNein from '../../modules/booleanToJaNein'
-import exportXlsx from '../../modules/exportXlsx'
-import exportCsv from '../../modules/exportCsv'
-import pCOData from './pCOData'
-import loginData from '../../modules/loginData'
+import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import booleanToJaNein from '../../../modules/booleanToJaNein'
+import exportXlsx from '../../../modules/exportXlsx'
+import exportCsv from '../../../modules/exportCsv'
+import pCOData from '../pCOData'
+import loginData from '../../../modules/loginData'
 
 const Container = styled.div`
   height: 100%;
