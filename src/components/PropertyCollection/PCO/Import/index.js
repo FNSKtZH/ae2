@@ -632,12 +632,19 @@ const ImportPco = ({
               const variables = {}
               fields.forEach(f => (variables[f] = d[f] || null))
               variables.propertyCollectionId = pCId
+              const properties = omit(d, [
+                'id',
+                'objectId',
+                'propertyCollectionId',
+                'propertyCollectionOfOrigin',
+              ])
+              variables.properties = JSON.stringify(properties)
               await client.mutate({
                 mutation: createPCOMutation,
                 variables,
               })
-              pCOData.refetch()
             })
+            pCOData.refetch()
           }}
         >
           importieren
