@@ -13,6 +13,7 @@ import { withStyles } from 'material-ui-next/styles'
 import Icon from 'material-ui-next/Icon'
 import DoneIcon from 'material-ui-icons/Done'
 import ErrorIcon from 'material-ui-icons/Error'
+import Button from 'material-ui-next/Button'
 import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
@@ -81,6 +82,10 @@ const StyledDoneIcon = styled(DoneIcon)`
 `
 const StyledErrorIcon = styled(ErrorIcon)`
   color: red !important;
+`
+const StyledButton = styled(Button)`
+  border: 1px solid !important;
+  margin: 8px 8px 16px 8px !important;
 `
 
 const styles = theme => ({
@@ -198,11 +203,7 @@ const ImportPco = ({
     propertyKeysDontContainBackslash &&
     propertyValuesDontContainApostroph &&
     propertyValuesDontContainBackslash
-  const showDropzone = !showImportButton
   const showPreview = importData.length > 0
-  console.log('importData:', importData)
-  console.log('showDropzone:', showDropzone)
-  console.log('showImportButton:', showImportButton)
 
   return (
     <Container>
@@ -576,9 +577,6 @@ const ImportPco = ({
                 setPropertyValuesDontContainBackslash(
                   !some(propertyValues, k => k.includes('\\'))
                 )
-                // TODO
-                // if all tests pass, show import button
-                console.log('data:', data)
               }
               reader.onabort = () => console.log('file reading was aborted')
               reader.onerror = () => console.log('file reading has failed')
@@ -605,6 +603,14 @@ const ImportPco = ({
           }}
         </Dropzone>
       </DropzoneContainer>
+      {showImportButton && (
+        <StyledButton
+          onClick={() => console.log('TODO')}
+          //className={classes.button}
+        >
+          importieren
+        </StyledButton>
+      )}
       {showPreview && (
         <ReactDataGrid
           columns={Object.keys(importData[0]).map(k => ({
@@ -614,8 +620,6 @@ const ImportPco = ({
           }))}
           rowGetter={i => importData[i]}
           rowsCount={importData.length}
-          //minHeight={height - 33 - 37}
-          //minWidth={width}
         />
       )}
     </Container>
