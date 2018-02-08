@@ -24,6 +24,7 @@ import pCODataGql from './pCODataGql'
 import treeData from '../../Tree/treeData'
 import loginData from '../../../modules/loginData'
 import deletePCOMutation from './deletePCOMutation'
+import deletePcoOfPcMutation from './deletePcoOfPcMutation'
 
 const Container = styled.div`
   height: 100%;
@@ -212,56 +213,17 @@ const PCO = ({
             {userIsWriter && (
               <MutationButtons>
                 <StyledButton
-                  onClick={() => {
-                    pCORaw.forEach(o => {
-                      client.mutate({
-                        mutation: deletePCOMutation,
-                        variables: { id: o.id },
-                        optimisticResponse: {
-                          deletePropertyCollectionObjectById: {
-                            propertyCollectionObject: {
-                              id: o.id,
-                              __typename: 'PropertyCollectionObject',
-                            },
-                            __typename: 'Mutation',
-                          },
-                        },
-                        update: (proxy, { data: { deletePCOMutation } }) => {
-                          const data = proxy.readQuery({
-                            query: pCODataGql,
-                            variables: {
-                              pCId: get(
-                                activeNodeArrayData,
-                                'activeNodeArray[1]',
-                                '99999999-9999-9999-9999-999999999999'
-                              ),
-                            },
-                          })
-                          const _pCO = get(
-                            data,
-                            'propertyCollectionById.propertyCollectionObjectsByPropertyCollectionId.nodes',
-                            []
-                          )
-                          const newPCO = _pCO.filter(u => u.id !== o.id)
-                          set(
-                            data,
-                            'propertyCollectionById.propertyCollectionObjectsByPropertyCollectionId.nodes',
-                            newPCO
-                          )
-                          proxy.writeQuery({
-                            query: pCODataGql,
-                            variables: {
-                              pCId: get(
-                                activeNodeArrayData,
-                                'activeNodeArray[1]',
-                                '99999999-9999-9999-9999-999999999999'
-                              ),
-                            },
-                            data,
-                          })
-                        },
-                      })
+                  onClick={async () => {
+                    const pcId = get(
+                      activeNodeArrayData,
+                      'activeNodeArray[1]',
+                      '99999999-9999-9999-9999-999999999999'
+                    )
+                    await client.mutate({
+                      mutation: deletePcoOfPcMutation,
+                      variables: { pcId },
                     })
+                    pCOData.refetch()
                     treeData.refetch()
                   }}
                   className={classes.button}

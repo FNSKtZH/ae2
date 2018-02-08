@@ -709,5 +709,18 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_with_level1_count()
 ALTER FUNCTION ae.taxonomy_with_level1_count()
   OWNER TO postgres;
 
-
-
+CREATE OR REPLACE FUNCTION ae.delete_pco_of_pc(pc_id uuid)
+  RETURNS setof ae.taxonomy AS
+  $$
+    DECLARE
+      sqldel text := 'delete from ae.property_collection_object where property_collection_id = ' || quote_literal(pc_id);
+      sqlreturn text := 'select * from ae.taxonomy';
+    BEGIN
+      --RAISE EXCEPTION  'sql: %', sql;
+      execute sqldel;
+      RETURN QUERY EXECUTE sqlreturn;
+    END
+  $$
+  LANGUAGE plpgsql;
+ALTER FUNCTION ae.delete_pco_of_pc(pc_id uuid)
+  OWNER TO postgres;
