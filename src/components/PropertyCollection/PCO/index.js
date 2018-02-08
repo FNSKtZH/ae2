@@ -165,7 +165,6 @@ const PCO = ({
   const username = get(loginData, 'login.username')
   const userIsWriter = !!username && writerNames.includes(username)
   const showImportPco = pCO.length === 0 && userIsWriter
-  console.log('pCORaw:', pCORaw)
 
   return (
     <Container>
@@ -215,7 +214,6 @@ const PCO = ({
                 <StyledButton
                   onClick={() => {
                     pCORaw.forEach(o => {
-                      console.log('o:', o)
                       client.mutate({
                         mutation: deletePCOMutation,
                         variables: { id: o.id },
@@ -263,8 +261,8 @@ const PCO = ({
                           })
                         },
                       })
-                      treeData.refetch()
                     })
+                    treeData.refetch()
                   }}
                   className={classes.button}
                 >

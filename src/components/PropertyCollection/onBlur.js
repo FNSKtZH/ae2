@@ -4,6 +4,7 @@ import updatePCMutation from './updatePCMutation'
 
 export default ({ client, field, pC, value, prevValue }) => {
   if (value !== prevValue) {
+    console.log('pC:', pC)
     const variables = {
       id: pC.id,
       name: field === 'name' ? value : pC.name,
@@ -28,7 +29,7 @@ export default ({ client, field, pC, value, prevValue }) => {
             combining: field === 'combining' ? value : pC.combining,
             organizationId:
               field === 'organizationId' ? value : pC.organizationId,
-              lastUpdated: field === 'lastUpdated' ? value : pC.lastUpdated,
+            lastUpdated: field === 'lastUpdated' ? value : pC.lastUpdated,
             importedBy: field === 'importedBy' ? value : pC.importedBy,
             termsOfUse: field === 'termsOfUse' ? value : pC.termsOfUse,
             __typename: 'PropertyCollection',

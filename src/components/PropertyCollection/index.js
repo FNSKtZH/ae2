@@ -362,7 +362,7 @@ const PropertyCollection = ({
                   onBlur({
                     client,
                     field: 'organizationId',
-                    taxonomy: pC,
+                    pC,
                     value: event.target.value,
                     prevValue: pC.organizationId,
                   })
@@ -385,7 +385,7 @@ const PropertyCollection = ({
                   onBlur({
                     client,
                     field: 'importedBy',
-                    taxonomy: pC,
+                    pC,
                     value: event.target.value,
                     prevValue: pC.importedBy,
                   })
