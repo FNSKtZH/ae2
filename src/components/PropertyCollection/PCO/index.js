@@ -12,7 +12,7 @@ import ReactDataGrid from 'react-data-grid'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
 
-import Import from './Import'
+import ImportPco from './Import'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
@@ -74,35 +74,6 @@ const enhance = compose(
   activeNodeArrayData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
-  withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
-  withState('idsAreUuids', 'setIdsAreUuid', undefined),
-  withState('idsExist', 'setIdsExist', false),
-  withState('idsAreUnique', 'setIdsAreUnique', undefined),
-  withState('objectIdsExist', 'setObjectIdsExist', undefined),
-  withState('objectIds', 'setObjectIds', []),
-  withState('objectIdsAreUuid', 'setObjectIdsAreUuid', undefined),
-  withState('importData', 'setImportData', []),
-  withState(
-    'propertyKeysDontContainApostroph',
-    'setPropertyKeysDontContainApostroph',
-    undefined
-  ),
-  withState(
-    'propertyKeysDontContainBackslash',
-    'setPropertyKeysDontContainBackslash',
-    undefined
-  ),
-  withState(
-    'propertyValuesDontContainApostroph',
-    'setPropertyValuesDontContainApostroph',
-    undefined
-  ),
-  withState(
-    'propertyValuesDontContainBackslash',
-    'setPropertyValuesDontContainBackslash',
-    undefined
-  ),
-  withState('existsPropertyKey', 'setExistsPropertyKey', undefined),
   pCOData,
   loginData,
   withStyles(styles)
@@ -117,32 +88,6 @@ const PCO = ({
   setSortField,
   setSortDirection,
   classes,
-  existsNoDataWithoutKey,
-  setExistsNoDataWithoutKey,
-  idsAreUuids,
-  setIdsAreUuid,
-  idsExist,
-  setIdsExist,
-  idsAreUnique,
-  setIdsAreUnique,
-  objectIdsExist,
-  setObjectIdsExist,
-  objectIdsAreUuid,
-  setObjectIdsAreUuid,
-  propertyKeysDontContainApostroph,
-  setPropertyKeysDontContainApostroph,
-  propertyKeysDontContainBackslash,
-  setPropertyKeysDontContainBackslash,
-  existsPropertyKey,
-  setExistsPropertyKey,
-  propertyValuesDontContainApostroph,
-  setPropertyValuesDontContainApostroph,
-  propertyValuesDontContainBackslash,
-  setPropertyValuesDontContainBackslash,
-  objectIds,
-  setObjectIds,
-  importData,
-  setImportData,
 }: {
   pCOData: Object,
   loginData: Object,
@@ -152,32 +97,6 @@ const PCO = ({
   setSortField: () => void,
   setSortDirection: () => void,
   classes: Object,
-  existsNoDataWithoutKey: Boolean,
-  setExistsNoDataWithoutKey: () => void,
-  idsAreUuids: Boolean,
-  setIdsAreUuid: () => void,
-  idsExist: Boolean,
-  setIdsExist: () => void,
-  idsAreUnique: Boolean,
-  setIdsAreUnique: () => void,
-  objectIdsExist: Boolean,
-  setObjectIdsExist: () => void,
-  objectIdsAreUuid: Boolean,
-  setObjectIdsAreUuid: () => void,
-  propertyKeysDontContainApostroph: Boolean,
-  setPropertyKeysDontContainApostroph: () => void,
-  propertyKeysDontContainBackslash: Boolean,
-  setPropertyKeysDontContainBackslash: () => void,
-  existsPropertyKey: Boolean,
-  setExistsPropertyKey: () => void,
-  propertyValuesDontContainApostroph: Boolean,
-  setPropertyValuesDontContainApostroph: () => void,
-  propertyValuesDontContainBackslash: Boolean,
-  setPropertyValuesDontContainBackslash: () => void,
-  objectIds: Array<String>,
-  setObjectIds: () => void,
-  importData: Array<Object>,
-  setImportData: () => void,
 }) => {
   const { loading } = pCOData
   if (loading) {
@@ -232,30 +151,11 @@ const PCO = ({
   const writerNames = union(pCOWriters.map(w => w.userByUserId.name))
   const username = get(loginData, 'login.username')
   const userIsWriter = !!username && writerNames.includes(username)
-  const objectsCheckData = get(pCOData, 'allObjects.nodes', [])
-  const objectIdsAreReal =
-    objectIds.length > 0
-      ? objectIds.length === objectsCheckData.length
-      : undefined
-  const showCriteria = pCO.length === 0 && userIsWriter
-  const showImportButton =
-    importData.length > 0 &&
-    existsNoDataWithoutKey &&
-    (idsExist ? idsAreUnique && idsAreUuids : true) &&
-    (objectIdsExist ? objectIdsAreUuid && objectIdsAreReal : false) &&
-    existsPropertyKey &&
-    propertyKeysDontContainApostroph &&
-    propertyKeysDontContainBackslash &&
-    propertyValuesDontContainApostroph &&
-    propertyValuesDontContainBackslash
-  const showDropzone = showCriteria && !showImportButton
-  console.log('importData:', importData)
-  console.log('showDropzone:', showDropzone)
-  console.log('showImportButton:', showImportButton)
+  const showImportPco = pCO.length === 0 && userIsWriter
 
   return (
     <Container>
-      {!showCriteria && (
+      {!showImportPco && (
         <TotalDiv>{`${pCO.length.toLocaleString('de-CH')} Datensätze, ${(
           columns.length - 2
         ).toLocaleString('de-CH')} Feld${columns.length === 3 ? '' : 'er'}${
@@ -309,7 +209,7 @@ const PCO = ({
           </ButtonsContainer>
         </Fragment>
       )}
-      {showCriteria && <Import />}
+      {showImportPco && <ImportPco />}
     </Container>
   )
 }

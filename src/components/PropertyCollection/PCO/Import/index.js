@@ -16,6 +16,7 @@ import ErrorIcon from 'material-ui-icons/Error'
 import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
+import ReactDataGrid from 'react-data-grid'
 
 import importPcoData from './importPcoData'
 import loginData from '../../../../modules/loginData'
@@ -24,6 +25,25 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .react-grid-Container {
+    font-size: small;
+  }
+  .react-grid-Header {
+  }
+  .react-grid-HeaderRow {
+    overflow: hidden;
+  }
+  .react-grid-HeaderCell:not(:first-child) {
+    border-left: #c7c7c7 solid 1px !important;
+  }
+  .react-grid-HeaderCell__draggable {
+    right: 16px !important;
+  }
+  .react-grid-Cell {
+    border: #ddd solid 1px !important;
+  }
 `
 const HowToImportContainer = styled.div`
   padding: 0 8px;
@@ -70,8 +90,6 @@ const styles = theme => ({
 })
 
 const enhance = compose(
-  withState('sortField', 'setSortField', 'Objekt Name'),
-  withState('sortDirection', 'setSortDirection', 'asc'),
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
   withState('idsAreUuids', 'setIdsAreUuid', undefined),
   withState('idsExist', 'setIdsExist', false),
@@ -108,12 +126,6 @@ const enhance = compose(
 
 const ImportPco = ({
   loginData,
-  dimensions,
-  sortField,
-  sortDirection,
-  setSortField,
-  setSortDirection,
-  classes,
   existsNoDataWithoutKey,
   setExistsNoDataWithoutKey,
   idsAreUuids,
@@ -143,12 +155,6 @@ const ImportPco = ({
   importPcoData,
 }: {
   loginData: Object,
-  dimensions: Object,
-  sortField: String,
-  sortDirection: String,
-  setSortField: () => void,
-  setSortDirection: () => void,
-  classes: Object,
   existsNoDataWithoutKey: Boolean,
   setExistsNoDataWithoutKey: () => void,
   idsAreUuids: Boolean,
@@ -179,13 +185,9 @@ const ImportPco = ({
 }) => {
   const objectsCheckData = get(importPcoData, 'allObjects.nodes', [])
   const objectIdsAreReal =
-    objectIds.length > 0
+    !importPcoData.loading && objectIds.length > 0
       ? objectIds.length === objectsCheckData.length
       : undefined
-  console.log('importPcoData:', importPcoData)
-  console.log('objectIds:', objectIds)
-  console.log('objectsCheckData:', objectsCheckData)
-  console.log('objectIdsAreReal:', objectIdsAreReal)
   const showImportButton =
     importData.length > 0 &&
     existsNoDataWithoutKey &&
@@ -197,6 +199,7 @@ const ImportPco = ({
     propertyValuesDontContainApostroph &&
     propertyValuesDontContainBackslash
   const showDropzone = !showImportButton
+  const showPreview = importData.length > 0
   console.log('importData:', importData)
   console.log('showDropzone:', showDropzone)
   console.log('showImportButton:', showImportButton)
@@ -602,6 +605,19 @@ const ImportPco = ({
           }}
         </Dropzone>
       </DropzoneContainer>
+      {showPreview && (
+        <ReactDataGrid
+          columns={Object.keys(importData[0]).map(k => ({
+            key: k,
+            name: k,
+            resizable: true,
+          }))}
+          rowGetter={i => importData[i]}
+          rowsCount={importData.length}
+          //minHeight={height - 33 - 37}
+          //minWidth={width}
+        />
+      )}
     </Container>
   )
 }
