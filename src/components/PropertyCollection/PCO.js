@@ -7,12 +7,15 @@ import get from 'lodash/get'
 import omit from 'lodash/omit'
 import forOwn from 'lodash/forOwn'
 import union from 'lodash/union'
+import flatten from 'lodash/flatten'
+import some from 'lodash/some'
 import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
 import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
+import isUuid from 'is-uuid'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import booleanToJaNein from '../../modules/booleanToJaNein'
@@ -248,13 +251,8 @@ const PCO = ({
               </ul>
               <h4>Tabelle</h4>
               <ul>
-                <li>
-                  Tabelle im Format <EmSpan>.csv</EmSpan> oder{' '}
-                  <EmSpan>.xlsx</EmSpan>
-                </li>
                 <li>Die erste Zeile enthält Feld-Namen</li>
-                <li>Jeder Wert hat einen Feld-Namen bzw. Spaltentitel</li>
-                <li>Jede Zeile enthält Werte</li>
+                <li>Jeder Wert hat einen Feld-Namen</li>
               </ul>
               <h4>Zuordnungs-Felder</h4>
               <ul>
@@ -266,9 +264,11 @@ const PCO = ({
                 <li>
                   Ein Feld namens <EmSpan>object_id</EmSpan> muss enthalten sein
                 </li>
+                <li>Die object_id muss eine gültige UUID sein</li>
                 <li>
                   Die object_id muss die id eines Objekts aus
-                  arteigenschaften.ch sein
+                  arteigenschaften.ch sein (wird nicht getestet - scheitert aber
+                  beim Import)
                 </li>
               </ul>
               <p>Alle weiteren Felder sind Eigenschaften des Objekts.</p>
@@ -303,6 +303,48 @@ const PCO = ({
                         .sheet_to_json(worksheet)
                         .map(d => omit(d, ['__rowNum__']))
                       console.log('data:', data)
+                      // TODO: test the data
+                      // missing key:
+                      const existsDataWithoutKey =
+                        data.filter(d => !!d.__EMPTY).length > 0
+                      console.log('existsDataWithoutKey:', existsDataWithoutKey)
+                      const containsNonUuidIds = data
+                        .map(d => d.id)
+                        .filter(d => d !== undefined)
+                        .map(d => isUuid.anyNonNil(d))
+                        .includes(false)
+                      console.log('containsNonUuidIds:', containsNonUuidIds)
+                      const objectIdNotAlwaysIncluded =
+                        data.filter(d => !d.object_id).length > 0
+                      console.log(
+                        'objectIdNotAlwaysIncluded:',
+                        objectIdNotAlwaysIncluded
+                      )
+                      const objectIdNotAlwaysUuid = data
+                        .map(d => d.object_id)
+                        .filter(d => d !== undefined)
+                        .map(d => isUuid.anyNonNil(d))
+                        .includes(false)
+                      console.log(
+                        'objectIdNotAlwaysUuid:',
+                        objectIdNotAlwaysUuid
+                      )
+                      const propertyKeys = union(
+                        flatten(
+                          data.map(d =>
+                            Object.keys(omit(d, ['id', 'object_id']))
+                          )
+                        )
+                      )
+                      console.log('propertyKeys:', propertyKeys)
+                      const propertyKeysContainDisallowedChars = some(
+                        propertyKeys,
+                        k => k.includes('"') || k.includes('\\')
+                      )
+                      console.log(
+                        'propertyKeysContainDisallowedChars:',
+                        propertyKeysContainDisallowedChars
+                      )
                     }
                     reader.onabort = () =>
                       console.log('file reading was aborted')
