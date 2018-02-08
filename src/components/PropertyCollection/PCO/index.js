@@ -124,7 +124,9 @@ const enhance = compose(
   withState('idsExist', 'setIdsExist', false),
   withState('idsAreUnique', 'setIdsAreUnique', undefined),
   withState('objectIdsExist', 'setObjectIdsExist', undefined),
+  withState('objectIds', 'setObjectIds', []),
   withState('objectIdsAreUuid', 'setObjectIdsAreUuid', undefined),
+  withState('importData', 'setImportData', []),
   withState(
     'propertyKeysDontContainApostroph',
     'setPropertyKeysDontContainApostroph',
@@ -182,6 +184,10 @@ const PCO = ({
   setPropertyValuesDontContainApostroph,
   propertyValuesDontContainBackslash,
   setPropertyValuesDontContainBackslash,
+  objectIds,
+  setObjectIds,
+  importData,
+  setImportData,
 }: {
   pCOData: Object,
   loginData: Object,
@@ -213,6 +219,10 @@ const PCO = ({
   setPropertyValuesDontContainApostroph: () => void,
   propertyValuesDontContainBackslash: Boolean,
   setPropertyValuesDontContainBackslash: () => void,
+  objectIds: Array<String>,
+  setObjectIds: () => void,
+  importData: Array<Object>,
+  setImportData: () => void,
 }) => {
   const { loading } = pCOData
   if (loading) {
@@ -267,16 +277,38 @@ const PCO = ({
   const writerNames = union(pCOWriters.map(w => w.userByUserId.name))
   const username = get(loginData, 'login.username')
   const userIsWriter = !!username && writerNames.includes(username)
+  const objectsCheckData = get(pCOData, 'allObjects.nodes', [])
+  const objectIdsAreReal =
+    objectIds.length > 0
+      ? objectIds.length === objectsCheckData.length
+      : undefined
+  const showCriteria = pCO.length === 0 && userIsWriter
+  const showImportButton =
+    importData.length > 0 &&
+    existsNoDataWithoutKey &&
+    (idsExist ? idsAreUnique && idsAreUuids : true) &&
+    (objectIdsExist ? objectIdsAreUuid && objectIdsAreReal : false) &&
+    existsPropertyKey &&
+    propertyKeysDontContainApostroph &&
+    propertyKeysDontContainBackslash &&
+    propertyValuesDontContainApostroph &&
+    propertyValuesDontContainBackslash
+  const showDropzone = showCriteria && !showImportButton
+  console.log('importData:', importData)
+  console.log('showDropzone:', showDropzone)
+  console.log('showImportButton:', showImportButton)
 
   return (
     <Container>
+      {!showCriteria && (
+        <TotalDiv>{`${pCO.length.toLocaleString('de-CH')} Datensätze, ${(
+          columns.length - 2
+        ).toLocaleString('de-CH')} Feld${columns.length === 3 ? '' : 'er'}${
+          pCO.length > 0 ? ':' : ''
+        }`}</TotalDiv>
+      )}
       {pCO.length > 0 && (
         <Fragment>
-          <TotalDiv>{`${pCO.length.toLocaleString('de-CH')} Datensätze, ${(
-            columns.length - 2
-          ).toLocaleString('de-CH')} Feld${columns.length === 3 ? '' : 'er'}${
-            pCO.length > 0 ? ':' : ''
-          }`}</TotalDiv>
           <ReactDataGrid
             onGridSort={(column, direction) => {
               setSortField(column)
@@ -322,411 +354,422 @@ const PCO = ({
           </ButtonsContainer>
         </Fragment>
       )}
-      {pCO.length === 0 &&
-        userIsWriter && (
-          <Fragment>
-            <HowToImportContainer>
-              <h3>Anforderungen an zu importierende Eigenschaften</h3>
-              <h4>Autorenrechte</h4>
-              <ul>
-                <li>
-                  <HowToImportLiContainer>
+      {showCriteria && (
+        <Fragment>
+          <HowToImportContainer>
+            <h3>Anforderungen an zu importierende Eigenschaften</h3>
+            <h4>Autorenrechte</h4>
+            <ul>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    Die Autoren müssen mit der Veröffentlichung einverstanden
+                    sein
+                  </div>
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>Dafür verantwortlich ist, wer Daten importiert</div>
+                </HowToImportLiContainer>
+              </li>
+            </ul>
+            <h4>Tabelle</h4>
+            <ul>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    Die erste Zeile enthält Feld-Namen (= Spalten-Titel)
+                  </div>
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    Jeder Wert hat einen Feld-Namen. Anders gesagt: Jede Zelle
+                    mit einem Wert hat einen Spalten-Titel
+                  </div>
+                  {existsNoDataWithoutKey && (
                     <div>
-                      Die Autoren müssen mit der Veröffentlichung einverstanden
-                      sein
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
                     </div>
-                  </HowToImportLiContainer>
-                </li>
-                <li>
-                  <HowToImportLiContainer>
-                    <div>Dafür verantwortlich ist, wer Daten importiert</div>
-                  </HowToImportLiContainer>
-                </li>
-              </ul>
-              <h4>Tabelle</h4>
-              <ul>
-                <li>
-                  <HowToImportLiContainer>
+                  )}
+                  {existsNoDataWithoutKey === false && (
                     <div>
-                      Die erste Zeile enthält Feld-Namen (= Spalten-Titel)
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
                     </div>
-                  </HowToImportLiContainer>
-                </li>
-                <li>
-                  <HowToImportLiContainer>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+            </ul>
+            <h4>Zuordnungs-Felder</h4>
+            <ul>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    Ein Feld namens <EmSpan>id</EmSpan> kann enthalten sein.
+                  </div>
+                  {idsExist && (
                     <div>
-                      Jeder Wert hat einen Feld-Namen. Anders gesagt: Jede Zelle
-                      mit einem Wert hat einen Spalten-Titel
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
                     </div>
-                    {existsNoDataWithoutKey && (
-                      <div>
-                        <InlineIcon>
-                          <StyledDoneIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                    {existsNoDataWithoutKey === false && (
-                      <div>
-                        <InlineIcon>
-                          <StyledErrorIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                  </HowToImportLiContainer>
-                </li>
-              </ul>
-              <h4>Zuordnungs-Felder</h4>
-              <ul>
-                <li>
-                  <HowToImportLiContainer>
+                  )}
+                </HowToImportLiContainer>
+                <HowToImportLiContainer>
+                  <div>Wenn nicht, wird eine id erzeugt</div>
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    <EmSpan>id</EmSpan>'s müssen gültige{' '}
+                    <a
+                      href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      UUID
+                    </a>{' '}
+                    sein
+                  </div>
+                  {idsAreUuids && (
                     <div>
-                      Ein Feld namens <EmSpan>id</EmSpan> kann enthalten sein.
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
                     </div>
-                    {idsExist && (
-                      <div>
-                        <InlineIcon>
-                          <StyledDoneIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                  </HowToImportLiContainer>
-                  <HowToImportLiContainer>
-                    <div>Wenn nicht, wird eine id erzeugt</div>
-                  </HowToImportLiContainer>
-                </li>
-                <li>
-                  <HowToImportLiContainer>
+                  )}
+                  {idsAreUuids === false && (
                     <div>
-                      <EmSpan>id</EmSpan>'s müssen gültige{' '}
-                      <a
-                        href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        UUID
-                      </a>{' '}
-                      sein
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
                     </div>
-                    {idsAreUuids && (
-                      <div>
-                        <InlineIcon>
-                          <StyledDoneIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                    {idsAreUuids === false && (
-                      <div>
-                        <InlineIcon>
-                          <StyledErrorIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                  </HowToImportLiContainer>
-                </li>
-                <li>
-                  <HowToImportLiContainer>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    <EmSpan>id</EmSpan>'s müssen eindeutig sein
+                  </div>
+                  {idsAreUnique && (
                     <div>
-                      <EmSpan>id</EmSpan>'s müssen eindeutig sein
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
                     </div>
-                    {idsAreUnique && (
-                      <div>
-                        <InlineIcon>
-                          <StyledDoneIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                    {idsAreUnique === false && (
-                      <div>
-                        <InlineIcon>
-                          <StyledErrorIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                  </HowToImportLiContainer>
-                </li>
-                <li>
-                  <HowToImportLiContainer>
+                  )}
+                  {idsAreUnique === false && (
                     <div>
-                      Ein Feld namens <EmSpan>object_id</EmSpan> muss enthalten
-                      sein
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
                     </div>
-                    {objectIdsExist && (
-                      <div>
-                        <InlineIcon>
-                          <StyledDoneIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                    {objectIdsExist === false && (
-                      <div>
-                        <InlineIcon>
-                          <StyledErrorIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                  </HowToImportLiContainer>
-                </li>
-                <li>
-                  <HowToImportLiContainer>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    Ein Feld namens <EmSpan>object_id</EmSpan> muss enthalten
+                    sein
+                  </div>
+                  {objectIdsExist && (
                     <div>
-                      <EmSpan>object_id</EmSpan>'s' müssen gültige{' '}
-                      <a
-                        href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        UUID
-                      </a>{' '}
-                      sein
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
                     </div>
-                    {objectIdsAreUuid && (
-                      <div>
-                        <InlineIcon>
-                          <StyledDoneIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                    {objectIdsAreUuid === false && (
-                      <div>
-                        <InlineIcon>
-                          <StyledErrorIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                  </HowToImportLiContainer>
-                </li>
-                <li>
-                  <HowToImportLiContainer>
+                  )}
+                  {objectIdsExist === false && (
                     <div>
-                      Die <EmSpan>object_id</EmSpan> muss die{' '}
-                      <EmSpan>id</EmSpan> eines Objekts aus arteigenschaften.ch
-                      sein (wird nicht getestet - scheitert aber beim Import)
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
                     </div>
-                  </HowToImportLiContainer>
-                </li>
-              </ul>
-              <p>Alle weiteren Felder sind Eigenschaften des Objekts.</p>
-              <h4>Eigenschaften</h4>
-              <ul>
-                <li>
-                  <HowToImportLiContainer>
-                    <div>Es muss mindestens eine Eigenschaft vorkommen</div>
-                    {existsPropertyKey && (
-                      <div>
-                        <InlineIcon>
-                          <StyledDoneIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                    {existsPropertyKey === false && (
-                      <div>
-                        <InlineIcon>
-                          <StyledErrorIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
-                  </HowToImportLiContainer>
-                </li>
-                <li>
-                  Feld-Namen dürfen beinahe alles enthalten.<br />
-                  Ausser diese Zeichen:
-                  <ul>
-                    <li>
-                      <HowToImportLiContainer>
-                        <div>"</div>
-                        {propertyKeysDontContainApostroph && (
-                          <div>
-                            <InlineIcon>
-                              <StyledDoneIcon />
-                            </InlineIcon>
-                          </div>
-                        )}
-                        {propertyKeysDontContainApostroph === false && (
-                          <div>
-                            <InlineIcon>
-                              <StyledErrorIcon />
-                            </InlineIcon>
-                          </div>
-                        )}
-                      </HowToImportLiContainer>
-                    </li>
-                    <li>
-                      <HowToImportLiContainer>
-                        <div>\</div>
-                        {propertyKeysDontContainBackslash && (
-                          <div>
-                            <InlineIcon>
-                              <StyledDoneIcon />
-                            </InlineIcon>
-                          </div>
-                        )}
-                        {propertyKeysDontContainBackslash === false && (
-                          <div>
-                            <InlineIcon>
-                              <StyledErrorIcon />
-                            </InlineIcon>
-                          </div>
-                        )}
-                      </HowToImportLiContainer>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  Feld-Werte dürfen beinahe alles enthalten.<br />
-                  Ausser diese Zeichen:
-                  <ul>
-                    <li>
-                      <HowToImportLiContainer>
-                        <div>"</div>
-                        {propertyValuesDontContainApostroph && (
-                          <div>
-                            <InlineIcon>
-                              <StyledDoneIcon />
-                            </InlineIcon>
-                          </div>
-                        )}
-                        {propertyValuesDontContainApostroph === false && (
-                          <div>
-                            <InlineIcon>
-                              <StyledErrorIcon />
-                            </InlineIcon>
-                          </div>
-                        )}
-                      </HowToImportLiContainer>
-                    </li>
-                    <li>
-                      <HowToImportLiContainer>
-                        <div>\</div>
-                        {propertyValuesDontContainBackslash && (
-                          <div>
-                            <InlineIcon>
-                              <StyledDoneIcon />
-                            </InlineIcon>
-                          </div>
-                        )}
-                        {propertyValuesDontContainBackslash === false && (
-                          <div>
-                            <InlineIcon>
-                              <StyledErrorIcon />
-                            </InlineIcon>
-                          </div>
-                        )}
-                      </HowToImportLiContainer>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </HowToImportContainer>
-            <DropzoneContainer>
-              <Dropzone
-                onDrop={(acceptedFiles, rejectedFiles) => {
-                  console.log({ acceptedFiles, rejectedFiles })
-                  const file = acceptedFiles[0]
-                  if (!!file) {
-                    const reader = new FileReader()
-                    reader.onload = () => {
-                      const fileAsBinaryString = reader.result
-                      const workbook = XLSX.read(fileAsBinaryString, {
-                          type: 'binary',
-                        }),
-                        sheetName = workbook.SheetNames[0],
-                        worksheet = workbook.Sheets[sheetName]
-                      const data = XLSX.utils
-                        .sheet_to_json(worksheet)
-                        .map(d => omit(d, ['__rowNum__']))
-                      console.log('data:', data)
-                      // test the data
-                      setExistsNoDataWithoutKey(
-                        data.filter(d => !!d.__EMPTY).length === 0
-                      )
-                      const ids = data
-                        .map(d => d.id)
-                        .filter(d => d !== undefined)
-                      const _idsExist = ids.length > 0
-                      setIdsExist(_idsExist)
-                      setIdsAreUuid(
-                        _idsExist
-                          ? !ids.map(d => isUuid.anyNonNil(d)).includes(false)
-                          : undefined
-                      )
-                      setIdsAreUnique(ids.length === uniq(ids))
-                      const objectIds = data
-                        .map(d => d.object_id)
-                        .filter(d => d !== undefined)
-                      const _objectIdsExist = objectIds.length === data.length
-                      setObjectIdsExist(_objectIdsExist)
-                      setObjectIdsAreUuid(
-                        _objectIdsExist
-                          ? !objectIds
-                              .map(d => isUuid.anyNonNil(d))
-                              .includes(false)
-                          : undefined
-                      )
-                      const propertyKeys = union(
-                        flatten(
-                          data.map(d =>
-                            Object.keys(omit(d, ['id', 'object_id']))
-                          )
-                        )
-                      )
-                      const _existsPropertyKey = propertyKeys.length > 0
-                      setExistsPropertyKey(_existsPropertyKey)
-                      setPropertyKeysDontContainApostroph(
-                        _existsPropertyKey
-                          ? !some(propertyKeys, k => k.includes('"'))
-                          : undefined
-                      )
-                      setPropertyKeysDontContainBackslash(
-                        _existsPropertyKey
-                          ? !some(propertyKeys, k => k.includes('\\'))
-                          : undefined
-                      )
-                      const propertyValues = union(
-                        flatten(data.map(d => Object.values(d)))
-                      )
-                      setPropertyValuesDontContainApostroph(
-                        !some(propertyValues, k => k.includes('"'))
-                      )
-                      setPropertyValuesDontContainBackslash(
-                        !some(propertyValues, k => k.includes('\\'))
-                      )
-                    }
-                    reader.onabort = () =>
-                      console.log('file reading was aborted')
-                    reader.onerror = () =>
-                      console.log('file reading has failed')
-                    reader.readAsBinaryString(file)
-                  }
-                }}
-                accept=".xlsx, .xls, .csv, .ods, .dbf, .dif"
-                disablePreview
-                multiple={false}
-              >
-                {({
-                  isDragActive,
-                  isDragReject,
-                  acceptedFiles,
-                  rejectedFiles,
-                }) => {
-                  if (isDragActive)
-                    return (
-                      <DropzoneDivActive>Hier fallen lassen</DropzoneDivActive>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    <EmSpan>object_id</EmSpan>'s' müssen gültige{' '}
+                    <a
+                      href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      UUID
+                    </a>{' '}
+                    sein
+                  </div>
+                  {objectIdsAreUuid && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {objectIdsAreUuid === false && (
+                    <div>
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    <EmSpan>object_id</EmSpan>'s' müssen <EmSpan>id</EmSpan>'s
+                    von Objekten aus arteigenschaften.ch sein
+                  </div>
+                  {objectIdsAreReal && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {objectIdsAreReal === false && (
+                    <div>
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+            </ul>
+            <p>Alle weiteren Felder sind Eigenschaften des Objekts.</p>
+            <h4>Eigenschaften</h4>
+            <ul>
+              <li>
+                <HowToImportLiContainer>
+                  <div>Es muss mindestens eine Eigenschaft vorkommen</div>
+                  {existsPropertyKey && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {existsPropertyKey === false && (
+                    <div>
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                Feld-Namen dürfen beinahe alles enthalten.<br />
+                Ausser diese Zeichen:
+                <ul>
+                  <li>
+                    <HowToImportLiContainer>
+                      <div>"</div>
+                      {propertyKeysDontContainApostroph && (
+                        <div>
+                          <InlineIcon>
+                            <StyledDoneIcon />
+                          </InlineIcon>
+                        </div>
+                      )}
+                      {propertyKeysDontContainApostroph === false && (
+                        <div>
+                          <InlineIcon>
+                            <StyledErrorIcon />
+                          </InlineIcon>
+                        </div>
+                      )}
+                    </HowToImportLiContainer>
+                  </li>
+                  <li>
+                    <HowToImportLiContainer>
+                      <div>\</div>
+                      {propertyKeysDontContainBackslash && (
+                        <div>
+                          <InlineIcon>
+                            <StyledDoneIcon />
+                          </InlineIcon>
+                        </div>
+                      )}
+                      {propertyKeysDontContainBackslash === false && (
+                        <div>
+                          <InlineIcon>
+                            <StyledErrorIcon />
+                          </InlineIcon>
+                        </div>
+                      )}
+                    </HowToImportLiContainer>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                Feld-Werte dürfen beinahe alles enthalten.<br />
+                Ausser diese Zeichen:
+                <ul>
+                  <li>
+                    <HowToImportLiContainer>
+                      <div>"</div>
+                      {propertyValuesDontContainApostroph && (
+                        <div>
+                          <InlineIcon>
+                            <StyledDoneIcon />
+                          </InlineIcon>
+                        </div>
+                      )}
+                      {propertyValuesDontContainApostroph === false && (
+                        <div>
+                          <InlineIcon>
+                            <StyledErrorIcon />
+                          </InlineIcon>
+                        </div>
+                      )}
+                    </HowToImportLiContainer>
+                  </li>
+                  <li>
+                    <HowToImportLiContainer>
+                      <div>\</div>
+                      {propertyValuesDontContainBackslash && (
+                        <div>
+                          <InlineIcon>
+                            <StyledDoneIcon />
+                          </InlineIcon>
+                        </div>
+                      )}
+                      {propertyValuesDontContainBackslash === false && (
+                        <div>
+                          <InlineIcon>
+                            <StyledErrorIcon />
+                          </InlineIcon>
+                        </div>
+                      )}
+                    </HowToImportLiContainer>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </HowToImportContainer>
+          <DropzoneContainer>
+            <Dropzone
+              onDrop={(acceptedFiles, rejectedFiles) => {
+                const file = acceptedFiles[0]
+                if (!!file) {
+                  const reader = new FileReader()
+                  reader.onload = () => {
+                    const fileAsBinaryString = reader.result
+                    const workbook = XLSX.read(fileAsBinaryString, {
+                        type: 'binary',
+                      }),
+                      sheetName = workbook.SheetNames[0],
+                      worksheet = workbook.Sheets[sheetName]
+                    const data = XLSX.utils
+                      .sheet_to_json(worksheet)
+                      .map(d => omit(d, ['__rowNum__']))
+                    // test the data
+                    setImportData(data)
+                    setExistsNoDataWithoutKey(
+                      data.filter(d => !!d.__EMPTY).length === 0
                     )
-                  if (isDragReject)
-                    return <DropzoneDivActive>njet!</DropzoneDivActive>
+                    const ids = data.map(d => d.id).filter(d => d !== undefined)
+                    const _idsExist = ids.length > 0
+                    setIdsExist(_idsExist)
+                    setIdsAreUuid(
+                      _idsExist
+                        ? !ids.map(d => isUuid.anyNonNil(d)).includes(false)
+                        : undefined
+                    )
+                    setIdsAreUnique(
+                      _idsExist ? ids.length === uniq(ids).length : undefined
+                    )
+                    const _objectIds = data
+                      .map(d => d.object_id)
+                      .filter(d => d !== undefined)
+                    const _objectIdsExist = _objectIds.length === data.length
+                    setObjectIdsExist(_objectIdsExist)
+                    setObjectIdsAreUuid(
+                      _objectIdsExist
+                        ? !_objectIds
+                            .map(d => isUuid.anyNonNil(d))
+                            .includes(false)
+                        : undefined
+                    )
+                    setObjectIds(_objectIds)
+                    const propertyKeys = union(
+                      flatten(
+                        data.map(d => Object.keys(omit(d, ['id', 'object_id'])))
+                      )
+                    )
+                    const _existsPropertyKey = propertyKeys.length > 0
+                    setExistsPropertyKey(_existsPropertyKey)
+                    setPropertyKeysDontContainApostroph(
+                      _existsPropertyKey
+                        ? !some(propertyKeys, k => k.includes('"'))
+                        : undefined
+                    )
+                    setPropertyKeysDontContainBackslash(
+                      _existsPropertyKey
+                        ? !some(propertyKeys, k => k.includes('\\'))
+                        : undefined
+                    )
+                    const propertyValues = union(
+                      flatten(data.map(d => Object.values(d)))
+                    )
+                    setPropertyValuesDontContainApostroph(
+                      !some(propertyValues, k => k.includes('"'))
+                    )
+                    setPropertyValuesDontContainBackslash(
+                      !some(propertyValues, k => k.includes('\\'))
+                    )
+                    // TODO
+                    // if all tests pass, show import button
+                    console.log('data:', data)
+                  }
+                  reader.onabort = () => console.log('file reading was aborted')
+                  reader.onerror = () => console.log('file reading has failed')
+                  reader.readAsBinaryString(file)
+                }
+              }}
+              accept=".xlsx, .xls, .csv, .ods, .dbf, .dif"
+              disablePreview
+              multiple={false}
+            >
+              {({
+                isDragActive,
+                isDragReject,
+                acceptedFiles,
+                rejectedFiles,
+              }) => {
+                if (isDragActive)
                   return (
-                    <DropzoneDiv>
-                      Datei hierhin ziehen.<br />
-                      Oder klicken, um sie auszuwählen.<br />
-                      <br />
-                      Akzeptierte Formate: .xlsx, .xls, .csv, .ods, .dbf, .dif
-                    </DropzoneDiv>
+                    <DropzoneDivActive>Hier fallen lassen</DropzoneDivActive>
                   )
-                }}
-              </Dropzone>
-            </DropzoneContainer>
-          </Fragment>
-        )}
+                if (isDragReject)
+                  return <DropzoneDivActive>njet!</DropzoneDivActive>
+                return (
+                  <DropzoneDiv>
+                    Datei hierhin ziehen.<br />
+                    Oder klicken, um sie auszuwählen.<br />
+                    <br />
+                    Akzeptierte Formate: .xlsx, .xls, .csv, .ods, .dbf, .dif
+                  </DropzoneDiv>
+                )
+              }}
+            </Dropzone>
+          </DropzoneContainer>
+        </Fragment>
+      )}
     </Container>
   )
 }
