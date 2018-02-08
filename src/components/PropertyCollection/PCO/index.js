@@ -10,9 +10,13 @@ import union from 'lodash/union'
 import flatten from 'lodash/flatten'
 import some from 'lodash/some'
 import orderBy from 'lodash/orderBy'
+import uniq from 'lodash/uniq'
 import ReactDataGrid from 'react-data-grid'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
+import Icon from 'material-ui-next/Icon'
+import DoneIcon from 'material-ui-icons/Done'
+import ErrorIcon from 'material-ui-icons/Error'
 import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
@@ -88,6 +92,15 @@ const DropzoneDiv = styled.div`
 const DropzoneDivActive = styled(DropzoneDiv)`
   background-color: rgba(255, 224, 178, 0.2);
 `
+const InlineIcon = styled(Icon)`
+  margin-left: 8px;
+`
+const StyledDoneIcon = styled(DoneIcon)`
+  color: green !important;
+`
+const StyledErrorIcon = styled(ErrorIcon)`
+  color: red !important;
+`
 
 const styles = theme => ({
   button: {
@@ -99,6 +112,12 @@ const enhance = compose(
   activeNodeArrayData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
+  withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
+  withState('idsAreUuids', 'setIdsAreUuids', undefined),
+  withState('idsExist', 'setIdsExist', false),
+  withState('idsAreUnique', 'setIdsAreUnique', undefined),
+  withState('xxx', 'setXxx', 0),
+  withState('xxx', 'setXxx', 0),
   pCOData,
   loginData,
   withStyles(styles)
@@ -113,6 +132,14 @@ const PCO = ({
   setSortField,
   setSortDirection,
   classes,
+  existsNoDataWithoutKey,
+  setExistsNoDataWithoutKey,
+  idsAreUuids,
+  setIdsAreUuids,
+  idsExist,
+  setIdsExist,
+  idsAreUnique,
+  setIdsAreUnique,
 }: {
   pCOData: Object,
   loginData: Object,
@@ -122,6 +149,14 @@ const PCO = ({
   setSortField: () => void,
   setSortDirection: () => void,
   classes: Object,
+  existsNoDataWithoutKey: Boolean,
+  setExistsNoDataWithoutKey: () => void,
+  idsAreUuids: Boolean,
+  setIdsAreUuids: () => void,
+  idsExist: Boolean,
+  setIdsExist: () => void,
+  idsAreUnique: Boolean,
+  setIdsAreUnique: () => void,
 }) => {
   const { loading } = pCOData
   if (loading) {
@@ -182,6 +217,8 @@ const PCO = ({
    * enable removing pco data
    * enable importing pco data if none exists
    */
+  console.log('existsNoDataWithoutKey:', existsNoDataWithoutKey)
+  console.log('idsAreUuids:', idsAreUuids)
 
   return (
     <Container>
@@ -252,21 +289,66 @@ const PCO = ({
               <h4>Tabelle</h4>
               <ul>
                 <li>Die erste Zeile enthält Feld-Namen</li>
-                <li>Jeder Wert hat einen Feld-Namen</li>
+                <li>
+                  Jeder Wert hat einen Feld-Namen
+                  {existsNoDataWithoutKey && (
+                    <InlineIcon>
+                      <StyledDoneIcon />
+                    </InlineIcon>
+                  )}
+                  {existsNoDataWithoutKey === false && (
+                    <InlineIcon>
+                      <StyledErrorIcon />
+                    </InlineIcon>
+                  )}
+                </li>
               </ul>
               <h4>Zuordnungs-Felder</h4>
               <ul>
                 <li>
-                  Ein Feld namens <EmSpan>id</EmSpan> kann enthalten sein.<br />
+                  Ein Feld namens <EmSpan>id</EmSpan> kann enthalten sein.
+                  {idsExist && (
+                    <InlineIcon>
+                      <StyledDoneIcon />
+                    </InlineIcon>
+                  )}
+                  <br />
                   Wenn nicht, wird eine id erzeugt
                 </li>
-                <li>Die id muss eine gültige UUID sein</li>
+                <li>
+                  <EmSpan>id</EmSpan>'s müssen eine gültige UUID sein
+                  {idsAreUuids && (
+                    <InlineIcon>
+                      <StyledDoneIcon />
+                    </InlineIcon>
+                  )}
+                  {idsAreUuids === false && (
+                    <InlineIcon>
+                      <StyledErrorIcon />
+                    </InlineIcon>
+                  )}
+                </li>
+                <li>
+                  <EmSpan>id</EmSpan>'s müssen eindeutig sein
+                  {idsAreUnique && (
+                    <InlineIcon>
+                      <StyledDoneIcon />
+                    </InlineIcon>
+                  )}
+                  {idsAreUnique === false && (
+                    <InlineIcon>
+                      <StyledErrorIcon />
+                    </InlineIcon>
+                  )}
+                </li>
                 <li>
                   Ein Feld namens <EmSpan>object_id</EmSpan> muss enthalten sein
                 </li>
-                <li>Die object_id muss eine gültige UUID sein</li>
                 <li>
-                  Die object_id muss die id eines Objekts aus
+                  Die <EmSpan>object_id</EmSpan> muss eine gültige UUID sein
+                </li>
+                <li>
+                  Die <EmSpan>object_id</EmSpan> muss die id eines Objekts aus
                   arteigenschaften.ch sein (wird nicht getestet - scheitert aber
                   beim Import)
                 </li>
@@ -305,15 +387,20 @@ const PCO = ({
                       console.log('data:', data)
                       // TODO: test the data
                       // missing key:
-                      const existsDataWithoutKey =
-                        data.filter(d => !!d.__EMPTY).length > 0
-                      console.log('existsDataWithoutKey:', existsDataWithoutKey)
-                      const containsNonUuidIds = data
+                      setExistsNoDataWithoutKey(
+                        data.filter(d => !!d.__EMPTY).length === 0
+                      )
+                      const ids = data
                         .map(d => d.id)
                         .filter(d => d !== undefined)
-                        .map(d => isUuid.anyNonNil(d))
-                        .includes(false)
-                      console.log('containsNonUuidIds:', containsNonUuidIds)
+                      const _idsExist = ids.length > 0
+                      setIdsExist(_idsExist)
+                      setIdsAreUuids(
+                        _idsExist
+                          ? !ids.map(d => isUuid.anyNonNil(d)).includes(false)
+                          : undefined
+                      )
+                      setIdsAreUnique(ids.length === uniq(ids))
                       const objectIdNotAlwaysIncluded =
                         data.filter(d => !d.object_id).length > 0
                       console.log(
