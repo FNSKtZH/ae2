@@ -18,8 +18,10 @@ import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
 import ReactDataGrid from 'react-data-grid'
+import { withApollo } from 'react-apollo'
 
 import importPcoData from './importPcoData'
+import createPCOMutation from './createPCOMutation'
 import loginData from '../../../../modules/loginData'
 
 const Container = styled.div`
@@ -95,6 +97,7 @@ const styles = theme => ({
 })
 
 const enhance = compose(
+  withApollo,
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
   withState('idsAreUuids', 'setIdsAreUuid', undefined),
   withState('idsExist', 'setIdsExist', false),
@@ -158,6 +161,7 @@ const ImportPco = ({
   importData,
   setImportData,
   importPcoData,
+  client,
 }: {
   loginData: Object,
   existsNoDataWithoutKey: Boolean,
@@ -187,6 +191,7 @@ const ImportPco = ({
   importData: Array<Object>,
   setImportData: () => void,
   importPcoData: Object,
+  client: Object,
 }) => {
   const objectsCheckData = get(importPcoData, 'allObjects.nodes', [])
   const objectIdsAreReal =
@@ -347,7 +352,7 @@ const ImportPco = ({
           <li>
             <HowToImportLiContainer>
               <div>
-                <EmSpan>object_id</EmSpan>'s' müssen gültige{' '}
+                <EmSpan>object_id</EmSpan>'s müssen gültige{' '}
                 <a
                   href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
                   target="_blank"
@@ -376,7 +381,7 @@ const ImportPco = ({
           <li>
             <HowToImportLiContainer>
               <div>
-                <EmSpan>object_id</EmSpan>'s' müssen <EmSpan>id</EmSpan>'s von
+                <EmSpan>object_id</EmSpan>'s müssen <EmSpan>id</EmSpan>'s von
                 Objekten aus arteigenschaften.ch sein
               </div>
               {objectIdsAreReal && (
@@ -401,7 +406,7 @@ const ImportPco = ({
         <ul>
           <li>
             <HowToImportLiContainer>
-              <div>Es muss mindestens eine Eigenschaft vorkommen</div>
+              <div>Es gibt mindestens eine Eigenschaft</div>
               {existsPropertyKey && (
                 <div>
                   <InlineIcon>
@@ -419,8 +424,7 @@ const ImportPco = ({
             </HowToImportLiContainer>
           </li>
           <li>
-            Feld-Namen dürfen beinahe alles enthalten.<br />
-            Ausser diese Zeichen:
+            Feld-Namen dürfen die folgenden Zeichen nicht enthalten:
             <ul>
               <li>
                 <HowToImportLiContainer>
@@ -463,8 +467,7 @@ const ImportPco = ({
             </ul>
           </li>
           <li>
-            Feld-Werte dürfen beinahe alles enthalten.<br />
-            Ausser diese Zeichen:
+            Feld-Werte dürfen die folgenden Zeichen nicht enthalten:
             <ul>
               <li>
                 <HowToImportLiContainer>
@@ -595,7 +598,7 @@ const ImportPco = ({
             return (
               <DropzoneDiv>
                 Datei hierhin ziehen.<br />
-                Oder klicken, um sie auszuwählen.<br />
+                Oder hier klicken, um eine Datei auszuwählen.<br />
                 <br />
                 Akzeptierte Formate: .xlsx, .xls, .csv, .ods, .dbf, .dif
               </DropzoneDiv>
@@ -605,8 +608,27 @@ const ImportPco = ({
       </DropzoneContainer>
       {showImportButton && (
         <StyledButton
-          onClick={() => console.log('TODO')}
-          //className={classes.button}
+          onClick={async () => {
+            console.log('import this data:', importData)
+            // need a list of all fields
+            let fields = []
+            importData.forEach(d => {
+              fields = union([...fields, ...Object.keys(d)])
+            })
+            console.log('fields:', fields)
+            // loop all rows, build variables and create pco
+            importData.forEach(d => {
+              const variables = {}
+              fields.forEach(f => (variables[f] = d[f] || null))
+              console.log('variables:', variables)
+              /*
+              client.mutate({
+                mutation: createPCOMutation,
+                variables,
+              })
+              */
+            })
+          }}
         >
           importieren
         </StyledButton>
