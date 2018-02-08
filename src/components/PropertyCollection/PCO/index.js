@@ -135,6 +135,16 @@ const enhance = compose(
     'setPropertyKeysDontContainBackslash',
     undefined
   ),
+  withState(
+    'propertyValuesDontContainApostroph',
+    'setPropertyValuesDontContainApostroph',
+    undefined
+  ),
+  withState(
+    'propertyValuesDontContainBackslash',
+    'setPropertyValuesDontContainBackslash',
+    undefined
+  ),
   withState('existsPropertyKey', 'setExistsPropertyKey', undefined),
   pCOData,
   loginData,
@@ -168,6 +178,10 @@ const PCO = ({
   setPropertyKeysDontContainBackslash,
   existsPropertyKey,
   setExistsPropertyKey,
+  propertyValuesDontContainApostroph,
+  setPropertyValuesDontContainApostroph,
+  propertyValuesDontContainBackslash,
+  setPropertyValuesDontContainBackslash,
 }: {
   pCOData: Object,
   loginData: Object,
@@ -195,6 +209,10 @@ const PCO = ({
   setPropertyKeysDontContainBackslash: () => void,
   existsPropertyKey: Boolean,
   setExistsPropertyKey: () => void,
+  propertyValuesDontContainApostroph: Boolean,
+  setPropertyValuesDontContainApostroph: () => void,
+  propertyValuesDontContainBackslash: Boolean,
+  setPropertyValuesDontContainBackslash: () => void,
 }) => {
   const { loading } = pCOData
   if (loading) {
@@ -329,12 +347,17 @@ const PCO = ({
               <ul>
                 <li>
                   <HowToImportLiContainer>
-                    <div>Die erste Zeile enthält Feld-Namen</div>
+                    <div>
+                      Die erste Zeile enthält Feld-Namen (= Spalten-Titel)
+                    </div>
                   </HowToImportLiContainer>
                 </li>
                 <li>
                   <HowToImportLiContainer>
-                    <div>Jeder Wert hat einen Feld-Namen</div>
+                    <div>
+                      Jeder Wert hat einen Feld-Namen. Anders gesagt: Jede Zelle
+                      mit einem Wert hat einen Spalten-Titel
+                    </div>
                     {existsNoDataWithoutKey && (
                       <div>
                         <InlineIcon>
@@ -374,7 +397,7 @@ const PCO = ({
                 <li>
                   <HowToImportLiContainer>
                     <div>
-                      <EmSpan>id</EmSpan>'s müssen eine gültige{' '}
+                      <EmSpan>id</EmSpan>'s müssen gültige{' '}
                       <a
                         href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
                         target="_blank"
@@ -446,7 +469,7 @@ const PCO = ({
                 <li>
                   <HowToImportLiContainer>
                     <div>
-                      <EmSpan>object_id</EmSpan>'s' müssen eine gültige{' '}
+                      <EmSpan>object_id</EmSpan>'s' müssen gültige{' '}
                       <a
                         href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
                         target="_blank"
@@ -548,6 +571,50 @@ const PCO = ({
                     </li>
                   </ul>
                 </li>
+                <li>
+                  Feld-Werte dürfen beinahe alles enthalten.<br />
+                  Ausser diese Zeichen:
+                  <ul>
+                    <li>
+                      <HowToImportLiContainer>
+                        <div>"</div>
+                        {propertyValuesDontContainApostroph && (
+                          <div>
+                            <InlineIcon>
+                              <StyledDoneIcon />
+                            </InlineIcon>
+                          </div>
+                        )}
+                        {propertyValuesDontContainApostroph === false && (
+                          <div>
+                            <InlineIcon>
+                              <StyledErrorIcon />
+                            </InlineIcon>
+                          </div>
+                        )}
+                      </HowToImportLiContainer>
+                    </li>
+                    <li>
+                      <HowToImportLiContainer>
+                        <div>\</div>
+                        {propertyValuesDontContainBackslash && (
+                          <div>
+                            <InlineIcon>
+                              <StyledDoneIcon />
+                            </InlineIcon>
+                          </div>
+                        )}
+                        {propertyValuesDontContainBackslash === false && (
+                          <div>
+                            <InlineIcon>
+                              <StyledErrorIcon />
+                            </InlineIcon>
+                          </div>
+                        )}
+                      </HowToImportLiContainer>
+                    </li>
+                  </ul>
+                </li>
               </ul>
             </HowToImportContainer>
             <DropzoneContainer>
@@ -613,6 +680,15 @@ const PCO = ({
                         _existsPropertyKey
                           ? !some(propertyKeys, k => k.includes('\\'))
                           : undefined
+                      )
+                      const propertyValues = union(
+                        flatten(data.map(d => Object.values(d)))
+                      )
+                      setPropertyValuesDontContainApostroph(
+                        !some(propertyValues, k => k.includes('"'))
+                      )
+                      setPropertyValuesDontContainBackslash(
+                        !some(propertyValues, k => k.includes('\\'))
                       )
                     }
                     reader.onabort = () =>
