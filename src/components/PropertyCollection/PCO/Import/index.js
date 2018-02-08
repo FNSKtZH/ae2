@@ -21,6 +21,7 @@ import ReactDataGrid from 'react-data-grid'
 import { withApollo } from 'react-apollo'
 
 import importPcoData from './importPcoData'
+import pCOData from '../pCOData'
 import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
 import createPCOMutation from './createPCOMutation'
 import loginData from '../../../../modules/loginData'
@@ -100,6 +101,7 @@ const styles = theme => ({
 const enhance = compose(
   withApollo,
   activeNodeArrayData,
+  pCOData,
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
   withState('idsAreUuids', 'setIdsAreUuid', undefined),
   withState('idsExist', 'setIdsExist', false),
@@ -137,6 +139,7 @@ const enhance = compose(
 const ImportPco = ({
   loginData,
   activeNodeArrayData,
+  pCOData,
   existsNoDataWithoutKey,
   setExistsNoDataWithoutKey,
   idsAreUuids,
@@ -168,6 +171,7 @@ const ImportPco = ({
 }: {
   loginData: Object,
   activeNodeArrayData: Object,
+  pCOData: Object,
   existsNoDataWithoutKey: Boolean,
   setExistsNoDataWithoutKey: () => void,
   idsAreUuids: Boolean,
@@ -340,7 +344,7 @@ const ImportPco = ({
           <li>
             <HowToImportLiContainer>
               <div>
-                Ein Feld namens <EmSpan>object_id</EmSpan> muss enthalten sein
+                Ein Feld namens <EmSpan>objectId</EmSpan> muss enthalten sein
               </div>
               {objectIdsExist && (
                 <div>
@@ -361,7 +365,7 @@ const ImportPco = ({
           <li>
             <HowToImportLiContainer>
               <div>
-                <EmSpan>object_id</EmSpan>'s müssen gültige{' '}
+                <EmSpan>objectId</EmSpan>'s müssen gültige{' '}
                 <a
                   href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
                   target="_blank"
@@ -390,7 +394,7 @@ const ImportPco = ({
           <li>
             <HowToImportLiContainer>
               <div>
-                <EmSpan>object_id</EmSpan>'s müssen <EmSpan>id</EmSpan>'s von
+                <EmSpan>objectId</EmSpan>'s müssen <EmSpan>id</EmSpan>'s von
                 Objekten aus arteigenschaften.ch sein
               </div>
               {objectIdsAreReal && (
@@ -553,7 +557,7 @@ const ImportPco = ({
                   _idsExist ? ids.length === uniq(ids).length : undefined
                 )
                 const _objectIds = data
-                  .map(d => d.object_id)
+                  .map(d => d.objectId)
                   .filter(d => d !== undefined)
                 const _objectIdsExist = _objectIds.length === data.length
                 setObjectIdsExist(_objectIdsExist)
@@ -565,7 +569,7 @@ const ImportPco = ({
                 setObjectIds(_objectIds)
                 const propertyKeys = union(
                   flatten(
-                    data.map(d => Object.keys(omit(d, ['id', 'object_id'])))
+                    data.map(d => Object.keys(omit(d, ['id', 'objectId'])))
                   )
                 )
                 const _existsPropertyKey = propertyKeys.length > 0
@@ -618,27 +622,21 @@ const ImportPco = ({
       {showImportButton && (
         <StyledButton
           onClick={async () => {
-            console.log('import this data:', importData)
             // need a list of all fields
             let fields = []
             importData.forEach(d => {
               fields = union([...fields, ...Object.keys(d)])
             })
-            console.log('fields:', fields)
             // loop all rows, build variables and create pco
-            importData.forEach(d => {
+            importData.forEach(async d => {
               const variables = {}
               fields.forEach(f => (variables[f] = d[f] || null))
               variables.propertyCollectionId = pCId
-              if (!fields.includes('id')) {
-                variables.id = null
-              }
-              console.log('variables:', variables)
-
-              client.mutate({
+              await client.mutate({
                 mutation: createPCOMutation,
                 variables,
               })
+              pCOData.refetch()
             })
           }}
         >

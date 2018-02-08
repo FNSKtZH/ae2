@@ -9,7 +9,7 @@ export default gql`
     $propertyCollectionOfOrigin: UUID
     $properties: JSON
   ) {
-    createPropertyCollection(
+    createPropertyCollectionObject(
       input: {
         propertyCollectionObject: {
           id: $id

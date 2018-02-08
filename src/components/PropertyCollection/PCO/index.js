@@ -6,11 +6,13 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 import forOwn from 'lodash/forOwn'
+import set from 'lodash/set'
 import union from 'lodash/union'
 import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
+import { withApollo } from 'react-apollo'
 
 import ImportPco from './Import'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
@@ -18,7 +20,10 @@ import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import pCOData from './pCOData'
+import pCODataGql from './pCODataGql'
+import treeData from '../../Tree/treeData'
 import loginData from '../../../modules/loginData'
+import deletePCOMutation from './deletePCOMutation'
 
 const Container = styled.div`
   height: 100%;
@@ -71,7 +76,9 @@ const styles = theme => ({
 })
 
 const enhance = compose(
+  withApollo,
   activeNodeArrayData,
+  treeData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
   pCOData,
@@ -80,6 +87,8 @@ const enhance = compose(
 )
 
 const PCO = ({
+  activeNodeArrayData,
+  treeData,
   pCOData,
   loginData,
   dimensions,
@@ -88,7 +97,10 @@ const PCO = ({
   setSortField,
   setSortDirection,
   classes,
+  client,
 }: {
+  activeNodeArrayData: Object,
+  treeData: Object,
   pCOData: Object,
   loginData: Object,
   dimensions: Object,
@@ -97,6 +109,7 @@ const PCO = ({
   setSortField: () => void,
   setSortDirection: () => void,
   classes: Object,
+  client: Object,
 }) => {
   const { loading } = pCOData
   if (loading) {
@@ -152,6 +165,7 @@ const PCO = ({
   const username = get(loginData, 'login.username')
   const userIsWriter = !!username && writerNames.includes(username)
   const showImportPco = pCO.length === 0 && userIsWriter
+  console.log('pCORaw:', pCORaw)
 
   return (
     <Container>
@@ -199,7 +213,59 @@ const PCO = ({
             {userIsWriter && (
               <MutationButtons>
                 <StyledButton
-                  onClick={() => console.log('TODO')}
+                  onClick={() => {
+                    pCORaw.forEach(o => {
+                      console.log('o:', o)
+                      client.mutate({
+                        mutation: deletePCOMutation,
+                        variables: { id: o.id },
+                        optimisticResponse: {
+                          deletePropertyCollectionObjectById: {
+                            propertyCollectionObject: {
+                              id: o.id,
+                              __typename: 'PropertyCollectionObject',
+                            },
+                            __typename: 'Mutation',
+                          },
+                        },
+                        update: (proxy, { data: { deletePCOMutation } }) => {
+                          const data = proxy.readQuery({
+                            query: pCODataGql,
+                            variables: {
+                              pCId: get(
+                                activeNodeArrayData,
+                                'activeNodeArray[1]',
+                                '99999999-9999-9999-9999-999999999999'
+                              ),
+                            },
+                          })
+                          const _pCO = get(
+                            data,
+                            'propertyCollectionById.propertyCollectionObjectsByPropertyCollectionId.nodes',
+                            []
+                          )
+                          const newPCO = _pCO.filter(u => u.id !== o.id)
+                          set(
+                            data,
+                            'propertyCollectionById.propertyCollectionObjectsByPropertyCollectionId.nodes',
+                            newPCO
+                          )
+                          proxy.writeQuery({
+                            query: pCODataGql,
+                            variables: {
+                              pCId: get(
+                                activeNodeArrayData,
+                                'activeNodeArray[1]',
+                                '99999999-9999-9999-9999-999999999999'
+                              ),
+                            },
+                            data,
+                          })
+                        },
+                      })
+                      treeData.refetch()
+                    })
+                  }}
                   className={classes.button}
                 >
                   Daten löschen
