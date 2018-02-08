@@ -351,7 +351,15 @@ const PCO = ({
                 <li>
                   <HowToImportLiContainer>
                     <div>
-                      <EmSpan>id</EmSpan>'s müssen eine gültige UUID sein
+                      <EmSpan>id</EmSpan>'s müssen eine gültige{' '}
+                      <a
+                        href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        UUID
+                      </a>{' '}
+                      sein
                     </div>
                     {idsAreUuids && (
                       <div>
@@ -401,16 +409,24 @@ const PCO = ({
                 <li>
                   <HowToImportLiContainer>
                     <div>
-                      Die <EmSpan>object_id</EmSpan> muss eine gültige UUID sein
+                      Die <EmSpan>object_id</EmSpan> muss eine gültige{' '}
+                      <a
+                        href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        UUID
+                      </a>{' '}
+                      sein
                     </div>
                   </HowToImportLiContainer>
                 </li>
                 <li>
                   <HowToImportLiContainer>
                     <div>
-                      Die <EmSpan>object_id</EmSpan> muss die id eines Objekts
-                      aus arteigenschaften.ch sein (wird nicht getestet -
-                      scheitert aber beim Import)
+                      Die <EmSpan>object_id</EmSpan> muss die{' '}
+                      <EmSpan>id</EmSpan> eines Objekts aus arteigenschaften.ch
+                      sein (wird nicht getestet - scheitert aber beim Import)
                     </div>
                   </HowToImportLiContainer>
                 </li>
