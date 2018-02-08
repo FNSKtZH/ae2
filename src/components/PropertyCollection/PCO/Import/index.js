@@ -21,6 +21,7 @@ import ReactDataGrid from 'react-data-grid'
 import { withApollo } from 'react-apollo'
 
 import importPcoData from './importPcoData'
+import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
 import createPCOMutation from './createPCOMutation'
 import loginData from '../../../../modules/loginData'
 
@@ -98,6 +99,7 @@ const styles = theme => ({
 
 const enhance = compose(
   withApollo,
+  activeNodeArrayData,
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
   withState('idsAreUuids', 'setIdsAreUuid', undefined),
   withState('idsExist', 'setIdsExist', false),
@@ -134,6 +136,7 @@ const enhance = compose(
 
 const ImportPco = ({
   loginData,
+  activeNodeArrayData,
   existsNoDataWithoutKey,
   setExistsNoDataWithoutKey,
   idsAreUuids,
@@ -164,6 +167,7 @@ const ImportPco = ({
   client,
 }: {
   loginData: Object,
+  activeNodeArrayData: Object,
   existsNoDataWithoutKey: Boolean,
   setExistsNoDataWithoutKey: () => void,
   idsAreUuids: Boolean,
@@ -193,6 +197,11 @@ const ImportPco = ({
   importPcoData: Object,
   client: Object,
 }) => {
+  const pCId = get(
+    activeNodeArrayData,
+    'activeNodeArray[1]',
+    '99999999-9999-9999-9999-999999999999'
+  )
   const objectsCheckData = get(importPcoData, 'allObjects.nodes', [])
   const objectIdsAreReal =
     !importPcoData.loading && objectIds.length > 0
@@ -620,13 +629,16 @@ const ImportPco = ({
             importData.forEach(d => {
               const variables = {}
               fields.forEach(f => (variables[f] = d[f] || null))
+              variables.propertyCollectionId = pCId
+              if (!fields.includes('id')) {
+                variables.id = null
+              }
               console.log('variables:', variables)
-              /*
+
               client.mutate({
                 mutation: createPCOMutation,
                 variables,
               })
-              */
             })
           }}
         >
