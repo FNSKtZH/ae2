@@ -120,10 +120,21 @@ const enhance = compose(
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
-  withState('idsAreUuids', 'setIdsAreUuids', undefined),
+  withState('idsAreUuids', 'setIdsAreUuid', undefined),
   withState('idsExist', 'setIdsExist', false),
   withState('idsAreUnique', 'setIdsAreUnique', undefined),
-  withState('xxx', 'setXxx', 0),
+  withState('objectIdsExist', 'setObjectIdsExist', undefined),
+  withState('objectIdsAreUuid', 'setObjectIdsAreUuid', undefined),
+  withState(
+    'propertyKeysDontContainApostroph',
+    'setPropertyKeysDontContainApostroph',
+    undefined
+  ),
+  withState(
+    'propertyKeysDontContainBackslash',
+    'setPropertyKeysDontContainBackslash',
+    undefined
+  ),
   withState('xxx', 'setXxx', 0),
   pCOData,
   loginData,
@@ -142,11 +153,19 @@ const PCO = ({
   existsNoDataWithoutKey,
   setExistsNoDataWithoutKey,
   idsAreUuids,
-  setIdsAreUuids,
+  setIdsAreUuid,
   idsExist,
   setIdsExist,
   idsAreUnique,
   setIdsAreUnique,
+  objectIdsExist,
+  setObjectIdsExist,
+  objectIdsAreUuid,
+  setObjectIdsAreUuid,
+  propertyKeysDontContainApostroph,
+  setPropertyKeysDontContainApostroph,
+  propertyKeysDontContainBackslash,
+  setPropertyKeysDontContainBackslash,
 }: {
   pCOData: Object,
   loginData: Object,
@@ -159,11 +178,19 @@ const PCO = ({
   existsNoDataWithoutKey: Boolean,
   setExistsNoDataWithoutKey: () => void,
   idsAreUuids: Boolean,
-  setIdsAreUuids: () => void,
+  setIdsAreUuid: () => void,
   idsExist: Boolean,
   setIdsExist: () => void,
   idsAreUnique: Boolean,
   setIdsAreUnique: () => void,
+  objectIdsExist: Boolean,
+  setObjectIdsExist: () => void,
+  objectIdsAreUuid: Boolean,
+  setObjectIdsAreUuid: () => void,
+  propertyKeysDontContainApostroph: Boolean,
+  setPropertyKeysDontContainApostroph: () => void,
+  propertyKeysDontContainBackslash: Boolean,
+  setPropertyKeysDontContainBackslash: () => void,
 }) => {
   const { loading } = pCOData
   if (loading) {
@@ -226,6 +253,15 @@ const PCO = ({
    */
   console.log('existsNoDataWithoutKey:', existsNoDataWithoutKey)
   console.log('idsAreUuids:', idsAreUuids)
+  console.log('objectIdsAreUuid:', objectIdsAreUuid)
+  console.log(
+    'propertyKeysDontContainApostroph:',
+    propertyKeysDontContainApostroph
+  )
+  console.log(
+    'propertyKeysDontContainBackslash:',
+    propertyKeysDontContainBackslash
+  )
 
   return (
     <Container>
@@ -404,12 +440,26 @@ const PCO = ({
                       Ein Feld namens <EmSpan>object_id</EmSpan> muss enthalten
                       sein
                     </div>
+                    {objectIdsExist && (
+                      <div>
+                        <InlineIcon>
+                          <StyledDoneIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                    {objectIdsExist === false && (
+                      <div>
+                        <InlineIcon>
+                          <StyledErrorIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
                   </HowToImportLiContainer>
                 </li>
                 <li>
                   <HowToImportLiContainer>
                     <div>
-                      Die <EmSpan>object_id</EmSpan> muss eine gültige{' '}
+                      <EmSpan>object_id</EmSpan>'s' müssen eine gültige{' '}
                       <a
                         href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
                         target="_blank"
@@ -419,6 +469,20 @@ const PCO = ({
                       </a>{' '}
                       sein
                     </div>
+                    {objectIdsAreUuid && (
+                      <div>
+                        <InlineIcon>
+                          <StyledDoneIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                    {objectIdsAreUuid === false && (
+                      <div>
+                        <InlineIcon>
+                          <StyledErrorIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
                   </HowToImportLiContainer>
                 </li>
                 <li>
@@ -446,11 +510,39 @@ const PCO = ({
                     <li>
                       <HowToImportLiContainer>
                         <div>"</div>
+                        {propertyKeysDontContainApostroph && (
+                          <div>
+                            <InlineIcon>
+                              <StyledDoneIcon />
+                            </InlineIcon>
+                          </div>
+                        )}
+                        {propertyKeysDontContainApostroph === false && (
+                          <div>
+                            <InlineIcon>
+                              <StyledErrorIcon />
+                            </InlineIcon>
+                          </div>
+                        )}
                       </HowToImportLiContainer>
                     </li>
                     <li>
                       <HowToImportLiContainer>
                         <div>\</div>
+                        {propertyKeysDontContainBackslash && (
+                          <div>
+                            <InlineIcon>
+                              <StyledDoneIcon />
+                            </InlineIcon>
+                          </div>
+                        )}
+                        {propertyKeysDontContainBackslash === false && (
+                          <div>
+                            <InlineIcon>
+                              <StyledErrorIcon />
+                            </InlineIcon>
+                          </div>
+                        )}
                       </HowToImportLiContainer>
                     </li>
                   </ul>
@@ -475,8 +567,7 @@ const PCO = ({
                         .sheet_to_json(worksheet)
                         .map(d => omit(d, ['__rowNum__']))
                       console.log('data:', data)
-                      // TODO: test the data
-                      // missing key:
+                      // test the data
                       setExistsNoDataWithoutKey(
                         data.filter(d => !!d.__EMPTY).length === 0
                       )
@@ -485,26 +576,24 @@ const PCO = ({
                         .filter(d => d !== undefined)
                       const _idsExist = ids.length > 0
                       setIdsExist(_idsExist)
-                      setIdsAreUuids(
+                      setIdsAreUuid(
                         _idsExist
                           ? !ids.map(d => isUuid.anyNonNil(d)).includes(false)
                           : undefined
                       )
                       setIdsAreUnique(ids.length === uniq(ids))
-                      const objectIdNotAlwaysIncluded =
-                        data.filter(d => !d.object_id).length > 0
-                      console.log(
-                        'objectIdNotAlwaysIncluded:',
-                        objectIdNotAlwaysIncluded
-                      )
-                      const objectIdNotAlwaysUuid = data
+                      const objectIds = data
                         .map(d => d.object_id)
                         .filter(d => d !== undefined)
-                        .map(d => isUuid.anyNonNil(d))
-                        .includes(false)
-                      console.log(
-                        'objectIdNotAlwaysUuid:',
-                        objectIdNotAlwaysUuid
+                      const _objectIdsExist = objectIds.length === data.length
+                      setObjectIdsExist(_objectIdsExist)
+                      console.log('objectIdsExist:', objectIdsExist)
+                      setObjectIdsAreUuid(
+                        _objectIdsExist
+                          ? !objectIds
+                              .map(d => isUuid.anyNonNil(d))
+                              .includes(false)
+                          : undefined
                       )
                       const propertyKeys = union(
                         flatten(
@@ -513,13 +602,11 @@ const PCO = ({
                           )
                         )
                       )
-                      const propertyKeysContainDisallowedChars = some(
-                        propertyKeys,
-                        k => k.includes('"') || k.includes('\\')
+                      setPropertyKeysDontContainApostroph(
+                        !some(propertyKeys, k => k.includes('"'))
                       )
-                      console.log(
-                        'propertyKeysContainDisallowedChars:',
-                        propertyKeysContainDisallowedChars
+                      setPropertyKeysDontContainBackslash(
+                        !some(propertyKeys, k => k.includes('\\'))
                       )
                     }
                     reader.onabort = () =>
