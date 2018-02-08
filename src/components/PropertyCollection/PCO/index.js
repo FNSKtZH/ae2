@@ -74,6 +74,13 @@ const StyledButton = styled(Button)`
 const HowToImportContainer = styled.div`
   padding: 0 8px;
 `
+const HowToImportLiContainer = styled.div`
+  display: flex;
+  line-height: 24px;
+  > div {
+    height: 24px;
+  }
+`
 const EmSpan = styled.span`
   background-color: #8d8c8c40;
   padding: 1px 3px;
@@ -282,87 +289,154 @@ const PCO = ({
               <h4>Autorenrechte</h4>
               <ul>
                 <li>
-                  Die Autoren müssen mit der Veröffentlichung einverstanden sein
+                  <HowToImportLiContainer>
+                    <div>
+                      Die Autoren müssen mit der Veröffentlichung einverstanden
+                      sein
+                    </div>
+                  </HowToImportLiContainer>
                 </li>
-                <li>Dafür verantwortlich ist, wer Daten importiert</li>
+                <li>
+                  <HowToImportLiContainer>
+                    <div>Dafür verantwortlich ist, wer Daten importiert</div>
+                  </HowToImportLiContainer>
+                </li>
               </ul>
               <h4>Tabelle</h4>
               <ul>
-                <li>Die erste Zeile enthält Feld-Namen</li>
                 <li>
-                  Jeder Wert hat einen Feld-Namen
-                  {existsNoDataWithoutKey && (
-                    <InlineIcon>
-                      <StyledDoneIcon />
-                    </InlineIcon>
-                  )}
-                  {existsNoDataWithoutKey === false && (
-                    <InlineIcon>
-                      <StyledErrorIcon />
-                    </InlineIcon>
-                  )}
+                  <HowToImportLiContainer>
+                    <div>Die erste Zeile enthält Feld-Namen</div>
+                  </HowToImportLiContainer>
+                </li>
+                <li>
+                  <HowToImportLiContainer>
+                    <div>Jeder Wert hat einen Feld-Namen</div>
+                    {existsNoDataWithoutKey && (
+                      <div>
+                        <InlineIcon>
+                          <StyledDoneIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                    {existsNoDataWithoutKey === false && (
+                      <div>
+                        <InlineIcon>
+                          <StyledErrorIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                  </HowToImportLiContainer>
                 </li>
               </ul>
               <h4>Zuordnungs-Felder</h4>
               <ul>
                 <li>
-                  Ein Feld namens <EmSpan>id</EmSpan> kann enthalten sein.
-                  {idsExist && (
-                    <InlineIcon>
-                      <StyledDoneIcon />
-                    </InlineIcon>
-                  )}
-                  <br />
-                  Wenn nicht, wird eine id erzeugt
+                  <HowToImportLiContainer>
+                    <div>
+                      Ein Feld namens <EmSpan>id</EmSpan> kann enthalten sein.
+                    </div>
+                    {idsExist && (
+                      <div>
+                        <InlineIcon>
+                          <StyledDoneIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                  </HowToImportLiContainer>
+                  <HowToImportLiContainer>
+                    <div>Wenn nicht, wird eine id erzeugt</div>
+                  </HowToImportLiContainer>
                 </li>
                 <li>
-                  <EmSpan>id</EmSpan>'s müssen eine gültige UUID sein
-                  {idsAreUuids && (
-                    <InlineIcon>
-                      <StyledDoneIcon />
-                    </InlineIcon>
-                  )}
-                  {idsAreUuids === false && (
-                    <InlineIcon>
-                      <StyledErrorIcon />
-                    </InlineIcon>
-                  )}
+                  <HowToImportLiContainer>
+                    <div>
+                      <EmSpan>id</EmSpan>'s müssen eine gültige UUID sein
+                    </div>
+                    {idsAreUuids && (
+                      <div>
+                        <InlineIcon>
+                          <StyledDoneIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                    {idsAreUuids === false && (
+                      <div>
+                        <InlineIcon>
+                          <StyledErrorIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                  </HowToImportLiContainer>
                 </li>
                 <li>
-                  <EmSpan>id</EmSpan>'s müssen eindeutig sein
-                  {idsAreUnique && (
-                    <InlineIcon>
-                      <StyledDoneIcon />
-                    </InlineIcon>
-                  )}
-                  {idsAreUnique === false && (
-                    <InlineIcon>
-                      <StyledErrorIcon />
-                    </InlineIcon>
-                  )}
+                  <HowToImportLiContainer>
+                    <div>
+                      <EmSpan>id</EmSpan>'s müssen eindeutig sein
+                    </div>
+                    {idsAreUnique && (
+                      <div>
+                        <InlineIcon>
+                          <StyledDoneIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                    {idsAreUnique === false && (
+                      <div>
+                        <InlineIcon>
+                          <StyledErrorIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                  </HowToImportLiContainer>
                 </li>
                 <li>
-                  Ein Feld namens <EmSpan>object_id</EmSpan> muss enthalten sein
+                  <HowToImportLiContainer>
+                    <div>
+                      Ein Feld namens <EmSpan>object_id</EmSpan> muss enthalten
+                      sein
+                    </div>
+                  </HowToImportLiContainer>
                 </li>
                 <li>
-                  Die <EmSpan>object_id</EmSpan> muss eine gültige UUID sein
+                  <HowToImportLiContainer>
+                    <div>
+                      Die <EmSpan>object_id</EmSpan> muss eine gültige UUID sein
+                    </div>
+                  </HowToImportLiContainer>
                 </li>
                 <li>
-                  Die <EmSpan>object_id</EmSpan> muss die id eines Objekts aus
-                  arteigenschaften.ch sein (wird nicht getestet - scheitert aber
-                  beim Import)
+                  <HowToImportLiContainer>
+                    <div>
+                      Die <EmSpan>object_id</EmSpan> muss die id eines Objekts
+                      aus arteigenschaften.ch sein (wird nicht getestet -
+                      scheitert aber beim Import)
+                    </div>
+                  </HowToImportLiContainer>
                 </li>
               </ul>
               <p>Alle weiteren Felder sind Eigenschaften des Objekts.</p>
               <h4>Eigenschaften</h4>
               <ul>
-                <li>Es muss mindestens eine Eigenschaft vorkommen</li>
+                <li>
+                  <HowToImportLiContainer>
+                    <div>Es muss mindestens eine Eigenschaft vorkommen</div>
+                  </HowToImportLiContainer>
+                </li>
                 <li>
                   Feld-Namen dürfen beinahe alles enthalten.<br />
                   Ausser diese Zeichen:
                   <ul>
-                    <li>"</li>
-                    <li>\</li>
+                    <li>
+                      <HowToImportLiContainer>
+                        <div>"</div>
+                      </HowToImportLiContainer>
+                    </li>
+                    <li>
+                      <HowToImportLiContainer>
+                        <div>\</div>
+                      </HowToImportLiContainer>
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -423,7 +497,6 @@ const PCO = ({
                           )
                         )
                       )
-                      console.log('propertyKeys:', propertyKeys)
                       const propertyKeysContainDisallowedChars = some(
                         propertyKeys,
                         k => k.includes('"') || k.includes('\\')
