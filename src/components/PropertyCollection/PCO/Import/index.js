@@ -17,9 +17,8 @@ import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
 
-import activeNodeArrayData from '../../../modules/activeNodeArrayData'
-import pCOData from './pCOData'
-import loginData from '../../../modules/loginData'
+import importPcoData from './importPcoData'
+import loginData from '../../../../modules/loginData'
 
 const Container = styled.div`
   height: 100%;
@@ -71,7 +70,6 @@ const styles = theme => ({
 })
 
 const enhance = compose(
-  activeNodeArrayData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
@@ -103,13 +101,12 @@ const enhance = compose(
     undefined
   ),
   withState('existsPropertyKey', 'setExistsPropertyKey', undefined),
-  pCOData,
+  importPcoData,
   loginData,
   withStyles(styles)
 )
 
 const ImportPco = ({
-  pCOData,
   loginData,
   dimensions,
   sortField,
@@ -143,8 +140,8 @@ const ImportPco = ({
   setObjectIds,
   importData,
   setImportData,
+  importPcoData,
 }: {
-  pCOData: Object,
   loginData: Object,
   dimensions: Object,
   sortField: String,
@@ -178,12 +175,17 @@ const ImportPco = ({
   setObjectIds: () => void,
   importData: Array<Object>,
   setImportData: () => void,
+  importPcoData: Object,
 }) => {
-  const objectsCheckData = get(pCOData, 'allObjects.nodes', [])
+  const objectsCheckData = get(importPcoData, 'allObjects.nodes', [])
   const objectIdsAreReal =
     objectIds.length > 0
       ? objectIds.length === objectsCheckData.length
       : undefined
+  console.log('importPcoData:', importPcoData)
+  console.log('objectIds:', objectIds)
+  console.log('objectsCheckData:', objectsCheckData)
+  console.log('objectIdsAreReal:', objectIdsAreReal)
   const showImportButton =
     importData.length > 0 &&
     existsNoDataWithoutKey &&
