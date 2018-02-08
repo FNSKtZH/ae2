@@ -110,6 +110,7 @@ const enhance = compose(
   withState('objectIds', 'setObjectIds', []),
   withState('objectIdsAreUuid', 'setObjectIdsAreUuid', undefined),
   withState('importData', 'setImportData', []),
+  withState('importing', 'setImporting', false),
   withState(
     'propertyKeysDontContainApostroph',
     'setPropertyKeysDontContainApostroph',
@@ -167,6 +168,9 @@ const ImportPco = ({
   importData,
   setImportData,
   importPcoData,
+  setCompleted,
+  importing,
+  setImporting,
   client,
 }: {
   loginData: Object,
@@ -199,6 +203,9 @@ const ImportPco = ({
   importData: Array<Object>,
   setImportData: () => void,
   importPcoData: Object,
+  setCompleted: () => void,
+  importing: Boolean,
+  setImporting: () => void,
   client: Object,
 }) => {
   const pCId = get(
@@ -622,13 +629,14 @@ const ImportPco = ({
       {showImportButton && (
         <StyledButton
           onClick={async () => {
+            setImporting(true)
             // need a list of all fields
             let fields = []
             importData.forEach(d => {
               fields = union([...fields, ...Object.keys(d)])
             })
             // loop all rows, build variables and create pco
-            importData.forEach(async d => {
+            importData.forEach(async (d, i) => {
               const variables = {}
               fields.forEach(f => (variables[f] = d[f] || null))
               variables.propertyCollectionId = pCId
@@ -644,10 +652,12 @@ const ImportPco = ({
                 variables,
               })
             })
-            pCOData.refetch()
+            await pCOData.refetch()
+            // do not set false because an unmounted component is updated
+            //setImporting(false)
           }}
         >
-          importieren
+          {importing ? 'Daten werden importiert...' : 'importieren'}
         </StyledButton>
       )}
       {showPreview && (
