@@ -235,12 +235,14 @@ class TreeFilter extends Component {
             onSuggestionsFetchRequested={() => {
               // Autosuggest wants this function
               // could maybe be used to indicate loading?
-              // console.log('fetch requested')
+              console.log('fetch requested')
             }}
             onSuggestionsClearRequested={() => {
               // need this?
+              console.log('clear requested')
             }}
             getSuggestionValue={suggestion => suggestion && suggestion.name}
+            shouldRenderSuggestions={value => value.trim().length > 2}
             onSuggestionSelected={onSuggestionSelected}
             renderSuggestion={suggestion => <span>{suggestion.name}</span>}
             multiSection={true}
