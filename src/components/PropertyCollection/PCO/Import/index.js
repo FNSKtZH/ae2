@@ -73,6 +73,7 @@ const DropzoneContainer = styled.div`
   div {
     width: 100% !important;
     height: 124px !important;
+    cursor: pointer;
   }
 `
 const DropzoneDiv = styled.div`
