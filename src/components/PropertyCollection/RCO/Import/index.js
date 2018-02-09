@@ -332,8 +332,11 @@ const ImportPco = ({
   )
   const objectRelationIdsAreReal =
     !importRcoData.loading && objectRelationIds.length > 0
-      ? objectRelationIds.length === objectRelationsCheckData.length
+      ? uniq(objectRelationIds).length === objectRelationsCheckData.length
       : undefined
+  console.log('objectRelationsCheckData:', objectRelationsCheckData)
+  console.log('objectRelationIds:', objectRelationIds)
+
   const pCOfOriginsCheckData = get(
     importRcoData,
     'allPropertyCollections.nodes',

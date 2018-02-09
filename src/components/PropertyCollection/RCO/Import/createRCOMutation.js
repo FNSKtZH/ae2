@@ -5,6 +5,7 @@ export default gql`
   mutation createRCO(
     $id: UUID
     $objectId: UUID!
+    $objectIdRelation: UUID!
     $propertyCollectionId: UUID!
     $propertyCollectionOfOrigin: UUID
     $relationType: String!
@@ -15,6 +16,7 @@ export default gql`
         relation: {
           id: $id
           objectId: $objectId
+          objectIdRelation: $objectIdRelation
           propertyCollectionId: $propertyCollectionId
           propertyCollectionOfOrigin: $propertyCollectionOfOrigin
           relationType: $relationType
@@ -25,6 +27,7 @@ export default gql`
       relation {
         id
         objectId
+        objectIdRelation
         propertyCollectionId
         propertyCollectionOfOrigin
         relationType
