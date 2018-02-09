@@ -4,7 +4,6 @@ import updatePCMutation from './updatePCMutation'
 
 export default ({ client, field, pC, value, prevValue }) => {
   if (value !== prevValue) {
-    console.log('pC:', pC)
     const variables = {
       id: pC.id,
       name: field === 'name' ? value : pC.name,
