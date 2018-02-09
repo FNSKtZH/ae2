@@ -364,6 +364,58 @@ const ImportPco = ({
     propertyKeysDontContainBackslash &&
     propertyValuesDontContainApostroph &&
     propertyValuesDontContainBackslash
+  console.log('importData.length:', importData.length)
+  console.log('existsNoDataWithoutKey:', existsNoDataWithoutKey)
+  console.log(
+    '(idsExist ? idsAreUnique && idsAreUuids : true):',
+    idsExist ? idsAreUnique && idsAreUuids : true
+  )
+  console.log(
+    'objectIdsExist:',
+    objectIdsExist
+      ? objectIdsAreUuid && (objectIdsAreReal || objectIdsAreRealNotTested)
+      : false
+  )
+  console.log(
+    'objectRelationIdsExist:',
+    objectRelationIdsExist
+      ? objectRelationIdsAreUuid &&
+        (objectRelationIdsAreReal || objectRelationIdsAreRealNotTested)
+      : false
+  )
+  console.log('objectRelationIdsExist:', objectRelationIdsExist)
+  console.log('objectRelationIdsAreUuid:', objectRelationIdsAreUuid)
+  console.log('objectRelationIdsAreReal:', objectRelationIdsAreReal)
+  console.log(
+    'objectRelationIdsAreRealNotTested:',
+    objectRelationIdsAreRealNotTested
+  )
+  console.log('relationTypeExist:', relationTypeExist)
+  console.log(
+    'pCOfOriginIdsExist:',
+    pCOfOriginIdsExist
+      ? pCOfOriginIdsAreUuid &&
+        (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
+      : false
+  )
+  console.log('existsPropertyKey:', existsPropertyKey)
+  console.log(
+    'propertyKeysDontContainApostroph:',
+    propertyKeysDontContainApostroph
+  )
+  console.log(
+    'propertyKeysDontContainBackslash:',
+    propertyKeysDontContainBackslash
+  )
+  console.log(
+    'propertyValuesDontContainApostroph:',
+    propertyValuesDontContainApostroph
+  )
+  console.log(
+    'propertyValuesDontContainBackslash:',
+    propertyValuesDontContainBackslash
+  )
+  console.log('showImportButton:', showImportButton)
   const showPreview = importData.length > 0
   let importDataFields = []
   importData.forEach(d => {
@@ -975,6 +1027,21 @@ const ImportPco = ({
                     : undefined
                 )
                 setObjectIds(_objectIds)
+
+                const _objectRelationIds = data
+                  .map(d => d.objectIdRelation)
+                  .filter(d => d !== undefined)
+                const _objectRelationIdsExist =
+                  _objectRelationIds.length === data.length
+                setObjectRelationIdsExist(_objectRelationIdsExist)
+                setObjectRelationIdsAreUuid(
+                  _objectRelationIdsExist
+                    ? !_objectRelationIds
+                        .map(d => isUuid.anyNonNil(d))
+                        .includes(false)
+                    : undefined
+                )
+                setObjectRelationIds(_objectRelationIds)
 
                 const _relationTypes = data
                   .map(d => d.relationType)
