@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import Autosuggest from 'react-autosuggest'
+import match from 'autosuggest-highlight/match'
+import parse from 'autosuggest-highlight/parse'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
@@ -46,7 +48,7 @@ const Container = styled.div`
     border: 1px solid #aaa;
     background-color: #fff;
     font-family: Helvetica, sans-serif;
-    font-weight: 300;
+    /*font-weight: 300;*/
     font-size: 14px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -244,7 +246,31 @@ class TreeFilter extends Component {
             getSuggestionValue={suggestion => suggestion && suggestion.name}
             shouldRenderSuggestions={value => value.trim().length > 2}
             onSuggestionSelected={onSuggestionSelected}
-            renderSuggestion={suggestion => <span>{suggestion.name}</span>}
+            renderSuggestion={(suggestion, { query, isHighlighted }) => {
+              const matches = match(suggestion.name, query)
+              const parts = parse(suggestion.name, matches)
+              return (
+                <div>
+                  {parts.map((part, index) => {
+                    return part.highlight ? (
+                      <strong
+                        key={String(index)}
+                        style={{ fontWeight: '500 !important' }}
+                      >
+                        {part.text}
+                      </strong>
+                    ) : (
+                      <span
+                        key={String(index)}
+                        style={{ fontWeight: '300 !important' }}
+                      >
+                        {part.text}
+                      </span>
+                    )
+                  })}
+                </div>
+              )
+            }}
             multiSection={true}
             renderSectionTitle={section => <strong>{section.title}</strong>}
             getSectionSuggestions={section => section.suggestions}
