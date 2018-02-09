@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
@@ -12,6 +12,7 @@ import ReactDataGrid from 'react-data-grid'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
 
+import ImportRco from './Import'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
@@ -160,6 +161,7 @@ const RCO = ({
   const writerNames = union(rCOWriters.map(w => w.userByUserId.name))
   const username = get(loginData, 'login.username')
   const userIsWriter = !!username && writerNames.includes(username)
+  const showImportRco = rCO.length === 0 && userIsWriter
   /**
    * TODO
    * if user is writer:
@@ -169,69 +171,60 @@ const RCO = ({
 
   return (
     <Container>
-      <TotalDiv>{`${rCO.length.toLocaleString('de-CH')} Datensätze, ${(
-        columns.length - 5
-      ).toLocaleString('de-CH')} Feld${columns.length === 6 ? '' : 'er'}${
-        rCO.length > 0 ? ':' : ''
-      }`}</TotalDiv>
-      {rCO.length > 0 && (
-        <ReactDataGrid
-          onGridSort={(column, direction) => {
-            setSortField(column)
-            setSortDirection(direction.toLowerCase())
-          }}
-          columns={columns}
-          rowGetter={i => rCO[i]}
-          rowsCount={rCO.length}
-          minHeight={height - 33 - 37}
-          minWidth={width}
-        />
+      {!showImportRco && (
+        <TotalDiv>{`${rCO.length.toLocaleString('de-CH')} Datensätze, ${(
+          columns.length - 5
+        ).toLocaleString('de-CH')} Feld${columns.length === 6 ? '' : 'er'}${
+          rCO.length > 0 ? ':' : ''
+        }`}</TotalDiv>
       )}
-      <ButtonsContainer>
-        {rCO.length > 0 && (
-          <ExportButtons>
-            <StyledButton
-              onClick={() =>
-                exportXlsx({
-                  rows: rCO,
-                  onSetMessage: console.log,
-                })
-              }
-              className={classes.button}
-            >
-              xlsx exportieren
-            </StyledButton>
-            <StyledButton
-              onClick={() => exportCsv(rCO)}
-              className={classes.button}
-            >
-              csv exportieren
-            </StyledButton>
-          </ExportButtons>
-        )}
-        {userIsWriter &&
-          rCO.length > 0 && (
-            <MutationButtons>
+      {rCO.length > 0 && (
+        <Fragment>
+          <ReactDataGrid
+            onGridSort={(column, direction) => {
+              setSortField(column)
+              setSortDirection(direction.toLowerCase())
+            }}
+            columns={columns}
+            rowGetter={i => rCO[i]}
+            rowsCount={rCO.length}
+            minHeight={height - 33 - 37}
+            minWidth={width}
+          />
+          <ButtonsContainer>
+            <ExportButtons>
               <StyledButton
-                onClick={() => console.log('TODO')}
+                onClick={() =>
+                  exportXlsx({
+                    rows: rCO,
+                    onSetMessage: console.log,
+                  })
+                }
                 className={classes.button}
               >
-                Daten löschen
+                xlsx exportieren
               </StyledButton>
-            </MutationButtons>
-          )}
-        {userIsWriter &&
-          rCO.length === 0 && (
-            <MutationButtons>
               <StyledButton
-                onClick={() => console.log('TODO')}
+                onClick={() => exportCsv(rCO)}
                 className={classes.button}
               >
-                Daten importieren
+                csv exportieren
               </StyledButton>
-            </MutationButtons>
-          )}
-      </ButtonsContainer>
+            </ExportButtons>
+            {userIsWriter && (
+              <MutationButtons>
+                <StyledButton
+                  onClick={() => console.log('TODO')}
+                  className={classes.button}
+                >
+                  Daten löschen
+                </StyledButton>
+              </MutationButtons>
+            )}
+          </ButtonsContainer>
+        </Fragment>
+      )}
+      {showImportRco && <ImportRco />}
     </Container>
   )
 }
