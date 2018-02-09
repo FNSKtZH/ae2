@@ -85,7 +85,7 @@ const enhance = compose(
   objectUrlData,
   withHandlers({
     onChange: ({ client, treeFilterData }) => (event, { newValue }) => {
-      const { id } = treeFilterData.treeFilter
+      const id = get(treeFilterData, 'treeFilter.id', null)
       client.mutate({
         mutation: treeFilterMutation,
         variables: { text: newValue, id },
