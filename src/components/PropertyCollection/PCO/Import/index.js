@@ -127,13 +127,21 @@ const enhance = compose(
   withState('idsExist', 'setIdsExist', false),
   withState('idsAreUnique', 'setIdsAreUnique', undefined),
   withState('objectIdsExist', 'setObjectIdsExist', undefined),
+  withState('pCOfOriginIdsExist', 'setPCOfOriginIdsExist', undefined),
   withState(
     'objectIdsAreRealNotTested',
     'setObjectIdsAreRealNotTested',
     undefined
   ),
+  withState(
+    'pCOfOriginIdsAreRealNotTested',
+    'setPCOfOriginIdsAreRealNotTested',
+    undefined
+  ),
   withState('objectIds', 'setObjectIds', []),
+  withState('pCOfOriginIds', 'setPCOfOriginIds', []),
   withState('objectIdsAreUuid', 'setObjectIdsAreUuid', undefined),
+  withState('pCOfOriginIdsAreUuid', 'setPCOfOriginIdsAreUuid', undefined),
   withState('importData', 'setImportData', []),
   withState('importing', 'setImporting', false),
   withState(
@@ -176,10 +184,16 @@ const ImportPco = ({
   setIdsAreUnique,
   objectIdsExist,
   setObjectIdsExist,
+  pCOfOriginIdsExist,
+  setPCOfOriginIdsExist,
   objectIdsAreRealNotTested,
   setObjectIdsAreRealNotTested,
+  pCOfOriginIdsAreRealNotTested,
+  setPCOfOriginIdsAreRealNotTested,
   objectIdsAreUuid,
   setObjectIdsAreUuid,
+  pCOfOriginIdsAreUuid,
+  setPCOfOriginIdsAreUuid,
   propertyKeysDontContainApostroph,
   setPropertyKeysDontContainApostroph,
   propertyKeysDontContainBackslash,
@@ -192,6 +206,8 @@ const ImportPco = ({
   setPropertyValuesDontContainBackslash,
   objectIds,
   setObjectIds,
+  pCOfOriginIds,
+  setPCOfOriginIds,
   importData,
   setImportData,
   importPcoData,
@@ -213,10 +229,16 @@ const ImportPco = ({
   setIdsAreUnique: () => void,
   objectIdsExist: Boolean,
   setObjectIdsExist: () => void,
+  pCOfOriginIdsExist: Boolean,
+  setPCOfOriginIdsExist: () => void,
   objectIdsAreRealNotTested: Boolean,
   setObjectIdsAreRealNotTested: () => void,
+  pCOfOriginIdsAreRealNotTested: Boolean,
+  setPCOfOriginIdsAreRealNotTested: () => void,
   objectIdsAreUuid: Boolean,
   setObjectIdsAreUuid: () => void,
+  pCOfOriginIdsAreUuid: Boolean,
+  setPCOfOriginIdsAreUuid: () => void,
   propertyKeysDontContainApostroph: Boolean,
   setPropertyKeysDontContainApostroph: () => void,
   propertyKeysDontContainBackslash: Boolean,
@@ -229,6 +251,8 @@ const ImportPco = ({
   setPropertyValuesDontContainBackslash: () => void,
   objectIds: Array<String>,
   setObjectIds: () => void,
+  pCOfOriginIds: Array<String>,
+  setPCOfOriginIds: () => void,
   importData: Array<Object>,
   setImportData: () => void,
   importPcoData: Object,
@@ -253,12 +277,25 @@ const ImportPco = ({
     !importPcoData.loading && objectIds.length > 0
       ? objectIds.length === objectsCheckData.length
       : undefined
+  const pCOfOriginsCheckData = get(
+    importPcoData,
+    'allPropertyCollections.nodes',
+    []
+  )
+  const pCOfOriginIdsAreReal =
+    !importPcoData.loading && pCOfOriginIds.length > 0
+      ? pCOfOriginIds.length === pCOfOriginsCheckData.length
+      : undefined
   const showImportButton =
     importData.length > 0 &&
     existsNoDataWithoutKey &&
     (idsExist ? idsAreUnique && idsAreUuids : true) &&
     (objectIdsExist
       ? objectIdsAreUuid && (objectIdsAreReal || objectIdsAreRealNotTested)
+      : false) &&
+    (pCOfOriginIdsExist
+      ? pCOfOriginIdsAreUuid &&
+        (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
       : false) &&
     existsPropertyKey &&
     propertyKeysDontContainApostroph &&
@@ -444,8 +481,8 @@ const ImportPco = ({
               <li>
                 <HowToImportLiContainer>
                   <div>
-                    <EmSpan>objectId</EmSpan> muss <EmSpan>id</EmSpan> von
-                    Objekten aus arteigenschaften.ch sein
+                    <EmSpan>objectId</EmSpan> muss <EmSpan>id</EmSpan> eines
+                    Objekts aus arteigenschaften.ch sein
                   </div>
                   {objectIdsAreReal && (
                     <div>
@@ -463,6 +500,93 @@ const ImportPco = ({
                       </div>
                     )}
                   {objectIdsAreRealNotTested && (
+                    <Fragment>
+                      <InlineIcon>
+                        <StyledInfoOutlineIcon />
+                      </InlineIcon>
+                      <InlineDiv>
+                        (nicht getestet, da sehr viele Daten. Datensätze, welche
+                        dieses Kriterium nicht erfüllen, werden nicht
+                        importiert)
+                      </InlineDiv>
+                    </Fragment>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <HowToImportLiContainer>
+              <div>
+                Ein Feld namens <EmSpan>propertyCollectionOfOrigin</EmSpan> kann
+                enthalten sein
+              </div>
+              {pCOfOriginIdsExist && (
+                <div>
+                  <InlineIcon>
+                    <StyledDoneIcon />
+                  </InlineIcon>
+                </div>
+              )}
+              {pCOfOriginIdsExist === false && (
+                <div>
+                  <InlineDiv>(ist nicht)</InlineDiv>
+                </div>
+              )}
+            </HowToImportLiContainer>
+            <ul>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    <EmSpan>propertyCollectionOfOrigin</EmSpan> muss gültige{' '}
+                    <a
+                      href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      UUID
+                    </a>{' '}
+                    sein
+                  </div>
+                  {pCOfOriginIdsAreUuid && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {pCOfOriginIdsAreUuid === false && (
+                    <div>
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    <EmSpan>propertyCollectionOfOrigin</EmSpan> muss{' '}
+                    <EmSpan>id</EmSpan> einer Eigenschaften-Sammlung aus
+                    arteigenschaften.ch sein
+                  </div>
+                  {pCOfOriginIdsAreReal && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {pCOfOriginIdsAreReal === false &&
+                    !pCOfOriginIdsAreRealNotTested && (
+                      <div>
+                        <InlineIcon>
+                          <StyledErrorIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                  {pCOfOriginIdsAreRealNotTested && (
                     <Fragment>
                       <InlineIcon>
                         <StyledInfoOutlineIcon />
@@ -632,6 +756,21 @@ const ImportPco = ({
                     : undefined
                 )
                 setObjectIds(_objectIds)
+
+                const _pCOfOriginIds = data
+                  .map(d => d.propertyCollectionOfOrigin)
+                  .filter(d => d !== undefined)
+                const _pCOfOriginIdsExist = _pCOfOriginIds.length > 0
+                setPCOfOriginIdsExist(_pCOfOriginIdsExist)
+                setPCOfOriginIdsAreUuid(
+                  _pCOfOriginIdsExist
+                    ? !_pCOfOriginIds
+                        .map(d => isUuid.anyNonNil(d))
+                        .includes(false)
+                    : undefined
+                )
+                setPCOfOriginIds(_pCOfOriginIds)
+
                 const propertyKeys = union(
                   flatten(
                     data.map(d => Object.keys(omit(d, ['id', 'objectId'])))
