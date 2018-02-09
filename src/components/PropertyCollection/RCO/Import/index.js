@@ -139,13 +139,19 @@ const enhance = compose(
   rCOData,
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
   withState('idsAreUuids', 'setIdsAreUuid', undefined),
-  withState('idsExist', 'setIdsExist', false),
+  withState('idsExist', 'setIdsExist', undefined),
   withState('idsAreUnique', 'setIdsAreUnique', undefined),
   withState('objectIdsExist', 'setObjectIdsExist', undefined),
+  withState('objectRelationIdsExist', 'setObjectRelationIdsExist', undefined),
   withState('pCOfOriginIdsExist', 'setPCOfOriginIdsExist', undefined),
   withState(
     'objectIdsAreRealNotTested',
     'setObjectIdsAreRealNotTested',
+    undefined
+  ),
+  withState(
+    'objectRelationIdsAreRealNotTested',
+    'setObjectRelationIdsAreRealNotTested',
     undefined
   ),
   withState(
@@ -154,8 +160,14 @@ const enhance = compose(
     undefined
   ),
   withState('objectIds', 'setObjectIds', []),
+  withState('objectRelationIds', 'setObjectRelationIds', []),
   withState('pCOfOriginIds', 'setPCOfOriginIds', []),
   withState('objectIdsAreUuid', 'setObjectIdsAreUuid', undefined),
+  withState(
+    'objectRelationIdsAreUuid',
+    'setObjectRelationIdsAreUuid',
+    undefined
+  ),
   withState('pCOfOriginIdsAreUuid', 'setPCOfOriginIdsAreUuid', undefined),
   withState('importData', 'setImportData', []),
   withState('importing', 'setImporting', false),
@@ -199,14 +211,20 @@ const ImportPco = ({
   setIdsAreUnique,
   objectIdsExist,
   setObjectIdsExist,
+  objectRelationIdsExist,
+  setObjectRelationIdsExist,
   pCOfOriginIdsExist,
   setPCOfOriginIdsExist,
   objectIdsAreRealNotTested,
   setObjectIdsAreRealNotTested,
+  objectRelationIdsAreRealNotTested,
+  setObjectRelationIdsAreRealNotTested,
   pCOfOriginIdsAreRealNotTested,
   setPCOfOriginIdsAreRealNotTested,
   objectIdsAreUuid,
   setObjectIdsAreUuid,
+  objectRelationIdsAreUuid,
+  setObjectRelationIdsAreUuid,
   pCOfOriginIdsAreUuid,
   setPCOfOriginIdsAreUuid,
   propertyKeysDontContainApostroph,
@@ -221,6 +239,8 @@ const ImportPco = ({
   setPropertyValuesDontContainBackslash,
   objectIds,
   setObjectIds,
+  objectRelationIds,
+  setObjectRelationIds,
   pCOfOriginIds,
   setPCOfOriginIds,
   importData,
@@ -244,14 +264,20 @@ const ImportPco = ({
   setIdsAreUnique: () => void,
   objectIdsExist: Boolean,
   setObjectIdsExist: () => void,
+  objectRelationIdsExist: Boolean,
+  setObjectRelationIdsExist: () => void,
   pCOfOriginIdsExist: Boolean,
   setPCOfOriginIdsExist: () => void,
   objectIdsAreRealNotTested: Boolean,
   setObjectIdsAreRealNotTested: () => void,
+  objectRelationIdsAreRealNotTested: Boolean,
+  setObjectRelationIdsAreRealNotTested: () => void,
   pCOfOriginIdsAreRealNotTested: Boolean,
   setPCOfOriginIdsAreRealNotTested: () => void,
   objectIdsAreUuid: Boolean,
   setObjectIdsAreUuid: () => void,
+  objectRelationIdsAreUuid: Boolean,
+  setObjectRelationIdsAreUuid: () => void,
   pCOfOriginIdsAreUuid: Boolean,
   setPCOfOriginIdsAreUuid: () => void,
   propertyKeysDontContainApostroph: Boolean,
@@ -266,6 +292,8 @@ const ImportPco = ({
   setPropertyValuesDontContainBackslash: () => void,
   objectIds: Array<String>,
   setObjectIds: () => void,
+  objectRelationIds: Array<String>,
+  setObjectRelationIds: () => void,
   pCOfOriginIds: Array<String>,
   setPCOfOriginIds: () => void,
   importData: Array<Object>,
@@ -292,6 +320,15 @@ const ImportPco = ({
     !importRcoData.loading && objectIds.length > 0
       ? objectIds.length === objectsCheckData.length
       : undefined
+  const objectRelationsCheckData = get(
+    importRcoData,
+    'allObjectRelations.nodes',
+    []
+  )
+  const objectRelationIdsAreReal =
+    !importRcoData.loading && objectRelationIds.length > 0
+      ? objectRelationIds.length === objectRelationsCheckData.length
+      : undefined
   const pCOfOriginsCheckData = get(
     importRcoData,
     'allPropertyCollections.nodes',
@@ -307,6 +344,10 @@ const ImportPco = ({
     (idsExist ? idsAreUnique && idsAreUuids : true) &&
     (objectIdsExist
       ? objectIdsAreUuid && (objectIdsAreReal || objectIdsAreRealNotTested)
+      : false) &&
+    (objectRelationIdsExist
+      ? objectRelationIdsAreUuid &&
+        (objectRelationIdsAreReal || objectRelationIdsAreRealNotTested)
       : false) &&
     (pCOfOriginIdsExist
       ? pCOfOriginIdsAreUuid &&
@@ -389,9 +430,21 @@ const ImportPco = ({
                   </InlineIcon>
                 </div>
               )}
+              {idsExist === false && (
+                <div>
+                  <InlineDiv>(ist nicht)</InlineDiv>
+                </div>
+              )}
             </LiContainer>
             <LiContainer>
               <div>Wenn nicht, wird eine id erzeugt</div>
+              {idsExist === false && (
+                <div>
+                  <InlineIcon>
+                    <StyledDoneIcon />
+                  </InlineIcon>
+                </div>
+              )}
             </LiContainer>
             <ul>
               <li>
@@ -536,6 +589,101 @@ const ImportPco = ({
           <li>
             <LiContainer>
               <div>
+                Ein Feld namens <EmSpan>objectIdRelation</EmSpan> muss enthalten
+                sein
+              </div>
+              {objectRelationIdsExist && (
+                <div>
+                  <InlineIcon>
+                    <StyledDoneIcon />
+                  </InlineIcon>
+                </div>
+              )}
+              {objectRelationIdsExist === false && (
+                <div>
+                  <InlineIcon>
+                    <StyledErrorIcon />
+                  </InlineIcon>
+                </div>
+              )}
+            </LiContainer>
+            <LiContainer>
+              <div>
+                Zweck: Der Datensatz beschreibt die Beziehung des Objekts mit id{' '}
+                <EmSpan>objectId</EmSpan> zum Objekt mit id{' '}
+                <EmSpan>objectIdRelation</EmSpan>
+              </div>
+            </LiContainer>
+            <ul>
+              <li>
+                <LiContainer>
+                  <div>
+                    <EmSpan>objectIdRelation</EmSpan> muss gültige{' '}
+                    <a
+                      href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      UUID
+                    </a>{' '}
+                    sein
+                  </div>
+                  {objectRelationIdsAreUuid && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {objectRelationIdsAreUuid === false && (
+                    <div>
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                </LiContainer>
+              </li>
+              <li>
+                <LiContainer>
+                  <div>
+                    <EmSpan>objectIdRelation</EmSpan> muss <EmSpan>id</EmSpan>{' '}
+                    eines Objekts aus arteigenschaften.ch sein
+                  </div>
+                  {objectRelationIdsAreReal && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {objectRelationIdsAreReal === false &&
+                    !objectIdsAreRealNotTested && (
+                      <div>
+                        <InlineIcon>
+                          <StyledErrorIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                  {objectRelationIdsAreRealNotTested && (
+                    <Fragment>
+                      <InlineIcon>
+                        <StyledInfoOutlineIcon />
+                      </InlineIcon>
+                      <InlineDiv>
+                        (nicht getestet, da sehr viele Daten. Datensätze, welche
+                        dieses Kriterium nicht erfüllen, werden nicht
+                        importiert)
+                      </InlineDiv>
+                    </Fragment>
+                  )}
+                </LiContainer>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <LiContainer>
+              <div>
                 Ein Feld namens <EmSpan>propertyCollectionOfOrigin</EmSpan> kann
                 enthalten sein
               </div>
@@ -551,6 +699,20 @@ const ImportPco = ({
                   <InlineDiv>(ist nicht)</InlineDiv>
                 </div>
               )}
+            </LiContainer>
+            <LiContainer>
+              <div>
+                Zweck: In zusammenfassenden Eigenschaften-Sammlungen markieren,
+                aus welcher Eigenschaften-Sammlung diese Beziehungen stammen.{' '}
+                <a
+                  href="https://github.com/barbalex/ae2#zusammenfassende-eigenschaften-sammlungen"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Mehr Infos
+                </a>
+              </div>
+              <br />
             </LiContainer>
             <ul>
               <li>

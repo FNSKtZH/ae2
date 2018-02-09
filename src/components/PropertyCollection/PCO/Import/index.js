@@ -139,7 +139,7 @@ const enhance = compose(
   pCOData,
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
   withState('idsAreUuids', 'setIdsAreUuid', undefined),
-  withState('idsExist', 'setIdsExist', false),
+  withState('idsExist', 'setIdsExist', undefined),
   withState('idsAreUnique', 'setIdsAreUnique', undefined),
   withState('objectIdsExist', 'setObjectIdsExist', undefined),
   withState('pCOfOriginIdsExist', 'setPCOfOriginIdsExist', undefined),
@@ -389,9 +389,21 @@ const ImportPco = ({
                   </InlineIcon>
                 </div>
               )}
+              {idsExist === false && (
+                <div>
+                  <InlineDiv>(ist nicht)</InlineDiv>
+                </div>
+              )}
             </LiContainer>
             <LiContainer>
               <div>Wenn nicht, wird eine id erzeugt</div>
+              {idsExist === false && (
+                <div>
+                  <InlineIcon>
+                    <StyledDoneIcon />
+                  </InlineIcon>
+                </div>
+              )}
             </LiContainer>
             <ul>
               <li>
@@ -537,7 +549,7 @@ const ImportPco = ({
             <LiContainer>
               <div>
                 Ein Feld namens <EmSpan>propertyCollectionOfOrigin</EmSpan> kann
-                enthalten sein
+                enthalten sein.
               </div>
               {pCOfOriginIdsExist && (
                 <div>
@@ -551,6 +563,20 @@ const ImportPco = ({
                   <InlineDiv>(ist nicht)</InlineDiv>
                 </div>
               )}
+            </LiContainer>
+            <LiContainer>
+              <div>
+                Zweck: In zusammenfassenden Eigenschaften-Sammlungen markieren,
+                aus welcher Eigenschaften-Sammlung diese Eigenschaften stammen.{' '}
+                <a
+                  href="https://github.com/barbalex/ae2#zusammenfassende-eigenschaften-sammlungen"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Mehr Infos
+                </a>
+              </div>
+              <br />
             </LiContainer>
             <ul>
               <li>
