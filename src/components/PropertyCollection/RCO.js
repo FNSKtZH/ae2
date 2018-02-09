@@ -195,7 +195,6 @@ const RCO = ({
                 exportXlsx({
                   rows: rCO,
                   onSetMessage: console.log,
-                  columns: keys,
                 })
               }
               className={classes.button}

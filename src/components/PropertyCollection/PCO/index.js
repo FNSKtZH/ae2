@@ -193,7 +193,6 @@ const PCO = ({
                   exportXlsx({
                     rows: pCO,
                     onSetMessage: console.log,
-                    columns: keys,
                   })
                 }
                 className={classes.button}

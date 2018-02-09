@@ -8,23 +8,13 @@ import getXlsxBuffer from './getXlsxBuffer'
 export default async ({
   rows,
   onSetMessage,
-  columns,
 }: {
   rows: Array<Object>,
   onSetMessage: () => void,
-  columns: Array<String>,
 }) => {
   let buffer
-  // first need to add all missing keys to each row
-  rows.forEach(o => {
-    columns.forEach(c => {
-      if (!o.hasOwnProperty(c)) {
-        o[c] = null
-      }
-    })
-  })
   try {
-    buffer = await getXlsxBuffer(rows, columns)
+    buffer = await getXlsxBuffer(rows)
   } catch (error) {
     console.log(error)
     onSetMessage(error)

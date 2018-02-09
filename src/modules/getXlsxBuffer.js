@@ -4,15 +4,29 @@
 // see: https://github.com/guyonroche/exceljs/issues/313
 // @flow
 import * as ExcelJs from 'exceljs/dist/exceljs.min.js'
-import getDataArrayFromExportRows from './getDataArrayFromExportRows'
+import keys from 'lodash/keys'
+import flatten from 'lodash/flatten'
+import uniq from 'lodash/uniq'
+import toPairs from 'lodash/toPairs'
+import sortBy from 'lodash/sortBy'
+import findIndex from 'lodash/findIndex'
 
-export default async (jsonArray: Array<Object>, columns: Array<String>) => {
-  const dataArray = getDataArrayFromExportRows(jsonArray, columns)
-  let numberOfColumns =
-    dataArray && dataArray[0] && dataArray[0].length ? dataArray[0].length : 0
-  if (columns) {
-    numberOfColumns = columns.length
-  }
+export default async (jsonArray: Array<Object>) => {
+  const columns = uniq(flatten(jsonArray.map(object => keys(object))))
+  // add missing columns to each object
+  jsonArray.forEach(o => {
+    columns.forEach(k => {
+      if (!o.hasOwnProperty(k)) {
+        o[k] = ''
+      }
+    })
+  })
+  const values = jsonArray.map(object =>
+    sortBy(toPairs(object), p => findIndex(columns, c => c === p[0])).map(
+      a => a[1]
+    )
+  )
+  const dataArray = [columns, ...values]
   const workbook = new ExcelJs.Workbook()
   const worksheet = workbook.addWorksheet('Daten', {
     views: [
@@ -29,7 +43,7 @@ export default async (jsonArray: Array<Object>, columns: Array<String>) => {
       },
       to: {
         row: 1,
-        column: numberOfColumns,
+        column: columns.length,
       },
     },
   })
