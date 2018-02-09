@@ -307,6 +307,9 @@ const ImportPco = ({
   importData.forEach(d => {
     importDataFields = union([...importDataFields, ...Object.keys(d)])
   })
+  const propertyFields = importDataFields.filter(
+    f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f)
+  )
 
   return (
     <Container>
@@ -603,7 +606,7 @@ const ImportPco = ({
             </ul>
           </li>
         </ul>
-        <p>Alle weiteren Felder sind Eigenschaften des Objekts.</p>
+        <p>Alle weiteren Felder sind Eigenschaften des Objekts:</p>
         <h4>Eigenschaften</h4>
         <ul>
           <li>
@@ -861,11 +864,9 @@ const ImportPco = ({
         <Fragment>
           <TotalDiv>{`${importData.length.toLocaleString(
             'de-CH'
-          )} Datensätze, ${(importDataFields.length - 2).toLocaleString(
-            'de-CH'
-          )} Feld${importDataFields.length === 3 ? '' : 'er'}${
-            importData.length > 0 ? ':' : ''
-          }`}</TotalDiv>
+          )} Datensätze, ${propertyFields.length.toLocaleString('de-CH')} Feld${
+            propertyFields.length === 1 ? '' : 'er'
+          }${importData.length > 0 ? ':' : ''}`}</TotalDiv>
           <ReactDataGrid
             columns={importDataFields.map(k => ({
               key: k,
