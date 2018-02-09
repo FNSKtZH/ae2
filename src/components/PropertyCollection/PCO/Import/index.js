@@ -14,6 +14,7 @@ import Icon from 'material-ui-next/Icon'
 import DoneIcon from 'material-ui-icons/Done'
 import ErrorIcon from 'material-ui-icons/Error'
 import Button from 'material-ui-next/Button'
+import Snackbar from 'material-ui/Snackbar'
 import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
@@ -81,6 +82,10 @@ const DropzoneDivActive = styled(DropzoneDiv)`
 const InlineIcon = styled(Icon)`
   margin-left: 8px;
 `
+const InlineDiv = styled.div`
+  margin-left: 8px;
+  font-style: italic;
+`
 const StyledDoneIcon = styled(DoneIcon)`
   color: green !important;
 `
@@ -91,6 +96,11 @@ const StyledButton = styled(Button)`
   border: 1px solid !important;
   margin: 8px 8px 16px 8px !important;
 `
+const snackbarBodyStyle = {
+  maxWidth: 'auto',
+  minWidth: 'auto',
+  backgroundColor: '#2E7D32',
+}
 
 const styles = theme => ({
   button: {
@@ -107,6 +117,11 @@ const enhance = compose(
   withState('idsExist', 'setIdsExist', false),
   withState('idsAreUnique', 'setIdsAreUnique', undefined),
   withState('objectIdsExist', 'setObjectIdsExist', undefined),
+  withState(
+    'objectIdsAreRealNotTested',
+    'setObjectIdsAreRealNotTested',
+    undefined
+  ),
   withState('objectIds', 'setObjectIds', []),
   withState('objectIdsAreUuid', 'setObjectIdsAreUuid', undefined),
   withState('importData', 'setImportData', []),
@@ -151,6 +166,8 @@ const ImportPco = ({
   setIdsAreUnique,
   objectIdsExist,
   setObjectIdsExist,
+  objectIdsAreRealNotTested,
+  setObjectIdsAreRealNotTested,
   objectIdsAreUuid,
   setObjectIdsAreUuid,
   propertyKeysDontContainApostroph,
@@ -186,6 +203,8 @@ const ImportPco = ({
   setIdsAreUnique: () => void,
   objectIdsExist: Boolean,
   setObjectIdsExist: () => void,
+  objectIdsAreRealNotTested: Boolean,
+  setObjectIdsAreRealNotTested: () => void,
   objectIdsAreUuid: Boolean,
   setObjectIdsAreUuid: () => void,
   propertyKeysDontContainApostroph: Boolean,
@@ -208,6 +227,12 @@ const ImportPco = ({
   setImporting: () => void,
   client: Object,
 }) => {
+  const { loading, error } = importPcoData
+  if (error && error.message) {
+    if (error.message === 'GraphQL error: request entity too large') {
+      setObjectIdsAreRealNotTested(true)
+    }
+  }
   const pCId = get(
     activeNodeArrayData,
     'activeNodeArray[1]',
@@ -222,7 +247,9 @@ const ImportPco = ({
     importData.length > 0 &&
     existsNoDataWithoutKey &&
     (idsExist ? idsAreUnique && idsAreUuids : true) &&
-    (objectIdsExist ? objectIdsAreUuid && objectIdsAreReal : false) &&
+    (objectIdsExist
+      ? objectIdsAreUuid && (objectIdsAreReal || objectIdsAreRealNotTested)
+      : false) &&
     existsPropertyKey &&
     propertyKeysDontContainApostroph &&
     propertyKeysDontContainBackslash &&
@@ -411,12 +438,16 @@ const ImportPco = ({
                   </InlineIcon>
                 </div>
               )}
-              {objectIdsAreReal === false && (
-                <div>
-                  <InlineIcon>
-                    <StyledErrorIcon />
-                  </InlineIcon>
-                </div>
+              {objectIdsAreReal === false &&
+                !objectIdsAreRealNotTested && (
+                  <div>
+                    <InlineIcon>
+                      <StyledErrorIcon />
+                    </InlineIcon>
+                  </div>
+                )}
+              {objectIdsAreRealNotTested && (
+                <InlineDiv> (nicht getestet, da sehr viele Daten)</InlineDiv>
               )}
             </HowToImportLiContainer>
           </li>
@@ -647,10 +678,14 @@ const ImportPco = ({
                 'propertyCollectionOfOrigin',
               ])
               variables.properties = JSON.stringify(properties)
-              await client.mutate({
-                mutation: createPCOMutation,
-                variables,
-              })
+              try {
+                await client.mutate({
+                  mutation: createPCOMutation,
+                  variables,
+                })
+              } catch (error) {
+                console.log(error)
+              }
             })
             await pCOData.refetch()
             // do not set false because an unmounted component is updated
@@ -671,6 +706,11 @@ const ImportPco = ({
           rowsCount={importData.length}
         />
       )}
+      <Snackbar
+        open={loading}
+        message="lade Daten..."
+        bodyStyle={snackbarBodyStyle}
+      />
     </Container>
   )
 }
