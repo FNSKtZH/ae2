@@ -11,6 +11,7 @@ import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
+import { withApollo } from 'react-apollo'
 
 import ImportRco from './Import'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
@@ -19,6 +20,8 @@ import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import rCOData from './rCOData'
 import loginData from '../../../modules/loginData'
+import deleteRcoOfPcMutation from './deleteRcoOfPcMutation'
+import treeData from '../../Tree/treeData'
 
 const Container = styled.div`
   height: 100%;
@@ -71,7 +74,9 @@ const styles = theme => ({
 })
 
 const enhance = compose(
+  withApollo,
   activeNodeArrayData,
+  treeData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
   rCOData,
@@ -80,7 +85,10 @@ const enhance = compose(
 )
 
 const RCO = ({
+  client,
   rCOData,
+  treeData,
+  activeNodeArrayData,
   loginData,
   dimensions,
   sortField,
@@ -89,7 +97,10 @@ const RCO = ({
   setSortDirection,
   classes,
 }: {
+  client: Object,
   rCOData: Object,
+  treeData: Object,
+  activeNodeArrayData: Object,
   loginData: Object,
   dimensions: Object,
   sortField: String,
@@ -214,7 +225,19 @@ const RCO = ({
             {userIsWriter && (
               <MutationButtons>
                 <StyledButton
-                  onClick={() => console.log('TODO')}
+                  onClick={async () => {
+                    const pcId = get(
+                      activeNodeArrayData,
+                      'activeNodeArray[1]',
+                      '99999999-9999-9999-9999-999999999999'
+                    )
+                    await client.mutate({
+                      mutation: deleteRcoOfPcMutation,
+                      variables: { pcId },
+                    })
+                    rCOData.refetch()
+                    treeData.refetch()
+                  }}
                   className={classes.button}
                 >
                   Daten löschen

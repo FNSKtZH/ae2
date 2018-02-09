@@ -334,9 +334,6 @@ const ImportPco = ({
     !importRcoData.loading && objectRelationIds.length > 0
       ? uniq(objectRelationIds).length === objectRelationsCheckData.length
       : undefined
-  console.log('objectRelationsCheckData:', objectRelationsCheckData)
-  console.log('objectRelationIds:', objectRelationIds)
-
   const pCOfOriginsCheckData = get(
     importRcoData,
     'allPropertyCollections.nodes',
@@ -367,58 +364,6 @@ const ImportPco = ({
     propertyKeysDontContainBackslash &&
     propertyValuesDontContainApostroph &&
     propertyValuesDontContainBackslash
-  console.log('importData.length:', importData.length)
-  console.log('existsNoDataWithoutKey:', existsNoDataWithoutKey)
-  console.log(
-    '(idsExist ? idsAreUnique && idsAreUuids : true):',
-    idsExist ? idsAreUnique && idsAreUuids : true
-  )
-  console.log(
-    'objectIdsExist:',
-    objectIdsExist
-      ? objectIdsAreUuid && (objectIdsAreReal || objectIdsAreRealNotTested)
-      : false
-  )
-  console.log(
-    'objectRelationIdsExist:',
-    objectRelationIdsExist
-      ? objectRelationIdsAreUuid &&
-        (objectRelationIdsAreReal || objectRelationIdsAreRealNotTested)
-      : false
-  )
-  console.log('objectRelationIdsExist:', objectRelationIdsExist)
-  console.log('objectRelationIdsAreUuid:', objectRelationIdsAreUuid)
-  console.log('objectRelationIdsAreReal:', objectRelationIdsAreReal)
-  console.log(
-    'objectRelationIdsAreRealNotTested:',
-    objectRelationIdsAreRealNotTested
-  )
-  console.log('relationTypeExist:', relationTypeExist)
-  console.log(
-    'pCOfOriginIdsExist:',
-    pCOfOriginIdsExist
-      ? pCOfOriginIdsAreUuid &&
-        (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
-      : false
-  )
-  console.log('existsPropertyKey:', existsPropertyKey)
-  console.log(
-    'propertyKeysDontContainApostroph:',
-    propertyKeysDontContainApostroph
-  )
-  console.log(
-    'propertyKeysDontContainBackslash:',
-    propertyKeysDontContainBackslash
-  )
-  console.log(
-    'propertyValuesDontContainApostroph:',
-    propertyValuesDontContainApostroph
-  )
-  console.log(
-    'propertyValuesDontContainBackslash:',
-    propertyValuesDontContainBackslash
-  )
-  console.log('showImportButton:', showImportButton)
   const showPreview = importData.length > 0
   let importDataFields = []
   importData.forEach(d => {
