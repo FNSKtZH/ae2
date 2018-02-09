@@ -61,15 +61,15 @@ Besonders geeignet ist arteigenschaften.ch, wenn in einem Projekt eigene Art- od
 
 <a href="#top">&#8593; top</a>
 
-##### Daten für andere Anwendung abholen
+##### Daten für andere Anwendung bereitstellen
 Andere Anwendungen können Daten aus arteigenschaften.ch direkt abholen und nutzen. Mehr Infos [hier](#diese-technologien-werden-verwendet).
 
 ##### Nutzungsbedingungen
-arteigenschaften.ch ist ein Werkzeug der Fachstelle Naturschutz des Kantons Zürich (FNS). arteigenschaften.ch steht frei zur Verfügung. Möchten Sie Daten importieren, wenden Sie sich bitte an [Andreas Lienhard](mailto:andreas.lienhard@bd.zh.ch). Die FNS behält sich vor, mit DatenimporteurInnen die optimale Integration ihrer Daten in arteigenschaften.ch zu besprechen und allenfalls Einfluss darauf zu nehmen.
+arteigenschaften.ch ist ein Werkzeug der Fachstelle Naturschutz des Kantons Zürich (FNS). Die Daten stehen frei zur Verfügung. Möchten Sie Daten importieren, wenden Sie sich bitte an [Andreas Lienhard](mailto:andreas.lienhard@bd.zh.ch). Die FNS behält sich vor, die optimale Integration von Daten in arteigenschaften.ch zu besprechen und allenfalls Einfluss darauf zu nehmen.
 
 Es können nur Daten akzeptiert werden, deren Eigner mit der Veröffentlichung einverstanden sind. Arteigenschaften der FNS sind open data.
 
-arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, die Anwendung zu kopieren und selber zu betreiben, ohne allfälligen Einfluss der FNS oder mit Daten, die man nicht veröffentlichen will.
+Die Anwendung arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, sie zu kopieren und selber zu betreiben, ohne allfälligen Einfluss der FNS oder mit Daten, die man nicht veröffentlichen will. Oder besser: gemeinsam weiter zu entwickeln.
 
 <a href="#top">&#8593; top</a>
 
@@ -128,7 +128,7 @@ Im Idealfall enthielte die aktuell vom nationalen Zentrum verwendete Taxonomie n
 <a href="#top">&#8593; top</a>
 
 ### Eigenschaften-Sammlungen
-Systematische Informationen über Arten kommen in ganzen Sammlungen, z.B. „Flora Indicativa 2010“. Solche Sammlungen haben gemeinsame Eigenschaften wie z.B.:
+Systematische Informationen über Arten kommen in Sammlungen, z.B. „Flora Indicativa 2010“. Solche Sammlungen haben gemeinsame Eigenschaften wie z.B.:
 
 - Dieselbe Herkunft (Autoren, Publikation, Publikationsdatum)
 - Denselben Zweck: Die Eigenschaften-Sammlung wurde in der Regel für einen bestimmten Zweck erarbeitet. Für das Verständnis der Daten kann diese Information sehr hilfreich sein
@@ -144,7 +144,7 @@ Statt "Eigenschaften-Sammlung" könnte auch der Begriff "Publikation" verwendet 
 
 Eigenschaften-Sammlungen und Taxonomien sollten nur durch die Autoren nachgeführt werden (nicht zu verwechseln mit: importiert).
 
-Um Arten- und Lebensraumeigenschaften verstehen und verwalten zu können, ist es wichtig, Eigenschaften-Sammlungen als wesentlichen Teil der Struktur zu behandeln. In arteigenschaften.ch sind sie Eigenschaften der Objekte. Sie erleichtern dem Benutzer, die Übersicht über die riesige Menge von Eigenschaften zu gewinnen.
+Um Arten- und Lebensraumeigenschaften verstehen und verwalten zu können, ist es wichtig, Eigenschaften-Sammlungen als wesentlichen Teil der Struktur zu behandeln. Sie erleichtern dem Benutzer, die Übersicht über die riesige Menge von Eigenschaften zu gewinnen.
 
 arteigenschaften.ch kann auch Eigenschaften und Beziehungen von synonymen Objekten anzeigen und exportieren.
 
@@ -193,7 +193,7 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 <a href="#top">&#8593; top</a>
 
 ### Daten decodieren
-Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in einer früheren Version von arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist sehr kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind (nur) codierte Informationen zu vermeiden oder um uncodierte zu ergänzen.
+Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in einer früheren Version von arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind (nur) codierte Informationen zu vermeiden oder um uncodierte zu ergänzen.
 
 <a href="#top">&#8593; top</a>
 
@@ -221,7 +221,7 @@ Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgender
 <a href="#top">&#8593; top</a>
 
 ## Open source
-Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/master/license.md) ist sehr freizügig. Eine Weiterverbreitung der in der Anwendung enthaltenen und nicht von der FNS stammenden Daten ist aber nur mit Einverständnis der Autoren zulässig (diejenigen der FNS sind open data).
+Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/master/license.md) ist sehr freizügig. Auch die von der FNS stammenden Daten sind open data. Eine Weiterverbreitung der in der Anwendung enthaltenen und nicht von der FNS stammenden Daten ist aber nur mit Einverständnis der Autoren zulässig.
 
 <a href="#top">&#8593; top</a>
 
@@ -261,12 +261,12 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
    - Vereinfacht Exporte und Importe
 3. Gruppen sind nicht mehr Teil der Taxonomie<br/>
    Bisher wurden Arten in Gruppen eingeteilt (Fauna, Flora, Moose, Pilze). Das wird aufgehoben, denn:
-   - Taxonomien können Gruppen-übergreifend sein
+   - Taxonomien halten sich nicht zwingend an Gruppen
    - Die bisher verwendeten Kategorien sind letztlich nicht klar voneinander abzugrenzen
    - Die Kategorisierung von Biota ist Sache der Taxonomien, nicht dieser Datenbank
    - Sollen trotzdem für gewisse Werkzeuge Gruppen gebildet werden, ist das einfach mittels Eigenschaften-Sammlung möglich. Beispiele: GIS-Layer, Artgruppen-ID in EvAB
 4. Daten sind vor Veränderung geschützt. Organisationen erteilen ausgewählten Benutzern Bearbeitungs-Rechte. Diese Benutzer können Daten importieren und teilweise direkt in arteigenschaften.ch bearbeiten
-5. Die API stellt umfassende Funktionalitäten zur Verfügung. Externe Anwendungen können im Rahmen der Benutzerrechte alles realisieren, was mit den zugrundeliegenden Daten möglich ist
+5. Die API stellt umfassende Funktionalitäten bereit. Externe Anwendungen können im Rahmen der Benutzerrechte alles realisieren, was mit den zugrundeliegenden Daten möglich ist
 
 <a href="#top">&#8593; top</a>
 
@@ -283,7 +283,7 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
   - Daten-Logik und Rechte-Verwaltung obliegen der Datenbank - wie es sein sollte<br/>
   - GraphQL ist die kommende API-Technologie. Verglichen mit REST ist GraphQL einfach zu verstehen, extrem leistungsfähig und flexibel. Somit steht ein aussergewöhnlich benutzerfreundlicher API-Server zur Verfügung, mit dem jede(r) ganz nach eigenen Bedürfnissen alle öffentlichen Daten aus arteigenschaften.ch abfragen und - im Rahmen der Benutzer-Rechte - bearbeiten kann
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
-- [Apollo](https://www.apollodata.com). "React für Anwendungsdaten": Komponenten definieren, welche Daten sie brauchen. GraphQL und Apollo kümmern sich um die Bereitstellung
+- [Apollo](https://www.apollodata.com). Komponenten definieren, welche Daten sie brauchen. GraphQL und Apollo kümmern sich um die Bereitstellung. Wie React haben GraphQL und Apollo die Entwicklung von Anwendungen revolutioniert
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
   - Erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
