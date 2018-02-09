@@ -6,7 +6,7 @@
 import * as ExcelJs from 'exceljs/dist/exceljs.min.js'
 import getDataArrayFromExportRows from './getDataArrayFromExportRows'
 
-export default async (jsonArray: Array<Object>, columns: Number) => {
+export default async (jsonArray: Array<Object>, columns: Array<String>) => {
   const dataArray = getDataArrayFromExportRows(jsonArray, columns)
   let numberOfColumns =
     dataArray && dataArray[0] && dataArray[0].length ? dataArray[0].length : 0
