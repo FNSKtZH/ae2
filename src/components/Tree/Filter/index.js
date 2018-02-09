@@ -98,7 +98,8 @@ const enhance = compose(
         case 'pC':
           app.history.push(`/Eigenschaften-Sammlungen/${suggestion.id}`)
           break
-        case 'tO':
+        case 'art':
+        case 'lr':
         default: {
           /**
            * set treeFilterId
@@ -162,7 +163,17 @@ class TreeFilter extends Component {
       onSuggestionSelected,
       dimensions,
     } = this.props
-    const { filterSuggestionsTO, filterSuggestionsPC } = filterSuggestionsData
+
+    const objectByObjectName = get(
+      filterSuggestionsData,
+      'objectByObjectName.nodes',
+      []
+    )
+    const pCByPropertyName = get(
+      filterSuggestionsData,
+      'propertyCollectionByPropertyName.nodes',
+      []
+    )
     const treeFilterText = get(treeFilterData, 'treeFilter.text', '')
     const inputProps = {
       value: treeFilterText,
@@ -175,31 +186,35 @@ class TreeFilter extends Component {
      * need add type:
      * when suggestion is clicked,
      * url is calculated by id depending on type
-     * CANNOT map from filterSuggestionsTO.nodes
+     * CANNOT map from objectByObjectName.nodes
      * as object is not extensible
      */
-    const suggestionsTO = []
-    if (filterSuggestionsTO && filterSuggestionsTO.nodes) {
-      filterSuggestionsTO.nodes.forEach(s => {
-        suggestionsTO.push({
-          ...s,
-          type: 't0',
-        })
-      })
-    }
-    const suggestionsPC = []
-    if (filterSuggestionsPC && filterSuggestionsPC.nodes) {
-      filterSuggestionsPC.nodes.forEach(s => {
-        suggestionsPC.push({
-          ...s,
-          type: 'pC',
-        })
-      })
-    }
+    const suggestionsArt = objectByObjectName
+      .filter(n => get(n, 'taxonomyByTaxonomyId.type') === 'ART')
+      .map(o => ({
+        id: o.id,
+        name: o.name,
+        type: 'art',
+      }))
+    const suggestionsLr = objectByObjectName
+      .filter(n => get(n, 'taxonomyByTaxonomyId.type') === 'LEBENSRAUM')
+      .map(o => ({
+        id: o.id,
+        name: o.name,
+        type: 'lr',
+      }))
+    const suggestionsPC = pCByPropertyName.map(s => ({
+      ...s,
+      type: 'pC',
+    }))
     const suggestions = [
       {
-        title: `Arten und Lebensräume (${suggestionsTO.length})`,
-        suggestions: suggestionsTO,
+        title: `Arten (${suggestionsArt.length})`,
+        suggestions: suggestionsArt,
+      },
+      {
+        title: `Lebensräume (${suggestionsLr.length})`,
+        suggestions: suggestionsLr,
       },
       {
         title: `Eigenschaften-Sammlungen (${suggestionsPC.length})`,

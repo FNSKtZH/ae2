@@ -6,18 +6,20 @@ import get from 'lodash/get'
 export default graphql(
   gql`
     query filterSuggestionsQuery($treeFilterText: String!) {
-      filterSuggestionsPC: propertyCollectionByPropertyName(
-        propertyName: $treeFilterText
-      ) {
+      propertyCollectionByPropertyName(propertyName: $treeFilterText) {
         nodes {
           id
           name
         }
       }
-      filterSuggestionsTO: objectByObjectName(objectName: $treeFilterText) {
+      objectByObjectName(objectName: $treeFilterText) {
         nodes {
           id
           name
+          taxonomyByTaxonomyId {
+            id
+            type
+          }
         }
       }
     }
