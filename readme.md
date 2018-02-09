@@ -283,7 +283,7 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
   - Daten-Logik und Rechte-Verwaltung obliegen der Datenbank - wie es sein sollte<br/>
   - GraphQL ist die kommende API-Technologie. Verglichen mit REST ist GraphQL einfach zu verstehen, extrem leistungsfähig und flexibel. Somit steht ein aussergewöhnlich benutzerfreundlicher API-Server zur Verfügung, mit dem jede(r) ganz nach eigenen Bedürfnissen alle öffentlichen Daten aus arteigenschaften.ch abfragen und - im Rahmen der Benutzer-Rechte - bearbeiten kann
 - [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
-- [Apollo](https://www.apollodata.com). Komponenten definieren, welche Daten sie brauchen. GraphQL und Apollo kümmern sich um die Bereitstellung. Wie React haben GraphQL und Apollo die Entwicklung von Anwendungen revolutioniert
+- [Apollo](https://www.apollodata.com). Komponenten definieren, welche Daten sie brauchen. GraphQL und Apollo kümmern sich um die Bereitstellung. React (siehe unten), GraphQL und Apollo haben die Entwicklung von Anwendungen revolutioniert
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
 - Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
   - Erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
@@ -293,9 +293,9 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 - [flow](https://flow.org) deckt Fehler auf, bevor der Code ausgeführt wird
 - [prettier](https://github.com/prettier/prettier) formatiert den Code. Der Entwickler kann sich auf die Funktionalität konzentrieren
 - [React](https://facebook.github.io/react/index.html)
-  - Die Benutzeroberfläche ist eine Funktion der anwendungsseitigen Daten
-  - Vereinfacht die Steuerung der Benutzeroberfläche
-  - Die Benutzeroberfläche wird aus wiederverwertbaren und testbaren Komponenten aufgebaut
+  - Die Benutzeroberfläche ist eine Funktion der anwendungsseitigen Daten,
+  - viel einfacher zu steuern
+  - ...und aus wiederverwertbaren und testbaren Komponenten aufgebaut
 
 <a href="#top">&#8593; top</a>
 
