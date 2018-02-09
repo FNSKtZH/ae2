@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
@@ -13,6 +13,7 @@ import { withStyles } from 'material-ui-next/styles'
 import Icon from 'material-ui-next/Icon'
 import DoneIcon from 'material-ui-icons/Done'
 import ErrorIcon from 'material-ui-icons/Error'
+import InfoOutlineIcon from 'material-ui-icons/InfoOutline'
 import Button from 'material-ui-next/Button'
 import Snackbar from 'material-ui/Snackbar'
 import Dropzone from 'react-dropzone'
@@ -56,6 +57,7 @@ const HowToImportContainer = styled.div`
 `
 const HowToImportLiContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   line-height: 24px;
   > div {
     height: 24px;
@@ -91,6 +93,9 @@ const StyledDoneIcon = styled(DoneIcon)`
 `
 const StyledErrorIcon = styled(ErrorIcon)`
   color: red !important;
+`
+const StyledInfoOutlineIcon = styled(InfoOutlineIcon)`
+  color: orange !important;
 `
 const StyledButton = styled(Button)`
   border: 1px solid !important;
@@ -447,7 +452,16 @@ const ImportPco = ({
                   </div>
                 )}
               {objectIdsAreRealNotTested && (
-                <InlineDiv> (nicht getestet, da sehr viele Daten)</InlineDiv>
+                <Fragment>
+                  <InlineIcon>
+                    <StyledInfoOutlineIcon />
+                  </InlineIcon>
+                  <InlineDiv>
+                    (nicht getestet, da sehr viele Daten. Datensätze, welche
+                    dieses Kriterium nicht erfüllen, werden beim Import
+                    scheitern)
+                  </InlineDiv>
+                </Fragment>
               )}
             </HowToImportLiContainer>
           </li>
