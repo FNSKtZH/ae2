@@ -143,6 +143,7 @@ const enhance = compose(
   withState('idsAreUnique', 'setIdsAreUnique', undefined),
   withState('objectIdsExist', 'setObjectIdsExist', undefined),
   withState('objectRelationIdsExist', 'setObjectRelationIdsExist', undefined),
+  withState('relationTypeExist', 'setRelationTypeExist', undefined),
   withState('pCOfOriginIdsExist', 'setPCOfOriginIdsExist', undefined),
   withState(
     'objectIdsAreRealNotTested',
@@ -213,6 +214,8 @@ const ImportPco = ({
   setObjectIdsExist,
   objectRelationIdsExist,
   setObjectRelationIdsExist,
+  relationTypeExist,
+  setRelationTypeExist,
   pCOfOriginIdsExist,
   setPCOfOriginIdsExist,
   objectIdsAreRealNotTested,
@@ -266,6 +269,8 @@ const ImportPco = ({
   setObjectIdsExist: () => void,
   objectRelationIdsExist: Boolean,
   setObjectRelationIdsExist: () => void,
+  relationTypeExist: Boolean,
+  setRelationTypeExist: () => void,
   pCOfOriginIdsExist: Boolean,
   setPCOfOriginIdsExist: () => void,
   objectIdsAreRealNotTested: Boolean,
@@ -349,6 +354,7 @@ const ImportPco = ({
       ? objectRelationIdsAreUuid &&
         (objectRelationIdsAreReal || objectRelationIdsAreRealNotTested)
       : false) &&
+    relationTypeExist &&
     (pCOfOriginIdsExist
       ? pCOfOriginIdsAreUuid &&
         (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
@@ -608,7 +614,7 @@ const ImportPco = ({
               )}
             </LiContainer>
             <LiContainer>
-              <div>
+              <div style={{ paddingBottom: '10px' }}>
                 Zweck: Der Datensatz beschreibt die Beziehung des Objekts mit id{' '}
                 <EmSpan>objectId</EmSpan> zum Objekt mit id{' '}
                 <EmSpan>objectIdRelation</EmSpan>
@@ -680,6 +686,37 @@ const ImportPco = ({
                 </LiContainer>
               </li>
             </ul>
+          </li>
+          <li>
+            <LiContainer>
+              <div>
+                Ein Feld namens <EmSpan>relationType</EmSpan> muss enthalten
+                sein
+              </div>
+              {relationTypeExist && (
+                <div>
+                  <InlineIcon>
+                    <StyledDoneIcon />
+                  </InlineIcon>
+                </div>
+              )}
+              {relationTypeExist === false && (
+                <div>
+                  <InlineIcon>
+                    <StyledErrorIcon />
+                  </InlineIcon>
+                </div>
+              )}
+            </LiContainer>
+            <LiContainer>
+              <div style={{ paddingBottom: '10px' }}>
+                Zweck: Beschreibt <em>die Art der Beziehung</em> des Objekts mit
+                id <EmSpan>objectId</EmSpan> zum Objekt mit id{' '}
+                <EmSpan>objectIdRelation</EmSpan>.<br />Beispiel: Hund beisst
+                Briefträger :-)<br />Mögliche Werte: frisst, parasitiert,
+                meidet...
+              </div>
+            </LiContainer>
           </li>
           <li>
             <LiContainer>
@@ -783,7 +820,9 @@ const ImportPco = ({
             </ul>
           </li>
         </ul>
-        <StyledP>Alle weiteren Felder sind Eigenschaften des Objekts:</StyledP>
+        <StyledP>
+          Alle weiteren Felder sind Eigenschaften der Beziehung:
+        </StyledP>
         <StyledH4>Eigenschaften</StyledH4>
         <ul>
           <li>
@@ -936,6 +975,13 @@ const ImportPco = ({
                     : undefined
                 )
                 setObjectIds(_objectIds)
+
+                const _relationTypes = data
+                  .map(d => d.relationType)
+                  .filter(d => d !== undefined)
+                const _relationTypesExist =
+                  _relationTypes.length === data.length
+                setRelationTypeExist(_relationTypesExist)
 
                 const _pCOfOriginIds = data
                   .map(d => d.propertyCollectionOfOrigin)
