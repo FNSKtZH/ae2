@@ -45,7 +45,7 @@
     "flow-bin": "0.65.0",
     "postgraphile": "4.0.0-alpha2.30",
     "postgraphile-plugin-connection-filter": "1.0.0-alpha.8",
-    "react-scripts": "1.1.0"
+    "react-scripts": "1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
