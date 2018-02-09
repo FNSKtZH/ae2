@@ -188,8 +188,6 @@ class TreeFilter extends Component {
      * need add type:
      * when suggestion is clicked,
      * url is calculated by id depending on type
-     * CANNOT map from objectByObjectName.nodes
-     * as object is not extensible
      */
     const suggestionsArt = objectByObjectName
       .filter(n => get(n, 'taxonomyByTaxonomyId.type') === 'ART')
