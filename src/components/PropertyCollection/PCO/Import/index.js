@@ -52,6 +52,9 @@ const Container = styled.div`
     border: #ddd solid 1px !important;
   }
 `
+const StyledH4 = styled.h4`
+  margin: 10px 0 -10px 0;
+`
 const HowToImportContainer = styled.div`
   padding: 0 8px;
 `
@@ -316,7 +319,7 @@ const ImportPco = ({
     <Container>
       <HowToImportContainer>
         <h3>Anforderungen an zu importierende Eigenschaften</h3>
-        <h4>Autorenrechte</h4>
+        <StyledH4>Autorenrechte</StyledH4>
         <ul>
           <li>
             <HowToImportLiContainer>
@@ -331,7 +334,7 @@ const ImportPco = ({
             </HowToImportLiContainer>
           </li>
         </ul>
-        <h4>Tabelle</h4>
+        <StyledH4>Tabelle</StyledH4>
         <ul>
           <li>
             <HowToImportLiContainer>
@@ -361,7 +364,7 @@ const ImportPco = ({
             </HowToImportLiContainer>
           </li>
         </ul>
-        <h4>Zuordnungs-Felder</h4>
+        <StyledH4>Zuordnungs-Felder</StyledH4>
         <ul>
           <li>
             <HowToImportLiContainer>
@@ -608,7 +611,7 @@ const ImportPco = ({
           </li>
         </ul>
         <p>Alle weiteren Felder sind Eigenschaften des Objekts:</p>
-        <h4>Eigenschaften</h4>
+        <StyledH4>Eigenschaften</StyledH4>
         <ul>
           <li>
             <HowToImportLiContainer>
