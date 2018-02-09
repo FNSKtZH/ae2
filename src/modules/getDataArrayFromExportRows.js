@@ -10,16 +10,18 @@ export default (exportRows: Array<Object>, columns: Array<String>) => {
   // then the field values
   exportRows.forEach(row =>
     dataArray.push(
-      Object.keys(row).map((key, index) => {
-        /**
-         * exceljs errors out if first member of array is null
-         * see: https://github.com/guyonroche/exceljs/issues/111
-         */
-        if (row[key] === null && index === 0) {
-          return ''
-        }
-        return row[key]
-      })
+      Object.keys(row)
+        .sort()
+        .map((key, index) => {
+          /**
+           * exceljs errors out if first member of array is null
+           * see: https://github.com/guyonroche/exceljs/issues/111
+           */
+          if (row[key] === null && index === 0) {
+            return ''
+          }
+          return row[key]
+        })
     )
   )
   return dataArray
