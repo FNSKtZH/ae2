@@ -52,18 +52,25 @@ const Container = styled.div`
     border: #ddd solid 1px !important;
   }
 `
-const StyledH4 = styled.h4`
-  margin: 10px 0 -10px 0;
+const StyledH3 = styled.h3`
+  margin-left: 8px;
 `
 const HowToImportContainer = styled.div`
-  padding: 0 8px;
+  column-width: 500px;
+  padding: 0 8px 0 8px;
+  ul {
+    padding-left: 20px;
+  }
 `
-const HowToImportLiContainer = styled.div`
+const StyledH4 = styled.h4`
+  margin: 0 0 -10px 0;
+`
+const LiContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  line-height: 24px;
+  min-height: 24px;
   > div {
-    height: 24px;
+    min-height: 24px;
   }
 `
 const EmSpan = styled.span`
@@ -109,6 +116,9 @@ const TotalDiv = styled.div`
   font-size: small;
   padding-left: 9px;
   margin-top: 8px;
+`
+const StyledP = styled.p`
+  margin-top: -5px;
 `
 const snackbarBodyStyle = {
   maxWidth: 'auto',
@@ -317,32 +327,32 @@ const ImportPco = ({
 
   return (
     <Container>
+      <StyledH3>Anforderungen an zu importierende Eigenschaften</StyledH3>
       <HowToImportContainer>
-        <h3>Anforderungen an zu importierende Eigenschaften</h3>
         <StyledH4>Autorenrechte</StyledH4>
         <ul>
           <li>
-            <HowToImportLiContainer>
+            <LiContainer>
               <div>
                 Die Autoren müssen mit der Veröffentlichung einverstanden sein
               </div>
-            </HowToImportLiContainer>
+            </LiContainer>
           </li>
           <li>
-            <HowToImportLiContainer>
+            <LiContainer>
               <div>Dafür verantwortlich ist, wer Daten importiert</div>
-            </HowToImportLiContainer>
+            </LiContainer>
           </li>
         </ul>
         <StyledH4>Tabelle</StyledH4>
         <ul>
           <li>
-            <HowToImportLiContainer>
+            <LiContainer>
               <div>Die erste Zeile enthält Feld-Namen (= Spalten-Titel)</div>
-            </HowToImportLiContainer>
+            </LiContainer>
           </li>
           <li>
-            <HowToImportLiContainer>
+            <LiContainer>
               <div>
                 Jeder Wert hat einen Feld-Namen. Anders gesagt: Jede Zelle mit
                 einem Wert hat einen Spalten-Titel
@@ -361,13 +371,13 @@ const ImportPco = ({
                   </InlineIcon>
                 </div>
               )}
-            </HowToImportLiContainer>
+            </LiContainer>
           </li>
         </ul>
         <StyledH4>Zuordnungs-Felder</StyledH4>
         <ul>
           <li>
-            <HowToImportLiContainer>
+            <LiContainer>
               <div>
                 Ein Feld namens <EmSpan>id</EmSpan> kann enthalten sein.
               </div>
@@ -378,13 +388,13 @@ const ImportPco = ({
                   </InlineIcon>
                 </div>
               )}
-            </HowToImportLiContainer>
-            <HowToImportLiContainer>
+            </LiContainer>
+            <LiContainer>
               <div>Wenn nicht, wird eine id erzeugt</div>
-            </HowToImportLiContainer>
+            </LiContainer>
             <ul>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>
                     <EmSpan>id</EmSpan> muss gültige{' '}
                     <a
@@ -410,10 +420,10 @@ const ImportPco = ({
                       </InlineIcon>
                     </div>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>
                     <EmSpan>id</EmSpan> muss eindeutig sein
                   </div>
@@ -431,12 +441,12 @@ const ImportPco = ({
                       </InlineIcon>
                     </div>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
             </ul>
           </li>
           <li>
-            <HowToImportLiContainer>
+            <LiContainer>
               <div>
                 Ein Feld namens <EmSpan>objectId</EmSpan> muss enthalten sein
               </div>
@@ -454,10 +464,10 @@ const ImportPco = ({
                   </InlineIcon>
                 </div>
               )}
-            </HowToImportLiContainer>
+            </LiContainer>
             <ul>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>
                     <EmSpan>objectId</EmSpan> muss gültige{' '}
                     <a
@@ -483,10 +493,10 @@ const ImportPco = ({
                       </InlineIcon>
                     </div>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>
                     <EmSpan>objectId</EmSpan> muss <EmSpan>id</EmSpan> eines
                     Objekts aus arteigenschaften.ch sein
@@ -518,12 +528,12 @@ const ImportPco = ({
                       </InlineDiv>
                     </Fragment>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
             </ul>
           </li>
           <li>
-            <HowToImportLiContainer>
+            <LiContainer>
               <div>
                 Ein Feld namens <EmSpan>propertyCollectionOfOrigin</EmSpan> kann
                 enthalten sein
@@ -540,10 +550,10 @@ const ImportPco = ({
                   <InlineDiv>(ist nicht)</InlineDiv>
                 </div>
               )}
-            </HowToImportLiContainer>
+            </LiContainer>
             <ul>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>
                     <EmSpan>propertyCollectionOfOrigin</EmSpan> muss gültige{' '}
                     <a
@@ -569,10 +579,10 @@ const ImportPco = ({
                       </InlineIcon>
                     </div>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>
                     <EmSpan>propertyCollectionOfOrigin</EmSpan> muss{' '}
                     <EmSpan>id</EmSpan> einer Eigenschaften-Sammlung aus
@@ -605,16 +615,16 @@ const ImportPco = ({
                       </InlineDiv>
                     </Fragment>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
             </ul>
           </li>
         </ul>
-        <p>Alle weiteren Felder sind Eigenschaften des Objekts:</p>
+        <StyledP>Alle weiteren Felder sind Eigenschaften des Objekts:</StyledP>
         <StyledH4>Eigenschaften</StyledH4>
         <ul>
           <li>
-            <HowToImportLiContainer>
+            <LiContainer>
               <div>Es gibt mindestens eine Eigenschaft</div>
               {existsPropertyKey && (
                 <div>
@@ -630,13 +640,13 @@ const ImportPco = ({
                   </InlineIcon>
                 </div>
               )}
-            </HowToImportLiContainer>
+            </LiContainer>
           </li>
           <li>
             Feld-Namen dürfen die folgenden Zeichen nicht enthalten:
             <ul>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>"</div>
                   {propertyKeysDontContainApostroph && (
                     <div>
@@ -652,10 +662,10 @@ const ImportPco = ({
                       </InlineIcon>
                     </div>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>\</div>
                   {propertyKeysDontContainBackslash && (
                     <div>
@@ -671,7 +681,7 @@ const ImportPco = ({
                       </InlineIcon>
                     </div>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
             </ul>
           </li>
@@ -679,7 +689,7 @@ const ImportPco = ({
             Feld-Werte dürfen die folgenden Zeichen nicht enthalten:
             <ul>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>"</div>
                   {propertyValuesDontContainApostroph && (
                     <div>
@@ -695,10 +705,10 @@ const ImportPco = ({
                       </InlineIcon>
                     </div>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
               <li>
-                <HowToImportLiContainer>
+                <LiContainer>
                   <div>\</div>
                   {propertyValuesDontContainBackslash && (
                     <div>
@@ -714,7 +724,7 @@ const ImportPco = ({
                       </InlineIcon>
                     </div>
                   )}
-                </HowToImportLiContainer>
+                </LiContainer>
               </li>
             </ul>
           </li>
