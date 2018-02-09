@@ -101,6 +101,11 @@ const StyledButton = styled(Button)`
   border: 1px solid !important;
   margin: 8px 8px 16px 8px !important;
 `
+const TotalDiv = styled.div`
+  font-size: small;
+  padding-left: 9px;
+  margin-top: 8px;
+`
 const snackbarBodyStyle = {
   maxWidth: 'auto',
   minWidth: 'auto',
@@ -261,6 +266,10 @@ const ImportPco = ({
     propertyValuesDontContainApostroph &&
     propertyValuesDontContainBackslash
   const showPreview = importData.length > 0
+  let importDataFields = []
+  importData.forEach(d => {
+    importDataFields = union([...importDataFields, ...Object.keys(d)])
+  })
 
   return (
     <Container>
@@ -329,56 +338,58 @@ const ImportPco = ({
             <HowToImportLiContainer>
               <div>Wenn nicht, wird eine id erzeugt</div>
             </HowToImportLiContainer>
-          </li>
-          <li>
-            <HowToImportLiContainer>
-              <div>
-                <EmSpan>id</EmSpan>'s müssen gültige{' '}
-                <a
-                  href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  UUID
-                </a>{' '}
-                sein
-              </div>
-              {idsAreUuids && (
-                <div>
-                  <InlineIcon>
-                    <StyledDoneIcon />
-                  </InlineIcon>
-                </div>
-              )}
-              {idsAreUuids === false && (
-                <div>
-                  <InlineIcon>
-                    <StyledErrorIcon />
-                  </InlineIcon>
-                </div>
-              )}
-            </HowToImportLiContainer>
-          </li>
-          <li>
-            <HowToImportLiContainer>
-              <div>
-                <EmSpan>id</EmSpan>'s müssen eindeutig sein
-              </div>
-              {idsAreUnique && (
-                <div>
-                  <InlineIcon>
-                    <StyledDoneIcon />
-                  </InlineIcon>
-                </div>
-              )}
-              {idsAreUnique === false && (
-                <div>
-                  <InlineIcon>
-                    <StyledErrorIcon />
-                  </InlineIcon>
-                </div>
-              )}
-            </HowToImportLiContainer>
+            <ul>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    <EmSpan>id</EmSpan> muss gültige{' '}
+                    <a
+                      href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      UUID
+                    </a>{' '}
+                    sein
+                  </div>
+                  {idsAreUuids && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {idsAreUuids === false && (
+                    <div>
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    <EmSpan>id</EmSpan> muss eindeutig sein
+                  </div>
+                  {idsAreUnique && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {idsAreUnique === false && (
+                    <div>
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+            </ul>
           </li>
           <li>
             <HowToImportLiContainer>
@@ -400,70 +411,72 @@ const ImportPco = ({
                 </div>
               )}
             </HowToImportLiContainer>
-          </li>
-          <li>
-            <HowToImportLiContainer>
-              <div>
-                <EmSpan>objectId</EmSpan>'s müssen gültige{' '}
-                <a
-                  href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  UUID
-                </a>{' '}
-                sein
-              </div>
-              {objectIdsAreUuid && (
-                <div>
-                  <InlineIcon>
-                    <StyledDoneIcon />
-                  </InlineIcon>
-                </div>
-              )}
-              {objectIdsAreUuid === false && (
-                <div>
-                  <InlineIcon>
-                    <StyledErrorIcon />
-                  </InlineIcon>
-                </div>
-              )}
-            </HowToImportLiContainer>
-          </li>
-          <li>
-            <HowToImportLiContainer>
-              <div>
-                <EmSpan>objectId</EmSpan>'s müssen <EmSpan>id</EmSpan>'s von
-                Objekten aus arteigenschaften.ch sein
-              </div>
-              {objectIdsAreReal && (
-                <div>
-                  <InlineIcon>
-                    <StyledDoneIcon />
-                  </InlineIcon>
-                </div>
-              )}
-              {objectIdsAreReal === false &&
-                !objectIdsAreRealNotTested && (
+            <ul>
+              <li>
+                <HowToImportLiContainer>
                   <div>
-                    <InlineIcon>
-                      <StyledErrorIcon />
-                    </InlineIcon>
+                    <EmSpan>objectId</EmSpan> muss gültige{' '}
+                    <a
+                      href="https://de.wikipedia.org/wiki/Universally_Unique_Identifier"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      UUID
+                    </a>{' '}
+                    sein
                   </div>
-                )}
-              {objectIdsAreRealNotTested && (
-                <Fragment>
-                  <InlineIcon>
-                    <StyledInfoOutlineIcon />
-                  </InlineIcon>
-                  <InlineDiv>
-                    (nicht getestet, da sehr viele Daten. Datensätze, welche
-                    dieses Kriterium nicht erfüllen, werden beim Import
-                    scheitern)
-                  </InlineDiv>
-                </Fragment>
-              )}
-            </HowToImportLiContainer>
+                  {objectIdsAreUuid && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {objectIdsAreUuid === false && (
+                    <div>
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+              <li>
+                <HowToImportLiContainer>
+                  <div>
+                    <EmSpan>objectId</EmSpan> muss <EmSpan>id</EmSpan> von
+                    Objekten aus arteigenschaften.ch sein
+                  </div>
+                  {objectIdsAreReal && (
+                    <div>
+                      <InlineIcon>
+                        <StyledDoneIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
+                  {objectIdsAreReal === false &&
+                    !objectIdsAreRealNotTested && (
+                      <div>
+                        <InlineIcon>
+                          <StyledErrorIcon />
+                        </InlineIcon>
+                      </div>
+                    )}
+                  {objectIdsAreRealNotTested && (
+                    <Fragment>
+                      <InlineIcon>
+                        <StyledInfoOutlineIcon />
+                      </InlineIcon>
+                      <InlineDiv>
+                        (nicht getestet, da sehr viele Daten. Datensätze, welche
+                        dieses Kriterium nicht erfüllen, werden nicht
+                        importiert)
+                      </InlineDiv>
+                    </Fragment>
+                  )}
+                </HowToImportLiContainer>
+              </li>
+            </ul>
           </li>
         </ul>
         <p>Alle weiteren Felder sind Eigenschaften des Objekts.</p>
@@ -676,14 +689,10 @@ const ImportPco = ({
           onClick={async () => {
             setImporting(true)
             // need a list of all fields
-            let fields = []
-            importData.forEach(d => {
-              fields = union([...fields, ...Object.keys(d)])
-            })
             // loop all rows, build variables and create pco
             importData.forEach(async (d, i) => {
               const variables = {}
-              fields.forEach(f => (variables[f] = d[f] || null))
+              importDataFields.forEach(f => (variables[f] = d[f] || null))
               variables.propertyCollectionId = pCId
               const properties = omit(d, [
                 'id',
@@ -710,15 +719,24 @@ const ImportPco = ({
         </StyledButton>
       )}
       {showPreview && (
-        <ReactDataGrid
-          columns={Object.keys(importData[0]).map(k => ({
-            key: k,
-            name: k,
-            resizable: true,
-          }))}
-          rowGetter={i => importData[i]}
-          rowsCount={importData.length}
-        />
+        <Fragment>
+          <TotalDiv>{`${importData.length.toLocaleString(
+            'de-CH'
+          )} Datensätze, ${(importDataFields.length - 2).toLocaleString(
+            'de-CH'
+          )} Feld${importDataFields.length === 3 ? '' : 'er'}${
+            importData.length > 0 ? ':' : ''
+          }`}</TotalDiv>
+          <ReactDataGrid
+            columns={importDataFields.map(k => ({
+              key: k,
+              name: k,
+              resizable: true,
+            }))}
+            rowGetter={i => importData[i]}
+            rowsCount={importData.length}
+          />
+        </Fragment>
       )}
       <Snackbar
         open={loading}
