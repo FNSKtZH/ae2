@@ -59,6 +59,9 @@ export default gql`
         propertyCollectionObjectsByPropertyCollectionId {
           totalCount
         }
+        relationsByPropertyCollectionId {
+          totalCount
+        }
       }
     }
     level3Pc: propertyCollectionById(id: $pCId) @include(if: $existsPCId) {
