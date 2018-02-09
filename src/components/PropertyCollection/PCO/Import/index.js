@@ -68,9 +68,10 @@ const StyledH4 = styled.h4`
 const LiContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  min-height: 24px;
+  min-height: 29px;
+  break-inside: avoid;
   > div {
-    min-height: 24px;
+    min-height: 29px;
   }
 `
 const EmSpan = styled.span`
@@ -354,8 +355,8 @@ const ImportPco = ({
           <li>
             <LiContainer>
               <div>
-                Jeder Wert hat einen Feld-Namen. Anders gesagt: Jede Zelle mit
-                einem Wert hat einen Spalten-Titel
+                Jeder Wert hat einen Feld-Namen.<br />Anders gesagt: Jede Zelle
+                mit einem Wert hat einen Spalten-Titel
               </div>
               {existsNoDataWithoutKey && (
                 <div>
