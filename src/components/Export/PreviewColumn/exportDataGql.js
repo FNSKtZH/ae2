@@ -39,6 +39,8 @@ export default gql`
       nodes {
         id
         objectId
+        propertyCollectionId
+        propertyCollectionOfOrigin
         properties
       }
     }
@@ -53,6 +55,8 @@ export default gql`
       nodes {
         id
         objectId
+        propertyCollectionId
+        propertyCollectionOfOrigin
         properties
       }
     }

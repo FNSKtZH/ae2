@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
+import get from 'lodash/get'
 
 import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
 import removeExportPcoPropertyMutation from '../../removeExportPcoPropertyMutation'
@@ -32,6 +33,7 @@ const enhance = compose(
       const mutation = isChecked
         ? addExportPcoPropertyMutation
         : removeExportPcoPropertyMutation
+      console.log('PcoChooser:', { pcname, pname })
       client.mutate({
         mutation,
         variables: { pcname, pname },
@@ -55,7 +57,12 @@ const PcoChooser = ({
   onCheck: () => {},
   exportPcoPropertiesData: Object,
 }) => {
-  const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+  const exportPcoProperties = get(
+    exportPcoPropertiesData,
+    'exportPcoProperties',
+    []
+  )
+  //const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
   const checked =
     exportPcoProperties.filter(x => x.pcname === pcname && x.pname === pname)
       .length > 0

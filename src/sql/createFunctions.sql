@@ -363,6 +363,7 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_f
                       ae.property_collection_object.id,
                       ae.synonym.object_id_synonym AS object_id,
                       ae.property_collection_object.property_collection_id,
+                      ae.property_collection_object.property_collection_of_origin,
                       ae.property_collection_object.properties
                     FROM ae.object
                       INNER JOIN ae.property_collection_object
@@ -407,6 +408,7 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_f
                     ae.relation.property_collection_id,
                     ae.synonym.object_id_synonym AS object_id,
                     ae.relation.object_id_relation,
+                    ae.relation.property_collection_of_origin,
                     ae.relation.relation_type,
                     ae.relation.properties
                   FROM ae.object
@@ -439,7 +441,6 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_f
     END
   $$
   LANGUAGE plpgsql STABLE;
-
 ALTER FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[])
   OWNER TO postgres;
 

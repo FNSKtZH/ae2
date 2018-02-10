@@ -58,6 +58,11 @@ export default graphql(exportDataGql, {
       'exportRcoProperties',
       []
     ).map(d => omit(d, ['__typename']))
+    console.log('exportData:', {
+      pcoProperties,
+      taxProperties,
+      rcoProperties,
+    })
     const fetchTaxProperties = taxProperties.length > 0
     const fetchPcoProperties = pcoProperties.length > 0
     const fetchRcoProperties = rcoProperties.length > 0
