@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import Paper from 'material-ui/Paper'
+import Paper from 'material-ui-next/Paper'
 import { FormGroup, FormControlLabel } from 'material-ui-next/Form'
 import Checkbox from 'material-ui-next/Checkbox'
 import { withApollo } from 'react-apollo'
@@ -45,6 +45,13 @@ const PaperTextContainer = styled.div`
 `
 const PropertyTextDiv = styled.div`
   padding-bottom: 5px;
+`
+const StyledPaper = styled(Paper)`
+  width: 100%;
+  color: white;
+  background-color: ${props => `${props['data-bgcolor']} !important`};
+  margin-bottom: 10px;
+  margin-top: 10px;
 `
 const TypeLabel = styled(FormControlLabel)`
   height: 30px;
@@ -195,13 +202,7 @@ const Types = ({
     paperBackgroundColor = '#2E7D32'
     textProperties = 'Die Eigenschaften wurden geladen.'
   }
-  const paperStyle = {
-    width: '100%',
-    color: 'white',
-    backgroundColor: paperBackgroundColor,
-    marginBottom: '10px',
-    marginTop: '10px',
-  }
+  console.log('paperBackgroundColor:', paperBackgroundColor)
 
   return (
     <ErrorBoundary>
@@ -254,11 +255,11 @@ const Types = ({
             )}
           </TypeContainer>
         ))}
-        <Paper style={paperStyle} zDepth={1}>
+        <StyledPaper elevation={1} data-bgcolor={paperBackgroundColor}>
           <PaperTextContainer>
             <PropertyTextDiv>{textProperties}</PropertyTextDiv>
           </PaperTextContainer>
-        </Paper>
+        </StyledPaper>
       </Container>
     </ErrorBoundary>
   )
