@@ -4,7 +4,10 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { ContextMenuTrigger } from 'react-contextmenu'
-import FontIcon from 'material-ui/FontIcon'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
+import ChevronRightIcon from 'material-ui-icons/ChevronRight'
+import MoreHorizIcon from 'material-ui-icons/MoreHoriz'
+import Icon from 'material-ui-next/Icon'
 import isEqual from 'lodash/isEqual'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
@@ -36,7 +39,7 @@ const StyledNode = styled.div`
     color: #f57c00 !important;
   }
 `
-const SymbolIcon = styled(FontIcon)`
+const SymbolIcon = styled(Icon)`
   margin-top: ${props =>
     props['data-nodeisinactivenodepath']
       ? '-5px !important'
@@ -147,13 +150,13 @@ const Row = ({
   // build symbols
   let useSymbolIcon = true
   let useSymbolSpan = false
-  let symbolIcon
+  let symbol
   if (node.childrenCount && nodeIsInActiveNodePath) {
-    symbolIcon = 'expand_more'
+    symbol = 'ExpandMore'
   } else if (node.childrenCount) {
-    symbolIcon = 'chevron_right'
+    symbol = 'ChevronRight'
   } else if (node.label === 'lade Daten') {
-    symbolIcon = 'more_horiz'
+    symbol = 'MoreHoriz'
   } else {
     useSymbolSpan = true
     useSymbolIcon = false
@@ -185,7 +188,9 @@ const Row = ({
                 data-nodeisinactivenodepath={nodeIsInActiveNodePath}
                 className="material-icons"
               >
-                {symbolIcon}
+                {symbol === 'ExpandMore' && <ExpandMoreIcon />}
+                {symbol === 'ChevronRight' && <ChevronRightIcon />}
+                {symbol === 'MoreHoriz' && <MoreHorizIcon />}
               </SymbolIcon>
             )}
             {useSymbolSpan && (
