@@ -2,8 +2,7 @@
 import React from 'react'
 import ReactDataGrid from 'react-data-grid'
 import Button from 'material-ui-next/Button'
-import { SnackbarContent } from 'material-ui-next/Snackbar'
-import { withStyles } from 'material-ui-next/styles'
+import Snackbar from 'material-ui-next/Snackbar'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
@@ -66,20 +65,14 @@ const TotalDiv = styled.div`
 const StyledButton = styled(Button)`
   border: 1px solid !important;
 `
-const StyledSnackbar = styled(SnackbarContent)`
-  max-width: auto !important;
-  min-width: auto;
-  background-color: #2e7d32 !important;
+const StyledSnackbar = styled(Snackbar)`
+  div {
+    min-width: auto;
+    background-color: #2e7d32 !important;
+  }
 `
 
-const styles = theme => ({
-  snackbar: {
-    margin: theme.spacing.unit,
-  },
-})
-
 const enhance = compose(
-  withStyles(styles),
   exportIdsData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
@@ -105,7 +98,6 @@ const enhance = compose(
 )
 
 const Preview = ({
-  classes,
   exportData,
   exportIdsData,
   exportTaxonomiesData,
@@ -124,7 +116,6 @@ const Preview = ({
   message,
   onSetMessage,
 }: {
-  classes: Object,
   exportData: Object,
   exportIdsData: Object,
   exportTaxonomiesData: Object,
@@ -341,16 +332,8 @@ const Preview = ({
             </StyledButton>
           </ButtonsContainer>
         )}
-        <StyledSnackbar
-          className={classes.snackbar}
-          open={!!message}
-          message={message}
-        />
-        <StyledSnackbar
-          className={classes.snackbar}
-          open={loading}
-          message="lade Daten..."
-        />
+        <StyledSnackbar open={!!message} message={message} />
+        <StyledSnackbar open={loading} message="lade Daten..." />
       </Container>
     </ErrorBoundary>
   )
