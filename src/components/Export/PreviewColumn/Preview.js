@@ -2,7 +2,8 @@
 import React from 'react'
 import ReactDataGrid from 'react-data-grid'
 import Button from 'material-ui-next/Button'
-import Snackbar from 'material-ui/Snackbar'
+import { SnackbarContent } from 'material-ui-next/Snackbar'
+import { withStyles } from 'material-ui-next/styles'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
@@ -65,13 +66,20 @@ const TotalDiv = styled.div`
 const StyledButton = styled(Button)`
   border: 1px solid !important;
 `
-const snackbarBodyStyle = {
-  maxWidth: 'auto',
-  minWidth: 'auto',
-  backgroundColor: '#2E7D32',
-}
+const StyledSnackbar = styled(SnackbarContent)`
+  max-width: auto !important;
+  min-width: auto;
+  background-color: #2e7d32 !important;
+`
+
+const styles = theme => ({
+  snackbar: {
+    margin: theme.spacing.unit,
+  },
+})
 
 const enhance = compose(
+  withStyles(styles),
   exportIdsData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
@@ -97,6 +105,7 @@ const enhance = compose(
 )
 
 const Preview = ({
+  classes,
   exportData,
   exportIdsData,
   exportTaxonomiesData,
@@ -115,6 +124,7 @@ const Preview = ({
   message,
   onSetMessage,
 }: {
+  classes: Object,
   exportData: Object,
   exportIdsData: Object,
   exportTaxonomiesData: Object,
@@ -161,6 +171,8 @@ const Preview = ({
   )
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
   const { loading } = exportData
+  console.log('loading:', loading)
+  console.log('message:', message)
   const objects = get(exportData, 'exportObject.nodes', [])
   const objectsCount = get(
     exportData,
@@ -329,15 +341,15 @@ const Preview = ({
             </StyledButton>
           </ButtonsContainer>
         )}
-        <Snackbar
+        <StyledSnackbar
+          className={classes.snackbar}
           open={!!message}
           message={message}
-          bodyStyle={snackbarBodyStyle}
         />
-        <Snackbar
+        <StyledSnackbar
+          className={classes.snackbar}
           open={loading}
           message="lade Daten..."
-          bodyStyle={snackbarBodyStyle}
         />
       </Container>
     </ErrorBoundary>
