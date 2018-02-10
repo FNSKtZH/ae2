@@ -1,9 +1,12 @@
 // @flow
 import React from 'react'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
+import withHandlers from 'recompose/withHandlers'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import Paper from 'material-ui-next/Paper'
+import Tabs, { Tab } from 'material-ui-next/Tabs'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import orgData from './orgData'
@@ -14,24 +17,44 @@ import TCs from './TCs'
 import PCs from './PCs'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
-const enhance = compose(activeNodeArrayData, orgData)
+const enhance = compose(
+  activeNodeArrayData,
+  orgData,
+  withState('tab', 'setTab', 0),
+  withHandlers({
+    onChangeTab: ({ setTab }) => (event, value) => {
+      setTab(value)
+    },
+  })
+)
 
 const Container = styled.div``
 const OrgContainer = styled.div`
   padding: 10px;
 `
+const StyledPaper = styled(Paper)`
+  background-color: #ffcc80 !important;
+`
 const StyledTabs = styled(Tabs)`
-  > div {
-    background-color: transparent !important;
-    > button {
-      color: grey !important;
-    }
+  .indicator {
+    height: 3px;
   }
 `
-const tabButtonStyle = { whiteSpace: 'normal' }
-const tabInkBarStyle = { backgroundColor: 'rgb(230, 81, 0)' }
+const StyledTab = styled(Tab)`
+  white-space: normal;
+`
 
-const Organization = ({ orgData }: { orgData: Object }) => {
+const Organization = ({
+  orgData,
+  tab,
+  setTab,
+  onChangeTab,
+}: {
+  orgData: Object,
+  tab: Number,
+  setTab: () => void,
+  onChangeTab: () => void,
+}) => {
   const { loading } = orgData
   if (loading) {
     return <Container>Lade Daten...</Container>
@@ -54,17 +77,22 @@ const Organization = ({ orgData }: { orgData: Object }) => {
             label="Kontakt"
           />
         </OrgContainer>
-        <StyledTabs inkBarStyle={tabInkBarStyle}>
-          <Tab label="Benutzer mit Rollen" buttonStyle={tabButtonStyle}>
-            <OrgUsers key={org.id} />
-          </Tab>
-          <Tab label="Taxonomien" buttonStyle={tabButtonStyle}>
-            <TCs />
-          </Tab>
-          <Tab label="Eigenschaften-Sammlungen" buttonStyle={tabButtonStyle}>
-            <PCs />
-          </Tab>
-        </StyledTabs>
+        <StyledPaper>
+          <StyledTabs
+            centered
+            value={tab}
+            onChange={onChangeTab}
+            indicatorColor="#E65100"
+            indicatorClassName="indicator"
+          >
+            <StyledTab label="Benutzer mit Rollen" />
+            <StyledTab label="Taxonomien" />
+            <StyledTab label="Eigenschaften-Sammlungen" />
+          </StyledTabs>
+        </StyledPaper>
+        {tab === 0 && <OrgUsers key={org.id} />}
+        {tab === 1 && <TCs />}
+        {tab === 2 && <PCs />}
       </Container>
     </ErrorBoundary>
   )
