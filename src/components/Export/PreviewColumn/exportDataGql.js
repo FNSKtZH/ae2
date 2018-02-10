@@ -70,7 +70,9 @@ export default gql`
       totalCount
       nodes {
         id
+        propertyCollectionId
         objectId
+        objectIdRelation
         objectByObjectIdRelation {
           id
           name
@@ -79,6 +81,7 @@ export default gql`
             name
           }
         }
+        propertyCollectionOfOrigin
         relationType
         properties
       }
@@ -93,7 +96,9 @@ export default gql`
       totalCount
       nodes {
         id
+        propertyCollectionId
         objectId
+        objectIdRelation
         objectByObjectIdRelation {
           id
           name
@@ -102,6 +107,7 @@ export default gql`
             name
           }
         }
+        propertyCollectionOfOrigin
         relationType
         properties
       }
