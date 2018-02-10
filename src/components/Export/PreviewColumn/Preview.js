@@ -162,8 +162,6 @@ const Preview = ({
   )
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
   const { loading } = exportData
-  console.log('loading:', loading)
-  console.log('message:', message)
   const objects = get(exportData, 'exportObject.nodes', [])
   const objectsCount = get(
     exportData,
@@ -207,7 +205,6 @@ const Preview = ({
       }
       pcoToUse.forEach(pco => {
         const pcoProperties = JSON.parse(pco.properties)
-        //console.log('Preview: pcoProperties:', pcoProperties)
         exportPcoProperties.forEach(p => {
           if (pcoProperties && pcoProperties[p.pname] !== undefined) {
             let val = pcoProperties[p.pname]

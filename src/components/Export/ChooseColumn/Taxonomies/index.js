@@ -202,7 +202,6 @@ const Types = ({
     paperBackgroundColor = '#2E7D32'
     textProperties = 'Die Eigenschaften wurden geladen.'
   }
-  console.log('paperBackgroundColor:', paperBackgroundColor)
 
   return (
     <ErrorBoundary>
