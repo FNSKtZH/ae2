@@ -3,9 +3,12 @@ import React, { Component } from 'react'
 import TextField from 'material-ui-next/TextField'
 import { FormControl, FormHelperText } from 'material-ui-next/Form'
 import Button from 'material-ui-next/Button'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import Paper from 'material-ui-next/Paper'
+import Tabs, { Tab } from 'material-ui-next/Tabs'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
+import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 
@@ -28,19 +31,23 @@ const SaveButton = styled(Button)`
   border: 1px solid !important;
   margin-top: 10px !important;
 `
+const StyledPaper = styled(Paper)`
+  background-color: #ffcc80 !important;
+`
 const StyledTabs = styled(Tabs)`
-  > div {
-    background-color: transparent !important;
-    > button {
-      color: grey !important;
-    }
+  .indicator {
+    height: 3px;
   }
 `
-const tabButtonStyle = { whiteSpace: 'normal' }
-const tabInkBarStyle = { backgroundColor: 'rgb(230, 81, 0)' }
 
 const enhance = compose(
   withApollo,
+  withState('tab', 'setTab', 0),
+  withHandlers({
+    onChangeTab: ({ setTab }) => (event, value) => {
+      setTab(value)
+    },
+  }),
   activeNodeArrayData,
   loginData,
   userData,
@@ -60,6 +67,9 @@ type Props = {
   loginData: Object,
   userData: Object,
   treeData: Object,
+  tab: Number,
+  setTab: () => void,
+  onChangeTab: () => void,
 }
 
 class User extends Component<Props, State> {
@@ -139,7 +149,7 @@ class User extends Component<Props, State> {
   }
 
   render() {
-    const { userData, loginData } = this.props
+    const { userData, loginData, tab, onChangeTab } = this.props
     const { name, nameErrorText, emailErrorText, email, passNew } = this.state
     const loginUsername = get(loginData, 'login.username')
     const user = get(userData, 'userById', {})
@@ -209,26 +219,26 @@ class User extends Component<Props, State> {
               Änderungen speichern
             </SaveButton>
           </OrgContainer>
-          <StyledTabs inkBarStyle={tabInkBarStyle}>
-            <Tab
-              label={`Rollen (${orgUsers.length})`}
-              buttonStyle={tabButtonStyle}
+          <StyledPaper>
+            <StyledTabs
+              centered
+              value={tab}
+              onChange={onChangeTab}
+              indicatorColor="#E65100"
+              indicatorClassName="indicator"
+              scrollable
+              scrollButtons="auto"
             >
-              <Roles orgUsers={orgUsers} />
-            </Tab>
-            <Tab
-              label={`importierte Taxonomien (${tcs.length})`}
-              buttonStyle={tabButtonStyle}
-            >
-              <TCs tcs={tcs} />
-            </Tab>
-            <Tab
-              label={`importierte Eigenschaften-Sammlungen (${pcs.length})`}
-              buttonStyle={tabButtonStyle}
-            >
-              <PCs pcs={pcs} />
-            </Tab>
-          </StyledTabs>
+              <Tab label={`Rollen (${orgUsers.length})`} />
+              <Tab label={`importierte Taxonomien (${tcs.length})`} />
+              <Tab
+                label={`importierte Eigenschaften-Sammlungen (${pcs.length})`}
+              />
+            </StyledTabs>
+          </StyledPaper>
+          {tab === 0 && <Roles orgUsers={orgUsers} />}
+          {tab === 1 && <TCs tcs={tcs} />}
+          {tab === 2 && <PCs pcs={pcs} />}
         </Container>
       </ErrorBoundary>
     )

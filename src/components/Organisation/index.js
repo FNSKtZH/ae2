@@ -40,9 +40,6 @@ const StyledTabs = styled(Tabs)`
     height: 3px;
   }
 `
-const StyledTab = styled(Tab)`
-  white-space: normal;
-`
 
 const Organization = ({
   orgData,
@@ -84,10 +81,12 @@ const Organization = ({
             onChange={onChangeTab}
             indicatorColor="#E65100"
             indicatorClassName="indicator"
+            scrollable
+            scrollButtons="auto"
           >
-            <StyledTab label="Benutzer mit Rollen" />
-            <StyledTab label="Taxonomien" />
-            <StyledTab label="Eigenschaften-Sammlungen" />
+            <Tab label="Benutzer mit Rollen" />
+            <Tab label="Taxonomien" />
+            <Tab label="Eigenschaften-Sammlungen" />
           </StyledTabs>
         </StyledPaper>
         {tab === 0 && <OrgUsers key={org.id} />}
