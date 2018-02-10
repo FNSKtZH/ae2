@@ -1,6 +1,7 @@
 //@flow
 import React from 'react'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import Radio, { RadioGroup } from 'material-ui-next/Radio'
+import { FormLabel, FormControl, FormControlLabel } from 'material-ui-next/Form'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -10,16 +11,18 @@ import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 
 const Container = styled.div`
   width: 100%;
-  padding: 0 16px;
+  padding: 0 16px 16px 16px;
 `
-const StyledLabel = styled.div`
+const StyledFormLabel = styled(FormLabel)`
   margin-top: 10px;
   cursor: text;
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.5);
+  font-size: 12px !important;
   pointer-events: none;
   user-select: none;
-  padding-bottom: 8px;
+  padding-bottom: 8px !important;
+`
+const StyledFormControlLabel = styled(FormControlLabel)`
+  height: 26px !important;
 `
 
 const enhance = compose(
@@ -28,7 +31,7 @@ const enhance = compose(
     onChange: ({ pcname, pname, client }) => (e, val) => {
       let comparator = '='
       let value = val
-      if (value === 'nope') {
+      if (value === 'null') {
         comparator = null
         value = null
       }
@@ -50,16 +53,27 @@ const PcoCheckbox = ({
   onChange: () => {},
 }) => (
   <Container>
-    <StyledLabel>{pname}</StyledLabel>
-    <RadioButtonGroup
-      name="shipSpeed"
-      defaultSelected="nope"
-      onChange={onChange}
-    >
-      <RadioButton value={true} label="Ja" />
-      <RadioButton value={false} label="Nein" />
-      <RadioButton value="nope" label="nicht filtern" />
-    </RadioButtonGroup>
+    <FormControl component="fieldset">
+      <StyledFormLabel component="legend">{pname}</StyledFormLabel>
+      <RadioGroup
+        aria-label={pname}
+        name={pname}
+        value={value}
+        onChange={onChange}
+      >
+        <StyledFormControlLabel value="true" control={<Radio />} label="Ja" />
+        <StyledFormControlLabel
+          value="false"
+          control={<Radio />}
+          label="Nein"
+        />
+        <StyledFormControlLabel
+          value="null"
+          control={<Radio />}
+          label="nicht filtern"
+        />
+      </RadioGroup>
+    </FormControl>
   </Container>
 )
 
