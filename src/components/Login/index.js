@@ -2,7 +2,7 @@
 import React from 'react'
 import TextField from 'material-ui-next/TextField'
 import { FormControl, FormHelperText } from 'material-ui-next/Form'
-import Snackbar from 'material-ui/Snackbar'
+import Snackbar from 'material-ui-next/Snackbar'
 import Button from 'material-ui-next/Button'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -25,11 +25,12 @@ const StyledButton = styled(Button)`
   border: 1px solid !important;
   margin-top: 5px;
 `
-const snackbarBodyStyle = {
-  maxWidth: 'auto',
-  minWidth: 'auto',
-  backgroundColor: '#2E7D32',
-}
+const StyledSnackbar = styled(Snackbar)`
+  div {
+    min-width: auto;
+    background-color: #2e7d32 !important;
+  }
+`
 
 const enhance = compose(
   withApollo,
@@ -172,10 +173,9 @@ const Login = ({
         )}
         {!token && <StyledButton>anmelden</StyledButton>}
         {!!token && <StyledButton onClick={onLogout}>abmelden</StyledButton>}
-        <Snackbar
+        <StyledSnackbar
           open={loginSuccessfull}
           message={`Willkommen ${name}`}
-          bodyStyle={snackbarBodyStyle}
         />
       </Container>
     </ErrorBoundary>

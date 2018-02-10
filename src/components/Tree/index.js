@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
-import Snackbar from 'material-ui/Snackbar'
+import Snackbar from 'material-ui-next/Snackbar'
 import get from 'lodash/get'
 
 import Row from './Row'
@@ -63,6 +63,12 @@ const ListContainer = styled(List)`
 const LoadingDiv = styled.div`
   padding-left: 15px;
   font-size: 14px;
+`
+const StyledSnackbar = styled(Snackbar)`
+  div {
+    min-width: auto;
+    background-color: #2e7d32 !important;
+  }
 `
 const listContainerStyle = { padding: '5px' }
 
@@ -149,15 +155,7 @@ const Tree = ({
             )}
           </AutoSizer>
         </AutoSizerContainer>
-        <Snackbar
-          open={treeDataLoading}
-          message="lade Daten..."
-          bodyStyle={{
-            maxWidth: 'auto',
-            minWidth: 'auto',
-            backgroundColor: '#2E7D32',
-          }}
-        />
+        <StyledSnackbar open={treeDataLoading} message="lade Daten..." />
         <CmBenutzerFolder />
         <CmBenutzer />
         {userIsTaxWriter && (

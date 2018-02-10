@@ -9,13 +9,12 @@ import union from 'lodash/union'
 import flatten from 'lodash/flatten'
 import some from 'lodash/some'
 import uniq from 'lodash/uniq'
-import { withStyles } from 'material-ui-next/styles'
 import Icon from 'material-ui-next/Icon'
 import DoneIcon from 'material-ui-icons/Done'
 import ErrorIcon from 'material-ui-icons/Error'
 import InfoOutlineIcon from 'material-ui-icons/InfoOutline'
 import Button from 'material-ui-next/Button'
-import Snackbar from 'material-ui/Snackbar'
+import Snackbar from 'material-ui-next/Snackbar'
 import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
@@ -121,17 +120,12 @@ const TotalDiv = styled.div`
 const StyledP = styled.p`
   margin-top: -5px;
 `
-const snackbarBodyStyle = {
-  maxWidth: 'auto',
-  minWidth: 'auto',
-  backgroundColor: '#2E7D32',
-}
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-})
+const StyledSnackbar = styled(Snackbar)`
+  div {
+    min-width: auto;
+    background-color: #2e7d32 !important;
+  }
+`
 
 const enhance = compose(
   withApollo,
@@ -181,8 +175,7 @@ const enhance = compose(
   ),
   withState('existsPropertyKey', 'setExistsPropertyKey', undefined),
   importPcoData,
-  loginData,
-  withStyles(styles)
+  loginData
 )
 
 const ImportPco = ({
@@ -311,7 +304,7 @@ const ImportPco = ({
     (pCOfOriginIdsExist
       ? pCOfOriginIdsAreUuid &&
         (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
-      : false) &&
+      : true) &&
     existsPropertyKey &&
     propertyKeysDontContainApostroph &&
     propertyKeysDontContainBackslash &&
@@ -919,11 +912,7 @@ const ImportPco = ({
           />
         </Fragment>
       )}
-      <Snackbar
-        open={loading}
-        message="lade Daten..."
-        bodyStyle={snackbarBodyStyle}
-      />
+      <StyledSnackbar open={loading} message="lade Daten..." />
     </Container>
   )
 }

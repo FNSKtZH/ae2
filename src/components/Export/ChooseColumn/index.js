@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
-import Snackbar from 'material-ui/Snackbar'
+import Snackbar from 'material-ui-next/Snackbar'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
@@ -28,6 +28,12 @@ const Level1CardHeader = styled(CardHeader)`
 `
 const Level1CardText = styled(CardText)`
   padding: 0 !important;
+`
+const StyledSnackbar = styled(Snackbar)`
+  div {
+    min-width: auto;
+    background-color: #2e7d32 !important;
+  }
 `
 const level1CardTitleStyle = {
   fontWeight: 'bold',
@@ -169,15 +175,7 @@ const Export = ({
           <Properties />
         </Level1CardText>
       </Level1Card>
-      <Snackbar
-        open={!!message}
-        message={message}
-        bodyStyle={{
-          maxWidth: 'auto',
-          minWidth: 'auto',
-          backgroundColor: '#2E7D32',
-        }}
-      />
+      <StyledSnackbar open={!!message} message={message} />
     </Container>
   </ErrorBoundary>
 )

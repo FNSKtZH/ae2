@@ -33,7 +33,6 @@ const enhance = compose(
       const mutation = isChecked
         ? addExportPcoPropertyMutation
         : removeExportPcoPropertyMutation
-      console.log('PcoChooser:', { pcname, pname })
       client.mutate({
         mutation,
         variables: { pcname, pname },
