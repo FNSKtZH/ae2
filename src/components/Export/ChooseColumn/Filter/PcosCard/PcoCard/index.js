@@ -43,13 +43,9 @@ const enhance = compose(withApollo, exportTaxonomiesData, propsByTaxData)
 
 const PcoCard = ({
   propsByTaxData,
-  pcoExpanded,
-  onTogglePco,
   pc,
 }: {
   propsByTaxData: Object,
-  pcoExpanded: Boolean,
-  onTogglePco: () => {},
   pc: Object,
 }) => {
   const pcoProperties = get(
