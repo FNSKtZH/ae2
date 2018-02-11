@@ -13,18 +13,18 @@ import propsByTaxData from '../../../propsByTaxData'
 import exportTaxonomiesData from '../../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
-const Level3Card = styled(Card)`
+const StyledCard = styled(Card)`
   margin: 0;
   padding: 0;
 `
-const Level3CardHeader = styled(CardHeader)`
+const StyledCardHeader = styled(CardHeader)`
   background-color: #fff3e0;
   border-bottom: 1px solid #ebebeb;
 `
-const Level3CardText = styled(CardText)`
+const StyledCardText = styled(CardText)`
   padding: 0 !important;
 `
-const Level3Count = styled.span`
+const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
@@ -64,23 +64,23 @@ const PcoCard = ({
 
   return (
     <ErrorBoundary>
-      <Level3Card key={pc}>
-        <Level3CardHeader
+      <StyledCard key={pc}>
+        <StyledCardHeader
           title={
             <div>
               {pc}
-              <Level3Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${
+              <Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${
                 pcoPropertiesByPropertyCollection[pc].length === 1
                   ? 'Feld'
                   : 'Felder'
-              })`}</Level3Count>
+              })`}</Count>
             </div>
           }
           actAsExpander={true}
           showExpandableButton={true}
           titleStyle={level2CardTitleStyle}
         />
-        <Level3CardText expandable={true}>
+        <StyledCardText expandable={true}>
           <PropertiesContainer data-width={window.innerWidth - 84}>
             {pcoPropertiesByPropertyCollection[pc].map(field => (
               <PcoField
@@ -91,8 +91,8 @@ const PcoCard = ({
               />
             ))}
           </PropertiesContainer>
-        </Level3CardText>
-      </Level3Card>
+        </StyledCardText>
+      </StyledCard>
     </ErrorBoundary>
   )
 }
