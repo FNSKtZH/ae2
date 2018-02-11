@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
-import { CardHeader, CardText } from 'material-ui/Card'
-import Card, { CardActions, CardContent } from 'material-ui-next/Card'
+import Card, { CardActions } from 'material-ui-next/Card'
 import Collapse from 'material-ui-next/transitions/Collapse'
 import IconButton from 'material-ui-next/IconButton'
 import Icon from 'material-ui-next/Icon'
