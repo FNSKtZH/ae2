@@ -58,7 +58,7 @@ const level2CardTitleStyle = { fontWeight: 'bold' }
 
 const enhance = compose(withApollo, exportTaxonomiesData, propsByTaxData)
 
-const RcoCard = ({
+const RcosCard = ({
   propsByTaxData,
   rcoExpanded,
   onToggleRco,
@@ -80,7 +80,7 @@ const RcoCard = ({
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
-  //console.log('RcoCard: pcoPropertiesFields:', pcoPropertiesFields)
+  //console.log('RcosCard: pcoPropertiesFields:', pcoPropertiesFields)
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
   return (
@@ -144,4 +144,4 @@ const RcoCard = ({
   )
 }
 
-export default enhance(RcoCard)
+export default enhance(RcosCard)
