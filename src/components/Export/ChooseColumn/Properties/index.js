@@ -25,7 +25,6 @@ import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 5px 10px;
-  height: calc(100% - 48px);
   overflow: auto !important;
 `
 const Level2Card = styled(Card)`

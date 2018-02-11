@@ -1,6 +1,10 @@
 // @flow
 import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Card, { CardActions } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import Snackbar from 'material-ui-next/Snackbar'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -20,24 +24,28 @@ import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
-const Level1Card = styled(Card)`
-  margin: 10px 0;
-`
-const Level1CardHeader = styled(CardHeader)`
-  background-color: #ffcc80;
-`
-const Level1CardText = styled(CardText)`
-  padding: 0 !important;
-`
 const StyledSnackbar = styled(Snackbar)`
   div {
     min-width: auto;
     background-color: #2e7d32 !important;
   }
 `
-const level1CardTitleStyle = {
-  fontWeight: 'bold',
-}
+const StyledCard = styled(Card)`
+  margin: 10px 0;
+  background-color: rgb(255, 243, 224) !important;
+`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
+  background-color: #ffcc80;
+`
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardActionTitle = styled.div`
+  padding-left: 8px;
+  font-weight: bold;
+`
 
 const Container = styled.div`
   padding: 5px 10px;
@@ -136,45 +144,57 @@ const Export = ({
 }) => (
   <ErrorBoundary>
     <Container>
-      <Level1Card
-        expanded={taxonomiesExpanded}
-        onExpandChange={onToggleTaxonomies}
-      >
-        <Level1CardHeader
-          title="1. Taxonomie(n) wählen"
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
-        />
-        <Level1CardText expandable={true}>
+      <StyledCard>
+        <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
+          <CardActionTitle>1. Taxonomie(n) wählen</CardActionTitle>
+          <CardActionIconButton
+            data-expanded={taxonomiesExpanded}
+            aria-expanded={taxonomiesExpanded}
+            aria-label="Show more"
+          >
+            <Icon>
+              <ExpandMoreIcon />
+            </Icon>
+          </CardActionIconButton>
+        </StyledCardActions>
+        <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
           <Taxonomies />
-        </Level1CardText>
-      </Level1Card>
-      <Level1Card expanded={filterExpanded} onExpandChange={onToggleFilter}>
-        <Level1CardHeader
-          title="2. filtern"
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
-        />
-        <Level1CardText expandable={true}>
+        </Collapse>
+      </StyledCard>
+      <StyledCard>
+        <StyledCardActions disableActionSpacing onClick={onToggleFilter}>
+          <CardActionTitle>2. filtern</CardActionTitle>
+          <CardActionIconButton
+            data-expanded={filterExpanded}
+            aria-expanded={filterExpanded}
+            aria-label="Show more"
+          >
+            <Icon>
+              <ExpandMoreIcon />
+            </Icon>
+          </CardActionIconButton>
+        </StyledCardActions>
+        <Collapse in={filterExpanded} timeout="auto" unmountOnExit>
           <Filter />
-        </Level1CardText>
-      </Level1Card>
-      <Level1Card
-        expanded={propertiesExpanded}
-        onExpandChange={onToggleProperties}
-      >
-        <Level1CardHeader
-          title="3. Eigenschaften wählen"
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level1CardTitleStyle}
-        />
-        <Level1CardText expandable={true}>
+        </Collapse>
+      </StyledCard>
+      <StyledCard>
+        <StyledCardActions disableActionSpacing onClick={onToggleProperties}>
+          <CardActionTitle>3. Eigenschaften wählen</CardActionTitle>
+          <CardActionIconButton
+            data-expanded={propertiesExpanded}
+            aria-expanded={propertiesExpanded}
+            aria-label="Show more"
+          >
+            <Icon>
+              <ExpandMoreIcon />
+            </Icon>
+          </CardActionIconButton>
+        </StyledCardActions>
+        <Collapse in={propertiesExpanded} timeout="auto" unmountOnExit>
           <Properties />
-        </Level1CardText>
-      </Level1Card>
+        </Collapse>
+      </StyledCard>
       <StyledSnackbar open={!!message} message={message} />
     </Container>
   </ErrorBoundary>
