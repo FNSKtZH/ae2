@@ -190,7 +190,7 @@ const Types = ({
   )
   const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'
-  let textProperties = 'Wählen Sie eine oder mehrere Gruppen.'
+  let textProperties = 'Wählen Sie eine oder mehrere Taxonomien.'
   if (!exportType) {
     textProperties = 'Wählen Sie Arten oder Lebensräume.'
   }
