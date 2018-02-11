@@ -21,14 +21,20 @@ import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
-  padding: 0;
+  background-color: rgb(255, 243, 224) !important;
 `
-const StyledCardHeader = styled(CardHeader)`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
   background-color: #fff3e0;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 `
-const StyledCardText = styled(CardText)`
-  padding: 0 !important;
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardActionTitle = styled.div`
+  padding-left: 8px;
+  font-weight: bold;
 `
 const Count = styled.span`
   font-size: x-small;
@@ -43,8 +49,6 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const level2CardTitleStyle = { fontWeight: 'bold' }
-
 const enhance = compose(
   withApollo,
   exportTaxonomiesData,
@@ -55,9 +59,13 @@ const enhance = compose(
 const TaxonomyCard = ({
   pc,
   propsByTaxData,
+  expanded,
+  setExpanded,
 }: {
   pc: Object,
   propsByTaxData: Object,
+  expanded: Boolean,
+  setExpanded: () => void,
 }) => {
   const taxProperties = get(
     propsByTaxData,
@@ -70,20 +78,27 @@ const TaxonomyCard = ({
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardHeader
-          title={
-            <div>
-              {pc}
-              <Count>{`(${taxPropertiesByTaxonomy[pc].length} ${
-                taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
-              })`}</Count>
-            </div>
-          }
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level2CardTitleStyle}
-        />
-        <StyledCardText expandable={true}>
+        <StyledCardActions
+          disableActionSpacing
+          onClick={() => setExpanded(!expanded)}
+        >
+          <CardActionTitle>
+            {pc}
+            <Count>{`(${taxPropertiesByTaxonomy[pc].length} ${
+              taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
+            })`}</Count>
+          </CardActionTitle>
+          <CardActionIconButton
+            data-expanded={expanded}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <Icon>
+              <ExpandMoreIcon />
+            </Icon>
+          </CardActionIconButton>
+        </StyledCardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PropertiesContainer data-width={window.innerWidth - 84}>
             {taxPropertiesByTaxonomy[pc].map(field => (
               <TaxField
@@ -94,7 +109,7 @@ const TaxonomyCard = ({
               />
             ))}
           </PropertiesContainer>
-        </StyledCardText>
+        </Collapse>
       </StyledCard>
     </ErrorBoundary>
   )
