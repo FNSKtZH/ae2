@@ -11,7 +11,6 @@ import withState from 'recompose/withState'
 
 import Taxonomy from './Taxonomy'
 import JointTaxonomy from '../JointTaxonomy'
-import constants from '../../../../../modules/constants'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import data from '../data'
@@ -24,35 +23,13 @@ const Level2Card = styled(Card)`
     padding-bottom: 0 !important;
   }
 `
-const Level3Card = styled(Card)`
-  margin: 0;
-  padding: 0;
-`
 const Level2CardHeader = styled(CardHeader)`
   background-color: #ffcc80;
-`
-const Level3CardHeader = styled(CardHeader)`
-  background-color: #fff3e0;
-  border-bottom: 1px solid #ebebeb;
 `
 const Level2CardText = styled(CardText)`
   padding: 0 !important;
 `
-const Level3CardText = styled(CardText)`
-  display: flex;
-  flex-direction: column;
-`
-const PropertiesContainer = styled.div`
-  column-width: ${props =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
-`
 const Level2Count = styled.span`
-  font-size: x-small;
-  padding-left: 5px;
-`
-const Level3Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
