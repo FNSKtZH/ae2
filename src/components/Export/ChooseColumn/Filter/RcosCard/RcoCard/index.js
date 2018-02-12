@@ -37,7 +37,7 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const level2CardTitleStyle = { fontWeight: 'bold' }
+const cardTitleStyle = { fontWeight: 'bold' }
 
 const enhance = compose(withApollo, exportTaxonomiesData, propsByTaxData)
 
@@ -81,7 +81,7 @@ const RcoCard = ({
           }
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle={level2CardTitleStyle}
+          titleStyle={cardTitleStyle}
         />
         <StyledCardText expandable={true}>
           <PropertiesContainer data-width={window.innerWidth - 84}>
