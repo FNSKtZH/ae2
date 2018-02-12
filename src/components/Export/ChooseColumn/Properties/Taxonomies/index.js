@@ -125,7 +125,7 @@ const Properties = ({
             <JointTaxonomy jointTaxProperties={jointTaxProperties} />
           )}
           {Object.keys(taxPropertiesByTaxonomy).map(tax => (
-            <Taxonomy key={tax.id} tax={tax} />
+            <Taxonomy key={tax} tax={tax} />
           ))}
         </Level2CardText>
       </Level2Card>

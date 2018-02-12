@@ -69,7 +69,7 @@ const Properties = ({
   setExpanded: () => void,
   propsByTaxData: Object,
   data: Object,
-  tax: Object,
+  tax: String,
 }) => {
   const taxProperties = get(
     propsByTaxData,
