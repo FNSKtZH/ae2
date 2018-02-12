@@ -10,7 +10,7 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
 import Taxonomy from './Taxonomy'
-import JointTaxonomy from '../JointTaxonomy'
+import JointTaxonomy from './JointTaxonomy'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import data from '../data'
