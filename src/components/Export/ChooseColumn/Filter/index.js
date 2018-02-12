@@ -14,8 +14,8 @@ import HowTo from './HowTo'
 import Tipps from './Tipps'
 import Id from './Id'
 import Taxonomies from './Taxonomies'
-import PcosCard from './PcosCard'
-import RcosCard from './RcosCard'
+import PCOs from './PCOs'
+import RCOs from './RCOs'
 import propsByTaxData from '../propsByTaxData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import exportWithSynonymDataData from '../../exportWithSynonymDataData'
@@ -214,8 +214,8 @@ const Filter = ({
           onToggleTaxonomies={onToggleTaxonomies}
           onToggleJointTaxonomies={onToggleJointTaxonomies}
         />
-        <PcosCard pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
-        <RcosCard rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
+        <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
+        <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
       </Container>
     </ErrorBoundary>
   )

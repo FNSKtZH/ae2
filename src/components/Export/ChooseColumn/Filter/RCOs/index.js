@@ -10,8 +10,9 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 
-import PcoCard from './PcoCard'
+import RCO from './RCO'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
@@ -37,47 +38,60 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(withApollo, exportTaxonomiesData, propsByTaxData)
-
-const PcosCard = ({
+const enhance = compose(
+  withApollo,
+  exportTaxonomiesData,
   propsByTaxData,
-  pcoExpanded,
-  onTogglePco,
+  withState('expanded', 'setExpanded', false)
+)
+
+const RcosCard = ({
+  expanded,
+  setExpanded,
+  propsByTaxData,
+  rcoExpanded,
+  onToggleRco,
 }: {
+  expanded: Boolean,
+  setExpanded: () => void,
   propsByTaxData: Object,
-  pcoExpanded: Boolean,
-  onTogglePco: () => {},
+  rcoExpanded: Boolean,
+  onToggleRco: () => {},
 }) => {
-  const pcoProperties = get(
+  const rcoProperties = get(
     propsByTaxData,
-    'pcoPropertiesByTaxonomiesFunction.nodes',
+    'rcoPropertiesByTaxonomiesFunction.nodes',
     []
   )
-  const pcoPropertiesByPropertyCollection = groupBy(
-    pcoProperties,
-    'propertyCollectionName'
-  )
-  const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
-  const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
+
+  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
+    if (x.propertyCollectionName.includes(x.relationType)) {
+      return x.propertyCollectionName
+    }
+    return `${x.propertyCollectionName}: ${x.relationType}`
+  })
+  const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
+  //console.log('RcosCard: pcoPropertiesFields:', pcoPropertiesFields)
+  const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onTogglePco}>
+        <StyledCardActions disableActionSpacing onClick={onToggleRco}>
           <CardActionTitle>
-            Eigenschaftensammlungen{pCCount > 0 && (
-              <Count>{`(${pCCount} Sammlungen, ${
-                Object.keys(pcoPropertiesFields).length
+            Beziehungssammlungen{rCCount > 0 && (
+              <Count>{`(${rCCount} Sammlungen, ${
+                Object.keys(rcoPropertiesFields).length
               } ${
-                Object.keys(pcoPropertiesFields).length === 1
+                Object.keys(rcoPropertiesFields).length === 1
                   ? 'Feld'
                   : 'Felder'
               })`}</Count>
             )}
           </CardActionTitle>
           <CardActionIconButton
-            data-expanded={pcoExpanded}
-            aria-expanded={pcoExpanded}
+            data-expanded={rcoExpanded}
+            aria-expanded={rcoExpanded}
             aria-label="Show more"
           >
             <Icon>
@@ -85,9 +99,9 @@ const PcosCard = ({
             </Icon>
           </CardActionIconButton>
         </StyledCardActions>
-        <Collapse in={pcoExpanded} timeout="auto" unmountOnExit>
-          {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
-            <PcoCard key={pc} pc={pc} />
+        <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
+          {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
+            <RCO key={pc} pc={pc} />
           ))}
         </Collapse>
       </StyledCard>
@@ -95,4 +109,4 @@ const PcosCard = ({
   )
 }
 
-export default enhance(PcosCard)
+export default enhance(RcosCard)
