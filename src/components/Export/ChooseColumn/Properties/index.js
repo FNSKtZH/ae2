@@ -11,6 +11,7 @@ import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
 
 import HowTo from './HowTo'
+import JointTaxonomy from './JointTaxonomy'
 import AllTaxChooser from './AllTaxChooser'
 import AllPcoChooser from './AllPcoChooser'
 import AllRcoChooser from './AllRcoChooser'
@@ -294,37 +295,7 @@ const Properties = ({
           />
           <Level2CardText expandable={true}>
             {jointTaxProperties.length > 0 && (
-              <Level3Card key="jointTax">
-                <Level3CardHeader
-                  title={
-                    <div>
-                      {`Gemeinsame Felder`}
-                      <Level3Count>{`(${
-                        jointTaxProperties.length
-                      })`}</Level3Count>
-                    </div>
-                  }
-                  actAsExpander={true}
-                  showExpandableButton={true}
-                  titleStyle={level2CardTitleStyle}
-                />
-                <Level3CardText expandable={true}>
-                  {jointTaxProperties.length > 1 && (
-                    <AllTaxChooser properties={jointTaxProperties} />
-                  )}
-                  <PropertiesContainer data-width={window.innerWidth - 84}>
-                    {jointTaxProperties.map(field => (
-                      <TaxChooser
-                        key={`${field.propertyName}${field.jsontype}`}
-                        taxname={'Taxonomie'}
-                        pname={field.propertyName}
-                        jsontype={field.jsontype}
-                        count={field.count}
-                      />
-                    ))}
-                  </PropertiesContainer>
-                </Level3CardText>
-              </Level3Card>
+              <JointTaxonomy jointTaxProperties={jointTaxProperties} />
             )}
             {Object.keys(taxPropertiesByTaxonomy).map(pc => (
               <Level3Card key={pc}>

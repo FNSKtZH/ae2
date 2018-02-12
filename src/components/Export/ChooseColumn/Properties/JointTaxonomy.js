@@ -28,8 +28,13 @@ const CardActionIconButton = styled(IconButton)`
   transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
-  padding-left: 8px;
+  padding-left: 12px;
   font-weight: bold;
+`
+const StyledCollapse = styled(Collapse)`
+  display: flex;
+  flex-direction: column;
+  padding: 8px 14px;
 `
 const PropertiesContainer = styled.div`
   column-width: ${props =>
@@ -73,7 +78,7 @@ const JointTaxonomy = ({
           </Icon>
         </CardActionIconButton>
       </StyledCardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
         {jointTaxProperties.length > 1 && (
           <AllTaxChooser properties={jointTaxProperties} />
         )}
@@ -88,7 +93,7 @@ const JointTaxonomy = ({
             />
           ))}
         </PropertiesContainer>
-      </Collapse>
+      </StyledCollapse>
     </StyledCard>
   </ErrorBoundary>
 )
