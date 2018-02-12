@@ -11,7 +11,7 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
-import AllTaxChooser from '../../AllTaxChooser'
+import AllTaxChooser from '../AllTaxChooser'
 import TaxChooser from '../../TaxChooser'
 import constants from '../../../../../../modules/constants'
 import propsByTaxData from '../../../propsByTaxData'
