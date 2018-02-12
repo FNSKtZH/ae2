@@ -77,7 +77,7 @@ const PcoCard = ({
 
   return (
     <ErrorBoundary>
-      <StyledCard>
+      <StyledCard key={pc}>
         <StyledCardActions
           disableActionSpacing
           onClick={() => setExpanded(!expanded)}
@@ -100,17 +100,18 @@ const PcoCard = ({
             </Icon>
           </CardActionIconButton>
         </StyledCardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit />
-        <PropertiesContainer data-width={window.innerWidth - 84}>
-          {pcoPropertiesByPropertyCollection[pc].map(field => (
-            <PcoField
-              key={`${field.propertyName}${field.jsontype}`}
-              pcname={field.propertyCollectionName}
-              pname={field.propertyName}
-              jsontype={field.jsontype}
-            />
-          ))}
-        </PropertiesContainer>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <PropertiesContainer data-width={window.innerWidth - 84}>
+            {pcoPropertiesByPropertyCollection[pc].map(field => (
+              <PcoField
+                key={`${field.propertyName}${field.jsontype}`}
+                pcname={field.propertyCollectionName}
+                pname={field.propertyName}
+                jsontype={field.jsontype}
+              />
+            ))}
+          </PropertiesContainer>
+        </Collapse>
       </StyledCard>
     </ErrorBoundary>
   )
