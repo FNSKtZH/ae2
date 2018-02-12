@@ -1,25 +1,36 @@
 // @flow
 import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Card, { CardActions } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 
 import TaxField from '../TaxField'
 import constants from '../../../../../modules/constants'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
-const Level3Card = styled(Card)`
+const StyledCard = styled(Card)`
   margin: 0;
-  padding: 0;
+  background-color: rgb(255, 243, 224) !important;
 `
-const Level3CardHeader = styled(CardHeader)`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
   background-color: #fff3e0;
   border-bottom: 1px solid #ebebeb;
 `
-const Level3CardText = styled(CardText)`
-  padding: 0 !important;
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
-const Level3Count = styled.span`
+const CardActionTitle = styled.div`
+  padding-left: 8px;
+  font-weight: bold;
+`
+const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
@@ -32,29 +43,38 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const level2CardTitleStyle = { fontWeight: 'bold' }
+const enhance = compose(withState('expanded', 'setExpanded', false))
 
-const enhance = compose()
-
-const TaxonomiesCard = ({
+const JointTaxonomiesCard = ({
+  expanded,
+  setExpanded,
   jointTaxProperties,
 }: {
+  expanded: Boolean,
+  setExpanded: () => void,
   jointTaxProperties: Array<Object>,
 }) => (
   <ErrorBoundary>
-    <Level3Card key="jointTax">
-      <Level3CardHeader
-        title={
-          <div>
-            {`Gemeinsame Felder`}
-            <Level3Count>{`(${jointTaxProperties.length})`}</Level3Count>
-          </div>
-        }
-        actAsExpander={true}
-        showExpandableButton={true}
-        titleStyle={level2CardTitleStyle}
-      />
-      <Level3CardText expandable={true}>
+    <StyledCard>
+      <StyledCardActions
+        disableActionSpacing
+        onClick={() => setExpanded(!expanded)}
+      >
+        <CardActionTitle>
+          {`Gemeinsame Felder`}
+          <Count>{`(${jointTaxProperties.length})`}</Count>
+        </CardActionTitle>
+        <CardActionIconButton
+          data-expanded={expanded}
+          aria-expanded={expanded}
+          aria-label="Show more"
+        >
+          <Icon>
+            <ExpandMoreIcon />
+          </Icon>
+        </CardActionIconButton>
+      </StyledCardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
         <PropertiesContainer data-width={window.innerWidth - 84}>
           {jointTaxProperties.map(field => (
             <TaxField
@@ -65,9 +85,9 @@ const TaxonomiesCard = ({
             />
           ))}
         </PropertiesContainer>
-      </Level3CardText>
-    </Level3Card>
+      </Collapse>
+    </StyledCard>
   </ErrorBoundary>
 )
 
-export default enhance(TaxonomiesCard)
+export default enhance(JointTaxonomiesCard)
