@@ -1,11 +1,16 @@
 // @flow
 import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Card, { CardActions } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 
 import RcoField from '../../RcoField'
 import constants from '../../../../../../modules/constants'
@@ -15,14 +20,23 @@ import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
-  padding: 0;
+  background-color: rgb(255, 243, 224) !important;
 `
-const StyledCardHeader = styled(CardHeader)`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
   background-color: #fff3e0;
   border-bottom: 1px solid #ebebeb;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  height: auto !important;
 `
-const StyledCardText = styled(CardText)`
-  padding: 0 !important;
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardActionTitle = styled.div`
+  padding-left: 8px;
+  font-weight: bold;
 `
 const Count = styled.span`
   font-size: x-small;
@@ -37,11 +51,16 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const cardTitleStyle = { fontWeight: 'bold' }
-
-const enhance = compose(withApollo, exportTaxonomiesData, propsByTaxData)
+const enhance = compose(
+  withApollo,
+  exportTaxonomiesData,
+  propsByTaxData,
+  withState('expanded', 'setExpanded', false)
+)
 
 const RcoCard = ({
+  expanded,
+  setExpanded,
   propsByTaxData,
   rcoExpanded,
   onToggleRco,
@@ -51,6 +70,8 @@ const RcoCard = ({
   rcoExpanded: Boolean,
   onToggleRco: () => {},
   pc: Object,
+  expanded: Boolean,
+  setExpanded: () => void,
 }) => {
   const rcoProperties = get(
     propsByTaxData,
@@ -67,23 +88,30 @@ const RcoCard = ({
 
   return (
     <ErrorBoundary>
-      <StyledCard key={pc}>
-        <StyledCardHeader
-          title={
-            <div>
-              {pc}
-              <Count>{`(${rcoPropertiesByPropertyCollection[pc].length} ${
-                rcoPropertiesByPropertyCollection[pc].length === 1
-                  ? 'Feld'
-                  : 'Felder'
-              })`}</Count>
-            </div>
-          }
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={cardTitleStyle}
-        />
-        <StyledCardText expandable={true}>
+      <StyledCard>
+        <StyledCardActions
+          disableActionSpacing
+          onClick={() => setExpanded(!expanded)}
+        >
+          <CardActionTitle>
+            {pc}
+            <Count>{`(${rcoPropertiesByPropertyCollection[pc].length} ${
+              rcoPropertiesByPropertyCollection[pc].length === 1
+                ? 'Feld'
+                : 'Felder'
+            })`}</Count>
+          </CardActionTitle>
+          <CardActionIconButton
+            data-expanded={expanded}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <Icon>
+              <ExpandMoreIcon />
+            </Icon>
+          </CardActionIconButton>
+        </StyledCardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PropertiesContainer data-width={window.innerWidth - 84}>
             {rcoPropertiesByPropertyCollection[pc].map(field => (
               <RcoField
@@ -94,7 +122,7 @@ const RcoCard = ({
               />
             ))}
           </PropertiesContainer>
-        </StyledCardText>
+        </Collapse>
       </StyledCard>
     </ErrorBoundary>
   )
