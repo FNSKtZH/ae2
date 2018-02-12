@@ -1,6 +1,10 @@
 // @flow
-import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import React, { Fragment } from 'react'
+import Card, { CardActions, CardContent } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
@@ -15,15 +19,24 @@ import exportTaxonomiesData from '../../../../exportTaxonomiesData'
 import data from '../../data'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
-const Level3Card = styled(Card)`
+const StyledCard = styled(Card)`
   margin: 0;
-  padding: 0;
+  background-color: rgb(255, 243, 224) !important;
 `
-const Level3CardHeader = styled(CardHeader)`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
   background-color: #fff3e0;
   border-bottom: 1px solid #ebebeb;
 `
-const Level3CardText = styled(CardText)`
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardActionTitle = styled.div`
+  padding-left: 8px;
+  font-weight: bold;
+`
+const StyledCardContent = styled(CardContent)`
   display: flex;
   flex-direction: column;
 `
@@ -33,20 +46,27 @@ const PropertiesContainer = styled.div`
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};
 `
-const Level3Count = styled.span`
+const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
 
-const level2CardTitleStyle = { fontWeight: 'bold' }
-
-const enhance = compose(exportTaxonomiesData, data, propsByTaxData)
+const enhance = compose(
+  exportTaxonomiesData,
+  data,
+  propsByTaxData,
+  withState('expanded', 'setExpanded', false)
+)
 
 const Properties = ({
+  expanded,
+  setExpanded,
   propsByTaxData,
   data,
   tax,
 }: {
+  expanded: Boolean,
+  setExpanded: () => void,
   propsByTaxData: Object,
   data: Object,
   tax: Object,
@@ -60,37 +80,48 @@ const Properties = ({
 
   return (
     <ErrorBoundary>
-      <Level3Card key={tax}>
-        <Level3CardHeader
-          title={
-            <div>
-              {tax}
-              <Level3Count>{`(${taxPropertiesByTaxonomy[tax].length} ${
-                taxPropertiesByTaxonomy[tax].length === 1 ? 'Feld' : 'Felder'
-              })`}</Level3Count>
-            </div>
-          }
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level2CardTitleStyle}
-        />
-        <Level3CardText expandable={true}>
-          {taxPropertiesByTaxonomy[tax].length > 1 && (
-            <AllTaxChooser properties={taxPropertiesByTaxonomy[tax]} />
-          )}
-          <PropertiesContainer data-width={window.innerWidth - 84}>
-            {taxPropertiesByTaxonomy[tax].map(field => (
-              <TaxChooser
-                key={`${field.propertyName}${field.jsontype}`}
-                taxname={field.taxonomyName}
-                pname={field.propertyName}
-                jsontype={field.jsontype}
-                count={field.count}
-              />
-            ))}
-          </PropertiesContainer>
-        </Level3CardText>
-      </Level3Card>
+      <StyledCard>
+        <StyledCardActions
+          disableActionSpacing
+          onClick={() => setExpanded(!expanded)}
+        >
+          <CardActionTitle>
+            {tax}
+            <Count>{`(${taxPropertiesByTaxonomy[tax].length} ${
+              taxPropertiesByTaxonomy[tax].length === 1 ? 'Feld' : 'Felder'
+            })`}</Count>
+            <CardActionIconButton
+              data-expanded={expanded}
+              aria-expanded={expanded}
+              aria-label="Show more"
+            >
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
+            </CardActionIconButton>
+          </CardActionTitle>
+        </StyledCardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <StyledCardContent>
+            <Fragment>
+              {taxPropertiesByTaxonomy[tax].length > 1 && (
+                <AllTaxChooser properties={taxPropertiesByTaxonomy[tax]} />
+              )}
+              <PropertiesContainer data-width={window.innerWidth - 84}>
+                {taxPropertiesByTaxonomy[tax].map(field => (
+                  <TaxChooser
+                    key={`${field.propertyName}${field.jsontype}`}
+                    taxname={field.taxonomyName}
+                    pname={field.propertyName}
+                    jsontype={field.jsontype}
+                    count={field.count}
+                  />
+                ))}
+              </PropertiesContainer>
+            </Fragment>
+          </StyledCardContent>
+        </Collapse>
+      </StyledCard>
     </ErrorBoundary>
   )
 }
