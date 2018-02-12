@@ -11,6 +11,7 @@ import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
 
 import HowTo from './HowTo'
+import Taxonomies from './Taxonomies'
 import JointTaxonomy from './JointTaxonomy'
 import AllTaxChooser from './AllTaxChooser'
 import AllPcoChooser from './AllPcoChooser'
@@ -181,12 +182,6 @@ const Properties = ({
     'rcoPropertiesByTaxonomiesFunction.nodes',
     []
   )
-  //console.log('Properties: rcoProperties:', rcoProperties)
-  const taxProperties = get(
-    propsByTaxData,
-    'taxPropertiesByTaxonomiesFunction.nodes',
-    []
-  )
   const pcoPropertiesByPropertyCollection = groupBy(
     pcoProperties,
     'propertyCollectionName'
@@ -249,91 +244,14 @@ const Properties = ({
   )*/
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
-  const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
-  const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
-  //console.log('Properties: taxPropertiesByTaxonomy:', taxPropertiesByTaxonomy)
-  const taxCount = Object.keys(taxPropertiesByTaxonomy).length
-  const taxFieldsCount = Object.keys(taxPropertiesFields).length
-  let jointTaxProperties = []
-  if (taxCount > 1) {
-    jointTaxProperties = Object.values(
-      groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`)
-    )
-      .filter(v => v.length === taxCount)
-      .map(t => ({
-        count: sumBy(t, x => Number(x.count)),
-        jsontype: t[0].jsontype,
-        propertyName: t[0].propertyName,
-        taxonomies: t.map(x => x.taxonomyName),
-        taxname: 'Taxonomie',
-      }))
-  }
-
   return (
     <ErrorBoundary>
       <Container>
         <HowTo />
-        <Level2Card
-          expanded={taxonomiesExpanded}
-          onExpandChange={onToggleTaxonomies}
-        >
-          <Level2CardHeader
-            title={
-              <div>
-                Taxonomien{taxCount > 0 && (
-                  <Level2Count>{`(${taxCount} ${
-                    taxCount === 1 ? 'Taxonomie' : 'Taxonomien'
-                  }, ${taxFieldsCount} ${
-                    taxFieldsCount === 1 ? 'Feld' : 'Felder'
-                  })`}</Level2Count>
-                )}
-              </div>
-            }
-            actAsExpander={true}
-            showExpandableButton={true}
-            titleStyle={level2CardTitleStyle}
-          />
-          <Level2CardText expandable={true}>
-            {jointTaxProperties.length > 0 && (
-              <JointTaxonomy jointTaxProperties={jointTaxProperties} />
-            )}
-            {Object.keys(taxPropertiesByTaxonomy).map(pc => (
-              <Level3Card key={pc}>
-                <Level3CardHeader
-                  title={
-                    <div>
-                      {pc}
-                      <Level3Count>{`(${taxPropertiesByTaxonomy[pc].length} ${
-                        taxPropertiesByTaxonomy[pc].length === 1
-                          ? 'Feld'
-                          : 'Felder'
-                      })`}</Level3Count>
-                    </div>
-                  }
-                  actAsExpander={true}
-                  showExpandableButton={true}
-                  titleStyle={level2CardTitleStyle}
-                />
-                <Level3CardText expandable={true}>
-                  {taxPropertiesByTaxonomy[pc].length > 1 && (
-                    <AllTaxChooser properties={taxPropertiesByTaxonomy[pc]} />
-                  )}
-                  <PropertiesContainer data-width={window.innerWidth - 84}>
-                    {taxPropertiesByTaxonomy[pc].map(field => (
-                      <TaxChooser
-                        key={`${field.propertyName}${field.jsontype}`}
-                        taxname={field.taxonomyName}
-                        pname={field.propertyName}
-                        jsontype={field.jsontype}
-                        count={field.count}
-                      />
-                    ))}
-                  </PropertiesContainer>
-                </Level3CardText>
-              </Level3Card>
-            ))}
-          </Level2CardText>
-        </Level2Card>
+        <Taxonomies
+          taxonomiesExpanded={taxonomiesExpanded}
+          onToggleTaxonomies={onToggleTaxonomies}
+        />
         <Level2Card expanded={pcoExpanded} onExpandChange={onTogglePco}>
           <Level2CardHeader
             title={
