@@ -13,7 +13,7 @@ import app from 'ampersand-app'
 import HowTo from './HowTo'
 import Tipps from './Tipps'
 import Id from './Id'
-import TaxonomiesCard from './TaxonomiesCard'
+import Taxonomies from './Taxonomies'
 import PcosCard from './PcosCard'
 import RcosCard from './RcosCard'
 import propsByTaxData from '../propsByTaxData'
@@ -208,7 +208,7 @@ const Filter = ({
           />
         </FormGroup>
         <Id />
-        <TaxonomiesCard
+        <Taxonomies
           taxonomiesExpanded={taxonomiesExpanded}
           jointTaxonomiesExpanded={jointTaxonomiesExpanded}
           onToggleTaxonomies={onToggleTaxonomies}

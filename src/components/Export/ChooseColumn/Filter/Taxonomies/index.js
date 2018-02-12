@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import Card, { CardActions, CardContent } from 'material-ui-next/Card'
+import Card, { CardActions } from 'material-ui-next/Card'
 import Collapse from 'material-ui-next/transitions/Collapse'
 import IconButton from 'material-ui-next/IconButton'
 import Icon from 'material-ui-next/Icon'
@@ -12,8 +12,8 @@ import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
 import compose from 'recompose/compose'
 
-import TaxonomyCard from './TaxonomyCard'
-import JointTaxonomyCard from './JointTaxonomyCard'
+import Taxonomy from './Taxonomy'
+import JointTaxonomy from './JointTaxonomy'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
@@ -104,10 +104,10 @@ const TaxonomiesCard = ({
         </StyledCardActions>
         <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
           {jointTaxProperties.length > 0 && (
-            <JointTaxonomyCard jointTaxProperties={jointTaxProperties} />
+            <JointTaxonomy jointTaxProperties={jointTaxProperties} />
           )}
           {Object.keys(taxPropertiesByTaxonomy).map(pc => (
-            <TaxonomyCard pc={pc} key={pc} />
+            <Taxonomy pc={pc} key={pc} />
           ))}
         </Collapse>
       </StyledCard>
