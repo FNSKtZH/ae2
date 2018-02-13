@@ -11,9 +11,8 @@ import withHandlers from 'recompose/withHandlers'
 
 import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
-import AllPcoChooser from './AllPcoChooser'
+import PCOs from './PCOs'
 import AllRcoChooser from './AllRcoChooser'
-import PcoChooser from './PcoChooser'
 import RcoChooser from './RcoChooser'
 import constants from '../../../../modules/constants'
 import propsByTaxData from '../propsByTaxData'
@@ -168,22 +167,11 @@ const Properties = ({
   onTogglePco: () => {},
   onToggleRco: () => {},
 }) => {
-  const pcoProperties = get(
-    propsByTaxData,
-    'pcoPropertiesByTaxonomiesFunction.nodes',
-    []
-  )
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
     []
   )
-  const pcoPropertiesByPropertyCollection = groupBy(
-    pcoProperties,
-    'propertyCollectionName'
-  )
-  const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
-  const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
     if (x.propertyCollectionName.includes(x.relationType)) {
@@ -248,67 +236,7 @@ const Properties = ({
           taxonomiesExpanded={taxonomiesExpanded}
           onToggleTaxonomies={onToggleTaxonomies}
         />
-        <Level2Card expanded={pcoExpanded} onExpandChange={onTogglePco}>
-          <Level2CardHeader
-            title={
-              <div>
-                Eigenschaftensammlungen{pCCount > 0 && (
-                  <Level2Count>{`(${pCCount} Sammlungen, ${
-                    Object.keys(pcoPropertiesFields).length
-                  } ${
-                    Object.keys(pcoPropertiesFields).length === 1
-                      ? 'Feld'
-                      : 'Felder'
-                  })`}</Level2Count>
-                )}
-              </div>
-            }
-            actAsExpander={true}
-            showExpandableButton={true}
-            titleStyle={level2CardTitleStyle}
-          />
-          <Level2CardText expandable={true}>
-            {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
-              <Level3Card key={pc}>
-                <Level3CardHeader
-                  title={
-                    <div>
-                      {pc}
-                      <Level3Count>{`(${
-                        pcoPropertiesByPropertyCollection[pc].length
-                      } ${
-                        pcoPropertiesByPropertyCollection[pc].length === 1
-                          ? 'Feld'
-                          : 'Felder'
-                      })`}</Level3Count>
-                    </div>
-                  }
-                  actAsExpander={true}
-                  showExpandableButton={true}
-                  titleStyle={level2CardTitleStyle}
-                />
-                <Level3CardText expandable={true}>
-                  {pcoPropertiesByPropertyCollection[pc].length > 1 && (
-                    <AllPcoChooser
-                      properties={pcoPropertiesByPropertyCollection[pc]}
-                    />
-                  )}
-                  <PropertiesContainer data-width={window.innerWidth - 84}>
-                    {pcoPropertiesByPropertyCollection[pc].map(field => (
-                      <PcoChooser
-                        key={`${field.propertyName}${field.jsontype}`}
-                        pcname={field.propertyCollectionName}
-                        pname={field.propertyName}
-                        jsontype={field.jsontype}
-                        count={field.count}
-                      />
-                    ))}
-                  </PropertiesContainer>
-                </Level3CardText>
-              </Level3Card>
-            ))}
-          </Level2CardText>
-        </Level2Card>
+        <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
         <Level2Card expanded={rcoExpanded} onExpandChange={onToggleRco}>
           <Level2CardHeader
             title={
