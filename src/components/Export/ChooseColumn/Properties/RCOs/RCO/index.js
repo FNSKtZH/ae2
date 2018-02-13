@@ -1,11 +1,16 @@
 // @flow
-import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import React, { Fragment } from 'react'
+import Card, { CardActions } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 
 import AllRcoChooser from '../../AllRcoChooser'
 import RcoChooser from '../../RcoChooser'
@@ -15,38 +20,55 @@ import exportTaxonomiesData from '../../../../exportTaxonomiesData'
 import data from '../../data'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
-const StyledCard = styled(Card)`
-  margin: 0;
-  padding: 0;
-`
-const StyledCardHeader = styled(CardHeader)`
-  background-color: #fff3e0;
-  border-bottom: 1px solid #ebebeb;
-`
-const StyledCardText = styled(CardText)`
-  display: flex;
-  flex-direction: column;
-`
 const PropertiesContainer = styled.div`
   column-width: ${props =>
     props['data-width'] > 2 * constants.export.properties.columnWidth
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};
 `
+const StyledCard = styled(Card)`
+  margin: 0;
+  background-color: rgb(255, 243, 224) !important;
+`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
+  background-color: #fff3e0;
+  border-bottom: 1px solid #ebebeb;
+`
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardActionTitle = styled.div`
+  padding-left: 8px;
+  font-weight: bold;
+`
+const StyledCollapse = styled(Collapse)`
+  padding-left: 12px;
+  padding-right: 12px;
+`
 const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
 
-const level2CardTitleStyle = { fontWeight: 'bold' }
-
-const enhance = compose(withApollo, exportTaxonomiesData, data, propsByTaxData)
+const enhance = compose(
+  withApollo,
+  exportTaxonomiesData,
+  data,
+  propsByTaxData,
+  withState('expanded', 'setExpanded', false)
+)
 
 const RCO = ({
+  expanded,
+  setExpanded,
   propsByTaxData,
   data,
   pc,
 }: {
+  expanded: Boolean,
+  setExpanded: () => void,
   propsByTaxData: Object,
   data: Object,
   pc: Object,
@@ -107,38 +129,49 @@ const RCO = ({
 
   return (
     <ErrorBoundary>
-      <StyledCard key={pc}>
-        <StyledCardHeader
-          title={
-            <div>
-              {pc}
-              <Count>{`(${rcoPropertiesByPropertyCollection[pc].length} ${
-                rcoPropertiesByPropertyCollection[pc].length === 1
-                  ? 'Feld'
-                  : 'Felder'
-              })`}</Count>
-            </div>
-          }
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level2CardTitleStyle}
-        />
-        <StyledCardText expandable={true}>
-          {rcoPropertiesByPropertyCollection[pc].length > 1 && (
-            <AllRcoChooser properties={rcoPropertiesByPropertyCollection[pc]} />
-          )}
-          <PropertiesContainer data-width={window.innerWidth - 84}>
-            {rcoPropertiesByPropertyCollection[pc].map(field => (
-              <RcoChooser
-                key={`${field.propertyName}${field.jsontype}`}
-                pcname={field.propertyCollectionName}
-                pname={field.propertyName}
-                jsontype={field.jsontype}
-                count={field.count}
+      <StyledCard>
+        <StyledCardActions
+          disableActionSpacing
+          onClick={() => setExpanded(!expanded)}
+        >
+          <CardActionTitle>
+            {pc}
+            <Count>{`(${rcoPropertiesByPropertyCollection[pc].length} ${
+              rcoPropertiesByPropertyCollection[pc].length === 1
+                ? 'Feld'
+                : 'Felder'
+            })`}</Count>
+          </CardActionTitle>
+          <CardActionIconButton
+            data-expanded={expanded}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <Icon>
+              <ExpandMoreIcon />
+            </Icon>
+          </CardActionIconButton>
+        </StyledCardActions>
+        <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
+          <Fragment>
+            {rcoPropertiesByPropertyCollection[pc].length > 1 && (
+              <AllRcoChooser
+                properties={rcoPropertiesByPropertyCollection[pc]}
               />
-            ))}
-          </PropertiesContainer>
-        </StyledCardText>
+            )}
+            <PropertiesContainer data-width={window.innerWidth - 84}>
+              {rcoPropertiesByPropertyCollection[pc].map(field => (
+                <RcoChooser
+                  key={`${field.propertyName}${field.jsontype}`}
+                  pcname={field.propertyCollectionName}
+                  pname={field.propertyName}
+                  jsontype={field.jsontype}
+                  count={field.count}
+                />
+              ))}
+            </PropertiesContainer>
+          </Fragment>
+        </StyledCollapse>
       </StyledCard>
     </ErrorBoundary>
   )
