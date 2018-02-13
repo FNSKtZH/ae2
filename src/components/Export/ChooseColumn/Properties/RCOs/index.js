@@ -13,25 +13,25 @@ import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import data from '../data'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
-const Level2Card = styled(Card)`
+const StyledCard = styled(Card)`
   margin: 10px 0;
   padding: 0;
   > div {
     padding-bottom: 0 !important;
   }
 `
-const Level2CardHeader = styled(CardHeader)`
+const StyledCardHeader = styled(CardHeader)`
   background-color: #ffcc80;
 `
-const Level2CardText = styled(CardText)`
+const StyledCardText = styled(CardText)`
   padding: 0 !important;
 `
-const Level2Count = styled.span`
+const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
 
-const level2CardTitleStyle = { fontWeight: 'bold' }
+const cardTitleStyle = { fontWeight: 'bold' }
 
 const enhance = compose(withApollo, exportTaxonomiesData, data, propsByTaxData)
 
@@ -104,31 +104,31 @@ const RCOs = ({
 
   return (
     <ErrorBoundary>
-      <Level2Card expanded={rcoExpanded} onExpandChange={onToggleRco}>
-        <Level2CardHeader
+      <StyledCard expanded={rcoExpanded} onExpandChange={onToggleRco}>
+        <StyledCardHeader
           title={
             <div>
               Beziehungssammlungen{rCCount > 0 && (
-                <Level2Count>{`(${rCCount} Sammlungen, ${
+                <Count>{`(${rCCount} Sammlungen, ${
                   Object.keys(rcoPropertiesFields).length
                 } ${
                   Object.keys(rcoPropertiesFields).length === 1
                     ? 'Feld'
                     : 'Felder'
-                })`}</Level2Count>
+                })`}</Count>
               )}
             </div>
           }
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle={level2CardTitleStyle}
+          titleStyle={cardTitleStyle}
         />
-        <Level2CardText expandable={true}>
+        <StyledCardText expandable={true}>
           {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
             <RCO key={pc} pc={pc} />
           ))}
-        </Level2CardText>
-      </Level2Card>
+        </StyledCardText>
+      </StyledCard>
     </ErrorBoundary>
   )
 }
