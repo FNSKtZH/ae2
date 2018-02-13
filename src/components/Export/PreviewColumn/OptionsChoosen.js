@@ -1,11 +1,7 @@
 // @flow
 import React from 'react'
 import { withApollo } from 'react-apollo'
-import Card, { CardActions, CardContent } from 'material-ui-next/Card'
-import Collapse from 'material-ui-next/transitions/Collapse'
-import IconButton from 'material-ui-next/IconButton'
-import Icon from 'material-ui-next/Icon'
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
+import Card from 'material-ui-next/Card'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
 import compose from 'recompose/compose'
