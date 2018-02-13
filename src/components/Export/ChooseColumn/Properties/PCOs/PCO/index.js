@@ -1,10 +1,15 @@
 // @flow
-import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import React, { Fragment } from 'react'
+import Card, { CardActions } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 
 import AllPcoChooser from '../AllPcoChooser'
 import PcoChooser from '../PcoChooser'
@@ -15,15 +20,20 @@ import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
-  padding: 0;
+  background-color: rgb(255, 243, 224) !important;
 `
-const StyledCardHeader = styled(CardHeader)`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
   background-color: #fff3e0;
   border-bottom: 1px solid #ebebeb;
 `
-const StyledCardText = styled(CardText)`
-  display: flex;
-  flex-direction: column;
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardActionTitle = styled.div`
+  padding-left: 8px;
+  font-weight: bold;
 `
 const PropertiesContainer = styled.div`
   column-width: ${props =>
@@ -31,21 +41,31 @@ const PropertiesContainer = styled.div`
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};
 `
+const StyledCollapse = styled(Collapse)`
+  padding-left: 12px;
+  padding-right: 12px;
+`
 const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
 
-const level2CardTitleStyle = { fontWeight: 'bold' }
-
-const enhance = compose(exportTaxonomiesData, propsByTaxData)
+const enhance = compose(
+  exportTaxonomiesData,
+  propsByTaxData,
+  withState('expanded', 'setExpanded', false)
+)
 
 const PCO = ({
+  expanded,
+  setExpanded,
   propsByTaxData,
   pcoExpanded,
   onTogglePco,
   pc,
 }: {
+  expanded: Boolean,
+  setExpanded: () => void,
   propsByTaxData: Object,
   pcoExpanded: Boolean,
   onTogglePco: () => {},
@@ -63,38 +83,49 @@ const PCO = ({
 
   return (
     <ErrorBoundary>
-      <StyledCard key={pc}>
-        <StyledCardHeader
-          title={
-            <div>
-              {pc}
-              <Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${
-                pcoPropertiesByPropertyCollection[pc].length === 1
-                  ? 'Feld'
-                  : 'Felder'
-              })`}</Count>
-            </div>
-          }
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={level2CardTitleStyle}
-        />
-        <StyledCardText expandable={true}>
-          {pcoPropertiesByPropertyCollection[pc].length > 1 && (
-            <AllPcoChooser properties={pcoPropertiesByPropertyCollection[pc]} />
-          )}
-          <PropertiesContainer data-width={window.innerWidth - 84}>
-            {pcoPropertiesByPropertyCollection[pc].map(field => (
-              <PcoChooser
-                key={`${field.propertyName}${field.jsontype}`}
-                pcname={field.propertyCollectionName}
-                pname={field.propertyName}
-                jsontype={field.jsontype}
-                count={field.count}
+      <StyledCard>
+        <StyledCardActions
+          disableActionSpacing
+          onClick={() => setExpanded(!expanded)}
+        >
+          <CardActionTitle>
+            {pc}
+            <Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${
+              pcoPropertiesByPropertyCollection[pc].length === 1
+                ? 'Feld'
+                : 'Felder'
+            })`}</Count>
+          </CardActionTitle>
+          <CardActionIconButton
+            data-expanded={expanded}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <Icon>
+              <ExpandMoreIcon />
+            </Icon>
+          </CardActionIconButton>
+        </StyledCardActions>
+        <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
+          <Fragment>
+            {pcoPropertiesByPropertyCollection[pc].length > 1 && (
+              <AllPcoChooser
+                properties={pcoPropertiesByPropertyCollection[pc]}
               />
-            ))}
-          </PropertiesContainer>
-        </StyledCardText>
+            )}
+            <PropertiesContainer data-width={window.innerWidth - 84}>
+              {pcoPropertiesByPropertyCollection[pc].map(field => (
+                <PcoChooser
+                  key={`${field.propertyName}${field.jsontype}`}
+                  pcname={field.propertyCollectionName}
+                  pname={field.propertyName}
+                  jsontype={field.jsontype}
+                  count={field.count}
+                />
+              ))}
+            </PropertiesContainer>
+          </Fragment>
+        </StyledCollapse>
       </StyledCard>
     </ErrorBoundary>
   )
