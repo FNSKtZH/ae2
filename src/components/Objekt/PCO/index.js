@@ -48,8 +48,8 @@ const PCO = ({ pCO, relations }: { pCO: Object, relations: Array<Object> }) => {
           titleStyle={pCOTitleStyle}
           style={pCOCardHeaderStyle}
         />
-        <PC pC={pC} />
         <CardText expandable={true} style={pCOCardTextStyle}>
+          <PC pCO={pCO} />
           {propertiesArray.map(([key, value]) => (
             <PropertyReadOnly key={key} value={value} label={key} />
           ))}

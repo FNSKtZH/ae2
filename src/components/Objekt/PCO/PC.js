@@ -1,40 +1,74 @@
 // @flow
 import React from 'react'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Card, { CardActions } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import get from 'lodash/get'
+import compose from 'recompose/compose'
+import withState from 'recompose/withState'
+import styled from 'styled-components'
 
 import PropertyCollection from '../ObjectPropertyCollection'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
-const taxCardStyle = {
-  backgroundColor: '#FFE0B2',
-}
-const pCTitleStyle = { fontWeight: 'normal' }
-const pCCardHeaderStyle = {
-  backgroundColor: '#FFE0B2',
-  borderBottom: '1px solid rgba(0,0,0,0.06)',
-}
-const pCCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
+const StyledCard = styled(Card)`
+  margin: 0;
+  background-color: #ffe0b2 !important;
+`
+const StyledCardActions = styled(CardActions)`
+  justify-content: space-between;
+  cursor: pointer;
+  background-color: #ffe0b2;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  height: auto !important;
+  padding: 8px 0 8px 16px !important;
+`
+const CardActionIconButton = styled(IconButton)`
+  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+`
+const CardActionTitle = styled.div`
+  font-weight: normal;
+`
 
-const PC = ({ pCO }: { pCO: Object }) => {
+const enhance = compose(withState('expanded', 'setExpanded', false))
+
+const PC = ({
+  expanded,
+  setExpanded,
+  pCO,
+}: {
+  pCO: Object,
+  expanded: Boolean,
+  setExpanded: () => void,
+}) => {
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
 
   return (
     <ErrorBoundary>
-      <Card expandable={true} style={taxCardStyle}>
-        <CardHeader
-          title={get(pC, 'description', '')}
-          actAsExpander={true}
-          showExpandableButton={true}
-          titleStyle={pCTitleStyle}
-          style={pCCardHeaderStyle}
-        />
-        <CardText expandable={true} style={pCCardTextStyle}>
+      <StyledCard>
+        <StyledCardActions
+          disableActionSpacing
+          onClick={() => setExpanded(!expanded)}
+        >
+          <CardActionTitle>{get(pC, 'description', '')}</CardActionTitle>
+          <CardActionIconButton
+            data-expanded={expanded}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <Icon>
+              <ExpandMoreIcon />
+            </Icon>
+          </CardActionIconButton>
+        </StyledCardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PropertyCollection pC={pC} />
-        </CardText>
-      </Card>
+        </Collapse>
+      </StyledCard>
     </ErrorBoundary>
   )
 }
 
-export default PC
+export default enhance(PC)
