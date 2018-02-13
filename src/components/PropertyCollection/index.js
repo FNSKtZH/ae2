@@ -1,19 +1,19 @@
 // @flow
 import React, { Fragment } from 'react'
 import compose from 'recompose/compose'
-import IconButton from 'material-ui-next/IconButton'
-import Icon from 'material-ui-next/Icon'
+import IconButton from 'material-ui/IconButton'
+import Icon from 'material-ui/Icon'
 import EditIcon from 'material-ui-icons/Edit'
 import ViewIcon from 'material-ui-icons/Visibility'
-import Select from 'material-ui-next/Select'
-import { MenuItem } from 'material-ui-next/Menu'
-import Input, { InputLabel } from 'material-ui-next/Input'
+import Select from 'material-ui/Select'
+import { MenuItem } from 'material-ui/Menu'
+import Input, { InputLabel } from 'material-ui/Input'
 import {
   FormControl,
   FormControlLabel,
   FormHelperText,
-} from 'material-ui-next/Form'
-import Checkbox from 'material-ui-next/Checkbox'
+} from 'material-ui/Form'
+import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import format from 'date-fns/format'

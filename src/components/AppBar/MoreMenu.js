@@ -1,7 +1,7 @@
 import React from 'react'
-import Icon from 'material-ui-next/Icon'
-import Menu, { MenuItem } from 'material-ui-next/Menu'
-import Button from 'material-ui-next/Button'
+import Icon from 'material-ui/Icon'
+import Menu, { MenuItem } from 'material-ui/Menu'
+import Button from 'material-ui/Button'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
 import styled from 'styled-components'
 

@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import { withApollo } from 'react-apollo'
-import Card from 'material-ui-next/Card'
-import Button from 'material-ui-next/Button'
-import { withStyles } from 'material-ui-next/styles'
+import Card from 'material-ui/Card'
+import Button from 'material-ui/Button'
+import { withStyles } from 'material-ui/styles'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import withState from 'recompose/withState'

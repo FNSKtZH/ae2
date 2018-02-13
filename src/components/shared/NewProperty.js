@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import TextField from 'material-ui-next/TextField'
-import { InputLabel } from 'material-ui-next/Input'
+import TextField from 'material-ui/TextField'
+import { InputLabel } from 'material-ui/Input'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'

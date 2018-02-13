@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import Paper from 'material-ui-next/Paper'
-import { FormGroup, FormControlLabel } from 'material-ui-next/Form'
-import Checkbox from 'material-ui-next/Checkbox'
+import Paper from 'material-ui/Paper'
+import { FormGroup, FormControlLabel } from 'material-ui/Form'
+import Checkbox from 'material-ui/Checkbox'
 import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'

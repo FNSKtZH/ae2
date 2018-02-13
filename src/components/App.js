@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import Reboot from 'material-ui-next/Reboot'
+import Reboot from 'material-ui/Reboot'
 import get from 'lodash/get'
 
 import AppBar from './AppBar'

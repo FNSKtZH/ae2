@@ -1,5 +1,5 @@
 // @flow
-import merge from 'lodash.merge'
+import merge from 'lodash/merge'
 
 import activeNodeArray from './activeNodeArray'
 import treeFilter from './treeFilter'

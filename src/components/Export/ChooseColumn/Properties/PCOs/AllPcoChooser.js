@@ -1,7 +1,7 @@
 //@flow
 import React from 'react'
-import { FormControlLabel } from 'material-ui-next/Form'
-import Checkbox from 'material-ui-next/Checkbox'
+import { FormControlLabel } from 'material-ui/Form'
+import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'

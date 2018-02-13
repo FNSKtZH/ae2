@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import TextField from 'material-ui-next/TextField'
-import { FormControl, FormHelperText } from 'material-ui-next/Form'
-import Snackbar from 'material-ui-next/Snackbar'
-import Button from 'material-ui-next/Button'
+import TextField from 'material-ui/TextField'
+import { FormControl, FormHelperText } from 'material-ui/Form'
+import Snackbar from 'material-ui/Snackbar'
+import Button from 'material-ui/Button'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'

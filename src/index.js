@@ -10,13 +10,11 @@ import { ApolloLink } from 'apollo-link'
 import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { MuiThemeProvider as NewMuiThemeProvider } from 'material-ui-next/styles'
-import SvgIcon from 'material-ui-next/SvgIcon'
+import { MuiThemeProvider as NewMuiThemeProvider } from 'material-ui/styles'
+//import SvgIcon from 'material-ui/SvgIcon'
 import app from 'ampersand-app'
 import createHistory from 'history/createBrowserHistory'
 
-import theme from './styling/theme'
 import themeV1 from './styling/themeV1'
 import './index.css'
 import 'react-reflex/styles.css'
@@ -29,7 +27,7 @@ import setLoginFromIdb from './modules/setLoginFromIdb'
 import setLoginMutation from './modules/loginMutation'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
-global.__MUI_SvgIcon__ = SvgIcon
+//global.__MUI_SvgIcon__ = SvgIcon
 ;(async () => {
   try {
     const idb = initializeIdb()
@@ -163,9 +161,7 @@ global.__MUI_SvgIcon__ = SvgIcon
     ReactDOM.render(
       <ApolloProvider client={client}>
         <NewMuiThemeProvider theme={themeV1}>
-          <MuiThemeProvider muiTheme={theme}>
-            <App />
-          </MuiThemeProvider>
+          <App />
         </NewMuiThemeProvider>
       </ApolloProvider>,
       document.getElementById('root')

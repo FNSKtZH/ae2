@@ -1,7 +1,7 @@
-import { createMuiTheme } from 'material-ui-next/styles'
-import orange from 'material-ui-next/colors/orange'
-import cyan from 'material-ui-next/colors/cyan'
-import red from 'material-ui-next/colors/red'
+import { createMuiTheme } from 'material-ui/styles'
+import orange from 'material-ui/colors/orange'
+import cyan from 'material-ui/colors/cyan'
+import red from 'material-ui/colors/red'
 
 import constants from '../modules/constants'
 

@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
 import ReactDataGrid from 'react-data-grid'
-import Button from 'material-ui-next/Button'
-import Snackbar from 'material-ui-next/Snackbar'
+import Button from 'material-ui/Button'
+import Snackbar from 'material-ui/Snackbar'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'

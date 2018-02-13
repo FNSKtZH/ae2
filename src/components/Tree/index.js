@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
-import Snackbar from 'material-ui-next/Snackbar'
+import Snackbar from 'material-ui/Snackbar'
 import get from 'lodash/get'
 
 import Row from './Row'

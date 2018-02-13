@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import TextField from 'material-ui-next/TextField'
+import TextField from 'material-ui/TextField'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'

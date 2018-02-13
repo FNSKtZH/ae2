@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import AppBar from 'material-ui-next/AppBar'
-import Toolbar from 'material-ui-next/Toolbar'
-import Typography from 'material-ui-next/Typography'
-import Button from 'material-ui-next/Button'
+import AppBar from 'material-ui/AppBar'
+import Toolbar from 'material-ui/Toolbar'
+import Typography from 'material-ui/Typography'
+import Button from 'material-ui/Button'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import { FormGroup, FormControlLabel } from 'material-ui-next/Form'
-import Checkbox from 'material-ui-next/Checkbox'
+import { FormGroup, FormControlLabel } from 'material-ui/Form'
+import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
