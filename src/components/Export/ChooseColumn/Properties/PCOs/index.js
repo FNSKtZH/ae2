@@ -7,7 +7,7 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 
 import AllPcoChooser from './AllPcoChooser'
-import PcoChooser from '../PcoChooser'
+import PcoChooser from './PcoChooser'
 import constants from '../../../../../modules/constants'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
