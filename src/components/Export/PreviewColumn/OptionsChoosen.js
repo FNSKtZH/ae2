@@ -1,11 +1,16 @@
 // @flow
 import React from 'react'
 import { withApollo } from 'react-apollo'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import Card, { CardActions, CardContent } from 'material-ui-next/Card'
+import Collapse from 'material-ui-next/transitions/Collapse'
+import IconButton from 'material-ui-next/IconButton'
+import Icon from 'material-ui-next/Icon'
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import Button from 'material-ui-next/Button'
 import { withStyles } from 'material-ui-next/styles'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
+import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
@@ -43,13 +48,14 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
 })
-const level1CardStyle = { margin: '10px 0' }
-const level1CardTitleStyle = { fontWeight: 'bold' }
-const level1CardHeaderStyle = {}
-const level1CardTextStyle = {
-  padding: '0 16px !important',
-  margin: '-10px 10px -5px 0',
-}
+const StyledCard = styled(Card)`
+  margin: 10px 0;
+  padding: 8px;
+  background-color: #fff9f1 !important;
+`
+const CardTitle = styled.div`
+  font-weight: bold;
+`
 
 const FilterValueSpan = styled.span`
   background-color: #dadada;
@@ -146,11 +152,14 @@ const enhance = compose(
       })
     },
   }),
+  withState('expanded', 'setExpanded', true),
   withStyles(styles)
 )
 
 const OptionsChoosen = ({
   client,
+  expanded,
+  setExpanded,
   exportTypeData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
@@ -169,6 +178,8 @@ const OptionsChoosen = ({
   onClickResetExportOnlyRowsWithProperties,
 }: {
   client: Object,
+  expanded: Boolean,
+  setExpanded: () => void,
   exportTypeData: Object,
   exportTaxonomiesData: Object,
   exportTaxPropertiesData: Object,
@@ -229,173 +240,76 @@ const OptionsChoosen = ({
 
   if (noDataChoosen) return null
   return (
-    <Card style={level1CardStyle} expanded={true}>
-      <CardHeader
-        title="Gewählte Optionen"
-        actAsExpander={true}
-        showExpandableButton={false}
-        titleStyle={level1CardTitleStyle}
-        style={level1CardHeaderStyle}
-      />
-      <CardText expandable={true} style={level1CardTextStyle}>
-        <ul>
-          <li>
-            {`Typ: ${!exportType ? ' keiner' : exportType}`}
-            {!!exportType && (
-              <ResetSpan onClick={onClickResetType}>zurücksetzen</ResetSpan>
-            )}
-          </li>
-          <li>
-            {`Taxonomie${exportTaxonomies.length > 1 ? 'n' : ''}: ${
-              exportTaxonomies.length === 0
-                ? ' keine'
-                : exportTaxonomies.join(', ')
-            }`}
-            {exportTaxonomies.length > 0 && (
-              <ResetSpan onClick={onClickResetTaxonomies}>
-                zurücksetzen
-              </ResetSpan>
-            )}
-          </li>
-          <li>
-            {`${
-              exportWithSynonymData
-                ? 'Informationen von Synonymen mit exportieren'
-                : 'Ohne Informationen von Synonymen'
-            }`}
-            {!exportWithSynonymData && (
-              <ResetSpan onClick={onClickResetExportWithSynonymData}>
-                zurücksetzen
-              </ResetSpan>
-            )}
-          </li>
-          <li>
-            {`${
-              exportOnlyRowsWithProperties
-                ? 'Nur Datensätze mit Eigenschaften exportieren'
-                : 'Auch Datensätze ohne Eigenschaften exportieren'
-            }`}
-            {!exportOnlyRowsWithProperties && (
-              <ResetSpan onClick={onClickResetExportOnlyRowsWithProperties}>
-                zurücksetzen
-              </ResetSpan>
-            )}
-          </li>
-          {exportPcoProperties.length > 0 && <li>Pro Beziehung eine Zeile</li>}
-          <li>
-            {`Filter:${
-              [...exportTaxFilters, ...exportPcoFilters, ...exportRcoFilters]
-                .length === 0
-                ? ' keine'
-                : ''
-            }`}
-            <ul>
-              {exportTaxFilters.map(
-                ({ taxname, pname, comparator, value }, i) => (
-                  <li key={i}>
-                    {`${taxname}: ${pname} ${
-                      comparator ? `${comparator}` : ''
-                    }`}
-                    <FilterValueSpan>
-                      {typeof value === 'boolean'
-                        ? booleanToJaNein(value)
-                        : value}
-                    </FilterValueSpan>
-                    <ResetSpan
-                      onClick={() => {
-                        client.mutate({
-                          mutation: exportTaxFiltersMutation,
-                          variables: {
-                            taxname,
-                            pname,
-                            comparator: '',
-                            value: '',
-                          },
-                        })
-                      }}
-                    >
-                      zurücksetzen
-                    </ResetSpan>
-                  </li>
-                )
-              )}
-              {exportPcoFilters.map(
-                ({ pcname, pname, comparator, value }, i) => (
-                  <li key={i}>
-                    {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
-                    <FilterValueSpan>
-                      {typeof value === 'boolean'
-                        ? booleanToJaNein(value)
-                        : value}
-                    </FilterValueSpan>
-                    <ResetSpan
-                      onClick={() => {
-                        client.mutate({
-                          mutation: exportPcoFiltersMutation,
-                          variables: {
-                            pcname,
-                            pname,
-                            comparator: '',
-                            value: '',
-                          },
-                        })
-                      }}
-                    >
-                      zurücksetzen
-                    </ResetSpan>
-                  </li>
-                )
-              )}
-              {exportRcoFilters.map(
-                ({ pcname, pname, comparator, value }, i) => (
-                  <li key={i}>
-                    {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
-                    <FilterValueSpan>
-                      {typeof value === 'boolean'
-                        ? booleanToJaNein(value)
-                        : value}
-                    </FilterValueSpan>
-                    <ResetSpan
-                      onClick={() => {
-                        client.mutate({
-                          mutation: exportRcoFiltersMutation,
-                          variables: {
-                            pcname,
-                            pname,
-                            comparator: '',
-                            value: '',
-                          },
-                        })
-                      }}
-                    >
-                      zurücksetzen
-                    </ResetSpan>
-                  </li>
-                )
-              )}
-            </ul>
-          </li>
-          <li>
-            {`Eigenschaften:${
-              [
-                ...exportTaxProperties,
-                ...exportPcoProperties,
-                ...exportRcoProperties,
-              ].length === 0
-                ? ' keine (die id kommt immer mit)'
-                : ' (die id kommt immer mit)'
-            }`}
-            <ul>
-              {exportTaxProperties.map(({ taxname, pname }, i) => (
+    <StyledCard>
+      <CardTitle title="Gewählte Optionen">Gewählte Optionen</CardTitle>
+      <ul>
+        <li>
+          {`Typ: ${!exportType ? ' keiner' : exportType}`}
+          {!!exportType && (
+            <ResetSpan onClick={onClickResetType}>zurücksetzen</ResetSpan>
+          )}
+        </li>
+        <li>
+          {`Taxonomie${exportTaxonomies.length > 1 ? 'n' : ''}: ${
+            exportTaxonomies.length === 0
+              ? ' keine'
+              : exportTaxonomies.join(', ')
+          }`}
+          {exportTaxonomies.length > 0 && (
+            <ResetSpan onClick={onClickResetTaxonomies}>zurücksetzen</ResetSpan>
+          )}
+        </li>
+        <li>
+          {`${
+            exportWithSynonymData
+              ? 'Informationen von Synonymen mit exportieren'
+              : 'Ohne Informationen von Synonymen'
+          }`}
+          {!exportWithSynonymData && (
+            <ResetSpan onClick={onClickResetExportWithSynonymData}>
+              zurücksetzen
+            </ResetSpan>
+          )}
+        </li>
+        <li>
+          {`${
+            exportOnlyRowsWithProperties
+              ? 'Nur Datensätze mit Eigenschaften exportieren'
+              : 'Auch Datensätze ohne Eigenschaften exportieren'
+          }`}
+          {!exportOnlyRowsWithProperties && (
+            <ResetSpan onClick={onClickResetExportOnlyRowsWithProperties}>
+              zurücksetzen
+            </ResetSpan>
+          )}
+        </li>
+        {exportPcoProperties.length > 0 && <li>Pro Beziehung eine Zeile</li>}
+        <li>
+          {`Filter:${
+            [...exportTaxFilters, ...exportPcoFilters, ...exportRcoFilters]
+              .length === 0
+              ? ' keine'
+              : ''
+          }`}
+          <ul>
+            {exportTaxFilters.map(
+              ({ taxname, pname, comparator, value }, i) => (
                 <li key={i}>
-                  {`${taxname}: ${pname}`}
+                  {`${taxname}: ${pname} ${comparator ? `${comparator}` : ''}`}
+                  <FilterValueSpan>
+                    {typeof value === 'boolean'
+                      ? booleanToJaNein(value)
+                      : value}
+                  </FilterValueSpan>
                   <ResetSpan
                     onClick={() => {
                       client.mutate({
-                        mutation: removeExportTaxPropertyMutation,
+                        mutation: exportTaxFiltersMutation,
                         variables: {
                           taxname,
                           pname,
+                          comparator: '',
+                          value: '',
                         },
                       })
                     }}
@@ -403,51 +317,128 @@ const OptionsChoosen = ({
                     zurücksetzen
                   </ResetSpan>
                 </li>
-              ))}
-              {exportPcoProperties.map(({ pcname, pname }, i) => (
-                <li key={i}>
-                  {`${pcname}: ${pname}`}
-                  <ResetSpan
-                    onClick={() => {
-                      client.mutate({
-                        mutation: removeExportPcoPropertyMutation,
-                        variables: {
-                          pcname,
-                          pname,
-                        },
-                      })
-                    }}
-                  >
-                    zurücksetzen
-                  </ResetSpan>
-                </li>
-              ))}
-              {exportRcoProperties.map(({ pcname, pname }, i) => (
-                <li key={i}>
-                  {`${pcname}: ${pname}`}
-                  <ResetSpan
-                    onClick={() => {
-                      client.mutate({
-                        mutation: removeExportRcoPropertyMutation,
-                        variables: {
-                          pcname,
-                          pname,
-                        },
-                      })
-                    }}
-                  >
-                    zurücksetzen
-                  </ResetSpan>
-                </li>
-              ))}
-            </ul>
-          </li>
-        </ul>
-        <StyledButton className={classes.button} onClick={onClickResetAll}>
-          alle Optionen zurücksetzen
-        </StyledButton>
-      </CardText>
-    </Card>
+              )
+            )}
+            {exportPcoFilters.map(({ pcname, pname, comparator, value }, i) => (
+              <li key={i}>
+                {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
+                <FilterValueSpan>
+                  {typeof value === 'boolean' ? booleanToJaNein(value) : value}
+                </FilterValueSpan>
+                <ResetSpan
+                  onClick={() => {
+                    client.mutate({
+                      mutation: exportPcoFiltersMutation,
+                      variables: {
+                        pcname,
+                        pname,
+                        comparator: '',
+                        value: '',
+                      },
+                    })
+                  }}
+                >
+                  zurücksetzen
+                </ResetSpan>
+              </li>
+            ))}
+            {exportRcoFilters.map(({ pcname, pname, comparator, value }, i) => (
+              <li key={i}>
+                {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
+                <FilterValueSpan>
+                  {typeof value === 'boolean' ? booleanToJaNein(value) : value}
+                </FilterValueSpan>
+                <ResetSpan
+                  onClick={() => {
+                    client.mutate({
+                      mutation: exportRcoFiltersMutation,
+                      variables: {
+                        pcname,
+                        pname,
+                        comparator: '',
+                        value: '',
+                      },
+                    })
+                  }}
+                >
+                  zurücksetzen
+                </ResetSpan>
+              </li>
+            ))}
+          </ul>
+        </li>
+        <li>
+          {`Eigenschaften:${
+            [
+              ...exportTaxProperties,
+              ...exportPcoProperties,
+              ...exportRcoProperties,
+            ].length === 0
+              ? ' keine (die id kommt immer mit)'
+              : ' (die id kommt immer mit)'
+          }`}
+          <ul>
+            {exportTaxProperties.map(({ taxname, pname }, i) => (
+              <li key={i}>
+                {`${taxname}: ${pname}`}
+                <ResetSpan
+                  onClick={() => {
+                    client.mutate({
+                      mutation: removeExportTaxPropertyMutation,
+                      variables: {
+                        taxname,
+                        pname,
+                      },
+                    })
+                  }}
+                >
+                  zurücksetzen
+                </ResetSpan>
+              </li>
+            ))}
+            {exportPcoProperties.map(({ pcname, pname }, i) => (
+              <li key={i}>
+                {`${pcname}: ${pname}`}
+                <ResetSpan
+                  onClick={() => {
+                    client.mutate({
+                      mutation: removeExportPcoPropertyMutation,
+                      variables: {
+                        pcname,
+                        pname,
+                      },
+                    })
+                  }}
+                >
+                  zurücksetzen
+                </ResetSpan>
+              </li>
+            ))}
+            {exportRcoProperties.map(({ pcname, pname }, i) => (
+              <li key={i}>
+                {`${pcname}: ${pname}`}
+                <ResetSpan
+                  onClick={() => {
+                    client.mutate({
+                      mutation: removeExportRcoPropertyMutation,
+                      variables: {
+                        pcname,
+                        pname,
+                      },
+                    })
+                  }}
+                >
+                  zurücksetzen
+                </ResetSpan>
+              </li>
+            ))}
+          </ul>
+        </li>
+      </ul>
+      <StyledButton className={classes.button} onClick={onClickResetAll}>
+        alle Optionen zurücksetzen
+      </StyledButton>
+    </StyledCard>
   )
 }
 
