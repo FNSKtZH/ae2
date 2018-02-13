@@ -5,23 +5,14 @@ import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 
-import PropertyReadOnly from '../shared/PropertyReadOnly'
-import PropertyCollection from './ObjectPropertyCollection'
-import Relation from './Relation'
-import ErrorBoundary from '../shared/ErrorBoundary'
+import PC from './PC'
+import PropertyReadOnly from '../../shared/PropertyReadOnly'
+import Relation from '../Relation'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const pCOCardStyle = { margin: '10px 0' }
-const taxCardStyle = {
-  backgroundColor: '#FFE0B2',
-}
 const pCOTitleStyle = { fontWeight: 'bold' }
-const pCTitleStyle = { fontWeight: 'normal' }
 const pCOCardHeaderStyle = { backgroundColor: '#FFCC80' }
-const pCCardHeaderStyle = {
-  backgroundColor: '#FFE0B2',
-  borderBottom: '1px solid rgba(0,0,0,0.06)',
-}
-const pCCardTextStyle = { backgroundColor: '#FFE0B2', padding: '5px 16px' }
 const pCOCardTextStyle = { padding: '5px 16px', columnWidth: '500px' }
 const RelationTitle = styled.div`
   font-weight: bold;
@@ -30,15 +21,8 @@ const RelationTitle = styled.div`
   border-radius: 4px 4px 0 0;
 `
 
-const PropertyCollectionObject = ({
-  pCO,
-  relations,
-}: {
-  pCO: Object,
-  relations: Array<Object>,
-}) => {
+const PCO = ({ pCO, relations }: { pCO: Object, relations: Array<Object> }) => {
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
-  //console.log('PropertyCollectionObject: pC:', pC)
   const pcname = get(pC, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
   const properties = JSON.parse(pCO.properties) || {}
@@ -64,18 +48,7 @@ const PropertyCollectionObject = ({
           titleStyle={pCOTitleStyle}
           style={pCOCardHeaderStyle}
         />
-        <Card expandable={true} style={taxCardStyle}>
-          <CardHeader
-            title={get(pC, 'description', '')}
-            actAsExpander={true}
-            showExpandableButton={true}
-            titleStyle={pCTitleStyle}
-            style={pCCardHeaderStyle}
-          />
-          <CardText expandable={true} style={pCCardTextStyle}>
-            <PropertyCollection pC={pC} />
-          </CardText>
-        </Card>
+        <PC pC={pC} />
         <CardText expandable={true} style={pCOCardTextStyle}>
           {propertiesArray.map(([key, value]) => (
             <PropertyReadOnly key={key} value={value} label={key} />
@@ -97,4 +70,4 @@ const PropertyCollectionObject = ({
   )
 }
 
-export default PropertyCollectionObject
+export default PCO

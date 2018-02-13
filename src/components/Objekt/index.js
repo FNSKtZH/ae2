@@ -7,7 +7,7 @@ import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
 
 import TaxonomyObject from './TaxonomyObject'
-import PropertyCollectionObject from './PropertyCollectionObject'
+import PCO from './PCO'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import objectData from './objectData'
 import ErrorBoundary from '../shared/ErrorBoundary'
@@ -93,7 +93,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
               '(Name fehlt)'
             )
           ).map((pCO, index) => (
-            <PropertyCollectionObject
+            <PCO
               key={`${pCO.propertyCollectionId}`}
               pCO={pCO}
               relations={relations.filter(
@@ -120,7 +120,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
               '(Name fehlt)'
             )
           ).map((pCO, index) => (
-            <PropertyCollectionObject
+            <PCO
               key={`${pCO.propertyCollectionId}`}
               pCO={pCO}
               relations={relations.filter(
