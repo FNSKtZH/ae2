@@ -12,7 +12,7 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
-import AllRcoChooser from '../../AllRcoChooser'
+import AllRcoChooser from './AllRcoChooser'
 import RcoChooser from './RcoChooser'
 import constants from '../../../../../../modules/constants'
 import propsByTaxData from '../../../propsByTaxData'
