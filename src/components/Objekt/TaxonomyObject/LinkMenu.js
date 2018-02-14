@@ -4,6 +4,7 @@ import Button from 'material-ui/Button'
 import LinkIcon from 'material-ui-icons/Link'
 import Icon from 'material-ui/Icon'
 import styled from 'styled-components'
+import get from 'lodash/get'
 
 const StyledButton = styled(Button)`
   min-width: 50px !important;
@@ -15,12 +16,17 @@ const StyledButton = styled(Button)`
 
 const ITEM_HEIGHT = 48
 
-class LinkMenu extends React.Component {
+type Props = {
+  objekt: Object,
+}
+
+type State = {
+  anchorEl: Object,
+}
+
+class LinkMenu extends React.Component<Props, State> {
   state = {
     anchorEl: null,
-  }
-  props = {
-    taxonomy: Object,
   }
 
   handleClick = event => {
@@ -33,7 +39,7 @@ class LinkMenu extends React.Component {
 
   render() {
     const { anchorEl } = this.state
-    const { taxonomy } = this.props
+    const { objekt } = this.props
 
     return (
       <div>
@@ -65,9 +71,14 @@ class LinkMenu extends React.Component {
         >
           <MenuItem
             key="googleBilder"
-            onClick={() => {
-              console.log('taxonomy:', taxonomy)
-              window.open('https://github.com/barbalex/ae2')
+            onClick={event => {
+              event.stopPropagation()
+              const props = JSON.parse(get(objekt, 'properties', {})) || {}
+              const nameDeutsch = get(props, 'Name Deutsch', null)
+              const url = `https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="${
+                objekt.name
+              }"${nameDeutsch ? `+OR+"${nameDeutsch}"` : ''}`
+              window.open(url)
             }}
           >
             Bilder suchen mit Google
