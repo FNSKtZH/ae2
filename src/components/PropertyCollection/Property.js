@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import TextField from 'material-ui/TextField'
+import { FormControl, FormHelperText } from 'material-ui/Form'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -14,19 +15,29 @@ import onBlur from './onBlur'
 const Container = styled.div`
   margin: 5px 0;
 `
+const StyledFormControl = styled(FormControl)`
+  width: 100%;
+`
+const StyledTextField = styled(TextField)`
+  p {
+    color: ${props => (props.error ? 'red' : 'rgba(0,0,0,0.54)')};
+  }
+`
 
 const enhance = compose(
   withApollo,
   withState('value', 'setValue', ({ pC, field }) => pC[field] || ''),
+  withState('error', 'setError', null),
   withHandlers({
     onChange: ({ setValue }) => event => setValue(event.target.value),
-    onBlur: ({ client, field, pC, value }) => event =>
+    onBlur: ({ client, field, pC, value, setError }) => event =>
       onBlur({
         client,
         field,
         pC,
         value: event.target.value,
         prevValue: pC[field],
+        setError,
       }),
   })
 )
@@ -36,6 +47,7 @@ const Property = ({
   field,
   label,
   value,
+  error,
   helperText,
   type = 'text',
   disabled,
@@ -47,34 +59,40 @@ const Property = ({
   label: String,
   disabled: Boolean,
   value: String,
+  error: String,
   helperText: Element,
   type: String,
   onChange: () => void,
   onBlur: () => void,
 }) => {
+  console.log('error:', error)
+  console.log('!!error:', !!error)
   return (
     <ErrorBoundary>
       <Container>
-        <TextField
-          autoFocus={label === 'Name' && !value}
-          label={label}
-          value={
-            field === 'lastUpdated' && value
-              ? format(new Date(value), 'DD.MM.YYYY')
-              : value
-          }
-          onChange={onChange}
-          onBlur={onBlur}
-          fullWidth
-          multiline
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          spellCheck="false"
-          disabled={!!disabled}
-          type={type}
-          helperText={helperText ? helperText : ''}
-        />
+        <StyledFormControl error={!!error}>
+          <StyledTextField
+            autoFocus={label === 'Name' && !value}
+            label={label}
+            value={
+              field === 'lastUpdated' && value
+                ? format(new Date(value), 'DD.MM.YYYY')
+                : value
+            }
+            onChange={onChange}
+            onBlur={onBlur}
+            fullWidth
+            multiline
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            disabled={!!disabled}
+            type={type}
+            helperText={error ? error : helperText ? helperText : ''}
+            error={!!error}
+          />
+        </StyledFormControl>
       </Container>
     </ErrorBoundary>
   )
