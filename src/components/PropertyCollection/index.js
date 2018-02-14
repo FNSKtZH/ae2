@@ -8,11 +8,7 @@ import ViewIcon from 'material-ui-icons/Visibility'
 import Select from 'material-ui/Select'
 import { MenuItem } from 'material-ui/Menu'
 import Input, { InputLabel } from 'material-ui/Input'
-import {
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-} from 'material-ui/Form'
+import { FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form'
 import Checkbox from 'material-ui/Checkbox'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -96,6 +92,16 @@ const PropertyCollection = ({
   const userIsThisPCWriter =
     !!orgsUserIsPCWriter.find(o => o.id === pC.organizationId) ||
     (userIsPCWriter && !pC.organizationId)
+  const idIsReferenced =
+    get(pC, 'propertyCollectionObjectsByPropertyCollectionId.totalCount', 0) >
+      0 ||
+    get(pC, 'relationsByPropertyCollectionId.totalCount', 0) > 0 ||
+    get(
+      pC,
+      'propertyCollectionObjectsByPropertyCollectionOfOrigin.totalCount',
+      0
+    ) > 0 ||
+    get(pC, 'relationsByPropertyCollectionOfOrigin.totalCount', 0) > 0
 
   return (
     <ErrorBoundary>
@@ -152,6 +158,7 @@ const PropertyCollection = ({
           )}
         {!editing && (
           <Fragment>
+            <PropertyReadOnly key="id" value={pC.id} label="id" />
             <PropertyReadOnly key="name" value={pC.name} label="Name" />
             <PropertyReadOnly
               key="description"
@@ -204,7 +211,7 @@ const PropertyCollection = ({
               label="ID"
               field="id"
               pC={pC}
-              disabled={true}
+              disabled={idIsReferenced}
             />
             <Property
               key={`${pC.id}/name`}

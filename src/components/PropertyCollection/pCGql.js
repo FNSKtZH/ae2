@@ -17,6 +17,9 @@ export default gql`
         id
         name
       }
+      propertyCollectionObjectsByPropertyCollectionId {
+        totalCount
+      }
     }
     allPropertyCollections {
       nodes {
