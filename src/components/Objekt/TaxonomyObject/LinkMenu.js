@@ -7,8 +7,11 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 
 const StyledButton = styled(Button)`
-  min-width: 50px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  min-height: 48px !important;
   margin-right: -8px !important;
+  border-radius: 80px !important;
   :hover {
     background-color: rgba(0, 0, 0, 0.12);
   }
