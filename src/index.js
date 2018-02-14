@@ -11,11 +11,10 @@ import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 
 import { MuiThemeProvider as NewMuiThemeProvider } from 'material-ui/styles'
-//import SvgIcon from 'material-ui/SvgIcon'
 import app from 'ampersand-app'
 import createHistory from 'history/createBrowserHistory'
 
-import themeV1 from './styling/themeV1'
+import theme from './styling/theme'
 import './index.css'
 import 'react-reflex/styles.css'
 import App from './components/App'
@@ -160,7 +159,7 @@ import resolvers from './store/resolvers'
 
     ReactDOM.render(
       <ApolloProvider client={client}>
-        <NewMuiThemeProvider theme={themeV1}>
+        <NewMuiThemeProvider theme={theme}>
           <App />
         </NewMuiThemeProvider>
       </ApolloProvider>,
