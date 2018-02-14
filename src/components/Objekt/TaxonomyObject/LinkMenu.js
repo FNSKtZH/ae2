@@ -13,6 +13,9 @@ const StyledButton = styled(Button)`
     background-color: rgba(0, 0, 0, 0.12);
   }
 `
+const StyledLinkIcon = styled(LinkIcon)`
+  color: rgba(0, 0, 0, 0.54);
+`
 
 const ITEM_HEIGHT = 48
 
@@ -54,7 +57,7 @@ class LinkMenu extends React.Component<Props, State> {
           }}
         >
           <Icon>
-            <LinkIcon />
+            <StyledLinkIcon />
           </Icon>
         </StyledButton>
         <Menu
