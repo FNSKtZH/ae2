@@ -16,7 +16,6 @@ import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import EditIcon from 'material-ui-icons/Edit'
 import ViewIcon from 'material-ui-icons/Visibility'
 import SynonymIcon from 'material-ui-icons/Forward'
-import LinkIcon from 'material-ui-icons/Link'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
@@ -27,6 +26,7 @@ import app from 'ampersand-app'
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import Taxonomy from '../Taxonomy'
 import Property from './Property'
+import LinkMenu from './LinkMenu'
 import Properties from './Properties'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import ErrorBoundary from '../../shared/ErrorBoundary'
@@ -166,16 +166,7 @@ const TaxonomyObject = ({
         >
           <CardActionTitle>{taxname}</CardActionTitle>
           <CardActionsButtons>
-            <StyledButton
-              aria-label="Externe Links"
-              title="Externe Links"
-              onClick={event => {
-                event.stopPropagation()
-                console.log('should open menu')
-              }}
-            >
-              <LinkIcon />
-            </StyledButton>
+            <LinkMenu />
             {showLink && (
               <StyledButton
                 aria-label={linkText}
