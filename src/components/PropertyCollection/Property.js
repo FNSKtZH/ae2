@@ -64,38 +64,34 @@ const Property = ({
   type: String,
   onChange: () => void,
   onBlur: () => void,
-}) => {
-  console.log('error:', error)
-  console.log('!!error:', !!error)
-  return (
-    <ErrorBoundary>
-      <Container>
-        <StyledFormControl error={!!error}>
-          <StyledTextField
-            autoFocus={label === 'Name' && !value}
-            label={label}
-            value={
-              field === 'lastUpdated' && value
-                ? format(new Date(value), 'DD.MM.YYYY')
-                : value
-            }
-            onChange={onChange}
-            onBlur={onBlur}
-            fullWidth
-            multiline
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-            spellCheck="false"
-            disabled={!!disabled}
-            type={type}
-            helperText={error ? error : helperText ? helperText : ''}
-            error={!!error}
-          />
-        </StyledFormControl>
-      </Container>
-    </ErrorBoundary>
-  )
-}
+}) => (
+  <ErrorBoundary>
+    <Container>
+      <StyledFormControl error={!!error}>
+        <StyledTextField
+          autoFocus={label === 'Name' && !value}
+          label={label}
+          value={
+            field === 'lastUpdated' && value
+              ? format(new Date(value), 'DD.MM.YYYY')
+              : value
+          }
+          onChange={onChange}
+          onBlur={onBlur}
+          fullWidth
+          multiline
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
+          disabled={!!disabled}
+          type={type}
+          helperText={error ? error : helperText ? helperText : ''}
+          error={!!error}
+        />
+      </StyledFormControl>
+    </Container>
+  </ErrorBoundary>
+)
 
 export default enhance(Property)

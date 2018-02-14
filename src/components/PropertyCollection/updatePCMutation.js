@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 
 export default gql`
   mutation updatePC(
+    $oldId: UUID!
     $id: UUID!
     $name: String
     $description: String
@@ -15,8 +16,9 @@ export default gql`
   ) {
     updatePropertyCollectionById(
       input: {
-        id: $id
+        id: $oldId
         propertyCollectionPatch: {
+          id: $id
           name: $name
           description: $description
           links: $links

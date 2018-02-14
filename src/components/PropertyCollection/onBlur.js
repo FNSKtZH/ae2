@@ -1,4 +1,5 @@
 // #flow
+import app from 'ampersand-app'
 
 import updatePCMutation from './updatePCMutation'
 
@@ -6,6 +7,7 @@ export default async ({ client, field, pC, value, prevValue, setError }) => {
   setError(null)
   if (value !== prevValue) {
     const variables = {
+      oldId: pC.id,
       id: field === 'id' ? value : pC.id,
       name: field === 'name' ? value : pC.name,
       description: field === 'description' ? value : pC.description,
@@ -25,7 +27,8 @@ export default async ({ client, field, pC, value, prevValue, setError }) => {
         optimisticResponse: {
           updatePropertyCollectionById: {
             propertyCollection: {
-              id: pC.id,
+              oldId: pC.id,
+              id: field === 'id' ? value : pC.id,
               name: field === 'name' ? value : pC.name,
               description: field === 'description' ? value : pC.description,
               links: field === 'links' ? value.split(',') : pC.links,
@@ -43,8 +46,11 @@ export default async ({ client, field, pC, value, prevValue, setError }) => {
         },
       })
     } catch (error) {
-      console.log(error.message)
       return setError(error.message)
+    }
+    // if id was updated, need to update url
+    if (field === 'id') {
+      app.history.push(`/Eigenschaften-Sammlungen/${value}`)
     }
   }
 }
