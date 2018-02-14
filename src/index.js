@@ -14,7 +14,7 @@ import { MuiThemeProvider as NewMuiThemeProvider } from 'material-ui/styles'
 import app from 'ampersand-app'
 import createHistory from 'history/createBrowserHistory'
 
-import theme from './styling/theme'
+import theme from './theme'
 import './index.css'
 import 'react-reflex/styles.css'
 import App from './components/App'
