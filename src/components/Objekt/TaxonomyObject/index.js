@@ -16,6 +16,7 @@ import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import EditIcon from 'material-ui-icons/Edit'
 import ViewIcon from 'material-ui-icons/Visibility'
 import SynonymIcon from 'material-ui-icons/Forward'
+import LinkIcon from 'material-ui-icons/Link'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
@@ -63,13 +64,6 @@ const StyledCardActions2 = styled(CardActions)`
 const CardActionIconButton = styled(IconButton)`
   transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
-const CardEditButton = styled(IconButton)`
-  :hover {
-    font-weight: 700;
-    background-color: rgba(0, 0, 0, 0.12);
-    text-decoration: none;
-  }
-`
 const CardActionTitle = styled.div`
   padding-left: 8px;
   font-weight: bold;
@@ -85,7 +79,7 @@ const StyledCardContent = styled(CardContent)`
   margin: 5px 0;
   column-width: 500px;
 `
-const SynonymButton = styled(IconButton)`
+const StyledButton = styled(IconButton)`
   :hover {
     font-weight: 700;
     background-color: rgba(0, 0, 0, 0.12);
@@ -172,8 +166,18 @@ const TaxonomyObject = ({
         >
           <CardActionTitle>{taxname}</CardActionTitle>
           <CardActionsButtons>
+            <StyledButton
+              aria-label="Externe Links"
+              title="Externe Links"
+              onClick={event => {
+                event.stopPropagation()
+                console.log('should open menu')
+              }}
+            >
+              <LinkIcon />
+            </StyledButton>
             {showLink && (
-              <SynonymButton
+              <StyledButton
                 aria-label={linkText}
                 title={linkText}
                 onClick={event => {
@@ -182,12 +186,12 @@ const TaxonomyObject = ({
                 }}
               >
                 <SynonymIcon />
-              </SynonymButton>
+              </StyledButton>
             )}
             {userMayWrite &&
               editing &&
               expanded && (
-                <CardEditButton
+                <StyledButton
                   aria-label="Daten anzeigen"
                   title="Daten anzeigen"
                   onClick={event => {
@@ -208,12 +212,12 @@ const TaxonomyObject = ({
                   <Icon>
                     <ViewIcon />
                   </Icon>
-                </CardEditButton>
+                </StyledButton>
               )}
             {userMayWrite &&
               !editing &&
               expanded && (
-                <CardEditButton
+                <StyledButton
                   aria-label="Daten bearbeiten"
                   title="Daten bearbeiten"
                   onClick={event => {
@@ -234,7 +238,7 @@ const TaxonomyObject = ({
                   <Icon>
                     <EditIcon />
                   </Icon>
-                </CardEditButton>
+                </StyledButton>
               )}
             <CardActionIconButton
               data-expanded={expanded}
