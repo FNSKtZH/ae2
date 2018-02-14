@@ -17,6 +17,8 @@ export default async ({ client, field, pC, value, prevValue, setError }) => {
       termsOfUse: field === 'termsOfUse' ? value : pC.termsOfUse,
     }
     try {
+      // TODO
+      // if id is updated, use different mutation
       await client.mutate({
         mutation: updatePCMutation,
         variables,
