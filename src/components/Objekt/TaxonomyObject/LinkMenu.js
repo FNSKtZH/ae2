@@ -19,6 +19,9 @@ class LinkMenu extends React.Component {
   state = {
     anchorEl: null,
   }
+  props = {
+    taxonomy: Object,
+  }
 
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget })
@@ -30,6 +33,7 @@ class LinkMenu extends React.Component {
 
   render() {
     const { anchorEl } = this.state
+    const { taxonomy } = this.props
 
     return (
       <div>
@@ -61,7 +65,10 @@ class LinkMenu extends React.Component {
         >
           <MenuItem
             key="googleBilder"
-            onClick={() => window.open('https://github.com/barbalex/ae2')}
+            onClick={() => {
+              console.log('taxonomy:', taxonomy)
+              window.open('https://github.com/barbalex/ae2')
+            }}
           >
             Bilder suchen mit Google
           </MenuItem>

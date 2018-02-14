@@ -166,7 +166,7 @@ const TaxonomyObject = ({
         >
           <CardActionTitle>{taxname}</CardActionTitle>
           <CardActionsButtons>
-            <LinkMenu />
+            <LinkMenu taxonomy={taxonomy} />
             {showLink && (
               <StyledButton
                 aria-label={linkText}
