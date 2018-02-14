@@ -3,7 +3,7 @@ import orange from 'material-ui/colors/orange'
 import cyan from 'material-ui/colors/cyan'
 import red from 'material-ui/colors/red'
 
-import constants from '../modules/constants'
+import constants from './modules/constants'
 
 // All the following keys are optional.
 // We try our best to provide a great default value.
