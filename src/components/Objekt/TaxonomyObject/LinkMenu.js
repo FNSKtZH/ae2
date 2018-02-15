@@ -81,13 +81,39 @@ class LinkMenu extends React.Component<Props, State> {
               event.stopPropagation()
               const props = JSON.parse(get(objekt, 'properties', {})) || {}
               const nameDeutsch = get(props, 'Name Deutsch', null)
-              const url = `https://www.google.ch/search?num=10&hl=de&site=imghp&tbm=isch&source=hp&bih=824&q="${
-                objekt.name
-              }"${nameDeutsch ? `+OR+"${nameDeutsch}"` : ''}`
+              const einheit = get(props, 'Einheit', null)
+              const url = einheit
+                ? `https://www.google.ch/search?tbm=isch&q=${einheit}`
+                : `https://www.google.ch/search?tbm=isch&q="${objekt.name}"${
+                    nameDeutsch ? `+OR+"${nameDeutsch}"` : ''
+                  }`
               window.open(url)
+              this.setState({ anchorEl: null })
             }}
           >
             Bilder suchen mit Google
+          </MenuItem>
+          <MenuItem
+            key="wikipedia"
+            onClick={event => {
+              event.stopPropagation()
+              const props = JSON.parse(get(objekt, 'properties', {})) || {}
+              const nameDeutsch = get(props, 'Name Deutsch', null)
+              const einheit = get(props, 'Einheit', null)
+              const url = einheit
+                ? `https://www.google.ch/search?q=${einheit} site:wikipedia.org`
+                : nameDeutsch
+                  ? `https://www.google.ch/search?q="${nameDeutsch}"+OR+"${
+                      objekt.name
+                    }" site:wikipedia.org`
+                  : `https://www.google.ch/search?q="${
+                      objekt.name
+                    }" site:wikipedia.org`
+              window.open(url)
+              this.setState({ anchorEl: null })
+            }}
+          >
+            Wikipedia-Artikel suchen
           </MenuItem>
         </Menu>
       </div>
