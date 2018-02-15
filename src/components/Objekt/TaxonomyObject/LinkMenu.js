@@ -47,6 +47,8 @@ class LinkMenu extends React.Component<Props, State> {
     const { anchorEl } = this.state
     const { objekt } = this.props
     const props = JSON.parse(get(objekt, 'properties', {})) || {}
+    const gattung = get(props, 'Gattung')
+    const art = get(props, 'Art')
 
     return (
       <div>
@@ -114,6 +116,22 @@ class LinkMenu extends React.Component<Props, State> {
           >
             Wikipedia-Artikel suchen
           </MenuItem>
+          {gattung &&
+            art && (
+              <MenuItem
+                key="gbif"
+                onClick={event => {
+                  event.stopPropagation()
+                  const url = `https://www.gbif.org/species/search?q=${encodeURIComponent(
+                    `${gattung} ${art}`
+                  )}`
+                  window.open(url)
+                  this.setState({ anchorEl: null })
+                }}
+              >
+                Im GBIF suchen
+              </MenuItem>
+            )}
         </Menu>
       </div>
     )
