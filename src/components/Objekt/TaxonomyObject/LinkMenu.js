@@ -49,6 +49,8 @@ class LinkMenu extends React.Component<Props, State> {
     const props = JSON.parse(get(objekt, 'properties', {})) || {}
     const gattung = get(props, 'Gattung')
     const art = get(props, 'Art')
+    const taxName = get(objekt, 'taxonomyByTaxonomyId.name')
+    const isFlora = taxName.toLowerCase().includes('sisf')
 
     return (
       <div>
@@ -130,6 +132,21 @@ class LinkMenu extends React.Component<Props, State> {
                 }}
               >
                 Im GBIF suchen
+              </MenuItem>
+            )}
+          {isFlora &&
+            gattung &&
+            art && (
+              <MenuItem
+                key="infoflora"
+                onClick={event => {
+                  event.stopPropagation()
+                  const url = `https://www.infoflora.ch/de/flora/${`${gattung.toLowerCase()}-${art.toLowerCase()}.html`}`
+                  window.open(url)
+                  this.setState({ anchorEl: null })
+                }}
+              >
+                Bei Info Flora suchen
               </MenuItem>
             )}
         </Menu>
