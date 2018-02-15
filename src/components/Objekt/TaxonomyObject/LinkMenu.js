@@ -46,6 +46,7 @@ class LinkMenu extends React.Component<Props, State> {
   render() {
     const { anchorEl } = this.state
     const { objekt } = this.props
+    const props = JSON.parse(get(objekt, 'properties', {})) || {}
 
     return (
       <div>
@@ -79,7 +80,6 @@ class LinkMenu extends React.Component<Props, State> {
             key="googleBilder"
             onClick={event => {
               event.stopPropagation()
-              const props = JSON.parse(get(objekt, 'properties', {})) || {}
               const nameDeutsch = get(props, 'Name Deutsch', null)
               const einheit = get(props, 'Einheit', null)
               const url = einheit
@@ -97,7 +97,6 @@ class LinkMenu extends React.Component<Props, State> {
             key="wikipedia"
             onClick={event => {
               event.stopPropagation()
-              const props = JSON.parse(get(objekt, 'properties', {})) || {}
               const nameDeutsch = get(props, 'Name Deutsch', null)
               const einheit = get(props, 'Einheit', null)
               const url = einheit
