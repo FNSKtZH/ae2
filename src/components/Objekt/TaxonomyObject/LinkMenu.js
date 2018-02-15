@@ -91,7 +91,7 @@ class LinkMenu extends React.Component<Props, State> {
               this.setState({ anchorEl: null })
             }}
           >
-            Bilder suchen mit Google
+            Bilder googeln
           </MenuItem>
           <MenuItem
             key="wikipedia"
