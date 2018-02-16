@@ -27,6 +27,9 @@ const CardActionTitle = styled.div`
 const StyledCardContent = styled(CardContent)`
   padding: 0 16px 0 0 !important;
   margin: -10px 0 0 0;
+  li {
+    margin-top: 8px;
+  }
 `
 
 const enhance = compose(withState('expanded', 'setExpanded', false))
@@ -66,29 +69,28 @@ const Tipps = ({
             {`Sie möchten nach "Schmetterlinge" oder "Vögel" suchen? Exportieren Sie zuerst "Schmetterlinge", danach die "Vögel" und setzen die zwei Exporte zusammen.`}
           </li>
           <li>
+            {`Sie können Vergleichsoperatoren verwenden.`}
+            <br />
+            {`Das Feld, um sie zu wählen erscheint, nachdem ein Filter-Wert erfasst wurde.`}
+          </li>
+          <li>
             {`Es kommt nicht auf Gross-/Kleinschreibung an.`}
             <br />
             {`Beispiel: Schreiben Sie "eisvogel", wird auch "Eisvogel" gefunden.`}
+            <br />
+            {`Sie möchten nach Gross-/Kleinschreibung unterscheiden? Dann wählen Sie den Vergleichsoperator "=".`}
           </li>
           <li>
-            {`Sie können nach einem Teil des Feldinhalts filtern (wenn Sie keine Vergleichsoperatoren verwenden).`}
+            {`Sie können nach einem Teil des Feldinhalts filtern.`}
             <br />
             {`Beispiel: Schreiben Sie "Vogel", wird auch "Eisvogel" gefunden.`}
+            <br />
+            {`Sie möchten nach dem ganzen Feldinhalt filtern? Dann wählen Sie den Vergleichsoperator "=".`}
           </li>
           <li>
-            {`Sie können die folgenden Vergleichsoperatoren im jeweils linken Feld verwenden:`}
+            {`Wenn Sie Filter-Werte eingeben, erscheint eine Liste der diese Zeichen enthaltenden Werte dieses Feldes.`}
             <br />
-            {`Beispiel 1: Schreiben Sie im Feld "Artwert" ">5", werden Arten mit Artwert ab 6 gefunden.`}
-            <br />
-            {`Beispiel 2: Schreiben Sie "=Vogel", wird "Vogel" gefunden, nicht aber "Eisvogel".`}
-          </li>
-          <li>
-            {`Klicken Sie auf unterstrichene Namen um zu sehen, in welchen Gruppen und in wievielen Objekten die Eigenschaft vorkommt.`}
-          </li>
-          <li>
-            {`Was (noch) NICHT funktioniert: Wenn Sie nach zwei oder mehr Eigenschaften derselben                 Beziehungssammlung filtern und eines davon ist "Beziehungspartner", erhalten Sie zuviele Resultate.`}
-            <br />
-            {`Filtern Sie hier also bloss nach einer Eigenschaft und im exportierten Resultat nach der zweiten.`}
+            {`Sie können die ungefilterte Liste aller enthaltenen Werte öffnen, indem Sie einen Leerschlag tippen.`}
           </li>
         </ul>
       </StyledCardContent>

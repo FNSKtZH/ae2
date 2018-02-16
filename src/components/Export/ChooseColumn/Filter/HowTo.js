@@ -27,6 +27,9 @@ const CardActionTitle = styled.div`
 const StyledCardContent = styled(CardContent)`
   padding: 0 16px 0 0 !important;
   margin: -10px 0 0 0;
+  li {
+    margin-top: 8px;
+  }
 `
 
 const enhance = compose(withState('expanded', 'setExpanded', false))
