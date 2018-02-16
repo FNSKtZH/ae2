@@ -68,6 +68,11 @@ const StyledSnackbar = styled(Snackbar)`
   div {
     min-width: auto;
     background-color: #2e7d32 !important;
+    /* for unknown reason only this snackbar gets
+     * flex-grow 1 set
+     * which makes it fill 100% width
+     */
+    flex-grow: 0;
   }
 `
 const listContainerStyle = { padding: '5px' }
