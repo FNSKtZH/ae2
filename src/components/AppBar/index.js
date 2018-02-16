@@ -93,6 +93,8 @@ const MyAppBar = ({
                 'arten',
                 'lebensräume',
                 'eigenschaften-sammlungen',
+                'benutzer',
+                'organisationen',
               ].includes(url0)}
               onClick={onClickColumnButtonData}
             >
