@@ -26,7 +26,6 @@ import setLoginFromIdb from './modules/setLoginFromIdb'
 import setLoginMutation from './modules/loginMutation'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
-//global.__MUI_SvgIcon__ = SvgIcon
 ;(async () => {
   try {
     const idb = initializeIdb()
