@@ -1,11 +1,11 @@
 // @flow
+import get from 'lodash/get'
 
 export default ({ treeData }: { treeData: Object }): Array<Object> => {
   if (!treeData) return []
-  if (!treeData.allUsers) return []
-  if (!treeData.allUsers.nodes) return []
+  const nodes = get(treeData, 'allUsers.nodes', [])
 
-  return treeData.allUsers.nodes.map(node => ({
+  return nodes.map(node => ({
     id: node.id,
     url: ['Benutzer', node.id],
     sort: [4, node.name],

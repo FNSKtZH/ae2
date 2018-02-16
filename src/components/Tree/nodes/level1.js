@@ -12,6 +12,7 @@ export default ({
   activeNodeArray: Array<String>,
   loginData: Object,
 }): Array<Object> => {
+  console.log('level1: treeData:', treeData)
   if (!treeData) return []
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
   const taxonomies = get(treeData, 'allTaxonomies.nodes', [])
@@ -68,21 +69,20 @@ export default ({
       u => u.name === username
     )
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
-    const userRoles = orgUsers
-      .filter(u => get(u, 'organizationByOrganizationId.name', '' === username))
-      .map(u => u.role)
-    const userOrganizations = union(
-      orgUsers.map(u => get(u, 'organizationByOrganizationId.name'))
+    const orgsUserIsAdminIn = union(
+      orgUsers
+        .filter(o => o.role === 'orgAdmin')
+        .map(u => get(u, 'organizationByOrganizationId.name'))
     )
-    const userIsOrgAdmin = userRoles.includes('orgAdmin')
-    if (userIsOrgAdmin) {
+    console.log('level1: orgsUserIsAdminIn:', orgsUserIsAdminIn)
+    if (orgsUserIsAdminIn.length > 0) {
       nodes.push({
         id: 'Organisationen',
         url: ['Organisationen'],
         sort: [5],
         label: 'Organisationen',
-        info: `(${userOrganizations.length.toLocaleString('de-CH')})`,
-        childrenCount: userOrganizations.length,
+        info: `(${orgsUserIsAdminIn.length.toLocaleString('de-CH')})`,
+        childrenCount: orgsUserIsAdminIn.length,
         menuType: 'orgFolder',
       })
     }
