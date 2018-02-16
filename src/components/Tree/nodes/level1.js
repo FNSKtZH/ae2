@@ -74,7 +74,6 @@ export default ({
         .filter(o => o.role === 'orgAdmin')
         .map(u => get(u, 'organizationByOrganizationId.name'))
     )
-    console.log('level1: orgsUserIsAdminIn:', orgsUserIsAdminIn)
     if (orgsUserIsAdminIn.length > 0) {
       nodes.push({
         id: 'Organisationen',

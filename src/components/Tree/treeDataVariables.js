@@ -5,7 +5,6 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
     existsLevel1 &&
     activeNodeArray[0] === 'Eigenschaften-Sammlungen' &&
     activeNodeArray.length > 0
-  const notExistsLevel2Pc = !existsLevel2Pc
   const existsLevel2Taxonomy =
     activeNodeArray.length > 1 &&
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
@@ -51,7 +50,6 @@ export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
 
   return {
     existsLevel2Pc,
-    notExistsLevel2Pc,
     existsLevel2Taxonomy,
     level2Taxonomy,
     level2TaxonomyPossibleNull,

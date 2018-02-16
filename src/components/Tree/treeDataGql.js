@@ -5,7 +5,6 @@ import gql from 'graphql-tag'
 export default gql`
   query TreeDataQuery(
     $existsLevel2Pc: Boolean!
-    $notExistsLevel2Pc: Boolean!
     $existsLevel2Taxonomy: Boolean!
     $level2TaxonomyPossibleNull: UUID
     $existsLevel3Object: Boolean!
@@ -48,18 +47,25 @@ export default gql`
         }
       }
     }
-    allPropertyCollections @include(if: $notExistsLevel2Pc) {
+    allPropertyCollections {
       totalCount
-    }
-    allPropertyCollections @include(if: $existsLevel2Pc) {
-      totalCount
-      nodes {
+      nodes @include(if: $existsLevel2Pc) {
         id
         name
         propertyCollectionObjectsByPropertyCollectionId {
           totalCount
         }
         relationsByPropertyCollectionId {
+          totalCount
+        }
+      }
+    }
+    allTaxonomies {
+      nodes {
+        id
+        name
+        type
+        objectsByTaxonomyId {
           totalCount
         }
       }
@@ -72,16 +78,6 @@ export default gql`
       }
       relationsByPropertyCollectionId {
         totalCount
-      }
-    }
-    allTaxonomies {
-      nodes {
-        id
-        name
-        type
-        objectsByTaxonomyId {
-          totalCount
-        }
       }
     }
     taxonomyObjectLevel1(taxonomyId: $level2TaxonomyPossibleNull)
