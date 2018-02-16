@@ -60,7 +60,10 @@ class MoreMenu extends React.Component {
         >
           <MenuItem
             key="ueber"
-            onClick={() => window.open('https://github.com/barbalex/ae2')}
+            onClick={() => {
+              window.open('https://github.com/barbalex/ae2')
+              this.setState({ anchorEl: null })
+            }}
           >
             über arteigenschaften.ch
           </MenuItem>
