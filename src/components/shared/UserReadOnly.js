@@ -43,7 +43,7 @@ const linkifyProperties = {
 const UserReadOnly = ({ label, user }: { label: string, user: Object }) => {
   const name = user ? user.name || '' : ''
   const email = user ? user.email || '' : ''
-  const link = `${appBaseUrl}/Benutzer/${encodeURIComponent(name)}`
+  const link = `${appBaseUrl}/Benutzer/${user.id}`
 
   return (
     <ErrorBoundary>
