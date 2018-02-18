@@ -157,6 +157,16 @@ const Filter = ({
     'exportOnlyRowsWithProperties',
     true
   )
+  const pcoProperties = get(
+    propsByTaxData,
+    'pcoPropertiesByTaxonomiesFunction.nodes',
+    []
+  )
+  const rcoProperties = get(
+    propsByTaxData,
+    'rcoPropertiesByTaxonomiesFunction.nodes',
+    []
+  )
 
   return (
     <ErrorBoundary>
@@ -217,8 +227,12 @@ const Filter = ({
           onToggleTaxonomies={onToggleTaxonomies}
           onToggleJointTaxonomies={onToggleJointTaxonomies}
         />
-        <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
-        <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
+        {pcoProperties.length > 0 && (
+          <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
+        )}
+        {rcoProperties.length > 0 && (
+          <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
+        )}
       </Container>
     </ErrorBoundary>
   )
