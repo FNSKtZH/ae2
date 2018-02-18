@@ -5,6 +5,7 @@ import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
+import get from 'lodash/get'
 
 import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
@@ -96,18 +97,35 @@ const Properties = ({
   onToggleTaxonomies: () => {},
   onTogglePco: () => {},
   onToggleRco: () => {},
-}) => (
-  <ErrorBoundary>
-    <Container>
-      <HowTo />
-      <Taxonomies
-        taxonomiesExpanded={taxonomiesExpanded}
-        onToggleTaxonomies={onToggleTaxonomies}
-      />
-      <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
-      <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
-    </Container>
-  </ErrorBoundary>
-)
+}) => {
+  const pcoProperties = get(
+    propsByTaxData,
+    'pcoPropertiesByTaxonomiesFunction.nodes',
+    []
+  )
+  const rcoProperties = get(
+    propsByTaxData,
+    'rcoPropertiesByTaxonomiesFunction.nodes',
+    []
+  )
+
+  return (
+    <ErrorBoundary>
+      <Container>
+        <HowTo />
+        <Taxonomies
+          taxonomiesExpanded={taxonomiesExpanded}
+          onToggleTaxonomies={onToggleTaxonomies}
+        />
+        {pcoProperties.length > 0 && (
+          <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
+        )}
+        {rcoProperties.length > 0 && (
+          <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
+        )}
+      </Container>
+    </ErrorBoundary>
+  )
+}
 
 export default enhance(Properties)
