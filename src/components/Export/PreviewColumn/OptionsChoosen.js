@@ -46,11 +46,13 @@ const styles = theme => ({
 const Container = styled.div`
   margin: 0;
   padding: 8px 8px 0 8px;
+  li {
+    padding-bottom: 4px;
+  }
 `
-const CardTitle = styled.div`
+const Title = styled.div`
   font-weight: bold;
 `
-
 const FilterValueSpan = styled.span`
   background-color: #dadada;
   padding: 1px 8px;
@@ -65,6 +67,8 @@ const ResetSpan = styled.span`
 `
 const StyledButton = styled(Button)`
   border: 1px solid !important;
+  margin-left: 0 !important;
+  margin-top: 0 !important;
 `
 
 const enhance = compose(
@@ -235,7 +239,7 @@ const OptionsChoosen = ({
   if (noDataChoosen) return null
   return (
     <Container>
-      <CardTitle title="Gewählte Optionen">Gewählte Optionen</CardTitle>
+      <Title title="Gewählte Optionen">Gewählte Optionen</Title>
       <ul>
         <li>
           {`Typ: ${!exportType ? ' keiner' : exportType}`}
