@@ -28,7 +28,7 @@ const StyledCardContent = styled(CardContent)`
   padding: 0 16px 0 0 !important;
   margin: -10px 0 5px 0;
   li {
-    margin-top: 8px;
+    margin-top: 4px;
   }
 `
 
