@@ -44,8 +44,8 @@ const styles = theme => ({
   },
 })
 const Container = styled.div`
-  margin: 10px 0;
-  padding: 8px;
+  margin: 0;
+  padding: 8px 8px 0 8px;
 `
 const CardTitle = styled.div`
   font-weight: bold;

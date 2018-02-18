@@ -30,6 +30,7 @@ import booleanToJaNein from '../../../modules/booleanToJaNein'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
+  padding-top: 5px;
   .react-grid-Container {
     font-size: small;
   }

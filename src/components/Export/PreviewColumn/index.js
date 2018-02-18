@@ -14,7 +14,6 @@ import exportTaxFiltersData from '../exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
-import HowTo from './HowTo'
 import OptionsChoosen from './OptionsChoosen'
 import Preview from './Preview'
 import ErrorBoundary from '../../shared/ErrorBoundary'
@@ -34,6 +33,9 @@ const enhance = compose(
 
 const Container = styled.div`
   padding: 5px 0;
+`
+const HowToDiv = styled.div`
+  padding: 15px 10px 0 10px;
 `
 
 const Filter = ({
@@ -62,9 +64,13 @@ const Filter = ({
   return (
     <ErrorBoundary>
       <Container>
-        {objectsCount === 0 && <HowTo />}
         <OptionsChoosen />
         <Preview />
+        {objectsCount === 0 && (
+          <HowToDiv>
+            Sobald eine Taxonomie gewählt ist, werden hier Daten angezeigt.
+          </HowToDiv>
+        )}
       </Container>
     </ErrorBoundary>
   )
