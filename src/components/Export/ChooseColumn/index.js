@@ -48,7 +48,7 @@ const CardActionTitle = styled.div`
 `
 
 const Container = styled.div`
-  padding: 5px 10px;
+  padding: 5px 8px;
 `
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)
