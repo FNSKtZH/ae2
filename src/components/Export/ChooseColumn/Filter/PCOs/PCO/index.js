@@ -26,6 +26,9 @@ const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
   cursor: pointer;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  height: auto !important;
 `
 const CardActionIconButton = styled(IconButton)`
   transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
