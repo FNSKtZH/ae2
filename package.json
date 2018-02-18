@@ -27,7 +27,7 @@
     "material-ui": "material-ui@next",
     "react": "16.2.0",
     "react-apollo": "2.0.4",
-    "react-autosuggest": "9.3.3",
+    "react-autosuggest": "9.3.4",
     "react-contextmenu": "2.9.2",
     "react-data-grid": "3.0.11",
     "react-dom": "16.2.0",
@@ -41,8 +41,8 @@
     "xlsx": "0.12.1"
   },
   "devDependencies": {
-    "flow-bin": "0.65.0",
-    "postgraphile": "4.0.0-alpha2.30",
+    "flow-bin": "0.66.0",
+    "postgraphile": "4.0.0-alpha2.31",
     "postgraphile-plugin-connection-filter": "1.0.0-alpha.8",
     "react-scripts": "1.1.1"
   },
