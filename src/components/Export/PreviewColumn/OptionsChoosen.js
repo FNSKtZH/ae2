@@ -46,6 +46,9 @@ const styles = theme => ({
 const Container = styled.div`
   margin: 0;
   padding: 8px 8px 0 8px;
+  ul {
+    margin-left: -20px !important;
+  }
   li {
     padding-bottom: 4px;
   }
