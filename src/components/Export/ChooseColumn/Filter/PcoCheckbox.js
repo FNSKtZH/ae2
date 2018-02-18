@@ -61,15 +61,19 @@ const PcoCheckbox = ({
         value={value}
         onChange={onChange}
       >
-        <StyledFormControlLabel value="true" control={<Radio />} label="Ja" />
+        <StyledFormControlLabel
+          value="true"
+          control={<Radio color="primary" />}
+          label="Ja"
+        />
         <StyledFormControlLabel
           value="false"
-          control={<Radio />}
+          control={<Radio color="primary" />}
           label="Nein"
         />
         <StyledFormControlLabel
           value="null"
-          control={<Radio />}
+          control={<Radio color="primary" />}
           label="nicht filtern"
         />
       </RadioGroup>

@@ -293,6 +293,7 @@ const PropertyCollection = ({
               <StyledLabel
                 control={
                   <Checkbox
+                    color="primary"
                     checked={pC.combining}
                     onChange={(event, isChecked) =>
                       onBlur({

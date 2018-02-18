@@ -167,6 +167,7 @@ const Filter = ({
           <Label
             control={
               <Checkbox
+                color="primary"
                 checked={exportWithSynonymData}
                 onChange={(event, checked) => {
                   app.client.mutate({
@@ -181,6 +182,7 @@ const Filter = ({
           <Label
             control={
               <Checkbox
+                color="primary"
                 checked={exportOnlyRowsWithProperties}
                 onChange={(event, checked) => {
                   app.client.mutate({
@@ -195,6 +197,7 @@ const Filter = ({
           <Label
             control={
               <Checkbox
+                color="primary"
                 checked={exportAddFilterFields}
                 onChange={(event, checked) => {
                   app.client.mutate({

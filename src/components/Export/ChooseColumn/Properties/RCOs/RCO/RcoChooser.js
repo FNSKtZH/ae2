@@ -63,7 +63,9 @@ const RcoChooser = ({
   return (
     <Container>
       <Label
-        control={<Checkbox checked={checked} onChange={onCheck} />}
+        control={
+          <Checkbox color="primary" checked={checked} onChange={onCheck} />
+        }
         label={
           <div>
             {pname} <Count title="Anzahl Objekte">{`(${count} Objekte)`}</Count>

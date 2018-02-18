@@ -64,7 +64,9 @@ const AllPcoChooser = ({
   return (
     <Container>
       <Label
-        control={<Checkbox checked={checked} onChange={onCheck} />}
+        control={
+          <Checkbox color="primary" checked={checked} onChange={onCheck} />
+        }
         label="alle"
       />
     </Container>

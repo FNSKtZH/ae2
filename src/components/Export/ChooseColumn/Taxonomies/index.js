@@ -211,6 +211,7 @@ const Types = ({
             <TypeLabel
               control={
                 <Checkbox
+                  color="primary"
                   name={type}
                   checked={exportType === type}
                   onChange={onCheckType}
@@ -240,6 +241,7 @@ const Types = ({
                         key={tax.name}
                         control={
                           <Checkbox
+                            color="primary"
                             name={tax.name}
                             checked={exportTaxonomies.includes(tax.name)}
                             onChange={onCheckTaxonomy}
