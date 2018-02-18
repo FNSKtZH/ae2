@@ -48,7 +48,10 @@ const CardActionTitle = styled.div`
 `
 
 const Container = styled.div`
-  padding: 5px 8px;
+  padding: 0 5px;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  height: 100%;
 `
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)
