@@ -33,7 +33,7 @@ const enhance = compose(
 )
 
 const Container = styled.div`
-  padding: 5px 10px;
+  padding: 5px 0;
 `
 
 const Filter = ({

@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { withApollo } from 'react-apollo'
-import Card from 'material-ui/Card'
 import Button from 'material-ui/Button'
 import { withStyles } from 'material-ui/styles'
 import compose from 'recompose/compose'
@@ -44,10 +43,9 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
 })
-const StyledCard = styled(Card)`
+const Container = styled.div`
   margin: 10px 0;
   padding: 8px;
-  background-color: #fff9f1 !important;
 `
 const CardTitle = styled.div`
   font-weight: bold;
@@ -236,7 +234,7 @@ const OptionsChoosen = ({
 
   if (noDataChoosen) return null
   return (
-    <StyledCard>
+    <Container>
       <CardTitle title="Gewählte Optionen">Gewählte Optionen</CardTitle>
       <ul>
         <li>
@@ -434,7 +432,7 @@ const OptionsChoosen = ({
       <StyledButton className={classes.button} onClick={onClickResetAll}>
         alle Optionen zurücksetzen
       </StyledButton>
-    </StyledCard>
+    </Container>
   )
 }
 
