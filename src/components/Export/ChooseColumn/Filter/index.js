@@ -27,7 +27,7 @@ import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithProper
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
-  padding: 5px 10px;
+  padding: 0 5px;
   overflow: auto !important;
 `
 const Label = styled(FormControlLabel)`

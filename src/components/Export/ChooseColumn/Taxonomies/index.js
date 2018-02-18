@@ -27,7 +27,7 @@ const exportTypeTAXToReadable = {
 }
 
 const Container = styled.div`
-  padding: 5px 10px;
+  padding: 0 5px;
   overflow: auto !important;
 `
 const TypeContainer = styled.div``
