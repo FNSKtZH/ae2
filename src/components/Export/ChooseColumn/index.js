@@ -37,6 +37,7 @@ const StyledCard = styled(Card)`
 const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
   cursor: pointer;
+  height: auto !important;
   background-color: #ffcc80;
 `
 const CardActionIconButton = styled(IconButton)`
@@ -45,6 +46,7 @@ const CardActionIconButton = styled(IconButton)`
 const CardActionTitle = styled.div`
   padding-left: 8px;
   font-weight: bold;
+  word-break: break-word;
 `
 
 const Container = styled.div`

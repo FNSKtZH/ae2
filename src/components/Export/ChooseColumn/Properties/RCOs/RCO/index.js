@@ -38,6 +38,7 @@ const StyledCardActions = styled(CardActions)`
   padding-top: 4px !important;
   padding-bottom: 4px !important;
   height: auto !important;
+  display: flex;
 `
 const CardActionIconButton = styled(IconButton)`
   transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
@@ -45,6 +46,7 @@ const CardActionIconButton = styled(IconButton)`
 const CardActionTitle = styled.div`
   padding-left: 8px;
   font-weight: bold;
+  word-break: break-word;
 `
 const StyledCollapse = styled(Collapse)`
   padding-left: 12px;

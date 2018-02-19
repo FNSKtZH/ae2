@@ -38,6 +38,8 @@ const CardActionIconButton = styled(IconButton)`
 const CardActionTitle = styled.div`
   padding-left: 8px;
   font-weight: bold;
+  display: flex;
+  word-break: break-word;
 `
 const StyledCardContent = styled(CardContent)`
   display: flex;
@@ -89,19 +91,23 @@ const Properties = ({
           onClick={() => setExpanded(!expanded)}
         >
           <CardActionTitle>
-            {tax}
-            <Count>{`(${taxPropertiesByTaxonomy[tax].length} ${
-              taxPropertiesByTaxonomy[tax].length === 1 ? 'Feld' : 'Felder'
-            })`}</Count>
-            <CardActionIconButton
-              data-expanded={expanded}
-              aria-expanded={expanded}
-              aria-label="Show more"
-            >
-              <Icon>
-                <ExpandMoreIcon />
-              </Icon>
-            </CardActionIconButton>
+            <div>
+              {tax}
+              <Count>{`(${taxPropertiesByTaxonomy[tax].length} ${
+                taxPropertiesByTaxonomy[tax].length === 1 ? 'Feld' : 'Felder'
+              })`}</Count>
+            </div>
+            <div>
+              <CardActionIconButton
+                data-expanded={expanded}
+                aria-expanded={expanded}
+                aria-label="Show more"
+              >
+                <Icon>
+                  <ExpandMoreIcon />
+                </Icon>
+              </CardActionIconButton>
+            </div>
           </CardActionTitle>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>

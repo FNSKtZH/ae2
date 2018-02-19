@@ -30,6 +30,7 @@ const CardActionIconButton = styled(IconButton)`
 `
 const CardActionTitle = styled.div`
   font-weight: normal;
+  word-break: break-word;
 `
 
 const enhance = compose(withState('expanded', 'setExpanded', false))

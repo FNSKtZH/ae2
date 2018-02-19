@@ -50,6 +50,7 @@ const StyledCard2 = styled(Card)`
 const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
   cursor: pointer;
+  height: auto !important;
   background-color: #ffcc80 !important;
 `
 const CardActionsButtons = styled.div`
@@ -70,6 +71,7 @@ const CardActionTitle = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  word-break: break-word;
 `
 const CardActionTitle2 = styled(CardActionTitle)`
   font-weight: normal;

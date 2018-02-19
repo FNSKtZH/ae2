@@ -37,6 +37,7 @@ const CardActionIconButton = styled(IconButton)`
 const CardActionTitle = styled.div`
   padding-left: 8px;
   font-weight: bold;
+  word-break: break-word;
 `
 const Count = styled.span`
   font-size: x-small;
