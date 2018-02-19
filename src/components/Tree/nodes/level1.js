@@ -12,7 +12,7 @@ export default ({
   activeNodeArray: Array<String>,
   loginData: Object,
 }): Array<Object> => {
-  console.log('level1: treeData:', treeData)
+  //console.log('level1: treeData:', treeData)
   if (!treeData) return []
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
   const taxonomies = get(treeData, 'allTaxonomies.nodes', [])
