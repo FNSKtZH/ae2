@@ -3,6 +3,7 @@ body {
   width: 100%;
   font-family: sans-serif;
   background-color: #fff9f1 !important;
+  hyphens: auto;
 }
 
 #root {
