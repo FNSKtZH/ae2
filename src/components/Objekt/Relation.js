@@ -11,7 +11,7 @@ const Container = styled.div`
   border-bottom: ${props =>
     `${props['data-intermediaterelation'] ? '1px solid #c6c6c6' : 'none'}`};
   padding-top: ${props => `${props['data-intermediaterelation'] ? 0 : '7px'}`};
-  padding-bottom: 0;
+  padding-bottom: 7px;
   column-width: 500px;
   .property p {
     margin-top: 1px;
@@ -37,8 +37,8 @@ const Relation = ({
     .replace('LEBENSRAUM', 'Lebensraum')
 
   return (
-    <ErrorBoundary>
-      <Container data-intermediaterelation={intermediateRelation}>
+    <Container data-intermediaterelation={intermediateRelation}>
+      <ErrorBoundary>
         <PropertyReadOnly
           value={`${get(
             relation,
@@ -59,8 +59,8 @@ const Relation = ({
             .map(([key, value]) => (
               <PropertyReadOnly key={key} value={value} label={key} />
             ))}
-      </Container>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </Container>
   )
 }
 

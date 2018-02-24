@@ -10,6 +10,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 0.9em;
+  padding-top: 8px;
+  padding-bottom: 8px;
 `
 const Row = styled.div`
   display: flex;

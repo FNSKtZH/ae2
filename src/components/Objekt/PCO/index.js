@@ -21,6 +21,7 @@ const RelationTitle = styled.div`
   border-bottom: 1px solid #c6c6c6;
   padding: 5px;
   border-radius: 4px 4px 0 0;
+  margin-bottom: 10px;
 `
 const StyledCard = styled(Card)`
   margin: 10px 0;
