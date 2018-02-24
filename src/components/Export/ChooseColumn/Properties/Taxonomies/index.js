@@ -80,6 +80,7 @@ const Properties = ({
         taxname: 'Taxonomie',
       }))
   }
+  const initiallyExpanded = Object.keys(taxPropertiesByTaxonomy).length === 1
 
   return (
     <ErrorBoundary>
@@ -109,7 +110,11 @@ const Properties = ({
             <JointTaxonomy jointTaxProperties={jointTaxProperties} />
           )}
           {Object.keys(taxPropertiesByTaxonomy).map(tax => (
-            <Taxonomy key={tax} tax={tax} />
+            <Taxonomy
+              key={tax}
+              tax={tax}
+              initiallyExpanded={initiallyExpanded}
+            />
           ))}
         </Collapse>
       </StyledCard>
