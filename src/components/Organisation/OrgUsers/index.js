@@ -8,7 +8,6 @@ import { withApollo } from 'react-apollo'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'material-ui/Icon'
 import AddIcon from 'material-ui-icons/Add'
-import red from 'material-ui/colors/red'
 
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import orgUsersData from './orgUsersData'
@@ -85,7 +84,7 @@ const OrgUsers = ({
           }}
         >
           <Icon>
-            <AddIcon color={red[500]} />
+            <AddIcon color="error" />
           </Icon>
         </AddNewButton>
       </Container>

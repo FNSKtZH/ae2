@@ -7,7 +7,6 @@ import { withApollo } from 'react-apollo'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'material-ui/Icon'
 import ClearIcon from 'material-ui-icons/Clear'
-import red from 'material-ui/colors/red'
 import Select from 'material-ui/Select'
 import { MenuItem } from 'material-ui/Menu'
 import { FormControl } from 'material-ui/Form'
@@ -215,7 +214,7 @@ class OrgUser extends React.Component<Props, State> {
             }}
           >
             <Icon>
-              <ClearIcon color={red[500]} />
+              <ClearIcon color="error" />
             </Icon>
           </DeleteButton>
         </OrgUserDiv>

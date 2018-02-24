@@ -4,7 +4,6 @@ import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'material-ui/Icon'
 import ClearIcon from 'material-ui-icons/Clear'
-import red from 'material-ui/colors/red'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -126,7 +125,7 @@ const Property = ({
           onClick={onDelete}
         >
           <Icon>
-            <ClearIcon color={red[500]} />
+            <ClearIcon color="error" />
           </Icon>
         </DeleteButton>
       </Container>
