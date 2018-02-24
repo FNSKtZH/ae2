@@ -56,7 +56,11 @@ const enhance = compose(
   withApollo,
   exportTaxonomiesData,
   propsByTaxData,
-  withState('expanded', 'setExpanded', false)
+  withState(
+    'expanded',
+    'setExpanded',
+    ({ initiallyExpanded }) => initiallyExpanded
+  )
 )
 
 const TaxonomyCard = ({
