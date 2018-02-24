@@ -20,7 +20,7 @@
     "history": "4.7.2",
     "is-uuid": "1.0.2",
     "js-file-download": "0.4.1",
-    "json2csv": "3.11.5",
+    "json2csv": "4.0.0-alpha.0",
     "jwt-decode": "2.2.0",
     "lodash": "4.17.5",
     "material-ui-icons": "1.0.0-beta.17",
