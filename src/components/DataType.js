@@ -2,15 +2,21 @@
 import React from 'react'
 import compose from 'recompose/compose'
 import get from 'lodash/get'
+import Loadable from 'react-loadable'
 
 import Objekt from './Objekt'
 import Taxonomy from './Taxonomy'
 import PropertyCollection from './PropertyCollection'
-import PCO from './PropertyCollection/PCO'
 import RCO from './PropertyCollection/RCO'
 import Benutzer from './Benutzer'
 import Organisation from './Organisation'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
+import LoadingComponent from './shared/LoadingComponent'
+
+const PcoAsync = Loadable({
+  loader: () => import('./PropertyCollection/PCO'),
+  loading: LoadingComponent,
+})
 
 const enhance = compose(activeNodeArrayData)
 
@@ -50,7 +56,7 @@ const DataType = ({
   if (showTaxonomy) return <Taxonomy />
   if (showObjekt) return <Objekt />
   if (showPC) return <PropertyCollection />
-  if (showPCO) return <PCO dimensions={dimensions} />
+  if (showPCO) return <PcoAsync dimensions={dimensions} />
   if (showRCO) return <RCO dimensions={dimensions} />
   if (showBenutzer) return <Benutzer />
   if (showOrganization) return <Organisation dimensions={dimensions} />
