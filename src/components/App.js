@@ -4,20 +4,35 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import Reboot from 'material-ui/Reboot'
 import get from 'lodash/get'
+import Loadable from 'react-loadable'
 
 import AppBar from './AppBar'
-import Data from './Data'
-import Export from './Export'
-import Login from './Login'
-import FourOhFour from './FourOhFour'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
 import ErrorBoundary from './shared/ErrorBoundary'
+import LoadingComponent from './shared/LoadingComponent'
 
 const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
 `
+
+const ExportAsync = Loadable({
+  loader: () => import('./Export'),
+  loading: LoadingComponent,
+})
+const LoginAsync = Loadable({
+  loader: () => import('./Login'),
+  loading: LoadingComponent,
+})
+const DataAsync = Loadable({
+  loader: () => import('./Data'),
+  loading: LoadingComponent,
+})
+const FourOhFourAsync = Loadable({
+  loader: () => import('./FourOhFour'),
+  loading: LoadingComponent,
+})
 
 const enhance = compose(activeNodeArrayData)
 
@@ -53,10 +68,10 @@ const App = ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
       <Container>
         <Reboot />
         <AppBar />
-        {showData && <Data />}
-        {showExport && <Export />}
-        {showLogin && <Login />}
-        {show404 && <FourOhFour />}
+        {showData && <DataAsync />}
+        {showExport && <ExportAsync />}
+        {showLogin && <LoginAsync />}
+        {show404 && <FourOhFourAsync />}
       </Container>
     </ErrorBoundary>
   )
