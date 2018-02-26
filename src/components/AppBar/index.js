@@ -2,6 +2,8 @@
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
+import Icon from 'material-ui/Icon'
+import ShareIcon from 'material-ui-icons/Share'
 import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import styled from 'styled-components'
@@ -38,6 +40,13 @@ const StyledButton = styled(Button)`
   border: ${props => (props['data-active'] ? '1px solid !important' : 'none')};
   margin: 8px;
 `
+const ShareButton = styled(StyledButton)`
+  min-width: 40px !important;
+  max-width: 40px;
+`
+const StyledMoreVertIcon = styled(ShareIcon)`
+  color: white !important;
+`
 
 const enhance = compose(
   activeNodeArrayData,
@@ -52,6 +61,13 @@ const enhance = compose(
       app.history.push(`/Import/${value}`),
     ueberArteigenschaftenOnClick: () => () =>
       window.open('https://github.com/barbalex/ae2'),
+    onClickShare: () => () => {
+      console.log('TODO: share')
+      navigator.share({
+        title: `arteigenschaften.ch`,
+        url: window.location.href,
+      })
+    },
   })
 )
 
@@ -63,6 +79,7 @@ const MyAppBar = ({
   onChangeImportButton,
   onClickColumnButtonLogin,
   ueberArteigenschaftenOnClick,
+  onClickShare,
   classes,
 }: {
   activeNodeArrayData: Object,
@@ -72,12 +89,14 @@ const MyAppBar = ({
   onChangeImportButton: () => void,
   onClickColumnButtonLogin: () => void,
   ueberArteigenschaftenOnClick: () => void,
+  onClickShare: () => void,
   classes: Object,
 }) => {
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const username = get(loginData, 'login.username')
   const loginLabel = username ? username : 'nicht angemeldet'
+  console.log('navigator.share:', navigator.share)
 
   return (
     <ErrorBoundary>
@@ -112,6 +131,13 @@ const MyAppBar = ({
             >
               {loginLabel}
             </StyledButton>
+            {(true || navigator.share !== undefined) && (
+              <ShareButton aria-label="teilen" onClick={onClickShare}>
+                <Icon>
+                  <StyledMoreVertIcon />
+                </Icon>
+              </ShareButton>
+            )}
             <MoreMenu />
           </Toolbar>
         </StyledAppBar>
