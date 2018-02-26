@@ -33,6 +33,9 @@ const StyledAppBar = styled(AppBar)`
     display: none !important;
   }
 `
+const StyledToolbar = styled(Toolbar)`
+  flex-wrap: wrap;
+`
 const StyledTypography = styled(Typography)`
   flex: 1;
   color: white !important;
@@ -84,6 +87,11 @@ const enhance = compose(
 type State = {
   showTitle: Boolean,
   toolbarComponent: Object,
+  datenComponent: Object,
+  exportComponent: Object,
+  loginComponent: Object,
+  moreComponent: Object,
+  shareComponent: Object,
 }
 
 type Props = {
@@ -99,11 +107,28 @@ class MyAppBar extends Component<Props, State> {
   state = {
     showTitle: true,
     toolbarComponent: null,
+    datenComponent: null,
+    exportComponent: null,
+    loginComponent: null,
+    moreComponent: null,
+    shareComponent: null,
   }
 
   componentDidMount() {
     const toolbarComponent = ReactDOM.findDOMNode(this.toolbar)
-    this.setState({ toolbarComponent })
+    const datenComponent = ReactDOM.findDOMNode(this.daten)
+    const exportComponent = ReactDOM.findDOMNode(this.export)
+    const loginComponent = ReactDOM.findDOMNode(this.login)
+    const moreComponent = ReactDOM.findDOMNode(this.more)
+    const shareComponent = ReactDOM.findDOMNode(this.share)
+    this.setState({
+      toolbarComponent,
+      datenComponent,
+      exportComponent,
+      loginComponent,
+      moreComponent,
+      shareComponent,
+    })
     window.addEventListener('resize', this.updateShowTitle)
     setTimeout(() => this.updateShowTitle())
   }
@@ -113,9 +138,27 @@ class MyAppBar extends Component<Props, State> {
   }
 
   updateShowTitle = () => {
-    const { toolbarComponent, showTitle } = this.state
-    const shouldShowTitle =
-      toolbarComponent.clientWidth === toolbarComponent.scrollWidth
+    const {
+      toolbarComponent,
+      datenComponent,
+      exportComponent,
+      loginComponent,
+      moreComponent,
+      shareComponent,
+      showTitle,
+    } = this.state
+    // should do this by comparing scrollWidth with clientWidth
+    // if clientWidth < scrollWidth then div is overflowing
+    // BUT: every second measurement gives clientWidth === scrollWidth,
+    // even when absolutely wrong
+    const { clientWidth } = toolbarComponent
+    const totalWidth =
+      datenComponent.offsetWidth +
+      exportComponent.offsetWidth +
+      loginComponent.offsetWidth +
+      moreComponent.offsetWidth +
+      (shareComponent ? shareComponent.offsetWidth : 0)
+    const shouldShowTitle = clientWidth - totalWidth > 260
     if (shouldShowTitle !== showTitle) {
       this.setState({ showTitle: shouldShowTitle })
     }
@@ -136,13 +179,12 @@ class MyAppBar extends Component<Props, State> {
     const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
     const username = get(loginData, 'login.username')
     const loginLabel = username ? username : 'nicht angemeldet'
-    console.log('this.toolbar is rendering, showTitle:', showTitle)
 
     return (
       <ErrorBoundary>
         <Container>
           <StyledAppBar position="static">
-            <Toolbar ref={c => (this.toolbar = c)}>
+            <StyledToolbar ref={c => (this.toolbar = c)}>
               <StyledTypography variant="title" color="inherit">
                 {showTitle ? 'Arteigenschaften' : ''}
               </StyledTypography>
@@ -156,30 +198,37 @@ class MyAppBar extends Component<Props, State> {
                   'organisationen',
                 ].includes(url0)}
                 onClick={onClickColumnButtonData}
+                ref={c => (this.daten = c)}
               >
                 Daten
               </StyledButton>
               <StyledButton
                 data-active={url0 === 'export'}
                 onClick={onClickColumnButtonExport}
+                ref={c => (this.export = c)}
               >
                 Export
               </StyledButton>
               <StyledButton
                 data-active={url0 === 'login'}
                 onClick={onClickColumnButtonLogin}
+                ref={c => (this.login = c)}
               >
                 {loginLabel}
               </StyledButton>
               {navigator.share !== undefined && (
-                <ShareButton aria-label="teilen" onClick={onClickShare}>
+                <ShareButton
+                  aria-label="teilen"
+                  onClick={onClickShare}
+                  ref={c => (this.share = c)}
+                >
                   <Icon>
                     <StyledMoreVertIcon />
                   </Icon>
                 </ShareButton>
               )}
-              <MoreMenu />
-            </Toolbar>
+              <MoreMenu ref={c => (this.more = c)} />
+            </StyledToolbar>
           </StyledAppBar>
         </Container>
       </ErrorBoundary>
