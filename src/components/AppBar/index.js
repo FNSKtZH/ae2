@@ -46,6 +46,11 @@ const StyledButton = styled(Button)`
   border: ${props => (props['data-active'] ? '1px solid !important' : 'none')};
   margin: 8px;
 `
+const LoginButton = styled(StyledButton)`
+  min-width: ${props =>
+    props['data-widelayout'] ? 'inherit' : '40px !important'};
+  max-width: ${props => (props['data-widelayout'] ? 'inherit' : '40px')};
+`
 const ShareButton = styled(StyledButton)`
   min-width: 40px !important;
   max-width: 40px;
@@ -53,6 +58,7 @@ const ShareButton = styled(StyledButton)`
 const StyledMoreVertIcon = styled(ShareIcon)`
   color: white !important;
 `
+const getInitials = name => name.match(/\b(\w)/g).join('')
 
 const enhance = compose(
   activeNodeArrayData,
@@ -85,7 +91,7 @@ const enhance = compose(
 )
 
 type State = {
-  showTitle: Boolean,
+  wideLayout: Boolean,
   toolbarComponent: Object,
   datenComponent: Object,
   exportComponent: Object,
@@ -105,7 +111,7 @@ type Props = {
 
 class MyAppBar extends Component<Props, State> {
   state = {
-    showTitle: true,
+    wideLayout: true,
     toolbarComponent: null,
     datenComponent: null,
     exportComponent: null,
@@ -129,15 +135,15 @@ class MyAppBar extends Component<Props, State> {
       moreComponent,
       shareComponent,
     })
-    window.addEventListener('resize', this.updateShowTitle)
-    setTimeout(() => this.updateShowTitle())
+    window.addEventListener('resize', this.updateLayout)
+    setTimeout(() => this.updateLayout())
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateShowTitle)
+    window.removeEventListener('resize', this.updateLayout)
   }
 
-  updateShowTitle = () => {
+  updateLayout = () => {
     const {
       toolbarComponent,
       datenComponent,
@@ -145,7 +151,7 @@ class MyAppBar extends Component<Props, State> {
       loginComponent,
       moreComponent,
       shareComponent,
-      showTitle,
+      wideLayout,
     } = this.state
     // should do this by comparing scrollWidth with clientWidth
     // if clientWidth < scrollWidth then div is overflowing
@@ -158,9 +164,9 @@ class MyAppBar extends Component<Props, State> {
       loginComponent.offsetWidth +
       moreComponent.offsetWidth +
       (shareComponent ? shareComponent.offsetWidth : 0)
-    const shouldShowTitle = clientWidth - totalWidth > 260
-    if (shouldShowTitle !== showTitle) {
-      this.setState({ showTitle: shouldShowTitle })
+    const shouldLayoutWide = clientWidth - totalWidth > 260
+    if (shouldLayoutWide !== wideLayout) {
+      this.setState({ wideLayout: shouldLayoutWide })
     }
   }
 
@@ -173,12 +179,14 @@ class MyAppBar extends Component<Props, State> {
       onClickColumnButtonLogin,
       onClickShare,
     } = this.props
-    const { showTitle } = this.state
+    const { wideLayout } = this.state
 
     const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
     const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
     const username = get(loginData, 'login.username')
-    const loginLabel = username ? username : 'nicht angemeldet'
+    const loginLabel = username
+      ? wideLayout ? username : getInitials(username)
+      : wideLayout ? 'nicht angemeldet' : 'n.a.'
 
     return (
       <ErrorBoundary>
@@ -186,7 +194,7 @@ class MyAppBar extends Component<Props, State> {
           <StyledAppBar position="static">
             <StyledToolbar ref={c => (this.toolbar = c)}>
               <StyledTypography variant="title" color="inherit">
-                {showTitle ? 'Arteigenschaften' : ''}
+                {wideLayout ? 'Arteigenschaften' : ''}
               </StyledTypography>
               <StyledButton
                 data-active={[
@@ -209,13 +217,14 @@ class MyAppBar extends Component<Props, State> {
               >
                 Export
               </StyledButton>
-              <StyledButton
+              <LoginButton
                 data-active={url0 === 'login'}
+                data-widelayout={wideLayout}
                 onClick={onClickColumnButtonLogin}
                 ref={c => (this.login = c)}
               >
                 {loginLabel}
-              </StyledButton>
+              </LoginButton>
               {navigator.share !== undefined && (
                 <ShareButton
                   aria-label="teilen"
