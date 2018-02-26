@@ -3,16 +3,16 @@ import React from 'react'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
 import styled from 'styled-components'
 
-import Tree from './Tree'
-import DataType from './DataType'
-import ErrorBoundary from './shared/ErrorBoundary'
+import Tree from '../Tree'
+import DataType from '../DataType'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const DataElement = styled(ReflexElement)`
   overflow-x: hidden !important;
   overflow-y: auto !important;
 `
 
-const Data = () => (
+const DataFlexed = () => (
   <ErrorBoundary>
     <ReflexContainer orientation="vertical">
       <ReflexElement
@@ -36,4 +36,4 @@ const Data = () => (
   </ErrorBoundary>
 )
 
-export default Data
+export default DataFlexed
