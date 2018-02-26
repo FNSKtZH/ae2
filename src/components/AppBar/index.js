@@ -1,5 +1,6 @@
 // @flow
-import React from 'react'
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Icon from 'material-ui/Icon'
@@ -35,6 +36,7 @@ const StyledAppBar = styled(AppBar)`
 const StyledTypography = styled(Typography)`
   flex: 1;
   color: white !important;
+  margin-right: 12px !important;
 `
 const StyledButton = styled(Button)`
   color: rgb(255, 255, 255) !important;
@@ -59,10 +61,6 @@ const enhance = compose(
     },
     onClickColumnButtonExport: () => () => app.history.push('/Export'),
     onClickColumnButtonLogin: () => () => app.history.push('/Login'),
-    onChangeImportButton: () => (event, key, value) =>
-      app.history.push(`/Import/${value}`),
-    ueberArteigenschaftenOnClick: () => () =>
-      window.open('https://github.com/barbalex/ae2'),
     onClickShare: ({ appBarData, activeNodeArrayData }) => () => {
       const objektName = get(appBarData, 'objectById.name')
       const pCName = get(appBarData, 'propertyCollectionById.name')
@@ -83,78 +81,110 @@ const enhance = compose(
   })
 )
 
-const MyAppBar = ({
-  activeNodeArrayData,
-  loginData,
-  onClickColumnButtonData,
-  onClickColumnButtonExport,
-  onChangeImportButton,
-  onClickColumnButtonLogin,
-  ueberArteigenschaftenOnClick,
-  onClickShare,
-  classes,
-}: {
+type State = {
+  showTitle: Boolean,
+  toolbarComponent: Object,
+}
+
+type Props = {
   activeNodeArrayData: Object,
   loginData: Object,
   onClickColumnButtonData: () => void,
   onClickColumnButtonExport: () => void,
-  onChangeImportButton: () => void,
   onClickColumnButtonLogin: () => void,
-  ueberArteigenschaftenOnClick: () => void,
   onClickShare: () => void,
-  classes: Object,
-}) => {
-  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
-  const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
-  const username = get(loginData, 'login.username')
-  const loginLabel = username ? username : 'nicht angemeldet'
+}
 
-  return (
-    <ErrorBoundary>
-      <Container>
-        <StyledAppBar position="static">
-          <Toolbar>
-            <StyledTypography variant="title" color="inherit">
-              Arteigenschaften
-            </StyledTypography>
-            <StyledButton
-              data-active={[
-                undefined,
-                'arten',
-                'lebensräume',
-                'eigenschaften-sammlungen',
-                'benutzer',
-                'organisationen',
-              ].includes(url0)}
-              onClick={onClickColumnButtonData}
-            >
-              Daten
-            </StyledButton>
-            <StyledButton
-              data-active={url0 === 'export'}
-              onClick={onClickColumnButtonExport}
-            >
-              Export
-            </StyledButton>
-            <StyledButton
-              data-active={url0 === 'login'}
-              onClick={onClickColumnButtonLogin}
-            >
-              {loginLabel}
-            </StyledButton>
-            {navigator.share !== undefined && (
-              <ShareButton aria-label="teilen" onClick={onClickShare}>
-                <Icon>
-                  <StyledMoreVertIcon />
-                </Icon>
-              </ShareButton>
-            )}
-            <MoreMenu />
-          </Toolbar>
-        </StyledAppBar>
-      </Container>
-    </ErrorBoundary>
-  )
+class MyAppBar extends Component<Props, State> {
+  state = {
+    showTitle: true,
+    toolbarComponent: null,
+  }
+
+  componentDidMount() {
+    const toolbarComponent = ReactDOM.findDOMNode(this.toolbar)
+    this.setState({ toolbarComponent })
+    window.addEventListener('resize', this.updateShowTitle)
+    setTimeout(() => this.updateShowTitle())
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateShowTitle)
+  }
+
+  updateShowTitle = () => {
+    const { toolbarComponent, showTitle } = this.state
+    const shouldShowTitle =
+      toolbarComponent.clientWidth === toolbarComponent.scrollWidth
+    if (shouldShowTitle !== showTitle) {
+      this.setState({ showTitle: shouldShowTitle })
+    }
+  }
+
+  render() {
+    const {
+      activeNodeArrayData,
+      loginData,
+      onClickColumnButtonData,
+      onClickColumnButtonExport,
+      onClickColumnButtonLogin,
+      onClickShare,
+    } = this.props
+    const { showTitle } = this.state
+
+    const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
+    const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
+    const username = get(loginData, 'login.username')
+    const loginLabel = username ? username : 'nicht angemeldet'
+    console.log('this.toolbar is rendering, showTitle:', showTitle)
+
+    return (
+      <ErrorBoundary>
+        <Container>
+          <StyledAppBar position="static">
+            <Toolbar ref={c => (this.toolbar = c)}>
+              <StyledTypography variant="title" color="inherit">
+                {showTitle ? 'Arteigenschaften' : ''}
+              </StyledTypography>
+              <StyledButton
+                data-active={[
+                  undefined,
+                  'arten',
+                  'lebensräume',
+                  'eigenschaften-sammlungen',
+                  'benutzer',
+                  'organisationen',
+                ].includes(url0)}
+                onClick={onClickColumnButtonData}
+              >
+                Daten
+              </StyledButton>
+              <StyledButton
+                data-active={url0 === 'export'}
+                onClick={onClickColumnButtonExport}
+              >
+                Export
+              </StyledButton>
+              <StyledButton
+                data-active={url0 === 'login'}
+                onClick={onClickColumnButtonLogin}
+              >
+                {loginLabel}
+              </StyledButton>
+              {navigator.share !== undefined && (
+                <ShareButton aria-label="teilen" onClick={onClickShare}>
+                  <Icon>
+                    <StyledMoreVertIcon />
+                  </Icon>
+                </ShareButton>
+              )}
+              <MoreMenu />
+            </Toolbar>
+          </StyledAppBar>
+        </Container>
+      </ErrorBoundary>
+    )
+  }
 }
 
 export default enhance(MyAppBar)
