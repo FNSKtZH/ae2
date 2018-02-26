@@ -23,8 +23,8 @@
     "json2csv": "3.11.5",
     "jwt-decode": "2.2.0",
     "lodash": "4.17.5",
-    "material-ui-icons": "1.0.0-beta.17",
     "material-ui": "material-ui@next",
+    "material-ui-icons": "1.0.0-beta.17",
     "react": "16.2.0",
     "react-apollo": "2.0.4",
     "react-autosuggest": "9.3.4",
@@ -44,7 +44,8 @@
     "flow-bin": "0.66.0",
     "postgraphile": "4.0.0-alpha2.33",
     "postgraphile-plugin-connection-filter": "1.0.0-alpha.8",
-    "react-scripts": "1.1.1"
+    "react-scripts": "1.1.1",
+    "source-map-explorer": "1.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
