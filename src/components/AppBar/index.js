@@ -62,8 +62,8 @@ const enhance = compose(
     ueberArteigenschaftenOnClick: () => () =>
       window.open('https://github.com/barbalex/ae2'),
     onClickShare: () => () => {
-      console.log('TODO: share')
       navigator.share({
+        // TODO: add name of object/pco/rco
         title: `arteigenschaften.ch`,
         url: window.location.href,
       })
@@ -96,7 +96,6 @@ const MyAppBar = ({
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const username = get(loginData, 'login.username')
   const loginLabel = username ? username : 'nicht angemeldet'
-  console.log('navigator.share:', navigator.share)
 
   return (
     <ErrorBoundary>
@@ -131,7 +130,7 @@ const MyAppBar = ({
             >
               {loginLabel}
             </StyledButton>
-            {(true || navigator.share !== undefined) && (
+            {navigator.share !== undefined && (
               <ShareButton aria-label="teilen" onClick={onClickShare}>
                 <Icon>
                   <StyledMoreVertIcon />
