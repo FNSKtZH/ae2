@@ -65,7 +65,7 @@ class App extends Component<Props, State> {
     const g = d.getElementsByTagName('body')[0]
     const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
     console.log('windowWidth:', windowWidth)
-    const shouldBeStacked = windowWidth < 500
+    const shouldBeStacked = windowWidth < 600
     if (shouldBeStacked !== stacked) {
       this.setState({ stacked: shouldBeStacked })
     }
@@ -103,11 +103,11 @@ class App extends Component<Props, State> {
 
     return (
       <ErrorBoundary>
-        <Container>
+        <Container data-stacked={stacked}>
           <Reboot />
           <AppBar />
-          {showData && <DataAsync />}
-          {showExport && <ExportAsync />}
+          {showData && <DataAsync stacked={stacked} />}
+          {showExport && <ExportAsync stacked={stacked} />}
           {showLogin && <LoginAsync />}
           {show404 && <FourOhFourAsync />}
         </Container>
