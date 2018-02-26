@@ -380,6 +380,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
   - [x] Import von Eigenschaften- und Beziehungs-Sammlungen
   - [x] Taxonomien und Objekte bearbeiten
   - [x] Links zu: Google Bilder, Wikipedia Suche, GBIF, Info Flora
+  - [x] Layout passt sich an Mobilgeräte an
   - [x] Last but not least: arteigenschaften.ch ist nicht nur eine Applikation, sondern auch eine API bzw. Daten-Schnittstelle, aufgebaut mit [GraphQL](https://github.com/facebook/graphql). Alles, was ein Benutzer über die Anwendung machen kann, ist auch via die API möglich!
 
 <a href="#top">&#8593; top</a>
