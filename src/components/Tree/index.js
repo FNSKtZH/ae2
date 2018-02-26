@@ -139,6 +139,7 @@ const Tree = ({
     .map(oU => oU.role)
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
+  console.log('Tree: dimensions:', dimensions)
 
   return (
     <ErrorBoundary>

@@ -3,10 +3,8 @@ import React from 'react'
 
 import DataStacked from './DataStacked'
 import DataFlexed from './DataFlexed'
-import ErrorBoundary from '../shared/ErrorBoundary'
 
-const Data = ({ stacked }: { stacked: Boolean }) => (
-  <ErrorBoundary>{stacked ? <DataStacked /> : <DataFlexed />}</ErrorBoundary>
-)
+const Data = ({ stacked }: { stacked: Boolean }) =>
+  stacked ? <DataStacked /> : <DataFlexed />
 
 export default Data
