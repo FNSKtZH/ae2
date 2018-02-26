@@ -10,7 +10,7 @@ import { ApolloLink } from 'apollo-link'
 import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 
-import { MuiThemeProvider as NewMuiThemeProvider } from 'material-ui/styles'
+import { MuiThemeProvider } from 'material-ui/styles'
 import app from 'ampersand-app'
 import createHistory from 'history/createBrowserHistory'
 
@@ -158,9 +158,9 @@ import resolvers from './store/resolvers'
 
     ReactDOM.render(
       <ApolloProvider client={client}>
-        <NewMuiThemeProvider theme={theme}>
+        <MuiThemeProvider theme={theme}>
           <App />
-        </NewMuiThemeProvider>
+        </MuiThemeProvider>
       </ApolloProvider>,
       document.getElementById('root')
     )
