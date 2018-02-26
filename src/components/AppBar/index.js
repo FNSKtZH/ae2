@@ -11,6 +11,7 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import app from 'ampersand-app'
 import get from 'lodash/get'
+import appBarData from './data'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import loginData from '../../modules/loginData'
@@ -50,6 +51,7 @@ const StyledMoreVertIcon = styled(ShareIcon)`
 
 const enhance = compose(
   activeNodeArrayData,
+  appBarData,
   loginData,
   withHandlers({
     onClickColumnButtonData: () => () => {
@@ -61,10 +63,20 @@ const enhance = compose(
       app.history.push(`/Import/${value}`),
     ueberArteigenschaftenOnClick: () => () =>
       window.open('https://github.com/barbalex/ae2'),
-    onClickShare: () => () => {
+    onClickShare: ({ appBarData, activeNodeArrayData }) => () => {
+      const objektName = get(appBarData, 'objectById.name')
+      const pCName = get(appBarData, 'propertyCollectionById.name')
+      const taxName = get(appBarData, 'taxonomyById.name')
+      const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
+      const url0 = activeNodeArray[0]
+      const name = pCName
+        ? pCName
+        : objektName
+          ? `${taxName}: ${objektName}`
+          : taxName ? taxName : url0 ? url0 : ''
+      const title = `arteigenschaften.ch${!!name ? ': ' : ''}${name}`
       navigator.share({
-        // TODO: add name of object/pco/rco
-        title: `arteigenschaften.ch`,
+        title,
         url: window.location.href,
       })
     },
