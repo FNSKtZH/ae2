@@ -1,31 +1,10 @@
 // @flow
 import React from 'react'
-import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
 
-import ChooseColumn from './ChooseColumn'
-import PreviewColumn from './PreviewColumn'
-import ErrorBoundary from '../shared/ErrorBoundary'
+import ExportStacked from './ExportStacked'
+import ExportFlexed from './ExportFlexed'
 
-const Export = () => (
-  <ReflexContainer orientation="vertical">
-    <ReflexElement
-      flex={0.5}
-      className="tree-reflex-element"
-      propagateDimensions={true}
-      renderOnResizeRate={50}
-      renderOnResize={true}
-    >
-      <ErrorBoundary>
-        <ChooseColumn />
-      </ErrorBoundary>
-    </ReflexElement>
-    <ReflexSplitter key="treeSplitter" />
-    <ReflexElement>
-      <ErrorBoundary>
-        <PreviewColumn />
-      </ErrorBoundary>
-    </ReflexElement>
-  </ReflexContainer>
-)
+const Export = ({ stacked }: { stacked: Boolean }) =>
+  stacked ? <ExportStacked /> : <ExportFlexed />
 
 export default Export
