@@ -175,6 +175,8 @@ const Login = ({
                 }
               }}
               autoComplete="current-password"
+              autoCorrect="off"
+              spellCheck="false"
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
