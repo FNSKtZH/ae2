@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
+import SwipeableViews from 'react-swipeable-views'
 
 import ChooseColumn from './ChooseColumn'
 import PreviewColumn from './PreviewColumn'
@@ -16,6 +17,12 @@ const StyledPaper = styled(Paper)`
 const StyledTabs = styled(Tabs)`
   .indicator {
     height: 3px;
+  }
+`
+const StyledSwipeableViews = styled(SwipeableViews)`
+  height: 100%;
+  .react-swipeable-view-container {
+    height: 100%;
   }
 `
 
@@ -57,8 +64,10 @@ const ExportStacked = ({
           <Tab label="Vorschau" />
         </StyledTabs>
       </StyledPaper>
-      {tab === 0 && <ChooseColumn dimensions={{ width: windowWidth }} />}
-      {tab === 1 && <PreviewColumn dimensions={{ width: windowWidth }} />}
+      <StyledSwipeableViews axis="x" index={tab} onChangeIndex={i => setTab(i)}>
+        <ChooseColumn dimensions={{ width: windowWidth }} />
+        <PreviewColumn dimensions={{ width: windowWidth }} />
+      </StyledSwipeableViews>
     </Fragment>
   )
 }
