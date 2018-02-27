@@ -39,7 +39,6 @@ const Objekt = ({
   objectData: Object,
   stacked: Boolean,
 }) => {
-  console.log('Objeckt: stacked:', stacked)
   const objekt = get(objectData, 'objectById')
   if (!objekt) return <div />
   const propertyCollectionObjects = get(
