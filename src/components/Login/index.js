@@ -1,9 +1,13 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
 import TextField from 'material-ui/TextField'
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import Snackbar from 'material-ui/Snackbar'
 import Button from 'material-ui/Button'
+import Input, { InputLabel, InputAdornment } from 'material-ui/Input'
+import IconButton from 'material-ui/IconButton'
+import Visibility from 'material-ui-icons/Visibility'
+import VisibilityOff from 'material-ui-icons/VisibilityOff'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -38,6 +42,7 @@ const enhance = compose(
   loginData,
   withState('name', 'changeName', ''),
   withState('pass', 'changePass', ''),
+  withState('showPass', 'changeShowPass', false),
   withState('nameErrorText', 'changeNameErrorText', ''),
   withState('passErrorText', 'changePassErrorText', ''),
   withState('loginSuccessfull', 'changeLoginSuccessfull', false),
@@ -100,10 +105,12 @@ const enhance = compose(
 const Login = ({
   name,
   pass,
+  showPass,
   nameErrorText,
   passErrorText,
   changeNameErrorText,
   changePassErrorText,
+  changeShowPass,
   onBlurName,
   onBlurPassword,
   fetchLogin,
@@ -114,11 +121,13 @@ const Login = ({
   name: string,
   changeName: () => void,
   pass: string,
+  showPass: Boolean,
   changePass: () => void,
   nameErrorText: string,
   changeNameErrorText: () => void,
   passErrorText: string,
   changePassErrorText: () => void,
+  changeShowPass: () => void,
   onBlurName: () => void,
   onBlurPassword: () => void,
   fetchLogin: () => void,
@@ -153,9 +162,10 @@ const Login = ({
         )}
         {!token && (
           <FormControl fullWidth error={!!passErrorText}>
-            <TextField
-              label="Passwort"
-              type="password"
+            <InputLabel htmlFor="password">Passwort</InputLabel>
+            <Input
+              id="adornment-password"
+              type={showPass ? 'text' : 'password'}
               defaultValue={pass}
               onBlur={onBlurPassword}
               fullWidth
@@ -165,6 +175,16 @@ const Login = ({
                 }
               }}
               autoComplete="current-password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => changeShowPass(!showPass)}
+                    onMouseDown={e => e.preventDefault()}
+                  >
+                    {showPass ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
             <FormHelperText id="name-error-text">
               {passErrorText}
