@@ -27,7 +27,7 @@ const TitleSpan = styled.span`
   margin-left: 4px;
 `
 const FirstTitle = styled(Title)`
-  margin: 5px 0 -5px 0;
+  margin: 10px 0 5px 0;
 `
 
 const enhance = compose(activeNodeArrayData, objectData)
