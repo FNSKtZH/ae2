@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
+import SwipeableViews from 'react-swipeable-views'
 
 import Tree from '../Tree'
 import DataType from '../DataType'
@@ -16,6 +17,12 @@ const StyledPaper = styled(Paper)`
 const StyledTabs = styled(Tabs)`
   .indicator {
     height: 3px;
+  }
+`
+const StyledSwipeableViews = styled(SwipeableViews)`
+  height: 100%;
+  .react-swipeable-view-container {
+    height: 100%;
   }
 `
 
@@ -57,10 +64,16 @@ const DataStacked = ({
           <Tab label="Formular" />
         </StyledTabs>
       </StyledPaper>
-      {tab === 0 && <Tree dimensions={{ width: windowWidth }} />}
-      {tab === 1 && (
-        <DataType stacked={true} dimensions={{ width: windowWidth }} />
-      )}
+      <StyledSwipeableViews
+        axis={'x-reverse'}
+        index={tab}
+        onChangeIndex={i => setTab(i)}
+      >
+        {tab === 0 && <Tree dimensions={{ width: windowWidth }} />}
+        {tab === 1 && (
+          <DataType stacked={true} dimensions={{ width: windowWidth }} />
+        )}
+      </StyledSwipeableViews>
     </Fragment>
   )
 }
