@@ -15,11 +15,13 @@ const Label = styled.p`
   margin: 3px 0;
   padding: 2px;
   color: grey;
+  word-break: break-word;
 `
 const Value = styled.p`
   margin: 3px 0;
   padding: 2px;
   width: 100%;
+  word-break: break-word;
 `
 const linkifyProperties = {
   target: '_blank',
