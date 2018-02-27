@@ -99,7 +99,6 @@ class App extends Component<Props, State> {
     ].includes(url0)
     const showExport = url0 === 'export'
     const showLogin = url0 === 'login'
-    console.log('stacked:', stacked)
 
     return (
       <ErrorBoundary>
