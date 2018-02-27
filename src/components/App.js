@@ -64,7 +64,6 @@ class App extends Component<Props, State> {
     const e = d.documentElement
     const g = d.getElementsByTagName('body')[0]
     const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
-    console.log('windowWidth:', windowWidth)
     const shouldBeStacked = windowWidth < 650
     if (shouldBeStacked !== stacked) {
       this.setState({ stacked: shouldBeStacked })
