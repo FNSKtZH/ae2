@@ -41,9 +41,11 @@ const enhance = compose(activeNodeArrayData)
 const DataType = ({
   activeNodeArrayData,
   dimensions,
+  stacked = false,
 }: {
   activeNodeArrayData: Object,
   dimensions: Object,
+  stacked: Boolean,
 }) => {
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const showObjekt =
@@ -72,7 +74,7 @@ const DataType = ({
     activeNodeArray[0] === 'Organisationen' && activeNodeArray.length === 2
 
   if (showTaxonomy) return <TaxonomyAsync />
-  if (showObjekt) return <ObjektAsync />
+  if (showObjekt) return <ObjektAsync stacked={stacked} />
   if (showPC) return <PropertyCollectionAsync />
   if (showPCO) return <PcoAsync dimensions={dimensions} />
   if (showRCO) return <RcoAsync dimensions={dimensions} />

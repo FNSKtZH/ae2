@@ -15,7 +15,7 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 import updatePropertyMutation from './updatePropertyMutation'
 
 const Container = styled.div`
-  margin: 12px 10px;
+  margin: 12px 10px 12px 2px;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;

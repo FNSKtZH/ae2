@@ -15,6 +15,7 @@ import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
+import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
 import Property from '../../shared/Property'
 import NewProperty from '../../shared/NewProperty'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
@@ -32,8 +33,12 @@ const PropertiesTitleLabel = styled.p`
   color: grey;
 `
 const PropertiesTitleLabelEditing = styled.p`
-  margin: 3px 18px;
-  padding: 2px;
+  margin: 3px 0;
+  padding-bottom: 2px;
+`
+const PropertiesTitleLabelStacked = styled.p`
+  margin: 3px 0;
+  padding-bottom: 2px;
   color: grey;
 `
 const PropertiesTitleValue = styled.p`
@@ -50,12 +55,14 @@ const Properties = ({
   id,
   properties,
   objectData,
+  stacked,
 }: {
   client: Object,
   editingTaxonomiesData: Object,
   id: string,
   properties: Object,
   objectData: Object,
+  stacked: Boolean,
 }) => {
   const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
   const propertiesArray = Object.entries(properties)
@@ -68,6 +75,10 @@ const Properties = ({
             <PropertiesTitleLabelEditing>
               Eigenschaften:
             </PropertiesTitleLabelEditing>
+          ) : stacked ? (
+            <PropertiesTitleLabelStacked>
+              Eigenschaften:
+            </PropertiesTitleLabelStacked>
           ) : (
             <PropertiesTitleLabel>Eigenschaften:</PropertiesTitleLabel>
           )}
@@ -86,6 +97,8 @@ const Properties = ({
               properties={properties}
               field={key}
             />
+          ) : stacked ? (
+            <PropertyReadOnlyStacked key={key} value={value} label={key} />
           ) : (
             <PropertyReadOnly key={key} value={value} label={key} />
           )

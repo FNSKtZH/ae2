@@ -58,7 +58,9 @@ const DataStacked = ({
         </StyledTabs>
       </StyledPaper>
       {tab === 0 && <Tree dimensions={{ width: windowWidth }} />}
-      {tab === 1 && <DataType dimensions={{ width: windowWidth }} />}
+      {tab === 1 && (
+        <DataType stacked={true} dimensions={{ width: windowWidth }} />
+      )}
     </Fragment>
   )
 }

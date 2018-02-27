@@ -11,7 +11,7 @@ import ErrorBoundary from '../../shared/ErrorBoundary'
 import updateObjectMutation from '../updateObjectMutation'
 
 const Container = styled.div`
-  margin: 12px 10px;
+  margin: 12px 8px 12px 0;
 `
 
 const enhance = compose(

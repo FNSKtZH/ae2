@@ -32,7 +32,14 @@ const FirstTitle = styled(Title)`
 
 const enhance = compose(activeNodeArrayData, objectData)
 
-const Objekt = ({ objectData }: { objectData: Object }) => {
+const Objekt = ({
+  objectData,
+  stacked = false,
+}: {
+  objectData: Object,
+  stacked: Boolean,
+}) => {
+  console.log('Objeckt: stacked:', stacked)
   const objekt = get(objectData, 'objectById')
   if (!objekt) return <div />
   const propertyCollectionObjects = get(
@@ -66,7 +73,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
       <Container>
         <ScrollContainer>
           <FirstTitle>Taxonomie</FirstTitle>
-          <TaxonomyObject objekt={objekt} />
+          <TaxonomyObject objekt={objekt} stacked={stacked} />
           {synonymObjects.length > 0 && (
             <Title>
               {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
@@ -77,7 +84,9 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
           )}
           {sortBy(synonymObjects, tO =>
             get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
-          ).map(o => <TaxonomyObject key={o.id} objekt={o} showLink />)}
+          ).map(o => (
+            <TaxonomyObject key={o.id} objekt={o} showLink stacked={stacked} />
+          ))}
           {propertyCollectionObjects.length > 0 && (
             <Title>
               Eigenschaften
@@ -99,6 +108,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
               relations={relations.filter(
                 r => r.propertyCollectionId === pCO.propertyCollectionId
               )}
+              stacked={stacked}
             />
           ))}
           {propertyCollectionObjectsOfSynonyms.length > 0 && (
@@ -126,6 +136,7 @@ const Objekt = ({ objectData }: { objectData: Object }) => {
               relations={relations.filter(
                 r => r.propertyCollectionId === pCO.propertyCollectionId
               )}
+              stacked={stacked}
             />
           ))}
         </ScrollContainer>

@@ -13,6 +13,7 @@ import styled from 'styled-components'
 
 import PC from './PC'
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
+import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
 import Relation from '../Relation'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
@@ -53,11 +54,13 @@ const PCO = ({
   setExpanded,
   pCO,
   relations,
+  stacked,
 }: {
   expanded: Boolean,
   setExpanded: () => void,
   pCO: Object,
   relations: Array<Object>,
+  stacked: Boolean,
 }) => {
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
   const pcname = get(pC, 'name', '(Name fehlt)')
@@ -96,9 +99,18 @@ const PCO = ({
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PC pCO={pCO} />
           <CardText>
-            {propertiesArray.map(([key, value]) => (
-              <PropertyReadOnly key={key} value={value} label={key} />
-            ))}
+            {propertiesArray.map(
+              ([key, value]) =>
+                stacked ? (
+                  <PropertyReadOnlyStacked
+                    key={key}
+                    value={value}
+                    label={key}
+                  />
+                ) : (
+                  <PropertyReadOnly key={key} value={value} label={key} />
+                )
+            )}
             {relations &&
               relations.length > 0 && (
                 <RelationTitle>{relationsTitle}</RelationTitle>

@@ -24,6 +24,7 @@ import styled from 'styled-components'
 import app from 'ampersand-app'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
+import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
 import Taxonomy from '../Taxonomy'
 import Property from './Property'
 import LinkMenu from './LinkMenu'
@@ -38,7 +39,7 @@ import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
 
 const StyledCard = styled(Card)`
-  margin: 10px 0;
+  margin: 0;
   background-color: #fff3e0 !important;
 `
 const StyledCard2 = styled(Card)`
@@ -77,7 +78,7 @@ const CardActionTitle2 = styled(CardActionTitle)`
   font-weight: normal;
 `
 const StyledCardContent = styled(CardContent)`
-  padding: 0 16px 0 0 !important;
+  padding: 0 16px 0 16px !important;
   margin: 5px 0;
   column-width: 500px;
 `
@@ -116,6 +117,7 @@ const TaxonomyObject = ({
   setExpanded,
   expanded2,
   setExpanded2,
+  stacked,
 }: {
   client: Object,
   activeNodeArrayData: Object,
@@ -128,6 +130,7 @@ const TaxonomyObject = ({
   setExpanded: () => void,
   expanded2: Boolean,
   setExpanded2: () => void,
+  stacked: Boolean,
 }) => {
   const username = get(loginData, 'login.username', null)
   const organizationUsers = get(
@@ -286,6 +289,19 @@ const TaxonomyObject = ({
                   objekt={objekt}
                 />
               </Fragment>
+            ) : stacked ? (
+              <Fragment>
+                <PropertyReadOnlyStacked
+                  key={`${objekt.id}/id`}
+                  value={objekt.id}
+                  label="ID"
+                />
+                <PropertyReadOnlyStacked
+                  key={`${objekt.id}/name`}
+                  value={objekt.name}
+                  label="Name"
+                />
+              </Fragment>
             ) : (
               <Fragment>
                 <PropertyReadOnly
@@ -300,7 +316,11 @@ const TaxonomyObject = ({
                 />
               </Fragment>
             )}
-            <Properties id={objekt.id} properties={properties} />
+            <Properties
+              id={objekt.id}
+              properties={properties}
+              stacked={stacked}
+            />
           </StyledCardContent>
         </Collapse>
       </StyledCard>
