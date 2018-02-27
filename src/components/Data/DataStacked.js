@@ -64,15 +64,9 @@ const DataStacked = ({
           <Tab label="Formular" />
         </StyledTabs>
       </StyledPaper>
-      <StyledSwipeableViews
-        axis={'x-reverse'}
-        index={tab}
-        onChangeIndex={i => setTab(i)}
-      >
-        {tab === 0 && <Tree dimensions={{ width: windowWidth }} />}
-        {tab === 1 && (
-          <DataType stacked={true} dimensions={{ width: windowWidth }} />
-        )}
+      <StyledSwipeableViews axis="x" index={tab} onChangeIndex={i => setTab(i)}>
+        <Tree dimensions={{ width: windowWidth }} />
+        <DataType stacked={true} dimensions={{ width: windowWidth }} />
       </StyledSwipeableViews>
     </Fragment>
   )
