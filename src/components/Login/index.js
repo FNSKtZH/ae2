@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React from 'react'
 import TextField from 'material-ui/TextField'
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import Snackbar from 'material-ui/Snackbar'
