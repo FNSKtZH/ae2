@@ -14,7 +14,7 @@ const theme = createMuiTheme({
     primary: orange,
     secondary: green,
     error: {
-      main: red,
+      main: red[500],
     },
   },
   background: {

@@ -23,7 +23,7 @@ const StyledTabs = styled(Tabs)`
 `
 const StyledTab = styled(Tab)`
   > span > span > span {
-    color: white;
+    color: ${props => (props.disabled ? 'rgba(255,255,255,0.5)' : 'white')};
   }
 `
 const StyledSwipeableViews = styled(SwipeableViews)`
