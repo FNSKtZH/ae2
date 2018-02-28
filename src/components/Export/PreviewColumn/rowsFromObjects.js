@@ -1,5 +1,7 @@
 // @flow
 import get from 'lodash/get'
+import omit from 'lodash/omit'
+import some from 'lodash/some'
 
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
@@ -16,6 +18,7 @@ export default ({
   exportRcoPropertyNames,
   exportRcoProperties,
   exportIds,
+  exportOnlyRowsWithProperties,
 }: {
   objects: Array<Object>,
   exportTaxProperties: Array<Object>,
@@ -28,10 +31,11 @@ export default ({
   exportRcoPropertyNames: Boolean,
   exportRcoProperties: Array<Object>,
   exportIds: Array<String>,
+  exportOnlyRowsWithProperties: Boolean,
 }) => {
   // need taxFields to filter only data with properties
   const taxFields = ['id']
-  const rows = objects
+  let rows = objects
     .map(o => {
       // 1. object
       const row = {}
@@ -127,5 +131,23 @@ export default ({
       if (exportIds.length > 0) return exportIds.includes(r.id)
       return true
     })
-  return { rows, taxFields }
+
+  const fields = rows[0] ? Object.keys(rows[0]).map(k => k) : []
+  const propertyFields = fields.filter(f => !taxFields.includes(f))
+  if (exportOnlyRowsWithProperties && propertyFields.length > 0) {
+    // filter rows that only contain values in taxFields
+    rows = rows.filter(row => {
+      // check if any property field contains a value
+      const propertyRow = omit(row, taxFields)
+      const valueExists = some(propertyRow, v => v !== undefined && v !== null)
+      return valueExists
+    })
+  }
+  const pvColumns = fields.map(k => ({
+    key: k,
+    name: k,
+    resizable: true,
+    sortable: true,
+  }))
+  return { rows, pvColumns }
 }

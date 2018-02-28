@@ -9,8 +9,6 @@ import withHandlers from 'recompose/withHandlers'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
-import omit from 'lodash/omit'
-import some from 'lodash/some'
 
 import exportData from './exportData'
 import exportIdsData from '../exportIdsData'
@@ -174,7 +172,7 @@ const Preview = ({
   const rco = get(exportData, 'exportRco.nodes', [])
   const synonymRco = get(exportData, 'exportSynonymRco.nodes', [])
   // need taxFields to filter only data with properties
-  let { rows, taxFields } = rowsFromObjects({
+  let { rows, pvColumns } = rowsFromObjects({
     objects,
     exportTaxProperties,
     exportWithSynonymData,
@@ -186,25 +184,9 @@ const Preview = ({
     exportRcoPropertyNames,
     exportRcoProperties,
     exportIds,
+    exportOnlyRowsWithProperties,
   })
-  const fields = rows[0] ? Object.keys(rows[0]).map(k => k) : []
-  const propertyFields = fields.filter(f => !taxFields.includes(f))
-  if (exportOnlyRowsWithProperties && propertyFields.length > 0) {
-    // filter rows that only contain values in taxFields
-    rows = rows.filter(row => {
-      // check if any property field contains a value
-      const propertyRow = omit(row, taxFields)
-      const valueExists = some(propertyRow, v => v !== undefined && v !== null)
-      return valueExists
-    })
-  }
   rows = orderBy(rows, sortField, sortDirection)
-  const pvColumns = fields.map(k => ({
-    key: k,
-    name: k,
-    resizable: true,
-    sortable: true,
-  }))
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
 
   return (
