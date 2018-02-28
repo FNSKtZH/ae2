@@ -1,4 +1,8 @@
 // @flow
+/**
+ * would be nice if this code could be moved
+ * to a worker
+ */
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 import some from 'lodash/some'
