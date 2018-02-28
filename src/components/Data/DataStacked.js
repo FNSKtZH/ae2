@@ -80,9 +80,8 @@ const DataStacked = ({
       <StyledSwipeableViews
         axis="x"
         index={tab}
-        onChangeIndex={i => {
-          if (!disableDataType) setTab(i)
-        }}
+        onChangeIndex={i => setTab(i)}
+        disabled={disableDataType}
       >
         <Tree dimensions={{ width: windowWidth }} />
         <DataType stacked={true} dimensions={{ width: windowWidth }} />
