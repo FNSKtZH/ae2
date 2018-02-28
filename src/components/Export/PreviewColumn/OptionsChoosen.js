@@ -65,6 +65,7 @@ const FilterValueSpan = styled.span`
 const ResetSpan = styled.span`
   margin-left: 8px;
   font-weight: 100;
+  font-style: italic;
   cursor: pointer;
   text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
