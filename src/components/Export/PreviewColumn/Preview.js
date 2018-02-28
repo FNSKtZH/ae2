@@ -186,9 +186,11 @@ const Preview = ({
     exportRcoProperties,
     exportIds,
   })
-
+  console.log('taxFields:', taxFields)
   const fields = rows[0] ? Object.keys(rows[0]).map(k => k) : []
   const propertyFields = fields.filter(f => !taxFields.includes(f))
+  console.log('fields:', fields)
+  console.log('propertyFields:', propertyFields)
   if (exportOnlyRowsWithProperties && propertyFields.length > 0) {
     // filter rows that only contain values in taxFields
     rows = rows.filter(row => {
@@ -205,6 +207,7 @@ const Preview = ({
     resizable: true,
     sortable: true,
   }))
+  console.log('pvColumns:', pvColumns)
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
 
   return (

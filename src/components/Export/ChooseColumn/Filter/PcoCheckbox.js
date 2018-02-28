@@ -6,8 +6,11 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
+import get from 'lodash/get'
 
 import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
+import exportAddFilterFieldsData from '../../exportAddFilterFieldsData'
+import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
 
 const Container = styled.div`
   width: 100%;
@@ -27,8 +30,12 @@ const StyledFormControlLabel = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
+  exportAddFilterFieldsData,
   withHandlers({
-    onChange: ({ pcname, pname, client }) => (e, val) => {
+    onChange: ({ pcname, pname, client, exportAddFilterFieldsData }) => (
+      e,
+      val
+    ) => {
       let comparator = '='
       let value = val
       if (value === 'null') {
@@ -39,6 +46,18 @@ const enhance = compose(
         mutation: exportPcoFiltersMutation,
         variables: { pcname, pname, comparator, value },
       })
+      // if value and not choosen, choose
+      const exportAddFilterFields = get(
+        exportAddFilterFieldsData,
+        'exportAddFilterFields',
+        true
+      )
+      if (exportAddFilterFields) {
+        client.mutate({
+          mutation: addExportPcoPropertyMutation,
+          variables: { pcname, pname },
+        })
+      }
     },
   })
 )

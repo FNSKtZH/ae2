@@ -205,7 +205,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     const value = trimStart(newValue)
     this.setState({ value })
     this.change(value)
-    // TODO: if value and not choosen, choose
+    // if value and not choosen, choose
     const exportAddFilterFields = get(
       exportAddFilterFieldsData,
       'exportAddFilterFields',
