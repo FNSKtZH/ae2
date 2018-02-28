@@ -12,10 +12,8 @@ export default ({
   activeNodeArray: Array<String>,
   loginData: Object,
 }): Array<Object> => {
-  //console.log('level1: treeData:', treeData)
   if (!treeData) return []
   const loading = get(treeData, 'loading', false)
-  console.log('loading:', loading)
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
   const taxonomies = get(treeData, 'allTaxonomies.nodes', [])
   const artTaxonomies = taxonomies.filter(t => t.type === 'ART')
