@@ -52,6 +52,9 @@ const Container = styled.div`
   li {
     padding-bottom: 4px;
   }
+  ul > li:first-child {
+    padding-top: 4px;
+  }
 `
 const Title = styled.div`
   font-weight: bold;
