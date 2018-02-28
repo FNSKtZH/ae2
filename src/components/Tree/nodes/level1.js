@@ -14,19 +14,32 @@ export default ({
 }): Array<Object> => {
   //console.log('level1: treeData:', treeData)
   if (!treeData) return []
+  const loading = get(treeData, 'loading', false)
+  console.log('loading:', loading)
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
   const taxonomies = get(treeData, 'allTaxonomies.nodes', [])
   const artTaxonomies = taxonomies.filter(t => t.type === 'ART')
   const lrTaxonomies = taxonomies.filter(t => t.type === 'LEBENSRAUM')
+  const artenInfo =
+    loading && artTaxonomies.length === 0
+      ? '(...)'
+      : `(${artTaxonomies.length} Taxonomie${
+          artTaxonomies.length !== 1 ? 'n' : ''
+        })`
+  const lrInfo =
+    loading && lrTaxonomies.length === 0
+      ? '(...)'
+      : `(${lrTaxonomies.length} Taxonomie${
+          lrTaxonomies.length !== 1 ? 'n' : ''
+        })`
+  const pcInfo = loading && pcCount === 0 ? '(...)' : `(${pcCount})`
   const nodes = [
     {
       id: 'Arten',
       url: ['Arten'],
       sort: [1],
       label: 'Arten',
-      info: `(${artTaxonomies.length} Taxonomie${
-        artTaxonomies.length !== 1 ? 'n' : ''
-      })`,
+      info: artenInfo,
       childrenCount: artTaxonomies.length,
       menuType: 'CmType',
     },
@@ -35,9 +48,7 @@ export default ({
       url: ['Lebensräume'],
       sort: [2],
       label: 'Lebensräume',
-      info: `(${lrTaxonomies.length} Taxonomie${
-        lrTaxonomies.length !== 1 ? 'n' : ''
-      })`,
+      info: lrInfo,
       childrenCount: lrTaxonomies.length,
       menuType: 'CmType',
     },
@@ -46,7 +57,7 @@ export default ({
       url: ['Eigenschaften-Sammlungen'],
       sort: [3],
       label: 'Eigenschaften-Sammlungen',
-      info: `(${pcCount})`,
+      info: pcInfo,
       childrenCount: pcCount,
       menuType: 'CmPCFolder',
     },
