@@ -77,7 +77,13 @@ const DataStacked = ({
           <StyledTab label="Formular" disabled={disableDataType} />
         </StyledTabs>
       </StyledPaper>
-      <StyledSwipeableViews axis="x" index={tab} onChangeIndex={i => setTab(i)}>
+      <StyledSwipeableViews
+        axis="x"
+        index={tab}
+        onChangeIndex={i => {
+          if (!disableDataType) setTab(i)
+        }}
+      >
         <Tree dimensions={{ width: windowWidth }} />
         <DataType stacked={true} dimensions={{ width: windowWidth }} />
       </StyledSwipeableViews>
