@@ -17,6 +17,7 @@ import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
 import editingTaxonomies from './editingTaxonomies'
 import editingPCs from './editingPCs'
 import historyAfterLogin from './historyAfterLogin'
+import updateAvailable from './updateAvailable'
 
 export default merge(
   activeNodeArray,
@@ -34,5 +35,6 @@ export default merge(
   editingTaxonomies,
   editingPCs,
   exportOnlyRowsWithProperties,
-  historyAfterLogin
+  historyAfterLogin,
+  updateAvailable
 )
