@@ -1,6 +1,6 @@
 import { createMuiTheme } from 'material-ui/styles'
 import orange from 'material-ui/colors/orange'
-import cyan from 'material-ui/colors/cyan'
+import green from 'material-ui/colors/green'
 import red from 'material-ui/colors/red'
 
 import constants from './modules/constants'
@@ -12,9 +12,9 @@ const theme = createMuiTheme({
     contrastThreshold: 3,
     tonalOffset: 0.2,
     primary: orange,
-    secondary: cyan,
+    secondary: green,
     error: {
-      main: red[500],
+      main: red,
     },
   },
   background: {

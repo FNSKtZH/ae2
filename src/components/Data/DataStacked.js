@@ -14,11 +14,16 @@ import DataType from '../DataType'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 
 const StyledPaper = styled(Paper)`
-  background-color: #ffcc80 !important;
+  background-color: #ef6c00 !important;
 `
 const StyledTabs = styled(Tabs)`
   .indicator {
     height: 3px;
+  }
+`
+const StyledTab = styled(Tab)`
+  > span > span > span {
+    color: white;
   }
 `
 const StyledSwipeableViews = styled(SwipeableViews)`
@@ -64,11 +69,12 @@ const DataStacked = ({
           centered
           value={tab}
           onChange={onChangeTab}
-          indicatorColor="#E65100"
+          indicatorColor="#2E7D32"
           indicatorClassName="indicator"
+          textColor="secondary"
         >
-          <Tab label="Strukturbaum" />
-          <Tab label="Formular" disabled={disableDataType} />
+          <StyledTab label="Strukturbaum" />
+          <StyledTab label="Formular" disabled={disableDataType} />
         </StyledTabs>
       </StyledPaper>
       <StyledSwipeableViews axis="x" index={tab} onChangeIndex={i => setTab(i)}>
