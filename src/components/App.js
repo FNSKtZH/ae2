@@ -98,6 +98,10 @@ class App extends Component<Props, State> {
     ].includes(url0)
     const showExport = url0 === 'export'
     const showLogin = url0 === 'login'
+    /**
+     * TODO: query updateAvailable
+     * if true, show notification to reload
+     */
 
     return (
       <ErrorBoundary>
