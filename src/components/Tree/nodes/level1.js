@@ -64,13 +64,14 @@ export default ({
   ]
   const token = get(loginData, 'login.token')
   const userCount = get(treeData, 'allUsers.totalCount', 0)
+  const userInfo = loading && userCount === 0 ? '(...)' : `(${userCount})`
   if (!!token) {
     nodes.push({
       id: 'Benutzer',
       url: ['Benutzer'],
       sort: [4],
       label: 'Benutzer',
-      info: `(${userCount})`,
+      info: userInfo,
       childrenCount: userCount,
       menuType: 'CmBenutzerFolder',
     })
@@ -85,13 +86,17 @@ export default ({
         .filter(o => o.role === 'orgAdmin')
         .map(u => get(u, 'organizationByOrganizationId.name'))
     )
+    const orgInfo =
+      loading && orgsUserIsAdminIn.length === 0
+        ? '(...)'
+        : `(${orgsUserIsAdminIn.length.toLocaleString('de-CH')})`
     if (orgsUserIsAdminIn.length > 0) {
       nodes.push({
         id: 'Organisationen',
         url: ['Organisationen'],
         sort: [5],
         label: 'Organisationen',
-        info: `(${orgsUserIsAdminIn.length.toLocaleString('de-CH')})`,
+        info: orgInfo,
         childrenCount: orgsUserIsAdminIn.length,
         menuType: 'orgFolder',
       })
