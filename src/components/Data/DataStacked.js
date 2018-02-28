@@ -56,8 +56,6 @@ const DataStacked = ({
   const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const disableDataType = activeNodeArray.length < 2
-  console.log('activeNodeArray:', activeNodeArray)
-  console.log('disableDataType:', disableDataType)
 
   return (
     <Fragment>
