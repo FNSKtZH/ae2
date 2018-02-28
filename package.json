@@ -24,7 +24,7 @@
     "jwt-decode": "2.2.0",
     "lodash": "4.17.5",
     "material-ui": "material-ui@next",
-    "material-ui-icons": "1.0.0-beta.17",
+    "material-ui-icons": "1.0.0-beta.35",
     "react": "16.2.0",
     "react-apollo": "2.0.4",
     "react-autosuggest": "9.3.4",
