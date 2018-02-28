@@ -3,11 +3,14 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import Reboot from 'material-ui/Reboot'
+import Button from 'material-ui/Button'
+import Snackbar from 'material-ui/Snackbar'
 import get from 'lodash/get'
 import Loadable from 'react-loadable'
 
 import AppBar from './AppBar'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
+import updateAvailableData from '../modules/updateAvailableData'
 import ErrorBoundary from './shared/ErrorBoundary'
 import LoadingComponent from './shared/LoadingComponent'
 
@@ -34,10 +37,11 @@ const FourOhFourAsync = Loadable({
   loading: LoadingComponent,
 })
 
-const enhance = compose(activeNodeArrayData)
+const enhance = compose(activeNodeArrayData, updateAvailableData)
 
 type Props = {
   activeNodeArrayData: Object,
+  updateAvailableData: Object,
 }
 
 type State = {
@@ -71,9 +75,10 @@ class App extends Component<Props, State> {
   }
 
   render() {
-    const { activeNodeArrayData } = this.props
+    const { activeNodeArrayData, updateAvailableData } = this.props
     const { stacked } = this.state
     const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
+    const updateAvailable = get(updateAvailableData, 'updateAvailable', false)
     const url0 =
       activeNodeArray[0] && activeNodeArray[0].toLowerCase()
         ? activeNodeArray[0].toLowerCase()
@@ -98,10 +103,6 @@ class App extends Component<Props, State> {
     ].includes(url0)
     const showExport = url0 === 'export'
     const showLogin = url0 === 'login'
-    /**
-     * TODO: query updateAvailable
-     * if true, show notification to reload
-     */
 
     return (
       <ErrorBoundary>
@@ -112,6 +113,27 @@ class App extends Component<Props, State> {
           {showExport && <ExportAsync stacked={stacked} />}
           {showLogin && <LoginAsync />}
           {show404 && <FourOhFourAsync />}
+          <Snackbar
+            open={updateAvailable}
+            message={
+              <span id="message-id">
+                Für arteigenschaften.ch ist ein Update verfügbar
+              </span>
+            }
+            action={
+              <Button
+                key="undo"
+                color="primary"
+                size="small"
+                onClick={() => {
+                  console.log('TODO')
+                  window.location.reload(false)
+                }}
+              >
+                neu laden
+              </Button>
+            }
+          />
         </Container>
       </ErrorBoundary>
     )

@@ -165,7 +165,7 @@ import resolvers from './store/resolvers'
       document.getElementById('root')
     )
 
-    registerServiceWorker()
+    registerServiceWorker(client)
   } catch (error) {
     console.log('Error in index.js: ', error)
   }
