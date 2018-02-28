@@ -7,9 +7,11 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
 import SwipeableViews from 'react-swipeable-views'
+import get from 'lodash/get'
 
 import Tree from '../Tree'
 import DataType from '../DataType'
+import activeNodeArrayData from '../../modules/activeNodeArrayData'
 
 const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
@@ -27,6 +29,7 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 `
 
 const enhance = compose(
+  activeNodeArrayData,
   withState('tab', 'setTab', 0),
   withHandlers({
     onChangeTab: ({ setTab }) => (event, value) => {
@@ -39,16 +42,22 @@ const DataStacked = ({
   tab,
   setTab,
   onChangeTab,
+  activeNodeArrayData,
 }: {
   tab: Number,
   setTab: () => void,
   onChangeTab: () => void,
+  activeNodeArrayData: Object,
 }) => {
   const w = window
   const d = document
   const e = d.documentElement
   const g = d.getElementsByTagName('body')[0]
   const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
+  const disableDataType = activeNodeArray.length < 2
+  console.log('activeNodeArray:', activeNodeArray)
+  console.log('disableDataType:', disableDataType)
 
   return (
     <Fragment>
@@ -61,7 +70,7 @@ const DataStacked = ({
           indicatorClassName="indicator"
         >
           <Tab label="Strukturbaum" />
-          <Tab label="Formular" />
+          <Tab label="Formular" disabled={disableDataType} />
         </StyledTabs>
       </StyledPaper>
       <StyledSwipeableViews axis="x" index={tab} onChangeIndex={i => setTab(i)}>
