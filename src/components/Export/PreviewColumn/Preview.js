@@ -56,6 +56,7 @@ const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+  padding: 0 8px;
 `
 const TotalDiv = styled.div`
   font-size: small;
