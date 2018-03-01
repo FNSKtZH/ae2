@@ -36,6 +36,10 @@ const FourOhFourAsync = Loadable({
   loader: () => import('./FourOhFour'),
   loading: LoadingComponent,
 })
+const DataGraph = Loadable({
+  loader: () => import('./DataGraph'),
+  loading: LoadingComponent,
+})
 
 const enhance = compose(activeNodeArrayData, updateAvailableData)
 
@@ -92,6 +96,7 @@ class App extends Component<Props, State> {
       'export',
       'login',
       'benutzer',
+      'datagraph',
     ].includes(url0)
     const showData = [
       null,
@@ -103,6 +108,7 @@ class App extends Component<Props, State> {
     ].includes(url0)
     const showExport = url0 === 'export'
     const showLogin = url0 === 'login'
+    const showDataGraph = url0 === 'datagraph'
 
     return (
       <ErrorBoundary>
@@ -113,6 +119,7 @@ class App extends Component<Props, State> {
           {showExport && <ExportAsync stacked={stacked} />}
           {showLogin && <LoginAsync />}
           {show404 && <FourOhFourAsync />}
+          {showDataGraph && <DataGraph />}
           <Snackbar
             open={updateAvailable}
             message={

@@ -4,6 +4,7 @@ import Menu, { MenuItem } from 'material-ui/Menu'
 import Button from 'material-ui/Button'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
 import styled from 'styled-components'
+import app from 'ampersand-app'
 
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
@@ -54,7 +55,7 @@ class MoreMenu extends React.Component {
           PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-              width: 200,
+              width: 240,
             },
           }}
         >
@@ -66,6 +67,15 @@ class MoreMenu extends React.Component {
             }}
           >
             über arteigenschaften.ch
+          </MenuItem>
+          <MenuItem
+            key="datagraph"
+            onClick={() => {
+              app.history.push('/datagraph')
+              this.setState({ anchorEl: null })
+            }}
+          >
+            GrahpQL-Struktur anzeigen
           </MenuItem>
         </Menu>
       </div>

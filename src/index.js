@@ -24,6 +24,7 @@ import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
 import initializeIdb from './modules/initializeIdb'
 import setLoginFromIdb from './modules/setLoginFromIdb'
 import setLoginMutation from './modules/loginMutation'
+import graphQlUri from './modules/graphQlUri'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
 ;(async () => {
@@ -93,14 +94,8 @@ import resolvers from './store/resolvers'
       cache,
       defaults,
     })
-    //console.log('index: stateLink:', stateLink)
-    const hostnameWithoutWww = window.location.hostname.replace('www.', '')
-    const isLocalhost = hostnameWithoutWww === 'localhost'
-    const uri = isLocalhost
-      ? 'http://localhost:5000/graphql'
-      : `https://${window.location.hostname}/graphql`
     const httpLink = createHttpLink({
-      uri,
+      uri: graphQlUri(),
     })
     const client = new ApolloClient({
       link: ApolloLink.from([stateLink, authMiddleware, httpLink]),
