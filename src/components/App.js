@@ -40,6 +40,10 @@ const DataGraph = Loadable({
   loader: () => import('./DataGraph'),
   loading: LoadingComponent,
 })
+const GraphIql = Loadable({
+  loader: () => import('./GraphIql'),
+  loading: LoadingComponent,
+})
 
 const enhance = compose(activeNodeArrayData, updateAvailableData)
 
@@ -97,6 +101,7 @@ class App extends Component<Props, State> {
       'login',
       'benutzer',
       'datagraph',
+      'graphiql',
     ].includes(url0)
     const showData = [
       null,
@@ -109,6 +114,7 @@ class App extends Component<Props, State> {
     const showExport = url0 === 'export'
     const showLogin = url0 === 'login'
     const showDataGraph = url0 === 'datagraph'
+    const showGraphIql = url0 === 'graphiql'
 
     return (
       <ErrorBoundary>
@@ -120,6 +126,7 @@ class App extends Component<Props, State> {
           {showLogin && <LoginAsync />}
           {show404 && <FourOhFourAsync />}
           {showDataGraph && <DataGraph />}
+          {showGraphIql && <GraphIql />}
           <Snackbar
             open={updateAvailable}
             message={

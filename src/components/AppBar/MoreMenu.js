@@ -55,7 +55,7 @@ class MoreMenu extends React.Component {
           PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-              width: 240,
+              width: 250,
             },
           }}
         >
@@ -76,6 +76,15 @@ class MoreMenu extends React.Component {
             }}
           >
             GrahpQL-Struktur anzeigen
+          </MenuItem>
+          <MenuItem
+            key="graphiql"
+            onClick={() => {
+              app.history.push('/graphiql')
+              this.setState({ anchorEl: null })
+            }}
+          >
+            GrahpQL-Abfragetool anzeigen
           </MenuItem>
         </Menu>
       </div>
