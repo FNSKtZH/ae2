@@ -56,7 +56,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "serve": "node ecosystem.config.js"
+    "serve": "node ecosystem.config.js",
+    "analyze": "npx source-map-explorer build/static/js/main.*"
   },
   "license": "ISC"
 }
