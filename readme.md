@@ -278,7 +278,7 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
     - Einfachere Verwaltung,
     - Datenauswertung
     - und Gewährleistung der Datenintegrität
-- [GraphQL](https://github.com/facebook/graphql) in Form von [PostGraphQL](https://github.com/postgraphql/postgraphql)
+- [GraphQL](https://github.com/facebook/graphql) in Form von [PostGraphile](https://github.com/graphile/postgraphile)
   - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
   - Daten-Logik und Rechte-Verwaltung obliegen der Datenbank - wie es sein sollte<br/>
   - GraphQL ist die kommende API-Technologie. Verglichen mit REST ist GraphQL einfach zu verstehen, extrem leistungsfähig und flexibel. Somit steht ein aussergewöhnlich benutzerfreundlicher API-Server zur Verfügung, mit dem jede(r) ganz nach eigenen Bedürfnissen alle öffentlichen Daten aus arteigenschaften.ch abfragen und - im Rahmen der Benutzer-Rechte - bearbeiten kann
@@ -303,7 +303,7 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 
 - [x] Datenstruktur:<br/>![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
 - [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](/etc/import.png?raw=true "Import")
-- [x] Anwendungs-API-Server ([PostGraphQL](https://github.com/postgraphql/postgraphql))<br/>
+- [x] Anwendungs-API-Server ([PostGraphile](https://github.com/graphile/postgraphile))<br/>
   ![API-Server](/etc/postgraphql.png?raw=true "API-Server")
   Ja, man sieht in diesem Bild ein Passwort :-( Aber es ist veraltet :-)
 - [x] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
