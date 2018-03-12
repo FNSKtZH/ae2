@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import Reboot from 'material-ui/Reboot'
+import CssBaseline from 'material-ui/CssBaseline'
 import Button from 'material-ui/Button'
 import Snackbar from 'material-ui/Snackbar'
 import get from 'lodash/get'
@@ -119,7 +119,7 @@ class App extends Component<Props, State> {
     return (
       <ErrorBoundary>
         <Container data-stacked={stacked}>
-          <Reboot />
+          <CssBaseline />
           <AppBar />
           {showData && <DataAsync stacked={stacked} />}
           {showExport && <ExportAsync stacked={stacked} />}
