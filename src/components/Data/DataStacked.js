@@ -70,7 +70,6 @@ const DataStacked = ({
           value={tab}
           onChange={onChangeTab}
           indicatorColor="#2E7D32"
-          indicatorClassName="indicator"
           textColor="secondary"
         >
           <StyledTab label="Strukturbaum" />

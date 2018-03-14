@@ -80,7 +80,6 @@ const Organization = ({
             value={tab}
             onChange={onChangeTab}
             indicatorColor="#E65100"
-            indicatorClassName="indicator"
             scrollable
             scrollButtons="auto"
           >

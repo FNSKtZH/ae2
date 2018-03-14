@@ -49,6 +49,7 @@ const ExportStacked = ({
   const e = d.documentElement
   const g = d.getElementsByTagName('body')[0]
   const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+  console.log('hi')
 
   return (
     <Fragment>
@@ -58,7 +59,6 @@ const ExportStacked = ({
           value={tab}
           onChange={onChangeTab}
           indicatorColor="#E65100"
-          indicatorClassName="indicator"
         >
           <Tab label="Auswählen" />
           <Tab label="Vorschau" />

@@ -225,7 +225,6 @@ class User extends Component<Props, State> {
               value={tab}
               onChange={onChangeTab}
               indicatorColor="#E65100"
-              indicatorClassName="indicator"
               scrollable
               scrollButtons="auto"
             >
