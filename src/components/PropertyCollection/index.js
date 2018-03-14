@@ -102,6 +102,8 @@ const PropertyCollection = ({
       0
     ) > 0 ||
     get(pC, 'relationsByPropertyCollectionOfOrigin.totalCount', 0) > 0
+  const importedBy = pC.importedBy
+  const importedByUser = allUsers.find(u => u.id === importedBy)
 
   return (
     <ErrorBoundary>
@@ -194,7 +196,7 @@ const PropertyCollection = ({
             />
             <PropertyReadOnly
               key="importedBy"
-              value={`${user.name} (${user.email})`}
+              value={`${importedByUser.name} (${importedByUser.email})`}
               label="Importiert von"
             />
             <PropertyReadOnly
