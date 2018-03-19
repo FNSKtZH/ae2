@@ -41,11 +41,11 @@
     "react-swipeable-views": "0.12.13",
     "react-virtualized": "9.18.5",
     "recompose": "0.26.0",
-    "styled-components": "3.2.2",
+    "styled-components": "3.2.3",
     "xlsx": "0.12.5"
   },
   "devDependencies": {
-    "flow-bin": "0.67.1",
+    "flow-bin": "0.68.0",
     "postgraphile": "4.0.0-beta.3",
     "postgraphile-plugin-connection-filter": "1.0.0-beta.0",
     "react-scripts": "1.1.1",
