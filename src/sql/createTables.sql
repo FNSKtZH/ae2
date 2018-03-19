@@ -76,6 +76,7 @@ CREATE INDEX ON ae.object USING btree (id);
 CREATE INDEX ON ae.object USING btree (name);
 CREATE INDEX ON ae.object USING btree (taxonomy_id);
 CREATE INDEX ON ae.object USING btree (parent_id);
+CREATE INDEX ON ae.object USING gin(properties);
 
 
 -- ae.object to ae.object relationship
@@ -136,6 +137,7 @@ CREATE INDEX ON ae.property_collection_object USING btree (id);
 CREATE INDEX ON ae.property_collection_object USING btree (object_id);
 CREATE INDEX ON ae.property_collection_object USING btree (property_collection_id);
 CREATE INDEX ON ae.property_collection_object USING btree (property_collection_of_origin);
+CREATE INDEX ON ae.property_collection_object USING gin(properties);
 -- once
 --alter table ae.property_collection_object add column property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE;
 --alter table ae.property_collection_object add column property_collection_of_origin_name text DEFAULT NULL;
@@ -168,6 +170,7 @@ CREATE INDEX ON ae.relation USING btree (object_id);
 CREATE INDEX ON ae.relation USING btree (object_id_relation);
 CREATE INDEX ON ae.relation USING btree (property_collection_of_origin);
 CREATE INDEX ON ae.relation USING btree (relation_type);
+CREATE INDEX ON ae.relation USING gin(properties);
 --alter table ae.relation add column property_collection_of_origin UUID DEFAULT NULL REFERENCES ae.property_collection (id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 DROP TABLE IF EXISTS ae.role CASCADE;
