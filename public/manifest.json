@@ -1,5 +1,5 @@
 {
-  "short_name": "arteigenschaften.ch",
+  "short_name": "arteigenschaften",
   "name": "arteigenschaften.ch",
   "icons": [
     {
@@ -8,7 +8,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "./index.js",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
