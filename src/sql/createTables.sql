@@ -26,6 +26,7 @@ CREATE INDEX ON ae.organization USING btree (contact);
 -- once: ALTER TABLE ae.organization ADD CONSTRAINT fk_contact FOREIGN KEY (contact) REFERENCES ae.user (id)
 
 CREATE TYPE taxonomy_type AS ENUM ('Art', 'Lebensraum');
+
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
   -- gets existing guids
@@ -48,6 +49,7 @@ CREATE INDEX ON ae.taxonomy USING btree (id);
 CREATE INDEX ON ae.taxonomy USING btree (type);
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (organization_id);
+CREATE INDEX ON ae.taxonomy USING btree (imported_by);
 
 --once:
 --alter table ae.taxonomy drop column is_category_standard;
