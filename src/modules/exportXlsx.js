@@ -19,7 +19,7 @@ export default async ({
     console.log(error)
     onSetMessage(error)
   }
-  fileSaver.saveAs(
+  fileSaver(
     new Blob([buffer], {
       type: 'application/octet-stream',
     }),
