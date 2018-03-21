@@ -58,11 +58,11 @@ export default ({
         return (row[`${conv(p.taxname)}__${conv(p.pname)}`] = val)
       })
       // 2. pco
-      const thesePco = pco.filter(p => p.objectId === o.id)
-      const theseSynonymPco = synonymPco.filter(p => p.objectId === o.id)
-      const pcoToUse = [...thesePco]
+      const thisObjectsPco = pco.filter(p => p.objectId === o.id)
+      const thisObjectsSynonymPco = synonymPco.filter(p => p.objectId === o.id)
+      const pcoToUse = [...thisObjectsPco]
       if (exportWithSynonymData) {
-        theseSynonymPco.forEach(sPco => {
+        thisObjectsSynonymPco.forEach(sPco => {
           // add if not yet contained
           const idContained = pcoToUse.find(pco => pco.id === sPco.id)
           if (!idContained) pcoToUse.push(sPco)
@@ -70,15 +70,17 @@ export default ({
       }
       pcoToUse.forEach(pco => {
         const pcoProperties = JSON.parse(pco.properties)
-        exportPcoProperties.forEach(p => {
-          if (pcoProperties && pcoProperties[p.pname] !== undefined) {
-            let val = pcoProperties[p.pname]
-            if (typeof val === 'boolean') {
-              val = booleanToJaNein(val)
+        if (pcoProperties) {
+          exportPcoProperties.forEach(p => {
+            if (pcoProperties[p.pname] !== undefined) {
+              let val = pcoProperties[p.pname]
+              if (typeof val === 'boolean') {
+                val = booleanToJaNein(val)
+              }
+              row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
             }
-            row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
-          }
-        })
+          })
+        }
       })
       // add every field if still missing
       exportPcoProperties.forEach(p => {
@@ -87,27 +89,28 @@ export default ({
         }
       })
       // 3. rco
-      const theseRco = rco.filter(p => p.objectId === o.id)
-      const theseSynonymRco = synonymRco.filter(p => p.objectId === o.id)
-      const rcoToUse = [...theseRco]
+      //console.log('rco:', rco)
+      const thisObjectsRco = rco.filter(p => p.objectId === o.id)
+      const thisObjectsSynonymRco = synonymRco.filter(p => p.objectId === o.id)
+      const rcoToUse = [...thisObjectsRco]
       if (exportWithSynonymData) {
-        theseSynonymRco.forEach(sRco => {
+        thisObjectsSynonymRco.forEach(sRco => {
           // add if not yet contained
           const idContained = rcoToUse.find(rco => rco.id === sRco.id)
           if (!idContained) rcoToUse.push(sRco)
         })
       }
       rcoToUse.forEach(rco => {
-        const bezPartnerId = get(rco, 'objectByObjectIdRelation.id', null)
+        const bezPartnerId = get(rco, 'objectByObjectId.id', null)
         if (exportRcoPropertyNames.includes('Beziehungspartner_id')) {
           row[`Beziehungspartner_id`] = bezPartnerId
         }
         const bezPartnerTaxonomyName = get(
           rco,
-          'objectByObjectIdRelation.taxonomyByTaxonomyId.name',
+          'objectByObjectId.taxonomyByTaxonomyId.name',
           ''
         )
-        const bezPartnerName = get(rco, 'objectByObjectIdRelation.name', '')
+        const bezPartnerName = get(rco, 'objectByObjectId.name', '')
         const bezPartner = `${bezPartnerTaxonomyName}: ${bezPartnerName}`
         if (exportRcoPropertyNames.includes('Beziehungspartner_Name')) {
           row[`Beziehungspartner_Name`] = bezPartner
