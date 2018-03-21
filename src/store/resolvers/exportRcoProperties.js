@@ -11,7 +11,7 @@ import constants from '../../modules/constants'
 
 export default {
   Mutation: {
-    addExportRcoProperty: (_, { pcname, pname }, { cache }) => {
+    addExportRcoProperty: (_, { pcname, relationType, pname }, { cache }) => {
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
@@ -28,14 +28,22 @@ export default {
         // only add if not yet done
         if (
           !currentRco.exportRcoProperties.find(
-            t => t.pcname === pcname && t.pname === pname
+            t =>
+              t.pcname === pcname &&
+              t.relationType === relationType &&
+              t.pname === pname
           )
         ) {
           cache.writeData({
             data: {
               exportRcoProperties: [
                 ...currentRco.exportRcoProperties,
-                { pcname, pname, __typename: 'ExportRcoProperty' },
+                {
+                  pcname,
+                  relationType,
+                  pname,
+                  __typename: 'ExportRcoProperty',
+                },
               ],
             },
           })
@@ -43,10 +51,19 @@ export default {
       }
       return null
     },
-    removeExportRcoProperty: (_, { pcname, pname }, { cache }) => {
+    removeExportRcoProperty: (
+      _,
+      { pcname, relationType, pname },
+      { cache }
+    ) => {
       const current = cache.readQuery({ query: exportRcoPropertiesGql })
       const exportRcoProperties = current.exportRcoProperties.filter(
-        x => !(x.pcname === pcname && x.pname === pname)
+        x =>
+          !(
+            x.pcname === pcname &&
+            x.relationType === relationType &&
+            x.pname === pname
+          )
       )
       cache.writeData({
         data: { exportRcoProperties },
@@ -55,21 +72,29 @@ export default {
     },
     setExportRcoFilters: (
       _,
-      { pcname, pname, comparator, value },
+      { pcname, relationType, pname, comparator, value },
       { cache }
     ) => {
       const { exportRcoFilters } = cache.readQuery({
         query: exportRcoFiltersGql,
       })
       const exportRcoFilter = exportRcoFilters.find(
-        x => x.pcname === pcname && x.pname === pname
+        x =>
+          x.pcname === pcname &&
+          x.relationType === relationType &&
+          x.pname === pname
       )
       if (!comparator && !value && value !== 0) {
         // remove
         cache.writeData({
           data: {
             exportRcoFilters: exportRcoFilters.filter(
-              x => !(x.pcname === pcname && x.pname === pname)
+              x =>
+                !(
+                  x.pcname === pcname &&
+                  x.relationType === relationType &&
+                  x.pname === pname
+                )
             ),
           },
         })
@@ -81,6 +106,7 @@ export default {
               ...exportRcoFilters,
               {
                 pcname,
+                relationType,
                 pname,
                 comparator,
                 value,
@@ -95,10 +121,16 @@ export default {
           data: {
             exportRcoFilters: [
               ...exportRcoFilters.filter(
-                x => !(x.pcname === pcname && x.pname === pname)
+                x =>
+                  !(
+                    x.pcname === pcname &&
+                    x.relationType === relationType &&
+                    x.pname === pname
+                  )
               ),
               {
                 pcname,
+                relationType,
                 pname,
                 comparator,
                 value,

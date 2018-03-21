@@ -6,6 +6,7 @@
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 import some from 'lodash/some'
+import groupBy from 'lodash/groupBy'
 
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
@@ -102,9 +103,12 @@ export default ({
 
       /**
        * add all relations comma separated
-       * or TODO: add new row, depending on setting?
+       * need to group by relationType
+       * TODO: choose to add new row, depending on setting?
        * but then need to make shure only one relationCollection exists
        */
+      const rcoByType = groupBy(rcoToUse, 'relationType')
+      Object.keys(rcoByType).length && console.log('rcoByType:', rcoByType)
       if (exportRcoPropertyNames.includes('Beziehungspartner_id')) {
         const bezPartnerId = rcoToUse
           .map(rco => get(rco, 'objectByObjectIdRelation.id', null))
@@ -140,10 +144,20 @@ export default ({
             if (typeof val === 'boolean') {
               val = booleanToJaNein(val)
             }
-            row[`${conv(p.pcname)}__${conv(p.pname)}`] =
-              row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined
+            row[
+              `${conv(p.pcname)}__${conv(rco.relationType)}__${conv(p.pname)}`
+            ] =
+              row[
+                `${conv(p.pcname)}__${conv(rco.relationType)}__${conv(p.pname)}`
+              ] === undefined
                 ? val
-                : `${row[`${conv(p.pcname)}__${conv(p.pname)}`]} | ${val}`
+                : `${
+                    row[
+                      `${conv(p.pcname)}__${conv(rco.relationType)}__${conv(
+                        p.pname
+                      )}`
+                    ]
+                  } | ${val}`
           }
         })
       })
