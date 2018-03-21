@@ -102,7 +102,9 @@ export default ({
       }
 
       /**
-       * Maybe: group by objectId?
+       * Maybe: group rcoToUse by objectId?
+       * Then add all relations comma separated
+       * or add new row, depending on setting?
        */
       rcoToUse.forEach(rco => {
         const bezPartnerId = get(rco, 'objectByObjectIdRelation.id', null)
