@@ -100,20 +100,30 @@ export default ({
           if (!idContained) rcoToUse.push(sRco)
         })
       }
+
+      /**
+       * Maybe: group by objectId?
+       */
       rcoToUse.forEach(rco => {
-        const bezPartnerId = get(rco, 'objectByObjectId.id', null)
+        const bezPartnerId = get(rco, 'objectByObjectIdRelation.id', null)
         if (exportRcoPropertyNames.includes('Beziehungspartner_id')) {
-          row[`Beziehungspartner_id`] = bezPartnerId
+          const pcName = exportRcoProperties.find(
+            p => p.pname === 'Beziehungspartner_id'
+          ).pcname
+          row[`${conv(pcName)}__Beziehungspartner_id`] = bezPartnerId
         }
         const bezPartnerTaxonomyName = get(
           rco,
-          'objectByObjectId.taxonomyByTaxonomyId.name',
+          'objectByObjectIdRelation.taxonomyByTaxonomyId.name',
           ''
         )
-        const bezPartnerName = get(rco, 'objectByObjectId.name', '')
+        const bezPartnerName = get(rco, 'objectByObjectIdRelation.name', '')
         const bezPartner = `${bezPartnerTaxonomyName}: ${bezPartnerName}`
         if (exportRcoPropertyNames.includes('Beziehungspartner_Name')) {
-          row[`Beziehungspartner_Name`] = bezPartner
+          const pcName = exportRcoProperties.find(
+            p => p.pname === 'Beziehungspartner_Name'
+          ).pcname
+          row[`${conv(pcName)}__Beziehungspartner_Name`] = bezPartner
         }
         const rcoProperties = JSON.parse(rco.properties)
         exportRcoProperties.forEach(p => {
@@ -126,6 +136,7 @@ export default ({
           }
         })
       })
+
       // add every field if still missing
       exportRcoProperties.forEach(p => {
         if (row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined) {
