@@ -261,8 +261,12 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
         END LOOP;
       END IF;
 
-      IF cardinality(pco_filters) > 0 OR cardinality(rco_filters) > 0 THEN
-        sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ')) OR ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ')) ';
+      IF cardinality(pco_filters) > 0 AND cardinality(rco_filters) > 0 THEN
+        sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ')) AND ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ')) ';
+      ELSEIF cardinality(pco_filters) > 0 THEN
+        sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ')) ';
+      ELSEIF cardinality(rco_filters) > 0 THEN
+        sql := sql || ' AND ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ')) ';
       END IF;
 
     --RAISE EXCEPTION  'export_taxonomies: %, tax_filters: %, pco_filters: %, rco_filters: %, cardinality(pco_filters): %, sql: %:', export_taxonomies, tax_filters, pco_filters, rco_filters, cardinality(pco_filters), sql;
