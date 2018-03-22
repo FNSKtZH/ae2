@@ -47,7 +47,7 @@
   "devDependencies": {
     "flow-bin": "0.68.0",
     "postgraphile": "4.0.0-beta.3",
-    "postgraphile-plugin-connection-filter": "1.0.0-beta.0",
+    "postgraphile-plugin-connection-filter": "1.0.0-beta.3",
     "react-scripts": "1.1.1",
     "source-map-explorer": "1.5.0"
   },
