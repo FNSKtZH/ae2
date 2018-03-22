@@ -104,19 +104,27 @@ export default ({
       /**
        * add all relations comma separated
        * need to group by relationType
-       * TODO: choose to add new row, depending on setting?
+       *
+       * TODO:
+       * choose to add new row, depending on setting?
        * but then need to make shure only one relationCollection exists
        */
+      exportRcoProperties.length &&
+        console.log('exportRcoProperties:', exportRcoProperties)
       const rcoByType = groupBy(rcoToUse, 'relationType')
       Object.keys(rcoByType).length && console.log('rcoByType:', rcoByType)
       if (exportRcoPropertyNames.includes('Beziehungspartner_id')) {
         const bezPartnerId = rcoToUse
           .map(rco => get(rco, 'objectByObjectIdRelation.id', null))
           .join(' | ')
-        const pcName = exportRcoProperties.find(
+        const rcoP = exportRcoProperties.find(
           p => p.pname === 'Beziehungspartner_id'
         ).pcname
-        row[`${conv(pcName)}__Beziehungspartner_id`] = bezPartnerId
+        row[
+          `${conv(rcoP.pcname)}__${conv(
+            rcoP.relationType
+          )}__Beziehungspartner_id`
+        ] = bezPartnerId
       }
       if (exportRcoPropertyNames.includes('Beziehungspartner_Name')) {
         const bezPartner = rcoToUse
@@ -130,10 +138,14 @@ export default ({
             return `${bezPartnerTaxonomyName}: ${bezPartnerName}`
           })
           .join(' | ')
-        const pcName = exportRcoProperties.find(
+        const rcoP = exportRcoProperties.find(
           p => p.pname === 'Beziehungspartner_Name'
         ).pcname
-        row[`${conv(pcName)}__Beziehungspartner_Name`] = bezPartner
+        row[
+          `${conv(rcoP.pcname)}__${conv(
+            rcoP.relationType
+          )}__Beziehungspartner_Name`
+        ] = bezPartner
       }
 
       rcoToUse.forEach(rco => {
@@ -164,8 +176,14 @@ export default ({
 
       // add every field if still missing
       exportRcoProperties.forEach(p => {
-        if (row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined) {
-          row[`${conv(p.pcname)}__${conv(p.pname)}`] = null
+        if (
+          row[
+            `${conv(p.pcname)}__${conv(p.relationType)}__${conv(p.pname)}`
+          ] === undefined
+        ) {
+          row[
+            `${conv(p.pcname)}__${conv(p.relationType)}__${conv(p.pname)}`
+          ] = null
         }
       })
       return row

@@ -209,6 +209,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
       client,
       exportAddFilterFieldsData,
     } = this.props
+    console.log('RcoFieldValue: relationType:', relationType)
     // trim the start to enable entering space
     // at start to open list
     const value = trimStart(newValue)

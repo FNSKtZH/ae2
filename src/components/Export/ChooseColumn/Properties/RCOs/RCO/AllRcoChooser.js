@@ -33,10 +33,11 @@ const enhance = compose(
         : removeExportRcoPropertyMutation
       properties.forEach(p => {
         const pcname = p.propertyCollectionName
+        const relationType = p.relationType
         const pname = p.propertyName
         client.mutate({
           mutation,
-          variables: { pcname, pname },
+          variables: { pcname, relationType, pname },
         })
       })
     },
@@ -56,7 +57,10 @@ const AllRcoChooser = ({
   const checkedArray = properties.map(
     p =>
       exportRcoProperties.filter(
-        x => x.pcname === p.propertyCollectionName && x.pname === p.propertyName
+        x =>
+          x.pcname === p.propertyCollectionName &&
+          x.relationType === p.relationType &&
+          x.pname === p.propertyName
       ).length > 0
   )
   const checked = checkedArray.length > 0 && !checkedArray.includes(false)
