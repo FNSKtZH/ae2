@@ -20,6 +20,7 @@ import exportTaxFiltersData from '../exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
+import exportRcoInOneRowData from '../exportRcoInOneRowData'
 import exportOnlyRowsWithPropertiesData from '../exportOnlyRowsWithPropertiesData'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
@@ -81,6 +82,7 @@ const enhance = compose(
   exportRcoPropertiesData,
   exportRcoFiltersData,
   exportWithSynonymDataData,
+  exportRcoInOneRowData,
   exportOnlyRowsWithPropertiesData,
   exportData,
   withState('sortField', 'setSortField', 'id'),
@@ -107,6 +109,7 @@ const Preview = ({
   exportRcoPropertiesData,
   exportRcoFiltersData,
   exportWithSynonymDataData,
+  exportRcoInOneRowData,
   exportOnlyRowsWithPropertiesData,
   sortField,
   sortDirection,
@@ -125,6 +128,7 @@ const Preview = ({
   exportRcoPropertiesData: Object,
   exportRcoFiltersData: Object,
   exportWithSynonymDataData: Object,
+  exportRcoInOneRowData: Object,
   exportOnlyRowsWithPropertiesData: Object,
   sortField: String,
   sortDirection: String,
@@ -137,6 +141,11 @@ const Preview = ({
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
     'exportWithSynonymData',
+    true
+  )
+  const exportRcoInOneRow = get(
+    exportRcoInOneRowData,
+    'exportRcoInOneRow',
     true
   )
   const exportOnlyRowsWithProperties = get(
@@ -176,6 +185,7 @@ const Preview = ({
     objects,
     exportTaxProperties,
     exportWithSynonymData,
+    exportRcoInOneRow,
     exportPcoProperties,
     pco,
     synonymPco,

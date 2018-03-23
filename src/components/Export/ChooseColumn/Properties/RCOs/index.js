@@ -12,6 +12,7 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 
 import RCO from './RCO'
+import ChooseNrOfRows from './ChooseNrOfRows'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import data from '../data'
@@ -136,6 +137,7 @@ const RCOs = ({
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
+          <ChooseNrOfRows />
           {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
             <RCO key={pc} pc={pc} />
           ))}

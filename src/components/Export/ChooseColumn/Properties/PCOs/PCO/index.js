@@ -44,8 +44,7 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 const StyledCollapse = styled(Collapse)`
-  padding-left: 12px;
-  padding-right: 12px;
+  padding: 8px 20px;
 `
 const Count = styled.span`
   font-size: x-small;
