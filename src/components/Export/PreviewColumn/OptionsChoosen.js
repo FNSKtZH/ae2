@@ -36,6 +36,7 @@ import exportOnlyRowsWithPropertiesMutation from '../exportOnlyRowsWithPropertie
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../exportWithSynonymDataMutation'
 import exportTooManyPropertiesData from '../exportTooManyPropertiesData'
+import exportRcoInOneRowData from '../exportRcoInOneRowData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 
 const styles = theme => ({
@@ -90,6 +91,7 @@ const enhance = compose(
   exportRcoFiltersData,
   exportOnlyRowsWithPropertiesData,
   exportTooManyPropertiesData,
+  exportRcoInOneRowData,
   exportWithSynonymDataData,
   withHandlers({
     onClickResetAll: ({ client }) => () => {
@@ -175,6 +177,7 @@ const OptionsChoosen = ({
   exportRcoFiltersData,
   exportOnlyRowsWithPropertiesData,
   exportWithSynonymDataData,
+  exportRcoInOneRowData,
   classes,
   onClickResetAll,
   onClickResetTaxonomies,
@@ -195,6 +198,7 @@ const OptionsChoosen = ({
   exportRcoFiltersData: Object,
   exportOnlyRowsWithPropertiesData: Object,
   exportWithSynonymDataData: Object,
+  exportRcoInOneRowData: Object,
   classes: Object,
   onClickResetAll: () => void,
   onClickResetTaxonomies: () => void,
@@ -242,6 +246,14 @@ const OptionsChoosen = ({
       ...exportPcoFilters,
       ...exportRcoFilters,
     ].length === 0
+  const exportRcoInOneRow = get(
+    exportRcoInOneRowData,
+    'exportRcoInOneRow',
+    true
+  )
+  console.log('exportRcoInOneRowData:', exportRcoInOneRowData)
+  console.log('exportRcoInOneRow:', exportRcoInOneRow)
+  console.log('exportRcoProperties.length:', exportRcoProperties.length)
 
   if (noDataChoosen) return null
   return (
@@ -288,7 +300,14 @@ const OptionsChoosen = ({
             </ResetSpan>
           )}
         </li>
-        {exportPcoProperties.length > 0 && <li>Pro Beziehung eine Zeile</li>}
+        {exportRcoProperties.length > 0 &&
+          exportRcoInOneRow && (
+            <li>Eigenschaften von Beziehungen kommagetrennt in einer Zeile</li>
+          )}
+        {exportRcoProperties.length > 0 &&
+          !exportRcoInOneRow && (
+            <li>Für jede Beziehung wird eine Zeile erstellt</li>
+          )}
         <li>
           {`Filter:${
             [...exportTaxFilters, ...exportPcoFilters, ...exportRcoFilters]
