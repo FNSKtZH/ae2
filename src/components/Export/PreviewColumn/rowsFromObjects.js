@@ -119,7 +119,7 @@ export default ({
           .join(' | ')
         const rcoP = exportRcoProperties.find(
           p => p.pname === 'Beziehungspartner_id'
-        ).pcname
+        )
         row[
           `${conv(rcoP.pcname)}__${conv(
             rcoP.relationType
@@ -140,7 +140,7 @@ export default ({
           .join(' | ')
         const rcoP = exportRcoProperties.find(
           p => p.pname === 'Beziehungspartner_Name'
-        ).pcname
+        )
         row[
           `${conv(rcoP.pcname)}__${conv(
             rcoP.relationType

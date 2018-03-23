@@ -56,7 +56,12 @@ export default {
       { pcname, relationType, pname },
       { cache }
     ) => {
+      console.log('removeExportRcoProperty: relationType:', relationType)
       const current = cache.readQuery({ query: exportRcoPropertiesGql })
+      console.log(
+        'removeExportRcoProperty: current.exportRcoProperties:',
+        current.exportRcoProperties
+      )
       const exportRcoProperties = current.exportRcoProperties.filter(
         x =>
           !(
@@ -64,6 +69,10 @@ export default {
             x.relationType === relationType &&
             x.pname === pname
           )
+      )
+      console.log(
+        'removeExportRcoProperty: exportRcoProperties:',
+        exportRcoProperties
       )
       cache.writeData({
         data: { exportRcoProperties },
