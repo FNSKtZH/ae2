@@ -32,7 +32,7 @@ const StyledRadioGroup = styled(RadioGroup)`
 `
 const StyledUl = styled.ul`
   margin-top: -4px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   padding-left: 52px;
 `
 
@@ -106,17 +106,12 @@ const ChooseNrOfRows = () => (
                 </Typography>
               </li>
               <li>
-                <Typography>
-                  Anschliessende Auswertungen sind so meist einfacher
-                  auszuführen
-                </Typography>
+                <Typography>Vereinfacht Auswertungen</Typography>
               </li>
               <li>
                 <Typography>
                   Achtung: Sie können mit dieser Einstellung aus maximal einer
-                  Beziehungssammlung Felder wählen.<br />Aber wie gewohnt mit
-                  beliebig vielen Feldern aus Taxonomie(n) und
-                  Eigenschaftensammlungen ergänzen
+                  Beziehungssammlung Felder wählen
                 </Typography>
               </li>
               <li>
