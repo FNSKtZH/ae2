@@ -80,14 +80,19 @@ const ChooseNrOfRows = () => (
             <StyledUl>
               <li>
                 <Typography>
-                  Von allen Beziehungen der Art oder des Lebensraums wird der
-                  Inhalt des Feldes kommagetrennt in das Feld der einzigen Zeile
-                  geschrieben
+                  Eine Art oder ein Lebensraum kann Beziehungen zu{' '}
+                  <b>mehreren</b> anderen Arten oder Lebensräumen haben
                 </Typography>
               </li>
               <li>
                 <Typography>
-                  Sie können Felder aus beliebigen Beziehungssammlungen
+                  Bei dieser Einstellung werden pro Feld alle Werte von allen
+                  Beziehungen kommagetrennt aufgelistet
+                </Typography>
+              </li>
+              <li>
+                <Typography>
+                  Vorteil: Sie können Felder aus mehreren Beziehungssammlungen
                   gleichzeitig exportieren
                 </Typography>
               </li>
@@ -106,11 +111,14 @@ const ChooseNrOfRows = () => (
                 </Typography>
               </li>
               <li>
-                <Typography>Vereinfacht Auswertungen</Typography>
+                <Typography>
+                  Vereinfacht die Auswertung von Beziehungen, weil deren Werte{' '}
+                  <em>einzeln</em> in den Feldern enthalten sind
+                </Typography>
               </li>
               <li>
                 <Typography>
-                  Achtung: Sie können mit dieser Einstellung aus maximal einer
+                  Achtung: Sie können mit dieser Einstellung nur aus einer
                   Beziehungssammlung Felder wählen
                 </Typography>
               </li>
@@ -119,13 +127,13 @@ const ChooseNrOfRows = () => (
                   {multipleRowsDisabled ? (
                     <b>
                       Darum wird automatisch "Kommagetrennt in einer Zeile"
-                      gewählt, wenn Sie aus mehr als einer Beziehungssammlung
+                      gewählt, sobald Sie aus mehreren Beziehungssammlungen
                       Felder wählen
                     </b>
                   ) : (
                     <span>
                       Darum wird automatisch "Kommagetrennt in einer Zeile"
-                      gewählt, wenn Sie aus mehr als einer Beziehungssammlung
+                      gewählt, sobald Sie aus mehreren Beziehungssammlungen
                       Felder wählen
                     </span>
                   )}
