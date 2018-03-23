@@ -40,7 +40,7 @@ const enhance = compose()
 const ChooseNrOfRows = () => (
   <Query
     query={gql`
-      query exportRcoInOneRowQuery {
+      {
         exportRcoInOneRow @client
       }
     `}
@@ -104,9 +104,19 @@ const ChooseNrOfRows = () => (
               </li>
               <li>
                 <Typography>
-                  Dafür können Sie aus maximal einer Beziehungssammlung Felder
-                  wählen (aber wie gewohnt mit beliebig vielen Feldern aus
-                  Taxonomie(n) und Eigenschaftensammlungen ergänzen)
+                  Achtung: Sie können mit dieser Einstellung aus maximal einer
+                  Beziehungssammlung Felder wählen.<br />Aber wie gewohnt mit
+                  beliebig vielen Feldern aus Taxonomie(n) und
+                  Eigenschaftensammlungen ergänzen
+                </Typography>
+              </li>
+              <li>
+                <Typography>
+                  Darum{' '}
+                  <b>
+                    wird automatisch "Kommagetrennt in einer Zeile" gewählt,
+                    wenn Sie aus mehr als einer Beziehungssammlung Felder wählen
+                  </b>
                 </Typography>
               </li>
             </StyledUl>

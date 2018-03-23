@@ -1,14 +1,8 @@
 // @flow
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 
-export default graphql(
-  gql`
-    query exportRcoInOneRowQuery {
-      exportRcoInOneRow @client
-    }
-  `,
-  {
-    name: 'exportRcoInOneRowData',
-  }
-)
+import exportRcoInOneRowGql from './exportRcoInOneRowGql'
+
+export default graphql(exportRcoInOneRowGql, {
+  name: 'exportRcoInOneRowData',
+})

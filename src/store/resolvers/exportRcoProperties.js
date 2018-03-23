@@ -1,10 +1,12 @@
 // @flow
 
 import app from 'ampersand-app'
+import uniq from 'lodash/uniq'
 
 import exportTaxPropertiesGql from '../../components/Export/exportTaxPropertiesGql'
 import exportPcoPropertiesGql from '../../components/Export/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from '../../components/Export/exportRcoPropertiesGql'
+import exportRcoInOneRowGql from '../../components/Export/exportRcoInOneRowGql'
 import exportRcoFiltersGql from '../../components/Export/exportRcoFiltersGql'
 import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
@@ -15,6 +17,9 @@ export default {
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
+      const { exportRcoInOneRow } = cache.readQuery({
+        query: exportRcoInOneRowGql,
+      })
       const nrOfPropertiesExported =
         currentTax.exportTaxProperties.length +
         currentRco.exportRcoProperties.length +
@@ -34,19 +39,27 @@ export default {
               t.pname === pname
           )
         ) {
+          const exportRcoProperties = [
+            ...currentRco.exportRcoProperties,
+            {
+              pcname,
+              relationtype,
+              pname,
+              __typename: 'ExportRcoProperty',
+            },
+          ]
           cache.writeData({
             data: {
-              exportRcoProperties: [
-                ...currentRco.exportRcoProperties,
-                {
-                  pcname,
-                  relationtype,
-                  pname,
-                  __typename: 'ExportRcoProperty',
-                },
-              ],
+              exportRcoProperties,
             },
           })
+          // set exportRcoInOneRow if more than one type of rco is choosen
+          const rcoPCTypes = uniq(
+            exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`)
+          )
+          if (rcoPCTypes.length > 1 && !exportRcoInOneRow) {
+            cache.writeData({ data: { exportRcoInOneRow: true } })
+          }
         }
       }
       return null
