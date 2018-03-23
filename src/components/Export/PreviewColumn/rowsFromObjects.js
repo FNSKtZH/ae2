@@ -6,7 +6,6 @@
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 import some from 'lodash/some'
-import groupBy from 'lodash/groupBy'
 
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
@@ -109,44 +108,98 @@ export default ({
        * choose to add new row, depending on setting?
        * but then need to make shure only one relationCollection exists
        */
-      const rcoByType = groupBy(rcoToUse, 'relationType')
-      Object.keys(rcoByType).length && console.log('rcoByType:', rcoByType)
-      if (exportRcoPropertyNames.includes('Beziehungspartner_id')) {
-        const bezPartnerId = rcoToUse
-          .map(rco => get(rco, 'objectByObjectIdRelation.id', null))
-          .join(' | ')
-        const rcoP = exportRcoProperties.find(
-          p => p.pname === 'Beziehungspartner_id'
-        )
-        row[
-          `${conv(rcoP.pcname)}__${conv(
-            rcoP.relationtype
-          )}__Beziehungspartner_id`
-        ] = bezPartnerId
-      }
-      if (exportRcoPropertyNames.includes('Beziehungspartner_Name')) {
-        const bezPartner = rcoToUse
-          .map(rco => {
-            const bezPartnerTaxonomyName = get(
-              rco,
-              'objectByObjectIdRelation.taxonomyByTaxonomyId.name',
-              ''
-            )
-            const bezPartnerName = get(rco, 'objectByObjectIdRelation.name', '')
-            return `${bezPartnerTaxonomyName}: ${bezPartnerName}`
-          })
-          .join(' | ')
-        const rcoP = exportRcoProperties.find(
-          p => p.pname === 'Beziehungspartner_Name'
-        )
-        row[
-          `${conv(rcoP.pcname)}__${conv(
-            rcoP.relationtype
-          )}__Beziehungspartner_Name`
-        ] = bezPartner
-      }
-
       rcoToUse.forEach(rco => {
+        // 1. check for Beziehungspartner_id
+        const rcoP_id = exportRcoProperties.find(
+          p =>
+            p.pname === 'Beziehungspartner_id' &&
+            p.relationtype === rco.relationType
+        )
+        if (rcoP_id) {
+          const bezPartnerId = rcoToUse
+            .map(rco => get(rco, 'objectByObjectIdRelation.id', null))
+            .join(' | ')
+          row[
+            `${conv(rcoP_id.pcname)}__${conv(
+              rcoP_id.relationtype
+            )}__Beziehungspartner_id`
+          ] =
+            row[
+              `${conv(rcoP_id.pcname)}__${conv(
+                rcoP_id.relationtype
+              )}__Beziehungspartner_id`
+            ] === undefined
+              ? bezPartnerId
+              : row[
+                  `${conv(rcoP_id.pcname)}__${conv(
+                    rcoP_id.relationtype
+                  )}__Beziehungspartner_id`
+                ].includes(bezPartnerId)
+                ? row[
+                    `${conv(rcoP_id.pcname)}__${conv(
+                      rcoP_id.relationtype
+                    )}__Beziehungspartner_id`
+                  ]
+                : `${
+                    row[
+                      `${conv(rcoP_id.pcname)}__${conv(
+                        rcoP_id.relationtype
+                      )}__Beziehungspartner_id`
+                    ]
+                  } | ${bezPartnerId}`
+        }
+        // 2. check for Beziehungspartner_Name
+        const rcoP_name = exportRcoProperties.find(
+          p =>
+            p.pname === 'Beziehungspartner_id' &&
+            p.relationtype === rco.relationType
+        )
+        if (rcoP_name) {
+          const bezPartner = rcoToUse
+            .map(rco => {
+              const bezPartnerTaxonomyName = get(
+                rco,
+                'objectByObjectIdRelation.taxonomyByTaxonomyId.name',
+                ''
+              )
+              const bezPartnerName = get(
+                rco,
+                'objectByObjectIdRelation.name',
+                ''
+              )
+              return `${bezPartnerTaxonomyName}: ${bezPartnerName}`
+            })
+            .join(' | ')
+          row[
+            `${conv(rcoP_name.pcname)}__${conv(
+              rcoP_name.relationtype
+            )}__Beziehungspartner_Name`
+          ] =
+            row[
+              `${conv(rcoP_name.pcname)}__${conv(
+                rcoP_name.relationtype
+              )}__Beziehungspartner_Name`
+            ] === undefined
+              ? bezPartner
+              : row[
+                  `${conv(rcoP_name.pcname)}__${conv(
+                    rcoP_name.relationtype
+                  )}__Beziehungspartner_Name`
+                ].includes(bezPartner)
+                ? row[
+                    `${conv(rcoP_name.pcname)}__${conv(
+                      rcoP_name.relationtype
+                    )}__Beziehungspartner_Name`
+                  ]
+                : `${
+                    row[
+                      `${conv(rcoP_name.pcname)}__${conv(
+                        rcoP_name.relationtype
+                      )}__Beziehungspartner_Name`
+                    ]
+                  } | ${bezPartner}`
+        }
+        // 3. get properties
         const rcoProperties = JSON.parse(rco.properties)
         exportRcoProperties.forEach(p => {
           if (rcoProperties && rcoProperties[p.pname] !== undefined) {
