@@ -13,6 +13,7 @@ import exportRcoProperties from './exportRcoProperties'
 import exportTooManyProperties from './exportTooManyProperties'
 import exportWithSynonymData from './exportWithSynonymData'
 import exportAddFilterFields from './exportAddFilterFields'
+import exportRcoInOneRow from './exportRcoInOneRow'
 import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
 import editingTaxonomies from './editingTaxonomies'
 import editingPCs from './editingPCs'
@@ -32,6 +33,7 @@ export default merge(
   exportTooManyProperties,
   exportWithSynonymData,
   exportAddFilterFields,
+  exportRcoInOneRow,
   editingTaxonomies,
   editingPCs,
   exportOnlyRowsWithProperties,

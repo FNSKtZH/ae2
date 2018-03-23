@@ -13,7 +13,7 @@ export const exportDefaults = {
   exportWithSynonymData: true,
   exportTooManyProperties: false,
   exportAddFilterFields: true,
-  exportRcoInOneLine: true,
+  exportRcoInOneRow: true,
   editingTaxonomies: false,
   editingPCs: false,
   updateAvailable: false,
