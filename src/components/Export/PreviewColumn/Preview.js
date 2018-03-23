@@ -186,6 +186,7 @@ const Preview = ({
     exportIds,
     exportOnlyRowsWithProperties,
   })
+  console.log('Preview: rows:', rows)
   rows = orderBy(rows, sortField, sortDirection)
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
 

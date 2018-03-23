@@ -424,11 +424,6 @@ const OptionsChoosen = ({
                 {`${pcname} - ${relationType}: ${pname}`}
                 <ResetSpan
                   onClick={() => {
-                    console.log('OptionsChoosen: variables:', {
-                      pcname,
-                      relationType,
-                      pname,
-                    })
                     client.mutate({
                       mutation: removeExportRcoPropertyMutation,
                       variables: {

@@ -334,8 +334,7 @@ CREATE OR REPLACE FUNCTION ae.export_rco(export_taxonomies text[], tax_filters t
                   WHERE
                     ae.object.id IN (
                       SELECT id FROM ae.export_object($1, $2, $3, $4)
-                    )
-                    AND ae.property_collection.name IN(';
+                    )';
     BEGIN
       IF cardinality(rco_properties) = 0 THEN
         sql := sql || 'false';
@@ -343,9 +342,9 @@ CREATE OR REPLACE FUNCTION ae.export_rco(export_taxonomies text[], tax_filters t
         FOREACH rcop IN ARRAY rco_properties
           LOOP
           IF rcop = rco_properties[1] THEN
-            sql := sql || quote_literal(rcop.pcname);
+            sql := sql || ' AND ((ae.property_collection.name = ' || quote_literal(rcop.pcname) || ' AND ae.relation.relation_type = ' || quote_literal(rcop.relationType) || ')';
           ELSE
-            sql := sql || ',' || quote_literal(rcop.pcname);
+            sql := sql || ' OR (ae.property_collection.name = ' || quote_literal(rcop.pcname) || ' AND ae.relation.relation_type = ' || quote_literal(rcop.relationType) || ')';
           END IF;
         END LOOP;
       END IF;
@@ -425,8 +424,7 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_f
                   WHERE
                     ae.synonym.object_id_synonym IN (
                       SELECT id FROM ae.export_object($1, $2, $3, $4)
-                    )
-                    AND ae.property_collection.name IN(';
+                    )';
     BEGIN
       IF cardinality(rco_properties) = 0 THEN
         sql := sql || 'false';
@@ -434,9 +432,9 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_f
         FOREACH rcop IN ARRAY rco_properties
           LOOP
           IF rcop = rco_properties[1] THEN
-            sql := sql || quote_literal(rcop.pcname);
+            sql := sql || ' AND ((ae.property_collection.name = ' || quote_literal(rcop.pcname) || ' AND ae.relation.relation_type = ' || quote_literal(rcop.relationType) || ')';
           ELSE
-            sql := sql || ',' || quote_literal(rcop.pcname);
+            sql := sql || ' OR (ae.property_collection.name = ' || quote_literal(rcop.pcname) || ' AND ae.relation.relation_type = ' || quote_literal(rcop.relationType) || ')';
           END IF;
         END LOOP;
       END IF;

@@ -65,21 +65,23 @@ export default graphql(exportDataGql, {
       exportWithSynonymData && pcoProperties.length > 0
     const fetchSynonymRcoProperties =
       exportWithSynonymData && rcoProperties.length > 0
+    const variables = {
+      exportTaxonomies,
+      taxFilters,
+      pcoFilters,
+      rcoFilters,
+      pcoProperties,
+      rcoProperties,
+      fetchTaxProperties,
+      fetchPcoProperties,
+      fetchRcoProperties,
+      fetchSynonymPcoProperties,
+      fetchSynonymRcoProperties,
+    }
+    console.log('exportData: variables:', variables)
 
     return {
-      variables: {
-        exportTaxonomies,
-        taxFilters,
-        pcoFilters,
-        rcoFilters,
-        pcoProperties,
-        rcoProperties,
-        fetchTaxProperties,
-        fetchPcoProperties,
-        fetchRcoProperties,
-        fetchSynonymPcoProperties,
-        fetchSynonymRcoProperties,
-      },
+      variables,
     }
   },
   name: 'exportData',
