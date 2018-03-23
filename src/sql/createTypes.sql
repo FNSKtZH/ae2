@@ -28,7 +28,7 @@ CREATE TYPE pco_property AS (
 );
 CREATE TYPE rco_property AS (
     pname text,
-    relationType text,
+    relationtype text,
     pcname text
 );
 CREATE TYPE ae.taxonomy_with_level1_count AS (

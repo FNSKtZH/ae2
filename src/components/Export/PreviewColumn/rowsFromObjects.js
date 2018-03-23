@@ -104,7 +104,7 @@ export default ({
 
       /**
        * add all relations comma separated
-       * need to group by relationType
+       * need to group by relationtype
        *
        * TODO:
        * choose to add new row, depending on setting?
@@ -112,7 +112,7 @@ export default ({
        */
       /*exportRcoProperties.length &&
         console.log('exportRcoProperties:', exportRcoProperties)*/
-      const rcoByType = groupBy(rcoToUse, 'relationType')
+      const rcoByType = groupBy(rcoToUse, 'relationtype')
       Object.keys(rcoByType).length && console.log('rcoByType:', rcoByType)
       if (exportRcoPropertyNames.includes('Beziehungspartner_id')) {
         const bezPartnerId = rcoToUse
@@ -123,7 +123,7 @@ export default ({
         )
         row[
           `${conv(rcoP.pcname)}__${conv(
-            rcoP.relationType
+            rcoP.relationtype
           )}__Beziehungspartner_id`
         ] = bezPartnerId
       }
@@ -144,7 +144,7 @@ export default ({
         )
         row[
           `${conv(rcoP.pcname)}__${conv(
-            rcoP.relationType
+            rcoP.relationtype
           )}__Beziehungspartner_Name`
         ] = bezPartner
       }
@@ -161,15 +161,15 @@ export default ({
               val = booleanToJaNein(val)
             }
             row[
-              `${conv(p.pcname)}__${conv(rco.relationType)}__${conv(p.pname)}`
+              `${conv(p.pcname)}__${conv(rco.relationtype)}__${conv(p.pname)}`
             ] =
               row[
-                `${conv(p.pcname)}__${conv(rco.relationType)}__${conv(p.pname)}`
+                `${conv(p.pcname)}__${conv(rco.relationtype)}__${conv(p.pname)}`
               ] === undefined
                 ? val
                 : `${
                     row[
-                      `${conv(p.pcname)}__${conv(rco.relationType)}__${conv(
+                      `${conv(p.pcname)}__${conv(rco.relationtype)}__${conv(
                         p.pname
                       )}`
                     ]
@@ -182,11 +182,11 @@ export default ({
       exportRcoProperties.forEach(p => {
         if (
           row[
-            `${conv(p.pcname)}__${conv(p.relationType)}__${conv(p.pname)}`
+            `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
           ] === undefined
         ) {
           row[
-            `${conv(p.pcname)}__${conv(p.relationType)}__${conv(p.pname)}`
+            `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
           ] = null
         }
       })

@@ -110,7 +110,7 @@ const enhance = compose(
 )
 
 type Props = {
-  relationType: String,
+  relationtype: String,
   pname: Sstring,
   jsontype: String,
   comparator: String,
@@ -185,7 +185,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   change = newValue => {
-    const { pcname, relationType, pname, comparator, client } = this.props
+    const { pcname, relationtype, pname, comparator, client } = this.props
     let comparatorValue = comparator
     if (!comparator && newValue) comparatorValue = 'ILIKE'
     if (!newValue) comparatorValue = null
@@ -193,7 +193,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
       mutation: exportRcoFiltersMutation,
       variables: {
         pcname,
-        relationType,
+        relationtype,
         pname,
         comparator: comparatorValue,
         value: newValue,
@@ -204,12 +204,12 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   handleChange = (event, { newValue }) => {
     const {
       pcname,
-      relationType,
+      relationtype,
       pname,
       client,
       exportAddFilterFieldsData,
     } = this.props
-    console.log('RcoFieldValue: relationType:', relationType)
+    console.log('RcoFieldValue: relationtype:', relationtype)
     // trim the start to enable entering space
     // at start to open list
     const value = trimStart(newValue)
@@ -224,7 +224,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     if (exportAddFilterFields) {
       client.mutate({
         mutation: addExportRcoPropertyMutation,
-        variables: { pcname, relationType, pname },
+        variables: { pcname, relationtype, pname },
       })
     }
   }

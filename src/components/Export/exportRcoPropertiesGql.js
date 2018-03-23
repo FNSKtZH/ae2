@@ -5,7 +5,7 @@ export default gql`
   query exportRcoPropertiesQuery {
     exportRcoProperties @client {
       pcname
-      relationType
+      relationtype
       pname
     }
   }

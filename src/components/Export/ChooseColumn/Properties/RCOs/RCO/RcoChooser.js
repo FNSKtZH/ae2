@@ -28,7 +28,7 @@ const enhance = compose(
   withApollo,
   exportRcoPropertiesData,
   withHandlers({
-    onCheck: ({ pcname, relationType, pname, client }) => (
+    onCheck: ({ pcname, relationtype, pname, client }) => (
       event,
       isChecked
     ) => {
@@ -37,7 +37,7 @@ const enhance = compose(
         : removeExportRcoPropertyMutation
       client.mutate({
         mutation,
-        variables: { pcname, relationType, pname },
+        variables: { pcname, relationtype, pname },
       })
     },
   })
@@ -45,7 +45,7 @@ const enhance = compose(
 
 const RcoChooser = ({
   pcname,
-  relationType,
+  relationtype,
   pname,
   jsontype,
   count,
@@ -53,7 +53,7 @@ const RcoChooser = ({
   exportRcoPropertiesData,
 }: {
   pcname: String,
-  relationType: String,
+  relationtype: String,
   pname: String,
   jsontype: String,
   count: Number,
@@ -65,7 +65,7 @@ const RcoChooser = ({
     exportRcoProperties.filter(
       x =>
         x.pcname === pcname &&
-        x.relationType === relationType &&
+        x.relationtype === relationtype &&
         x.pname === pname
     ).length > 0
 

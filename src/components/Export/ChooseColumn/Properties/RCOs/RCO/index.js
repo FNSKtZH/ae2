@@ -169,7 +169,7 @@ const RCO = ({
                 <RcoChooser
                   key={`${field.propertyName}${field.jsontype}`}
                   pcname={field.propertyCollectionName}
-                  relationType={field.relationType}
+                  relationtype={field.relationType}
                   pname={field.propertyName}
                   jsontype={field.jsontype}
                   count={field.count}

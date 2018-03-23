@@ -4,12 +4,12 @@ import gql from 'graphql-tag'
 export default gql`
   mutation addExportRcoProperty(
     $pcname: String
-    $relationType: String
+    $relationtype: String
     $pname: String
   ) {
     addExportRcoProperty(
       pcname: $pcname
-      relationType: $relationType
+      relationtype: $relationtype
       pname: $pname
     ) @client
   }

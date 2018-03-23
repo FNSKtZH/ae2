@@ -20,14 +20,14 @@ const enhance = compose(exportRcoFiltersData)
 
 const RcoField = ({
   pcname,
-  relationType,
+  relationtype,
   pname,
   jsontype,
   count,
   exportRcoFiltersData,
 }: {
   pcname: String,
-  relationType: String,
+  relationtype: String,
   pname: String,
   jsontype: String,
   count: Number,
@@ -37,7 +37,7 @@ const RcoField = ({
   const exportRcoFilter = exportRcoFilters.find(
     x =>
       x.pcname === pcname &&
-      x.relationType === relationType &&
+      x.relationtype === relationtype &&
       x.pname === pname
   ) || { comparator: null, value: null }
   const { comparator, value } = exportRcoFilter
@@ -46,7 +46,7 @@ const RcoField = ({
     <Container>
       <RcoFieldValue
         pcname={pcname}
-        relationType={relationType}
+        relationtype={relationtype}
         pname={pname}
         value={value}
         comparator={comparator}
@@ -56,7 +56,7 @@ const RcoField = ({
         value !== null && (
           <Comparator
             pcname={pcname}
-            relationType={relationType}
+            relationtype={relationtype}
             pname={pname}
             comparator={comparator}
             value={value}

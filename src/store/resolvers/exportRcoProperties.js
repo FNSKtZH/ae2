@@ -11,7 +11,8 @@ import constants from '../../modules/constants'
 
 export default {
   Mutation: {
-    addExportRcoProperty: (_, { pcname, relationType, pname }, { cache }) => {
+    addExportRcoProperty: (_, { pcname, relationtype, pname }, { cache }) => {
+      console.log('store, addExportRcoProperty: relationtype:', relationtype)
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
@@ -30,7 +31,7 @@ export default {
           !currentRco.exportRcoProperties.find(
             t =>
               t.pcname === pcname &&
-              t.relationType === relationType &&
+              t.relationtype === relationtype &&
               t.pname === pname
           )
         ) {
@@ -40,7 +41,7 @@ export default {
                 ...currentRco.exportRcoProperties,
                 {
                   pcname,
-                  relationType,
+                  relationtype,
                   pname,
                   __typename: 'ExportRcoProperty',
                 },
@@ -53,15 +54,16 @@ export default {
     },
     removeExportRcoProperty: (
       _,
-      { pcname, relationType, pname },
+      { pcname, relationtype, pname },
       { cache }
     ) => {
+      console.log('store, removeExportRcoProperty: relationtype:', relationtype)
       const current = cache.readQuery({ query: exportRcoPropertiesGql })
       const exportRcoProperties = current.exportRcoProperties.filter(
         x =>
           !(
             x.pcname === pcname &&
-            x.relationType === relationType &&
+            x.relationtype === relationtype &&
             x.pname === pname
           )
       )
@@ -72,7 +74,7 @@ export default {
     },
     setExportRcoFilters: (
       _,
-      { pcname, relationType, pname, comparator, value },
+      { pcname, relationtype, pname, comparator, value },
       { cache }
     ) => {
       const { exportRcoFilters } = cache.readQuery({
@@ -81,7 +83,7 @@ export default {
       const exportRcoFilter = exportRcoFilters.find(
         x =>
           x.pcname === pcname &&
-          x.relationType === relationType &&
+          x.relationtype === relationtype &&
           x.pname === pname
       )
       if (!comparator && !value && value !== 0) {
@@ -92,7 +94,7 @@ export default {
               x =>
                 !(
                   x.pcname === pcname &&
-                  x.relationType === relationType &&
+                  x.relationtype === relationtype &&
                   x.pname === pname
                 )
             ),
@@ -106,7 +108,7 @@ export default {
               ...exportRcoFilters,
               {
                 pcname,
-                relationType,
+                relationtype,
                 pname,
                 comparator,
                 value,
@@ -124,13 +126,13 @@ export default {
                 x =>
                   !(
                     x.pcname === pcname &&
-                    x.relationType === relationType &&
+                    x.relationtype === relationtype &&
                     x.pname === pname
                   )
               ),
               {
                 pcname,
-                relationType,
+                relationtype,
                 pname,
                 comparator,
                 value,

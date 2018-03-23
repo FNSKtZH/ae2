@@ -419,16 +419,16 @@ const OptionsChoosen = ({
                 </ResetSpan>
               </li>
             ))}
-            {exportRcoProperties.map(({ pcname, relationType, pname }, i) => (
+            {exportRcoProperties.map(({ pcname, relationtype, pname }, i) => (
               <li key={i}>
-                {`${pcname} - ${relationType}: ${pname}`}
+                {`${pcname} - ${relationtype}: ${pname}`}
                 <ResetSpan
                   onClick={() => {
                     client.mutate({
                       mutation: removeExportRcoPropertyMutation,
                       variables: {
                         pcname,
-                        relationType,
+                        relationtype,
                         pname,
                       },
                     })
