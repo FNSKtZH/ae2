@@ -9,11 +9,14 @@ export default ({
   rcoToUse,
   exportRcoProperties,
   row,
+  aditionalRows,
 }: {
   rcoToUse: Array<Object>,
   exportRcoProperties: Array<Object>,
   row: Object,
+  aditionalRows: Array<Object>,
 }) => {
+  console.log('rcoToUse:', rcoToUse)
   rcoToUse.forEach(rco => {
     // 1. check for Beziehungspartner_id
     const rcoP_id = exportRcoProperties.find(
