@@ -1,6 +1,6 @@
 // @flow
 
-import fileSaver from 'file-saver'
+import FileSaver from 'file-saver'
 import format from 'date-fns/format'
 
 import getXlsxBuffer from './getXlsxBuffer'
@@ -19,7 +19,7 @@ export default async ({
     console.log(error)
     onSetMessage(error)
   }
-  fileSaver(
+  FileSaver.saveAs(
     new Blob([buffer], {
       type: 'application/octet-stream',
     }),
