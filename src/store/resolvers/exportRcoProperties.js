@@ -12,7 +12,6 @@ import constants from '../../modules/constants'
 export default {
   Mutation: {
     addExportRcoProperty: (_, { pcname, relationtype, pname }, { cache }) => {
-      console.log('store, addExportRcoProperty: relationtype:', relationtype)
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
@@ -57,7 +56,6 @@ export default {
       { pcname, relationtype, pname },
       { cache }
     ) => {
-      console.log('store, removeExportRcoProperty: relationtype:', relationtype)
       const current = cache.readQuery({ query: exportRcoPropertiesGql })
       const exportRcoProperties = current.exportRcoProperties.filter(
         x =>

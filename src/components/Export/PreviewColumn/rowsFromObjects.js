@@ -90,7 +90,6 @@ export default ({
         }
       })
       // 3. rco
-      rco.length && console.log('rowsFromObjects: rco:', rco)
       const thisObjectsRco = rco.filter(p => p.objectId === o.id)
       const thisObjectsSynonymRco = synonymRco.filter(p => p.objectId === o.id)
       const rcoToUse = [...thisObjectsRco]
@@ -110,9 +109,7 @@ export default ({
        * choose to add new row, depending on setting?
        * but then need to make shure only one relationCollection exists
        */
-      /*exportRcoProperties.length &&
-        console.log('exportRcoProperties:', exportRcoProperties)*/
-      const rcoByType = groupBy(rcoToUse, 'relationtype')
+      const rcoByType = groupBy(rcoToUse, 'relationType')
       Object.keys(rcoByType).length && console.log('rcoByType:', rcoByType)
       if (exportRcoPropertyNames.includes('Beziehungspartner_id')) {
         const bezPartnerId = rcoToUse
@@ -149,27 +146,24 @@ export default ({
         ] = bezPartner
       }
 
-      rcoToUse.length && console.log('rowsFromObjects: rcoToUse:', rcoToUse)
-      //console.log('rowsFromObjects: exportRcoProperties:', exportRcoProperties)
       rcoToUse.forEach(rco => {
         const rcoProperties = JSON.parse(rco.properties)
         exportRcoProperties.forEach(p => {
-          console.log('rowsFromObjects: p:', p)
           if (rcoProperties && rcoProperties[p.pname] !== undefined) {
             let val = rcoProperties[p.pname]
             if (typeof val === 'boolean') {
               val = booleanToJaNein(val)
             }
             row[
-              `${conv(p.pcname)}__${conv(rco.relationtype)}__${conv(p.pname)}`
+              `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
             ] =
               row[
-                `${conv(p.pcname)}__${conv(rco.relationtype)}__${conv(p.pname)}`
+                `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
               ] === undefined
                 ? val
                 : `${
                     row[
-                      `${conv(p.pcname)}__${conv(rco.relationtype)}__${conv(
+                      `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(
                         p.pname
                       )}`
                     ]

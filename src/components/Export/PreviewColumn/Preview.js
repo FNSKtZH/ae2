@@ -162,7 +162,6 @@ const Preview = ({
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
   const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
-  console.log('Preview: exportData:', exportData)
   const objectsCount = get(
     exportData,
     'exportObject.totalCount',
@@ -187,7 +186,6 @@ const Preview = ({
     exportIds,
     exportOnlyRowsWithProperties,
   })
-  console.log('Preview: rows:', rows)
   rows = orderBy(rows, sortField, sortDirection)
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
 
