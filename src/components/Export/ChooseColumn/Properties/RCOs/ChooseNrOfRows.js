@@ -6,6 +6,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import Radio, { RadioGroup } from 'material-ui/Radio'
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form'
+import Typography from 'material-ui/Typography'
 import compose from 'recompose/compose'
 
 import exportRcoInOneRowMutation from '../../../exportRcoInOneRowMutation'
@@ -27,6 +28,11 @@ const StyledFormControlLabel = styled(FormControlLabel)`
 `
 const StyledRadioGroup = styled(RadioGroup)`
   margin: 8px 0;
+`
+const StyledUl = styled.ul`
+  margin-top: -4px;
+  margin-bottom: 5px;
+  padding-left: 52px;
 `
 
 const enhance = compose()
@@ -63,11 +69,47 @@ const ChooseNrOfRows = () => (
               control={<Radio color="primary" />}
               label="Kommagetrennt in einer Zeile"
             />
+            <StyledUl>
+              <li>
+                <Typography>
+                  Von allen Beziehungen der Art oder des Lebensraums wird der
+                  Inhalt des Feldes kommagetrennt in das Feld der einzigen Zeile
+                  geschrieben
+                </Typography>
+              </li>
+              <li>
+                <Typography>
+                  Sie können Felder aus beliebigen Beziehungssammlungen
+                  gleichzeitig exportieren
+                </Typography>
+              </li>
+            </StyledUl>
             <StyledFormControlLabel
               value="false"
               control={<Radio color="primary" />}
               label="Pro Beziehung eine neue Zeile"
             />
+            <StyledUl>
+              <li>
+                <Typography>
+                  Für jede Art oder Lebensraum wird pro Beziehung eine neue
+                  Zeile erzeugt
+                </Typography>
+              </li>
+              <li>
+                <Typography>
+                  Anschliessende Auswertungen sind so meist einfacher
+                  auszuführen
+                </Typography>
+              </li>
+              <li>
+                <Typography>
+                  Dafür können Sie aus maximal einer Beziehungssammlung Felder
+                  wählen (aber wie gewohnt mit beliebig vielen Feldern aus
+                  Taxonomie(n) und Eigenschaftensammlungen ergänzen)
+                </Typography>
+              </li>
+            </StyledUl>
           </StyledRadioGroup>
         </StyledFormControl>
       )
