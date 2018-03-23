@@ -119,7 +119,7 @@ const ChooseNrOfRows = () => (
               <li>
                 <Typography>
                   Achtung: Sie können mit dieser Einstellung nur aus einer
-                  Beziehungssammlung Felder wählen
+                  einzigen Beziehungssammlung Felder wählen
                 </Typography>
               </li>
               <li>
@@ -127,14 +127,14 @@ const ChooseNrOfRows = () => (
                   {multipleRowsDisabled ? (
                     <b>
                       Darum wird automatisch "Kommagetrennt in einer Zeile"
-                      gewählt, sobald Sie aus mehreren Beziehungssammlungen
-                      Felder wählen
+                      gewählt, wenn aus mehreren Beziehungssammlungen Felder
+                      gewählt wurden
                     </b>
                   ) : (
                     <span>
                       Darum wird automatisch "Kommagetrennt in einer Zeile"
-                      gewählt, sobald Sie aus mehreren Beziehungssammlungen
-                      Felder wählen
+                      gewählt, wenn aus mehreren Beziehungssammlungen Felder
+                      gewählt wurden
                     </span>
                   )}
                 </Typography>
