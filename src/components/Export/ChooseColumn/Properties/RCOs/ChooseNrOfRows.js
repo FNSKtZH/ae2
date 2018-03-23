@@ -8,6 +8,7 @@ import Radio, { RadioGroup } from 'material-ui/Radio'
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form'
 import Typography from 'material-ui/Typography'
 import compose from 'recompose/compose'
+import uniq from 'lodash/uniq'
 
 import exportRcoInOneRowMutation from '../../../exportRcoInOneRowMutation'
 
@@ -42,12 +43,19 @@ const ChooseNrOfRows = () => (
     query={gql`
       {
         exportRcoInOneRow @client
+        exportRcoProperties @client {
+          pcname
+          relationtype
+        }
       }
     `}
   >
     {({ loading, error, data }) => {
       if (loading) return 'Lade Daten...'
       if (error) return `Fehler: ${error.message}`
+      const multipleRowsDisabled =
+        uniq(data.exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`))
+          .length > 1
 
       return (
         <StyledFormControl>
@@ -88,6 +96,7 @@ const ChooseNrOfRows = () => (
               value="false"
               control={<Radio color="primary" />}
               label="Pro Beziehung eine neue Zeile"
+              disabled={multipleRowsDisabled}
             />
             <StyledUl>
               <li>
@@ -112,11 +121,19 @@ const ChooseNrOfRows = () => (
               </li>
               <li>
                 <Typography>
-                  Darum{' '}
-                  <b>
-                    wird automatisch "Kommagetrennt in einer Zeile" gewählt,
-                    wenn Sie aus mehr als einer Beziehungssammlung Felder wählen
-                  </b>
+                  {multipleRowsDisabled ? (
+                    <b>
+                      Darum wird automatisch "Kommagetrennt in einer Zeile"
+                      gewählt, wenn Sie aus mehr als einer Beziehungssammlung
+                      Felder wählen
+                    </b>
+                  ) : (
+                    <span>
+                      Darum wird automatisch "Kommagetrennt in einer Zeile"
+                      gewählt, wenn Sie aus mehr als einer Beziehungssammlung
+                      Felder wählen
+                    </span>
+                  )}
                 </Typography>
               </li>
             </StyledUl>
