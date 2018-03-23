@@ -251,9 +251,6 @@ const OptionsChoosen = ({
     'exportRcoInOneRow',
     true
   )
-  console.log('exportRcoInOneRowData:', exportRcoInOneRowData)
-  console.log('exportRcoInOneRow:', exportRcoInOneRow)
-  console.log('exportRcoProperties.length:', exportRcoProperties.length)
 
   if (noDataChoosen) return null
   return (
