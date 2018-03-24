@@ -27,7 +27,7 @@ import app from 'ampersand-app'
 
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
-import Taxonomy from '../Taxonomy'
+import TaxonomyDescription from '../../shared/TaxonomyDescription'
 import Property from './Property'
 import LinkMenu from './LinkMenu'
 import Properties from './Properties'
@@ -256,7 +256,7 @@ const TaxonomyObject = ({
           </CardActionsButtons>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {taxExpanded && <Taxonomy taxonomy={taxonomy} />}
+          {taxExpanded && <TaxonomyDescription taxonomy={taxonomy} />}
           <StyledCardContent>
             {editing ? (
               <Fragment>

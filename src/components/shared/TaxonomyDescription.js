@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import Linkify from 'react-linkify'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
-import PropertyReadOnly from '../shared/PropertyReadOnly'
+import ErrorBoundary from './ErrorBoundary'
+import PropertyReadOnly from './PropertyReadOnly'
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const linkifyProperties = {
   },
 }
 
-const Taxonomy = ({ taxonomy }: { taxonomy: Object }) => {
+const TaxonomyDescription = ({ taxonomy }: { taxonomy: Object }) => {
   const organizationName = get(taxonomy, 'organizationByOrganizationId.name')
 
   return (
@@ -59,4 +59,4 @@ const Taxonomy = ({ taxonomy }: { taxonomy: Object }) => {
   )
 }
 
-export default Taxonomy
+export default TaxonomyDescription

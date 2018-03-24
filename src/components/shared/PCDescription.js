@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import Linkify from 'react-linkify'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
-import PropertyReadOnly from '../shared/PropertyReadOnly'
+import ErrorBoundary from './ErrorBoundary'
+import PropertyReadOnly from './PropertyReadOnly'
 
 const Container = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const linkifyProperties = {
   },
 }
 
-const PropertyCollection = ({ pC }: { pC: Object }) => {
+const PCDescription = ({ pC }: { pC: Object }) => {
   const userImportedByName = get(pC, 'userByImportedBy.name')
   const userImportedByEmail = get(pC, 'userByImportedBy.email')
   const organizationName = get(pC, 'organizationByOrganizationId.name')
@@ -73,4 +73,4 @@ const PropertyCollection = ({ pC }: { pC: Object }) => {
   )
 }
 
-export default PropertyCollection
+export default PCDescription

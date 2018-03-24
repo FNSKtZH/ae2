@@ -13,7 +13,7 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
 
-import PropertyCollection from './ObjectPropertyCollection'
+import PCDescription from '../shared/PCDescription'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../shared/PropertyReadOnlyStacked'
 import Relation from './Relation'
@@ -131,7 +131,7 @@ const PCO = ({
           </CardActionsButtons>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {pCDescriptionExpanded && <PropertyCollection pC={pC} />}
+          {pCDescriptionExpanded && <PCDescription pC={pC} />}
           <CardText>
             {propertiesArray.map(
               ([key, value]) =>
