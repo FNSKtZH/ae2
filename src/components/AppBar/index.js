@@ -187,6 +187,7 @@ class MyAppBar extends Component<Props, State> {
     const loginLabel = username
       ? wideLayout ? username : getInitials(username)
       : wideLayout ? 'nicht angemeldet' : 'n.a.'
+    const loginTitle = username ? 'abmelden' : 'anmelden'
 
     return (
       <ErrorBoundary>
@@ -222,6 +223,7 @@ class MyAppBar extends Component<Props, State> {
                 data-widelayout={wideLayout}
                 onClick={onClickColumnButtonLogin}
                 ref={c => (this.login = c)}
+                title={loginTitle}
               >
                 {loginLabel}
               </LoginButton>
