@@ -42,6 +42,7 @@ class MoreMenu extends React.Component {
           aria-owns={anchorEl ? 'long-menu' : null}
           aria-haspopup="true"
           onClick={this.handleClick}
+          title="Mehr..."
         >
           <Icon>
             <StyledMoreVertIcon />
@@ -69,6 +70,15 @@ class MoreMenu extends React.Component {
             über arteigenschaften.ch
           </MenuItem>
           <MenuItem
+            key="melden"
+            onClick={() => {
+              window.open('https://github.com/barbalex/ae2/issues')
+              this.setState({ anchorEl: null })
+            }}
+          >
+            Fehler oder Wünsche melden
+          </MenuItem>
+          {/*<MenuItem
             key="datagraph"
             onClick={() => {
               app.history.push('/datagraph')
@@ -85,7 +95,7 @@ class MoreMenu extends React.Component {
             }}
           >
             GrahpQL-Abfragetool anzeigen
-          </MenuItem>
+          </MenuItem>*/}
         </Menu>
       </div>
     )
