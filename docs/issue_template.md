@@ -1,6 +1,6 @@
 <!--
 
-Bitte suchen Sie in den vorhandenen Issues, ob das Problem schon beschrieben wurde. Öffnen Sie nur ein neus, wenn es wirklich neu ist.
+Bitte suchen Sie in den vorhandenen Issues, ob das Problem schon beschrieben wurde. Öffnen Sie nur ein neues, wenn nötig.
 
 Bitte geben Sie dem Issue einen aussagekräftigen Titel.
 
