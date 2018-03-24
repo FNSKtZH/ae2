@@ -5,6 +5,7 @@
  */
 import omit from 'lodash/omit'
 import some from 'lodash/some'
+import sortBy from 'lodash/sortBy'
 
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
@@ -111,7 +112,7 @@ export default ({
      * choose to add new row, depending on setting?
      * but then need to make shure only one relationCollection exists
      */
-    console.log('exportRcoInOneRow:', exportRcoInOneRow)
+    //console.log('exportRcoInOneRow:', exportRcoInOneRow)
     if (exportRcoInOneRow) {
       rowsFromObjectsRcoSingleRow({
         rcoToUse,
@@ -133,6 +134,10 @@ export default ({
     if (exportIds.length > 0) return exportIds.includes(r.id)
     return true
   })
+  // sort by id
+  // reason: if multiple rows were created per object,
+  // they will be next to each other
+  rows = sortBy(rows, 'id')
 
   const fields = rows[0] ? Object.keys(rows[0]).map(k => k) : []
   const propertyFields = fields.filter(f => !taxFields.includes(f))
@@ -151,5 +156,6 @@ export default ({
     resizable: true,
     sortable: true,
   }))
+  console.log('rows:', rows)
   return { rows, pvColumns }
 }
