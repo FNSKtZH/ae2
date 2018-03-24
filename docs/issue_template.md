@@ -1,6 +1,6 @@
 <!--
 
-Bitte suchen Sie in den vorhandenen Issues, ob das Problem schon beschrieben wurde. Öffnen Sie nur ein neues, wenn nötig.
+Bitte suchen Sie in den vorhandenen Issues, ob das Problem schon beschrieben wurde. Öffnen Sie nur ein neues, wenn nötig. Tipp: Sie können "subscribe" klicken, um über Updates eines fremden Issue informiert zu werden.
 
 Ein aussagekräftiger Titel hilft daher allen Beteiligten!
 
