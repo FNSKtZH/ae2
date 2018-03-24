@@ -5,13 +5,15 @@ import Collapse from 'material-ui/transitions/Collapse'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'material-ui/Icon'
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
+import InfoOutlineIcon from 'material-ui-icons/InfoOutline'
+import InfoIcon from 'material-ui-icons/Info'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
 
-import PC from './PC'
+import PropertyCollection from '../ObjectPropertyCollection'
 import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
 import Relation from '../Relation'
@@ -42,22 +44,32 @@ const CardActionTitle = styled.div`
   font-weight: bold;
   word-break: break-word;
 `
+const CardActionsButtons = styled.div`
+  display: flex;
+`
 const CardText = styled.div`
   padding: 5px 16px;
   column-width: 500px;
 `
 
-const enhance = compose(withState('expanded', 'setExpanded', false))
+const enhance = compose(
+  withState('expanded', 'setExpanded', false),
+  withState('pCDescriptionExpanded', 'setPCDescriptionExpanded', false)
+)
 
 const PCO = ({
   expanded,
   setExpanded,
+  pCDescriptionExpanded,
+  setPCDescriptionExpanded,
   pCO,
   relations,
   stacked,
 }: {
   expanded: Boolean,
   setExpanded: () => void,
+  pCDescriptionExpanded: Boolean,
+  setPCDescriptionExpanded: () => void,
   pCO: Object,
   relations: Array<Object>,
   stacked: Boolean,
@@ -86,18 +98,40 @@ const PCO = ({
           onClick={() => setExpanded(!expanded)}
         >
           <CardActionTitle>{pcname}</CardActionTitle>
-          <CardActionIconButton
-            data-expanded={expanded}
-            aria-expanded={expanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
+          <CardActionsButtons>
+            <IconButton
+              data-expanded={pCDescriptionExpanded}
+              aria-expanded={pCDescriptionExpanded}
+              aria-label="über diese Eigenschaften-Sammlung"
+              title={
+                pCDescriptionExpanded
+                  ? 'Beschreibung der Eigenschaften-Sammlung schliessen'
+                  : 'Beschreibung der Eigenschaften-Sammlung öffnen'
+              }
+              onClick={event => {
+                event.stopPropagation()
+                setPCDescriptionExpanded(!pCDescriptionExpanded)
+                setExpanded(true)
+              }}
+            >
+              <Icon>
+                {!pCDescriptionExpanded && <InfoOutlineIcon />}
+                {pCDescriptionExpanded && <InfoIcon />}
+              </Icon>
+            </IconButton>
+            <CardActionIconButton
+              data-expanded={expanded}
+              aria-expanded={expanded}
+              aria-label="Show more"
+            >
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
+            </CardActionIconButton>
+          </CardActionsButtons>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PC pCO={pCO} />
+          {pCDescriptionExpanded && <PropertyCollection pC={pC} />}
           <CardText>
             {propertiesArray.map(
               ([key, value]) =>

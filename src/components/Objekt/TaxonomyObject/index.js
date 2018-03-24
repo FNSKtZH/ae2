@@ -89,7 +89,7 @@ const enhance = compose(
     'setExpanded',
     ({ showLink }) => (showLink ? false : true)
   ),
-  withState('expanded2', 'setExpanded2', false)
+  withState('taxExpanded', 'setTaxExpanded', false)
 )
 
 const TaxonomyObject = ({
@@ -102,8 +102,8 @@ const TaxonomyObject = ({
   showLink,
   expanded,
   setExpanded,
-  expanded2,
-  setExpanded2,
+  taxExpanded,
+  setTaxExpanded,
   stacked,
 }: {
   client: Object,
@@ -115,8 +115,8 @@ const TaxonomyObject = ({
   showLink: Boolean,
   expanded: Boolean,
   setExpanded: () => void,
-  expanded2: Boolean,
-  setExpanded2: () => void,
+  taxExpanded: Boolean,
+  setTaxExpanded: () => void,
   stacked: Boolean,
 }) => {
   const username = get(loginData, 'login.username', null)
@@ -224,23 +224,23 @@ const TaxonomyObject = ({
                 </StyledButton>
               )}
             <IconButton
-              data-expanded={expanded2}
-              aria-expanded={expanded2}
+              data-expanded={taxExpanded}
+              aria-expanded={taxExpanded}
               aria-label="über diese Taxonomie"
               title={
-                expanded2
+                taxExpanded
                   ? 'Taxonomie-Beschreibung schliessen'
                   : 'Taxonomie-Beschreibung öffnen'
               }
               onClick={event => {
                 event.stopPropagation()
-                setExpanded2(!expanded2)
+                setTaxExpanded(!taxExpanded)
                 setExpanded(true)
               }}
             >
               <Icon>
-                {!expanded2 && <InfoOutlineIcon />}
-                {expanded2 && <InfoIcon />}
+                {!taxExpanded && <InfoOutlineIcon />}
+                {taxExpanded && <InfoIcon />}
               </Icon>
             </IconButton>
             <CardActionIconButton
@@ -256,7 +256,7 @@ const TaxonomyObject = ({
           </CardActionsButtons>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {expanded2 && <Taxonomy taxonomy={taxonomy} />}
+          {taxExpanded && <Taxonomy taxonomy={taxonomy} />}
           <StyledCardContent>
             {editing ? (
               <Fragment>

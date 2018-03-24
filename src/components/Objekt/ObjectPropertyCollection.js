@@ -5,28 +5,14 @@ import get from 'lodash/get'
 import Linkify from 'react-linkify'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
+import PropertyReadOnly from '../shared/PropertyReadOnly'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 0.9em;
-  padding-top: 13px;
-  padding-bottom: 13px;
-`
-const Row = styled.div`
-  display: flex;
-`
-const Label = styled.p`
-  flex-basis: 230px;
-  flex-shrink: 0;
-  flex-grow: 0;
-  text-align: right;
-  padding-right: 5px;
-  margin: 2px 0;
-  color: grey;
-`
-const Value = styled.p`
-  margin: 2px 0;
+  padding: 13px 16px;
+  background-color: #ffe0b2;
 `
 const linkifyProperties = {
   target: '_blank',
@@ -49,43 +35,37 @@ const PropertyCollection = ({ pC }: { pC: Object }) => {
       <Linkify properties={linkifyProperties}>
         <Container>
           {pC.combining && (
-            <Row>
-              <Label>{'Zusammenfassend:'}</Label>
-              <Value>{pC.combining ? 'ja' : 'nein'}</Value>
-            </Row>
+            <PropertyReadOnly
+              label="Zusammenfassend"
+              value={pC.combining ? 'ja' : 'nein'}
+            />
           )}
           {pC.lastUpdated && (
-            <Row>
-              <Label>{'Stand:'}</Label>
-              <Value>{pC.lastUpdated}</Value>
-            </Row>
+            <PropertyReadOnly label="Stand" value={pC.lastUpdated} />
           )}
           {pC.links &&
             pC.links.length > 0 && (
-              <Row>
-                <Label>{'Link:'}</Label>
-                <Value>{pC.links}</Value>
-              </Row>
+              <PropertyReadOnly label="Link" value={pC.links} />
             )}
           {pC.termsOfUse && (
-            <Row>
-              <Label>{'Nutzungsbedingungen:'}</Label>
-              <Value>{pC.termsOfUse}</Value>
-            </Row>
+            <PropertyReadOnly
+              label="Nutzungsbedingungen"
+              value={pC.termsOfUse}
+            />
           )}
           {userImportedByName && (
-            <Row>
-              <Label>{'Importiert von:'}</Label>
-              <Value>{`${userImportedByName}${
+            <PropertyReadOnly
+              label="Importiert von"
+              value={`${userImportedByName}${
                 userImportedByEmail ? ` (${userImportedByEmail})` : ``
-              }`}</Value>
-            </Row>
+              }`}
+            />
           )}
           {organizationName && (
-            <Row>
-              <Label>{'Organisation mit Schreibrecht:'}</Label>
-              <Value>{organizationName}</Value>
-            </Row>
+            <PropertyReadOnly
+              label="Organisation mit Schreibrecht"
+              value={organizationName}
+            />
           )}
         </Container>
       </Linkify>
