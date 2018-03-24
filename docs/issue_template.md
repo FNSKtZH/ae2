@@ -4,7 +4,7 @@ Bitte suchen Sie in den vorhandenen Issues, ob das Problem schon beschrieben wur
 
 Ein aussagekräftiger Titel hilft daher allen Beteiligten!
 
-Beschreiben Sie ein gewünschtes Feature? Dann können sie die nachfolgende Vorlage ignorieren und überschreiben.
+Beschreiben Sie ein gewünschtes Feature (= eine Funktion, die es noch nicht gibt)? Dann können sie die nachfolgende Vorlage ignorieren und überschreiben.
 
 Beschreiben Sie hingegen einen Fehler, verwenden Sie bitte wenn möglich die folgende Vorlage.
 
