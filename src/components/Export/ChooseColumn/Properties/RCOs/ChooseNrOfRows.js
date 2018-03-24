@@ -75,7 +75,7 @@ const ChooseNrOfRows = () => (
             <StyledFormControlLabel
               value="true"
               control={<Radio color="primary" />}
-              label="Kommagetrennt in einer Zeile"
+              label="Mit | getrennt in einer Zeile"
             />
             <StyledUl>
               <li>
@@ -126,13 +126,13 @@ const ChooseNrOfRows = () => (
                 <Typography>
                   {multipleRowsDisabled ? (
                     <b>
-                      Darum wird automatisch "Kommagetrennt in einer Zeile"
+                      Darum wird automatisch "Mit | getrennt in einer Zeile"
                       gewählt, wenn aus mehreren Beziehungssammlungen Felder
                       gewählt wurden
                     </b>
                   ) : (
                     <span>
-                      Darum wird automatisch "Kommagetrennt in einer Zeile"
+                      Darum wird automatisch "Mit | getrennt in einer Zeile"
                       gewählt, wenn aus mehreren Beziehungssammlungen Felder
                       gewählt wurden
                     </span>

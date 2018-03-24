@@ -1,6 +1,16 @@
 // @flow
 // TODO!
+/**
+ * Idea:
+ * check if the field already exists
+ * if not: add it
+ * if true:
+ * 1. copy row
+ * 2. add fields to that
+ * 3. add row to additional rows
+ */
 import get from 'lodash/get'
+import clone from 'lodash/clone'
 
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
@@ -16,8 +26,18 @@ export default ({
   row: Object,
   aditionalRows: Array<Object>,
 }) => {
-  console.log('rcoToUse:', rcoToUse)
+  let rowToUse = row
   rcoToUse.forEach(rco => {
+    // 0. check if first property already exist
+    const firstProperty = exportRcoProperties[0]
+    const firstField = `${conv(firstProperty.pcname)}__${conv(
+      firstProperty.relationtype
+    )}__${firstProperty.pname}`
+    if (firstField in row) {
+      // copy row
+      rowToUse = clone(row)
+      aditionalRows.push(rowToUse)
+    }
     // 1. check for Beziehungspartner_id
     const rcoP_id = exportRcoProperties.find(
       p =>
@@ -28,29 +48,29 @@ export default ({
       const bezPartnerId = rcoToUse
         .map(rco => get(rco, 'objectByObjectIdRelation.id', null))
         .join(' | ')
-      row[
+      rowToUse[
         `${conv(rcoP_id.pcname)}__${conv(
           rcoP_id.relationtype
         )}__Beziehungspartner_id`
       ] =
-        row[
+        rowToUse[
           `${conv(rcoP_id.pcname)}__${conv(
             rcoP_id.relationtype
           )}__Beziehungspartner_id`
         ] === undefined
           ? bezPartnerId
-          : row[
+          : rowToUse[
               `${conv(rcoP_id.pcname)}__${conv(
                 rcoP_id.relationtype
               )}__Beziehungspartner_id`
             ].includes(bezPartnerId)
-            ? row[
+            ? rowToUse[
                 `${conv(rcoP_id.pcname)}__${conv(
                   rcoP_id.relationtype
                 )}__Beziehungspartner_id`
               ]
             : `${
-                row[
+                rowToUse[
                   `${conv(rcoP_id.pcname)}__${conv(
                     rcoP_id.relationtype
                   )}__Beziehungspartner_id`
@@ -60,7 +80,7 @@ export default ({
     // 2. check for Beziehungspartner_Name
     const rcoP_name = exportRcoProperties.find(
       p =>
-        p.pname === 'Beziehungspartner_id' &&
+        p.pname === 'Beziehungspartner_Name' &&
         p.relationtype === rco.relationType
     )
     if (rcoP_name) {
@@ -75,29 +95,29 @@ export default ({
           return `${bezPartnerTaxonomyName}: ${bezPartnerName}`
         })
         .join(' | ')
-      row[
+      rowToUse[
         `${conv(rcoP_name.pcname)}__${conv(
           rcoP_name.relationtype
         )}__Beziehungspartner_Name`
       ] =
-        row[
+        rowToUse[
           `${conv(rcoP_name.pcname)}__${conv(
             rcoP_name.relationtype
           )}__Beziehungspartner_Name`
         ] === undefined
           ? bezPartner
-          : row[
+          : rowToUse[
               `${conv(rcoP_name.pcname)}__${conv(
                 rcoP_name.relationtype
               )}__Beziehungspartner_Name`
             ].includes(bezPartner)
-            ? row[
+            ? rowToUse[
                 `${conv(rcoP_name.pcname)}__${conv(
                   rcoP_name.relationtype
                 )}__Beziehungspartner_Name`
               ]
             : `${
-                row[
+                rowToUse[
                   `${conv(rcoP_name.pcname)}__${conv(
                     rcoP_name.relationtype
                   )}__Beziehungspartner_Name`
@@ -112,16 +132,9 @@ export default ({
         if (typeof val === 'boolean') {
           val = booleanToJaNein(val)
         }
-        row[`${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`] =
-          row[
-            `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
-          ] === undefined
-            ? val
-            : `${
-                row[
-                  `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
-                ]
-              } | ${val}`
+        rowToUse[
+          `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
+        ] = val
       }
     })
   })
@@ -129,10 +142,13 @@ export default ({
   // add every field if still missing
   exportRcoProperties.forEach(p => {
     if (
-      row[`${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`] ===
-      undefined
+      rowToUse[
+        `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
+      ] === undefined
     ) {
-      row[`${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`] = null
+      rowToUse[
+        `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
+      ] = null
     }
   })
 }

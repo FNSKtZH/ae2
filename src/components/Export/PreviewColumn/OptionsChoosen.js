@@ -299,7 +299,7 @@ const OptionsChoosen = ({
         </li>
         {exportRcoProperties.length > 0 &&
           exportRcoInOneRow && (
-            <li>Eigenschaften von Beziehungen kommagetrennt in einer Zeile</li>
+            <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
           )}
         {exportRcoProperties.length > 0 &&
           !exportRcoInOneRow && (

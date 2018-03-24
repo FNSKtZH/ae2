@@ -112,7 +112,6 @@ export default ({
      * choose to add new row, depending on setting?
      * but then need to make shure only one relationCollection exists
      */
-    //console.log('exportRcoInOneRow:', exportRcoInOneRow)
     if (exportRcoInOneRow) {
       rowsFromObjectsRcoSingleRow({
         rcoToUse,
@@ -156,6 +155,5 @@ export default ({
     resizable: true,
     sortable: true,
   }))
-  console.log('rows:', rows)
   return { rows, pvColumns }
 }
