@@ -1,5 +1,7 @@
 Bitte suchen Sie zuerst in den vorhandenen Issues, ob das Problem schon beschrieben wurde, bevor Sie ein neues Issue eröffnen.
 
+Bitte geben Sie dem Issue einen aussagekräftigen Titel.
+
 ## Erwartetes Verhalten
 
 
