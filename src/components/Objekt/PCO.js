@@ -13,11 +13,11 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
 
-import PropertyCollection from '../ObjectPropertyCollection'
-import PropertyReadOnly from '../../shared/PropertyReadOnly'
-import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
-import Relation from '../Relation'
-import ErrorBoundary from '../../shared/ErrorBoundary'
+import PropertyCollection from './ObjectPropertyCollection'
+import PropertyReadOnly from '../shared/PropertyReadOnly'
+import PropertyReadOnlyStacked from '../shared/PropertyReadOnlyStacked'
+import Relation from './Relation'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const RelationTitle = styled.div`
   font-weight: bold;
