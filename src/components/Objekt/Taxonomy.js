@@ -5,28 +5,16 @@ import get from 'lodash/get'
 import Linkify from 'react-linkify'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
+import PropertyReadOnly from '../shared/PropertyReadOnly'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 0.9em;
-  padding-top: 8px;
-  padding-bottom: 8px;
-`
-const Row = styled.div`
-  display: flex;
-`
-const Label = styled.p`
-  flex-basis: 230px;
-  flex-shrink: 0;
-  flex-grow: 0;
-  text-align: right;
-  padding-right: 5px;
-  margin: 2px 0;
-  color: grey;
-`
-const Value = styled.p`
-  margin: 2px 0;
+  background-color: #ffe0b2 !important;
+  padding: 8px 16px !important;
+  margin: 0;
+  column-width: 500px;
 `
 const linkifyProperties = {
   target: '_blank',
@@ -47,29 +35,23 @@ const Taxonomy = ({ taxonomy }: { taxonomy: Object }) => {
       <Linkify properties={linkifyProperties}>
         <Container>
           {taxonomy.description && (
-            <Row>
-              <Label>{'Beschreibung:'}</Label>
-              <Value>{taxonomy.description}</Value>
-            </Row>
+            <PropertyReadOnly
+              label="Beschreibung"
+              value={taxonomy.description}
+            />
           )}
           {taxonomy.lastUpdated && (
-            <Row>
-              <Label>{'Stand:'}</Label>
-              <Value>{taxonomy.lastUpdated}</Value>
-            </Row>
+            <PropertyReadOnly label="Stand" value={taxonomy.lastUpdated} />
           )}
           {taxonomy.links &&
             taxonomy.links.length > 0 && (
-              <Row>
-                <Label>{'Link:'}</Label>
-                <Value>{taxonomy.links}</Value>
-              </Row>
+              <PropertyReadOnly label="Link" value={taxonomy.links} />
             )}
           {organizationName && (
-            <Row>
-              <Label>{'Organisation mit Schreibrecht:'}</Label>
-              <Value>{organizationName}</Value>
-            </Row>
+            <PropertyReadOnly
+              label="Organisation mit Schreibrecht"
+              value={organizationName}
+            />
           )}
         </Container>
       </Linkify>

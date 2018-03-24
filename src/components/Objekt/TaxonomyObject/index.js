@@ -16,6 +16,8 @@ import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import EditIcon from 'material-ui-icons/Edit'
 import ViewIcon from 'material-ui-icons/Visibility'
 import SynonymIcon from 'material-ui-icons/Forward'
+import InfoOutlineIcon from 'material-ui-icons/InfoOutline'
+import InfoIcon from 'material-ui-icons/Info'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
@@ -42,12 +44,6 @@ const StyledCard = styled(Card)`
   margin: 0;
   background-color: #fff3e0 !important;
 `
-const StyledCard2 = styled(Card)`
-  margin: 10px 0;
-  background-color: #ffe0b2 !important;
-  margin-top: 0 !important;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px !important;
-`
 const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
   cursor: pointer;
@@ -56,12 +52,6 @@ const StyledCardActions = styled(CardActions)`
 `
 const CardActionsButtons = styled.div`
   display: flex;
-`
-const StyledCardActions2 = styled(CardActions)`
-  justify-content: space-between;
-  cursor: pointer;
-  background-color: #ffe0b2 !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 `
 const CardActionIconButton = styled(IconButton)`
   transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
@@ -73,9 +63,6 @@ const CardActionTitle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
-`
-const CardActionTitle2 = styled(CardActionTitle)`
-  font-weight: normal;
 `
 const StyledCardContent = styled(CardContent)`
   padding: 0 16px 0 16px !important;
@@ -236,10 +223,31 @@ const TaxonomyObject = ({
                   </Icon>
                 </StyledButton>
               )}
+            <IconButton
+              data-expanded={expanded2}
+              aria-expanded={expanded2}
+              aria-label="über diese Taxonomie"
+              title={
+                expanded2
+                  ? 'Taxonomie-Beschreibung schliessen'
+                  : 'Taxonomie-Beschreibung öffnen'
+              }
+              onClick={event => {
+                event.stopPropagation()
+                setExpanded2(!expanded2)
+                setExpanded(true)
+              }}
+            >
+              <Icon>
+                {!expanded2 && <InfoOutlineIcon />}
+                {expanded2 && <InfoIcon />}
+              </Icon>
+            </IconButton>
             <CardActionIconButton
               data-expanded={expanded}
               aria-expanded={expanded}
               aria-label="Show more"
+              title={expanded ? 'Taxonomie schliessen' : 'Taxonomie öffnen'}
             >
               <Icon>
                 <ExpandMoreIcon />
@@ -248,30 +256,7 @@ const TaxonomyObject = ({
           </CardActionsButtons>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <StyledCard2>
-            <StyledCardActions2
-              disableActionSpacing
-              onClick={() => setExpanded2(!expanded2)}
-            >
-              <CardActionTitle2>
-                {get(taxonomy, 'description', '')}
-              </CardActionTitle2>
-              <CardActionIconButton
-                data-expanded={expanded2}
-                aria-expanded={expanded2}
-                aria-label="Show more"
-              >
-                <Icon>
-                  <ExpandMoreIcon />
-                </Icon>
-              </CardActionIconButton>
-            </StyledCardActions2>
-            <Collapse in={expanded2} timeout="auto" unmountOnExit>
-              <StyledCardContent>
-                <Taxonomy taxonomy={taxonomy} />
-              </StyledCardContent>
-            </Collapse>
-          </StyledCard2>
+          {expanded2 && <Taxonomy taxonomy={taxonomy} />}
           <StyledCardContent>
             {editing ? (
               <Fragment>
