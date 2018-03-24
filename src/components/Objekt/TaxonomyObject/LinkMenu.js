@@ -7,8 +7,8 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 
 const StyledButton = styled(Button)`
-  min-width: 48px !important;
-  max-width: 48px !important;
+  min-width: 54px !important;
+  max-width: 54px !important;
   min-height: 48px !important;
   margin-right: -8px !important;
   border-radius: 80px !important;
