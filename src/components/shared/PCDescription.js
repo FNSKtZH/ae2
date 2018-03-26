@@ -34,6 +34,9 @@ const PCDescription = ({ pC }: { pC: Object }) => {
     <ErrorBoundary>
       <Linkify properties={linkifyProperties}>
         <Container>
+          {pC.description && (
+            <PropertyReadOnly label="Beschreibung" value={pC.description} />
+          )}
           {pC.combining && (
             <PropertyReadOnly
               label="Zusammenfassend"
