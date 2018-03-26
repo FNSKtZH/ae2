@@ -1,16 +1,11 @@
 // @flow
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import get from 'lodash/get'
 
 export default graphql(
   gql`
-    query propsByTaxDataQuery(
-      $queryExportTaxonomies: Boolean!
-      $exportTaxonomies: [String]
-    ) {
-      pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-        @include(if: $queryExportTaxonomies) {
+    query propsByTaxDataQuery($exportTaxonomies: [String]) {
+      pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
         nodes {
           propertyCollectionName
           propertyName
@@ -18,8 +13,7 @@ export default graphql(
           count
         }
       }
-      rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-        @include(if: $queryExportTaxonomies) {
+      rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
         nodes {
           propertyCollectionName
           relationType
@@ -28,8 +22,7 @@ export default graphql(
           count
         }
       }
-      taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-        @include(if: $queryExportTaxonomies) {
+      taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
         nodes {
           taxonomyName
           propertyName
@@ -41,11 +34,15 @@ export default graphql(
   `,
   {
     options: ({ exportTaxonomiesData }: { exportTaxonomiesData: Object }) => {
-      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+      const exportTaxonomies = [
+        'CSCF (2009)',
+        'NISM (2010)',
+        'SISF Index 2 (2005)',
+      ]
+
       return {
         variables: {
           exportTaxonomies,
-          queryExportTaxonomies: exportTaxonomies.length > 0,
         },
       }
     },
