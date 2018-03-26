@@ -10,12 +10,13 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 
 import RCO from './RCO'
-import propsByTaxData from '../../propsByTaxData'
-import exportTaxonomiesData from '../../../exportTaxonomiesData'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
+import ChooseNrOfRows from './ChooseNrOfRows'
+import propsByTaxData from '../propsByTaxData'
+import exportTaxonomiesData from '../../exportTaxonomiesData'
+import data from '../data'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 10px 0;
@@ -26,6 +27,7 @@ const StyledCardActions = styled(CardActions)`
   cursor: pointer;
   height: auto !important;
   background-color: #ffcc80;
+  display: flex;
 `
 const CardActionIconButton = styled(IconButton)`
   transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
@@ -40,23 +42,16 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withApollo,
-  exportTaxonomiesData,
-  propsByTaxData,
-  withState('expanded', 'setExpanded', false)
-)
+const enhance = compose(withApollo, exportTaxonomiesData, data, propsByTaxData)
 
-const RcosCard = ({
-  expanded,
-  setExpanded,
+const RCOs = ({
   propsByTaxData,
+  data,
   rcoExpanded,
   onToggleRco,
 }: {
-  expanded: Boolean,
-  setExpanded: () => void,
   propsByTaxData: Object,
+  data: Object,
   rcoExpanded: Boolean,
   onToggleRco: () => {},
 }) => {
@@ -72,8 +67,48 @@ const RcosCard = ({
     }
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
+  // TODO: need to add BeziehungsPartnerId and BeziehungsPartnerName
+  const rcoCountByTaxonomyRelationType = get(
+    data,
+    'rcoCountByTaxonomyRelationTypeFunction.nodes',
+    []
+  )
+  // TODO:
+  // in every key of rcoPropertiesByPropertyCollection
+  // add id and name of Beziehungspartner
+
+  Object.values(rcoPropertiesByPropertyCollection).forEach(rpc => {
+    const myRpc = rpc[0] || {}
+    let rco = rcoCountByTaxonomyRelationType.find(
+      r =>
+        r.propertyCollectionName === myRpc.propertyCollectionName &&
+        r.relationType === myRpc.relationType
+    )
+    if (!rco) {
+      rco = rcoCountByTaxonomyRelationType.find(
+        r =>
+          `${r.propertyCollectionName}: ${r.relationType}` ===
+            myRpc.propertyCollectionName &&
+          r.relationType === myRpc.relationType
+      )
+    }
+    if (!rco) rco = {}
+    rpc.push({
+      count: rco.count,
+      jsontype: 'String',
+      propertyCollectionName: myRpc.propertyCollectionName,
+      propertyName: 'Beziehungspartner_id',
+      relationType: myRpc.relationType,
+    })
+    rpc.push({
+      count: rco.count,
+      jsontype: 'String',
+      propertyCollectionName: myRpc.propertyCollectionName,
+      propertyName: 'Beziehungspartner_Name',
+      relationType: myRpc.relationType,
+    })
+  })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
-  //console.log('RcosCard: pcoPropertiesFields:', pcoPropertiesFields)
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
   return (
@@ -102,6 +137,7 @@ const RcosCard = ({
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
+          <ChooseNrOfRows />
           {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
             <RCO key={pc} pc={pc} />
           ))}
@@ -111,4 +147,4 @@ const RcosCard = ({
   )
 }
 
-export default enhance(RcosCard)
+export default enhance(RCOs)

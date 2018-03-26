@@ -7,9 +7,9 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
-import removeExportPcoPropertyMutation from '../../../removeExportPcoPropertyMutation'
-import exportPcoPropertiesData from '../../../exportPcoPropertiesData'
+import addExportTaxPropertyMutation from '../../addExportTaxPropertyMutation'
+import removeExportTaxPropertyMutation from '../../removeExportTaxPropertyMutation'
+import exportTaxPropertiesData from '../../exportTaxPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -25,38 +25,38 @@ const Label = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
-  exportPcoPropertiesData,
+  exportTaxPropertiesData,
   withHandlers({
     onCheck: ({ properties, client }) => (event, isChecked) => {
       const mutation = isChecked
-        ? addExportPcoPropertyMutation
-        : removeExportPcoPropertyMutation
+        ? addExportTaxPropertyMutation
+        : removeExportTaxPropertyMutation
       properties.forEach(p => {
-        const pcname = p.propertyCollectionName
+        const taxname = p.taxonomyName
         const pname = p.propertyName
         client.mutate({
           mutation,
-          variables: { pcname, pname },
+          variables: { taxname, pname },
         })
       })
     },
   })
 )
 
-const AllPcoChooser = ({
+const AllTaxChooser = ({
   onCheck,
   properties,
-  exportPcoPropertiesData,
+  exportTaxPropertiesData,
 }: {
   onCheck: () => {},
   properties: Array<Object>,
-  exportPcoPropertiesData: Object,
+  exportTaxPropertiesData: Object,
 }) => {
-  const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+  const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
   const checkedArray = properties.map(
     p =>
-      exportPcoProperties.filter(
-        x => x.pcname === p.propertyCollectionName && x.pname === p.propertyName
+      exportTaxProperties.filter(
+        x => x.taxname === p.taxname && x.pname === p.propertyName
       ).length > 0
   )
   const checked = checkedArray.length > 0 && !checkedArray.includes(false)
@@ -73,4 +73,4 @@ const AllPcoChooser = ({
   )
 }
 
-export default enhance(AllPcoChooser)
+export default enhance(AllTaxChooser)

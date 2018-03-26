@@ -9,9 +9,10 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
-import TaxField from '../TaxField'
-import constants from '../../../../../modules/constants'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
+import AllTaxChooser from './AllTaxChooser'
+import TaxChooser from './TaxChooser'
+import constants from '../../../../modules/constants'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
@@ -32,22 +33,25 @@ const CardActionTitle = styled.div`
   font-weight: bold;
   word-break: break-word;
 `
-const Count = styled.span`
-  font-size: x-small;
-  padding-left: 5px;
+const StyledCollapse = styled(Collapse)`
+  display: flex;
+  flex-direction: column;
+  padding: 8px 14px;
 `
 const PropertiesContainer = styled.div`
-  margin: 8px 0;
-  padding-bottom: 10px;
   column-width: ${props =>
     props['data-width'] > 2 * constants.export.properties.columnWidth
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};
 `
+const Count = styled.span`
+  font-size: x-small;
+  padding-left: 5px;
+`
 
 const enhance = compose(withState('expanded', 'setExpanded', false))
 
-const JointTaxonomiesCard = ({
+const JointTaxonomy = ({
   expanded,
   setExpanded,
   jointTaxProperties,
@@ -57,7 +61,7 @@ const JointTaxonomiesCard = ({
   jointTaxProperties: Array<Object>,
 }) => (
   <ErrorBoundary>
-    <StyledCard>
+    <StyledCard key="jointTax">
       <StyledCardActions
         disableActionSpacing
         onClick={() => setExpanded(!expanded)}
@@ -76,20 +80,24 @@ const JointTaxonomiesCard = ({
           </Icon>
         </CardActionIconButton>
       </StyledCardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
+        {jointTaxProperties.length > 1 && (
+          <AllTaxChooser properties={jointTaxProperties} />
+        )}
         <PropertiesContainer data-width={window.innerWidth - 84}>
           {jointTaxProperties.map(field => (
-            <TaxField
+            <TaxChooser
               key={`${field.propertyName}${field.jsontype}`}
-              taxname="Taxonomie"
+              taxname={'Taxonomie'}
               pname={field.propertyName}
               jsontype={field.jsontype}
+              count={field.count}
             />
           ))}
         </PropertiesContainer>
-      </Collapse>
+      </StyledCollapse>
     </StyledCard>
   </ErrorBoundary>
 )
 
-export default enhance(JointTaxonomiesCard)
+export default enhance(JointTaxonomy)

@@ -7,9 +7,9 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import addExportTaxPropertyMutation from '../../../addExportTaxPropertyMutation'
-import removeExportTaxPropertyMutation from '../../../removeExportTaxPropertyMutation'
-import exportTaxPropertiesData from '../../../exportTaxPropertiesData'
+import addExportRcoPropertyMutation from '../../../addExportRcoPropertyMutation'
+import removeExportRcoPropertyMutation from '../../../removeExportRcoPropertyMutation'
+import exportRcoPropertiesData from '../../../exportRcoPropertiesData'
 
 const Container = styled.div``
 const Count = styled.span`
@@ -26,39 +26,47 @@ const Label = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
-  exportTaxPropertiesData,
+  exportRcoPropertiesData,
   withHandlers({
-    onCheck: ({ taxname, pname, client }) => (event, isChecked) => {
+    onCheck: ({ pcname, relationtype, pname, client }) => (
+      event,
+      isChecked
+    ) => {
       const mutation = isChecked
-        ? addExportTaxPropertyMutation
-        : removeExportTaxPropertyMutation
+        ? addExportRcoPropertyMutation
+        : removeExportRcoPropertyMutation
       client.mutate({
         mutation,
-        variables: { taxname, pname },
+        variables: { pcname, relationtype, pname },
       })
     },
   })
 )
 
-const TaxChooser = ({
-  taxname,
+const RcoChooser = ({
+  pcname,
+  relationtype,
   pname,
   jsontype,
   count,
   onCheck,
-  exportTaxPropertiesData,
+  exportRcoPropertiesData,
 }: {
-  taxname: string,
-  pname: string,
-  jsontype: string,
-  count: number,
-  onCheck: () => {},
-  exportTaxPropertiesData: Object,
+  pcname: String,
+  relationtype: String,
+  pname: String,
+  jsontype: String,
+  count: Number,
+  onCheck: () => void,
+  exportRcoPropertiesData: Object,
 }) => {
-  const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
+  const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
   const checked =
-    exportTaxProperties.filter(
-      x => /*x.taxname === taxname && */ x.pname === pname
+    exportRcoProperties.filter(
+      x =>
+        x.pcname === pcname &&
+        x.relationtype === relationtype &&
+        x.pname === pname
     ).length > 0
 
   return (
@@ -77,4 +85,4 @@ const TaxChooser = ({
   )
 }
 
-export default enhance(TaxChooser)
+export default enhance(RcoChooser)

@@ -8,9 +8,9 @@ import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 
-import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
-import removeExportPcoPropertyMutation from '../../../removeExportPcoPropertyMutation'
-import exportPcoPropertiesData from '../../../exportPcoPropertiesData'
+import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
+import removeExportPcoPropertyMutation from '../../removeExportPcoPropertyMutation'
+import exportPcoPropertiesData from '../../exportPcoPropertiesData'
 
 const Container = styled.div``
 const Count = styled.span`

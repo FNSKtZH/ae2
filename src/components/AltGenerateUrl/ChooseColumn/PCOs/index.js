@@ -6,15 +6,14 @@ import IconButton from 'material-ui/IconButton'
 import Icon from 'material-ui/Icon'
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 
 import PCO from './PCO'
-import propsByTaxData from '../../propsByTaxData'
-import exportTaxonomiesData from '../../../exportTaxonomiesData'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
+import propsByTaxData from '../propsByTaxData'
+import exportTaxonomiesData from '../../exportTaxonomiesData'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 10px 0;
@@ -39,9 +38,9 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(withApollo, exportTaxonomiesData, propsByTaxData)
+const enhance = compose(exportTaxonomiesData, propsByTaxData)
 
-const PcosCard = ({
+const PCOs = ({
   propsByTaxData,
   pcoExpanded,
   onTogglePco,
@@ -97,4 +96,4 @@ const PcosCard = ({
   )
 }
 
-export default enhance(PcosCard)
+export default enhance(PCOs)

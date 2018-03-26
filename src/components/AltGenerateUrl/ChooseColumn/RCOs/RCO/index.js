@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
 import Card, { CardActions } from 'material-ui/Card'
 import Collapse from 'material-ui/transitions/Collapse'
 import IconButton from 'material-ui/IconButton'
@@ -10,23 +10,34 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 
-import RCO from './RCO'
-import ChooseNrOfRows from './ChooseNrOfRows'
+import AllRcoChooser from './AllRcoChooser'
+import RcoChooser from './RcoChooser'
+import constants from '../../../../../modules/constants'
 import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
-import data from '../data'
+import data from '../../data'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
+const PropertiesContainer = styled.div`
+  column-width: ${props =>
+    props['data-width'] > 2 * constants.export.properties.columnWidth
+      ? `${constants.export.properties.columnWidth}px`
+      : 'auto'};
+`
 const StyledCard = styled(Card)`
-  margin: 10px 0;
+  margin: 0;
   background-color: rgb(255, 243, 224) !important;
 `
 const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
   cursor: pointer;
+  background-color: #fff3e0;
+  border-bottom: 1px solid #ebebeb;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
   height: auto !important;
-  background-color: #ffcc80;
   display: flex;
 `
 const CardActionIconButton = styled(IconButton)`
@@ -37,23 +48,34 @@ const CardActionTitle = styled.div`
   font-weight: bold;
   word-break: break-word;
 `
+const StyledCollapse = styled(Collapse)`
+  padding: 8px 20px;
+`
 const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
 
-const enhance = compose(withApollo, exportTaxonomiesData, data, propsByTaxData)
+const enhance = compose(
+  withApollo,
+  exportTaxonomiesData,
+  data,
+  propsByTaxData,
+  withState('expanded', 'setExpanded', false)
+)
 
-const RCOs = ({
+const RCO = ({
+  expanded,
+  setExpanded,
   propsByTaxData,
   data,
-  rcoExpanded,
-  onToggleRco,
+  pc,
 }: {
+  expanded: Boolean,
+  setExpanded: () => void,
   propsByTaxData: Object,
   data: Object,
-  rcoExpanded: Boolean,
-  onToggleRco: () => {},
+  pc: Object,
 }) => {
   const rcoProperties = get(
     propsByTaxData,
@@ -108,27 +130,25 @@ const RCOs = ({
       relationType: myRpc.relationType,
     })
   })
-  const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
-  const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleRco}>
+        <StyledCardActions
+          disableActionSpacing
+          onClick={() => setExpanded(!expanded)}
+        >
           <CardActionTitle>
-            Beziehungssammlungen{rCCount > 0 && (
-              <Count>{`(${rCCount} Sammlungen, ${
-                Object.keys(rcoPropertiesFields).length
-              } ${
-                Object.keys(rcoPropertiesFields).length === 1
-                  ? 'Feld'
-                  : 'Felder'
-              })`}</Count>
-            )}
+            {pc}
+            <Count>{`(${rcoPropertiesByPropertyCollection[pc].length} ${
+              rcoPropertiesByPropertyCollection[pc].length === 1
+                ? 'Feld'
+                : 'Felder'
+            })`}</Count>
           </CardActionTitle>
           <CardActionIconButton
-            data-expanded={rcoExpanded}
-            aria-expanded={rcoExpanded}
+            data-expanded={expanded}
+            aria-expanded={expanded}
             aria-label="Show more"
           >
             <Icon>
@@ -136,15 +156,30 @@ const RCOs = ({
             </Icon>
           </CardActionIconButton>
         </StyledCardActions>
-        <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
-          <ChooseNrOfRows />
-          {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
-            <RCO key={pc} pc={pc} />
-          ))}
-        </Collapse>
+        <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
+          <Fragment>
+            {rcoPropertiesByPropertyCollection[pc].length > 1 && (
+              <AllRcoChooser
+                properties={rcoPropertiesByPropertyCollection[pc]}
+              />
+            )}
+            <PropertiesContainer data-width={window.innerWidth - 84}>
+              {rcoPropertiesByPropertyCollection[pc].map(field => (
+                <RcoChooser
+                  key={`${field.propertyName}${field.jsontype}`}
+                  pcname={field.propertyCollectionName}
+                  relationtype={field.relationType}
+                  pname={field.propertyName}
+                  jsontype={field.jsontype}
+                  count={field.count}
+                />
+              ))}
+            </PropertiesContainer>
+          </Fragment>
+        </StyledCollapse>
       </StyledCard>
     </ErrorBoundary>
   )
 }
 
-export default enhance(RCOs)
+export default enhance(RCO)

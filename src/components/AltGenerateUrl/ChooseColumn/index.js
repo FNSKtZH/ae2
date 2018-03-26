@@ -1,73 +1,44 @@
 // @flow
 import React from 'react'
-import Card, { CardActions } from 'material-ui/Card'
-import Collapse from 'material-ui/transitions/Collapse'
-import IconButton from 'material-ui/IconButton'
-import Icon from 'material-ui/Icon'
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
-import Snackbar from 'material-ui/Snackbar'
 import styled from 'styled-components'
+import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
 import get from 'lodash/get'
 
+import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
-import Properties from './Properties'
-import Filter from './Filter'
+import PCOs from './PCOs'
+import RCOs from './RCOs'
+import propsByTaxData from './propsByTaxData'
 import exportTaxonomiesData from '../exportTaxonomiesData'
-import exportPcoPropertiesData from '../exportPcoPropertiesData'
-import exportRcoPropertiesData from '../exportRcoPropertiesData'
-import exportTaxPropertiesData from '../exportTaxPropertiesData'
-import exportTaxFiltersData from '../exportTaxFiltersData'
-import exportPcoFiltersData from '../exportPcoFiltersData'
-import exportRcoFiltersData from '../exportRcoFiltersData'
+import data from './data'
 import ErrorBoundary from '../../shared/ErrorBoundary'
+import Snackbar from 'material-ui/Snackbar'
 
+const Container = styled.div`
+  padding: 0 5px;
+  overflow: auto !important;
+`
 const StyledSnackbar = styled(Snackbar)`
   div {
     min-width: auto;
     background-color: #2e7d32 !important;
   }
 `
-const StyledCard = styled(Card)`
-  margin: 10px 0;
-  background-color: rgb(255, 243, 224) !important;
-`
-const StyledCardActions = styled(CardActions)`
-  justify-content: space-between;
-  cursor: pointer;
-  height: auto !important;
-  background-color: #ffcc80;
-`
-const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
-`
-const CardActionTitle = styled.div`
-  padding-left: 8px;
-  font-weight: bold;
-  word-break: break-word;
+const StyledH3 = styled.h3`
+  padding-left: 10px;
 `
 
-const Container = styled.div`
-  padding: 0 5px;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  height: 100%;
-`
-// need to call all local data in case it has not yet been initiated
-// (this is an apollo-link-state error)
 const enhance = compose(
+  withApollo,
   exportTaxonomiesData,
-  exportTaxPropertiesData,
-  exportPcoPropertiesData,
-  exportRcoPropertiesData,
-  exportTaxFiltersData,
-  exportPcoFiltersData,
-  exportRcoFiltersData,
-  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
-  withState('filterExpanded', 'setFilterExpanded', false),
-  withState('propertiesExpanded', 'setPropertiesExpanded', false),
+  data,
+  propsByTaxData,
+  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
+  withState('pcoExpanded', 'setFilterExpanded', false),
+  withState('rcoExpanded', 'setPropertiesExpanded', false),
   withState('message', 'setMessage', ''),
   withHandlers({
     onSetMessage: ({ message, setMessage }) => (message: String) => {
@@ -85,124 +56,99 @@ const enhance = compose(
       setPropertiesExpanded,
     }) => () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
+      // TODO (later)
+      // check if only one Taxonomy
+      // if so: open it
+
       // close all others
       setFilterExpanded(false)
       setPropertiesExpanded(false)
     },
-    onToggleFilter: ({
-      exportTaxonomiesData,
-      filterExpanded,
+    onTogglePco: ({
+      pcoExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
-      onSetMessage,
     }) => () => {
-      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      if (!filterExpanded && exportTaxonomies.length > 0) {
+      if (!pcoExpanded) {
         setFilterExpanded(true)
         // close all others
         setTaxonomiesExpanded(false)
         setPropertiesExpanded(false)
       } else {
         setFilterExpanded(false)
-        onSetMessage('Bitte wählen Sie mindestens eine Taxonomie')
       }
     },
-    onToggleProperties: ({
-      exportTaxonomiesData,
-      propertiesExpanded,
+    onToggleRco: ({
+      rcoExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
       setPropertiesExpanded,
-      onSetMessage,
     }) => () => {
-      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      if (!propertiesExpanded && exportTaxonomies.length > 0) {
+      if (!rcoExpanded) {
         setPropertiesExpanded(true)
         // close all others
         setTaxonomiesExpanded(false)
         setFilterExpanded(false)
       } else {
         setPropertiesExpanded(false)
-        onSetMessage('Bitte wählen Sie mindestens eine Gruppe')
       }
     },
   })
+  //withWindowSize,
 )
 
-const Export = ({
+const Properties = ({
+  propsByTaxData,
+  data,
   taxonomiesExpanded,
-  filterExpanded,
-  propertiesExpanded,
+  pcoExpanded,
+  rcoExpanded,
   onToggleTaxonomies,
-  onToggleFilter,
-  onToggleProperties,
+  onTogglePco,
+  onToggleRco,
   message,
 }: {
+  propsByTaxData: Object,
+  data: Object,
   taxonomiesExpanded: Boolean,
-  filterExpanded: Boolean,
-  propertiesExpanded: Boolean,
+  pcoExpanded: Boolean,
+  rcoExpanded: Boolean,
   onToggleTaxonomies: () => {},
-  onToggleFilter: () => {},
-  onToggleProperties: () => {},
+  onTogglePco: () => {},
+  onToggleRco: () => {},
   message: String,
-}) => (
-  <ErrorBoundary>
-    <Container>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
-          <CardActionTitle>1. Taxonomie(n) wählen</CardActionTitle>
-          <CardActionIconButton
-            data-expanded={taxonomiesExpanded}
-            aria-expanded={taxonomiesExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
-          <Taxonomies />
-        </Collapse>
-      </StyledCard>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleFilter}>
-          <CardActionTitle>2. filtern</CardActionTitle>
-          <CardActionIconButton
-            data-expanded={filterExpanded}
-            aria-expanded={filterExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={filterExpanded} timeout="auto" unmountOnExit>
-          <Filter />
-        </Collapse>
-      </StyledCard>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleProperties}>
-          <CardActionTitle>3. Eigenschaften wählen</CardActionTitle>
-          <CardActionIconButton
-            data-expanded={propertiesExpanded}
-            aria-expanded={propertiesExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={propertiesExpanded} timeout="auto" unmountOnExit>
-          <Properties />
-        </Collapse>
-      </StyledCard>
-      <StyledSnackbar open={!!message} message={message} />
-    </Container>
-  </ErrorBoundary>
-)
+}) => {
+  const pcoProperties = get(
+    propsByTaxData,
+    'pcoPropertiesByTaxonomiesFunction.nodes',
+    []
+  )
+  const rcoProperties = get(
+    propsByTaxData,
+    'rcoPropertiesByTaxonomiesFunction.nodes',
+    []
+  )
 
-export default enhance(Export)
+  return (
+    <ErrorBoundary>
+      <Container>
+        <StyledH3>Eigenschaften wählen</StyledH3>
+        <HowTo />
+        <Taxonomies
+          taxonomiesExpanded={taxonomiesExpanded}
+          onToggleTaxonomies={onToggleTaxonomies}
+        />
+        {pcoProperties.length > 0 && (
+          <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
+        )}
+        {rcoProperties.length > 0 && (
+          <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
+        )}
+        <StyledSnackbar open={!!message} message={message} />
+      </Container>
+    </ErrorBoundary>
+  )
+}
+
+export default enhance(Properties)

@@ -10,7 +10,7 @@ import Typography from 'material-ui/Typography'
 import compose from 'recompose/compose'
 import uniq from 'lodash/uniq'
 
-import exportRcoInOneRowMutation from '../../../exportRcoInOneRowMutation'
+import exportRcoInOneRowMutation from '../../exportRcoInOneRowMutation'
 
 const StyledFormLabel = styled(FormLabel)`
   color: rgba(0, 0, 0, 0.87) !important;
