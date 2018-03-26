@@ -102,6 +102,7 @@ class App extends Component<Props, State> {
       'benutzer',
       'datagraph',
       'graphiql',
+      'artenlistentool',
     ].includes(url0)
     const showData = [
       null,
@@ -112,6 +113,8 @@ class App extends Component<Props, State> {
       'organisationen',
     ].includes(url0)
     const showExport = url0 === 'export'
+    const showAltGenerateUrl =
+      url0 === 'artenlistentool' && activeNodeArray[1] === 'url_generieren'
     const showLogin = url0 === 'login'
     const showDataGraph = url0 === 'datagraph'
     const showGraphIql = url0 === 'graphiql'
@@ -127,6 +130,7 @@ class App extends Component<Props, State> {
           {show404 && <FourOhFourAsync />}
           {showDataGraph && <DataGraph />}
           {showGraphIql && <GraphIql />}
+          {showAltGenerateUrl && <div>TODO: showAltGenerateUrl</div>}
           <Snackbar
             open={updateAvailable}
             message={

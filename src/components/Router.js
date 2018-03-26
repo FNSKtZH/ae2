@@ -19,6 +19,17 @@ const Router = () => {
   ).get('id')
   const objectId =
     idParam && isUuid.anyNonNil(idParam) ? idParam.toLowerCase() : null
+  /**
+   * redirect
+   * /index.html?exportieren_fuer_artenlistentool=true
+   * to /artenlistentool/url_generieren
+   */
+  const altUrlGenParam = new URLSearchParams(
+    document.location.search.substring(1)
+  ).get('exportieren_fuer_artenlistentool')
+  if (altUrlGenParam) {
+    app.history.push('/artenlistentool/url_generieren')
+  }
 
   if (!!objectId) {
     return (
