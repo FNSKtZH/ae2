@@ -22,7 +22,8 @@ const Router = () => {
   /**
    * redirect
    * /index.html?exportieren_fuer_artenlistentool=true
-   * to /artenlistentool/url_generieren
+   * to
+   * /artenlistentool/url_generieren
    */
   const altUrlGenParam = new URLSearchParams(
     document.location.search.substring(1)
