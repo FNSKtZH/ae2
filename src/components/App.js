@@ -24,6 +24,10 @@ const ExportAsync = Loadable({
   loader: () => import('./Export'),
   loading: LoadingComponent,
 })
+const AltGenerateUrlAsync = Loadable({
+  loader: () => import('./AltGenerateUrl'),
+  loading: LoadingComponent,
+})
 const LoginAsync = Loadable({
   loader: () => import('./Login'),
   loading: LoadingComponent,
@@ -130,7 +134,7 @@ class App extends Component<Props, State> {
           {show404 && <FourOhFourAsync />}
           {showDataGraph && <DataGraph />}
           {showGraphIql && <GraphIql />}
-          {showAltGenerateUrl && <div>TODO: showAltGenerateUrl</div>}
+          {showAltGenerateUrl && <AltGenerateUrlAsync />}
           <Snackbar
             open={updateAvailable}
             message={
