@@ -5,15 +5,12 @@ import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
-import get from 'lodash/get'
 
 import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import propsByTaxData from './propsByTaxData'
 import exportTaxonomiesData from '../exportTaxonomiesData'
-import data from './data'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import Snackbar from 'material-ui/Snackbar'
 
@@ -34,25 +31,15 @@ const StyledH3 = styled.h3`
 const enhance = compose(
   withApollo,
   exportTaxonomiesData,
-  data,
-  propsByTaxData,
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
-  withState('pcoExpanded', 'setFilterExpanded', false),
+  withState('pcoExpanded', 'setPcoExpanded', false),
   withState('rcoExpanded', 'setPropertiesExpanded', false),
   withState('message', 'setMessage', ''),
-  withHandlers({
-    onSetMessage: ({ message, setMessage }) => (message: String) => {
-      setMessage(message)
-      if (!!message) {
-        setTimeout(() => setMessage(''), 5000)
-      }
-    },
-  }),
   withHandlers({
     onToggleTaxonomies: ({
       taxonomiesExpanded,
       setTaxonomiesExpanded,
-      setFilterExpanded,
+      setPcoExpanded,
       setPropertiesExpanded,
     }) => () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
@@ -61,46 +48,49 @@ const enhance = compose(
       // if so: open it
 
       // close all others
-      setFilterExpanded(false)
+      setPcoExpanded(false)
       setPropertiesExpanded(false)
     },
     onTogglePco: ({
       pcoExpanded,
       setTaxonomiesExpanded,
-      setFilterExpanded,
+      setPcoExpanded,
       setPropertiesExpanded,
     }) => () => {
       if (!pcoExpanded) {
-        setFilterExpanded(true)
+        setPcoExpanded(true)
         // close all others
         setTaxonomiesExpanded(false)
         setPropertiesExpanded(false)
       } else {
-        setFilterExpanded(false)
+        setPcoExpanded(false)
       }
     },
     onToggleRco: ({
       rcoExpanded,
       setTaxonomiesExpanded,
-      setFilterExpanded,
+      setPcoExpanded,
       setPropertiesExpanded,
     }) => () => {
       if (!rcoExpanded) {
         setPropertiesExpanded(true)
         // close all others
         setTaxonomiesExpanded(false)
-        setFilterExpanded(false)
+        setPcoExpanded(false)
       } else {
         setPropertiesExpanded(false)
       }
     },
+    onSetMessage: ({ message, setMessage }) => (message: String) => {
+      setMessage(message)
+      if (!!message) {
+        setTimeout(() => setMessage(''), 5000)
+      }
+    },
   })
-  //withWindowSize,
 )
 
 const Properties = ({
-  propsByTaxData,
-  data,
   taxonomiesExpanded,
   pcoExpanded,
   rcoExpanded,
@@ -109,8 +99,6 @@ const Properties = ({
   onToggleRco,
   message,
 }: {
-  propsByTaxData: Object,
-  data: Object,
   taxonomiesExpanded: Boolean,
   pcoExpanded: Boolean,
   rcoExpanded: Boolean,
@@ -119,17 +107,6 @@ const Properties = ({
   onToggleRco: () => {},
   message: String,
 }) => {
-  const pcoProperties = get(
-    propsByTaxData,
-    'pcoPropertiesByTaxonomiesFunction.nodes',
-    []
-  )
-  const rcoProperties = get(
-    propsByTaxData,
-    'rcoPropertiesByTaxonomiesFunction.nodes',
-    []
-  )
-
   return (
     <ErrorBoundary>
       <Container>
@@ -139,12 +116,8 @@ const Properties = ({
           taxonomiesExpanded={taxonomiesExpanded}
           onToggleTaxonomies={onToggleTaxonomies}
         />
-        {pcoProperties.length > 0 && (
-          <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
-        )}
-        {rcoProperties.length > 0 && (
-          <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
-        )}
+        <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
+        <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
         <StyledSnackbar open={!!message} message={message} />
       </Container>
     </ErrorBoundary>
