@@ -4,15 +4,15 @@
 
 ### 1.1.1 Art aufrufen
 
-Bisher: http://arteigenschaften.ch/index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
+Bisher: http://arteigenschaften.ch/index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3<br/>
 Künftig kann ALT auch nur diese URL aufrufen: https://arteigenschaften.ch/?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
 
-Jede url mit "id=uuid" als Parameter wird an das Objekt weitergeleitet.
+Jede url mit "id=uuid" als Parameter wird an das Objekt weitergeleitet.<br/>
 Es ist unerheblich ob uuid gross oder klein geschrieben wird.
 
 ### 1.1.2 Benutzer wählt Eigenschaften
 
-Bisher: http://arteigenschaften.ch/index.html?exportieren_fuer_artenlistentool=true
+Bisher: http://arteigenschaften.ch/index.html?exportieren_fuer_artenlistentool=true<br/>
 Neu: https://arteigenschaften.ch/artenlistentool/waehlen
 
 Die bisherige URL wird weitergeleitet.
@@ -29,12 +29,12 @@ Das muss server.js direkt aufnehmen:
 
 ### 2.1.1 Standardfelder
 
-http://artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true
+http://artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true<br/>
 Neu: http://arteigenschaften.ch/artenlistentool/get/standard
 
 ### 2.1.2 Gewählte Felder
 
-Beispiel:
+Beispiel:<br/>
 http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname"},{"DsTyp":"Datensammlung","DsName":"Blaue Liste (1998)","Feldname":"Anwendungshäufigkeit zur Förderung"}]}
 
 Diese URL wird von der Anwendung generiert. Ist also egal, wie sie aussieht! Beispiel:
