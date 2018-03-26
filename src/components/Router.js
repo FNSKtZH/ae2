@@ -74,7 +74,7 @@ const Router = () => {
       </Query>
     )
   }
-  if (!objectId) return <App />
+  return <App />
 }
 
 export default Router
