@@ -30,7 +30,8 @@ import graphQlUri from './modules/graphQlUri'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
 import getUrlForObject from './modules/getUrlForObject'
-;(async () => {
+
+const launchApp = async () => {
   try {
     const idb = initializeIdb()
 
@@ -229,4 +230,6 @@ import getUrlForObject from './modules/getUrlForObject'
   } catch (error) {
     console.log('Error in index.js: ', error)
   }
-})()
+}
+
+launchApp()
