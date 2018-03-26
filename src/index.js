@@ -5,10 +5,12 @@ import { createHttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { withClientState } from 'apollo-link-state'
-import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider, Query } from 'react-apollo'
+import gql from 'graphql-tag'
 import { ApolloLink } from 'apollo-link'
 import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
+import isUuid from 'is-uuid'
 
 import { MuiThemeProvider } from 'material-ui/styles'
 import app from 'ampersand-app'
@@ -27,6 +29,7 @@ import setLoginMutation from './modules/loginMutation'
 import graphQlUri from './modules/graphQlUri'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
+import getUrlForObject from './modules/getUrlForObject'
 ;(async () => {
   try {
     const idb = initializeIdb()
@@ -150,11 +153,73 @@ import resolvers from './store/resolvers'
         __typename: 'Mutation',
       },
     })
+    /**
+     * check if old url was passed that contains objectId-Param
+     * for instance: from artenlistentool like this:
+     * /index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
+     */
+    const idParam = new URLSearchParams(
+      document.location.search.substring(1)
+    ).get('id')
+    const objectId =
+      idParam && isUuid.anyNonNil(idParam) ? idParam.toLowerCase() : null
 
     ReactDOM.render(
       <ApolloProvider client={client}>
         <MuiThemeProvider theme={theme}>
-          <App />
+          {!!objectId && (
+            <Query
+              query={gql`
+                query ObjectQuery($id: UUID!) {
+                  objectById(id: $id) {
+                    id
+                    taxonomyByTaxonomyId {
+                      id
+                      type
+                    }
+                    objectByParentId {
+                      id
+                      objectByParentId {
+                        id
+                        objectByParentId {
+                          id
+                          objectByParentId {
+                            id
+                            objectByParentId {
+                              id
+                              objectByParentId {
+                                id
+                                objectByParentId {
+                                  id
+                                  objectByParentId {
+                                    id
+                                    objectByParentId {
+                                      id
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              `}
+              variables={{ id: objectId }}
+            >
+              {({ loading, error, data: { objectById } }) => {
+                if (loading) return 'Loading...'
+                if (error) return `Fehler: ${error.message}`
+                // if idParam was passed, open object
+                const url = getUrlForObject(objectById)
+                history.push(`/${url.join('/')}`)
+                return <App />
+              }}
+            </Query>
+          )}
+          {!objectId && <App />}
         </MuiThemeProvider>
       </ApolloProvider>,
       document.getElementById('root')
