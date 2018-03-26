@@ -27,8 +27,14 @@ import graphQlUri from './modules/graphQlUri'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
 import Router from './components/Router'
+import detectIE from './modules/detectIE'
 
 const launchApp = async () => {
+  const ieVersion = detectIE()
+  if (!!ieVersion && ieVersion < 12)
+    return window.alert(`Sorry: Internet Explorer wird nicht unterstützt.
+    Wir empfehlen eine aktuelle Version von Chrome oder Firefox`)
+
   try {
     const idb = initializeIdb()
 
