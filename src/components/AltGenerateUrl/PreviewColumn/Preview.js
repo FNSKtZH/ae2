@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import ReactDataGrid from 'react-data-grid'
-import Button from 'material-ui/Button'
 import Snackbar from 'material-ui/Snackbar'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
@@ -22,8 +21,6 @@ import exportRcoFiltersData from '../exportRcoFiltersData'
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
 import exportRcoInOneRowData from '../exportRcoInOneRowData'
 import exportOnlyRowsWithPropertiesData from '../exportOnlyRowsWithPropertiesData'
-import exportXlsx from '../../../modules/exportXlsx'
-import exportCsv from '../../../modules/exportCsv'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import rowsFromObjects from './rowsFromObjects'
 
@@ -51,19 +48,10 @@ const SpreadsheetContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
-const ButtonsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  padding: 0 8px;
-`
 const TotalDiv = styled.div`
   font-size: small;
   padding-left: 9px;
   margin-top: 4px;
-`
-const StyledButton = styled(Button)`
-  border: 1px solid !important;
 `
 const StyledSnackbar = styled(Snackbar)`
   div {
@@ -171,11 +159,6 @@ const Preview = ({
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
   const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
-  const objectsCount = get(
-    exportData,
-    'exportObject.totalCount',
-    0
-  ).toLocaleString('de-CH')
   const pco = get(exportData, 'exportPco.nodes', [])
   const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
   const rco = get(exportData, 'exportRco.nodes', [])
@@ -204,7 +187,7 @@ const Preview = ({
       <Container>
         {rows.length > 0 && (
           <SpreadsheetContainer>
-            <TotalDiv>{`${rows.length.toLocaleString(
+            <TotalDiv>{`Vorschau: ${rows.length.toLocaleString(
               'de-CH'
             )} Datensätze, ${anzFelder.toLocaleString('de-CH')} ${
               anzFelder === 1 ? 'Feld' : 'Felder'
@@ -221,21 +204,6 @@ const Preview = ({
               minColumnWidth={120}
             />
           </SpreadsheetContainer>
-        )}
-        {rows.length === 0 && (
-          <SpreadsheetContainer>
-            <TotalDiv>{`${objectsCount} Datensätze`}</TotalDiv>
-          </SpreadsheetContainer>
-        )}
-        {rows.length > 0 && (
-          <ButtonsContainer>
-            <StyledButton onClick={() => exportXlsx({ rows, onSetMessage })}>
-              .xlsx herunterladen
-            </StyledButton>
-            <StyledButton onClick={() => exportCsv(rows)}>
-              .csv herunterladen
-            </StyledButton>
-          </ButtonsContainer>
         )}
         <StyledSnackbar open={!!message} message={message} />
         <StyledSnackbar open={loading} message="lade Daten..." />
