@@ -1,10 +1,8 @@
-# Schnittstellen:
+# 1 Artenlistentool
 
-## 1 Artenlistentool
+## 1.1 Links auf arteigenschaften.ch
 
-### 1.1 Links auf arteigenschaften.ch
-
-#### 1.1.1 Art aufrufen
+### 1.1.1 Art aufrufen
 
 Bisher: http://arteigenschaften.ch/index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
 Künftig kann ALT auch nur diese URL aufrufen: https://arteigenschaften.ch/?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
@@ -12,14 +10,14 @@ Künftig kann ALT auch nur diese URL aufrufen: https://arteigenschaften.ch/?id=A
 Jede url mit "id=uuid" als Parameter wird an das Objekt weitergeleitet.
 Es ist unerheblich ob uuid gross oder klein geschrieben wird.
 
-#### 1.1.2 Benutzer wählt Eigenschaften
+### 1.1.2 Benutzer wählt Eigenschaften
 
 Bisher: http://arteigenschaften.ch/index.html?exportieren_fuer_artenlistentool=true
 Neu: https://arteigenschaften.ch/artenlistentool/waehlen
 
 Die bisherige URL wird weitergeleitet.
 
-### 1.2 Artenlistentool holt Daten
+## 1.2 Artenlistentool holt Daten
 
 Das muss server.js direkt aufnehmen:
 
@@ -27,14 +25,14 @@ Das muss server.js direkt aufnehmen:
 
 - nginx konfigurieren
 
-### 2.1 Arteigenschaften abholen
+## 2.1 Arteigenschaften abholen
 
-#### 2.1.1 Standardfelder
+### 2.1.1 Standardfelder
 
 http://artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true
 Neu: http://arteigenschaften.ch/artenlistentool/get/standard
 
-#### 2.1.2 Gewählte Felder
+### 2.1.2 Gewählte Felder
 
 Beispiel:
 http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname"},{"DsTyp":"Datensammlung","DsName":"Blaue Liste (1998)","Feldname":"Anwendungshäufigkeit zur Förderung"}]}
@@ -48,8 +46,8 @@ Also:
 
 2. Genau wie bei Anwendung abfragen?
 
-## 2 EvAB
-### 2.1 Arteigenschaften abholen
+# 2 EvAB
+## 2.1 Arteigenschaften abholen
 
 http://arteigenschaften.ch/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true
 http://127.0.0.1:5984/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true
