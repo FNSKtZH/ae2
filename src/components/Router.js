@@ -7,6 +7,7 @@ import app from 'ampersand-app'
 
 import App from './App'
 import getUrlForObject from '../modules/getUrlForObject'
+import getUrlParamByName from '../modules/getUrlParamByName'
 
 const Router = () => {
   /**
@@ -14,9 +15,7 @@ const Router = () => {
    * for instance: from artenlistentool like this:
    * /index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
    */
-  const idParam = new URLSearchParams(
-    document.location.search.substring(1)
-  ).get('id')
+  const idParam = getUrlParamByName('id')
   const objectId =
     idParam && isUuid.anyNonNil(idParam) ? idParam.toLowerCase() : null
   /**
@@ -25,9 +24,7 @@ const Router = () => {
    * to
    * /artenlistentool/url_generieren
    */
-  const altUrlGenParam = new URLSearchParams(
-    document.location.search.substring(1)
-  ).get('exportieren_fuer_artenlistentool')
+  const altUrlGenParam = getUrlParamByName('exportieren_fuer_artenlistentool')
   if (altUrlGenParam) {
     app.history.push('/artenlistentool/url_generieren')
   }
