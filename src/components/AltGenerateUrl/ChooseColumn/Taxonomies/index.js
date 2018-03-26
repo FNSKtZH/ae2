@@ -12,12 +12,12 @@ import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
 import compose from 'recompose/compose'
 
-import Taxonomy from './Taxonomy'
 import JointTaxonomy from './JointTaxonomy'
 import propsByTaxData from '../propsByTaxData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import data from '../data'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
+import constants from '../../../../modules/constants'
 
 const StyledCard = styled(Card)`
   margin: 10px 0;
@@ -55,13 +55,11 @@ const Properties = ({
   taxonomiesExpanded: Boolean,
   onToggleTaxonomies: () => {},
 }) => {
-  //console.log('Properties: rcoProperties:', rcoProperties)
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
     []
   )
-
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
   const taxCount = Object.keys(taxPropertiesByTaxonomy).length
@@ -69,31 +67,30 @@ const Properties = ({
   let jointTaxProperties = []
   if (taxCount > 1) {
     jointTaxProperties = Object.values(
-      groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`)
-    )
-      .filter(v => v.length === taxCount)
-      .map(t => ({
-        count: sumBy(t, x => Number(x.count)),
-        jsontype: t[0].jsontype,
-        propertyName: t[0].propertyName,
-        taxonomies: t.map(x => x.taxonomyName),
-        taxname: 'Taxonomie',
-      }))
+      groupBy(taxProperties, t => t.propertyName)
+    ).map(t => ({
+      count: sumBy(t, x => Number(x.count)),
+      jsontype: t[0].jsontype,
+      propertyName: t[0].propertyName,
+      taxonomies: t.map(x => x.taxonomyName),
+      taxname: 'Taxonomie',
+    }))
   }
-  const initiallyExpanded = Object.keys(taxPropertiesByTaxonomy).length === 1
 
   return (
     <ErrorBoundary>
       <StyledCard>
         <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
           <CardActionTitle>
-            Taxonomien{taxCount > 0 && (
-              <Count>{`(${taxCount} ${
-                taxCount === 1 ? 'Taxonomie' : 'Taxonomien'
-              }, ${taxFieldsCount} ${
-                taxFieldsCount === 1 ? 'Feld' : 'Felder'
-              })`}</Count>
-            )}
+            Taxonomie{
+              <Count>
+                {taxFieldsCount > 0
+                  ? `(${taxFieldsCount} Felder aus: ${constants.altTaxonomies.join(
+                      ', '
+                    )})`
+                  : '(lade Daten...)'}
+              </Count>
+            }
           </CardActionTitle>
           <CardActionIconButton
             data-expanded={taxonomiesExpanded}
@@ -106,16 +103,7 @@ const Properties = ({
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
-          {jointTaxProperties.length > 0 && (
-            <JointTaxonomy jointTaxProperties={jointTaxProperties} />
-          )}
-          {Object.keys(taxPropertiesByTaxonomy).map(tax => (
-            <Taxonomy
-              key={tax}
-              tax={tax}
-              initiallyExpanded={initiallyExpanded}
-            />
-          ))}
+          <JointTaxonomy jointTaxProperties={jointTaxProperties} />
         </Collapse>
       </StyledCard>
     </ErrorBoundary>

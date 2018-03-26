@@ -5,6 +5,7 @@ import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
+import lifecycle from 'recompose/lifecycle'
 
 import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
@@ -13,10 +14,13 @@ import RCOs from './RCOs'
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import Snackbar from 'material-ui/Snackbar'
+import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
+import constants from '../../../modules/constants'
 
 const Container = styled.div`
   padding: 0 5px;
   overflow: auto !important;
+  height: 100%;
 `
 const StyledSnackbar = styled(Snackbar)`
   div {
@@ -30,6 +34,15 @@ const StyledH3 = styled.h3`
 
 const enhance = compose(
   withApollo,
+  lifecycle({
+    componentDidMount() {
+      const { client } = this.props
+      client.mutate({
+        mutation: exportTaxonomiesMutation,
+        variables: { value: constants.altTaxonomies },
+      })
+    },
+  }),
   exportTaxonomiesData,
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
   withState('pcoExpanded', 'setPcoExpanded', false),

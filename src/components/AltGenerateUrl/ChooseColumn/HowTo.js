@@ -62,14 +62,13 @@ const HowToProperties = ({
     <Collapse in={expanded} timeout="auto" unmountOnExit>
       <StyledCardContent>
         <ul>
-          <li>
-            Nachfolgend sind alle Eigenschaften aufgelistet, die in den
-            gewählten Taxonomien vorkommen
-          </li>
+          <li>Nachfolgend sind alle Eigenschaften aufgelistet</li>
           <li>
             Markieren Sie die Eigenschaften, die Sie exportieren möchten...
           </li>
-          <li>...und laden Sie danach die Daten herunter</li>
+          <li>
+            ...und kopieren sie die generierte URL danach ins Artenlistentool
+          </li>
         </ul>
       </StyledCardContent>
     </Collapse>

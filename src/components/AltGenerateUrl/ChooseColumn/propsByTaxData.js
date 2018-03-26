@@ -2,6 +2,8 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
+import constants from '../../../modules/constants'
+
 export default graphql(
   gql`
     query propsByTaxDataQuery($exportTaxonomies: [String]) {
@@ -34,11 +36,7 @@ export default graphql(
   `,
   {
     options: ({ exportTaxonomiesData }: { exportTaxonomiesData: Object }) => {
-      const exportTaxonomies = [
-        'CSCF (2009)',
-        'NISM (2010)',
-        'SISF Index 2 (2005)',
-      ]
+      const exportTaxonomies = constants.altTaxonomies
 
       return {
         variables: {
