@@ -22,11 +22,11 @@ const Router = () => {
    * redirect
    * /index.html?exportieren_fuer_artenlistentool=true
    * to
-   * /artenlistentool/url_generieren
+   * /artenlistentool/waehlen
    */
   const altUrlGenParam = getUrlParamByName('exportieren_fuer_artenlistentool')
   if (altUrlGenParam) {
-    app.history.push('/artenlistentool/url_generieren')
+    app.history.push('/artenlistentool/waehlen')
   }
 
   if (!!objectId) {

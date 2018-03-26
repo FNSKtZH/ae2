@@ -118,7 +118,7 @@ class App extends Component<Props, State> {
     ].includes(url0)
     const showExport = url0 === 'export'
     const showAltGenerateUrl =
-      url0 === 'artenlistentool' && activeNodeArray[1] === 'url_generieren'
+      url0 === 'artenlistentool' && activeNodeArray[1] === 'waehlen'
     const showLogin = url0 === 'login'
     const showDataGraph = url0 === 'datagraph'
     const showGraphIql = url0 === 'graphiql'
