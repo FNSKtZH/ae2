@@ -6,7 +6,7 @@ import ChooseColumn from './ChooseColumn'
 import PreviewColumn from './PreviewColumn'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
-const AltGenerateUrl = () => (
+const ExportFlexed = () => (
   <ReflexContainer orientation="vertical">
     <ReflexElement
       flex={0.5}
@@ -28,4 +28,4 @@ const AltGenerateUrl = () => (
   </ReflexContainer>
 )
 
-export default AltGenerateUrl
+export default ExportFlexed
