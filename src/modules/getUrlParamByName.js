@@ -5,7 +5,7 @@
  * but is not compatible with older browsers
  */
 export default (name: string) => {
-  name = name.replace(/[\[\]]/g, '\\$&')
+  name = name.replace(/[\[\]]/g, '\\$&') // eslint-disable-line no-useless-escape
   var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
     results = regex.exec(window.location.href)
   if (!results) return null
