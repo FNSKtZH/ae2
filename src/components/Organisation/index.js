@@ -46,17 +46,20 @@ const Organization = ({
   tab,
   setTab,
   onChangeTab,
+  dimensions: { width },
 }: {
   orgData: Object,
   tab: Number,
   setTab: () => void,
   onChangeTab: () => void,
+  dimensions: Object,
 }) => {
   const { loading } = orgData
   if (loading) {
     return <Container>Lade Daten...</Container>
   }
   const org = get(orgData, 'organizationByName', {})
+  console.log('width:', width)
 
   return (
     <ErrorBoundary>
@@ -76,11 +79,11 @@ const Organization = ({
         </OrgContainer>
         <StyledPaper>
           <StyledTabs
-            centered
+            centered={width > 705}
             value={tab}
             onChange={onChangeTab}
             indicatorColor="#E65100"
-            scrollable
+            scrollable={width <= 705}
             scrollButtons="auto"
           >
             <Tab label="Benutzer mit Rollen" />
