@@ -59,7 +59,6 @@ const Organization = ({
     return <Container>Lade Daten...</Container>
   }
   const org = get(orgData, 'organizationByName', {})
-  console.log('width:', width)
 
   return (
     <ErrorBoundary>
