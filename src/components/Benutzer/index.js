@@ -170,7 +170,6 @@ class User extends Component<Props, State> {
           (!!email && !!userData && !!user && email !== user.email)))
     const userIsLoggedIn =
       !!user && !!loginUsername && user.name === loginUsername
-    console.log('width:', width)
 
     return (
       <ErrorBoundary>
