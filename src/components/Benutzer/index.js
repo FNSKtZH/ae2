@@ -70,6 +70,7 @@ type Props = {
   tab: Number,
   setTab: () => void,
   onChangeTab: () => void,
+  dimensions: Object,
 }
 
 class User extends Component<Props, State> {
@@ -149,7 +150,13 @@ class User extends Component<Props, State> {
   }
 
   render() {
-    const { userData, loginData, tab, onChangeTab } = this.props
+    const {
+      userData,
+      loginData,
+      tab,
+      onChangeTab,
+      dimensions: { width },
+    } = this.props
     const { name, nameErrorText, emailErrorText, email, passNew } = this.state
     const loginUsername = get(loginData, 'login.username')
     const user = get(userData, 'userById', {})
@@ -163,6 +170,7 @@ class User extends Component<Props, State> {
           (!!email && !!userData && !!user && email !== user.email)))
     const userIsLoggedIn =
       !!user && !!loginUsername && user.name === loginUsername
+    console.log('width:', width)
 
     return (
       <ErrorBoundary>
@@ -221,11 +229,11 @@ class User extends Component<Props, State> {
           </OrgContainer>
           <StyledPaper>
             <StyledTabs
-              centered
+              centered={width > 779}
               value={tab}
               onChange={onChangeTab}
               indicatorColor="#E65100"
-              scrollable
+              scrollable={width <= 779}
               scrollButtons="auto"
             >
               <Tab label={`Rollen (${orgUsers.length})`} />
