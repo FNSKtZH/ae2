@@ -4,7 +4,7 @@ import app from 'ampersand-app'
 import updatePCMutation from './updatePCMutation'
 
 export default async ({ client, field, pC, value, prevValue, setError }) => {
-  setError(null)
+  //setError(null)
   if (value !== prevValue) {
     const variables = {
       oldId: pC.id,
@@ -46,7 +46,7 @@ export default async ({ client, field, pC, value, prevValue, setError }) => {
         },
       })
     } catch (error) {
-      return setError(error.message)
+      return console.log('error:', error.message) //setError(error.message)
     }
     // if id was updated, need to update url
     if (field === 'id') {
