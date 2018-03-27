@@ -22,7 +22,6 @@ Die bisherige URL wird weitergeleitet.
 Das muss server.js direkt aufnehmen:
 
 - server.js schnappt sich das
-
 - nginx konfigurieren
 
 ### 1.2.1 Arteigenschaften
