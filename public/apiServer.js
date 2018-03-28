@@ -50,7 +50,8 @@ async function start() {
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
     handler: (request, h) => {
-      return 'hello, you reached "artendb/_design/artendb/_list/export_evab/evab_arten"'
+      return h.redirect('/api/evab/arten')
+      //return 'hello, you reached "artendb/_design/artendb/_list/export_evab/evab_arten"'
     },
   })
 
