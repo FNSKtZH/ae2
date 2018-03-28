@@ -38,6 +38,11 @@ const launchApp = async () => {
   try {
     const idb = initializeIdb()
 
+    /**
+     * On the next line Firefox 45.3.0 errors out with:
+     * Unhandled Rejection (OpenFailedError): UnknownError The operation failed
+     * for reasons unrelated to the database itself and not covered by any other error code
+     */
     const authMiddleware = setContext(async () => {
       let users
       users = await idb.users.toArray()
