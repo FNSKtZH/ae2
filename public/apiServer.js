@@ -28,12 +28,45 @@ async function start() {
       return 'hello, you reached "artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen"'
     },
   })
+  async function start() {
+    server.route({
+      method: 'GET',
+      path:
+        '/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen',
+      handler: (request, h) => {
+        return 'hello, you reached "artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen"'
+      },
+    })
 
   server.route({
     method: 'GET',
-    path: '/artendb/test',
+    path: '/api/alt',
     handler: (request, h) => {
-      return 'hello, you reached "artendb/test"'
+      return 'hello, you reached "api/alt"'
+    },
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
+    handler: (request, h) => {
+      return 'hello, you reached "artendb/_design/artendb/_list/export_evab/evab_arten"'
+    },
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/api/evab/arten',
+    handler: (request, h) => {
+      return 'hello, you reached "api/evab/arten"'
+    },
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/{path*}',
+    handler: (request, h) => {
+      return `hello, you reached "${request.params.path}"`
     },
   })
 
