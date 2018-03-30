@@ -1,6 +1,6 @@
 # [arteigenschaften.ch](http://arteigenschaften.ch), neu aufgebaut
 
-[![js-standard-style](https://img.shields.io/badge/license-ISC-brightgreen.svg)](https://github.com/barbalex/gs/blob/master/license.md)
+[![js-standard-style](https://img.shields.io/badge/license-ISC-brightgreen.svg)](https://github.com/barbalex/ae2/blob/master/license.md)
 
 <a name="top"></a>
 
