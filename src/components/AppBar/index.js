@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import Loadable from 'react-loadable'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Icon from 'material-ui/Icon'
@@ -16,8 +17,13 @@ import appBarData from './data'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import loginData from '../../modules/loginData'
-import MoreMenu from './MoreMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
+import LoadingComponent from '../shared/LoadingComponent'
+
+const MoreMenu = Loadable({
+  loader: () => import('./MoreMenu'),
+  loading: LoadingComponent,
+})
 
 /**
  * For unknown reason appbar does not follow display flex when
