@@ -5,6 +5,9 @@
  */
 
 const Hapi = require('hapi')
+const pgp = require(`pg-promise`)()
+const app = require(`ampersand-app`)
+const config = require(`./apiServer/config.js`)
 
 /*
 const serverOptionsDevelopment = {
@@ -67,15 +70,12 @@ async function start() {
     },
   })
 
-  /*
-  server.route({
-    method: 'GET',
-    path: '/{path*}',
-    handler: (request, h) => {
-      return `hello, you reached "${request.params.path}"`
+  app.extend({
+    init() {
+      this.db = pgp(config.connectionString)
     },
   })
-  */
+  app.init()
 
   await server.start()
   console.log('API-Server running at:', server.info.uri)
