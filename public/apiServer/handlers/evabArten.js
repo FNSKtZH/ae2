@@ -18,8 +18,10 @@
  */
 const app = require(`ampersand-app`)
 
-module.exports = (request, callback) =>
-  app.db
-    .any(`select * from ae.evab_arten`)
+module.exports = (request, callback) => {
+  console.log('evabArten.js: request:', request)
+  return app.db
+    .any('select * from ae.evab_arten')
     .then(result => callback(null, result))
     .catch(error => callback(error, null))
+}
