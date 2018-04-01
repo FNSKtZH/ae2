@@ -7,8 +7,8 @@
 const Hapi = require('hapi')
 const pgp = require(`pg-promise`)()
 const app = require(`ampersand-app`)
-const config = require(`./apiServer/config.js`)
 
+const config = require(`./apiServer/config.js`)
 const evabArten = require('./apiServer/handlers/evabArten.js')
 
 /*
@@ -88,6 +88,10 @@ async function start() {
 
   await server.start()
   console.log('API-Server running at:', server.info.uri)
+  //console.log('evabArten:', evabArten)
+  //console.log('pgp:', pgp)
+  //console.log('config.connectionString:', config.connectionString)
+  //console.log('app.db:', app.db)
 }
 
 process.on('unhandledRejection', err => {
