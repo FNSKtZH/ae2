@@ -192,6 +192,23 @@ CREATE INDEX ON ae.organization_user USING btree (organization_id);
 CREATE INDEX ON ae.organization_user USING btree (user_id);
 CREATE INDEX ON ae.organization_user USING btree (role);
 
+-- this table is needed for evab api
+DROP TABLE IF EXISTS ae.evab_flora_status;
+CREATE TABLE ae.evab_flora_status (
+  decoded text PRIMARY KEY DEFAULT null,
+  encoded text DEFAULT null
+);
+CREATE INDEX ON ae.evab_flora_status USING btree (decoded);
+insert into ae.evab_flora_status (decoded, encoded) values 
+  ('eigenständige Art aber im Index nicht enthalten', '?'),
+  ('akzeptierter Name', 'A'),
+  ('in anderem Taxon eingeschlossener Name', 'E'),
+  ('in anderem Taxon eingeschlossener Name. Im Index nicht enthalten', 'f'),
+  ('Synonym', 'S'),
+  ('zusammenfassender Name. Im Index nicht enthalten', 'y'),
+  ('zusammenfassender Name', 'Z');
+
+
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
 -- see: https://github.com/postgraphql/postgraphql/issues/491
@@ -237,3 +254,4 @@ DROP TABLE IF EXISTS ae.prop_value CASCADE;
 CREATE TABLE ae.prop_value (
   value text
 );
+
