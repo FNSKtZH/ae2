@@ -9,7 +9,7 @@ const pgp = require(`pg-promise`)()
 const app = require(`ampersand-app`)
 const config = require(`./apiServer/config.js`)
 
-const evabArten = require('./apiServer/handlers/evabArten')
+const evabArten = require('./apiServer/handlers/evabArten.js')
 
 /*
 const serverOptionsDevelopment = {
