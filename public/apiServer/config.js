@@ -1,4 +1,4 @@
-const passfile = require(`./dbPass.json`)
+const passfile = require(`../dbPass.json`)
 
 module.exports = {
   connectionString: `postgres://${passfile.user}:${
