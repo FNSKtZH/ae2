@@ -20,23 +20,23 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const ExportAsync = Loadable({
+const Export = Loadable({
   loader: () => import('./Export'),
   loading: LoadingComponent,
 })
-const AltGenerateUrlAsync = Loadable({
+const AltGenerateUrl = Loadable({
   loader: () => import('./AltGenerateUrl'),
   loading: LoadingComponent,
 })
-const LoginAsync = Loadable({
+const Login = Loadable({
   loader: () => import('./Login'),
   loading: LoadingComponent,
 })
-const DataAsync = Loadable({
+const Data = Loadable({
   loader: () => import('./Data'),
   loading: LoadingComponent,
 })
-const FourOhFourAsync = Loadable({
+const FourOhFour = Loadable({
   loader: () => import('./FourOhFour'),
   loading: LoadingComponent,
 })
@@ -128,13 +128,13 @@ class App extends Component<Props, State> {
         <Container data-stacked={stacked}>
           <CssBaseline />
           <AppBar />
-          {showData && <DataAsync stacked={stacked} />}
-          {showExport && <ExportAsync stacked={stacked} />}
-          {showLogin && <LoginAsync />}
-          {show404 && <FourOhFourAsync />}
+          {showData && <Data stacked={stacked} />}
+          {showExport && <Export stacked={stacked} />}
+          {showLogin && <Login />}
+          {show404 && <FourOhFour />}
           {showDataGraph && <DataGraph />}
           {showGraphIql && <GraphIql />}
-          {showAltGenerateUrl && <AltGenerateUrlAsync />}
+          {showAltGenerateUrl && <AltGenerateUrl />}
           <Snackbar
             open={updateAvailable}
             message={

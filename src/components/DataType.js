@@ -7,31 +7,31 @@ import Loadable from 'react-loadable'
 import activeNodeArrayData from '../modules/activeNodeArrayData'
 import LoadingComponent from './shared/LoadingComponent'
 
-const PcoAsync = Loadable({
+const Pco = Loadable({
   loader: () => import('./PropertyCollection/PCO'),
   loading: LoadingComponent,
 })
-const RcoAsync = Loadable({
+const Rco = Loadable({
   loader: () => import('./PropertyCollection/RCO'),
   loading: LoadingComponent,
 })
-const ObjektAsync = Loadable({
+const Objekt = Loadable({
   loader: () => import('./Objekt'),
   loading: LoadingComponent,
 })
-const TaxonomyAsync = Loadable({
+const Taxonomy = Loadable({
   loader: () => import('./Taxonomy'),
   loading: LoadingComponent,
 })
-const PropertyCollectionAsync = Loadable({
+const PropertyCollection = Loadable({
   loader: () => import('./PropertyCollection'),
   loading: LoadingComponent,
 })
-const BenutzerAsync = Loadable({
+const Benutzer = Loadable({
   loader: () => import('./Benutzer'),
   loading: LoadingComponent,
 })
-const OrganisationAsync = Loadable({
+const Organisation = Loadable({
   loader: () => import('./Organisation'),
   loading: LoadingComponent,
 })
@@ -73,13 +73,13 @@ const DataType = ({
   const showOrganization =
     activeNodeArray[0] === 'Organisationen' && activeNodeArray.length === 2
 
-  if (showTaxonomy) return <TaxonomyAsync />
-  if (showObjekt) return <ObjektAsync stacked={stacked} />
-  if (showPC) return <PropertyCollectionAsync />
-  if (showPCO) return <PcoAsync dimensions={dimensions} />
-  if (showRCO) return <RcoAsync dimensions={dimensions} />
-  if (showBenutzer) return <BenutzerAsync dimensions={dimensions} />
-  if (showOrganization) return <OrganisationAsync dimensions={dimensions} />
+  if (showTaxonomy) return <Taxonomy />
+  if (showObjekt) return <Objekt stacked={stacked} />
+  if (showPC) return <PropertyCollection />
+  if (showPCO) return <Pco dimensions={dimensions} />
+  if (showRCO) return <Rco dimensions={dimensions} />
+  if (showBenutzer) return <Benutzer dimensions={dimensions} />
+  if (showOrganization) return <Organisation dimensions={dimensions} />
   return null
 }
 
