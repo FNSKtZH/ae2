@@ -90,3 +90,17 @@ from
 where
   ae.user.name = current_user_name()
   and ae.organization_user.role in ('orgCollectionWriter', 'orgAdmin');
+
+create or replace view ae.evab_arten_fauna as
+select
+  concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
+  ae.object.properties->>'Taxonomie ID' as "nummer",
+  substring(COALESCE(ae.object.properties->>'Artname', concat(ae.object.properties->>'Gattung', ' ', ae.object.properties->>'Art')), 1, 255) as "wissenschArtname",
+  substring(ae.object.properties->>'Name Deutsch', 1, 255) as "deutscherArtname"
+from
+  ae.object
+  inner join ae.taxonomy
+  on ae.object.taxonomy_id = ae.taxonomy.id
+where
+  ae.taxonomy.name = 'CSCF (2009)'
+  and ae.object.properties is not null
