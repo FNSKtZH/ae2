@@ -9,6 +9,8 @@ const pgp = require(`pg-promise`)()
 const app = require(`ampersand-app`)
 const config = require(`./apiServer/config.js`)
 
+const evabArten = require('./apiServer/handlers/evabArten')
+
 /*
 const serverOptionsDevelopment = {
   debug: {
@@ -65,9 +67,7 @@ async function start() {
   server.route({
     method: 'GET',
     path: '/api/evab/arten',
-    handler: (request, h) => {
-      return 'hello, you reached "api/evab/arten"'
-    },
+    handler: (request, h) => evabArten(),
   })
 
   app.extend({
