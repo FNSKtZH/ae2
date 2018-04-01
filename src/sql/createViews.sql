@@ -139,5 +139,5 @@ from
   inner join ae.taxonomy
   on ae.object.taxonomy_id = ae.taxonomy.id
 where
-  ae.taxonomy.name = 'SISF Index 2 (2005)'
+  ae.taxonomy.name = 'NISM (2010)'
   and ae.object.properties is not null;
