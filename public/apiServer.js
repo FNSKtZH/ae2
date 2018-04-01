@@ -61,13 +61,22 @@ async function start() {
   server.route({
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
-    handler: (request, h) => h.redirect('/api/evab/arten'),
+    handler: (request, h) => {
+      console.log(
+        'you have reached "/artendb/_design/artendb/_list/export_evab/evab_arten" - redirecting. evabArten:',
+        evabArten
+      )
+      h.redirect('/api/evab/arten')
+    },
   })
 
   server.route({
     method: 'GET',
     path: '/api/evab/arten',
-    handler: (request, h) => evabArten(),
+    handler: (request, h) => {
+      console.log('you have reached "/api/evab/arten". evabArten:', evabArten)
+      evabArten()
+    },
   })
 
   app.extend({
