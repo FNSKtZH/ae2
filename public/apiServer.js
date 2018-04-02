@@ -10,6 +10,7 @@ const app = require(`ampersand-app`)
 
 const config = require(`./apiServer/config.js`)
 const evabArten = require('./apiServer/handlers/evabArten.js')
+const altStandard = require('./apiServer/handlers/altStandard.js')
 
 /*
 const serverOptionsDevelopment = {
@@ -29,10 +30,7 @@ async function start() {
     method: 'GET',
     path:
       '/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen',
-    handler: (request, h) => {
-      // TODO: can I redirect to api/alt?
-      return 'hello, you reached "artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen"'
-    },
+    handler: (request, h) => altStandard(),
   })
 
   server.route({
@@ -51,8 +49,10 @@ async function start() {
     handler: (request, h) => {
       /**
        * TODO:
+       * if no fields passed, return altStandard()
+       * else:
        * add mandatory fields
-       * if fields are passed, add them
+       * add passed fields
        */
       return 'hello, you reached "api/alt"'
     },
