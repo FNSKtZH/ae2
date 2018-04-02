@@ -103,6 +103,22 @@ async function start() {
       },
     },
   })
+
+  server.route({
+    method: 'GET',
+    path: '/api/alt',
+    handler: (request, h) => {
+      /**
+       * TODO:
+       * if no fields passed, return altStandard()
+       * else:
+       * add mandatory fields
+       * add passed fields
+       */
+      return 'hello, you reached "serverjs on localhost:3000: api/alt"'
+    },
+  })
+
   await server.start()
   console.log('Server running at:', server.info.uri)
 }
