@@ -25,6 +25,13 @@ const server = new Hapi.Server({
 })
 
 async function start() {
+  app.extend({
+    init() {
+      this.db = pgp(config.connectionString)
+    },
+  })
+  app.init()
+
   server.route({
     method: 'GET',
     path:
@@ -73,13 +80,6 @@ async function start() {
     path: '/api/evab/arten',
     handler: (request, h) => await app.db.any('select * from ae.evab_arten'),
   })
-
-  app.extend({
-    init() {
-      this.db = pgp(config.connectionString)
-    },
-  })
-  app.init()
 
   await server.start()
   console.log('API-Server running at:', server.info.uri)
