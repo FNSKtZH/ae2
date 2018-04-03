@@ -35,6 +35,13 @@ const launchApp = async () => {
     return window.alert(`Sorry: Internet Explorer wird nicht unterstützt.
     Wir empfehlen eine aktuelle Version von Chrome oder Firefox`)
 
+  // need to test this on the server
+  console.log('process.env:', process.env)
+  console.log(
+    'process.env.npm_package_version:',
+    process.env.npm_package_version
+  )
+
   try {
     const idb = initializeIdb()
 
