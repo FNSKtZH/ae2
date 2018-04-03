@@ -309,7 +309,8 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 - [ ] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae2/blob/master/docs/schnittstellen.md) (in Entwicklung, teilweise realisiert)
 
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 2018.<br/>
-Die BETA-Version ist hier verfügbar: https://artdaten.ch. Aktueller Stand:
+Die BETA-Version ist hier verfügbar: https://artdaten.ch.<br/>
+Aktueller Stand:
 
   - [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](/etc/dev.png?raw=true "Entwicklungsumgebung")
   - [x] Layout und Navigation
