@@ -27,8 +27,6 @@ module.exports = async (request, h) => {
    *
    * TODO: build sql from array of fields
    */
-  //console.log('fields:', fields)
-  //console.log('JSON.parse(fields):', JSON.parse(fields))
   //const taxFields = fields.filter(f => f.t === 'tax')
   const pcoFields = JSON.parse(fields).filter(f => f.t === 'pco')
   //const rcoFields = fields.filter(f => f.t === 'rco')
