@@ -10,6 +10,7 @@ const app = require(`ampersand-app`)
 
 const config = require(`./apiServer/config.js`)
 const altStandard = require('./apiServer/handlers/altStandard.js')
+const evabArten = require('./apiServer/handlers/evabArten.js')
 
 /*
 const serverOptionsDevelopment = {
@@ -67,18 +68,13 @@ async function start() {
   server.route({
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
-    handler: (request, h) => {
-      console.log(
-        'you have reached "/artendb/_design/artendb/_list/export_evab/evab_arten" - redirecting to "/api/evab/arten"'
-      )
-      h.redirect('/api/evab/arten')
-    },
+    handler: (request, h) => h.redirect('/api/evab/arten'),
   })
 
   server.route({
     method: 'GET',
     path: '/api/evab/arten',
-    handler: (request, h) => await app.db.any('select * from ae.evab_arten'),
+    handler: evabArten,
   })
 
   await server.start()
