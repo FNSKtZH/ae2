@@ -31,16 +31,7 @@ CREATE TYPE rco_property AS (
     relationtype text,
     pcname text
 );
--- for function alt_fields
 CREATE TYPE ae.taxonomy_with_level1_count AS (
     taxonomy_id uuid,
     count bigint
-);
--- for function alt_fields
-CREATE TYPE ae.collection_type AS ENUM ('tax', 'pco', 'rco');
-CREATE TYPE ae.collection_property AS (
-    ctype ae.collection_type,
-    cname text,
-    property text,
-    value text
 );
