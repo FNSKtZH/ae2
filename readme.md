@@ -350,13 +350,14 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
   - [x] Daten exportieren<br/>
     ![exportieren](/etc/export.png?raw=true "exportieren")
-    - [x] Gewählte Optionen können einzeln oder als Ganzes zurückgesetzt werden
-    - [x] Erfasst man in einem Feld einen Filter-Wert, werden die Werte aufgelistet, welche in diesem Feld vorkommen
-  - [x] Anmeldung<br/>
+    - [x] Neu: Während Filter gesetzt und Felder gewählt werden, werden die resultierenden Daten direkt angezeigt
+    - [x] Neu: Gewählte Optionen können einzeln oder als Ganzes zurückgesetzt werden
+    - [x] Neu: Erfasst man in einem Feld einen Filter-Wert, werden die Werte aufgelistet, welche in diesem Feld vorkommen
+  - [x] Neu: Anmeldung<br/>
     Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen und exportieren.<br/>
     ![anmelden](/etc/anmeldung.png?raw=true "anmelden")<br/>
     Angemeldete Benutzer können Daten gemäss den ihnen von Organisationen erteilten Rollen verändern.
-  - [x] Benutzer<br/>
+  - [x] Neu: Benutzer<br/>
     Benutzer können Name, Email und Passwort verändern.<br/>
     Sie sehen die ihnen erteilten Rollen:<br/>
     ![Benutzer-Rollen](/etc/user_rollen.png?raw=true "Benutzer-Rollen")
@@ -370,7 +371,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     ![Benutzer löschen](/etc/user_delete.png?raw=true "Benutzer löschen")<br/>
     ... und bei bestehenden Namen und Email ändern, nicht aber das Passwort:<br/>
     ![Benutzer ändern](/etc/user_from_admin.png?raw=true "Benutzer ändern")
-  - [x] Organisationen<br/>
+  - [x] Neu: Organisationen<br/>
     Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen:
     ![Rollen verwalten](/etc/org_rollen.png?raw=true "Rollen verwalten")
     ...sehen, für welche Taxonomien sie zuständig sind: 
@@ -378,9 +379,9 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     ...sehen, für welche Eigenschaften-Sammlungen sie zuständig sind:
     ![Eigenschaften-Sammlungen](/etc/org_pcs.png?raw=true "Eigenschaften-Sammlungen")
   - [x] Import von Eigenschaften- und Beziehungs-Sammlungen
-  - [x] Taxonomien und Objekte bearbeiten
-  - [x] Links zu: Google Bilder, Wikipedia Suche, GBIF, Info Flora
+  - [x] Neu: Taxonomien und Objekte bearbeiten
+  - [x] Links zu: Google Bilder, Wikipedia Suche. Neu: GBIF, Info Flora
   - [x] Layout passt sich an Mobilgeräte an
-  - [x] Last but not least: arteigenschaften.ch ist nicht nur eine Applikation, sondern auch eine API bzw. Daten-Schnittstelle, aufgebaut mit [GraphQL](https://github.com/facebook/graphql). Alles, was ein Benutzer über die Anwendung machen kann, ist auch via die API möglich!
+  - [x] Neu: arteigenschaften.ch ist nicht nur eine Applikation, sondern auch eine API bzw. Daten-Schnittstelle, aufgebaut mit [GraphQL](https://github.com/facebook/graphql). Alles, was ein Benutzer über die Anwendung machen kann, ist auch via die API möglich!
 
 <a href="#top">&#8593; top</a>
