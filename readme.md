@@ -306,7 +306,7 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 - [x] Anwendungs-API-Server ([PostGraphile](https://github.com/graphile/postgraphile))<br/>
   ![API-Server](/etc/postgraphql.png?raw=true "API-Server")
   Ja, man sieht in diesem Bild ein Passwort :-(<br/>Aber es ist veraltet :-)
-- [x] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae_api) (braucht noch etwas Liebe)
+- [] (API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen)[https://github.com/barbalex/ae2/blob/master/docs/schnittstellen.md] (in Entwicklung, teilweise realisiert)
 
 Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 2018. Aktueller Stand:
 
