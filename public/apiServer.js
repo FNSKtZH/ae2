@@ -9,7 +9,6 @@ const pgp = require(`pg-promise`)()
 const app = require(`ampersand-app`)
 
 const config = require(`./apiServer/config.js`)
-const evabArten = require('./apiServer/handlers/evabArten.js')
 const altStandard = require('./apiServer/handlers/altStandard.js')
 
 /*
@@ -72,10 +71,7 @@ async function start() {
   server.route({
     method: 'GET',
     path: '/api/evab/arten',
-    handler: (request, h) => {
-      console.log('you have reached "/api/evab/arten"')
-      evabArten()
-    },
+    handler: (request, h) => await app.db.any('select * from ae.evab_arten'),
   })
 
   app.extend({
@@ -87,10 +83,6 @@ async function start() {
 
   await server.start()
   console.log('API-Server running at:', server.info.uri)
-  //console.log('evabArten:', evabArten)
-  //console.log('pgp:', pgp)
-  //console.log('config.connectionString:', config.connectionString)
-  //console.log('app.db:', app.db)
 }
 
 process.on('unhandledRejection', err => {
