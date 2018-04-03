@@ -43,31 +43,16 @@ async function start() {
 
   server.route({
     method: 'GET',
+    // do not redirect because query is lost!
     path:
       '/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen',
-    handler: (request, h) => {
-      // TODO: can I redirect to api/alt?
-      console.log('request:', request)
-      console.log('h:', h)
-      return 'hello, you reached "artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen"'
-    },
+    handler: alt,
   })
 
   server.route({
     method: 'GET',
     path: '/api/alt',
-    handler: (request, h) => {
-      /**
-       * TODO:
-       * if no fields passed, return altStandard()
-       * else:
-       * add mandatory fields
-       * add passed fields
-       */
-      console.log('request:', request)
-      console.log('h:', h)
-      return 'hello, you reached "api/alt"'
-    },
+    handler: alt,
   })
 
   server.route({
