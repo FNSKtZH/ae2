@@ -39,7 +39,7 @@ Beispiel:<br/>
 http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname"},{"DsTyp":"Datensammlung","DsName":"Blaue Liste (1998)","Feldname":"Anwendungshäufigkeit zur Förderung"}]}
 
 Diese URL wird von der Anwendung generiert. Ist also egal, wie sie aussieht. Neu kann sie zum Beispiel so aussehen:
-http://arteigenschaften.ch/api/alt?fields=[{tax:}]
+http://arteigenschaften.ch/api/alt?fields=[{tax:"someTax"}]
 
 Zu implementieren.
 
