@@ -55,7 +55,10 @@ Die Feldnamen sind bewusst kurz gehalten, um den Netzwerkverkehr zu minimieren. 
 
 Es werden nur die über die manuell gewählten Felder übermittelt.
 
-http://artdaten.ch/api/alt?fields=[{"t:"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
+Beispiele:
+
+- https://artdaten.ch/api/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
+- https://artdaten.ch/api/alt?fields=[{"t":"pco","n":"ZH AP FM (2010)","p":"Artwert AP FM"}]
 
 Zu implementieren.
 
