@@ -92,6 +92,21 @@ where
   and ae.organization_user.role in ('orgCollectionWriter', 'orgAdmin');
 
 create or replace view ae.evab_arten as
+-- Return these fields:
+-- - idArt: MSAccess GUID, id
+-- - nummer: TaxonomieID
+-- - wissenschArtname:
+--   - Artname.substring(0, 255)
+--   -  or: Gattung + Art
+-- - deutscherArtname: ['Name Deutsch'].substring(0, 255)
+-- - status:
+--   - Fauna: 'A'
+--   - Moose: 'A'
+--   - Flora: codiereFloraStatus(Status)
+-- - klasse:
+--   - Fauna: ZhGis.properties['GIS-Layer'].substring(0, 50)
+--   - Flora: 'Flora'
+--   - Moose: 'Moose'
 select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
