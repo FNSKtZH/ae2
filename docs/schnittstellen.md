@@ -35,14 +35,27 @@ Ist implementiert.
 
 #### 1.2.1.2 Gewählte Felder
 
-Beispiel:<br/>
-http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname"},{"DsTyp":"Datensammlung","DsName":"Blaue Liste (1998)","Feldname":"Anwendungshäufigkeit zur Förderung"}]}
+Beispiel für bisher verwendete Form von URL:<br/>
+Bisher: http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname"},{"DsTyp":"Datensammlung","DsName":"Blaue Liste (1998)","Feldname":"Anwendungshäufigkeit zur Förderung"}]}
 
-test-url:
-http://artdaten.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname"},{"DsTyp":"Datensammlung","DsName":"Blaue Liste (1998)","Feldname":"Anwendungshäufigkeit zur Förderung"}]}
+Diese URL wird von der Anwendung generiert. Ist also egal, wie sie aussieht. Neu soll es ein Array von solchen Objekten sein:
+```
+{
+   "t": "pco"
+   "n": "CH Prioritäten (2011)"
+   "p": "Priorität"
+}
+```
+ctype ist 'tax', 'pco' oder 'rco'
+Die Feldnamen sind bewusst kurz gehalten, um den Netzwerkverkehr zu minimieren. Sie stehen für:
 
-Diese URL wird von der Anwendung generiert. Ist also egal, wie sie aussieht. Neu kann sie zum Beispiel so aussehen:
-http://artdaten.ch/api/alt?fields=[{tax:"someTax"}]
+- t: collection-type
+- n: collection-name
+- p: property
+
+Es werden nur die über die manuell gewählten Felder übermittelt.
+
+http://artdaten.ch/api/alt?fields=[{"t:"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
 
 Zu implementieren.
 
