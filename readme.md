@@ -348,7 +348,7 @@ Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 
     Die Beziehungen der Eigenschaften-Sammlung:<br/>
     ![Eigenschaften-Sammlung: Beziehungen](/etc/pcs_p.png?raw=true "Eigenschaften-Sammlung: Beziehungen")<br/>
     Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
-  - [x] Daten exportieren (wird noch erweitert)
+  - [x] Daten exportieren<br/>
     ![exportieren](/etc/export.png?raw=true "exportieren")
     - [x] Gewählte Optionen können einzeln oder als Ganzes zurückgesetzt werden
     - [x] Erfasst man in einem Feld einen Filter-Wert, werden die Werte aufgelistet, welche in diesem Feld vorkommen
