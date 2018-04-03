@@ -46,10 +46,9 @@ Diese URL wird von der Anwendung generiert. Ist also egal, wie sie aussieht. Neu
    "p": "Priorität"
 }
 ```
-ctype ist 'tax', 'pco' oder 'rco'
 Die Feldnamen sind bewusst kurz gehalten, um den Netzwerkverkehr zu minimieren. Sie stehen für:
 
-- t: collection-type
+- t: collection-type ('tax', 'pco' oder 'rco')
 - n: collection-name
 - p: property
 
@@ -60,7 +59,7 @@ Beispiele:
 - https://artdaten.ch/api/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
 - https://artdaten.ch/api/alt?fields=[{"t":"pco","n":"ZH AP FM (2010)","p":"Artwert AP FM"}]
 
-Zu implementieren.
+In Arbeit.
 
 # 2 EvAB
 ## 2.1 Arteigenschaften abholen
