@@ -16,19 +16,12 @@ Ist implementiert.
 ### 1.1.2 Eigenschaften wählen
 
 - bisher: http://arteigenschaften.ch/index.html?exportieren_fuer_artenlistentool=true
-- neu, kompatibel: http://artdaten.ch/index.html?exportieren_fuer_artenlistentool=true
+- neu, kompatibel (wird weitergeleitet): http://artdaten.ch/index.html?exportieren_fuer_artenlistentool=true
 - neu, eleganter: https://artdaten.ch/artenlistentool/waehlen
 
-Die bisherige URL wird weitergeleitet.
-
-Ist erst teilweise implementiert.
+Das Routing ist implementiert, die Felder-Wahl und URL-Erzeugung nocht nicht (ganz).
 
 ## 1.2 Daten abholen
-
-Das muss server.js direkt aufnehmen:
-
-- server.js schnappt sich das
-- nginx konfigurieren
 
 ### 1.2.1 Arteigenschaften
 
