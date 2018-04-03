@@ -52,7 +52,7 @@ Die Feldnamen sind bewusst kurz gehalten, um den Netzwerkverkehr zu minimieren. 
 - n: collection-name
 - p: property
 
-Es werden nur die über die manuell gewählten Felder übermittelt.
+Es werden nur die manuell gewählten Felder übermittelt.
 
 Beispiele:
 
