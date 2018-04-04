@@ -33,12 +33,12 @@
     "lodash": "4.17.5",
     "material-ui": "material-ui@next",
     "material-ui-icons": "1.0.0-beta.36",
-    "react": "16.3.0",
+    "react": "16.3.1",
     "react-apollo": "2.1.2",
     "react-autosuggest": "9.3.4",
     "react-contextmenu": "2.9.2",
     "react-data-grid": "3.0.11",
-    "react-dom": "16.3.0",
+    "react-dom": "16.3.1",
     "react-dropzone": "4.2.9",
     "react-fns": "1.4.0",
     "react-linkify": "0.2.2",
@@ -56,8 +56,8 @@
   "devDependencies": {
     "flow-bin": "0.69.0",
     "postgraphile": "4.0.0-beta.5",
-    "postgraphile-plugin-connection-filter": "1.0.0-beta.4",
-    "react-scripts": "1.1.2",
+    "postgraphile-plugin-connection-filter": "1.0.0-beta.5",
+    "react-scripts": "1.1.4",
     "source-map-explorer": "1.5.0"
   },
   "scripts": {
