@@ -35,9 +35,7 @@ Ist implementiert.
 
 #### 1.2.1.2 Gewählte Felder
 
-Beispiel für bisher verwendete Form von URL:<br/>
 Bisher:
-- http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname"},{"DsTyp":"Datensammlung","DsName":"Blaue Liste (1998)","Feldname":"Anwendungshäufigkeit zur Förderung"}]}
 - http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname vollständig"},{"DsTyp":"Datensammlung","DsName":"CH Prioritäten (2011)","Feldname":"Priorität"},{"DsTyp":"Beziehung","DsName":"ZH AP FM (2010): Art ist an Lebensraum gebunden","Feldname":"Biotopbindung"}]}
 
 Diese URL wird von der Anwendung generiert. Ist also egal, wie sie aussieht. Neu soll es ein Array von solchen Objekten sein:
@@ -63,7 +61,7 @@ Beispiele:
 - https://artdaten.ch/api/alt?fields=[{"t":"tax","n":"SISF Index 2 (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
 - https://artdaten.ch/api/alt?fields=[{"t":"tax","n":"SISF Index 2 (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"},{"t":"rco","n":"ZH AP FM (2010)","p":"Biotopbindung", "rt":"Art ist an Lebensraum gebunden"}]
 
-In Arbeit.
+Ist implementiert.
 
 # 2 EvAB
 ## 2.1 Arteigenschaften abholen
