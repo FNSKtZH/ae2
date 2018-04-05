@@ -1,3 +1,4 @@
+-- THIS QUERY IS ONLY FOR TESTING WHEN DEVELOPING alt.js
 select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "ref",
@@ -100,7 +101,7 @@ select
       LIMIT 1
     )
     ELSE null
-  END AS "Artname vollständig",
+  END AS "SISF Index 2 (2005): Artname vollständig",
 
 
   CASE
@@ -151,7 +152,62 @@ select
       LIMIT 1
     )
     ELSE null
-  END AS "Priorität"
+  END AS "CH Prioritäten (2011): Priorität",
+
+
+  CASE
+    WHEN EXISTS(
+      SELECT
+        ae.relation.properties->>'Biotopbindung'
+      FROM
+        ae.relation
+        inner join ae.property_collection
+        on ae.relation.property_collection_id = ae.property_collection.id
+      WHERE
+        ae.relation.object_id = ae.object.id
+        and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+        and ae.property_collection.name = 'ZH AP FM (2010)'
+    ) THEN (
+      SELECT
+        ae.relation.properties->>'Biotopbindung'
+      FROM
+        ae.relation
+        inner join ae.property_collection
+        on ae.relation.property_collection_id = ae.property_collection.id
+      WHERE
+        ae.relation.object_id = ae.object.id
+        and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+        and ae.property_collection.name = 'ZH AP FM (2010)'
+      LIMIT 1
+    )
+    WHEN EXISTS(
+      SELECT
+        ae.relation.properties->>'Biotopbindung'
+      FROM
+        ae.relation
+        inner join ae.property_collection
+        on ae.relation.property_collection_id = ae.property_collection.id
+      WHERE
+        ae.relation.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+        and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+        and ae.property_collection.name = 'ZH AP FM (2010)'
+        and ae.relation.properties->>'Biotopbindung' is not null
+    ) THEN (
+      SELECT
+        ae.relation.properties->>'Biotopbindung'
+      FROM
+        ae.relation
+        inner join ae.property_collection
+        on ae.relation.property_collection_id = ae.property_collection.id
+      WHERE
+        ae.relation.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+        and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+        and ae.property_collection.name = 'ZH AP FM (2010)'
+        and ae.relation.properties->>'Biotopbindung' is not null
+      LIMIT 1
+    )
+    ELSE null
+  END AS "ZH AP FM (2010): Biotopbindung"
 
 
 from

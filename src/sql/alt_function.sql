@@ -1,3 +1,4 @@
+-- THIS FUNCTION IS NOT IN USE
 CREATE OR REPLACE FUNCTION ae.alt_fields(fields collection_property[])
   RETURNS setof ae.relation AS
   $$

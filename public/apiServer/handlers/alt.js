@@ -2,6 +2,7 @@
 /**
  * if no fields were passed: return standard fields
  * else: return passed fields added to standard fields
+ * see: https://github.com/barbalex/ae2/blob/master/docs/schnittstellen.md#1212-gew%C3%A4hlte-felder
  *
  * use a paremeterized query to avoid sql injection:
  * http://vitaly-t.github.io/pg-promise/ParameterizedQuery.html
@@ -16,21 +17,45 @@ module.exports = async (request, h) => {
     // No fields passed - returning standard fields
     return await app.db.any('select * from ae.alt_standard')
   }
-  /**
-   * fields should have this form:
-   * Array of object:
-   * {
-   *    ctype: 'tax', 'pco' or 'rco'
-   *    cname
-   *    property
-   * }
-   *
-   * TODO: build sql from array of fields
-   */
   const parsedFields = JSON.parse(fields)
-  const taxFields = parsedFields.filter(f => f.t === 'tax')
-  const pcoFields = parsedFields.filter(f => f.t === 'pco')
-  //const rcoFields = parsedFields.filter(f => f.t === 'rco')
+  // separate fields
+  // and make sure they all have the required values
+  const taxFields = parsedFields.filter(
+    f =>
+      f.t &&
+      f.t === 'tax' &&
+      f.n &&
+      f.n !== undefined &&
+      f.n !== null &&
+      f.p &&
+      f.p !== undefined &&
+      f.p !== null
+  )
+  const pcoFields = parsedFields.filter(
+    f =>
+      f.t &&
+      f.t === 'pco' &&
+      f.n &&
+      f.n !== undefined &&
+      f.n !== null &&
+      f.p &&
+      f.p !== undefined &&
+      f.p !== null
+  )
+  const rcoFields = parsedFields.filter(
+    f =>
+      f.t &&
+      f.t === 'rco' &&
+      f.n &&
+      f.n !== undefined &&
+      f.n !== null &&
+      f.p &&
+      f.p !== undefined &&
+      f.p !== null &&
+      f.rt &&
+      f.rt !== undefined &&
+      f.rt
+  )
   const sql1 = `select
                   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
                   (ae.object.properties->>'Taxonomie ID')::integer as "ref",
@@ -132,7 +157,7 @@ module.exports = async (request, h) => {
               LIMIT 1
             )
             ELSE null
-          END AS "${f.p}"`
+          END AS "${f.n}: ${f.p}"`
   )
   const sqlPco = pcoFields.map(
     f => `CASE
@@ -187,7 +212,62 @@ module.exports = async (request, h) => {
               LIMIT 1
             )
             ELSE null
-          END AS "${f.p}"`
+          END AS "${f.n}: ${f.p}"`
+  )
+  const sqlRco = rcoFields.map(
+    f => `CASE
+            WHEN EXISTS(
+              SELECT
+                ae.relation.properties->>'${f.p}'
+              FROM
+                ae.relation
+                inner join ae.property_collection
+                on ae.relation.property_collection_id = ae.property_collection.id
+              WHERE
+                ae.relation.object_id = ae.object.id
+                and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+                and ae.property_collection.name = '${f.n}'
+            ) THEN (
+              SELECT
+                ae.relation.properties->>'${f.p}'
+              FROM
+                ae.relation
+                inner join ae.property_collection
+                on ae.relation.property_collection_id = ae.property_collection.id
+              WHERE
+                ae.relation.object_id = ae.object.id
+                and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+                and ae.property_collection.name = '${f.n}'
+              LIMIT 1
+            )
+            WHEN EXISTS(
+              SELECT
+                ae.relation.properties->>'${f.p}'
+              FROM
+                ae.relation
+                inner join ae.property_collection
+                on ae.relation.property_collection_id = ae.property_collection.id
+              WHERE
+                ae.relation.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+                and ae.property_collection.name = '${f.n}'
+                and ae.relation.properties->>'${f.p}' is not null
+            ) THEN (
+              SELECT
+                ae.relation.properties->>'${f.p}'
+              FROM
+                ae.relation
+                inner join ae.property_collection
+                on ae.relation.property_collection_id = ae.property_collection.id
+              WHERE
+                ae.relation.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+                and ae.property_collection.name = '${f.n}'
+                and ae.relation.properties->>'${f.p}' is not null
+              LIMIT 1
+            )
+            ELSE null
+          END AS "${f.n} ${f.rt}: ${f.p}"`
   )
   const sqlEnd = `from
                     ae.object
@@ -209,7 +289,7 @@ module.exports = async (request, h) => {
   //const query = new PQ('SELECT * FROM Users WHERE id = $1', fields)
   const sql = `${sql1}${sqlTax.length ? `,${sqlTax.join()}` : ''}${
     sqlPco ? `,${sqlPco.join()}` : ''
-  } ${sqlEnd}`
-  console.log('sql:', sql)
+  }${sqlRco ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
+  //console.log('sql:', sql)
   return await app.db.any(sql)
 }
