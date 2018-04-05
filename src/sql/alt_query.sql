@@ -158,7 +158,7 @@ select
   CASE
     WHEN EXISTS(
       SELECT
-        ae.relation.properties->>'Biotopbindung'
+        string_agg(ae.relation.properties->>'Biotopbindung', ', ')
       FROM
         ae.relation
         inner join ae.property_collection
@@ -167,9 +167,11 @@ select
         ae.relation.object_id = ae.object.id
         and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
         and ae.property_collection.name = 'ZH AP FM (2010)'
+      GROUP BY
+        ae.object.id
     ) THEN (
       SELECT
-        ae.relation.properties->>'Biotopbindung'
+        string_agg(ae.relation.properties->>'Biotopbindung', ', ')
       FROM
         ae.relation
         inner join ae.property_collection
@@ -178,11 +180,12 @@ select
         ae.relation.object_id = ae.object.id
         and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
         and ae.property_collection.name = 'ZH AP FM (2010)'
-      LIMIT 1
+      GROUP BY
+        ae.object.id
     )
     WHEN EXISTS(
       SELECT
-        ae.relation.properties->>'Biotopbindung'
+        string_agg(ae.relation.properties->>'Biotopbindung', ', ')
       FROM
         ae.relation
         inner join ae.property_collection
@@ -192,9 +195,11 @@ select
         and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
         and ae.property_collection.name = 'ZH AP FM (2010)'
         and ae.relation.properties->>'Biotopbindung' is not null
+      GROUP BY
+        ae.object.id
     ) THEN (
       SELECT
-        ae.relation.properties->>'Biotopbindung'
+        string_agg(ae.relation.properties->>'Biotopbindung', ', ')
       FROM
         ae.relation
         inner join ae.property_collection
@@ -204,7 +209,8 @@ select
         and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
         and ae.property_collection.name = 'ZH AP FM (2010)'
         and ae.relation.properties->>'Biotopbindung' is not null
-      LIMIT 1
+      GROUP BY
+        ae.object.id
     )
     ELSE null
   END AS "ZH AP FM (2010): Biotopbindung"

@@ -218,7 +218,7 @@ module.exports = async (request, h) => {
     f => `CASE
             WHEN EXISTS(
               SELECT
-                ae.relation.properties->>'${f.p}'
+                string_agg(ae.relation.properties->>'${f.p}', ', ')
               FROM
                 ae.relation
                 inner join ae.property_collection
@@ -227,9 +227,11 @@ module.exports = async (request, h) => {
                 ae.relation.object_id = ae.object.id
                 and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
                 and ae.property_collection.name = '${f.n}'
+              GROUP BY
+                ae.object.id
             ) THEN (
               SELECT
-                ae.relation.properties->>'${f.p}'
+                string_agg(ae.relation.properties->>'${f.p}', ', ')
               FROM
                 ae.relation
                 inner join ae.property_collection
@@ -238,11 +240,12 @@ module.exports = async (request, h) => {
                 ae.relation.object_id = ae.object.id
                 and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
                 and ae.property_collection.name = '${f.n}'
-              LIMIT 1
+              GROUP BY
+                ae.object.id
             )
             WHEN EXISTS(
               SELECT
-                ae.relation.properties->>'${f.p}'
+                string_agg(ae.relation.properties->>'${f.p}', ', ')
               FROM
                 ae.relation
                 inner join ae.property_collection
@@ -252,9 +255,11 @@ module.exports = async (request, h) => {
                 and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
                 and ae.property_collection.name = '${f.n}'
                 and ae.relation.properties->>'${f.p}' is not null
+              GROUP BY
+                ae.object.id
             ) THEN (
               SELECT
-                ae.relation.properties->>'${f.p}'
+                string_agg(ae.relation.properties->>'${f.p}', ', ')
               FROM
                 ae.relation
                 inner join ae.property_collection
@@ -264,7 +269,8 @@ module.exports = async (request, h) => {
                 and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
                 and ae.property_collection.name = '${f.n}'
                 and ae.relation.properties->>'${f.p}' is not null
-              LIMIT 1
+              GROUP BY
+                ae.object.id
             )
             ELSE null
           END AS "${f.n} ${f.rt}: ${f.p}"`
