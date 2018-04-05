@@ -68,14 +68,14 @@ select
   CASE
     WHEN EXISTS(
       SELECT
-        ae.object.properties->>'Artname vollständig'
+        substring(ae.object.properties->>'Artname vollständig', 1, 255)
       FROM
         ae.object
       WHERE
         ae.property_collection_object.object_id = ae.object.id
     ) THEN (
       SELECT
-        ae.object.properties->>'Artname vollständig'
+        substring(ae.object.properties->>'Artname vollständig', 1, 255)
       FROM
         ae.object
       WHERE
@@ -84,7 +84,7 @@ select
     )
     WHEN EXISTS(
       SELECT
-        ae.object.properties->>'Artname vollständig'
+        substring(ae.object.properties->>'Artname vollständig', 1, 255)
       FROM
         ae.object
       WHERE
@@ -92,7 +92,7 @@ select
         and ae.object.properties->>'Artname vollständig' is not null
     ) THEN (
       SELECT
-        ae.object.properties->>'Artname vollständig'
+        substring(ae.object.properties->>'Artname vollständig', 1, 255)
       FROM
         ae.object
       WHERE
@@ -107,7 +107,7 @@ select
   CASE
     WHEN EXISTS(
       SELECT
-        ae.property_collection_object.properties->>'Priorität'
+        substring(ae.property_collection_object.properties->>'Priorität', 1, 255)
       FROM
         ae.property_collection_object
         inner join ae.property_collection
@@ -117,7 +117,7 @@ select
         and ae.property_collection.name = 'CH Prioritäten (2011)'
     ) THEN (
       SELECT
-        ae.property_collection_object.properties->>'Priorität'
+        substring(ae.property_collection_object.properties->>'Priorität', 1, 255)
       FROM
         ae.property_collection_object
         inner join ae.property_collection
@@ -129,7 +129,7 @@ select
     )
     WHEN EXISTS(
       SELECT
-        ae.property_collection_object.properties->>'Priorität'
+        substring(ae.property_collection_object.properties->>'Priorität', 1, 255)
       FROM
         ae.property_collection_object
         inner join ae.property_collection
@@ -140,7 +140,7 @@ select
         and ae.property_collection_object.properties->>'Priorität' is not null
     ) THEN (
       SELECT
-        ae.property_collection_object.properties->>'Priorität'
+        substring(ae.property_collection_object.properties->>'Priorität', 1, 255)
       FROM
         ae.property_collection_object
         inner join ae.property_collection
@@ -158,7 +158,7 @@ select
   CASE
     WHEN EXISTS(
       SELECT
-        string_agg(ae.relation.properties->>'Biotopbindung', ', ')
+        substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>'Biotopbindung'), ' | '), 1, 255)
       FROM
         ae.relation
         inner join ae.property_collection
@@ -171,7 +171,7 @@ select
         ae.object.id
     ) THEN (
       SELECT
-        string_agg(ae.relation.properties->>'Biotopbindung', ', ')
+        substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>'Biotopbindung'), ' | '), 1, 255)
       FROM
         ae.relation
         inner join ae.property_collection
@@ -185,7 +185,7 @@ select
     )
     WHEN EXISTS(
       SELECT
-        string_agg(ae.relation.properties->>'Biotopbindung', ', ')
+        substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>'Biotopbindung'), ' | '), 1, 255)
       FROM
         ae.relation
         inner join ae.property_collection
@@ -199,7 +199,7 @@ select
         ae.object.id
     ) THEN (
       SELECT
-        string_agg(ae.relation.properties->>'Biotopbindung', ', ')
+        substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>'Biotopbindung'), ' | '), 1, 255)
       FROM
         ae.relation
         inner join ae.property_collection
@@ -213,7 +213,7 @@ select
         ae.object.id
     )
     ELSE null
-  END AS "ZH AP FM (2010): Biotopbindung"
+  END AS "ZH AP FM (2010) Art ist an Lebensraum gebunden: Beziehungspartner ID: Biotopbindung"
 
 
 from

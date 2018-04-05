@@ -8,8 +8,8 @@
  * http://vitaly-t.github.io/pg-promise/ParameterizedQuery.html
  * Uups: that is really hard because of the objects!
  */
-const app = require(`ampersand-app`)
-//const PQ = require('pg-promise').ParameterizedQuery
+const app = require('ampersand-app')
+const sql = require('sql-tagged-template-literal')
 
 module.exports = async (request, h) => {
   const { fields } = request.query
@@ -120,161 +120,198 @@ module.exports = async (request, h) => {
                     )
                     ELSE 0
                   END AS "artwert"`
-  const sqlTax = taxFields.map(
-    f => `CASE
-            WHEN EXISTS(
-              SELECT
-                ae.object.properties->>'${f.p}'
-              FROM
-                ae.object
-              WHERE
-                ae.property_collection_object.object_id = ae.object.id
-            ) THEN (
-              SELECT
-                ae.object.properties->>'${f.p}'
-              FROM
-                ae.object
-              WHERE
-                ae.property_collection_object.object_id = ae.object.id
-              LIMIT 1
-            )
-            WHEN EXISTS(
-              SELECT
-                ae.object.properties->>'${f.p}'
-              FROM
-                ae.object
-              WHERE
-                ae.object.id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
-                and ae.object.properties->>'${f.p}' is not null
-            ) THEN (
-              SELECT
-                ae.object.properties->>'${f.p}'
-              FROM
-                ae.object
-              WHERE
-                ae.object.id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
-                and ae.object.properties->>'${f.p}' is not null
-              LIMIT 1
-            )
-            ELSE null
-          END AS "${f.n}: ${f.p}"`
-  )
-  const sqlPco = pcoFields.map(
-    f => `CASE
-            WHEN EXISTS(
-              SELECT
-                ae.property_collection_object.properties->>'${f.p}'
-              FROM
-                ae.property_collection_object
-                inner join ae.property_collection
-                on ae.property_collection_object.property_collection_id = ae.property_collection.id
-              WHERE
-                ae.property_collection_object.object_id = ae.object.id
-                and ae.property_collection.name = '${f.n}'
-            ) THEN (
-              SELECT
-                ae.property_collection_object.properties->>'${f.p}'
-              FROM
-                ae.property_collection_object
-                inner join ae.property_collection
-                on ae.property_collection_object.property_collection_id = ae.property_collection.id
-              WHERE
-                ae.property_collection_object.object_id = ae.object.id
-                and ae.property_collection.name = '${f.n}'
-              LIMIT 1
-            )
-            WHEN EXISTS(
-              SELECT
-                ae.property_collection_object.properties->>'${f.p}'
-              FROM
-                ae.property_collection_object
-                inner join ae.property_collection
-                on ae.property_collection_object.property_collection_id = ae.property_collection.id
-              WHERE
-                ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
-                and ae.property_collection.name = '${f.n}'
-                and ae.property_collection_object.properties->>'${
-                  f.p
-                }' is not null
-            ) THEN (
-              SELECT
-                ae.property_collection_object.properties->>'${f.p}'
-              FROM
-                ae.property_collection_object
-                inner join ae.property_collection
-                on ae.property_collection_object.property_collection_id = ae.property_collection.id
-              WHERE
-                ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
-                and ae.property_collection.name = '${f.n}'
-                and ae.property_collection_object.properties->>'${
-                  f.p
-                }' is not null
-              LIMIT 1
-            )
-            ELSE null
-          END AS "${f.n}: ${f.p}"`
-  )
-  const sqlRco = rcoFields.map(
-    f => `CASE
-            WHEN EXISTS(
-              SELECT
-                string_agg(ae.relation.properties->>'${f.p}', ', ')
-              FROM
-                ae.relation
-                inner join ae.property_collection
-                on ae.relation.property_collection_id = ae.property_collection.id
-              WHERE
-                ae.relation.object_id = ae.object.id
-                and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
-                and ae.property_collection.name = '${f.n}'
-              GROUP BY
-                ae.object.id
-            ) THEN (
-              SELECT
-                string_agg(ae.relation.properties->>'${f.p}', ', ')
-              FROM
-                ae.relation
-                inner join ae.property_collection
-                on ae.relation.property_collection_id = ae.property_collection.id
-              WHERE
-                ae.relation.object_id = ae.object.id
-                and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
-                and ae.property_collection.name = '${f.n}'
-              GROUP BY
-                ae.object.id
-            )
-            WHEN EXISTS(
-              SELECT
-                string_agg(ae.relation.properties->>'${f.p}', ', ')
-              FROM
-                ae.relation
-                inner join ae.property_collection
-                on ae.relation.property_collection_id = ae.property_collection.id
-              WHERE
-                ae.relation.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
-                and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
-                and ae.property_collection.name = '${f.n}'
-                and ae.relation.properties->>'${f.p}' is not null
-              GROUP BY
-                ae.object.id
-            ) THEN (
-              SELECT
-                string_agg(ae.relation.properties->>'${f.p}', ', ')
-              FROM
-                ae.relation
-                inner join ae.property_collection
-                on ae.relation.property_collection_id = ae.property_collection.id
-              WHERE
-                ae.relation.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
-                and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
-                and ae.property_collection.name = '${f.n}'
-                and ae.relation.properties->>'${f.p}' is not null
-              GROUP BY
-                ae.object.id
-            )
-            ELSE null
-          END AS "${f.n} ${f.rt}: ${f.p}"`
-  )
+  const sqlTax = taxFields.map(f => {
+    let fieldName = `${f.n}: ${f.p}`
+    if (fieldName.length > 63) {
+      // postgre cuts off at 64
+      const nLength = 63 - f.p.length - 2
+      fieldName = `${f.n.substr(0, nLength)}: ${f.p}`
+    }
+    return `CASE
+              WHEN EXISTS(
+                SELECT
+                  substring(ae.object.properties->>${sql`${f.p}`}, 1, 255)
+                FROM
+                  ae.object
+                WHERE
+                  ae.property_collection_object.object_id = ae.object.id
+              ) THEN (
+                SELECT
+                  substring(ae.object.properties->>${sql`${f.p}`}, 1, 255)
+                FROM
+                  ae.object
+                WHERE
+                  ae.property_collection_object.object_id = ae.object.id
+                LIMIT 1
+              )
+              WHEN EXISTS(
+                SELECT
+                  substring(ae.object.properties->>${sql`${f.p}`}, 1, 255)
+                FROM
+                  ae.object
+                WHERE
+                  ae.object.id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                  and ae.object.properties->>${sql`${f.p}`} is not null
+              ) THEN (
+                SELECT
+                  substring(ae.object.properties->>${sql`${f.p}`}, 1, 255)
+                FROM
+                  ae.object
+                WHERE
+                  ae.object.id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                  and ae.object.properties->>${sql`${f.p}`} is not null
+                LIMIT 1
+              )
+              ELSE null
+            END AS "${fieldName}"`
+  })
+  const sqlPco = pcoFields.map(f => {
+    let fieldName = `${f.n}: ${f.p}`
+    if (fieldName.length > 63) {
+      // postgre cuts off at 64
+      const nLength = 63 - f.p.length - 2
+      fieldName = `${f.n.substr(0, nLength)}: ${f.p}`
+    }
+    return `CASE
+              WHEN EXISTS(
+                SELECT
+                  substring(ae.property_collection_object.properties->>${sql`${
+                    f.p
+                  }`}, 1, 255)
+                FROM
+                  ae.property_collection_object
+                  inner join ae.property_collection
+                  on ae.property_collection_object.property_collection_id = ae.property_collection.id
+                WHERE
+                  ae.property_collection_object.object_id = ae.object.id
+                  and ae.property_collection.name = ${sql`${f.n}`}
+              ) THEN (
+                SELECT
+                  substring(ae.property_collection_object.properties->>${sql`${
+                    f.p
+                  }`}, 1, 255)
+                FROM
+                  ae.property_collection_object
+                  inner join ae.property_collection
+                  on ae.property_collection_object.property_collection_id = ae.property_collection.id
+                WHERE
+                  ae.property_collection_object.object_id = ae.object.id
+                  and ae.property_collection.name = ${sql`${f.n}`}
+                LIMIT 1
+              )
+              WHEN EXISTS(
+                SELECT
+                  substring(ae.property_collection_object.properties->>${sql`${
+                    f.p
+                  }`}, 1, 255)
+                FROM
+                  ae.property_collection_object
+                  inner join ae.property_collection
+                  on ae.property_collection_object.property_collection_id = ae.property_collection.id
+                WHERE
+                  ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                  and ae.property_collection.name = ${sql`${f.n}`}
+                  and ae.property_collection_object.properties->>${sql`${
+                    f.p
+                  }`} is not null
+              ) THEN (
+                SELECT
+                  substring(ae.property_collection_object.properties->>${sql`${
+                    f.p
+                  }`}, 1, 255)
+                FROM
+                  ae.property_collection_object
+                  inner join ae.property_collection
+                  on ae.property_collection_object.property_collection_id = ae.property_collection.id
+                WHERE
+                  ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                  and ae.property_collection.name = ${sql`${f.n}`}
+                  and ae.property_collection_object.properties->>${sql`${
+                    f.p
+                  }`} is not null
+                LIMIT 1
+              )
+              ELSE null
+            END AS "${fieldName}"`
+  })
+  const sqlRco = rcoFields.map(f => {
+    let fieldName = `${f.n} ${f.rt}: Art/LR id: ${f.p}`
+    if (fieldName.length > 63) {
+      // postgre cuts off at 64
+      const fLength = Math.floor((63 - f.p.length - 11) / 2)
+      fieldName = `${f.n.substr(0, fLength)} ${f.rt.substr(
+        0,
+        fLength
+      )}: Art/LR: ${f.p}`
+    }
+    return `CASE
+              WHEN EXISTS(
+                SELECT
+                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${
+                    f.p
+                  }`}), ' | '), 1, 255)
+                FROM
+                  ae.relation
+                  inner join ae.property_collection
+                  on ae.relation.property_collection_id = ae.property_collection.id
+                WHERE
+                  ae.relation.object_id = ae.object.id
+                  and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+                  and ae.property_collection.name = ${sql`${f.n}`}
+                GROUP BY
+                  ae.object.id
+              ) THEN (
+                SELECT
+                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${
+                    f.p
+                  }`}), ' | '), 1, 255)
+                FROM
+                  ae.relation
+                  inner join ae.property_collection
+                  on ae.relation.property_collection_id = ae.property_collection.id
+                WHERE
+                  ae.relation.object_id = ae.object.id
+                  and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+                  and ae.property_collection.name = ${sql`${f.n}`}
+                GROUP BY
+                  ae.object.id
+              )
+              WHEN EXISTS(
+                SELECT
+                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${
+                    f.p
+                  }`}), ' | '), 1, 255)
+                FROM
+                  ae.relation
+                  inner join ae.property_collection
+                  on ae.relation.property_collection_id = ae.property_collection.id
+                WHERE
+                  ae.relation.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                  and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+                  and ae.property_collection.name = ${sql`${f.n}`}
+                  and ae.relation.properties->>${sql`${f.p}`} is not null
+                GROUP BY
+                  ae.object.id
+              ) THEN (
+                SELECT
+                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${
+                    f.p
+                  }`}), ' | '), 1, 255)
+                FROM
+                  ae.relation
+                  inner join ae.property_collection
+                  on ae.relation.property_collection_id = ae.property_collection.id
+                WHERE
+                  ae.relation.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                  and ae.relation.relation_type = 'Art ist an Lebensraum gebunden'
+                  and ae.property_collection.name = ${sql`${f.n}`}
+                  and ae.relation.properties->>${sql`${f.p}`} is not null
+                GROUP BY
+                  ae.object.id
+              )
+              ELSE null
+            END AS "${fieldName}"`
+  })
   const sqlEnd = `from
                     ae.object
                     inner join ae.taxonomy
@@ -293,9 +330,9 @@ module.exports = async (request, h) => {
                     and ae.property_collection_object.properties->>'Betrachtungsdistanz (m)' ~ E'^\\\\\d+$'
                     and (ae.property_collection_object.properties->>'Betrachtungsdistanz (m)')::integer < 2147483647;`
   //const query = new PQ('SELECT * FROM Users WHERE id = $1', fields)
-  const sql = `${sql1}${sqlTax.length ? `,${sqlTax.join()}` : ''}${
+  const mySql = `${sql1}${sqlTax.length ? `,${sqlTax.join()}` : ''}${
     sqlPco ? `,${sqlPco.join()}` : ''
   }${sqlRco ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
   //console.log('sql:', sql)
-  return await app.db.any(sql)
+  return await app.db.any(mySql)
 }
