@@ -27,9 +27,10 @@ module.exports = async (request, h) => {
    *
    * TODO: build sql from array of fields
    */
-  //const taxFields = fields.filter(f => f.t === 'tax')
-  const pcoFields = JSON.parse(fields).filter(f => f.t === 'pco')
-  //const rcoFields = fields.filter(f => f.t === 'rco')
+  const parsedFields = JSON.parse(fields)
+  const taxFields = parsedFields.filter(f => f.t === 'tax')
+  const pcoFields = parsedFields.filter(f => f.t === 'pco')
+  //const rcoFields = parsedFields.filter(f => f.t === 'rco')
   const sql1 = `select
                   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
                   (ae.object.properties->>'Taxonomie ID')::integer as "ref",
@@ -94,6 +95,45 @@ module.exports = async (request, h) => {
                     )
                     ELSE 0
                   END AS "artwert"`
+  const sqlTax = taxFields.map(
+    f => `CASE
+            WHEN EXISTS(
+              SELECT
+                ae.object.properties->>'${f.p}'
+              FROM
+                ae.object
+              WHERE
+                ae.property_collection_object.object_id = ae.object.id
+            ) THEN (
+              SELECT
+                ae.object.properties->>'${f.p}'
+              FROM
+                ae.object
+              WHERE
+                ae.property_collection_object.object_id = ae.object.id
+              LIMIT 1
+            )
+            WHEN EXISTS(
+              SELECT
+                ae.object.properties->>'${f.p}'
+              FROM
+                ae.object
+              WHERE
+                ae.object.id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                and ae.object.properties->>'${f.p}' is not null
+            ) THEN (
+              SELECT
+                ae.object.properties->>'${f.p}'
+              FROM
+                ae.object
+              WHERE
+                ae.object.id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+                and ae.object.properties->>'${f.p}' is not null
+              LIMIT 1
+            )
+            ELSE null
+          END AS "${f.p}"`
+  )
   const sqlPco = pcoFields.map(
     f => `CASE
             WHEN EXISTS(
@@ -128,6 +168,9 @@ module.exports = async (request, h) => {
               WHERE
                 ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
                 and ae.property_collection.name = '${f.n}'
+                and ae.property_collection_object.properties->>'${
+                  f.p
+                }' is not null
             ) THEN (
               SELECT
                 ae.property_collection_object.properties->>'${f.p}'
@@ -138,6 +181,9 @@ module.exports = async (request, h) => {
               WHERE
                 ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
                 and ae.property_collection.name = '${f.n}'
+                and ae.property_collection_object.properties->>'${
+                  f.p
+                }' is not null
               LIMIT 1
             )
             ELSE null
@@ -161,7 +207,9 @@ module.exports = async (request, h) => {
                     and ae.property_collection_object.properties->>'Betrachtungsdistanz (m)' ~ E'^\\\\\d+$'
                     and (ae.property_collection_object.properties->>'Betrachtungsdistanz (m)')::integer < 2147483647;`
   //const query = new PQ('SELECT * FROM Users WHERE id = $1', fields)
-  const sql = `${sql1},${sqlPco.join()} ${sqlEnd}`
+  const sql = `${sql1}${sqlTax.length ? `,${sqlTax.join()}` : ''}${
+    sqlPco ? `,${sqlPco.join()}` : ''
+  } ${sqlEnd}`
   console.log('sql:', sql)
   return await app.db.any(sql)
 }

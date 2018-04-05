@@ -57,7 +57,7 @@ Es werden nur die manuell gewählten Felder übermittelt.
 Beispiele:
 
 - https://artdaten.ch/api/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
-- https://artdaten.ch/api/alt?fields=[{"t":"pco","n":"ZH AP FM (2010)","p":"Artwert AP FM"}]
+- https://artdaten.ch/api/alt?fields=[{"t":"tax","n":"SISF Index 2 (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
 
 In Arbeit.
 

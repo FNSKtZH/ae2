@@ -67,6 +67,45 @@ select
   CASE
     WHEN EXISTS(
       SELECT
+        ae.object.properties->>'Artname vollständig'
+      FROM
+        ae.object
+      WHERE
+        ae.property_collection_object.object_id = ae.object.id
+    ) THEN (
+      SELECT
+        ae.object.properties->>'Artname vollständig'
+      FROM
+        ae.object
+      WHERE
+        ae.property_collection_object.object_id = ae.object.id
+      LIMIT 1
+    )
+    WHEN EXISTS(
+      SELECT
+        ae.object.properties->>'Artname vollständig'
+      FROM
+        ae.object
+      WHERE
+        ae.object.id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+        and ae.object.properties->>'Artname vollständig' is not null
+    ) THEN (
+      SELECT
+        ae.object.properties->>'Artname vollständig'
+      FROM
+        ae.object
+      WHERE
+        ae.object.id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+        and ae.object.properties->>'Artname vollständig' is not null
+      LIMIT 1
+    )
+    ELSE null
+  END AS "Artname vollständig",
+
+
+  CASE
+    WHEN EXISTS(
+      SELECT
         ae.property_collection_object.properties->>'Priorität'
       FROM
         ae.property_collection_object
@@ -97,6 +136,7 @@ select
       WHERE
         ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
         and ae.property_collection.name = 'CH Prioritäten (2011)'
+        and ae.property_collection_object.properties->>'Priorität' is not null
     ) THEN (
       SELECT
         ae.property_collection_object.properties->>'Priorität'
@@ -107,6 +147,7 @@ select
       WHERE
         ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
         and ae.property_collection.name = 'CH Prioritäten (2011)'
+        and ae.property_collection_object.properties->>'Priorität' is not null
       LIMIT 1
     )
     ELSE null
