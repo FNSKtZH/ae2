@@ -1,12 +1,13 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
+import { Query } from 'react-apollo'
+import gql from 'graphql-tag'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import get from 'lodash/get'
 
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import OptionsChoosen from './OptionsChoosen'
-import Preview from './Preview'
+import Url from './Url'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const enhance = compose(exportTaxonomiesData)
@@ -18,22 +19,59 @@ const HowToDiv = styled.div`
   padding: 15px 10px 0 10px;
 `
 
-const Filter = ({ exportTaxonomiesData }: { exportTaxonomiesData: Object }) => {
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+const Filter = ({ exportTaxonomiesData }: { exportTaxonomiesData: Object }) => (
+  <ErrorBoundary>
+    <Container>
+      <Query
+        query={gql`
+          {
+            exportTaxProperties @client {
+              taxname
+              pname
+            }
+            exportPcoProperties @client {
+              pcname
+              pname
+            }
+            exportRcoProperties @client {
+              pcname
+              relationtype
+              pname
+            }
+          }
+        `}
+      >
+        {({ loading, error, data }) => {
+          if (loading) return 'Lade daten...'
+          if (error) return `Fehler: ${error.message}`
+          const {
+            exportTaxProperties,
+            exportPcoProperties,
+            exportRcoProperties,
+          } = data
+          const fieldsChoosen =
+            [
+              ...exportTaxProperties,
+              ...exportPcoProperties,
+              ...exportRcoProperties,
+            ].length > 0
 
-  return (
-    <ErrorBoundary>
-      <Container>
-        <OptionsChoosen />
-        <Preview />
-        {exportTaxonomies.length === 0 && (
-          <HowToDiv>
-            Sobald eine Eigenschaft gewählt ist, wird hier eine URL generiert.
-          </HowToDiv>
-        )}
-      </Container>
-    </ErrorBoundary>
-  )
-}
+          return (
+            <Fragment>
+              <OptionsChoosen />
+              {fieldsChoosen && <Url />}
+              {!fieldsChoosen && (
+                <HowToDiv>
+                  Sobald eine Eigenschaft gewählt ist, wird hier eine URL
+                  generiert.
+                </HowToDiv>
+              )}
+            </Fragment>
+          )
+        }}
+      </Query>
+    </Container>
+  </ErrorBoundary>
+)
 
 export default enhance(Filter)
