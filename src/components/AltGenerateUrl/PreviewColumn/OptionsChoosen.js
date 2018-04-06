@@ -20,12 +20,9 @@ import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutatio
 import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import removeExportTaxPropertyMutation from '../removeExportTaxPropertyMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
-import exportOnlyRowsWithPropertiesData from '../exportOnlyRowsWithPropertiesData'
-import exportOnlyRowsWithPropertiesMutation from '../exportOnlyRowsWithPropertiesMutation'
-import exportWithSynonymDataData from '../exportWithSynonymDataData'
-import exportWithSynonymDataMutation from '../exportWithSynonymDataMutation'
 import exportTooManyPropertiesData from '../exportTooManyPropertiesData'
 import exportRcoInOneRowData from '../exportRcoInOneRowData'
+import constants from '../../../modules/constants'
 
 const styles = theme => ({
   button: {
@@ -67,10 +64,8 @@ const enhance = compose(
   exportTaxPropertiesData,
   exportPcoPropertiesData,
   exportRcoPropertiesData,
-  exportOnlyRowsWithPropertiesData,
   exportTooManyPropertiesData,
   exportRcoInOneRowData,
-  exportWithSynonymDataData,
   withHandlers({
     onClickResetAll: ({ client }) => () => {
       client.mutate({
@@ -86,26 +81,6 @@ const enhance = compose(
       client.mutate({
         mutation: exportTaxPropertiesResetMutation,
       })
-      client.mutate({
-        mutation: exportOnlyRowsWithPropertiesMutation,
-        variables: { value: true },
-      })
-      client.mutate({
-        mutation: exportWithSynonymDataMutation,
-        variables: { value: true },
-      })
-    },
-    onClickResetExportWithSynonymData: ({ client }) => () => {
-      client.mutate({
-        mutation: exportWithSynonymDataMutation,
-        variables: { value: true },
-      })
-    },
-    onClickResetExportOnlyRowsWithProperties: ({ client }) => () => {
-      client.mutate({
-        mutation: exportOnlyRowsWithPropertiesMutation,
-        variables: { value: true },
-      })
     },
   }),
   withState('expanded', 'setExpanded', true),
@@ -120,13 +95,9 @@ const OptionsChoosen = ({
   exportTaxPropertiesData,
   exportPcoPropertiesData,
   exportRcoPropertiesData,
-  exportOnlyRowsWithPropertiesData,
-  exportWithSynonymDataData,
   exportRcoInOneRowData,
   classes,
   onClickResetAll,
-  onClickResetExportWithSynonymData,
-  onClickResetExportOnlyRowsWithProperties,
 }: {
   client: Object,
   expanded: Boolean,
@@ -135,24 +106,10 @@ const OptionsChoosen = ({
   exportTaxPropertiesData: Object,
   exportPcoPropertiesData: Object,
   exportRcoPropertiesData: Object,
-  exportOnlyRowsWithPropertiesData: Object,
-  exportWithSynonymDataData: Object,
   exportRcoInOneRowData: Object,
   classes: Object,
   onClickResetAll: () => void,
-  onClickResetExportWithSynonymData: () => void,
-  onClickResetExportOnlyRowsWithProperties: () => void,
 }) => {
-  const exportWithSynonymData = get(
-    exportWithSynonymDataData,
-    'exportWithSynonymData',
-    true
-  )
-  const exportOnlyRowsWithProperties = get(
-    exportOnlyRowsWithPropertiesData,
-    'exportOnlyRowsWithProperties',
-    true
-  )
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const exportTaxProperties = get(
     exportTaxPropertiesData,
@@ -187,37 +144,10 @@ const OptionsChoosen = ({
     <Container>
       <Title title="Gewählte Optionen">Gewählte Optionen</Title>
       <ul>
-        <li>
-          {`Taxonomie${exportTaxonomies.length > 1 ? 'n' : ''}: ${
-            exportTaxonomies.length === 0
-              ? ' keine'
-              : exportTaxonomies.join(', ')
-          }`}
-        </li>
-        <li>
-          {`${
-            exportWithSynonymData
-              ? 'Informationen von Synonymen mit exportieren'
-              : 'Ohne Informationen von Synonymen'
-          }`}
-          {!exportWithSynonymData && (
-            <ResetSpan onClick={onClickResetExportWithSynonymData}>
-              zurücksetzen
-            </ResetSpan>
-          )}
-        </li>
-        <li>
-          {`${
-            exportOnlyRowsWithProperties
-              ? 'Nur Datensätze mit Eigenschaften exportieren'
-              : 'Auch Datensätze ohne Eigenschaften exportieren'
-          }`}
-          {!exportOnlyRowsWithProperties && (
-            <ResetSpan onClick={onClickResetExportOnlyRowsWithProperties}>
-              zurücksetzen
-            </ResetSpan>
-          )}
-        </li>
+        <li
+        >{`Taxonomien (welche das Artenlistentool erwartet): ${constants.altTaxonomies.join(
+          ', '
+        )}`}</li>
         {exportRcoProperties.length > 0 &&
           exportRcoInOneRow && (
             <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
@@ -233,8 +163,8 @@ const OptionsChoosen = ({
               ...exportPcoProperties,
               ...exportRcoProperties,
             ].length === 0
-              ? ' keine (die id kommt immer mit)'
-              : ' (die id kommt immer mit)'
+              ? ' keine'
+              : ''
           }`}
           <ul>
             {exportTaxProperties.map(({ taxname, pname }, i) => (

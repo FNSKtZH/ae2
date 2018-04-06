@@ -28,7 +28,7 @@ const Filter = ({ exportTaxonomiesData }: { exportTaxonomiesData: Object }) => {
         <Preview />
         {exportTaxonomies.length === 0 && (
           <HowToDiv>
-            Sobald eine Taxonomie gewählt ist, werden hier Daten angezeigt.
+            Sobald eine Eigenschaft gewählt ist, wird hier eine URL generiert.
           </HowToDiv>
         )}
       </Container>
