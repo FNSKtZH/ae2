@@ -1,16 +1,28 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import styled from 'styled-components'
+import TextField from 'material-ui/TextField'
+import Button from 'material-ui/Button'
+import copy from 'copy-to-clipboard'
 
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 5px;
+  padding-bottom: 10px;
 `
 const HowToDiv = styled.div`
   padding: 15px 10px 0 10px;
+`
+const StyledButton = styled(Button)`
+  border: 1px solid !important;
+  margin-left: 0 !important;
+  margin-top: 0 !important;
+`
+const StyledTextField = styled(TextField)`
+  padding: 8px 0 !important;
 `
 
 const Url = () => {
@@ -79,7 +91,14 @@ const Url = () => {
             const url = `https://artdaten.ch/api/alt?fields=${JSON.stringify(
               props
             )}`
-            return <div>{url}</div>
+            return (
+              <Fragment>
+                <StyledTextField label="URL" value={url} multiline fullWidth autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
+                <StyledButton onClick={() => copy(url)}>
+                  url kopieren
+                </StyledButton>
+              </Fragment>
+            )
           }}
         </Query>
       </Container>
