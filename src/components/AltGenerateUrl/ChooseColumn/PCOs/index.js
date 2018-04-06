@@ -12,7 +12,6 @@ import compose from 'recompose/compose'
 
 import PCO from './PCO'
 import propsByTaxData from '../propsByTaxData'
-import exportTaxonomiesData from '../../exportTaxonomiesData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
@@ -38,7 +37,7 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(exportTaxonomiesData, propsByTaxData)
+const enhance = compose(propsByTaxData)
 
 const PCOs = ({
   propsByTaxData,
@@ -60,21 +59,20 @@ const PCOs = ({
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
   const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
+  const pcoPropertiesFieldsCount = Object.keys(pcoPropertiesFields).length
 
   return (
     <ErrorBoundary>
       <StyledCard>
         <StyledCardActions disableActionSpacing onClick={onTogglePco}>
           <CardActionTitle>
-            Eigenschaftensammlungen{pCCount > 0 && (
-              <Count>{`(${pCCount} Sammlungen, ${
-                Object.keys(pcoPropertiesFields).length
-              } ${
-                Object.keys(pcoPropertiesFields).length === 1
-                  ? 'Feld'
-                  : 'Felder'
-              })`}</Count>
-            )}
+            Eigenschaftensammlungen{
+              <Count>
+                {pcoPropertiesFieldsCount > 0
+                  ? `(${pCCount} Sammlungen, ${pcoPropertiesFieldsCount} Felder)`
+                  : '(...)'}
+              </Count>
+            }
           </CardActionTitle>
           <CardActionIconButton
             data-expanded={pcoExpanded}

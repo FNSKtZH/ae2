@@ -35,15 +35,11 @@ export default graphql(
     }
   `,
   {
-    options: ({ exportTaxonomiesData }: { exportTaxonomiesData: Object }) => {
-      const exportTaxonomies = constants.altTaxonomies
-
-      return {
-        variables: {
-          exportTaxonomies,
-        },
-      }
-    },
+    options: () => ({
+      variables: {
+        exportTaxonomies: constants.altTaxonomies,
+      },
+    }),
     name: 'propsByTaxData',
   }
 )

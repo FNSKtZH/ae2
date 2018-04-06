@@ -1,5 +1,6 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
+import Snackbar from 'material-ui/Snackbar'
 import Card, { CardActions } from 'material-ui/Card'
 import Collapse from 'material-ui/transitions/Collapse'
 import IconButton from 'material-ui/IconButton'
@@ -14,7 +15,6 @@ import compose from 'recompose/compose'
 
 import JointTaxonomy from './JointTaxonomy'
 import propsByTaxData from '../propsByTaxData'
-import exportTaxonomiesData from '../../exportTaxonomiesData'
 import data from '../data'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import constants from '../../../../modules/constants'
@@ -41,8 +41,14 @@ const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
+const StyledSnackbar = styled(Snackbar)`
+  div {
+    min-width: auto;
+    background-color: #2e7d32 !important;
+  }
+`
 
-const enhance = compose(withApollo, exportTaxonomiesData, data, propsByTaxData)
+const enhance = compose(withApollo, data, propsByTaxData)
 
 const Properties = ({
   propsByTaxData,
@@ -79,33 +85,39 @@ const Properties = ({
 
   return (
     <ErrorBoundary>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
-          <CardActionTitle>
-            Taxonomie{
-              <Count>
-                {taxFieldsCount > 0
-                  ? `(${taxFieldsCount} Felder aus: ${constants.altTaxonomies.join(
-                      ', '
-                    )})`
-                  : '(lade Daten...)'}
-              </Count>
-            }
-          </CardActionTitle>
-          <CardActionIconButton
-            data-expanded={taxonomiesExpanded}
-            aria-expanded={taxonomiesExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
-          <JointTaxonomy jointTaxProperties={jointTaxProperties} />
-        </Collapse>
-      </StyledCard>
+      <Fragment>
+        <StyledCard>
+          <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
+            <CardActionTitle>
+              Taxonomie{
+                <Count>
+                  {taxFieldsCount > 0
+                    ? `(${taxFieldsCount} Felder aus: ${constants.altTaxonomies.join(
+                        ', '
+                      )})`
+                    : '(...)'}
+                </Count>
+              }
+            </CardActionTitle>
+            <CardActionIconButton
+              data-expanded={taxonomiesExpanded}
+              aria-expanded={taxonomiesExpanded}
+              aria-label="Show more"
+            >
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
+            </CardActionIconButton>
+          </StyledCardActions>
+          <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
+            <JointTaxonomy jointTaxProperties={jointTaxProperties} />
+          </Collapse>
+        </StyledCard>
+        <StyledSnackbar
+          open={propsByTaxData.loading || data.loading}
+          message="lade Daten..."
+        />
+      </Fragment>
     </ErrorBoundary>
   )
 }
