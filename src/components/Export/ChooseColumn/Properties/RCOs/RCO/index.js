@@ -89,13 +89,12 @@ const RCO = ({
     }
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
-  // TODO: need to add BeziehungsPartnerId and BeziehungsPartnerName
+  // need to add BeziehungsPartnerId and BeziehungsPartnerName
   const rcoCountByTaxonomyRelationType = get(
     data,
     'rcoCountByTaxonomyRelationTypeFunction.nodes',
     []
   )
-  // TODO:
   // in every key of rcoPropertiesByPropertyCollection
   // add id and name of Beziehungspartner
 

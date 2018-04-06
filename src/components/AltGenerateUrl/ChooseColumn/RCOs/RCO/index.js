@@ -89,47 +89,6 @@ const RCO = ({
     }
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
-  // TODO: need to add BeziehungsPartnerId and BeziehungsPartnerName
-  const rcoCountByTaxonomyRelationType = get(
-    data,
-    'rcoCountByTaxonomyRelationTypeFunction.nodes',
-    []
-  )
-  // TODO:
-  // in every key of rcoPropertiesByPropertyCollection
-  // add id and name of Beziehungspartner
-
-  Object.values(rcoPropertiesByPropertyCollection).forEach(rpc => {
-    const myRpc = rpc[0] || {}
-    let rco = rcoCountByTaxonomyRelationType.find(
-      r =>
-        r.propertyCollectionName === myRpc.propertyCollectionName &&
-        r.relationType === myRpc.relationType
-    )
-    if (!rco) {
-      rco = rcoCountByTaxonomyRelationType.find(
-        r =>
-          `${r.propertyCollectionName}: ${r.relationType}` ===
-            myRpc.propertyCollectionName &&
-          r.relationType === myRpc.relationType
-      )
-    }
-    if (!rco) rco = {}
-    rpc.push({
-      count: rco.count,
-      jsontype: 'String',
-      propertyCollectionName: myRpc.propertyCollectionName,
-      propertyName: 'Beziehungspartner_id',
-      relationType: myRpc.relationType,
-    })
-    rpc.push({
-      count: rco.count,
-      jsontype: 'String',
-      propertyCollectionName: myRpc.propertyCollectionName,
-      propertyName: 'Beziehungspartner_Name',
-      relationType: myRpc.relationType,
-    })
-  })
 
   return (
     <ErrorBoundary>
