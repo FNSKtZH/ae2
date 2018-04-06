@@ -329,10 +329,10 @@ module.exports = async (request, h) => {
                     and ae.property_collection_object.properties->>'GIS-Layer' is not null
                     and ae.property_collection_object.properties->>'Betrachtungsdistanz (m)' ~ E'^\\\\\d+$'
                     and (ae.property_collection_object.properties->>'Betrachtungsdistanz (m)')::integer < 2147483647;`
-  //const query = new PQ('SELECT * FROM Users WHERE id = $1', fields)
   const mySql = `${sql1}${sqlTax.length ? `,${sqlTax.join()}` : ''}${
-    sqlPco ? `,${sqlPco.join()}` : ''
-  }${sqlRco ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
+    sqlPco.length ? `,${sqlPco.join()}` : ''
+  }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
   //console.log('sql:', sql)
+
   return await app.db.any(mySql)
 }
