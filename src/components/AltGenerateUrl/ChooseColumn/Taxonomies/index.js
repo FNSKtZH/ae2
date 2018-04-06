@@ -115,7 +115,7 @@ const Properties = ({
         </StyledCard>
         <StyledSnackbar
           open={propsByTaxData.loading || data.loading}
-          message="lade Daten..."
+          message="Lade Daten. Das dauert eine Weile..."
         />
       </Fragment>
     </ErrorBoundary>
