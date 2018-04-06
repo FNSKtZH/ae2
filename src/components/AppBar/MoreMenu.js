@@ -16,6 +16,11 @@ const StyledButton = styled(Button)`
     background-color: rgba(0, 0, 0, 0.12);
   }
 `
+const Version = styled.div`
+  padding: 12px 16px;
+  color: rgba(0, 0, 0, 0.87);
+  user-select: none;
+`
 
 const ITEM_HEIGHT = 48
 
@@ -87,6 +92,7 @@ class MoreMenu extends React.Component {
           >
             Felder für das Artenlistentool wählen
           </MenuItem>
+          <Version>Version: 0.2.0 (Beta, 6.4.2018)</Version>
           {/*<MenuItem
             key="datagraph"
             onClick={() => {
