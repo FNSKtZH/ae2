@@ -13,7 +13,7 @@ const Container = styled.div`
   padding: 5px;
   padding-bottom: 10px;
 `
-const HowToDiv = styled.div`
+const InfoDiv = styled.div`
   padding: 15px 10px 0 10px;
 `
 const StyledButton = styled(Button)`
@@ -65,10 +65,10 @@ const Url = () => {
 
             if (!fieldsChoosen) {
               return (
-                <HowToDiv>
+                <InfoDiv>
                   Sobald eine Eigenschaft gewählt ist, wird hier eine URL
                   generiert.
-                </HowToDiv>
+                </InfoDiv>
               )
             }
             const taxProps = exportTaxProperties.map(p => ({
@@ -93,7 +93,16 @@ const Url = () => {
             )}`
             return (
               <Fragment>
-                <StyledTextField label="URL" value={url} multiline fullWidth autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
+                <StyledTextField
+                  label="URL"
+                  value={url}
+                  multiline
+                  fullWidth
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
+                />
                 <StyledButton onClick={() => copy(url)}>
                   url kopieren
                 </StyledButton>
