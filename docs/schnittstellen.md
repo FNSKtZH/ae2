@@ -19,7 +19,7 @@ Ist implementiert.
 - neu, kompatibel (wird weitergeleitet): http://artdaten.ch/index.html?exportieren_fuer_artenlistentool=true
 - neu, eleganter: https://artdaten.ch/artenlistentool/waehlen
 
-Das Routing ist implementiert, die Felder-Wahl und URL-Erzeugung nocht nicht (ganz).
+Ist implementiert.
 
 ## 1.2 Daten abholen
 
@@ -60,6 +60,7 @@ Beispiele:
 - https://artdaten.ch/api/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
 - https://artdaten.ch/api/alt?fields=[{"t":"tax","n":"SISF Index 2 (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
 - https://artdaten.ch/api/alt?fields=[{"t":"tax","n":"SISF Index 2 (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"},{"t":"rco","n":"ZH AP FM (2010)","p":"Biotopbindung", "rt":"Art ist an Lebensraum gebunden"}]
+- https://artdaten.ch/api/alt?fields=[{"t":"tax","n":"SISF Index 2 (2005)","p":"Artname vollständig"}]
 
 Ist implementiert.
 
