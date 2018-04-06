@@ -26,6 +26,7 @@ import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import rowsFromObjects from './rowsFromObjects'
+import propsByTaxData from '../ChooseColumn/propsByTaxData'
 
 const Container = styled.div`
   padding-top: 5px;
@@ -73,6 +74,7 @@ const StyledSnackbar = styled(Snackbar)`
 `
 
 const enhance = compose(
+  propsByTaxData,
   exportIdsData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
@@ -100,6 +102,7 @@ const enhance = compose(
 
 const Preview = ({
   exportData,
+  propsByTaxData,
   exportIdsData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
@@ -119,6 +122,7 @@ const Preview = ({
   onSetMessage,
 }: {
   exportData: Object,
+  propsByTaxData: Object,
   exportIdsData: Object,
   exportTaxonomiesData: Object,
   exportTaxPropertiesData: Object,
@@ -238,7 +242,10 @@ const Preview = ({
           </ButtonsContainer>
         )}
         <StyledSnackbar open={!!message} message={message} />
-        <StyledSnackbar open={loading} message="lade Daten..." />
+        <StyledSnackbar
+          open={exportData.loading || propsByTaxData.loading}
+          message="Lade Daten..."
+        />
       </Container>
     </ErrorBoundary>
   )
