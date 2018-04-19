@@ -1,7 +1,7 @@
 import React from 'react'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import Button from 'material-ui/Button'
-import LinkIcon from 'material-ui-icons/Link'
+import LinkIcon from '@material-ui/icons/Link'
 import Icon from 'material-ui/Icon'
 import styled from 'styled-components'
 import get from 'lodash/get'

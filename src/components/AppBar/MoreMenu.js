@@ -2,7 +2,7 @@ import React from 'react'
 import Icon from 'material-ui/Icon'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import Button from 'material-ui/Button'
-import MoreVertIcon from 'material-ui-icons/MoreVert'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
 import styled from 'styled-components'
 import app from 'ampersand-app'
 

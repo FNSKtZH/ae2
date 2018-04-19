@@ -7,7 +7,7 @@ import sortBy from 'lodash/sortBy'
 import { withApollo } from 'react-apollo'
 import IconButton from 'material-ui/IconButton'
 import Icon from 'material-ui/Icon'
-import AddIcon from 'material-ui-icons/Add'
+import AddIcon from '@material-ui/icons/Add'
 
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import orgUsersData from './orgUsersData'
