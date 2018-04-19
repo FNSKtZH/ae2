@@ -173,7 +173,6 @@ const Preview = ({
     []
   )
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
-  const { loading } = exportData
   const objects = get(exportData, 'exportObject.nodes', [])
   const objectsCount = get(
     exportData,
