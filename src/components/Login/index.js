@@ -182,6 +182,7 @@ const Login = ({
                   <IconButton
                     onClick={() => changeShowPass(!showPass)}
                     onMouseDown={e => e.preventDefault()}
+                    title={showPass ? 'verstecken' : 'anzeigen'}
                   >
                     {showPass ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
