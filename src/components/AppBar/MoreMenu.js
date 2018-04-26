@@ -6,6 +6,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import styled from 'styled-components'
 import app from 'ampersand-app'
 
+import relations from '../../modules/relations.png'
+
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
 `
@@ -60,7 +62,7 @@ class MoreMenu extends React.Component {
           onClose={this.handleClose}
           PaperProps={{
             style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
+              maxHeight: ITEM_HEIGHT * 5.5,
               width: 295,
             },
           }}
@@ -73,6 +75,15 @@ class MoreMenu extends React.Component {
             }}
           >
             über arteigenschaften.ch
+          </MenuItem>
+          <MenuItem
+            key="relations"
+            onClick={() => {
+              window.open(relations)
+              this.setState({ anchorEl: null })
+            }}
+          >
+            Daten-Struktur
           </MenuItem>
           <MenuItem
             key="melden"
@@ -92,7 +103,7 @@ class MoreMenu extends React.Component {
           >
             Felder für das Artenlistentool wählen
           </MenuItem>
-          <Version>Version: 0.2.0 (Beta, 6.4.2018)</Version>
+          <Version>Version: 0.3.0 (Beta, 26.4.2018)</Version>
           {/*<MenuItem
             key="datagraph"
             onClick={() => {
