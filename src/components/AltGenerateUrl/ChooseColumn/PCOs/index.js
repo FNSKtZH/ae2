@@ -14,8 +14,10 @@ import PCO from './PCO'
 import propsByTaxData from '../propsByTaxData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
-const StyledCard = styled(Card)`
+const Container = styled.div`
   margin: 10px 0;
+`
+const StyledCard = styled(Card)`
   background-color: rgb(255, 243, 224) !important;
 `
 const StyledCardActions = styled(CardActions)`
@@ -63,33 +65,35 @@ const PCOs = ({
 
   return (
     <ErrorBoundary>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onTogglePco}>
-          <CardActionTitle>
-            Eigenschaftensammlungen{
-              <Count>
-                {pcoPropertiesFieldsCount > 0
-                  ? `(${pCCount} Sammlungen, ${pcoPropertiesFieldsCount} Felder)`
-                  : '(...)'}
-              </Count>
-            }
-          </CardActionTitle>
-          <CardActionIconButton
-            data-expanded={pcoExpanded}
-            aria-expanded={pcoExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={pcoExpanded} timeout="auto" unmountOnExit>
-          {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
-            <PCO key={pc} pc={pc} />
-          ))}
-        </Collapse>
-      </StyledCard>
+      <Container>
+        <StyledCard>
+          <StyledCardActions disableActionSpacing onClick={onTogglePco}>
+            <CardActionTitle>
+              Eigenschaftensammlungen{
+                <Count>
+                  {pcoPropertiesFieldsCount > 0
+                    ? `(${pCCount} Sammlungen, ${pcoPropertiesFieldsCount} Felder)`
+                    : '(...)'}
+                </Count>
+              }
+            </CardActionTitle>
+            <CardActionIconButton
+              data-expanded={pcoExpanded}
+              aria-expanded={pcoExpanded}
+              aria-label="Show more"
+            >
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
+            </CardActionIconButton>
+          </StyledCardActions>
+          <Collapse in={pcoExpanded} timeout="auto" unmountOnExit>
+            {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
+              <PCO key={pc} pc={pc} />
+            ))}
+          </Collapse>
+        </StyledCard>
+      </Container>
     </ErrorBoundary>
   )
 }

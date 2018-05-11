@@ -18,8 +18,10 @@ import propsByTaxData from '../../propsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
-const StyledCard = styled(Card)`
+const Container = styled.div`
   margin: 10px 0;
+`
+const StyledCard = styled(Card)`
   background-color: rgb(255, 243, 224) !important;
 `
 const StyledCardActions = styled(CardActions)`
@@ -84,36 +86,38 @@ const TaxonomiesCard = ({
 
   return (
     <ErrorBoundary>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
-          <CardActionTitle>
-            Taxonomien{taxCount > 0 && (
-              <Count>{`(${taxCount} ${
-                taxCount === 1 ? 'Taxonomie' : 'Taxonomien'
-              }, ${taxFieldsCount} ${
-                taxFieldsCount === 1 ? 'Feld' : 'Felder'
-              })`}</Count>
+      <Container>
+        <StyledCard>
+          <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
+            <CardActionTitle>
+              Taxonomien{taxCount > 0 && (
+                <Count>{`(${taxCount} ${
+                  taxCount === 1 ? 'Taxonomie' : 'Taxonomien'
+                }, ${taxFieldsCount} ${
+                  taxFieldsCount === 1 ? 'Feld' : 'Felder'
+                })`}</Count>
+              )}
+            </CardActionTitle>
+            <CardActionIconButton
+              data-expanded={taxonomiesExpanded}
+              aria-expanded={taxonomiesExpanded}
+              aria-label="Show more"
+            >
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
+            </CardActionIconButton>
+          </StyledCardActions>
+          <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
+            {jointTaxProperties.length > 0 && (
+              <JointTaxonomy jointTaxProperties={jointTaxProperties} />
             )}
-          </CardActionTitle>
-          <CardActionIconButton
-            data-expanded={taxonomiesExpanded}
-            aria-expanded={taxonomiesExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
-          {jointTaxProperties.length > 0 && (
-            <JointTaxonomy jointTaxProperties={jointTaxProperties} />
-          )}
-          {Object.keys(taxPropertiesByTaxonomy).map(pc => (
-            <Taxonomy pc={pc} key={pc} initiallyExpanded={initiallyExpanded} />
-          ))}
-        </Collapse>
-      </StyledCard>
+            {Object.keys(taxPropertiesByTaxonomy).map(pc => (
+              <Taxonomy pc={pc} key={pc} initiallyExpanded={initiallyExpanded} />
+            ))}
+          </Collapse>
+        </StyledCard>
+      </Container>
     </ErrorBoundary>
   )
 }

@@ -18,8 +18,10 @@ import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import data from '../data'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
-const StyledCard = styled(Card)`
+const Container = styled.div`
   margin: 10px 0;
+`
+const StyledCard = styled(Card)`
   background-color: rgb(255, 243, 224) !important;
 `
 const StyledCardActions = styled(CardActions)`
@@ -112,36 +114,38 @@ const RCOs = ({
 
   return (
     <ErrorBoundary>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleRco}>
-          <CardActionTitle>
-            Beziehungssammlungen{rCCount > 0 && (
-              <Count>{`(${rCCount} Sammlungen, ${
-                Object.keys(rcoPropertiesFields).length
-              } ${
-                Object.keys(rcoPropertiesFields).length === 1
-                  ? 'Feld'
-                  : 'Felder'
-              })`}</Count>
-            )}
-          </CardActionTitle>
-          <CardActionIconButton
-            data-expanded={rcoExpanded}
-            aria-expanded={rcoExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
-          <ChooseNrOfRows />
-          {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
-            <RCO key={pc} pc={pc} />
-          ))}
-        </Collapse>
-      </StyledCard>
+      <Container>
+        <StyledCard>
+          <StyledCardActions disableActionSpacing onClick={onToggleRco}>
+            <CardActionTitle>
+              Beziehungssammlungen{rCCount > 0 && (
+                <Count>{`(${rCCount} Sammlungen, ${
+                  Object.keys(rcoPropertiesFields).length
+                } ${
+                  Object.keys(rcoPropertiesFields).length === 1
+                    ? 'Feld'
+                    : 'Felder'
+                })`}</Count>
+              )}
+            </CardActionTitle>
+            <CardActionIconButton
+              data-expanded={rcoExpanded}
+              aria-expanded={rcoExpanded}
+              aria-label="Show more"
+            >
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
+            </CardActionIconButton>
+          </StyledCardActions>
+          <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
+            <ChooseNrOfRows />
+            {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
+              <RCO key={pc} pc={pc} />
+            ))}
+          </Collapse>
+        </StyledCard>
+      </Container>
     </ErrorBoundary>
   )
 }

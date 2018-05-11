@@ -19,6 +19,9 @@ import PropertyReadOnlyStacked from '../shared/PropertyReadOnlyStacked'
 import Relation from './Relation'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
+const Container = styled.div`
+  margin: 10px 0;
+`
 const RelationTitle = styled.div`
   font-weight: bold;
   border-bottom: 1px solid #c6c6c6;
@@ -27,7 +30,6 @@ const RelationTitle = styled.div`
   margin-bottom: 10px;
 `
 const StyledCard = styled(Card)`
-  margin: 10px 0;
   background-color: rgb(255, 243, 224) !important;
 `
 const StyledCardActions = styled(CardActions)`
@@ -92,73 +94,75 @@ const PCO = ({
 
   return (
     <ErrorBoundary>
-      <StyledCard>
-        <StyledCardActions
-          disableActionSpacing
-          onClick={() => setExpanded(!expanded)}
-        >
-          <CardActionTitle>{pcname}</CardActionTitle>
-          <CardActionsButtons>
-            <IconButton
-              data-expanded={pCDescriptionExpanded}
-              aria-expanded={pCDescriptionExpanded}
-              aria-label="über diese Eigenschaften-Sammlung"
-              title={
-                pCDescriptionExpanded
-                  ? 'Beschreibung der Eigenschaften-Sammlung schliessen'
-                  : 'Beschreibung der Eigenschaften-Sammlung öffnen'
-              }
-              onClick={event => {
-                event.stopPropagation()
-                setPCDescriptionExpanded(!pCDescriptionExpanded)
-                setExpanded(true)
-              }}
-            >
-              <Icon>
-                {!pCDescriptionExpanded && <InfoOutlineIcon />}
-                {pCDescriptionExpanded && <InfoIcon />}
-              </Icon>
-            </IconButton>
-            <CardActionIconButton
-              data-expanded={expanded}
-              aria-expanded={expanded}
-              aria-label="Show more"
-            >
-              <Icon>
-                <ExpandMoreIcon />
-              </Icon>
-            </CardActionIconButton>
-          </CardActionsButtons>
-        </StyledCardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {pCDescriptionExpanded && <PCDescription pC={pC} />}
-          <CardText>
-            {propertiesArray.map(
-              ([key, value]) =>
-                stacked ? (
-                  <PropertyReadOnlyStacked
-                    key={key}
-                    value={value}
-                    label={key}
-                  />
-                ) : (
-                  <PropertyReadOnly key={key} value={value} label={key} />
-                )
-            )}
-            {relations &&
-              relations.length > 0 && (
-                <RelationTitle>{relationsTitle}</RelationTitle>
+      <Container>
+        <StyledCard>
+          <StyledCardActions
+            disableActionSpacing
+            onClick={() => setExpanded(!expanded)}
+          >
+            <CardActionTitle>{pcname}</CardActionTitle>
+            <CardActionsButtons>
+              <IconButton
+                data-expanded={pCDescriptionExpanded}
+                aria-expanded={pCDescriptionExpanded}
+                aria-label="über diese Eigenschaften-Sammlung"
+                title={
+                  pCDescriptionExpanded
+                    ? 'Beschreibung der Eigenschaften-Sammlung schliessen'
+                    : 'Beschreibung der Eigenschaften-Sammlung öffnen'
+                }
+                onClick={event => {
+                  event.stopPropagation()
+                  setPCDescriptionExpanded(!pCDescriptionExpanded)
+                  setExpanded(true)
+                }}
+              >
+                <Icon>
+                  {!pCDescriptionExpanded && <InfoOutlineIcon />}
+                  {pCDescriptionExpanded && <InfoIcon />}
+                </Icon>
+              </IconButton>
+              <CardActionIconButton
+                data-expanded={expanded}
+                aria-expanded={expanded}
+                aria-label="Show more"
+              >
+                <Icon>
+                  <ExpandMoreIcon />
+                </Icon>
+              </CardActionIconButton>
+            </CardActionsButtons>
+          </StyledCardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            {pCDescriptionExpanded && <PCDescription pC={pC} />}
+            <CardText>
+              {propertiesArray.map(
+                ([key, value]) =>
+                  stacked ? (
+                    <PropertyReadOnlyStacked
+                      key={key}
+                      value={value}
+                      label={key}
+                    />
+                  ) : (
+                    <PropertyReadOnly key={key} value={value} label={key} />
+                  )
               )}
-            {relations.map((relation, index) => (
-              <Relation
-                key={relation.id}
-                relation={relation}
-                intermediateRelation={index < relations.length - 1}
-              />
-            ))}
-          </CardText>
-        </Collapse>
-      </StyledCard>
+              {relations &&
+                relations.length > 0 && (
+                  <RelationTitle>{relationsTitle}</RelationTitle>
+                )}
+              {relations.map((relation, index) => (
+                <Relation
+                  key={relation.id}
+                  relation={relation}
+                  intermediateRelation={index < relations.length - 1}
+                />
+              ))}
+            </CardText>
+          </Collapse>
+        </StyledCard>
+      </Container>
     </ErrorBoundary>
   )
 }
