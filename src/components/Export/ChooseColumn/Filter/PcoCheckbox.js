@@ -14,17 +14,24 @@ import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
 
 const Container = styled.div`
   width: 100%;
-  padding: 0 16px 16px 16px;
+  padding: 8px 16px;
 `
 const StyledFormLabel = styled(FormLabel)`
   margin-top: 10px;
+  padding-bottom: 8px !important;
   cursor: text;
   font-size: 12px !important;
   pointer-events: none;
   user-select: none;
-  padding-bottom: 8px !important;
 `
+/**
+ * material-ui sets -14px
+ * which leads to NOTHING SHOWING!!!???
+ */
 const StyledFormControlLabel = styled(FormControlLabel)`
+  margin-left: -2px !important;
+`
+const StyledRadio = styled(Radio)`
   height: 26px !important;
 `
 
@@ -82,17 +89,17 @@ const PcoCheckbox = ({
       >
         <StyledFormControlLabel
           value="true"
-          control={<Radio color="primary" />}
+          control={<StyledRadio color="primary" />}
           label="Ja"
         />
         <StyledFormControlLabel
           value="false"
-          control={<Radio color="primary" />}
+          control={<StyledRadio color="primary" />}
           label="Nein"
         />
         <StyledFormControlLabel
           value="null"
-          control={<Radio color="primary" />}
+          control={<StyledRadio color="primary" />}
           label="nicht filtern"
         />
       </RadioGroup>
