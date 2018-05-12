@@ -81,13 +81,6 @@ const styles = theme => ({
     position: 'relative',
     height: 200,
   },
-  suggestionsContainerOpen: {
-    position: 'absolute',
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit * 3,
-    left: 0,
-    right: 0,
-  },
   suggestion: {
     display: 'block',
   },
@@ -122,6 +115,7 @@ type Props = {
   dataFetched: Boolean,
   setDataFetched: () => void,
   exportAddFilterFieldsData: Object,
+  width: Number,
 }
 
 type State = {
@@ -244,16 +238,25 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, width } = this.props
     const { suggestions } = this.state
+    const { container, suggestionsList, suggestion } = classes
 
     return (
       <Autosuggest
         theme={{
-          container: classes.container,
-          suggestionsContainerOpen: classes.suggestionsContainerOpen,
-          suggestionsList: classes.suggestionsList,
-          suggestion: classes.suggestion,
+          container: container,
+          suggestionsContainerOpen: {
+            position: 'absolute',
+            marginTop: 8,
+            marginBottom: 8 * 3,
+            left: 0,
+            right: 0,
+            // minWidth: that of parent
+            minWidth: width
+          },
+          suggestionsList: suggestionsList,
+          suggestion: suggestion,
         }}
         renderInputComponent={this.renderInput}
         suggestions={suggestions}

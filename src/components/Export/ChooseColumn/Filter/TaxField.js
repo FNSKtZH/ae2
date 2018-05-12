@@ -2,6 +2,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
+import Measure from 'react-measure'
 
 import Comparator from './TaxComparator'
 import TaxFieldValue from './TaxFieldValue'
@@ -16,48 +18,67 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(exportTaxFiltersData)
+const enhance = compose(
+  withState('width', 'setWidth', 0),
+  exportTaxFiltersData
+)
 
-const TaxField = ({
-  taxname,
-  pname,
-  jsontype,
-  count,
-  exportTaxFiltersData,
-}: {
-  taxname: string,
-  pname: string,
-  jsontype: string,
-  count: number,
+type Props = {
+  taxname: String,
+  pname: String,
+  jsontype: String,
   exportTaxFiltersData: Object,
-}) => {
-  const { exportTaxFilters } = exportTaxFiltersData
-  const exportTaxFilter = exportTaxFilters.find(
-    x => x.taxname === taxname && x.pname === pname
-  ) || { comparator: null, value: null }
-  const { comparator, value } = exportTaxFilter
+  width: Number,
+  setWidth: () => void
+}
+class TaxField extends React.Component<Props> {
+  render() {
+    const {
+      taxname,
+      pname,
+      jsontype,
+      exportTaxFiltersData,
+      width,
+      setWidth
+    } = this.props
+    const { exportTaxFilters } = exportTaxFiltersData
+    const exportTaxFilter = exportTaxFilters.find(
+      x => x.taxname === taxname && x.pname === pname
+    ) || { comparator: null, value: null }
+    const { comparator, value } = exportTaxFilter
 
-  return (
-    <Container>
-      <TaxFieldValue
-        key={`${taxname}/${pname}/${jsontype}`}
-        taxname={taxname}
-        pname={pname}
-        value={value}
-        jsontype={jsontype}
-        comparator={comparator}
-      />
-      {value !== undefined &&
-        value !== null && (
-          <Comparator
-            taxname={taxname}
-            pname={pname}
-            comparator={comparator}
-            value={value}
-          />
-        )}
-    </Container>
-  )
+    return (
+      <Measure
+        bounds
+        onResize={(contentRect) => 
+          setWidth(contentRect.bounds.width)
+        }
+      >
+        {({ measureRef }) =>
+          <Container innerRef={measureRef}>
+            <TaxFieldValue
+              key={`${taxname}/${pname}/${jsontype}`}
+              taxname={taxname}
+              pname={pname}
+              value={value}
+              jsontype={jsontype}
+              comparator={comparator}
+              width={width - 32}
+            />
+            {value !== undefined &&
+              value !== null && (
+                <Comparator
+                  taxname={taxname}
+                  pname={pname}
+                  comparator={comparator}
+                  value={value}
+                />
+              )}
+          </Container>
+        }
+      </Measure>
+    )
+  }
 }
 
 export default enhance(TaxField)
