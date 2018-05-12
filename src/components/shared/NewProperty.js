@@ -12,7 +12,7 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 import updatePropertyMutation from './updatePropertyMutation'
 
 const Container = styled.div`
-  margin: 20px 10px 12px 10px;
+  margin: 20px 10px 12px 0;
 `
 const FieldContainer = styled.div`
   width: 100%;
