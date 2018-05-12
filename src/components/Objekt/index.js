@@ -29,6 +29,9 @@ const TitleSpan = styled.span`
 const FirstTitle = styled(Title)`
   margin: 10px 0 5px 0;
 `
+const SynonymTitle = styled(Title)`
+  margin-bottom: 5px;
+`
 
 const enhance = compose(activeNodeArrayData, objectData)
 
@@ -74,12 +77,12 @@ const Objekt = ({
           <FirstTitle>Taxonomie</FirstTitle>
           <TaxonomyObject objekt={objekt} stacked={stacked} />
           {synonymObjects.length > 0 && (
-            <Title>
+            <SynonymTitle>
               {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
               <TitleSpan>
                 {synonymObjects.length > 1 ? ` (${synonymObjects.length})` : ''}
               </TitleSpan>
-            </Title>
+            </SynonymTitle>
           )}
           {sortBy(synonymObjects, tO =>
             get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
