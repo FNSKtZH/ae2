@@ -18,10 +18,7 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(
-  withState('width', 'setWidth', 0),
-  exportTaxFiltersData
-)
+const enhance = compose(withState('width', 'setWidth', 0), exportTaxFiltersData)
 
 type Props = {
   taxname: String,
@@ -29,7 +26,7 @@ type Props = {
   jsontype: String,
   exportTaxFiltersData: Object,
   width: Number,
-  setWidth: () => void
+  setWidth: () => void,
 }
 class TaxField extends React.Component<Props> {
   render() {
@@ -39,7 +36,7 @@ class TaxField extends React.Component<Props> {
       jsontype,
       exportTaxFiltersData,
       width,
-      setWidth
+      setWidth,
     } = this.props
     const { exportTaxFilters } = exportTaxFiltersData
     const exportTaxFilter = exportTaxFilters.find(
@@ -50,11 +47,9 @@ class TaxField extends React.Component<Props> {
     return (
       <Measure
         bounds
-        onResize={(contentRect) => 
-          setWidth(contentRect.bounds.width)
-        }
+        onResize={contentRect => setWidth(contentRect.bounds.width)}
       >
-        {({ measureRef }) =>
+        {({ measureRef }) => (
           <Container innerRef={measureRef}>
             <TaxFieldValue
               key={`${taxname}/${pname}/${jsontype}`}
@@ -75,7 +70,7 @@ class TaxField extends React.Component<Props> {
                 />
               )}
           </Container>
-        }
+        )}
       </Measure>
     )
   }
