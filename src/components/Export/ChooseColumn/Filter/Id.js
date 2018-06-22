@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import TextField from 'material-ui/TextField'
+import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'

@@ -1,7 +1,7 @@
 // @flow
 import React, { Fragment } from 'react'
-import Paper from 'material-ui/Paper'
-import Tabs, { Tab } from 'material-ui/Tabs'
+import Paper from '@material-ui/core/Paper'
+import Tabs, { Tab } from '@material-ui/core/Tabs'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'

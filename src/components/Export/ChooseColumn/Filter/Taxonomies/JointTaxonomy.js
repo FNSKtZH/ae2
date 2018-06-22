@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import Card, { CardActions } from 'material-ui/Card'
-import Collapse from 'material-ui/transitions/Collapse'
-import IconButton from 'material-ui/IconButton'
-import Icon from 'material-ui/Icon'
+import Card, { CardActions } from '@material-ui/core/Card'
+import Collapse from '@material-ui/core/Collapse'
+import IconButton from '@material-ui/core/IconButton'
+import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import compose from 'recompose/compose'

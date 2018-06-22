@@ -1,8 +1,9 @@
 import React from 'react'
-import Menu, { MenuItem } from 'material-ui/Menu'
-import Button from 'material-ui/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@material-ui/core/Button'
 import LinkIcon from '@material-ui/icons/Link'
-import Icon from 'material-ui/Icon'
+import Icon from '@material-ui/core/Icon'
 import styled from 'styled-components'
 import get from 'lodash/get'
 

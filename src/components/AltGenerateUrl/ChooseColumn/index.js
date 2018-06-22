@@ -13,7 +13,7 @@ import PCOs from './PCOs'
 import RCOs from './RCOs'
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
-import Snackbar from 'material-ui/Snackbar'
+import Snackbar from '@material-ui/core/Snackbar'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
 import constants from '../../../modules/constants'
 

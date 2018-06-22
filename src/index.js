@@ -10,7 +10,7 @@ import { ApolloLink } from 'apollo-link'
 import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 
-import { MuiThemeProvider } from 'material-ui/styles'
+import { MuiThemeProvider } from '@material-ui/core/styles'
 import app from 'ampersand-app'
 import createHistory from 'history/createBrowserHistory'
 

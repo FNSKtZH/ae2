@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import TextField from 'material-ui/TextField'
+import TextField from '@material-ui/core/TextField'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
 

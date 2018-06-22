@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import TextField from 'material-ui/TextField'
-import { FormControl } from 'material-ui/Form'
+import TextField from '@material-ui/core/TextField'
+import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
