@@ -533,6 +533,7 @@ ALTER FUNCTION ae.pco_properties_by_taxonomies_function(taxonomy_names text[])
 --WHERE ae.property_collection.name = 'ZH Artwert (2000)'
 --ORDER BY value
 
+-- TODO: ater fetching with apollo (sometimes?) last row is null
 CREATE OR REPLACE FUNCTION ae.prop_values_function(table_name text, prop_name text, pc_field_name text, pc_table_name text, pc_name text)
   RETURNS setof ae.prop_value AS
   $$
