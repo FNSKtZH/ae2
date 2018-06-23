@@ -23,6 +23,6 @@ yarn-error.log*
 # lock-files can cause catastrophic git sync problems
 # with great data losses
 # because of conflicts in the lock-files
-*.lock
+#*.lock
 
 ecosystem.config.js
