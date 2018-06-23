@@ -143,7 +143,6 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
       const propValues = get(propData, 'propValuesFunction.nodes', [])
         .filter(v => v !== null && v !== undefined)
         .map(v => v.value)
-        .filter(v => v !== null && v !== undefined)
       if (propValues.length > 0) {
         this.setState({ propValues })
         setFetchData(false)
