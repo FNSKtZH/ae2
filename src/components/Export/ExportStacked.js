@@ -15,11 +15,6 @@ import PreviewColumn from './PreviewColumn'
 const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
 `
-const StyledTabs = styled(Tabs)`
-  .indicator {
-    height: 3px;
-  }
-`
 const StyledSwipeableViews = styled(SwipeableViews)`
   height: 100%;
   .react-swipeable-view-container {
@@ -54,15 +49,15 @@ const ExportStacked = ({
   return (
     <Fragment>
       <StyledPaper>
-        <StyledTabs
+        <Tabs
           centered
           value={tab}
           onChange={onChangeTab}
-          indicatorColor="#E65100"
+          indicatorColor="primary"
         >
           <Tab label="Auswählen" />
           <Tab label="Vorschau" />
-        </StyledTabs>
+        </Tabs>
       </StyledPaper>
       <StyledSwipeableViews axis="x" index={tab} onChangeIndex={i => setTab(i)}>
         <ChooseColumn dimensions={{ width: windowWidth }} />

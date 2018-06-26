@@ -47,7 +47,6 @@ export default ({
     activeLevel3ObjectNodes.find(n => n.id === activeNodeArray[2])
   const activeLevel3ObjectName = activeLevel3Object && activeLevel3Object.name
   const activeLevel3ObjectId = activeLevel3Object && activeLevel3Object.id
-
   const activeLevel4ObjectNodes = get(
     treeData,
     'level4Object.objectsByParentId.nodes'
@@ -119,7 +118,11 @@ export default ({
         break
       }
       case 'Benutzer': {
-        nodes = nodes.concat(level2Benutzer({ treeData }))
+        //nodes = nodes.concat(level2Benutzer({ treeData }))
+        nodes = [
+          ...nodes,
+          ...level2Benutzer({ treeData })
+        ]
         break
       }
       case 'Organisationen': {

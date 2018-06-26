@@ -15,17 +15,7 @@ import DataType from '../DataType'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 
 const StyledPaper = styled(Paper)`
-  background-color: #ef6c00 !important;
-`
-const StyledTabs = styled(Tabs)`
-  .indicator {
-    height: 3px;
-  }
-`
-const StyledTab = styled(Tab)`
-  > span > span > span {
-    color: ${props => (props.disabled ? 'rgba(255,255,255,0.5)' : 'white')};
-  }
+  background-color: #ffcc80 !important;
 `
 const StyledSwipeableViews = styled(SwipeableViews)`
   height: 100%;
@@ -66,16 +56,15 @@ const DataStacked = ({
   return (
     <Fragment>
       <StyledPaper>
-        <StyledTabs
+        <Tabs
           centered
           value={tab}
           onChange={onChangeTab}
-          indicatorColor="#2E7D32"
-          textColor="secondary"
+          indicatorColor="primary"
         >
-          <StyledTab label="Strukturbaum" />
-          <StyledTab label="Formular" disabled={disableDataType} />
-        </StyledTabs>
+          <Tab label="Strukturbaum" />
+          <Tab label="Formular" disabled={disableDataType} />
+        </Tabs>
       </StyledPaper>
       <StyledSwipeableViews
         axis="x"

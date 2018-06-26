@@ -36,11 +36,6 @@ const OrgContainer = styled.div`
 const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
 `
-const StyledTabs = styled(Tabs)`
-  .indicator {
-    height: 3px;
-  }
-`
 
 const Organization = ({
   orgData,
@@ -78,18 +73,18 @@ const Organization = ({
           />
         </OrgContainer>
         <StyledPaper>
-          <StyledTabs
+          <Tabs
             centered={width > 705}
             value={tab}
             onChange={onChangeTab}
-            indicatorColor="#E65100"
+            indicatorColor="primary"
             scrollable={width <= 705}
             scrollButtons="auto"
           >
             <Tab label="Benutzer mit Rollen" />
             <Tab label="Taxonomien" />
             <Tab label="Eigenschaften-Sammlungen" />
-          </StyledTabs>
+          </Tabs>
         </StyledPaper>
         {tab === 0 && <OrgUsers key={org.id} />}
         {tab === 1 && <TCs />}
