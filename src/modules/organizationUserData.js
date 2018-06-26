@@ -7,6 +7,7 @@ export default graphql(
     query organizationUserQuery {
       allOrganizationUsers {
         nodes {
+          id
           nodeId
           organizationId
           userId

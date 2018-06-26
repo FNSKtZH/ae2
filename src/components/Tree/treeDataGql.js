@@ -30,6 +30,7 @@ export default gql `
     }
     allOrganizationUsers {
       nodes {
+        id
         nodeId
         organizationId
         userId

@@ -12,6 +12,7 @@ export default graphql(
         email
         organizationUsersByUserId {
           nodes {
+            id
             organizationByOrganizationId {
               id
               name

@@ -10,6 +10,7 @@ export default gql`
         name
         organizationUsersByOrganizationId {
           nodes {
+            id
             userId
             role
             userByUserId {
@@ -25,10 +26,12 @@ export default gql`
           id
           objectId
           objectByObjectId {
+            id
             name
           }
           objectIdRelation
           objectByObjectIdRelation {
+            id
             name
           }
           relationType

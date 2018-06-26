@@ -18,6 +18,7 @@ export default graphql(
         synonymsByObjectId {
           totalCount
           nodes {
+            nodeId
             objectId
             objectIdSynonym
             objectByObjectIdSynonym {

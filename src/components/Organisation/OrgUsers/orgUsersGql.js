@@ -29,6 +29,7 @@ export default gql`
     }
     allRoles {
       nodes {
+        nodeId
         name
       }
     }
