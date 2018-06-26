@@ -106,12 +106,12 @@ const Tree = ({
 }) => {
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const { error, loading: treeDataLoading } = treeData
+  console.log('Tree:', {treeData,activeNodeArray,loginData})
   const nodes = buildNodes({
     treeData,
     activeNodeArray,
     loginData,
   })
-  //console.log('Tree: nodes:', nodes)
   const rowRenderer = ({ key, index, style }) => (
     <Row
       key={key}

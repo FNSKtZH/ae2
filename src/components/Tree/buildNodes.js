@@ -107,32 +107,38 @@ export default ({
     activeNodeArray,
     loginData,
   })
+  console.log('buildNodes:',{activeNodeArray})
   if (activeNodeArray.length > 0) {
     switch (activeNodeArray[0]) {
       case 'Eigenschaften-Sammlungen': {
-        nodes = nodes.concat(
-          level2Pc({
-            treeData,
-          })
-        )
+        nodes = [
+          ...nodes,
+          ...level2Pc({ treeData }),
+        ]
         break
       }
       case 'Benutzer': {
-        //nodes = nodes.concat(level2Benutzer({ treeData }))
+        console.log('buildNodes: building Benutzer nodes')
         nodes = [
           ...nodes,
-          ...level2Benutzer({ treeData })
+          ...level2Benutzer({ treeData }),
         ]
         break
       }
       case 'Organisationen': {
-        nodes = nodes.concat(level2Organization({ treeData, loginData }))
+        nodes = [
+          ...nodes,
+          ...level2Organization({ treeData, loginData }),
+        ]
         break
       }
       default:
       case 'Arten':
       case 'Lebensräume': {
-        nodes = nodes.concat(level2Taxonomy({ treeData, activeNodeArray }))
+        nodes = [
+          ...nodes,
+          ...level2Taxonomy({ treeData, activeNodeArray }),
+        ]
         break
       }
     }
@@ -146,6 +152,12 @@ export default ({
         treeData,
       })
     )
+  }
+  if (
+    activeNodeArray.length > 1 &&
+    activeNodeArray[0] === 'Benutzer'
+  ) {
+    // TODO
   }
   if (
     activeNodeArray.length > 1 &&

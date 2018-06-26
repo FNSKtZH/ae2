@@ -112,7 +112,7 @@ type Props = {
 }
 
 type State = {
-  suggestions: Array<string>,
+  suggestions: Array<String>,
   value: string,
 }
 

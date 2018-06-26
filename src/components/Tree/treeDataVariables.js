@@ -1,5 +1,5 @@
 // @flow
-export default ({ activeNodeArray }: { activeNodeArray: Array<string> }) => {
+export default ({ activeNodeArray }: { activeNodeArray: Array<String> }) => {
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Pc =
     existsLevel1 &&

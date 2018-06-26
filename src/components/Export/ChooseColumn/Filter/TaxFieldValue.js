@@ -119,8 +119,8 @@ type Props = {
 }
 
 type State = {
-  suggestions: Array<string>,
-  propValues: Array<string>,
+  suggestions: Array<String>,
+  propValues: Array<String>,
   value: string,
 }
 

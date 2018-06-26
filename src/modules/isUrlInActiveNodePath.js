@@ -1,7 +1,7 @@
 // @flow
 import isEqual from 'lodash/isEqual'
 
-export default (url: Object, activeNodeArray: Array<string>): boolean => {
+export default (url: Object, activeNodeArray: Array<String>): boolean => {
   if (!url) return false
   if (!activeNodeArray) return false
   const activeNodeArrayPartWithEqualLength = activeNodeArray.slice(

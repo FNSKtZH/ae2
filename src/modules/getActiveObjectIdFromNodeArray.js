@@ -1,5 +1,5 @@
 // @flow
-export default (activeNodeArray: Array<string>): ?string => {
+export default (activeNodeArray: Array<String>): ?string => {
   let activeObjectId = null
   if (
     activeNodeArray.length > 2 &&

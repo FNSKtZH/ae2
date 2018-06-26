@@ -100,13 +100,13 @@ const enhance = compose(withApollo, withStyles(styles))
 type Props = {
   label: string,
   value: string,
-  values: Array<string>,
+  values: Array<String>,
   updatePropertyInDb: () => void,
   classes: Object,
 }
 
 type State = {
-  suggestions: Array<string>,
+  suggestions: Array<String>,
   value: string,
 }
 
