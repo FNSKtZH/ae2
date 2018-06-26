@@ -2,7 +2,6 @@
 import get from 'lodash/get'
 
 export default ({ treeData }: { treeData: Object }): Array<Object> => {
-  console.log('level2Benutzer: treeData:', treeData)
   if (!treeData) return []
   const nodes = get(treeData, 'allUsers.nodes', [])
 

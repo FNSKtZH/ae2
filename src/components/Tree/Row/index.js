@@ -95,13 +95,25 @@ const enhance = compose(
   editingTaxonomiesData,
   withHandlers({
     onClickNode: ({ node, index, activeNodeArray }) => event => {
-      // do nothing when loading indicator is clicked
-      // or if node is already active
       const { url, loadingNode } = node
-      console.log('Row, onClickNode:', {node,url,loadingNode,activeNodeArray})
-      if (!loadingNode && !isEqual(url, activeNodeArray)) {
-        console.log('Row, onClickNode: history pushing this url:', {url})
+      // do nothing when loading indicator is clicked
+      if (loadingNode) return
+      // or if node is already active
+      if (!isEqual(url, activeNodeArray)) {
         app.history.push(`/${url.join('/')}`)
+      }
+    },
+    onClickExpandMore: ({ node, index, activeNodeArray }) => event => {
+      const { url, loadingNode } = node
+      // do nothing when loading indicator is clicked
+      if (loadingNode) return
+      if (isEqual(url, activeNodeArray)) {
+        // close node if its expand mor symbol was clicked
+        const newUrl = [...url]
+        newUrl.pop()
+        app.history.push(`/${newUrl.join('/')}`)
+        // prevent onClick on node
+        event.preventDefault()
       }
     },
     onClickContextMenu: ({
@@ -132,6 +144,7 @@ const Row = ({
   node,
   client,
   onClickNode,
+  onClickExpandMore,
   onClickContextMenu,
   activeNodeArray,
 }: {
@@ -141,6 +154,7 @@ const Row = ({
   node: Object,
   client: Object,
   onClickNode: () => void,
+  onClickExpandMore: () => void,
   onClickContextMenu: () => void,
   activeNodeArray: Array<String>,
 }) => {
@@ -190,7 +204,7 @@ const Row = ({
                 data-nodeisinactivenodepath={nodeIsInActiveNodePath}
                 className="material-icons"
               >
-                {symbol === 'ExpandMore' && <ExpandMoreIcon />}
+                {symbol === 'ExpandMore' && <ExpandMoreIcon onClick={onClickExpandMore} />}
                 {symbol === 'ChevronRight' && <ChevronRightIcon />}
                 {symbol === 'MoreHoriz' && <MoreHorizIcon />}
               </SymbolIcon>
