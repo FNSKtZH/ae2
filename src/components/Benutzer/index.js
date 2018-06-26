@@ -36,11 +36,6 @@ const SaveButton = styled(Button)`
 const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
 `
-const StyledTabs = styled(Tabs)`
-  .indicator {
-    height: 3px;
-  }
-`
 
 const enhance = compose(
   withApollo,
@@ -229,11 +224,11 @@ class User extends Component<Props, State> {
             </SaveButton>
           </OrgContainer>
           <StyledPaper>
-            <StyledTabs
+            <Tabs
               centered={width > 779}
               value={tab}
               onChange={onChangeTab}
-              indicatorColor="#E65100"
+              indicatorColor="primary"
               scrollable={width <= 779}
               scrollButtons="auto"
             >
@@ -242,7 +237,7 @@ class User extends Component<Props, State> {
               <Tab
                 label={`importierte Eigenschaften-Sammlungen (${pcs.length})`}
               />
-            </StyledTabs>
+            </Tabs>
           </StyledPaper>
           {tab === 0 && <Roles orgUsers={orgUsers} />}
           {tab === 1 && <TCs tcs={tcs} />}
