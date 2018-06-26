@@ -6,11 +6,9 @@ import jwtDecode from 'jwt-decode'
 export default ({
   treeData,
   activeNodeArray,
-  loginData,
 }: {
   treeData: Object,
   activeNodeArray: Array<String>,
-  loginData: Object,
 }): Array<Object> => {
   if (!treeData) return []
   const loading = get(treeData, 'loading', false)
@@ -60,7 +58,7 @@ export default ({
       menuType: 'CmPCFolder',
     },
   ]
-  const token = get(loginData, 'login.token')
+  const token = get(treeData, 'login.token')
   const userCount = get(treeData, 'allUsers.totalCount', 0)
   const userInfo = loading && userCount === 0 ? '(...)' : `(${userCount})`
   if (!!token) {

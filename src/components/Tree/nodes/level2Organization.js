@@ -5,13 +5,11 @@ import jwtDecode from 'jwt-decode'
 
 export default ({
   treeData,
-  loginData,
 }: {
   treeData: Object,
-  loginData: Object,
 }): Array<Object> => {
   if (!treeData) return []
-  const token = get(loginData, 'login.token')
+  const token = get(treeData, 'login.token')
   if (!token) return []
   const tokenDecoded = jwtDecode(token)
   const username = get(tokenDecoded, 'username')

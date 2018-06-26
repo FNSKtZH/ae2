@@ -24,11 +24,9 @@ import sort from './nodes/sort'
 export default ({
   treeData,
   activeNodeArray,
-  loginData,
 }: {
   treeData: Object,
   activeNodeArray: Object,
-  loginData: Object,
 }): Array<Object> => {
   const activeLevel2TaxonomyNodes = activeNodeArray[0]
     ? get(treeData, 'allTaxonomies.nodes', []).filter(n => {
@@ -105,7 +103,6 @@ export default ({
   let nodes = level1({
     treeData,
     activeNodeArray,
-    loginData,
   })
   console.log('buildNodes:',{activeNodeArray})
   if (activeNodeArray.length > 0) {
@@ -128,7 +125,7 @@ export default ({
       case 'Organisationen': {
         nodes = [
           ...nodes,
-          ...level2Organization({ treeData, loginData }),
+          ...level2Organization({ treeData }),
         ]
         break
       }

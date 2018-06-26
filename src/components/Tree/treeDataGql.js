@@ -2,7 +2,7 @@
 
 import gql from 'graphql-tag'
 
-export default gql`
+export default gql `
   query TreeDataQuery(
     $existsLevel2Pc: Boolean!
     $existsLevel2Taxonomy: Boolean!
@@ -24,6 +24,10 @@ export default gql`
     $pCId: UUID!
     $existsPCId: Boolean!
   ) {
+    login @client {
+      token
+      username
+    }
     taxonomyWithLevel1Count {
       nodes {
         taxonomyId
