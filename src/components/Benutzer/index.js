@@ -14,9 +14,8 @@ import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 
-import loginData from '../../modules/loginData'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
-import userData from './userData'
+import fetchData from './data'
 import treeData from '../Tree/treeData'
 import Roles from './Roles'
 import PCs from './PCs'
@@ -46,8 +45,7 @@ const enhance = compose(
     },
   }),
   activeNodeArrayData,
-  loginData,
-  userData,
+  fetchData,
   treeData
 )
 
@@ -61,8 +59,7 @@ type State = {
 
 type Props = {
   client: Object,
-  loginData: Object,
-  userData: Object,
+  data: Object,
   treeData: Object,
   tab: Number,
   setTab: () => void,
@@ -71,17 +68,21 @@ type Props = {
 }
 
 class User extends Component<Props, State> {
-  state = {
-    name: '',
-    nameErrorText: '',
-    emailErrorText: '',
-    email: '',
-    passNew: '',
+  constructor(props) {
+    super(props)
+    const user = get(props.data, 'userById', {})
+    this.state = {
+      name: user.name,
+      nameErrorText: '',
+      email: user.email,
+      emailErrorText: '',
+      passNew: '',
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const propsUser = get(this.props.userData, 'userById', {})
-    const prevPropsUser = get(prevProps.userData, 'userById', {})
+    const propsUser = get(this.props.data, 'userById', {})
+    const prevPropsUser = get(prevProps.data, 'userById', {})
 
     if (
       !!propsUser &&
@@ -105,8 +106,8 @@ class User extends Component<Props, State> {
 
   onSave = async () => {
     const { name: username, email, passNew } = this.state
-    const { userData, treeData, client } = this.props
-    const id = get(userData, 'userById.id')
+    const { data, treeData, client } = this.props
+    const id = get(data, 'userById.id')
     const variables = passNew
       ? {
           username,
@@ -137,7 +138,7 @@ class User extends Component<Props, State> {
       return console.log(error)
     }
     // refetch to update
-    userData.refetch()
+    data.refetch()
     treeData.refetch()
     this.setState({
       nameErrorText: '',
@@ -148,23 +149,22 @@ class User extends Component<Props, State> {
 
   render() {
     const {
-      userData,
-      loginData,
+      data,
       tab,
       onChangeTab,
       dimensions: { width },
     } = this.props
     const { name, nameErrorText, emailErrorText, email, passNew } = this.state
-    const loginUsername = get(loginData, 'login.username')
-    const user = get(userData, 'userById', {})
+    const loginUsername = get(data, 'login.username')
+    const user = get(data, 'userById', {})
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
     const tcs = get(user, 'taxonomiesByImportedBy.nodes', [])
     const saveEnabled =
-      !userData.loading &&
+      !data.loading &&
       (passNew ||
-        ((!!name && !!userData && !!user && name !== user.name) ||
-          (!!email && !!userData && !!user && email !== user.email)))
+        ((!!name && !!data && !!user && name !== user.name) ||
+          (!!email && !!data && !!user && email !== user.email)))
     const userIsLoggedIn =
       !!user && !!loginUsername && user.name === loginUsername
 
