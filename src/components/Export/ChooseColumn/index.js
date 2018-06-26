@@ -23,6 +23,7 @@ import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import exportTaxFiltersData from '../exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
+import propsByTaxData from './propsByTaxData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const StyledSnackbar = styled(Snackbar)`
@@ -66,6 +67,7 @@ const enhance = compose(
   exportTaxFiltersData,
   exportPcoFiltersData,
   exportRcoFiltersData,
+  propsByTaxData,
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
   withState('filterExpanded', 'setFilterExpanded', false),
   withState('propertiesExpanded', 'setPropertiesExpanded', false),
@@ -92,6 +94,7 @@ const enhance = compose(
     },
     onToggleFilter: ({
       exportTaxonomiesData,
+      propsByTaxData,
       filterExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
@@ -99,18 +102,23 @@ const enhance = compose(
       onSetMessage,
     }) => () => {
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      if (!filterExpanded && exportTaxonomies.length > 0) {
+      const loading = propsByTaxData.loading
+      if (!filterExpanded && exportTaxonomies.length > 0 && !loading) {
         setFilterExpanded(true)
         // close all others
         setTaxonomiesExpanded(false)
         setPropertiesExpanded(false)
-      } else {
+      } else if (!loading) {
         setFilterExpanded(false)
         onSetMessage('Bitte wählen Sie mindestens eine Taxonomie')
+      } else {
+        setFilterExpanded(false)
+        onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
       }
     },
     onToggleProperties: ({
       exportTaxonomiesData,
+      propsByTaxData,
       propertiesExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
@@ -118,14 +126,18 @@ const enhance = compose(
       onSetMessage,
     }) => () => {
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      if (!propertiesExpanded && exportTaxonomies.length > 0) {
+      const loading = propsByTaxData.loading
+      if (!propertiesExpanded && exportTaxonomies.length > 0 && !loading) {
         setPropertiesExpanded(true)
         // close all others
         setTaxonomiesExpanded(false)
         setFilterExpanded(false)
-      } else {
+      } else if (!loading) {
         setPropertiesExpanded(false)
         onSetMessage('Bitte wählen Sie mindestens eine Gruppe')
+      } else {
+        setPropertiesExpanded(false)
+        onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
       }
     },
   })
@@ -147,7 +159,7 @@ const Export = ({
   onToggleFilter: () => {},
   onToggleProperties: () => {},
   message: String,
-}) => (
+}) =>
   <ErrorBoundary>
     <Container>
       <StyledCard>
@@ -204,6 +216,5 @@ const Export = ({
       <StyledSnackbar open={!!message} message={message} />
     </Container>
   </ErrorBoundary>
-)
 
 export default enhance(Export)
