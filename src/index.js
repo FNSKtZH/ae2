@@ -53,9 +53,8 @@ const launchApp = async () => {
      * for reasons unrelated to the database itself and not covered by any other error code
      */
     const authMiddleware = setContext(async () => {
-      let users
-      users = await idb.users.toArray()
-      const token = get(users, '[0].token')
+      const user = await idb.users.toArray()
+      const token = get(user, '[0].token')
       if (token) {
         const tokenDecoded = jwtDecode(token)
         // for unknown reason, date.now returns three more after comma
@@ -110,10 +109,11 @@ const launchApp = async () => {
     })
 
     const cache = new InMemoryCache()
+    const myDefaults = await defaults(idb)
     const stateLink = withClientState({
       resolvers,
       cache,
-      defaults,
+      defaults: myDefaults,
     })
     const httpLink = createHttpLink({
       uri: graphQlUri(),

@@ -1,11 +1,14 @@
 // @flow
-import getLoginFromIdb from './getLoginFromIdb'
+import app from 'ampersand-app'
+import get from 'lodash/get'
+
 import setLoginMutation from './loginMutation'
 
 export default async (client: Object): void => {
-  const login = await getLoginFromIdb()
-  if (login && login.username && login.token) {
-    const { username, token } = login
+  const users = await app.idb.users.toArray()
+  const token = get(users, '[0].token')
+  const username = get(users, '[0].username')
+  if (username && token) {
     client.mutate({
       mutation: setLoginMutation,
       variables: { username, token },
