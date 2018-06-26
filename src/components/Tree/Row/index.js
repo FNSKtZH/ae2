@@ -98,7 +98,9 @@ const enhance = compose(
       // do nothing when loading indicator is clicked
       // or if node is already active
       const { url, loadingNode } = node
+      console.log('Row, onClickNode:', {node,url,loadingNode,activeNodeArray})
       if (!loadingNode && !isEqual(url, activeNodeArray)) {
+        console.log('Row, onClickNode: history pushing this url:', {url})
         app.history.push(`/${url.join('/')}`)
       }
     },

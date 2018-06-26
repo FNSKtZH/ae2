@@ -8,13 +8,9 @@ import treeDataVariables from './treeDataVariables'
 export default graphql(treeDataGql, {
   options: ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
     const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
-    const variables = treeDataVariables({
-      activeNodeArray,
-    })
+    const variables = treeDataVariables({ activeNodeArray })
 
-    return {
-      variables,
-    }
+    return { variables }
   },
   name: 'treeData',
 })

@@ -104,7 +104,6 @@ export default ({
     treeData,
     activeNodeArray,
   })
-  console.log('buildNodes:',{activeNodeArray})
   if (activeNodeArray.length > 0) {
     switch (activeNodeArray[0]) {
       case 'Eigenschaften-Sammlungen': {
@@ -115,11 +114,13 @@ export default ({
         break
       }
       case 'Benutzer': {
-        console.log('buildNodes: building Benutzer nodes')
-        nodes = [
-          ...nodes,
-          ...level2Benutzer({ treeData }),
-        ]
+        const token = get(treeData, 'login.token')
+        if (!!token) {
+          nodes = [
+            ...nodes,
+            ...level2Benutzer({ treeData }),
+          ]
+        }
         break
       }
       case 'Organisationen': {
