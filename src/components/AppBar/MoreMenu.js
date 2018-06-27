@@ -71,7 +71,7 @@ class MoreMenu extends React.Component {
           <MenuItem
             key="ueber"
             onClick={() => {
-              window.open('https://github.com/barbalex/ae2')
+              window.open('https://github.com/FNSKtZH/ae2')
               this.setState({ anchorEl: null })
             }}
           >
@@ -89,7 +89,7 @@ class MoreMenu extends React.Component {
           <MenuItem
             key="melden"
             onClick={() => {
-              window.open('https://github.com/barbalex/ae2/issues')
+              window.open('https://github.com/FNSKtZH/ae2/issues')
               this.setState({ anchorEl: null })
             }}
           >
@@ -104,7 +104,7 @@ class MoreMenu extends React.Component {
           >
             Felder für das Artenlistentool wählen
           </MenuItem>
-          <Version>Version: 0.3.2 (RC, 26.6.2018)</Version>
+          <Version>Version: 1.0.0 (27.6.2018)</Version>
           {/*<MenuItem
             key="datagraph"
             onClick={() => {
