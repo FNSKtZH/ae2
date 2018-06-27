@@ -71,6 +71,9 @@
     "analyze": "npx source-map-explorer build/static/js/main.*"
   },
   "license": "ISC",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "browserslist": {
     "development": [
       "last 2 chrome versions",
