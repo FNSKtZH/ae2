@@ -77,9 +77,7 @@ export default graphql(exportDataGql, {
       fetchSynonymRcoProperties,
     }
 
-    return {
-      variables,
-    }
+    return { variables }
   },
   name: 'exportData',
 })
