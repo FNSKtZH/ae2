@@ -4097,9 +4097,9 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-exceljs@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.5.0.tgz#5d1794758ec6c063598af6ea4bbd5c05e0cb1360"
+exceljs@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.5.1.tgz#a8d2c9df46d974bcf39d650b102e4d9c98536603"
   dependencies:
     archiver "^1.3.0"
     fast-csv "^2.4.0"
@@ -4110,10 +4110,10 @@ exceljs@1.5.0:
     sax "^1.2.2"
 
 exec-sh@^0.2.0:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/exec-sh/-/exec-sh-0.2.1.tgz#163b98a6e89e6b65b47c2a28d215bc1f63989c38"
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/exec-sh/-/exec-sh-0.2.2.tgz#2a5e7ffcbd7d0ba2755bdecb16e5a427dfbdec36"
   dependencies:
-    merge "^1.1.3"
+    merge "^1.2.0"
 
 execa@^0.7.0:
   version "0.7.0"
@@ -6221,9 +6221,9 @@ json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
 
-json2csv@4.1.4:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/json2csv/-/json2csv-4.1.4.tgz#130cda6be4f8bd5adba381a5d8101ea5bae2d43b"
+json2csv@4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/json2csv/-/json2csv-4.1.5.tgz#b92693aff83e0ef0faae54dacd5b991f68381bf1"
   dependencies:
     cli-table2 "^0.2.0"
     commander "^2.8.1"
@@ -6820,7 +6820,7 @@ merge2@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.2.2.tgz#03212e3da8d86c4d8523cebd6318193414f94e34"
 
-merge@^1.1.3:
+merge@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/merge/-/merge-1.2.0.tgz#7531e39d4949c281a66b8c5a6e0265e8b05894da"
 
@@ -8023,9 +8023,9 @@ postgraphile-core@4.0.0-rc.1:
     graphile-build "4.0.0-rc.1"
     graphile-build-pg "4.0.0-rc.1"
 
-postgraphile-plugin-connection-filter@1.0.0-beta.12:
-  version "1.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/postgraphile-plugin-connection-filter/-/postgraphile-plugin-connection-filter-1.0.0-beta.12.tgz#873a2c4e72af15b05b31d69016adae432211d3c8"
+postgraphile-plugin-connection-filter@1.0.0-beta.13:
+  version "1.0.0-beta.13"
+  resolved "https://registry.yarnpkg.com/postgraphile-plugin-connection-filter/-/postgraphile-plugin-connection-filter-1.0.0-beta.13.tgz#c639b031a8be515407469923cf9ec78f9c2a8be4"
   dependencies:
     graphile-build-pg "^4.0.0-beta.6"
 
@@ -8435,8 +8435,8 @@ react-is@^16.3.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.1.tgz#d624c4650d2c65dbd52c72622bbf389435d9776e"
 
 react-jss@^8.1.0:
-  version "8.5.1"
-  resolved "https://registry.yarnpkg.com/react-jss/-/react-jss-8.5.1.tgz#f97c72f6a1c86aa6408932a2a2836ce40c0ab9fc"
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/react-jss/-/react-jss-8.6.0.tgz#6d2a1a5ebaa45afa6a71cc504c53a26dd2ac8447"
   dependencies:
     hoist-non-react-statics "^2.5.0"
     jss "^9.7.0"
@@ -10329,8 +10329,8 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
 uuid@^3.0.1, uuid@^3.1.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.0.tgz#b237147804881d7b86f40a7ff8f590f15c37de32"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.3"
