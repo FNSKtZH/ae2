@@ -99,7 +99,7 @@ const Url = ({
             p: p.pname,
           }))
           const props = [...taxProps, ...pcoProps, ...rcoProps]
-          const url = `https://artdaten.ch/api/alt?fields=${JSON.stringify(
+          const url = `https://arteigenschaften.ch/api/alt?fields=${JSON.stringify(
             props
           )}`
           return (
