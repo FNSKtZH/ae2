@@ -14,7 +14,6 @@ export default graphql(exportDataGql, {
     exportTaxPropertiesData,
     exportPcoPropertiesData,
     exportRcoPropertiesData,
-    exportWithSynonymDataData,
   }: {
     exportTaxonomiesData: Object,
     exportTaxFiltersData: Object,
@@ -23,13 +22,7 @@ export default graphql(exportDataGql, {
     exportTaxPropertiesData: Object,
     exportPcoPropertiesData: Object,
     exportRcoPropertiesData: Object,
-    exportWithSynonymDataData: Object,
   }) => {
-    const exportWithSynonymData = get(
-      exportWithSynonymDataData,
-      'exportWithSynonymData',
-      true
-    )
     const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
     // need to remove __typename because apollo passes it along ?!
     const taxFilters = get(exportTaxFiltersData, 'exportTaxFilters', []).map(
@@ -50,7 +43,6 @@ export default graphql(exportDataGql, {
     const fetchTaxProperties = taxProperties.length > 0
     const fetchPcoProperties = pcoProperties.length > 0
     const fetchRcoProperties = rcoProperties.length > 0
-    const considersynonyms = exportWithSynonymData
     const variables = {
       exportTaxonomies,
       taxFilters,
@@ -61,7 +53,6 @@ export default graphql(exportDataGql, {
       fetchTaxProperties,
       fetchPcoProperties,
       fetchRcoProperties,
-      considersynonyms,
     }
 
     return { variables }

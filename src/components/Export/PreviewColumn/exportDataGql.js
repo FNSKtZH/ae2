@@ -13,14 +13,7 @@ export default gql`
     $fetchTaxProperties: Boolean!
     $fetchPcoProperties: Boolean!
     $fetchRcoProperties: Boolean!
-    $considersynonyms: Boolean!
   ) {
-    allSynonyms @include(if: $considersynonyms) {
-      nodes {
-        objectId
-        objectIdSynonym
-      }
-    }
     exportObject(
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters

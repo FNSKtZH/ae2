@@ -199,11 +199,16 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   handleChange = (event, { newValue }) => {
-    const { pcname, pname, client, exportAddFilterFieldsData } = this.props
     // trim the start to enable entering space
     // at start to open list
     const value = trimStart(newValue)
     this.setState({ value })
+  }
+
+  handleBlur = () => {
+    const { pcname, pname, client, exportAddFilterFieldsData } = this.props
+    const { value } = this.state
+    // trim the start to enable en
     this.change(value)
     // if value and not choosen, choose
     const exportAddFilterFields = get(
@@ -220,7 +225,8 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   renderInput = inputProps => {
-    const { classes, pname, jsontype, value } = this.props
+    const { classes, pname, jsontype } = this.props
+    const { value } = this.state
     const labelText = `${pname} (${readableType(jsontype)})`
     const { autoFocus, ref, ...other } = inputProps
 
@@ -241,7 +247,8 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
   }
 
   render() {
-    const { classes, value } = this.props
+    const { classes } = this.props
+    const { value } = this.state
     const { suggestions } = this.state
 
     return (
@@ -265,6 +272,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
           autoFocus: true,
           placeholder: 'Für Auswahlliste: Leerschlag tippen',
           onChange: this.handleChange,
+          onBlur: this.handleBlur,
           onFocus: this.onFocus,
         }}
       />
