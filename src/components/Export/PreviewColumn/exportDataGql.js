@@ -13,16 +13,17 @@ export default gql`
     $fetchTaxProperties: Boolean!
     $fetchPcoProperties: Boolean!
     $fetchRcoProperties: Boolean!
-    $fetchSynonymPcoProperties: Boolean!
-    $fetchSynonymRcoProperties: Boolean!
     $considersynonyms: Boolean!
   ) {
+    allSynonyms @include(if: $considersynonyms) {
+      nodes {
+        objectId
+        objectIdSynonym
+      }
+    }
     exportObject(
       exportTaxonomies: $exportTaxonomies
       taxFilters: $taxFilters
-      pcoFilters: $pcoFilters
-      rcoFilters: $rcoFilters
-      considersynonyms: $considersynonyms
     ) {
       totalCount
       nodes {
@@ -31,12 +32,8 @@ export default gql`
       }
     }
     exportPco(
-      exportTaxonomies: $exportTaxonomies
-      taxFilters: $taxFilters
       pcoFilters: $pcoFilters
-      rcoFilters: $rcoFilters
       pcoProperties: $pcoProperties
-      considersynonyms: $considersynonyms
     ) @include(if: $fetchPcoProperties) {
       totalCount
       nodes {
@@ -47,58 +44,10 @@ export default gql`
         properties
       }
     }
-    exportSynonymPco(
-      exportTaxonomies: $exportTaxonomies
-      taxFilters: $taxFilters
-      pcoFilters: $pcoFilters
-      rcoFilters: $rcoFilters
-      pcoProperties: $pcoProperties
-      considersynonyms: $considersynonyms
-    ) @include(if: $fetchSynonymPcoProperties) {
-      totalCount
-      nodes {
-        id
-        objectId
-        propertyCollectionId
-        propertyCollectionOfOrigin
-        properties
-      }
-    }
     exportRco(
-      exportTaxonomies: $exportTaxonomies
-      taxFilters: $taxFilters
-      pcoFilters: $pcoFilters
       rcoFilters: $rcoFilters
       rcoProperties: $rcoProperties
-      considersynonyms: $considersynonyms
     ) @include(if: $fetchRcoProperties) {
-      totalCount
-      nodes {
-        id
-        propertyCollectionId
-        objectId
-        objectIdRelation
-        objectByObjectIdRelation {
-          id
-          name
-          taxonomyByTaxonomyId {
-            id
-            name
-          }
-        }
-        propertyCollectionOfOrigin
-        relationType
-        properties
-      }
-    }
-    exportSynonymRco(
-      exportTaxonomies: $exportTaxonomies
-      taxFilters: $taxFilters
-      pcoFilters: $pcoFilters
-      rcoFilters: $rcoFilters
-      rcoProperties: $rcoProperties
-      considersynonyms: $considersynonyms
-    ) @include(if: $fetchSynonymRcoProperties) {
       totalCount
       nodes {
         id

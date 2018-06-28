@@ -1,5 +1,5 @@
 select
-  ae.object.*
+  ae.object.id
 from
   ae.object
   inner join ae.taxonomy
@@ -10,4 +10,4 @@ where
   -- 2. if exists: apply tax fields filter:
   and ???
   -- 3. if exists: apply pco fields filter:
-  
+  -- to all objects of 

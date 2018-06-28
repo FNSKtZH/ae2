@@ -16,18 +16,18 @@ import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
 
 export default ({
-  rcos,
+  thisObjectsRco,
   exportRcoProperties,
   row,
   aditionalRows,
 }: {
-  rcos: Array<Object>,
+  thisObjectsRco: Array<Object>,
   exportRcoProperties: Array<Object>,
   row: Object,
   aditionalRows: Array<Object>,
 }) => {
   let rowToUse = row
-  rcos.forEach(rco => {
+  thisObjectsRco.forEach(rco => {
     // 0. check if first property already exist
     const firstProperty = exportRcoProperties[0]
     const firstField = `${conv(firstProperty.pcname)}__${conv(
@@ -45,7 +45,7 @@ export default ({
         p.relationtype === rco.relationType
     )
     if (rcoP_id) {
-      const bezPartnerId = rcos
+      const bezPartnerId = thisObjectsRco
         .map(rco => get(rco, 'objectByObjectIdRelation.id', null))
         .join(' | ')
       rowToUse[
@@ -84,7 +84,7 @@ export default ({
         p.relationtype === rco.relationType
     )
     if (rcoP_name) {
-      const bezPartner = rcos
+      const bezPartner = thisObjectsRco
         .map(rco => {
           const bezPartnerTaxonomyName = get(
             rco,

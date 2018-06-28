@@ -6,7 +6,6 @@
 import omit from 'lodash/omit'
 import some from 'lodash/some'
 import sortBy from 'lodash/sortBy'
-import unionBy from 'lodash/unionBy'
 
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
@@ -19,9 +18,8 @@ export default ({
   exportWithSynonymData,
   exportPcoProperties,
   pco,
-  synonymPco,
   rco,
-  synonymRco,
+  synonyms,
   exportRcoPropertyNames,
   exportRcoProperties,
   exportIds,
@@ -33,9 +31,8 @@ export default ({
   exportWithSynonymData: Boolean,
   exportPcoProperties: Array<Object>,
   pco: Array<Object>,
-  synonymPco: Array<Object>,
   rco: Array<Object>,
-  synonymRco: Array<Object>,
+  synonyms: Array<Object>,
   exportRcoPropertyNames: Boolean,
   exportRcoProperties: Array<Object>,
   exportIds: Array<String>,
@@ -64,10 +61,15 @@ export default ({
       return (row[fieldName] = val)
     })
     // 2. pco
-    const thisObjectsPco = pco.filter(p => p.objectId === o.id)
-    const thisObjectsSynonymPco = synonymPco.filter(p => p.objectId === o.id)
-    const pcos = unionBy(thisObjectsPco, thisObjectsSynonymPco, 'id')
-    pcos.forEach(pco => {
+    const thisObjectsSynonyms = [
+      // itself
+      o.id,
+      // all declared synonyms
+      ...synonyms.filter(s => s.objectId === o.id)
+        .map(s => s.objectIdSynonym)
+    ]
+    const thisObjectsPco = pco.filter(p => thisObjectsSynonyms.includes(p.objectId))
+    thisObjectsPco.forEach(pco => {
       const pcoProperties = JSON.parse(pco.properties)
       if (pcoProperties) {
         exportPcoProperties.forEach(p => {
@@ -89,9 +91,7 @@ export default ({
       }
     })
     // 3. rco
-    const thisObjectsRco = rco.filter(p => p.objectId === o.id)
-    const thisObjectsSynonymRco = synonymRco.filter(p => p.objectId === o.id)
-    const rcos = unionBy(thisObjectsRco, thisObjectsSynonymRco, 'id')
+    const thisObjectsRco = pco.filter(p => thisObjectsSynonyms.includes(p.objectId))
 
     /**
      * add all relations comma separated
@@ -103,13 +103,13 @@ export default ({
      */
     if (exportRcoInOneRow) {
       rowsFromObjectsRcoSingleRow({
-        rcos,
+        thisObjectsRco,
         exportRcoProperties,
         row,
       })
     } else {
       rowsFromObjectsRcoMultipleRows({
-        rcos,
+        thisObjectsRco,
         exportRcoProperties,
         row,
         aditionalRows,

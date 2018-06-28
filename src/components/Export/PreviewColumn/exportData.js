@@ -41,28 +41,15 @@ export default graphql(exportDataGql, {
     const rcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', []).map(
       d => omit(d, ['__typename'])
     )
-    const taxProperties = get(
-      exportTaxPropertiesData,
-      'exportTaxProperties',
-      []
-    ).map(d => omit(d, ['__typename']))
-    const pcoProperties = get(
-      exportPcoPropertiesData,
-      'exportPcoProperties',
-      []
-    ).map(d => omit(d, ['__typename']))
-    const rcoProperties = get(
-      exportRcoPropertiesData,
-      'exportRcoProperties',
-      []
-    ).map(d => omit(d, ['__typename']))
+    const taxProperties = get(exportTaxPropertiesData, 'exportTaxProperties', [])
+      .map(d => omit(d, ['__typename']))
+    const pcoProperties = get(exportPcoPropertiesData, 'exportPcoProperties', [])
+      .map(d => omit(d, ['__typename']))
+    const rcoProperties = get(exportRcoPropertiesData, 'exportRcoProperties', [])
+      .map(d => omit(d, ['__typename']))
     const fetchTaxProperties = taxProperties.length > 0
     const fetchPcoProperties = pcoProperties.length > 0
     const fetchRcoProperties = rcoProperties.length > 0
-    const fetchSynonymPcoProperties =
-      exportWithSynonymData && pcoProperties.length > 0
-    const fetchSynonymRcoProperties =
-      exportWithSynonymData && rcoProperties.length > 0
     const considersynonyms = exportWithSynonymData
     const variables = {
       exportTaxonomies,
@@ -74,8 +61,6 @@ export default graphql(exportDataGql, {
       fetchTaxProperties,
       fetchPcoProperties,
       fetchRcoProperties,
-      fetchSynonymPcoProperties,
-      fetchSynonymRcoProperties,
       considersynonyms,
     }
 

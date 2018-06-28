@@ -180,9 +180,11 @@ const Preview = ({
     0
   ).toLocaleString('de-CH')
   const pco = get(exportData, 'exportPco.nodes', [])
-  const synonymPco = get(exportData, 'exportSynonymPco.nodes', [])
   const rco = get(exportData, 'exportRco.nodes', [])
-  const synonymRco = get(exportData, 'exportSynonymRco.nodes', [])
+  const synonyms = get(exportData, 'allSynonyms.nodes', [])
+
+  console.log('Preview:', {objects,pco,rco,synonyms})
+
   // need taxFields to filter only data with properties
   let { rows, pvColumns } = rowsFromObjects({
     objects,
@@ -191,9 +193,8 @@ const Preview = ({
     exportRcoInOneRow,
     exportPcoProperties,
     pco,
-    synonymPco,
     rco,
-    synonymRco,
+    synonyms,
     exportRcoPropertyNames,
     exportRcoProperties,
     exportIds,

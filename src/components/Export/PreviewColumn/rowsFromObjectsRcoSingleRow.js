@@ -5,15 +5,15 @@ import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
 
 export default ({
-  rcos,
+  thisObjectsRco,
   exportRcoProperties,
   row,
 }: {
-  rcos: Array<Object>,
+  thisObjectsRco: Array<Object>,
   exportRcoProperties: Array<Object>,
   row: Object,
 }) => {
-  rcos.forEach(rco => {
+  thisObjectsRco.forEach(rco => {
     // 1. check for Beziehungspartner_id
     const rcoP_id = exportRcoProperties.find(
       p =>
@@ -21,7 +21,7 @@ export default ({
         p.relationtype === rco.relationType
     )
     if (rcoP_id) {
-      const bezPartnerId = rcos
+      const bezPartnerId = thisObjectsRco
         .map(rco => get(rco, 'objectByObjectIdRelation.id', null))
         .join(' | ')
       row[
@@ -60,7 +60,7 @@ export default ({
         p.relationtype === rco.relationType
     )
     if (rcoP_name) {
-      const bezPartner = rcos
+      const bezPartner = thisObjectsRco
         .map(rco => {
           const bezPartnerTaxonomyName = get(
             rco,
