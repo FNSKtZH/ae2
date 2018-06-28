@@ -26,7 +26,6 @@ import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
 import exportOnlyRowsWithPropertiesData from '../../exportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
-import { typeFromAST } from 'graphql';
 
 const Container = styled.div`
   padding: 0 5px;
