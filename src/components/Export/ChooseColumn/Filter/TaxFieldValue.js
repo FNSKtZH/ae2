@@ -211,7 +211,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
       'exportAddFilterFields',
       true
     )
-    if (exportAddFilterFields) {
+    if (exportAddFilterFields && value) {
       client.mutate({
         mutation: addExportTaxPropertyMutation,
         variables: { taxname, pname },
