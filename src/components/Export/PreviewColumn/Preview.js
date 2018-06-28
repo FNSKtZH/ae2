@@ -11,6 +11,7 @@ import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
 
 import exportData from './exportData'
+import exportObjectData from './exportObjectData'
 import synonymData from './synonymData'
 import exportIdsData from '../exportIdsData'
 import exportTaxonomiesData from '../exportTaxonomiesData'
@@ -87,6 +88,7 @@ const enhance = compose(
   exportWithSynonymDataData,
   exportRcoInOneRowData,
   exportOnlyRowsWithPropertiesData,
+  exportObjectData,
   exportData,
   synonymData,
   withState('sortField', 'setSortField', 'id'),
@@ -104,6 +106,7 @@ const enhance = compose(
 
 const Preview = ({
   exportData,
+  exportObjectData,
   synonymData,
   propsByTaxData,
   exportIdsData,
@@ -125,6 +128,7 @@ const Preview = ({
   onSetMessage,
 }: {
   exportData: Object,
+  exportObjectData: Object,
   synonymData: Object,
   propsByTaxData: Object,
   exportIdsData: Object,
@@ -177,8 +181,8 @@ const Preview = ({
     []
   )
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
-  const objects = get(exportData, 'exportObject.nodes', [])
-  const objectsCount = get(exportData, 'exportObject.totalCount', 0)
+  const objects = get(exportObjectData, 'exportObject.nodes', [])
+  const objectsCount = get(exportObjectData, 'exportObject.totalCount', 0)
     .toLocaleString('de-CH')
   const pco = get(exportData, 'exportPco.nodes', [])
   const rco = get(exportData, 'exportRco.nodes', [])
