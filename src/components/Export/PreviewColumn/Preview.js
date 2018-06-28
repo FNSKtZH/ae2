@@ -10,8 +10,9 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
 
-import exportData from './exportData'
+import exportRcoData from './exportRcoData'
 import exportObjectData from './exportObjectData'
+import exportPcoData from './exportPcoData'
 import synonymData from './synonymData'
 import exportIdsData from '../exportIdsData'
 import exportTaxonomiesData from '../exportTaxonomiesData'
@@ -89,7 +90,8 @@ const enhance = compose(
   exportRcoInOneRowData,
   exportOnlyRowsWithPropertiesData,
   exportObjectData,
-  exportData,
+  exportPcoData,
+  exportRcoData,
   synonymData,
   withState('sortField', 'setSortField', 'id'),
   withState('sortDirection', 'setSortDirection', 'asc'),
@@ -105,8 +107,9 @@ const enhance = compose(
 )
 
 const Preview = ({
-  exportData,
+  exportRcoData,
   exportObjectData,
+  exportPcoData,
   synonymData,
   propsByTaxData,
   exportIdsData,
@@ -127,8 +130,9 @@ const Preview = ({
   message,
   onSetMessage,
 }: {
-  exportData: Object,
+  exportRcoData: Object,
   exportObjectData: Object,
+  exportPcoData: Object,
   synonymData: Object,
   propsByTaxData: Object,
   exportIdsData: Object,
@@ -184,11 +188,11 @@ const Preview = ({
   const objects = get(exportObjectData, 'exportObject.nodes', [])
   const objectsCount = get(exportObjectData, 'exportObject.totalCount', 0)
     .toLocaleString('de-CH')
-  const pco = get(exportData, 'exportPco.nodes', [])
-  const rco = get(exportData, 'exportRco.nodes', [])
+  const pco = get(exportPcoData, 'exportPco.nodes', [])
+  const rco = get(exportRcoData, 'exportRco.nodes', [])
   const synonyms = get(synonymData, 'allSynonyms.nodes', [])
 
-  console.log('Preview:', {objects,pco,rco,synonyms})
+  //console.log('Preview:', {objects,pco,rco,synonyms})
 
   // need taxFields to filter only data with properties
   let { rows, pvColumns } = rowsFromObjects({
@@ -248,7 +252,7 @@ const Preview = ({
         )}
         <StyledSnackbar open={!!message} message={message} />
         <StyledSnackbar
-          open={exportData.loading || propsByTaxData.loading}
+          open={exportRcoData.loading || propsByTaxData.loading}
           message="Lade Daten..."
         />
       </Container>

@@ -1,22 +1,8 @@
 query exportDataQuery(
-  $pcoFilters: [PcoFilterInput]!
   $rcoFilters: [RcoFilterInput]!
-  $pcoProperties: [PcoPropertyInput]!
   $rcoProperties: [RcoPropertyInput]!
-  $fetchPcoProperties: Boolean!
   $fetchRcoProperties: Boolean!
 ) {
-  exportPco(pcoFilters: $pcoFilters, pcoProperties: $pcoProperties)
-    @include(if: $fetchPcoProperties) {
-    totalCount
-    nodes {
-      id
-      objectId
-      propertyCollectionId
-      propertyCollectionOfOrigin
-      properties
-    }
-  }
   exportRco(rcoFilters: $rcoFilters, rcoProperties: $rcoProperties)
     @include(if: $fetchRcoProperties) {
     totalCount
