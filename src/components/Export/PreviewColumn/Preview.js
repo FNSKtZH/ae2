@@ -174,11 +174,8 @@ const Preview = ({
   )
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
   const objects = get(exportData, 'exportObject.nodes', [])
-  const objectsCount = get(
-    exportData,
-    'exportObject.totalCount',
-    0
-  ).toLocaleString('de-CH')
+  const objectsCount = get(exportData, 'exportObject.totalCount', 0)
+    .toLocaleString('de-CH')
   const pco = get(exportData, 'exportPco.nodes', [])
   const rco = get(exportData, 'exportRco.nodes', [])
   const synonyms = get(exportData, 'allSynonyms.nodes', [])

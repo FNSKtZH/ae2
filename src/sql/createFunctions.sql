@@ -223,6 +223,7 @@ CREATE OR REPLACE FUNCTION ae.export_pco(pco_filters pco_filter[], pco_propertie
   $$
     DECLARE
       pcop pco_property;
+      pcof pco_filter;
       sql text := 'SELECT
                     ae.property_collection_object.*
                   FROM ae.object
@@ -247,6 +248,19 @@ CREATE OR REPLACE FUNCTION ae.export_pco(pco_filters pco_filter[], pco_propertie
         END IF;
         sql := sql || ')';
 
+      IF cardinality(pco_filters) > 0 THEN
+        FOREACH pcof IN ARRAY pco_filters
+        LOOP
+            sql := sql || ' AND (ae.property_collection.name = ' || quote_literal(pcof.pcname);
+          IF pcof.comparator IN ('ILIKE', 'LIKE') THEN
+            sql := sql || ' AND ae.property_collection_object.properties->>' || quote_literal(pcof.pname) || ' ' || pcof.comparator || ' ' || quote_literal('%' || pcof.value || '%');
+          ELSE
+            sql := sql || ' AND ae.property_collection_object.properties->>' || quote_literal(pcof.pname) || ' ' || pcof.comparator || ' ' || quote_literal(pcof.value);
+          END IF;
+          sql := sql || ')';
+        END LOOP;
+      END IF;
+
     --RAISE EXCEPTION  'pco_filters: %, sql: %:', pco_filters, sql;
     RETURN QUERY EXECUTE sql USING pco_filters, pco_properties;
     END
@@ -261,6 +275,7 @@ CREATE OR REPLACE FUNCTION ae.export_rco(rco_filters rco_filter[], rco_propertie
   $$
     DECLARE
       rcop rco_property;
+      rcof rco_filter;
       sql text := 'SELECT
                     ae.relation.*
                   FROM ae.object
@@ -284,6 +299,20 @@ CREATE OR REPLACE FUNCTION ae.export_rco(rco_filters rco_filter[], rco_propertie
         END LOOP;
       END IF;
       sql := sql || ')';
+
+      IF cardinality(rco_filters) > 0 THEN
+        FOREACH rcof IN ARRAY rco_filters
+        LOOP
+          sql := sql || ' AND (ae.property_collection.name = ' || quote_literal(rcof.pcname);
+          IF rcof.comparator IN ('ILIKE', 'LIKE') THEN
+            sql := sql || ' AND ae.relation.properties->>' || quote_literal(rcof.pname) || ' ' || rcof.comparator || ' ' || quote_literal('%' || rcof.value || '%');
+          ELSE
+            sql := sql || ' AND ae.relation.properties->>' || quote_literal(rcof.pname) || ' ' || rcof.comparator || ' ' || quote_literal(rcof.value);
+          END IF;
+          sql := sql || ')';
+        END LOOP;
+      END IF;
+
     RETURN QUERY EXECUTE sql USING rco_filters, rco_properties;
     END
   $$
