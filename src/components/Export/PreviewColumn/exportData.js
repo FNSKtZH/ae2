@@ -63,6 +63,7 @@ export default graphql(exportDataGql, {
       exportWithSynonymData && pcoProperties.length > 0
     const fetchSynonymRcoProperties =
       exportWithSynonymData && rcoProperties.length > 0
+    const considersynonyms = exportWithSynonymData
     const variables = {
       exportTaxonomies,
       taxFilters,
@@ -75,6 +76,7 @@ export default graphql(exportDataGql, {
       fetchRcoProperties,
       fetchSynonymPcoProperties,
       fetchSynonymRcoProperties,
+      considersynonyms,
     }
 
     return { variables }

@@ -186,7 +186,7 @@ $$ stable language sql;
 
 -- 2.: actual app FUNCTIONS
 
-CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[])
+CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], considersynonyms boolean)
   RETURNS setof ae.object AS
   $$
     DECLARE
@@ -205,6 +205,13 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
                       FROM ae.property_collection_object
                         INNER JOIN ae.property_collection
                         ON ae.property_collection_object.property_collection_id = ae.property_collection.id';
+      pcofSynonymSql text := 'SELECT DISTINCT
+                                ae.synonym.object_id_synonym
+                              FROM ae.property_collection_object
+                                INNER JOIN ae.property_collection
+                                ON ae.property_collection_object.property_collection_id = ae.property_collection.id
+                                INNER JOIN ae.synonym
+                                ON ae.property_collection_object.object_id = ae.synonym.object_id';
       pcofSqlWhere text := '';
       rcof rco_filter;
       rcofSql text := 'SELECT DISTINCT
@@ -212,6 +219,13 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
                       FROM ae.relation
                         INNER JOIN ae.property_collection
                         ON ae.relation.property_collection_id = ae.property_collection.id';
+      rcofSynonymSql text := 'SELECT DISTINCT
+                                ae.synonym.object_id_synonym
+                              FROM ae.relation
+                                INNER JOIN ae.property_collection
+                                ON ae.relation.property_collection_id = ae.property_collection.id
+                                INNER JOIN ae.synonym
+                                ON ae.relation.object_id = ae.synonym.object_id';
       rcofSqlWhere text := '';
     BEGIN
       FOREACH tf IN ARRAY tax_filters
@@ -262,11 +276,23 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
       END IF;
 
       IF cardinality(pco_filters) > 0 AND cardinality(rco_filters) > 0 THEN
-        sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ')) AND ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ')) ';
+        IF considersynonyms IS FALSE THEN
+          sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ')) AND ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ')) ';
+        ELSE
+          sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ') UNION ' || pcofSynonymSql || ' WHERE (' || pcofSqlWhere || ')) AND ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ') UNION ' || rcofSynonymSql || ' WHERE (' || rcofSqlWhere || ')) ';
+        END IF;
       ELSEIF cardinality(pco_filters) > 0 THEN
-        sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ')) ';
+        IF considersynonyms IS FALSE THEN
+          sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ')) ';
+        ELSE
+          sql := sql || ' AND ae.object.id IN (' || pcofSql || ' WHERE (' || pcofSqlWhere || ') UNION ' || pcofSynonymSql || ' WHERE (' || pcofSqlWhere || ')) ';
+        END IF;
       ELSEIF cardinality(rco_filters) > 0 THEN
-        sql := sql || ' AND ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ')) ';
+        IF considersynonyms IS FALSE THEN
+          sql := sql || ' AND ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ')) ';
+        ELSE
+          sql := sql || ' AND ae.object.id IN (' || rcofSql || ' WHERE (' || rcofSqlWhere || ') UNION ' || rcofSynonymSql || ' WHERE (' || rcofSqlWhere || ')) ';
+        END IF;
       END IF;
 
     --RAISE EXCEPTION  'export_taxonomies: %, tax_filters: %, pco_filters: %, rco_filters: %, cardinality(pco_filters): %, sql: %:', export_taxonomies, tax_filters, pco_filters, rco_filters, cardinality(pco_filters), sql;
@@ -275,10 +301,10 @@ CREATE OR REPLACE FUNCTION ae.export_object(export_taxonomies text[], tax_filter
   $$
   LANGUAGE plpgsql STABLE;
 
-ALTER FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[])
+ALTER FUNCTION ae.export_object(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], considersynonyms boolean)
   OWNER TO postgres;
 
-CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[])
+CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[], considersynonyms boolean)
   RETURNS setof ae.property_collection_object AS
   $$
     DECLARE
@@ -292,7 +318,7 @@ CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters t
                     ON ae.object.id = ae.property_collection_object.object_id
                   WHERE
                     ae.object.id IN (
-                      SELECT id FROM ae.export_object($1, $2, $3, $4)
+                      SELECT id FROM ae.export_object($1, $2, $3, $4, ' || considersynonyms || ')
                     )
                     AND ae.property_collection.name IN(';
     BEGIN
@@ -316,10 +342,10 @@ CREATE OR REPLACE FUNCTION ae.export_pco(export_taxonomies text[], tax_filters t
   $$
   LANGUAGE plpgsql STABLE;
 
-ALTER FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[])
+ALTER FUNCTION ae.export_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[], considersynonyms boolean)
   OWNER TO postgres;
 
-CREATE OR REPLACE FUNCTION ae.export_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[])
+CREATE OR REPLACE FUNCTION ae.export_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[], considersynonyms boolean)
   RETURNS setof ae.relation AS
   $$
     DECLARE
@@ -333,7 +359,7 @@ CREATE OR REPLACE FUNCTION ae.export_rco(export_taxonomies text[], tax_filters t
                     ON ae.object.id = ae.relation.object_id
                   WHERE
                     ae.object.id IN (
-                      SELECT id FROM ae.export_object($1, $2, $3, $4)
+                      SELECT id FROM ae.export_object($1, $2, $3, $4, ' || considersynonyms || ')
                     )';
     BEGIN
       IF cardinality(rco_properties) = 0 THEN
@@ -354,10 +380,10 @@ CREATE OR REPLACE FUNCTION ae.export_rco(export_taxonomies text[], tax_filters t
   $$
   LANGUAGE plpgsql STABLE;
 
-ALTER FUNCTION ae.export_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[])
+ALTER FUNCTION ae.export_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[], considersynonyms boolean)
   OWNER TO postgres;
 
-CREATE OR REPLACE FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[])
+CREATE OR REPLACE FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[], considersynonyms boolean)
   RETURNS setof ae.property_collection_object AS
   $$
     DECLARE
@@ -377,7 +403,7 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_f
                       ON ae.object.id = ae.synonym.object_id
                     WHERE
                       ae.synonym.object_id_synonym IN (
-                        SELECT id FROM ae.export_object($1, $2, $3, $4)
+                        SELECT id FROM ae.export_object($1, $2, $3, $4, ' || considersynonyms || ')
                       )
                       AND ae.property_collection.name IN(';
     BEGIN
@@ -398,10 +424,10 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_f
     END
   $$
   LANGUAGE plpgsql STABLE;
-ALTER FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[])
+ALTER FUNCTION ae.export_synonym_pco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], pco_properties pco_property[], considersynonyms boolean)
   OWNER TO postgres;
 
-CREATE OR REPLACE FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[])
+CREATE OR REPLACE FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[], considersynonyms boolean)
   RETURNS setof ae.relation AS
   $$
     DECLARE
@@ -423,7 +449,7 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_f
                     ON ae.object.id = ae.synonym.object_id
                   WHERE
                     ae.synonym.object_id_synonym IN (
-                      SELECT id FROM ae.export_object($1, $2, $3, $4)
+                      SELECT id FROM ae.export_object($1, $2, $3, $4, ' || considersynonyms || ')
                     )';
     BEGIN
       IF cardinality(rco_properties) = 0 THEN
@@ -443,7 +469,7 @@ CREATE OR REPLACE FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_f
     END
   $$
   LANGUAGE plpgsql STABLE;
-ALTER FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[])
+ALTER FUNCTION ae.export_synonym_rco(export_taxonomies text[], tax_filters tax_filter[], pco_filters pco_filter[], rco_filters rco_filter[], rco_properties rco_property[], considersynonyms boolean)
   OWNER TO postgres;
 
 CREATE OR REPLACE FUNCTION ae.object_by_object_name(object_name text)

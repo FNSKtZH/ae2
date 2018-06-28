@@ -6,6 +6,7 @@
 import omit from 'lodash/omit'
 import some from 'lodash/some'
 import sortBy from 'lodash/sortBy'
+import unionBy from 'lodash/unionBy'
 
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
@@ -48,7 +49,7 @@ export default ({
     // 1. object
     const row = {}
     row.id = o.id
-    const properties = o.properties ? JSON.parse(o.properties) : {}
+    const properties = o.properties ? {...o.properties} : {}
     exportTaxProperties.forEach(p => {
       let val = null
       if (properties && properties[p.pname] !== undefined) {
@@ -58,20 +59,14 @@ export default ({
           val = properties[p.pname]
         }
       }
-      taxFields.push(`${conv(p.taxname)}__${conv(p.pname)}`)
-      return (row[`${conv(p.taxname)}__${conv(p.pname)}`] = val)
+      const fieldName = `${conv(p.taxname)}__${conv(p.pname)}`
+      taxFields.push(fieldName)
+      return (row[fieldName] = val)
     })
     // 2. pco
     const thisObjectsPco = pco.filter(p => p.objectId === o.id)
     const thisObjectsSynonymPco = synonymPco.filter(p => p.objectId === o.id)
-    const pcoToUse = [...thisObjectsPco]
-    if (exportWithSynonymData) {
-      thisObjectsSynonymPco.forEach(sPco => {
-        // add if not yet contained
-        const idContained = pcoToUse.find(pco => pco.id === sPco.id)
-        if (!idContained) pcoToUse.push(sPco)
-      })
-    }
+    const pcoToUse = unionBy(thisObjectsPco, thisObjectsSynonymPco, 'id')
     pcoToUse.forEach(pco => {
       const pcoProperties = JSON.parse(pco.properties)
       if (pcoProperties) {
@@ -88,21 +83,15 @@ export default ({
     })
     // add every field if still missing
     exportPcoProperties.forEach(p => {
-      if (row[`${conv(p.pcname)}__${conv(p.pname)}`] === undefined) {
-        row[`${conv(p.pcname)}__${conv(p.pname)}`] = null
+      const fieldName = `${conv(p.pcname)}__${conv(p.pname)}`
+      if (row[fieldName] === undefined) {
+        row[fieldName] = null
       }
     })
     // 3. rco
     const thisObjectsRco = rco.filter(p => p.objectId === o.id)
     const thisObjectsSynonymRco = synonymRco.filter(p => p.objectId === o.id)
-    const rcoToUse = [...thisObjectsRco]
-    if (exportWithSynonymData) {
-      thisObjectsSynonymRco.forEach(sRco => {
-        // add if not yet contained
-        const idContained = rcoToUse.find(rco => rco.id === sRco.id)
-        if (!idContained) rcoToUse.push(sRco)
-      })
-    }
+    const rcoToUse = unionBy(thisObjectsRco, thisObjectsSynonymRco, 'id')
 
     /**
      * add all relations comma separated
@@ -129,10 +118,9 @@ export default ({
     return row
   })
   rows = [...rows, ...aditionalRows]
-  rows = rows.filter(r => {
-    if (exportIds.length > 0) return exportIds.includes(r.id)
-    return true
-  })
+  if (exportIds.length > 0) {
+    rows = rows.filter(r => exportIds.includes(r.id))
+  }
   // sort by id
   // reason: if multiple rows were created per object,
   // they will be next to each other
