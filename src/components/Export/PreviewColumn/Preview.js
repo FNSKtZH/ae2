@@ -211,6 +211,11 @@ const Preview = ({
   })
   rows = orderBy(rows, sortField, sortDirection)
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
+  const loading = exportRcoData.loading ||
+    propsByTaxData.loading ||
+    exportObjectData.loading ||
+    exportPcoData.loading ||
+    synonymData.loading
 
   return (
     <ErrorBoundary>
@@ -252,7 +257,7 @@ const Preview = ({
         )}
         <StyledSnackbar open={!!message} message={message} />
         <StyledSnackbar
-          open={exportRcoData.loading || propsByTaxData.loading}
+          open={loading}
           message="Lade Daten..."
         />
       </Container>
