@@ -49,7 +49,7 @@ export default ({
     // 1. object
     const row = {}
     row.id = o.id
-    const properties = o.properties ? {...o.properties} : {}
+    const properties = o.properties ? JSON.parse(o.properties) : {}
     exportTaxProperties.forEach(p => {
       let val = null
       if (properties && properties[p.pname] !== undefined) {
@@ -66,8 +66,8 @@ export default ({
     // 2. pco
     const thisObjectsPco = pco.filter(p => p.objectId === o.id)
     const thisObjectsSynonymPco = synonymPco.filter(p => p.objectId === o.id)
-    const pcoToUse = unionBy(thisObjectsPco, thisObjectsSynonymPco, 'id')
-    pcoToUse.forEach(pco => {
+    const pcos = unionBy(thisObjectsPco, thisObjectsSynonymPco, 'id')
+    pcos.forEach(pco => {
       const pcoProperties = JSON.parse(pco.properties)
       if (pcoProperties) {
         exportPcoProperties.forEach(p => {
@@ -91,7 +91,7 @@ export default ({
     // 3. rco
     const thisObjectsRco = rco.filter(p => p.objectId === o.id)
     const thisObjectsSynonymRco = synonymRco.filter(p => p.objectId === o.id)
-    const rcoToUse = unionBy(thisObjectsRco, thisObjectsSynonymRco, 'id')
+    const rcos = unionBy(thisObjectsRco, thisObjectsSynonymRco, 'id')
 
     /**
      * add all relations comma separated
@@ -103,13 +103,13 @@ export default ({
      */
     if (exportRcoInOneRow) {
       rowsFromObjectsRcoSingleRow({
-        rcoToUse,
+        rcos,
         exportRcoProperties,
         row,
       })
     } else {
       rowsFromObjectsRcoMultipleRows({
-        rcoToUse,
+        rcos,
         exportRcoProperties,
         row,
         aditionalRows,
