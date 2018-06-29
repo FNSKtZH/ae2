@@ -14,6 +14,7 @@ import constants from '../../modules/constants'
 export default {
   Mutation: {
     addExportRcoProperty: (_, { pcname, relationtype, pname }, { cache }) => {
+      console.log('resolvers, exportRcoProperties:',{pcname,relationtype,pname})
       const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
       const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
       const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
@@ -30,6 +31,7 @@ export default {
           variables: { value: true },
         })
       } else {
+        console.log('resolvers, exportRcoProperties:',{currentRco,currentRcoExportRcoProperties:currentRco.exportRcoProperties})
         // only add if not yet done
         if (
           !currentRco.exportRcoProperties.find(
@@ -53,6 +55,7 @@ export default {
               exportRcoProperties,
             },
           })
+          console.log('resolvers, exportRcoProperties after writing to cache:',{exportRcoProperties})
           // set exportRcoInOneRow if more than one type of rco is choosen
           const rcoPCTypes = uniq(
             exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`)

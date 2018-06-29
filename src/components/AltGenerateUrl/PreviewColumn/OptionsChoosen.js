@@ -21,7 +21,6 @@ import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import removeExportTaxPropertyMutation from '../removeExportTaxPropertyMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
 import exportTooManyPropertiesData from '../exportTooManyPropertiesData'
-import exportRcoInOneRowData from '../exportRcoInOneRowData'
 import constants from '../../../modules/constants'
 
 const styles = theme => ({
@@ -65,7 +64,6 @@ const enhance = compose(
   exportPcoPropertiesData,
   exportRcoPropertiesData,
   exportTooManyPropertiesData,
-  exportRcoInOneRowData,
   withHandlers({
     onClickResetAll: ({ client }) => () => {
       client.mutate({
@@ -95,7 +93,6 @@ const OptionsChoosen = ({
   exportTaxPropertiesData,
   exportPcoPropertiesData,
   exportRcoPropertiesData,
-  exportRcoInOneRowData,
   classes,
   onClickResetAll,
 }: {
@@ -106,7 +103,6 @@ const OptionsChoosen = ({
   exportTaxPropertiesData: Object,
   exportPcoPropertiesData: Object,
   exportRcoPropertiesData: Object,
-  exportRcoInOneRowData: Object,
   classes: Object,
   onClickResetAll: () => void,
 }) => {
@@ -133,11 +129,6 @@ const OptionsChoosen = ({
       ...exportPcoProperties,
       ...exportRcoProperties,
     ].length === 0
-  const exportRcoInOneRow = get(
-    exportRcoInOneRowData,
-    'exportRcoInOneRow',
-    true
-  )
 
   if (noDataChoosen) return null
   return (
@@ -148,14 +139,10 @@ const OptionsChoosen = ({
         >{`Taxonomien (welche das Artenlistentool erwartet): ${constants.altTaxonomies.join(
           ', '
         )}`}</li>
-        {exportRcoProperties.length > 0 &&
-          exportRcoInOneRow && (
-            <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
-          )}
-        {exportRcoProperties.length > 0 &&
-          !exportRcoInOneRow && (
-            <li>Für jede Beziehung wird eine Zeile erstellt</li>
-          )}
+        {
+          exportRcoProperties.length > 0 &&
+          <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
+        }
         <li>
           {`Eigenschaften:${
             [
