@@ -23,6 +23,10 @@ import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import exportTaxFiltersData from '../exportTaxFiltersData'
 import exportPcoFiltersData from '../exportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
+import exportObjectData from '../PreviewColumn/exportObjectData'
+import exportRcoData from '../PreviewColumn/exportRcoData'
+import exportPcoData from '../PreviewColumn/exportPcoData'
+import synonymData from '../PreviewColumn/synonymData'
 import propsByTaxData from './propsByTaxData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
@@ -68,6 +72,10 @@ const enhance = compose(
   exportPcoFiltersData,
   exportRcoFiltersData,
   propsByTaxData,
+  exportObjectData,
+  exportRcoData,
+  exportPcoData,
+  synonymData,
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
   withState('filterExpanded', 'setFilterExpanded', false),
   withState('propertiesExpanded', 'setPropertiesExpanded', false),
@@ -126,7 +134,11 @@ const enhance = compose(
       onSetMessage,
     }) => () => {
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      const loading = propsByTaxData.loading
+      const loading = exportRcoData.loading ||
+        propsByTaxData.loading ||
+        exportObjectData.loading ||
+        exportPcoData.loading ||
+        synonymData.loading
       if (!propertiesExpanded && exportTaxonomies.length > 0 && !loading) {
         setPropertiesExpanded(true)
         // close all others

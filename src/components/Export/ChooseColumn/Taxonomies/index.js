@@ -78,7 +78,7 @@ const enhance = compose(
   exportTypeData,
   propsByTaxData,
   withHandlers({
-    onCheckType: ({ client, taxonomiesData, exportTaxonomiesData }) => (
+    onCheckType: ({ client, taxonomiesData, exportTaxonomiesData }) => async (
       event,
       isChecked
     ) => {
@@ -89,7 +89,7 @@ const enhance = compose(
       )
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       if (isChecked) {
-        client.mutate({
+        await client.mutate({
           mutation: exportTypeMutation,
           variables: { value: name },
         })
@@ -98,7 +98,7 @@ const enhance = compose(
         if (taxonomiesOfType.length === 1) {
           const taxonomyName = taxonomiesOfType[0].taxonomyName
           const taxonomies = [...exportTaxonomies, taxonomyName]
-          client.mutate({
+          await client.mutate({
             mutation: exportTaxonomiesMutation,
             variables: { value: taxonomies },
           })
@@ -109,13 +109,13 @@ const enhance = compose(
           t => exportTypeTAXToReadable[t.type] === name
         )
         if (exportTaxonomiesWithoutOtherType.length < exportTaxonomies.length) {
-          client.mutate({
+          await client.mutate({
             mutation: exportTaxonomiesMutation,
             variables: { value: exportTaxonomiesWithoutOtherType },
           })
         }
       } else {
-        client.mutate({
+        await client.mutate({
           mutation: exportTypeMutation,
           variables: { value: exportTypes.find(t => t !== name) },
         })
@@ -124,13 +124,13 @@ const enhance = compose(
         const remainingTaxonomies = exportTaxonomies.filter(
           t => !taxonomiesToUncheck.includes(t)
         )
-        client.mutate({
+        await client.mutate({
           mutation: exportTaxonomiesMutation,
           variables: { value: remainingTaxonomies },
         })
       }
     },
-    onCheckTaxonomy: ({ client, exportTaxonomiesData, taxonomiesData }) => (
+    onCheckTaxonomy: ({ client, exportTaxonomiesData, taxonomiesData }) => async (
       event,
       isChecked
     ) => {
@@ -140,13 +140,13 @@ const enhance = compose(
       let taxonomies
       if (isChecked) {
         taxonomies = [...exportTaxonomies, name]
-        client.mutate({
+        await client.mutate({
           mutation: exportTaxonomiesMutation,
           variables: { value: taxonomies },
         })
       } else {
         taxonomies = exportTaxonomies.filter(c => c !== name)
-        client.mutate({
+        await client.mutate({
           mutation: exportTaxonomiesMutation,
           variables: { value: taxonomies },
         })
@@ -158,7 +158,7 @@ const enhance = compose(
           // this was the only taxonomy in this type
           // it makes sense to also uncheck the type
           const value = thisTaxonomy.type === 'ART' ? 'Arten' : 'Lebensräume'
-          client.mutate({
+          await client.mutate({
             mutation: exportTypeMutation,
             variables: { value },
           })

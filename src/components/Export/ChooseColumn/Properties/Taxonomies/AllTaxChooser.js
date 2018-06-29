@@ -27,18 +27,19 @@ const enhance = compose(
   withApollo,
   exportTaxPropertiesData,
   withHandlers({
-    onCheck: ({ properties, client }) => (event, isChecked) => {
+    onCheck: ({ properties, client }) => async (event, isChecked) => {
       const mutation = isChecked
         ? addExportTaxPropertyMutation
         : removeExportTaxPropertyMutation
-      properties.forEach(p => {
-        const taxname = p.taxonomyName
-        const pname = p.propertyName
+      for (let p of properties) {
         client.mutate({
           mutation,
-          variables: { taxname, pname },
+          variables: {
+            taxname: p.taxonomyName,
+            pname: p.propertyName 
+          },
         })
-      })
+      }
     },
   })
 )
