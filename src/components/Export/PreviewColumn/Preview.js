@@ -192,8 +192,6 @@ const Preview = ({
   const rco = get(exportRcoData, 'exportRco.nodes', [])
   const synonyms = get(synonymData, 'allSynonyms.nodes', [])
 
-  //console.log('Preview:', {objects,pco,rco,synonyms})
-
   // need taxFields to filter only data with properties
   let { rows, pvColumns } = rowsFromObjects({
     objects,
@@ -216,6 +214,7 @@ const Preview = ({
     exportObjectData.loading ||
     exportPcoData.loading ||
     synonymData.loading
+  //console.log('Preview:',{rows,anzFelder})
 
   return (
     <ErrorBoundary>

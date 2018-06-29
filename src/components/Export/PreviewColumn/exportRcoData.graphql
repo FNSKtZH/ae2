@@ -19,6 +19,10 @@ query exportDataQuery(
           name
         }
       }
+      propertyCollectionByPropertyCollectionId{
+        id
+        name
+      }
       propertyCollectionOfOrigin
       relationType
       properties

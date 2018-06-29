@@ -40,8 +40,13 @@ export default ({
   exportRcoInOneRow: Boolean,
 }) => {
   // need taxFields to filter only data with properties
-  const taxFields = ['id']
+  const taxFields = [
+    'id',
+    ...exportTaxProperties
+      .map(p => `${conv(p.taxname)}__${conv(p.pname)}`)
+  ]
   const aditionalRows = []
+  //console.log('rowsFromObjects 1:',{exportRcoInOneRow,exportRcoProperties,exportOnlyRowsWithProperties})
   let rows = objects.map(o => {
     // 1. object
     const row = {}
@@ -57,63 +62,69 @@ export default ({
         }
       }
       const fieldName = `${conv(p.taxname)}__${conv(p.pname)}`
-      taxFields.push(fieldName)
-      return (row[fieldName] = val)
+      row[fieldName] = val
     })
-    // 2. pco
     const thisObjectsSynonyms = [
       // itself
       o.id,
       // all declared synonyms
-      ...synonyms.filter(s => s.objectId === o.id)
+      // but only if synonyms data is wanted
+      ...synonyms
+        .filter(s => exportWithSynonymData && s.objectId === o.id)
         .map(s => s.objectIdSynonym)
     ]
-    const thisObjectsPco = pco.filter(p => thisObjectsSynonyms.includes(p.objectId))
-    thisObjectsPco.forEach(pco => {
-      const pcoProperties = JSON.parse(pco.properties)
-      if (pcoProperties) {
-        exportPcoProperties.forEach(p => {
-          if (pcoProperties[p.pname] !== undefined) {
-            let val = pcoProperties[p.pname]
-            if (typeof val === 'boolean') {
-              val = booleanToJaNein(val)
+    // 2. pco
+    if (exportPcoProperties.length > 0) {
+      const thisObjectsPco = pco.filter(p => thisObjectsSynonyms.includes(p.objectId))
+      thisObjectsPco.forEach(pco => {
+        const pcoProperties = JSON.parse(pco.properties)
+        if (pcoProperties) {
+          exportPcoProperties.forEach(p => {
+            if (pcoProperties[p.pname] !== undefined) {
+              let val = pcoProperties[p.pname]
+              if (typeof val === 'boolean') {
+                val = booleanToJaNein(val)
+              }
+              row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
             }
-            row[`${conv(p.pcname)}__${conv(p.pname)}`] = val
-          }
+          })
+        }
+      })
+      // add every field if still missing
+      exportPcoProperties.forEach(p => {
+        const fieldName = `${conv(p.pcname)}__${conv(p.pname)}`
+        if (row[fieldName] === undefined) {
+          row[fieldName] = null
+        }
+      })
+    }
+    // 3. rco
+    if (exportRcoProperties.length > 0) {
+      const thisObjectsRco = rco.filter(p => thisObjectsSynonyms.includes(p.objectId))
+      //console.log('rowsFromObjects:',{thisObjectsRco,row})
+
+      /**
+       * add all relations comma separated
+       * need to group by relationtype
+       *
+       * TODO:
+       * choose to add new row, depending on setting?
+       * but then need to make shure only one relationCollection exists
+       */
+      if (exportRcoInOneRow) {
+        rowsFromObjectsRcoSingleRow({
+          thisObjectsRco,
+          exportRcoProperties,
+          row,
+        })
+      } else {
+        rowsFromObjectsRcoMultipleRows({
+          thisObjectsRco,
+          exportRcoProperties,
+          row,
+          aditionalRows,
         })
       }
-    })
-    // add every field if still missing
-    exportPcoProperties.forEach(p => {
-      const fieldName = `${conv(p.pcname)}__${conv(p.pname)}`
-      if (row[fieldName] === undefined) {
-        row[fieldName] = null
-      }
-    })
-    // 3. rco
-    const thisObjectsRco = pco.filter(p => thisObjectsSynonyms.includes(p.objectId))
-
-    /**
-     * add all relations comma separated
-     * need to group by relationtype
-     *
-     * TODO:
-     * choose to add new row, depending on setting?
-     * but then need to make shure only one relationCollection exists
-     */
-    if (exportRcoInOneRow) {
-      rowsFromObjectsRcoSingleRow({
-        thisObjectsRco,
-        exportRcoProperties,
-        row,
-      })
-    } else {
-      rowsFromObjectsRcoMultipleRows({
-        thisObjectsRco,
-        exportRcoProperties,
-        row,
-        aditionalRows,
-      })
     }
     return row
   })
@@ -125,6 +136,7 @@ export default ({
   // reason: if multiple rows were created per object,
   // they will be next to each other
   rows = sortBy(rows, 'id')
+  //console.log('rowsFromObjects 2:',{rows:[...rows]})
 
   const fields = rows[0] ? Object.keys(rows[0]).map(k => k) : []
   const propertyFields = fields.filter(f => !taxFields.includes(f))
@@ -143,5 +155,6 @@ export default ({
     resizable: true,
     sortable: true,
   }))
+  //console.log('rowsFromObjects 3:',{rows:[...rows], pvColumns,propertyFields,fields,taxFields})
   return { rows, pvColumns }
 }
