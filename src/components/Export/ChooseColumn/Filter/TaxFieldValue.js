@@ -125,10 +125,13 @@ type State = {
 }
 
 class IntegrationAutosuggest extends React.Component<Props, State> {
-  state = {
-    suggestions: [],
-    propValues: [],
-    value: '',
+  constructor(props) {
+    super(props)
+    this.state = {
+      suggestions: [],
+      propValues: [],
+      value: props.value || '',
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {

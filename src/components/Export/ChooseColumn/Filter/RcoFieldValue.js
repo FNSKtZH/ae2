@@ -131,10 +131,13 @@ type State = {
 }
 
 class IntegrationAutosuggest extends React.Component<Props, State> {
-  state = {
-    suggestions: [],
-    propValues: [],
-    value: '',
+  constructor(props) {
+    super(props)
+    this.state = {
+      suggestions: [],
+      propValues: [],
+      value: props.value || '',
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -273,7 +276,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
         renderSuggestion={renderSuggestion}
         shouldRenderSuggestions={shouldRenderSuggestions}
         inputProps={{
-          value: value || '',
+          value,
           autoFocus: true,
           placeholder: 'Für Auswahlliste: Leerschlag tippen',
           onChange: this.handleChange,

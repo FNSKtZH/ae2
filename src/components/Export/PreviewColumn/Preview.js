@@ -241,7 +241,7 @@ const Preview = ({
         )}
         {rows.length === 0 && (
           <SpreadsheetContainer>
-            <TotalDiv>{`${objectsCount} Datensätze`}</TotalDiv>
+            <TotalDiv>{`${rows.length.toLocaleString('de-CH')} Datensätze`}</TotalDiv>
           </SpreadsheetContainer>
         )}
         {rows.length > 0 && (
