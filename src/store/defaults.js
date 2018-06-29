@@ -5,7 +5,7 @@ export default async idb => {
   // fetch user from idb
   const user = await idb.users.toArray()
 
-  const exportDefaults = {
+  const defaults = {
     exportType: null,
     exportTaxonomies: [],
     exportIds: [],
@@ -23,9 +23,6 @@ export default async idb => {
     editingTaxonomies: false,
     editingPCs: false,
     updateAvailable: false,
-  }
-  
-  const otherDefaults = {
     activeNodeArray: [],
     treeFilter: {
       text: '',
@@ -40,5 +37,5 @@ export default async idb => {
     historyAfterLogin: '',
   }
 
-  return Object.assign({}, exportDefaults, otherDefaults)
+  return defaults
 }
