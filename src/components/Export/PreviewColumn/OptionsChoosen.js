@@ -363,7 +363,7 @@ const OptionsChoosen = ({
                 </ResetSpan>
               </li>
             ))}
-            {exportRcoFilters.map(({ pcname, pname, comparator, value }, i) => (
+            {exportRcoFilters.map(({ pcname, relationtype, pname, comparator, value }, i) => (
               <li key={i}>
                 {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
                 <FilterValueSpan>
@@ -375,6 +375,7 @@ const OptionsChoosen = ({
                       mutation: exportRcoFiltersMutation,
                       variables: {
                         pcname,
+                        relationtype,
                         pname,
                         comparator: '',
                         value: '',

@@ -191,7 +191,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     this.setState({ value })
   }
 
-  handleBlur = () => {
+  handleBlur = async () => {
     const {
       pcname,
       relationtype,
@@ -205,7 +205,8 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     let comparatorValue = comparator
     if (!comparator && value) comparatorValue = 'ILIKE'
     if (!value) comparatorValue = null
-    client.mutate({
+    console.log('RcoFieldValue 1:',{pcname,relationtype,pname,value,comparatorValue})
+    await client.mutate({
       mutation: exportRcoFiltersMutation,
       variables: {
         pcname,
@@ -222,7 +223,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
       true
     )
     if (exportAddFilterFields && value) {
-      console.log('RcoFieldValue:',{exportAddFilterFields,pcname,relationtype,pname,value})
+      console.log('RcoFieldValue 2:',{exportAddFilterFields})
       client.mutate({
         mutation: addExportRcoPropertyMutation,
         variables: { pcname, relationtype, pname },

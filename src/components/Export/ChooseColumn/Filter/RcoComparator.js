@@ -41,10 +41,10 @@ const enhance = compose(
   withApollo,
   withStyles(styles),
   withHandlers({
-    onChange: ({ pcname, pname, value, client }) => event =>
+    onChange: ({ pcname, relationtype, pname, value, client }) => event =>
       client.mutate({
         mutation: exportRcoFiltersMutation,
-        variables: { pcname, pname, comparator: event.target.value, value },
+        variables: { pcname, relationtype, pname, comparator: event.target.value, value },
       }),
   })
 )
