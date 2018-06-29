@@ -35,7 +35,7 @@
     "jwt-decode": "2.2.0",
     "lodash": "4.17.10",
     "react": "16.4.1",
-    "react-apollo": "2.1.7",
+    "react-apollo": "2.1.8",
     "react-autosuggest": "9.3.4",
     "react-contextmenu": "2.9.2",
     "react-data-grid": "4.0.7",
