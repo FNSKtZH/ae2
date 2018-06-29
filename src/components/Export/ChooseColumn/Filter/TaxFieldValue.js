@@ -178,22 +178,6 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     if (!dataFetched) setFetchData(true)
   }
 
-  change = newValue => {
-    const { taxname, pname, comparator, client } = this.props
-    let comparatorValue = comparator
-    if (!comparator && newValue) comparatorValue = 'ILIKE'
-    if (!newValue) comparatorValue = null
-    client.mutate({
-      mutation: exportTaxFiltersMutation,
-      variables: {
-        taxname,
-        pname,
-        comparator: comparatorValue,
-        value: newValue,
-      },
-    })
-  }
-
   handleChange = (event, { newValue }) => {
     // trim the start to enable entering space
     // at start to open list
@@ -201,11 +185,29 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     this.setState({ value })
   }
 
-  handleBlur = (event, { newValue }) => {
-    const { taxname, pname, client, exportAddFilterFieldsData } = this.props
+  handleBlur = () => {
+    const {
+      taxname,
+      pname,
+      comparator,
+      client,
+      exportAddFilterFieldsData
+    } = this.props
     const { value } = this.state
-    this.change(value)
-    // if value and not choosen, choose
+    // 1. change filter value
+    let comparatorValue = comparator
+    if (!comparator && value) comparatorValue = 'ILIKE'
+    if (!value) comparatorValue = null
+    client.mutate({
+      mutation: exportTaxFiltersMutation,
+      variables: {
+        taxname,
+        pname,
+        comparator: comparatorValue,
+        value,
+      },
+    })
+    // 2. if value and field not choosen, choose it
     const exportAddFilterFields = get(
       exportAddFilterFieldsData,
       'exportAddFilterFields',

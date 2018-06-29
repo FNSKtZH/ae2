@@ -224,6 +224,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
       true
     )
     if (exportAddFilterFields && value) {
+      console.log('RcoFieldValue:',{exportAddFilterFields,pcname,relationtype,pname,value})
       client.mutate({
         mutation: addExportRcoPropertyMutation,
         variables: { pcname, relationtype, pname },
