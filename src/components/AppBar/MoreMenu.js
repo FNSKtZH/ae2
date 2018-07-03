@@ -104,7 +104,7 @@ class MoreMenu extends React.Component {
           >
             Felder für das Artenlistentool wählen
           </MenuItem>
-          <Version>Version: 1.0.1 vom 30.6.2018</Version>
+          <Version>Version: 1.0.2 vom 3.7.2018</Version>
           {/*<MenuItem
             key="datagraph"
             onClick={() => {
