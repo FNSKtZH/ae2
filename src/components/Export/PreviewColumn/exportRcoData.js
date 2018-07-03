@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 
-import exportRcoDataGql from './exportRcoData.graphql'
+import exportRcoDataGql from './exportRcoDataGql'
 
 export default graphql(exportRcoDataGql, {
   options: ({
