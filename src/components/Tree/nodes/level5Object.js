@@ -24,8 +24,8 @@ export default ({
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
     const nodeName = node.name || 'ZZZZ'
-    const taxonomy = get(treeData, 'allTaxonomies.nodes').find(
-      tax => tax.name === activeLevel2TaxonomyName
+    const taxonomy = get(treeData, 'allTaxonomies.nodes', []).find(
+      tax => tax.name === activeLevel2TaxonomyName,
     )
     if (!taxonomy) return []
     const taxType = taxonomy.type

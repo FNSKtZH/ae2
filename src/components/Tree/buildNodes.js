@@ -39,7 +39,11 @@ export default ({
     activeLevel2TaxonomyNodes.find(n => n.id === activeNodeArray[1])
   const activeLevel2TaxonomyName =
     activeLevel2Taxonomy && activeLevel2Taxonomy.name
-  const activeLevel3ObjectNodes = get(treeData, 'taxonomyObjectLevel1.nodes')
+  const activeLevel3ObjectNodes = get(
+    treeData,
+    'taxonomyObjectLevel1.nodes',
+    [],
+  )
   const activeLevel3Object =
     activeLevel3ObjectNodes &&
     activeLevel3ObjectNodes.find(n => n.id === activeNodeArray[2])
@@ -47,7 +51,8 @@ export default ({
   const activeLevel3ObjectId = activeLevel3Object && activeLevel3Object.id
   const activeLevel4ObjectNodes = get(
     treeData,
-    'level4Object.objectsByParentId.nodes'
+    'level4Object.objectsByParentId.nodes',
+    [],
   )
   const activeLevel4Object =
     activeLevel4ObjectNodes &&
@@ -57,7 +62,8 @@ export default ({
 
   const activeLevel5ObjectNodes = get(
     treeData,
-    'level5Object.objectsByParentId.nodes'
+    'level5Object.objectsByParentId.nodes',
+    [],
   )
   const activeLevel5Object =
     activeLevel5ObjectNodes &&
@@ -66,7 +72,8 @@ export default ({
   const activeLevel5ObjectId = activeLevel5Object && activeLevel5Object.id
   const activeLevel6ObjectNodes = get(
     treeData,
-    'level6Object.objectsByParentId.nodes'
+    'level6Object.objectsByParentId.nodes',
+    [],
   )
   const activeLevel6Object =
     activeLevel6ObjectNodes &&
@@ -75,7 +82,8 @@ export default ({
   const activeLevel6ObjectId = activeLevel6Object && activeLevel6Object.id
   const activeLevel7ObjectNodes = get(
     treeData,
-    'level7Object.objectsByParentId.nodes'
+    'level7Object.objectsByParentId.nodes',
+    [],
   )
   const activeLevel7Object =
     activeLevel7ObjectNodes &&
@@ -84,7 +92,8 @@ export default ({
   const activeLevel7ObjectId = activeLevel7Object && activeLevel7Object.id
   const activeLevel8ObjectNodes = get(
     treeData,
-    'level8Object.objectsByParentId.nodes'
+    'level8Object.objectsByParentId.nodes',
+    [],
   )
   const activeLevel8Object =
     activeLevel8ObjectNodes &&
@@ -93,7 +102,8 @@ export default ({
   const activeLevel8ObjectId = activeLevel8Object && activeLevel8Object.id
   const activeLevel9ObjectNodes = get(
     treeData,
-    'level9Object.objectsByParentId.nodes'
+    'level9Object.objectsByParentId.nodes',
+    [],
   )
   const activeLevel9Object =
     activeLevel9ObjectNodes &&
@@ -107,36 +117,24 @@ export default ({
   if (activeNodeArray.length > 0) {
     switch (activeNodeArray[0]) {
       case 'Eigenschaften-Sammlungen': {
-        nodes = [
-          ...nodes,
-          ...level2Pc({ treeData }),
-        ]
+        nodes = [...nodes, ...level2Pc({ treeData })]
         break
       }
       case 'Benutzer': {
         const token = get(treeData, 'login.token')
         if (!!token) {
-          nodes = [
-            ...nodes,
-            ...level2Benutzer({ treeData }),
-          ]
+          nodes = [...nodes, ...level2Benutzer({ treeData })]
         }
         break
       }
       case 'Organisationen': {
-        nodes = [
-          ...nodes,
-          ...level2Organization({ treeData }),
-        ]
+        nodes = [...nodes, ...level2Organization({ treeData })]
         break
       }
       default:
       case 'Arten':
       case 'Lebensräume': {
-        nodes = [
-          ...nodes,
-          ...level2Taxonomy({ treeData, activeNodeArray }),
-        ]
+        nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
         break
       }
     }
@@ -148,13 +146,10 @@ export default ({
     nodes = nodes.concat(
       level3Pc({
         treeData,
-      })
+      }),
     )
   }
-  if (
-    activeNodeArray.length > 1 &&
-    activeNodeArray[0] === 'Benutzer'
-  ) {
+  if (activeNodeArray.length > 1 && activeNodeArray[0] === 'Benutzer') {
     // TODO
   }
   if (
@@ -165,7 +160,7 @@ export default ({
       level3Object({
         treeData,
         activeLevel2TaxonomyName,
-      })
+      }),
     )
   }
   if (
@@ -178,7 +173,7 @@ export default ({
         activeLevel2TaxonomyName,
         activeLevel3ObjectName,
         activeLevel3ObjectId,
-      })
+      }),
     )
   }
   if (
@@ -193,7 +188,7 @@ export default ({
         activeLevel3ObjectId,
         activeLevel4ObjectName,
         activeLevel4ObjectId,
-      })
+      }),
     )
   }
   if (
@@ -210,7 +205,7 @@ export default ({
         activeLevel4ObjectId,
         activeLevel5ObjectName,
         activeLevel5ObjectId,
-      })
+      }),
     )
   }
   if (
@@ -229,7 +224,7 @@ export default ({
         activeLevel5ObjectId,
         activeLevel6ObjectName,
         activeLevel6ObjectId,
-      })
+      }),
     )
   }
   if (
@@ -250,7 +245,7 @@ export default ({
         activeLevel6ObjectId,
         activeLevel7ObjectName,
         activeLevel7ObjectId,
-      })
+      }),
     )
   }
   if (
@@ -273,7 +268,7 @@ export default ({
         activeLevel7ObjectId,
         activeLevel8ObjectName,
         activeLevel8ObjectId,
-      })
+      }),
     )
   }
   if (
@@ -298,7 +293,7 @@ export default ({
         activeLevel8ObjectId,
         activeLevel9ObjectName,
         activeLevel9ObjectId,
-      })
+      }),
     )
   }
   return sort(nodes)

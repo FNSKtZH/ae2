@@ -34,8 +34,8 @@ export default ({
 }): Array<Object> => {
   if (!treeData) return []
   const nodes = get(treeData, 'level9Object.objectsByParentId.nodes', [])
-  const taxonomy = get(treeData, 'allTaxonomies.nodes').find(
-    tax => tax.name === activeLevel2TaxonomyName
+  const taxonomy = get(treeData, 'allTaxonomies.nodes', []).find(
+    tax => tax.name === activeLevel2TaxonomyName,
   )
   if (!taxonomy) return []
   const taxType = taxonomy.type
