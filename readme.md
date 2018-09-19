@@ -307,8 +307,9 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
   ![API-Server](/etc/postgraphql.png?raw=true "API-Server")
 - [x] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae2/blob/master/docs/schnittstellen.md)
 
-Die neue Anwendung ist implementiert und auf https://arteigenschaften.ch verfügbar.<br/>
-Aktueller Stand:
+Die neue Anwendung ist implementiert und auf https://arteigenschaften.ch verfügbar.
+
+Ein paar Eindrücke:
 
   - [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](/etc/dev.png?raw=true "Entwicklungsumgebung")
   - [x] Layout und Navigation
