@@ -305,11 +305,9 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 - [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](/etc/import.png?raw=true "Import")
 - [x] Anwendungs-API-Server ([PostGraphile](https://github.com/graphile/postgraphile))<br/>
   ![API-Server](/etc/postgraphql.png?raw=true "API-Server")
-  Ja, man sieht in diesem Bild ein Passwort :-(<br/>Aber es ist veraltet :-)
-- [ ] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae2/blob/master/docs/schnittstellen.md) (in Entwicklung, teilweise realisiert)
+- [ ] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae2/blob/master/docs/schnittstellen.md)
 
-Die neue Anwendung ist im Aufbau. Zieldatum für die Implementierung: Frühling 2018.<br/>
-Die BETA-Version ist hier verfügbar: https://artdaten.ch.<br/>
+Die neue Anwendung ist implementiert und auf https://arteigenschaften.ch verfügbar.<br/>
 Aktueller Stand:
 
   - [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](/etc/dev.png?raw=true "Entwicklungsumgebung")
