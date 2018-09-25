@@ -21,8 +21,8 @@ import isUuid from 'is-uuid'
 import ReactDataGrid from 'react-data-grid'
 import { withApollo } from 'react-apollo'
 
-import importRcoData from './importRcoData'
-import rCOData from '../withRCOData'
+import withImportRcoData from './withImportRcoData'
+import withRCOData from '../withRCOData'
 import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
 import createRCOMutation from './createRCOMutation'
 import withLoginData from '../../../../modules/withLoginData'
@@ -130,7 +130,7 @@ const StyledSnackbar = styled(Snackbar)`
 const enhance = compose(
   withApollo,
   withActiveNodeArrayData,
-  rCOData,
+  withRCOData,
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
   withState('idsAreUuids', 'setIdsAreUuid', undefined),
   withState('idsExist', 'setIdsExist', undefined),
@@ -187,7 +187,7 @@ const enhance = compose(
     undefined,
   ),
   withState('existsPropertyKey', 'setExistsPropertyKey', undefined),
-  importRcoData,
+  withImportRcoData,
   withLoginData,
 )
 
