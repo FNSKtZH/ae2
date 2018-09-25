@@ -47,6 +47,7 @@ export default gql`
         }
       }
     }
+    # leave this here: is only used once more, without objectsByTaxonomyId
     allTaxonomies {
       nodes {
         id
