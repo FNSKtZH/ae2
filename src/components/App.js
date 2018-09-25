@@ -9,7 +9,7 @@ import get from 'lodash/get'
 import Loadable from 'react-loadable'
 
 import AppBar from './AppBar'
-import activeNodeArrayData from '../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../modules/withActiveNodeArrayData'
 import updateAvailableData from '../modules/updateAvailableData'
 import ErrorBoundary from './shared/ErrorBoundary'
 import LoadingComponent from './shared/LoadingComponent'
@@ -49,7 +49,10 @@ const GraphIql = Loadable({
   loading: LoadingComponent,
 })
 
-const enhance = compose(activeNodeArrayData, updateAvailableData)
+const enhance = compose(
+  withActiveNodeArrayData,
+  updateAvailableData,
+)
 
 type Props = {
   activeNodeArrayData: Object,

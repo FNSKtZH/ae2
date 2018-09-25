@@ -14,7 +14,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { withApollo } from 'react-apollo'
 
 import ImportRco from './Import'
-import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
@@ -75,7 +75,7 @@ const styles = theme => ({
 
 const enhance = compose(
   withApollo,
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   withTreeData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),

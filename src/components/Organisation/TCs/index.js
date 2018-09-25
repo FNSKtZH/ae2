@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 
 import appBaseUrl from '../../../modules/appBaseUrl'
-import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import tcsData from './tcsData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
@@ -30,12 +30,15 @@ const StyledA = styled.a`
   text-decoration-style: dotted;
 `
 
-const enhance = compose(activeNodeArrayData, tcsData)
+const enhance = compose(
+  withActiveNodeArrayData,
+  tcsData,
+)
 
 const TCs = ({ tcsData }: { tcsData: Object }) => {
   const tcs = sortBy(
     get(tcsData, 'organizationByName.taxonomiesByOrganizationId.nodes', []),
-    'name'
+    'name',
   )
 
   return (

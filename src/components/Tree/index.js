@@ -13,7 +13,7 @@ import get from 'lodash/get'
 import Row from './Row'
 import Filter from './Filter'
 import buildNodes from './buildNodes'
-import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import withTreeData from './withTreeData'
 import withOrganizationUsersData from '../../modules/withOrganizationUsersData'
 import withAllUsersData from '../../modules/withAllUsersData'
@@ -86,7 +86,7 @@ const noRowsRenderer = nodes => (
 const enhance = compose(
   withOrganizationUsersData,
   withAllUsersData,
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   withTreeData,
 )
 

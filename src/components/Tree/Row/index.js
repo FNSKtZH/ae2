@@ -15,7 +15,7 @@ import app from 'ampersand-app'
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenu from './onClickContextMenu'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
-import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import withLoginData from '../../../modules/withLoginData'
 import withRowData from './withRowData'
 import treeData from '../withTreeData'
@@ -90,7 +90,7 @@ const enhance = compose(
   withApollo,
   withLoginData,
   treeData,
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   withRowData,
   editingTaxonomiesData,
   withHandlers({

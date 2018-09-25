@@ -4,7 +4,7 @@ import compose from 'recompose/compose'
 import get from 'lodash/get'
 import Loadable from 'react-loadable'
 
-import activeNodeArrayData from '../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../modules/withActiveNodeArrayData'
 import LoadingComponent from './shared/LoadingComponent'
 
 const Pco = Loadable({
@@ -36,7 +36,7 @@ const Organisation = Loadable({
   loading: LoadingComponent,
 })
 
-const enhance = compose(activeNodeArrayData)
+const enhance = compose(withActiveNodeArrayData)
 
 const DataType = ({
   activeNodeArrayData,

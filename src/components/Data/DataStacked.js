@@ -12,7 +12,7 @@ import get from 'lodash/get'
 
 import Tree from '../Tree'
 import DataType from '../DataType'
-import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 
 const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
@@ -25,13 +25,13 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 `
 
 const enhance = compose(
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   withState('tab', 'setTab', 0),
   withHandlers({
     onChangeTab: ({ setTab }) => (event, value) => {
       setTab(value)
     },
-  })
+  }),
 )
 
 const DataStacked = ({

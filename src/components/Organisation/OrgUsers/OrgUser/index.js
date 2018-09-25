@@ -14,7 +14,7 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import set from 'lodash/set'
 
-import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
 import withAllUsersData from '../../../../modules/withAllUsersData'
 import updateOrgUserMutation from '../updateOrgUserMutation'
 import deleteOrgUserMutation from '../deleteOrgUserMutation'
@@ -43,7 +43,7 @@ const StyledFormControl = styled(FormControl)`
 const enhance = compose(
   withApollo,
   withAllUsersData,
-  activeNodeArrayData,
+  withActiveNodeArrayData,
 )
 
 type Props = {

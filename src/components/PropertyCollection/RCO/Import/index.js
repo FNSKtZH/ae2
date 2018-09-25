@@ -23,7 +23,7 @@ import { withApollo } from 'react-apollo'
 
 import importRcoData from './importRcoData'
 import rCOData from '../rCOData'
-import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
 import createRCOMutation from './createRCOMutation'
 import withLoginData from '../../../../modules/withLoginData'
 
@@ -129,7 +129,7 @@ const StyledSnackbar = styled(Snackbar)`
 
 const enhance = compose(
   withApollo,
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   rCOData,
   withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
   withState('idsAreUuids', 'setIdsAreUuid', undefined),

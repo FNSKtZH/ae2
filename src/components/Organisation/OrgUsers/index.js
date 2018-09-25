@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import AddIcon from '@material-ui/icons/Add'
 
-import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import orgUsersData from './orgUsersData'
 import createOrgUserMutation from './createOrgUserMutation'
 import ErrorBoundary from '../../shared/ErrorBoundary'
@@ -29,7 +29,11 @@ const AddNewButton = styled(IconButton)`
   }
 `
 
-const enhance = compose(withApollo, activeNodeArrayData, orgUsersData)
+const enhance = compose(
+  withApollo,
+  withActiveNodeArrayData,
+  orgUsersData,
+)
 
 const OrgUsers = ({
   orgUsersData,
@@ -41,19 +45,19 @@ const OrgUsers = ({
   const orgUsers = get(
     orgUsersData,
     'organizationByName.organizationUsersByOrganizationId.nodes',
-    []
+    [],
   )
   const orgUserSorted = sortBy(
     orgUsers,
     orgUser =>
       `${orgUser.userByUserId ? orgUser.userByUserId.name : 'zzzzz'}${
         orgUser.role ? orgUser.role : 'zzzzz'
-      }`
+      }`,
   )
   const organizationId = get(
     orgUsersData,
     'organizationByName.id',
-    '99999999-9999-9999-9999-999999999999'
+    '99999999-9999-9999-9999-999999999999',
   )
 
   return (

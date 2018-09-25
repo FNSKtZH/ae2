@@ -8,7 +8,7 @@ import uniqBy from 'lodash/uniqBy'
 
 import TaxonomyObject from './TaxonomyObject'
 import PCO from './PCO'
-import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import objectData from './objectData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
@@ -33,7 +33,10 @@ const SynonymTitle = styled(Title)`
   margin-bottom: 5px;
 `
 
-const enhance = compose(activeNodeArrayData, objectData)
+const enhance = compose(
+  withActiveNodeArrayData,
+  objectData,
+)
 
 const Objekt = ({
   objectData,
@@ -47,13 +50,13 @@ const Objekt = ({
   const propertyCollectionObjects = get(
     objekt,
     'propertyCollectionObjectsByObjectId.nodes',
-    []
+    [],
   )
   const relations = get(objekt, 'relationsByObjectId.nodes', [])
   const synonyms = get(objekt, 'synonymsByObjectId.nodes', [])
   const synonymObjects = synonyms.map(s => s.objectByObjectIdSynonym)
   const propertyCollectionIds = propertyCollectionObjects.map(
-    pco => pco.propertyCollectionId
+    pco => pco.propertyCollectionId,
   )
   let propertyCollectionObjectsOfSynonyms = []
   synonymObjects.forEach(synonym => {
@@ -64,10 +67,10 @@ const Objekt = ({
   })
   propertyCollectionObjectsOfSynonyms = uniqBy(
     propertyCollectionObjectsOfSynonyms,
-    pco => pco.propertyCollectionId
+    pco => pco.propertyCollectionId,
   )
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
-    pco => !propertyCollectionIds.includes(pco.propertyCollectionId)
+    pco => !propertyCollectionIds.includes(pco.propertyCollectionId),
   )
 
   return (
@@ -85,7 +88,7 @@ const Objekt = ({
             </SynonymTitle>
           )}
           {sortBy(synonymObjects, tO =>
-            get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)')
+            get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)'),
           ).map(o => (
             <TaxonomyObject key={o.id} objekt={o} showLink stacked={stacked} />
           ))}
@@ -101,14 +104,14 @@ const Objekt = ({
             get(
               pCO,
               'propertyCollectionByPropertyCollectionId.name',
-              '(Name fehlt)'
-            )
+              '(Name fehlt)',
+            ),
           ).map((pCO, index) => (
             <PCO
               key={`${pCO.propertyCollectionId}`}
               pCO={pCO}
               relations={relations.filter(
-                r => r.propertyCollectionId === pCO.propertyCollectionId
+                r => r.propertyCollectionId === pCO.propertyCollectionId,
               )}
               stacked={stacked}
             />
@@ -129,14 +132,14 @@ const Objekt = ({
             get(
               pCO,
               'propertyCollectionByPropertyCollectionId.name',
-              '(Name fehlt)'
-            )
+              '(Name fehlt)',
+            ),
           ).map((pCO, index) => (
             <PCO
               key={`${pCO.propertyCollectionId}`}
               pCO={pCO}
               relations={relations.filter(
-                r => r.propertyCollectionId === pCO.propertyCollectionId
+                r => r.propertyCollectionId === pCO.propertyCollectionId,
               )}
               stacked={stacked}
             />

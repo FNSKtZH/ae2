@@ -15,7 +15,7 @@ import app from 'ampersand-app'
 import get from 'lodash/get'
 import appBarData from './data'
 
-import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import withLoginData from '../../modules/withLoginData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import LoadingComponent from '../shared/LoadingComponent'
@@ -67,7 +67,7 @@ const StyledMoreVertIcon = styled(ShareIcon)`
 const getInitials = name => name.match(/\b(\w)/g).join('')
 
 const enhance = compose(
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   appBarData,
   withLoginData,
   withHandlers({

@@ -15,7 +15,7 @@ import get from 'lodash/get'
 import format from 'date-fns/format'
 import { withApollo } from 'react-apollo'
 
-import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import editingTaxonomiesData from '../../modules/editingTaxonomiesData'
 import withAllUsersData from '../../modules/withAllUsersData'
 import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
@@ -48,7 +48,7 @@ const StyledFormControl = styled(FormControl)`
 const enhance = compose(
   withApollo,
   withAllUsersData,
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   withTaxData,
   withLoginData,
   editingTaxonomiesData,

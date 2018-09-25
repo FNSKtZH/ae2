@@ -35,7 +35,7 @@ import LinkMenu from './LinkMenu'
 import Properties from './Properties'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import ErrorBoundary from '../../shared/ErrorBoundary'
-import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import objectData from '../objectData'
 import withLoginData from '../../../modules/withLoginData'
 import withOrganizationUsersData from '../../../modules/withOrganizationUsersData'
@@ -81,7 +81,7 @@ const StyledButton = styled(IconButton)`
 
 const enhance = compose(
   withApollo,
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   objectData,
   withLoginData,
   withOrganizationUsersData,

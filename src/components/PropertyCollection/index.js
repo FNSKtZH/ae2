@@ -20,7 +20,7 @@ import { withApollo } from 'react-apollo'
 
 import Property from './Property'
 import onBlur from './onBlur'
-import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import withAllUsersData from '../../modules/withAllUsersData'
 import editingPCsData from '../../modules/editingPCsData'
 import editingPCsMutation from '../../modules/editingPCsMutation'
@@ -60,7 +60,7 @@ const StyledA = styled.a`
 const enhance = compose(
   withApollo,
   withAllUsersData,
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   withLoginData,
   editingPCsData,
   withPCData,

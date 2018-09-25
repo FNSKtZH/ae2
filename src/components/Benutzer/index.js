@@ -14,7 +14,7 @@ import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 
-import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import fetchData from './data'
 import withTreeData from '../Tree/withTreeData'
 import Roles from './Roles'
@@ -44,7 +44,7 @@ const enhance = compose(
       setTab(value)
     },
   }),
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   fetchData,
   withTreeData,
 )

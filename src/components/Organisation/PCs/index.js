@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 
 import appBaseUrl from '../../../modules/appBaseUrl'
-import activeNodeArrayData from '../../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import pcsData from './pcsData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
@@ -30,16 +30,19 @@ const StyledA = styled.a`
   text-decoration-style: dotted;
 `
 
-const enhance = compose(activeNodeArrayData, pcsData)
+const enhance = compose(
+  withActiveNodeArrayData,
+  pcsData,
+)
 
 const PCs = ({ pcsData }: { pcsData: Object }) => {
   const pcs = sortBy(
     get(
       pcsData,
       'organizationByName.propertyCollectionsByOrganizationId.nodes',
-      []
+      [],
     ),
-    'name'
+    'name',
   )
 
   return (

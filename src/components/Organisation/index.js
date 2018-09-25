@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 
-import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import orgData from './orgData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import UserReadOnly from '../shared/UserReadOnly'
@@ -19,14 +19,14 @@ import PCs from './PCs'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const enhance = compose(
-  activeNodeArrayData,
+  withActiveNodeArrayData,
   orgData,
   withState('tab', 'setTab', 0),
   withHandlers({
     onChangeTab: ({ setTab }) => (event, value) => {
       setTab(value)
     },
-  })
+  }),
 )
 
 const Container = styled.div``
