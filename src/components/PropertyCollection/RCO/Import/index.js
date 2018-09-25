@@ -22,7 +22,7 @@ import ReactDataGrid from 'react-data-grid'
 import { withApollo } from 'react-apollo'
 
 import importRcoData from './importRcoData'
-import rCOData from '../rCOData'
+import rCOData from '../withRCOData'
 import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
 import createRCOMutation from './createRCOMutation'
 import withLoginData from '../../../../modules/withLoginData'
