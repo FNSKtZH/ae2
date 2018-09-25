@@ -20,7 +20,7 @@ import editingTaxonomiesData from '../../modules/editingTaxonomiesData'
 import withAllUsersData from '../../modules/withAllUsersData'
 import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
 import loginData from '../../modules/loginData'
-import taxData from './taxData'
+import withTaxData from './withTaxData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyArten from './PropertyArten'
 import PropertyLr from './PropertyLr'
@@ -49,7 +49,7 @@ const enhance = compose(
   withApollo,
   withAllUsersData,
   activeNodeArrayData,
-  taxData,
+  withTaxData,
   loginData,
   editingTaxonomiesData,
 )
