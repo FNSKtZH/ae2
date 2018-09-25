@@ -17,7 +17,7 @@ import onClickContextMenu from './onClickContextMenu'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import loginData from '../../../modules/loginData'
-import rowData from './rowData'
+import withRowData from './withRowData'
 import treeData from '../withTreeData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
@@ -91,7 +91,7 @@ const enhance = compose(
   loginData,
   treeData,
   activeNodeArrayData,
-  rowData,
+  withRowData,
   editingTaxonomiesData,
   withHandlers({
     onClickNode: ({ node, index, activeNodeArray }) => event => {
@@ -134,7 +134,7 @@ const enhance = compose(
         editingTaxonomiesData,
       })
     },
-  })
+  }),
 )
 
 const Row = ({
@@ -161,7 +161,7 @@ const Row = ({
   //console.log('Row: node:', node)
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     node.url,
-    activeNodeArray
+    activeNodeArray,
   )
   // build symbols
   let useSymbolIcon = true
@@ -204,7 +204,9 @@ const Row = ({
                 data-nodeisinactivenodepath={nodeIsInActiveNodePath}
                 className="material-icons"
               >
-                {symbol === 'ExpandMore' && <ExpandMoreIcon onClick={onClickExpandMore} />}
+                {symbol === 'ExpandMore' && (
+                  <ExpandMoreIcon onClick={onClickExpandMore} />
+                )}
                 {symbol === 'ChevronRight' && <ChevronRightIcon />}
                 {symbol === 'MoreHoriz' && <MoreHorizIcon />}
               </SymbolIcon>
