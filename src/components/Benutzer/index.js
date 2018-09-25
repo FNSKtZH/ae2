@@ -16,7 +16,7 @@ import get from 'lodash/get'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import fetchData from './data'
-import treeData from '../Tree/treeData'
+import withTreeData from '../Tree/withTreeData'
 import Roles from './Roles'
 import PCs from './PCs'
 import TCs from './TCs'
@@ -46,7 +46,7 @@ const enhance = compose(
   }),
   activeNodeArrayData,
   fetchData,
-  treeData
+  withTreeData,
 )
 
 type State = {

@@ -14,7 +14,8 @@ import Row from './Row'
 import Filter from './Filter'
 import buildNodes from './buildNodes'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
-import treeData from './treeData'
+import withTreeData from './withTreeData'
+import withOrganizationUsersData from '../../modules/withOrganizationUsersData'
 import CmBenutzerFolder from './contextmenu/BenutzerFolder'
 import CmBenutzer from './contextmenu/Benutzer'
 import CmObject from './contextmenu/Object'
@@ -82,16 +83,19 @@ const noRowsRenderer = nodes => (
 )
 
 const enhance = compose(
+  withOrganizationUsersData,
   activeNodeArrayData,
-  treeData,
+  withTreeData,
 )
 
 const Tree = ({
+  organizationUsersData,
   activeNodeArrayData,
   treeData,
   // dimensions is passed down from ReflexElement
   dimensions,
 }: {
+  organizationUsersData: Object,
   activeNodeArrayData: Object,
   treeData: Object,
   dimensions: Object,
@@ -116,13 +120,13 @@ const Tree = ({
     />
   )
   const activeNodeIndex = findIndex(nodes, node =>
-    isEqual(node.url, activeNodeArray)
+    isEqual(node.url, activeNodeArray),
   )
   const username = get(treeData, 'login.username', null)
   const organizationUsers = get(
-    treeData,
+    organizationUsersData,
     'allOrganizationUsers.nodes',
-    []
+    [],
   )
   const userRoles = organizationUsers
     .filter(oU => username === get(oU, 'userByUserId.name', ''))

@@ -19,7 +19,7 @@ import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import pCOData from './pCOData'
-import treeData from '../../Tree/treeData'
+import withTreeData from '../../Tree/withTreeData'
 import loginData from '../../../modules/loginData'
 import deletePcoOfPcMutation from './deletePcoOfPcMutation'
 
@@ -76,12 +76,12 @@ const styles = theme => ({
 const enhance = compose(
   withApollo,
   activeNodeArrayData,
-  treeData,
+  withTreeData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
   pCOData,
   loginData,
-  withStyles(styles)
+  withStyles(styles),
 )
 
 const PCO = ({
@@ -125,7 +125,7 @@ const PCO = ({
   const pCORaw = get(
     pCOData,
     'propertyCollectionById.propertyCollectionObjectsByPropertyCollectionId.nodes',
-    []
+    [],
   ).map(p => omit(p, ['__typename']))
   pCORaw.forEach(p => {
     let nP = {}
@@ -157,7 +157,7 @@ const PCO = ({
   const pCOWriters = get(
     pCOData,
     'propertyCollectionById.organizationByOrganizationId.organizationUsersByOrganizationId.nodes',
-    []
+    [],
   ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
   const writerNames = union(pCOWriters.map(w => w.userByUserId.name))
   const username = get(loginData, 'login.username')
@@ -213,7 +213,7 @@ const PCO = ({
                     const pcId = get(
                       activeNodeArrayData,
                       'activeNodeArray[1]',
-                      '99999999-9999-9999-9999-999999999999'
+                      '99999999-9999-9999-9999-999999999999',
                     )
                     await client.mutate({
                       mutation: deletePcoOfPcMutation,

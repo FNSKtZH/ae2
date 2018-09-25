@@ -38,7 +38,7 @@ import ErrorBoundary from '../../shared/ErrorBoundary'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import objectData from '../objectData'
 import loginData from '../../../modules/loginData'
-import organizationUserData from '../../../modules/organizationUserData'
+import withOrganizationUsersData from '../../../modules/withOrganizationUsersData'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
 
@@ -84,21 +84,21 @@ const enhance = compose(
   activeNodeArrayData,
   objectData,
   loginData,
-  organizationUserData,
+  withOrganizationUsersData,
   editingTaxonomiesData,
   withState(
     'expanded',
     'setExpanded',
-    ({ showLink }) => (showLink ? false : true)
+    ({ showLink }) => (showLink ? false : true),
   ),
-  withState('taxExpanded', 'setTaxExpanded', false)
+  withState('taxExpanded', 'setTaxExpanded', false),
 )
 
 const TaxonomyObject = ({
   client,
   activeNodeArrayData,
   loginData,
-  organizationUserData,
+  organizationUsersData,
   editingTaxonomiesData,
   objekt,
   showLink,
@@ -111,7 +111,7 @@ const TaxonomyObject = ({
   client: Object,
   activeNodeArrayData: Object,
   loginData: Object,
-  organizationUserData: Object,
+  organizationUsersData: Object,
   editingTaxonomiesData: Object,
   objekt: Object,
   showLink: Boolean,
@@ -123,9 +123,9 @@ const TaxonomyObject = ({
 }) => {
   const username = get(loginData, 'login.username', null)
   const organizationUsers = get(
-    organizationUserData,
+    organizationUsersData,
     'allOrganizationUsers.nodes',
-    []
+    [],
   )
   const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
   const userRoles = organizationUsers

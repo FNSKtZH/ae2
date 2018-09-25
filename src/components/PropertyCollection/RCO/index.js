@@ -21,7 +21,7 @@ import exportCsv from '../../../modules/exportCsv'
 import rCOData from './rCOData'
 import loginData from '../../../modules/loginData'
 import deleteRcoOfPcMutation from './deleteRcoOfPcMutation'
-import treeData from '../../Tree/treeData'
+import withTreeData from '../../Tree/withTreeData'
 
 const Container = styled.div`
   height: 100%;
@@ -76,12 +76,12 @@ const styles = theme => ({
 const enhance = compose(
   withApollo,
   activeNodeArrayData,
-  treeData,
+  withTreeData,
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
   rCOData,
   loginData,
-  withStyles(styles)
+  withStyles(styles),
 )
 
 const RCO = ({
@@ -125,7 +125,7 @@ const RCO = ({
   const rCORaw = get(
     rCOData,
     'propertyCollectionById.relationsByPropertyCollectionId.nodes',
-    []
+    [],
   ).map(p => omit(p, ['__typename']))
   rCORaw.forEach(p => {
     let nP = {}
@@ -167,7 +167,7 @@ const RCO = ({
   const rCOWriters = get(
     rCOData,
     'propertyCollectionById.organizationByOrganizationId.organizationUsersByOrganizationId.nodes',
-    []
+    [],
   ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
   const writerNames = union(rCOWriters.map(w => w.userByUserId.name))
   const username = get(loginData, 'login.username')
@@ -229,7 +229,7 @@ const RCO = ({
                     const pcId = get(
                       activeNodeArrayData,
                       'activeNodeArray[1]',
-                      '99999999-9999-9999-9999-999999999999'
+                      '99999999-9999-9999-9999-999999999999',
                     )
                     await client.mutate({
                       mutation: deleteRcoOfPcMutation,

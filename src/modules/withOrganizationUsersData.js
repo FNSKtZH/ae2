@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 
 export default graphql(
   gql`
-    query organizationUserQuery {
+    query AllOrganizationUsersQuery {
       allOrganizationUsers {
         nodes {
           id
@@ -21,6 +21,6 @@ export default graphql(
     }
   `,
   {
-    name: 'organizationUserData',
-  }
+    name: 'organizationUsersData',
+  },
 )

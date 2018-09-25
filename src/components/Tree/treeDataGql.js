@@ -2,7 +2,7 @@
 
 import gql from 'graphql-tag'
 
-export default gql `
+export default gql`
   query TreeDataQuery(
     $existsLevel2Pc: Boolean!
     $existsLevel2Taxonomy: Boolean!
@@ -27,19 +27,6 @@ export default gql `
     login @client {
       token
       username
-    }
-    allOrganizationUsers {
-      nodes {
-        id
-        nodeId
-        organizationId
-        userId
-        role
-        userByUserId {
-          id
-          name
-        }
-      }
     }
     allUsers {
       totalCount
