@@ -74,13 +74,13 @@ export default ({
     const tokenDecoded = jwtDecode(token)
     const { username } = tokenDecoded
     const user = get(treeData, 'allUsers.nodes', []).find(
-      u => u.name === username
+      u => u.name === username,
     )
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const orgsUserIsAdminIn = union(
       orgUsers
         .filter(o => o.role === 'orgAdmin')
-        .map(u => get(u, 'organizationByOrganizationId.name'))
+        .map(u => get(u, 'organizationByOrganizationId.name')),
     )
     const orgInfo =
       loading && orgsUserIsAdminIn.length === 0

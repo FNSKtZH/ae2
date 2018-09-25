@@ -40,23 +40,6 @@ export default graphql(
         habitatNrFnsMax
         type
       }
-      allUsers {
-        nodes {
-          id
-          name
-          organizationUsersByUserId {
-            nodes {
-              id
-              organizationId
-              role
-              organizationByOrganizationId {
-                id
-                name
-              }
-            }
-          }
-        }
-      }
     }
   `,
   {
@@ -65,10 +48,10 @@ export default graphql(
         taxId: get(
           activeNodeArrayData,
           'activeNodeArray[1]',
-          '99999999-9999-9999-9999-999999999999'
+          '99999999-9999-9999-9999-999999999999',
         ),
       },
     }),
     name: 'taxData',
-  }
+  },
 )

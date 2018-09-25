@@ -16,6 +16,7 @@ import buildNodes from './buildNodes'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import withTreeData from './withTreeData'
 import withOrganizationUsersData from '../../modules/withOrganizationUsersData'
+import withAllUsersData from '../../modules/withAllUsersData'
 import CmBenutzerFolder from './contextmenu/BenutzerFolder'
 import CmBenutzer from './contextmenu/Benutzer'
 import CmObject from './contextmenu/Object'
@@ -84,6 +85,7 @@ const noRowsRenderer = nodes => (
 
 const enhance = compose(
   withOrganizationUsersData,
+  withAllUsersData,
   activeNodeArrayData,
   withTreeData,
 )
@@ -91,21 +93,36 @@ const enhance = compose(
 const Tree = ({
   organizationUsersData,
   activeNodeArrayData,
-  treeData,
+  treeData: treeDataPassed,
+  allUsersData,
   // dimensions is passed down from ReflexElement
   dimensions,
 }: {
   organizationUsersData: Object,
   activeNodeArrayData: Object,
   treeData: Object,
+  allUsersData: Object,
   dimensions: Object,
 }) => {
-  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
-  const { error, loading: treeDataLoading } = treeData
-  if (error) {
-    console.log('Tree: error:', error)
-    return <div> {error.message} </div>
+  const treeDataLoading =
+    treeDataPassed.loading ||
+    organizationUsersData.loading ||
+    activeNodeArrayData.loading ||
+    allUsersData.loading
+  if (treeDataPassed.error) {
+    return <div> {treeDataPassed.error.message} </div>
   }
+  if (activeNodeArrayData.error) {
+    return <div> {activeNodeArrayData.error.message} </div>
+  }
+  if (organizationUsersData.error) {
+    return <div> {organizationUsersData.error.message} </div>
+  }
+  if (allUsersData.error) {
+    return <div> {allUsersData.error.message} </div>
+  }
+  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
+  const treeData = { ...allUsersData, ...treeDataPassed }
   const nodes = buildNodes({
     treeData,
     activeNodeArray,

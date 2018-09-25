@@ -28,23 +28,6 @@ export default gql`
       token
       username
     }
-    allUsers {
-      totalCount
-      nodes {
-        id
-        name
-        organizationUsersByUserId {
-          nodes {
-            id
-            role
-            organizationByOrganizationId {
-              id
-              name
-            }
-          }
-        }
-      }
-    }
     taxonomyWithLevel1Count {
       nodes {
         taxonomyId

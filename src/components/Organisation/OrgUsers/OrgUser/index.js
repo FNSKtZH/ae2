@@ -15,6 +15,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import set from 'lodash/set'
 
 import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
+import withAllUsersData from '../../../../modules/withAllUsersData'
 import updateOrgUserMutation from '../updateOrgUserMutation'
 import deleteOrgUserMutation from '../deleteOrgUserMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
@@ -39,7 +40,11 @@ const StyledFormControl = styled(FormControl)`
   width: calc(50% - 24px);
 `
 
-const enhance = compose(withApollo, activeNodeArrayData)
+const enhance = compose(
+  withApollo,
+  withAllUsersData,
+  activeNodeArrayData,
+)
 
 type Props = {
   orgUser: Object,
@@ -63,9 +68,8 @@ class OrgUser extends React.Component<Props, State> {
   }
 
   render() {
-    const { orgUser, orgUsersData, client } = this.props
-    // console.log('OrgUser: orgUser:', orgUser)
-    const users = get(orgUsersData, 'allUsers.nodes', [])
+    const { orgUser, orgUsersData, allUsersData, client } = this.props
+    const users = get(allUsersData, 'allUsers.nodes', [])
     const orgName = get(orgUsersData, 'organizationByName.name', '')
     const user = users.find(user => user.id === this.state.userId)
     const userName = user ? user.name || '' : ''
@@ -197,13 +201,13 @@ class OrgUser extends React.Component<Props, State> {
                   const orgUsers = get(
                     data,
                     'organizationByName.organizationUsersByOrganizationId.nodes',
-                    []
+                    [],
                   )
                   const newOrgUsers = orgUsers.filter(u => u.id !== orgUser.id)
                   set(
                     data,
                     'organizationByName.organizationUsersByOrganizationId.nodes',
-                    newOrgUsers
+                    newOrgUsers,
                   )
                   proxy.writeQuery({
                     query: orgUsersGql,

@@ -27,23 +27,5 @@ export default gql`
         name
       }
     }
-    allUsers {
-      nodes {
-        id
-        name
-        email
-        organizationUsersByUserId {
-          nodes {
-            id
-            organizationId
-            role
-            organizationByOrganizationId {
-              id
-              name
-            }
-          }
-        }
-      }
-    }
   }
 `

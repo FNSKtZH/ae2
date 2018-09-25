@@ -1,0 +1,21 @@
+query AllUsersQuery {
+  allUsers {
+    totalCount
+    nodes {
+      id
+      name
+      email
+      organizationUsersByUserId {
+        nodes {
+          id
+          organizationId
+          role
+          organizationByOrganizationId {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}

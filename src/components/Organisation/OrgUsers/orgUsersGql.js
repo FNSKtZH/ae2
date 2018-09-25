@@ -21,12 +21,6 @@ export default gql`
         }
       }
     }
-    allUsers {
-      nodes {
-        id
-        name
-      }
-    }
     allRoles {
       nodes {
         nodeId

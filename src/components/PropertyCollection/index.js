@@ -21,6 +21,7 @@ import { withApollo } from 'react-apollo'
 import Property from './Property'
 import onBlur from './onBlur'
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
+import withAllUsersData from '../../modules/withAllUsersData'
 import editingPCsData from '../../modules/editingPCsData'
 import editingPCsMutation from '../../modules/editingPCsMutation'
 import loginData from '../../modules/loginData'
@@ -58,32 +59,51 @@ const StyledA = styled.a`
 
 const enhance = compose(
   withApollo,
+  withAllUsersData,
   activeNodeArrayData,
   loginData,
   editingPCsData,
-  pCData
+  pCData,
 )
 
 const PropertyCollection = ({
   client,
+  allUsersData,
   pCData,
   loginData,
   editingPCsData,
 }: {
   client: Object,
+  allUsersData: Object,
   pCData: Object,
   loginData: Object,
   editingPCsData: Object,
 }) => {
-  const { loading } = pCData
-  if (loading) {
+  if (
+    pCData.loading ||
+    allUsersData.loading ||
+    loginData.loading ||
+    editingPCsData.loading
+  ) {
     return <Container>Lade Daten...</Container>
+  }
+  if (pCData.error) {
+    return <Container>`Fehler: ${pCData.error.message}`</Container>
+  }
+  if (allUsersData.error) {
+    return <Container>`Fehler: ${allUsersData.error.message}`</Container>
+  }
+  if (loginData.error) {
+    return <Container>`Fehler: ${loginData.error.message}`</Container>
+  }
+  if (editingPCsData.error) {
+    return <Container>`Fehler: ${editingPCsData.error.message}`</Container>
   }
   const pC = get(pCData, 'propertyCollectionById', {})
   const org = get(pC, 'organizationByOrganizationId.name', '')
   const editing = get(editingPCsData, 'editingPCs', false)
   const username = get(loginData, 'login.username', null)
-  const allUsers = get(pCData, 'allUsers.nodes', [])
+  const allUsers = get(allUsersData, 'allUsers.nodes', [])
   const user = allUsers.find(u => u.name === username)
   const orgsUserIsPCWriter = get(user, 'organizationUsersByUserId.nodes', [])
     .filter(o => ['orgCollectionWriter', 'orgAdmin'].includes(o.role))
@@ -102,7 +122,7 @@ const PropertyCollection = ({
     get(
       pC,
       'propertyCollectionObjectsByPropertyCollectionOfOrigin.totalCount',
-      0
+      0,
     ) > 0 ||
     get(pC, 'relationsByPropertyCollectionOfOrigin.totalCount', 0) > 0
   const importedBy = pC.importedBy
@@ -241,7 +261,8 @@ const PropertyCollection = ({
                   <br />
                   <span>
                     Wurden die Informationen spezifisch für einen bestimmten
-                    Kanton oder die ganze Schweiz erarbeitet?<br />
+                    Kanton oder die ganze Schweiz erarbeitet?
+                    <br />
                     Dann bitte das entsprechende Kürzel voranstellen.
                   </span>
                   <br />
@@ -334,7 +355,8 @@ const PropertyCollection = ({
                     rel="noopener noreferrer"
                   >
                     hier
-                  </StyledA>.
+                  </StyledA>
+                  .
                 </span>
               </FormHelperText>
             </StyledFormControl>

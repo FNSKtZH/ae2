@@ -17,6 +17,7 @@ import { withApollo } from 'react-apollo'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import editingTaxonomiesData from '../../modules/editingTaxonomiesData'
+import withAllUsersData from '../../modules/withAllUsersData'
 import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
 import loginData from '../../modules/loginData'
 import taxData from './taxData'
@@ -46,26 +47,47 @@ const StyledFormControl = styled(FormControl)`
 
 const enhance = compose(
   withApollo,
+  withAllUsersData,
   activeNodeArrayData,
   taxData,
   loginData,
-  editingTaxonomiesData
+  editingTaxonomiesData,
 )
 
 const Taxonomy = ({
   client,
+  allUsersData,
   taxData,
   editingTaxonomiesData,
   loginData,
 }: {
   client: Object,
+  allUsersData: Object,
   taxData: Object,
   editingTaxonomiesData: Object,
   loginData: Object,
 }) => {
-  const { loading } = taxData
-  if (loading) {
+  if (
+    taxData.loading ||
+    allUsersData.loading ||
+    editingTaxonomiesData.loading ||
+    loginData.loading
+  ) {
     return <Container>Lade Daten...</Container>
+  }
+  if (taxData.error) {
+    return <Container>`Fehler: ${taxData.error.message}`</Container>
+  }
+  if (allUsersData.error) {
+    return <Container>`Fehler: ${allUsersData.error.message}`</Container>
+  }
+  if (editingTaxonomiesData.error) {
+    return (
+      <Container>`Fehler: ${editingTaxonomiesData.error.message}`</Container>
+    )
+  }
+  if (loginData.error) {
+    return <Container>`Fehler: ${loginData.error.message}`</Container>
   }
   const tax = get(taxData, 'taxonomyById', {})
   const importedByName = get(tax, 'userByImportedBy.name')
@@ -74,7 +96,7 @@ const Taxonomy = ({
   const editingArten = editing && tax.type === 'ART'
   const editingLr = editing && tax.type === 'LEBENSRAUM'
   const username = get(loginData, 'login.username', null)
-  const allUsers = get(taxData, 'allUsers.nodes', [])
+  const allUsers = get(allUsersData, 'allUsers.nodes', [])
   const user = allUsers.find(u => u.name === username)
   const orgsUserIsTaxWriter = get(user, 'organizationUsersByUserId.nodes', [])
     .filter(o => ['orgTaxonomyWriter', 'orgAdmin'].includes(o.role))
