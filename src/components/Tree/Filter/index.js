@@ -11,10 +11,10 @@ import app from 'ampersand-app'
 import get from 'lodash/get'
 
 import treeFilterMutation from './treeFilterMutation'
-import treeFilterData from './treeFilterData'
-import filterSuggestionsData from './filterSuggestionsData'
+import withTreeFilterData from './withTreeFilterData'
+import withFilterSuggestionsData from './withFilterSuggestionsData'
 import getUrlForObject from '../../../modules/getUrlForObject'
-import objectUrlData from '../../../modules/objectUrlData'
+import withObjectUrlData from '../../../modules/withObjectUrlData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -80,9 +80,9 @@ const Container = styled.div`
 `
 const enhance = compose(
   withApollo,
-  treeFilterData,
-  filterSuggestionsData,
-  objectUrlData,
+  withTreeFilterData,
+  withFilterSuggestionsData,
+  withObjectUrlData,
   withHandlers({
     onChange: ({ client, treeFilterData }) => (event, { newValue }) => {
       const id = get(treeFilterData, 'treeFilter.id', null)
@@ -93,7 +93,7 @@ const enhance = compose(
     },
     onSuggestionSelected: ({ client, treeFilterData }) => (
       event,
-      { suggestion }
+      { suggestion },
     ) => {
       const text = get(treeFilterData, 'treeFilter.text', '')
       switch (suggestion.type) {
@@ -118,7 +118,7 @@ const enhance = compose(
         }
       }
     },
-  })
+  }),
 )
 
 class TreeFilter extends Component {
@@ -169,12 +169,12 @@ class TreeFilter extends Component {
     const objectByObjectName = get(
       filterSuggestionsData,
       'objectByObjectName.nodes',
-      []
+      [],
     )
     const pCByPropertyName = get(
       filterSuggestionsData,
       'propertyCollectionByPropertyName.nodes',
-      []
+      [],
     )
     const treeFilterText = get(treeFilterData, 'treeFilter.text', '')
     const inputProps = {
