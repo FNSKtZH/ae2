@@ -14,7 +14,7 @@ import app from 'ampersand-app'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenu from './onClickContextMenu'
-import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
+import withEditingTaxonomiesData from '../../../modules/withEditingTaxonomiesData'
 import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import withLoginData from '../../../modules/withLoginData'
 import withRowData from './withRowData'
@@ -92,7 +92,7 @@ const enhance = compose(
   treeData,
   withActiveNodeArrayData,
   withRowData,
-  editingTaxonomiesData,
+  withEditingTaxonomiesData,
   withHandlers({
     onClickNode: ({ node, index, activeNodeArray }) => event => {
       const { url, loadingNode } = node

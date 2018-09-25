@@ -16,7 +16,7 @@ import format from 'date-fns/format'
 import { withApollo } from 'react-apollo'
 
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import editingTaxonomiesData from '../../modules/editingTaxonomiesData'
+import withEditingTaxonomiesData from '../../modules/withEditingTaxonomiesData'
 import withAllUsersData from '../../modules/withAllUsersData'
 import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
 import withLoginData from '../../modules/withLoginData'
@@ -51,7 +51,7 @@ const enhance = compose(
   withActiveNodeArrayData,
   withTaxData,
   withLoginData,
-  editingTaxonomiesData,
+  withEditingTaxonomiesData,
 )
 
 const Taxonomy = ({

@@ -18,7 +18,7 @@ import PropertyReadOnly from '../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
 import Property from '../../shared/Property'
 import NewProperty from '../../shared/NewProperty'
-import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
+import withEditingTaxonomiesData from '../../../modules/withEditingTaxonomiesData'
 
 const PropertiesTitleContainer = styled.div`
   display: flex;
@@ -47,7 +47,10 @@ const PropertiesTitleValue = styled.p`
   width: 100%;
 `
 
-const enhance = compose(withApollo, editingTaxonomiesData)
+const enhance = compose(
+  withApollo,
+  withEditingTaxonomiesData,
+)
 
 const Properties = ({
   client,
@@ -87,7 +90,7 @@ const Properties = ({
       )}
       {sortBy(
         propertiesArray.filter(([key, value]) => value || value === 0),
-        e => e[0]
+        e => e[0],
       ).map(
         ([key, value]) =>
           editing ? (
@@ -101,7 +104,7 @@ const Properties = ({
             <PropertyReadOnlyStacked key={key} value={value} label={key} />
           ) : (
             <PropertyReadOnly key={key} value={value} label={key} />
-          )
+          ),
       )}
       {editing && (
         <NewProperty

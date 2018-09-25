@@ -39,7 +39,7 @@ import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import objectData from '../objectData'
 import withLoginData from '../../../modules/withLoginData'
 import withOrganizationUsersData from '../../../modules/withOrganizationUsersData'
-import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
+import withEditingTaxonomiesData from '../../../modules/withEditingTaxonomiesData'
 import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
 
 const StyledCard = styled(Card)`
@@ -85,7 +85,7 @@ const enhance = compose(
   objectData,
   withLoginData,
   withOrganizationUsersData,
-  editingTaxonomiesData,
+  withEditingTaxonomiesData,
   withState(
     'expanded',
     'setExpanded',
