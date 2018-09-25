@@ -16,7 +16,7 @@ import get from 'lodash/get'
 import appBarData from './data'
 
 import activeNodeArrayData from '../../modules/activeNodeArrayData'
-import loginData from '../../modules/loginData'
+import withLoginData from '../../modules/withLoginData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import LoadingComponent from '../shared/LoadingComponent'
 
@@ -69,7 +69,7 @@ const getInitials = name => name.match(/\b(\w)/g).join('')
 const enhance = compose(
   activeNodeArrayData,
   appBarData,
-  loginData,
+  withLoginData,
   withHandlers({
     onClickColumnButtonData: () => () => {
       app.history.push('/')
@@ -86,14 +86,18 @@ const enhance = compose(
         ? pCName
         : objektName
           ? `${taxName}: ${objektName}`
-          : taxName ? taxName : url0 ? url0 : ''
+          : taxName
+            ? taxName
+            : url0
+              ? url0
+              : ''
       const title = `arteigenschaften.ch${!!name ? ': ' : ''}${name}`
       navigator.share({
         title,
         url: window.location.href,
       })
     },
-  })
+  }),
 )
 
 type State = {
@@ -191,8 +195,12 @@ class MyAppBar extends Component<Props, State> {
     const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
     const username = get(loginData, 'login.username')
     const loginLabel = username
-      ? wideLayout ? username : getInitials(username)
-      : wideLayout ? 'nicht angemeldet' : 'n.a.'
+      ? wideLayout
+        ? username
+        : getInitials(username)
+      : wideLayout
+        ? 'nicht angemeldet'
+        : 'n.a.'
     const loginTitle = username ? 'abmelden' : 'anmelden'
 
     return (

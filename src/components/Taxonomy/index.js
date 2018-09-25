@@ -19,7 +19,7 @@ import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import editingTaxonomiesData from '../../modules/editingTaxonomiesData'
 import withAllUsersData from '../../modules/withAllUsersData'
 import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
-import loginData from '../../modules/loginData'
+import withLoginData from '../../modules/withLoginData'
 import withTaxData from './withTaxData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyArten from './PropertyArten'
@@ -50,7 +50,7 @@ const enhance = compose(
   withAllUsersData,
   activeNodeArrayData,
   withTaxData,
-  loginData,
+  withLoginData,
   editingTaxonomiesData,
 )
 

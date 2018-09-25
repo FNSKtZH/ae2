@@ -21,6 +21,7 @@ export default gql`
         totalCount
       }
     }
+    # leave this as is only called once more and with more props
     allPropertyCollections {
       nodes {
         id

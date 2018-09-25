@@ -20,7 +20,7 @@ import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import pCOData from './pCOData'
 import withTreeData from '../../Tree/withTreeData'
-import loginData from '../../../modules/loginData'
+import withLoginData from '../../../modules/withLoginData'
 import deletePcoOfPcMutation from './deletePcoOfPcMutation'
 
 const Container = styled.div`
@@ -80,7 +80,7 @@ const enhance = compose(
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
   pCOData,
-  loginData,
+  withLoginData,
   withStyles(styles),
 )
 

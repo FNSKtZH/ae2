@@ -19,7 +19,7 @@ import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import rCOData from './rCOData'
-import loginData from '../../../modules/loginData'
+import withLoginData from '../../../modules/withLoginData'
 import deleteRcoOfPcMutation from './deleteRcoOfPcMutation'
 import withTreeData from '../../Tree/withTreeData'
 
@@ -80,7 +80,7 @@ const enhance = compose(
   withState('sortField', 'setSortField', 'Objekt Name'),
   withState('sortDirection', 'setSortDirection', 'asc'),
   rCOData,
-  loginData,
+  withLoginData,
   withStyles(styles),
 )
 

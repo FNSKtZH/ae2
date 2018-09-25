@@ -25,7 +25,7 @@ import importPcoData from './importPcoData'
 import pCOData from '../pCOData'
 import activeNodeArrayData from '../../../../modules/activeNodeArrayData'
 import createPCOMutation from './createPCOMutation'
-import loginData from '../../../../modules/loginData'
+import withLoginData from '../../../../modules/withLoginData'
 
 const Container = styled.div`
   height: 100%;
@@ -140,12 +140,12 @@ const enhance = compose(
   withState(
     'objectIdsAreRealNotTested',
     'setObjectIdsAreRealNotTested',
-    undefined
+    undefined,
   ),
   withState(
     'pCOfOriginIdsAreRealNotTested',
     'setPCOfOriginIdsAreRealNotTested',
-    undefined
+    undefined,
   ),
   withState('objectIds', 'setObjectIds', []),
   withState('pCOfOriginIds', 'setPCOfOriginIds', []),
@@ -156,26 +156,26 @@ const enhance = compose(
   withState(
     'propertyKeysDontContainApostroph',
     'setPropertyKeysDontContainApostroph',
-    undefined
+    undefined,
   ),
   withState(
     'propertyKeysDontContainBackslash',
     'setPropertyKeysDontContainBackslash',
-    undefined
+    undefined,
   ),
   withState(
     'propertyValuesDontContainApostroph',
     'setPropertyValuesDontContainApostroph',
-    undefined
+    undefined,
   ),
   withState(
     'propertyValuesDontContainBackslash',
     'setPropertyValuesDontContainBackslash',
-    undefined
+    undefined,
   ),
   withState('existsPropertyKey', 'setExistsPropertyKey', undefined),
   importPcoData,
-  loginData
+  withLoginData,
 )
 
 const ImportPco = ({
@@ -278,7 +278,7 @@ const ImportPco = ({
   const pCId = get(
     activeNodeArrayData,
     'activeNodeArray[1]',
-    '99999999-9999-9999-9999-999999999999'
+    '99999999-9999-9999-9999-999999999999',
   )
   const objectsCheckData = get(importPcoData, 'allObjects.nodes', [])
   const objectIdsAreReal =
@@ -288,7 +288,7 @@ const ImportPco = ({
   const pCOfOriginsCheckData = get(
     importPcoData,
     'allPropertyCollections.nodes',
-    []
+    [],
   )
   const pCOfOriginIdsAreReal =
     !importPcoData.loading && pCOfOriginIds.length > 0
@@ -316,7 +316,7 @@ const ImportPco = ({
     importDataFields = union([...importDataFields, ...Object.keys(d)])
   })
   const propertyFields = importDataFields.filter(
-    f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f)
+    f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
   )
 
   return (
@@ -348,8 +348,9 @@ const ImportPco = ({
           <li>
             <LiContainer>
               <div>
-                Jeder Wert hat einen Feld-Namen.<br />Anders gesagt: Jede Zelle
-                mit einem Wert hat einen Spalten-Titel
+                Jeder Wert hat einen Feld-Namen.
+                <br />
+                Anders gesagt: Jede Zelle mit einem Wert hat einen Spalten-Titel
               </div>
               {existsNoDataWithoutKey && (
                 <div>
@@ -769,7 +770,7 @@ const ImportPco = ({
                 // test the data
                 setImportData(data)
                 setExistsNoDataWithoutKey(
-                  data.filter(d => !!d.__EMPTY).length === 0
+                  data.filter(d => !!d.__EMPTY).length === 0,
                 )
                 const ids = data.map(d => d.id).filter(d => d !== undefined)
                 const _idsExist = ids.length > 0
@@ -777,10 +778,10 @@ const ImportPco = ({
                 setIdsAreUuid(
                   _idsExist
                     ? !ids.map(d => isUuid.anyNonNil(d)).includes(false)
-                    : undefined
+                    : undefined,
                 )
                 setIdsAreUnique(
-                  _idsExist ? ids.length === uniq(ids).length : undefined
+                  _idsExist ? ids.length === uniq(ids).length : undefined,
                 )
                 const _objectIds = data
                   .map(d => d.objectId)
@@ -790,7 +791,7 @@ const ImportPco = ({
                 setObjectIdsAreUuid(
                   _objectIdsExist
                     ? !_objectIds.map(d => isUuid.anyNonNil(d)).includes(false)
-                    : undefined
+                    : undefined,
                 )
                 setObjectIds(_objectIds)
 
@@ -804,35 +805,35 @@ const ImportPco = ({
                     ? !_pCOfOriginIds
                         .map(d => isUuid.anyNonNil(d))
                         .includes(false)
-                    : undefined
+                    : undefined,
                 )
                 setPCOfOriginIds(_pCOfOriginIds)
 
                 const propertyKeys = union(
                   flatten(
-                    data.map(d => Object.keys(omit(d, ['id', 'objectId'])))
-                  )
+                    data.map(d => Object.keys(omit(d, ['id', 'objectId']))),
+                  ),
                 )
                 const _existsPropertyKey = propertyKeys.length > 0
                 setExistsPropertyKey(_existsPropertyKey)
                 setPropertyKeysDontContainApostroph(
                   _existsPropertyKey
                     ? !some(propertyKeys, k => k.includes('"'))
-                    : undefined
+                    : undefined,
                 )
                 setPropertyKeysDontContainBackslash(
                   _existsPropertyKey
                     ? !some(propertyKeys, k => k.includes('\\'))
-                    : undefined
+                    : undefined,
                 )
                 const propertyValues = union(
-                  flatten(data.map(d => Object.values(d)))
+                  flatten(data.map(d => Object.values(d))),
                 )
                 setPropertyValuesDontContainApostroph(
-                  !some(propertyValues, k => k.includes('"'))
+                  !some(propertyValues, k => k.includes('"')),
                 )
                 setPropertyValuesDontContainBackslash(
-                  !some(propertyValues, k => k.includes('\\'))
+                  !some(propertyValues, k => k.includes('\\')),
                 )
               }
               reader.onabort = () => console.log('file reading was aborted')
@@ -851,8 +852,10 @@ const ImportPco = ({
               return <DropzoneDivActive>njet!</DropzoneDivActive>
             return (
               <DropzoneDiv>
-                Datei hierhin ziehen.<br />
-                Oder hier klicken, um eine Datei auszuwählen.<br />
+                Datei hierhin ziehen.
+                <br />
+                Oder hier klicken, um eine Datei auszuwählen.
+                <br />
                 <br />
                 Akzeptierte Formate: .xlsx, .xls, .csv, .ods, .dbf, .dif
               </DropzoneDiv>
@@ -897,7 +900,7 @@ const ImportPco = ({
       {showPreview && (
         <Fragment>
           <TotalDiv>{`${importData.length.toLocaleString(
-            'de-CH'
+            'de-CH',
           )} Datensätze, ${propertyFields.length.toLocaleString('de-CH')} Feld${
             propertyFields.length === 1 ? '' : 'er'
           }${importData.length > 0 ? ':' : ''}`}</TotalDiv>

@@ -24,8 +24,8 @@ import activeNodeArrayData from '../../modules/activeNodeArrayData'
 import withAllUsersData from '../../modules/withAllUsersData'
 import editingPCsData from '../../modules/editingPCsData'
 import editingPCsMutation from '../../modules/editingPCsMutation'
-import loginData from '../../modules/loginData'
-import pCData from './pCData'
+import withLoginData from '../../modules/withLoginData'
+import withPCData from './withPCData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
@@ -61,9 +61,9 @@ const enhance = compose(
   withApollo,
   withAllUsersData,
   activeNodeArrayData,
-  loginData,
+  withLoginData,
   editingPCsData,
-  pCData,
+  withPCData,
 )
 
 const PropertyCollection = ({

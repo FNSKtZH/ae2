@@ -16,7 +16,7 @@ import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenu from './onClickContextMenu'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
-import loginData from '../../../modules/loginData'
+import withLoginData from '../../../modules/withLoginData'
 import withRowData from './withRowData'
 import treeData from '../withTreeData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
@@ -88,7 +88,7 @@ function collect(props) {
 
 const enhance = compose(
   withApollo,
-  loginData,
+  withLoginData,
   treeData,
   activeNodeArrayData,
   withRowData,

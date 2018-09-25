@@ -37,7 +37,7 @@ import getUrlForObject from '../../../modules/getUrlForObject'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import activeNodeArrayData from '../../../modules/activeNodeArrayData'
 import objectData from '../objectData'
-import loginData from '../../../modules/loginData'
+import withLoginData from '../../../modules/withLoginData'
 import withOrganizationUsersData from '../../../modules/withOrganizationUsersData'
 import editingTaxonomiesData from '../../../modules/editingTaxonomiesData'
 import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
@@ -83,7 +83,7 @@ const enhance = compose(
   withApollo,
   activeNodeArrayData,
   objectData,
-  loginData,
+  withLoginData,
   withOrganizationUsersData,
   editingTaxonomiesData,
   withState(

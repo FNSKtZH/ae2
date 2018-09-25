@@ -22,7 +22,7 @@ import get from 'lodash/get'
 import fetchLogin from './fetchLogin'
 import historyAfterLoginData from '../../modules/historyAfterLoginData'
 import setLoginMutation from '../../modules/loginMutation'
-import loginData from '../../modules/loginData'
+import withLoginData from '../../modules/withLoginData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -42,7 +42,7 @@ const StyledSnackbar = styled(Snackbar)`
 const enhance = compose(
   withApollo,
   historyAfterLoginData,
-  loginData,
+  withLoginData,
   withState('name', 'changeName', ''),
   withState('pass', 'changePass', ''),
   withState('showPass', 'changeShowPass', false),
@@ -102,7 +102,7 @@ const enhance = compose(
         fetchLogin(name, pass)
       }
     },
-  })
+  }),
 )
 
 const Login = ({
