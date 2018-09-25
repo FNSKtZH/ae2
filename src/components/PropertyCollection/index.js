@@ -22,7 +22,7 @@ import Property from './Property'
 import onBlur from './onBlur'
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import withAllUsersData from '../../modules/withAllUsersData'
-import editingPCsData from '../../modules/editingPCsData'
+import withEditingPCsData from './withEditingPCsData'
 import editingPCsMutation from '../../modules/editingPCsMutation'
 import withLoginData from '../../modules/withLoginData'
 import withPCData from './withPCData'
@@ -62,7 +62,7 @@ const enhance = compose(
   withAllUsersData,
   withActiveNodeArrayData,
   withLoginData,
-  editingPCsData,
+  withEditingPCsData,
   withPCData,
 )
 
