@@ -23,7 +23,7 @@ import exportWithSynonymDataData from '../../exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
-import exportOnlyRowsWithPropertiesData from '../../exportOnlyRowsWithPropertiesData'
+import withExportOnlyRowsWithPropertiesData from '../../withExportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
@@ -46,7 +46,7 @@ const enhance = compose(
   withPropsByTaxData,
   exportWithSynonymDataData,
   withExportAddFilterFieldsData,
-  exportOnlyRowsWithPropertiesData,
+  withExportOnlyRowsWithPropertiesData,
   withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
   withState('pcoExpanded', 'setFilterExpanded', false),

@@ -24,7 +24,7 @@ import withExportPcoFiltersData from '../../withExportPcoFiltersData'
 import exportRcoFiltersData from '../../exportRcoFiltersData'
 import exportWithSynonymDataData from '../../exportWithSynonymDataData'
 import exportRcoInOneRowData from '../../exportRcoInOneRowData'
-import exportOnlyRowsWithPropertiesData from '../../exportOnlyRowsWithPropertiesData'
+import withExportOnlyRowsWithPropertiesData from '../../withExportOnlyRowsWithPropertiesData'
 import exportXlsx from '../../../../modules/exportXlsx'
 import exportCsv from '../../../../modules/exportCsv'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
@@ -88,7 +88,7 @@ const enhance = compose(
   exportRcoFiltersData,
   exportWithSynonymDataData,
   exportRcoInOneRowData,
-  exportOnlyRowsWithPropertiesData,
+  withExportOnlyRowsWithPropertiesData,
   exportObjectData,
   exportPcoData,
   exportRcoData,
