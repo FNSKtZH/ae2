@@ -19,7 +19,7 @@ import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutatio
 import withExportRcoPropertiesData from '../withExportRcoPropertiesData'
 import removeExportRcoPropertyMutation from '../removeExportRcoPropertyMutation'
 import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutation'
-import exportTaxPropertiesData from '../exportTaxPropertiesData'
+import withExportTaxPropertiesData from '../withExportTaxPropertiesData'
 import removeExportTaxPropertyMutation from '../removeExportTaxPropertyMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
 import withExportTaxFiltersData from '../withExportTaxFiltersData'
@@ -83,7 +83,7 @@ const enhance = compose(
   withApollo,
   exportTypeData,
   withExportTaxonomiesData,
-  exportTaxPropertiesData,
+  withExportTaxPropertiesData,
   withExportTaxFiltersData,
   withExportPcoPropertiesData,
   withExportPcoFiltersData,

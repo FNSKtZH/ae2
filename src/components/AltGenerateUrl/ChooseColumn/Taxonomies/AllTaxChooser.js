@@ -9,7 +9,7 @@ import { withApollo } from 'react-apollo'
 
 import addExportTaxPropertyMutation from '../../addExportTaxPropertyMutation'
 import removeExportTaxPropertyMutation from '../../removeExportTaxPropertyMutation'
-import exportTaxPropertiesData from '../../exportTaxPropertiesData'
+import withExportTaxPropertiesData from '../../withExportTaxPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -25,7 +25,7 @@ const Label = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
-  exportTaxPropertiesData,
+  withExportTaxPropertiesData,
   withHandlers({
     onCheck: ({ properties, client }) => (event, isChecked) => {
       const mutation = isChecked
@@ -40,7 +40,7 @@ const enhance = compose(
         })
       })
     },
-  })
+  }),
 )
 
 const AllTaxChooser = ({
@@ -56,8 +56,8 @@ const AllTaxChooser = ({
   const checkedArray = properties.map(
     p =>
       exportTaxProperties.filter(
-        x => x.taxname === p.taxname && x.pname === p.propertyName
-      ).length > 0
+        x => x.taxname === p.taxname && x.pname === p.propertyName,
+      ).length > 0,
   )
   const checked = checkedArray.length > 0 && !checkedArray.includes(false)
 

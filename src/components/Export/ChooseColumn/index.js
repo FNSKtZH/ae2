@@ -19,7 +19,7 @@ import Filter from './Filter'
 import withExportTaxonomiesData from '../withExportTaxonomiesData'
 import withExportPcoPropertiesData from '../withExportPcoPropertiesData'
 import withExportRcoPropertiesData from '../withExportRcoPropertiesData'
-import exportTaxPropertiesData from '../exportTaxPropertiesData'
+import withExportTaxPropertiesData from '../withExportTaxPropertiesData'
 import withExportTaxFiltersData from '../withExportTaxFiltersData'
 import withExportPcoFiltersData from '../withExportPcoFiltersData'
 import withExportRcoFiltersData from '../withExportRcoFiltersData'
@@ -65,7 +65,7 @@ const Container = styled.div`
 // (this is an apollo-link-state error)
 const enhance = compose(
   withExportTaxonomiesData,
-  exportTaxPropertiesData,
+  withExportTaxPropertiesData,
   withExportPcoPropertiesData,
   withExportRcoPropertiesData,
   withExportTaxFiltersData,
