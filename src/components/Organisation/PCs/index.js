@@ -7,7 +7,7 @@ import compose from 'recompose/compose'
 
 import appBaseUrl from '../../../modules/appBaseUrl'
 import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
-import pcsData from './pcsData'
+import withPcsData from './withPcsData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -32,10 +32,13 @@ const StyledA = styled.a`
 
 const enhance = compose(
   withActiveNodeArrayData,
-  pcsData,
+  withPcsData,
 )
 
 const PCs = ({ pcsData }: { pcsData: Object }) => {
+  const { loading, error } = pcsData
+  if (loading) return <Container>Lade Daten...</Container>
+  if (error) return <Container>`Fehler: ${error.message}`</Container>
   const pcs = sortBy(
     get(
       pcsData,

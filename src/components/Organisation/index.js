@@ -10,7 +10,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import orgData from './orgData'
+import withOrgData from './withOrgData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import UserReadOnly from '../shared/UserReadOnly'
 import OrgUsers from './OrgUsers'
@@ -20,7 +20,7 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 
 const enhance = compose(
   withActiveNodeArrayData,
-  orgData,
+  withOrgData,
   withState('tab', 'setTab', 0),
   withHandlers({
     onChangeTab: ({ setTab }) => (event, value) => {

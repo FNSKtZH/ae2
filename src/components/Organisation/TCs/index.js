@@ -7,7 +7,7 @@ import compose from 'recompose/compose'
 
 import appBaseUrl from '../../../modules/appBaseUrl'
 import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
-import tcsData from './tcsData'
+import withTcsData from './withTcsData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -32,10 +32,14 @@ const StyledA = styled.a`
 
 const enhance = compose(
   withActiveNodeArrayData,
-  tcsData,
+  withTcsData,
 )
 
 const TCs = ({ tcsData }: { tcsData: Object }) => {
+  const { loading, error } = tcsData
+  if (loading) return <Container>Lade Daten...</Container>
+  if (error) return <Container>`Fehler: ${error.message}`</Container>
+
   const tcs = sortBy(
     get(tcsData, 'organizationByName.taxonomiesByOrganizationId.nodes', []),
     'name',
