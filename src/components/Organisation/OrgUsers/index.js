@@ -10,7 +10,7 @@ import Icon from '@material-ui/core/Icon'
 import AddIcon from '@material-ui/icons/Add'
 
 import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
-import orgUsersData from './orgUsersData'
+import withOrgUsersData from './withOrgUsersData'
 import createOrgUserMutation from './createOrgUserMutation'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import OrgUser from './OrgUser'
@@ -32,7 +32,7 @@ const AddNewButton = styled(IconButton)`
 const enhance = compose(
   withApollo,
   withActiveNodeArrayData,
-  orgUsersData,
+  withOrgUsersData,
 )
 
 const OrgUsers = ({
@@ -42,6 +42,10 @@ const OrgUsers = ({
   orgUsersData: Object,
   client: Object,
 }) => {
+  const { loading, error } = orgUsersData
+  if (loading) return <Container>Lade Daten...</Container>
+  if (error) return <Container>`Fehler: ${error.message}`</Container>
+
   const orgUsers = get(
     orgUsersData,
     'organizationByName.organizationUsersByOrganizationId.nodes',

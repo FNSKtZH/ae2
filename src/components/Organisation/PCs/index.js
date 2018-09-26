@@ -39,6 +39,7 @@ const PCs = ({ pcsData }: { pcsData: Object }) => {
   const { loading, error } = pcsData
   if (loading) return <Container>Lade Daten...</Container>
   if (error) return <Container>`Fehler: ${error.message}`</Container>
+
   const pcs = sortBy(
     get(
       pcsData,
