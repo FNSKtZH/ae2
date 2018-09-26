@@ -131,6 +131,19 @@ const TaxonomyObject = ({
   ) {
     return <Container>Lade Daten...</Container>
   }
+  if (loginData.error) {
+    return <Container>`Fehler: ${loginData.error.message}`</Container>
+  }
+  if (organizationUsersData.error) {
+    return (
+      <Container>`Fehler: ${organizationUsersData.error.message}`</Container>
+    )
+  }
+  if (editingTaxonomiesData.error) {
+    return (
+      <Container>`Fehler: ${editingTaxonomiesData.error.message}`</Container>
+    )
+  }
 
   const username = get(loginData, 'login.username', null)
   const organizationUsers = get(
