@@ -18,7 +18,7 @@ import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
 import withPropsByTaxData from '../withPropsByTaxData'
-import exportTaxonomiesData from '../../exportTaxonomiesData'
+import withExportTaxonomiesData from '../../withExportTaxonomiesData'
 import exportWithSynonymDataData from '../../exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
@@ -42,7 +42,7 @@ const Label = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
-  exportTaxonomiesData,
+  withExportTaxonomiesData,
   withPropsByTaxData,
   exportWithSynonymDataData,
   withExportAddFilterFieldsData,

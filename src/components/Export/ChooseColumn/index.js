@@ -16,7 +16,7 @@ import get from 'lodash/get'
 import Taxonomies from './Taxonomies'
 import Properties from './Properties'
 import Filter from './Filter'
-import exportTaxonomiesData from '../exportTaxonomiesData'
+import withExportTaxonomiesData from '../withExportTaxonomiesData'
 import withExportPcoPropertiesData from '../withExportPcoPropertiesData'
 import withExportRcoPropertiesData from '../withExportRcoPropertiesData'
 import exportTaxPropertiesData from '../exportTaxPropertiesData'
@@ -64,7 +64,7 @@ const Container = styled.div`
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)
 const enhance = compose(
-  exportTaxonomiesData,
+  withExportTaxonomiesData,
   exportTaxPropertiesData,
   withExportPcoPropertiesData,
   withExportRcoPropertiesData,

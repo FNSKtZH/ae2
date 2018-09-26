@@ -11,7 +11,7 @@ import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import exportTaxonomiesData from '../exportTaxonomiesData'
+import withExportTaxonomiesData from '../withExportTaxonomiesData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import Snackbar from '@material-ui/core/Snackbar'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
@@ -43,7 +43,7 @@ const enhance = compose(
       })
     },
   }),
-  exportTaxonomiesData,
+  withExportTaxonomiesData,
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
   withState('pcoExpanded', 'setPcoExpanded', false),
   withState('rcoExpanded', 'setPropertiesExpanded', false),
@@ -100,7 +100,7 @@ const enhance = compose(
         setTimeout(() => setMessage(''), 5000)
       }
     },
-  })
+  }),
 )
 
 const Properties = ({

@@ -4,12 +4,12 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import get from 'lodash/get'
 
-import exportTaxonomiesData from '../exportTaxonomiesData'
+import withExportTaxonomiesData from '../withExportTaxonomiesData'
 import OptionsChoosen from './OptionsChoosen'
 import Preview from './Preview'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
-const enhance = compose(exportTaxonomiesData)
+const enhance = compose(withExportTaxonomiesData)
 
 const Container = styled.div`
   padding: 5px 0;

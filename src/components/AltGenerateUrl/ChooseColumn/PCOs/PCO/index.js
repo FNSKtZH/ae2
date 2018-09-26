@@ -16,7 +16,7 @@ import AllPcoChooser from '../AllPcoChooser'
 import PcoChooser from '../PcoChooser'
 import constants from '../../../../../modules/constants'
 import withPropsByTaxData from '../../withPropsByTaxData'
-import exportTaxonomiesData from '../../../exportTaxonomiesData'
+import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
@@ -53,7 +53,7 @@ const Count = styled.span`
 `
 
 const enhance = compose(
-  exportTaxonomiesData,
+  withExportTaxonomiesData,
   withPropsByTaxData,
   withState('expanded', 'setExpanded', false),
 )

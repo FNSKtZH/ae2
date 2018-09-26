@@ -11,7 +11,7 @@ import get from 'lodash/get'
 
 import exportTypeData from '../exportTypeData'
 import exportTypeMutation from '../exportTypeMutation'
-import exportTaxonomiesData from '../exportTaxonomiesData'
+import withExportTaxonomiesData from '../withExportTaxonomiesData'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
 import withExportPcoPropertiesData from '../withExportPcoPropertiesData'
 import removeExportPcoPropertyMutation from '../removeExportPcoPropertyMutation'
@@ -82,7 +82,7 @@ const StyledButton = styled(Button)`
 const enhance = compose(
   withApollo,
   exportTypeData,
-  exportTaxonomiesData,
+  withExportTaxonomiesData,
   exportTaxPropertiesData,
   withExportTaxFiltersData,
   withExportPcoPropertiesData,

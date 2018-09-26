@@ -12,7 +12,7 @@ import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
 import withPropsByTaxData from '../withPropsByTaxData'
-import exportTaxonomiesData from '../../exportTaxonomiesData'
+import withExportTaxonomiesData from '../../withExportTaxonomiesData'
 import data from './data'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
@@ -23,7 +23,7 @@ const Container = styled.div`
 
 const enhance = compose(
   withApollo,
-  exportTaxonomiesData,
+  withExportTaxonomiesData,
   data,
   withPropsByTaxData,
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),

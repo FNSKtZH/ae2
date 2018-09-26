@@ -16,7 +16,7 @@ import compose from 'recompose/compose'
 import Taxonomy from './Taxonomy'
 import JointTaxonomy from './JointTaxonomy'
 import withPropsByTaxData from '../../withPropsByTaxData'
-import exportTaxonomiesData from '../../../exportTaxonomiesData'
+import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
 import data from '../data'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
@@ -47,7 +47,7 @@ const Count = styled.span`
 
 const enhance = compose(
   withApollo,
-  exportTaxonomiesData,
+  withExportTaxonomiesData,
   data,
   withPropsByTaxData,
 )

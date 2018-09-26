@@ -16,7 +16,7 @@ import HowTo from './HowTo'
 import exportTypeMutation from '../../exportTypeMutation'
 import exportTypeData from '../../exportTypeData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
-import exportTaxonomiesData from '../../exportTaxonomiesData'
+import withExportTaxonomiesData from '../../withExportTaxonomiesData'
 import withPropsByTaxData from '../withPropsByTaxData'
 import withTaxonomiesData from './withTaxonomiesData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
@@ -74,7 +74,7 @@ const TaxonomyLabel = styled(FormControlLabel)`
 const enhance = compose(
   withApollo,
   withTaxonomiesData,
-  exportTaxonomiesData,
+  withExportTaxonomiesData,
   exportTypeData,
   withPropsByTaxData,
   withHandlers({

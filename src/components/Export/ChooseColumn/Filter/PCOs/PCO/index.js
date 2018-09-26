@@ -16,7 +16,7 @@ import withState from 'recompose/withState'
 import PcoField from '../../PcoField'
 import constants from '../../../../../../modules/constants'
 import withPropsByTaxData from '../../../withPropsByTaxData'
-import exportTaxonomiesData from '../../../../exportTaxonomiesData'
+import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
@@ -54,7 +54,7 @@ const PropertiesContainer = styled.div`
 
 const enhance = compose(
   withApollo,
-  exportTaxonomiesData,
+  withExportTaxonomiesData,
   withPropsByTaxData,
   withState('expanded', 'setExpanded', false),
 )
