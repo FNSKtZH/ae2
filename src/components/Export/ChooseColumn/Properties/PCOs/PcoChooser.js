@@ -10,7 +10,7 @@ import get from 'lodash/get'
 
 import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
 import removeExportPcoPropertyMutation from '../../../removeExportPcoPropertyMutation'
-import exportPcoPropertiesData from '../../../exportPcoPropertiesData'
+import withExportPcoPropertiesData from '../../../withExportPcoPropertiesData'
 
 const Container = styled.div``
 const Count = styled.span`
@@ -27,7 +27,7 @@ const Label = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
-  exportPcoPropertiesData,
+  withExportPcoPropertiesData,
   withHandlers({
     onCheck: ({ pcname, pname, client }) => (event, isChecked) => {
       const mutation = isChecked
@@ -38,7 +38,7 @@ const enhance = compose(
         variables: { pcname, pname },
       })
     },
-  })
+  }),
 )
 
 const PcoChooser = ({
@@ -59,7 +59,7 @@ const PcoChooser = ({
   const exportPcoProperties = get(
     exportPcoPropertiesData,
     'exportPcoProperties',
-    []
+    [],
   )
   //const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
   const checked =

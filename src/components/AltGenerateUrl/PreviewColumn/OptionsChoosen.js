@@ -11,7 +11,7 @@ import get from 'lodash/get'
 
 import exportTaxonomiesData from '../exportTaxonomiesData'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
-import exportPcoPropertiesData from '../exportPcoPropertiesData'
+import withExportPcoPropertiesData from '../withExportPcoPropertiesData'
 import removeExportPcoPropertyMutation from '../removeExportPcoPropertyMutation'
 import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
 import exportRcoPropertiesData from '../exportRcoPropertiesData'
@@ -61,7 +61,7 @@ const enhance = compose(
   withApollo,
   exportTaxonomiesData,
   exportTaxPropertiesData,
-  exportPcoPropertiesData,
+  withExportPcoPropertiesData,
   exportRcoPropertiesData,
   exportTooManyPropertiesData,
   withHandlers({
@@ -82,7 +82,7 @@ const enhance = compose(
     },
   }),
   withState('expanded', 'setExpanded', true),
-  withStyles(styles)
+  withStyles(styles),
 )
 
 const OptionsChoosen = ({
@@ -110,17 +110,17 @@ const OptionsChoosen = ({
   const exportTaxProperties = get(
     exportTaxPropertiesData,
     'exportTaxProperties',
-    []
+    [],
   )
   const exportPcoProperties = get(
     exportPcoPropertiesData,
     'exportPcoProperties',
-    []
+    [],
   )
   const exportRcoProperties = get(
     exportRcoPropertiesData,
     'exportRcoProperties',
-    []
+    [],
   )
   const noDataChoosen =
     [
@@ -137,12 +137,11 @@ const OptionsChoosen = ({
       <ul>
         <li
         >{`Taxonomien (welche das Artenlistentool erwartet): ${constants.altTaxonomies.join(
-          ', '
+          ', ',
         )}`}</li>
-        {
-          exportRcoProperties.length > 0 &&
+        {exportRcoProperties.length > 0 && (
           <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
-        }
+        )}
         <li>
           {`Eigenschaften:${
             [

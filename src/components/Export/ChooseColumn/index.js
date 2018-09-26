@@ -17,7 +17,7 @@ import Taxonomies from './Taxonomies'
 import Properties from './Properties'
 import Filter from './Filter'
 import exportTaxonomiesData from '../exportTaxonomiesData'
-import exportPcoPropertiesData from '../exportPcoPropertiesData'
+import withExportPcoPropertiesData from '../withExportPcoPropertiesData'
 import exportRcoPropertiesData from '../exportRcoPropertiesData'
 import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import exportTaxFiltersData from '../exportTaxFiltersData'
@@ -66,7 +66,7 @@ const Container = styled.div`
 const enhance = compose(
   exportTaxonomiesData,
   exportTaxPropertiesData,
-  exportPcoPropertiesData,
+  withExportPcoPropertiesData,
   exportRcoPropertiesData,
   exportTaxFiltersData,
   withExportPcoFiltersData,

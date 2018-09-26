@@ -9,7 +9,7 @@ import { withApollo } from 'react-apollo'
 
 import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
 import removeExportPcoPropertyMutation from '../../removeExportPcoPropertyMutation'
-import exportPcoPropertiesData from '../../exportPcoPropertiesData'
+import withExportPcoPropertiesData from '../../withExportPcoPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -25,7 +25,7 @@ const Label = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
-  exportPcoPropertiesData,
+  withExportPcoPropertiesData,
   withHandlers({
     onCheck: ({ properties, client }) => (event, isChecked) => {
       const mutation = isChecked
@@ -40,7 +40,7 @@ const enhance = compose(
         })
       })
     },
-  })
+  }),
 )
 
 const AllPcoChooser = ({
@@ -56,8 +56,9 @@ const AllPcoChooser = ({
   const checkedArray = properties.map(
     p =>
       exportPcoProperties.filter(
-        x => x.pcname === p.propertyCollectionName && x.pname === p.propertyName
-      ).length > 0
+        x =>
+          x.pcname === p.propertyCollectionName && x.pname === p.propertyName,
+      ).length > 0,
   )
   const checked = checkedArray.length > 0 && !checkedArray.includes(false)
 

@@ -14,9 +14,9 @@ import exportRcoData from '../exportRcoData'
 import exportObjectData from '../exportObjectData'
 import exportPcoData from '../exportPcoData'
 import synonymData from '../synonymData'
-import exportIdsData from './exportIdsData'
+import withExportIdsData from './withExportIdsData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
-import exportPcoPropertiesData from '../../exportPcoPropertiesData'
+import withExportPcoPropertiesData from '../../withExportPcoPropertiesData'
 import exportRcoPropertiesData from '../../exportRcoPropertiesData'
 import exportTaxPropertiesData from '../../exportTaxPropertiesData'
 import exportTaxFiltersData from '../../exportTaxFiltersData'
@@ -78,11 +78,11 @@ const StyledSnackbar = styled(Snackbar)`
 
 const enhance = compose(
   withPropsByTaxData,
-  exportIdsData,
+  withExportIdsData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
   exportTaxFiltersData,
-  exportPcoPropertiesData,
+  withExportPcoPropertiesData,
   withExportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
