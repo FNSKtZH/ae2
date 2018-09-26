@@ -9,7 +9,7 @@ import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
-import exportTypeData from '../exportTypeData'
+import withExportTypeData from '../withExportTypeData'
 import exportTypeMutation from '../exportTypeMutation'
 import withExportTaxonomiesData from '../withExportTaxonomiesData'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
@@ -35,7 +35,7 @@ import withExportOnlyRowsWithPropertiesData from '../withExportOnlyRowsWithPrope
 import exportOnlyRowsWithPropertiesMutation from '../exportOnlyRowsWithPropertiesMutation'
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../exportWithSynonymDataMutation'
-import exportTooManyPropertiesData from '../exportTooManyPropertiesData'
+import withExportTooManyPropertiesData from '../withExportTooManyPropertiesData'
 import withExportRcoInOneRowData from '../withExportRcoInOneRowData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 
@@ -81,7 +81,7 @@ const StyledButton = styled(Button)`
 
 const enhance = compose(
   withApollo,
-  exportTypeData,
+  withExportTypeData,
   withExportTaxonomiesData,
   withExportTaxPropertiesData,
   withExportTaxFiltersData,
@@ -90,7 +90,7 @@ const enhance = compose(
   withExportRcoPropertiesData,
   withExportRcoFiltersData,
   withExportOnlyRowsWithPropertiesData,
-  exportTooManyPropertiesData,
+  withExportTooManyPropertiesData,
   withExportRcoInOneRowData,
   exportWithSynonymDataData,
   withHandlers({

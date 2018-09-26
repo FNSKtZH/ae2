@@ -20,7 +20,7 @@ import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutatio
 import withExportTaxPropertiesData from '../withExportTaxPropertiesData'
 import removeExportTaxPropertyMutation from '../removeExportTaxPropertyMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
-import exportTooManyPropertiesData from '../exportTooManyPropertiesData'
+import withExportTooManyPropertiesData from '../withExportTooManyPropertiesData'
 import constants from '../../../modules/constants'
 
 const styles = theme => ({
@@ -63,7 +63,7 @@ const enhance = compose(
   withExportTaxPropertiesData,
   withExportPcoPropertiesData,
   withExportRcoPropertiesData,
-  exportTooManyPropertiesData,
+  withExportTooManyPropertiesData,
   withHandlers({
     onClickResetAll: ({ client }) => () => {
       client.mutate({

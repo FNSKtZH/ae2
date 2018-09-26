@@ -14,7 +14,7 @@ import sortBy from 'lodash/sortBy'
 import HowTo from './HowTo'
 
 import exportTypeMutation from '../../exportTypeMutation'
-import exportTypeData from '../../exportTypeData'
+import withExportTypeData from '../../withExportTypeData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import withExportTaxonomiesData from '../../withExportTaxonomiesData'
 import withPropsByTaxData from '../withPropsByTaxData'
@@ -75,7 +75,7 @@ const enhance = compose(
   withApollo,
   withTaxonomiesData,
   withExportTaxonomiesData,
-  exportTypeData,
+  withExportTypeData,
   withPropsByTaxData,
   withHandlers({
     onCheckType: ({ client, taxonomiesData, exportTaxonomiesData }) => async (
