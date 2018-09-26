@@ -1342,6 +1342,38 @@
     scroll "^2.0.3"
     warning "^4.0.1"
 
+"@material-ui/core@^3.0.2":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-3.1.1.tgz#377b406fd26b88df6626c1697eef3f488fddb553"
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    "@types/jss" "^9.5.3"
+    "@types/react-transition-group" "^2.0.8"
+    brcast "^3.0.1"
+    classnames "^2.2.5"
+    csstype "^2.5.2"
+    debounce "^1.1.0"
+    deepmerge "^2.0.1"
+    dom-helpers "^3.2.1"
+    hoist-non-react-statics "^2.5.0"
+    is-plain-object "^2.0.4"
+    jss "^9.3.3"
+    jss-camel-case "^6.0.0"
+    jss-default-unit "^8.0.2"
+    jss-global "^3.0.0"
+    jss-nested "^6.0.1"
+    jss-props-sort "^6.0.0"
+    jss-vendor-prefixer "^7.0.0"
+    keycode "^2.1.9"
+    normalize-scroll-left "^0.1.2"
+    popper.js "^1.14.1"
+    prop-types "^15.6.0"
+    react-event-listener "^0.6.2"
+    react-jss "^8.1.0"
+    react-transition-group "^2.2.1"
+    recompose "0.28.0 - 0.30.0"
+    warning "^4.0.1"
+
 "@material-ui/icons@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-1.1.0.tgz#4d025df7b0ba6ace8d6710079ed76013a4d26595"
@@ -1474,7 +1506,7 @@
     "@types/node" "*"
     "@types/pg-types" "*"
 
-"@types/prop-types@*", "@types/prop-types@^15.5.2":
+"@types/prop-types@*":
   version "15.5.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.5.tgz#17038dd322c2325f5da650a94d5f9974943625e3"
   dependencies:
@@ -1811,6 +1843,20 @@ apollo-client@2.4.2:
     zen-observable "^0.8.0"
   optionalDependencies:
     "@types/async" "2.0.49"
+
+apollo-link-batch-http@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/apollo-link-batch-http/-/apollo-link-batch-http-1.2.3.tgz#cd3bbc0489bab8164618bafbae8796e26c51c278"
+  dependencies:
+    apollo-link "^1.2.3"
+    apollo-link-batch "^1.1.4"
+    apollo-link-http-common "^0.2.5"
+
+apollo-link-batch@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/apollo-link-batch/-/apollo-link-batch-1.1.4.tgz#a2f483d5d6a9e9904210e74ab71c3d44f20ac5a7"
+  dependencies:
+    apollo-link "^1.2.3"
 
 apollo-link-context@1.0.9:
   version "1.0.9"
@@ -2891,7 +2937,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.3, classnames@^2.2.5:
+classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
 
@@ -4249,10 +4295,6 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exenv@^1.2.0:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
-
 exit-on-epipe@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/exit-on-epipe/-/exit-on-epipe-1.0.1.tgz#0bdd92e87d5285d267daa8171d0eb06159689692"
@@ -5016,7 +5058,7 @@ graphql-parse-resolve-info@4.0.0-rc.12:
     "@types/graphql" "^0.13.4"
     debug ">=2 <3"
 
-graphql-request@^1.5.0, graphql-request@^1.6.0:
+graphql-request@^1.5.0:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-1.8.2.tgz#398d10ae15c585676741bde3fc01d5ca948f8fbe"
   dependencies:
@@ -5026,20 +5068,18 @@ graphql-tag@2.9.2:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.9.2.tgz#2f60a5a981375f430bf1e6e95992427dc18af686"
 
-graphql-voyager@1.0.0-rc.19:
-  version "1.0.0-rc.19"
-  resolved "https://registry.yarnpkg.com/graphql-voyager/-/graphql-voyager-1.0.0-rc.19.tgz#8f9dfdfa7ae01d6fc81d58b63873d1261b87f779"
+graphql-voyager@^1.0.0-rc.19:
+  version "1.0.0-rc.25"
+  resolved "https://registry.yarnpkg.com/graphql-voyager/-/graphql-voyager-1.0.0-rc.25.tgz#1617138ebb9c79e6467efa13166d8fda20e2eda6"
   dependencies:
     "@f/animate" "^1.0.1"
-    classnames "^2.2.5"
+    "@material-ui/core" "^3.0.2"
+    classnames "^2.2.6"
     clipboard "^2.0.1"
     commonmark "^0.28.1"
-    graphql-request "^1.6.0"
     lodash "^4.17.10"
-    prop-types "^15.6.1"
-    react-modal "^2.3.3"
+    prop-types "^15.6.2"
     react-redux "^5.0.7"
-    react-toolbox "^2.0.0-beta.13"
     redux "^4.0.0"
     redux-thunk "^2.3.0"
     reselect "^3.0.1"
@@ -5224,10 +5264,6 @@ hmac-drbg@^1.0.0:
     hash.js "^1.0.3"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
-
-hoist-non-react-statics@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
 hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0:
   version "2.5.5"
@@ -8376,10 +8412,6 @@ rafl@~1.2.1:
   dependencies:
     global "~4.3.0"
 
-ramda@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.23.0.tgz#ccd13fff73497a93974e3e86327bfd87bd6e8e2b"
-
 randomatic@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-3.1.0.tgz#36f2ca708e9e567f5ed2ec01949026d50aa10116"
@@ -8465,13 +8497,6 @@ react-contextmenu@2.9.3:
     classnames "^2.2.5"
     object-assign "^4.1.0"
 
-react-css-themr@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/react-css-themr/-/react-css-themr-2.1.2.tgz#e017514e471c232f43a754a55b49d81faf5dafb8"
-  dependencies:
-    hoist-non-react-statics "^1.2.0"
-    invariant "^2.2.1"
-
 react-data-grid@4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-4.0.8.tgz#e67f73dde0d3c61bb38e41425603698ede442d18"
@@ -8523,7 +8548,7 @@ react-error-overlay@5.0.0-next.a671462c:
   version "5.0.0-next.a671462c"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-5.0.0-next.a671462c.tgz#e0671883358a8678a94cc8980e9848b2d3dabfb7"
 
-react-event-listener@^0.6.0:
+react-event-listener@^0.6.0, react-event-listener@^0.6.2:
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.6.4.tgz#d0ea5ed897da1a796616c44b5a8758898140f203"
   dependencies:
@@ -8584,13 +8609,6 @@ react-media@^1.6.1:
   dependencies:
     invariant "^2.2.2"
     json2mq "^0.2.0"
-    prop-types "^15.5.10"
-
-react-modal@^2.3.3:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-2.4.1.tgz#cb09b26711b148eb9f59cb180e1b7d82980ded05"
-  dependencies:
-    exenv "^1.2.0"
     prop-types "^15.5.10"
 
 react-popper@^0.10.0:
@@ -8677,12 +8695,6 @@ react-scripts@2.0.0-next.a671462c:
   optionalDependencies:
     fsevents "1.2.0"
 
-react-style-proptype@^3.0.0:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/react-style-proptype/-/react-style-proptype-3.2.2.tgz#d8e998e62ce79ec35b087252b90f19f1c33968a0"
-  dependencies:
-    prop-types "^15.5.4"
-
 react-swipeable-views-core@^0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.13.0.tgz#6bf8a8132a756355444537672a14e84b1e3b53c2"
@@ -8717,18 +8729,6 @@ react-themeable@^1.1.0:
   resolved "https://registry.yarnpkg.com/react-themeable/-/react-themeable-1.1.0.tgz#7d4466dd9b2b5fa75058727825e9f152ba379a0e"
   dependencies:
     object-assign "^3.0.0"
-
-react-toolbox@^2.0.0-beta.13:
-  version "2.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/react-toolbox/-/react-toolbox-2.0.0-beta.13.tgz#43f80c2e672ebb8bd56baff24167f65e88858950"
-  dependencies:
-    "@types/prop-types" "^15.5.2"
-    classnames "^2.2.5"
-    core-js "^2.4.0"
-    ramda "^0.23.0"
-    react-css-themr "^2.1.2"
-    react-style-proptype "^3.0.0"
-    react-transition-group "^2.2.1"
 
 react-transition-group@^2.2.1:
   version "2.4.0"
@@ -8835,7 +8835,7 @@ realpath-native@^1.0.0:
   dependencies:
     util.promisify "^1.0.0"
 
-recompose@0.30.0:
+"recompose@0.28.0 - 0.30.0", recompose@0.30.0:
   version "0.30.0"
   resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.30.0.tgz#82773641b3927e8c7d24a0d87d65aeeba18aabd0"
   dependencies:
