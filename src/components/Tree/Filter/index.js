@@ -207,20 +207,35 @@ class TreeFilter extends Component {
       ...s,
       type: 'pC',
     }))
-    const suggestions = [
+    const loadingSuggestions = [
       {
-        title: `Arten (${suggestionsArt.length})`,
-        suggestions: suggestionsArt,
-      },
-      {
-        title: `Lebensräume (${suggestionsLr.length})`,
-        suggestions: suggestionsLr,
-      },
-      {
-        title: `Eigenschaften-Sammlungen (${suggestionsPC.length})`,
-        suggestions: suggestionsPC,
+        title: 'Lade Daten',
+        suggestions: [
+          {
+            id: 'none',
+            name: '',
+            type: 'art',
+          },
+        ],
       },
     ]
+    const suggestions = [...suggestionsArt, ...suggestionsLr, ...suggestionsPC]
+      .length
+      ? [
+          {
+            title: `Arten (${suggestionsArt.length})`,
+            suggestions: suggestionsArt,
+          },
+          {
+            title: `Lebensräume (${suggestionsLr.length})`,
+            suggestions: suggestionsLr,
+          },
+          {
+            title: `Eigenschaften-Sammlungen (${suggestionsPC.length})`,
+            suggestions: suggestionsPC,
+          },
+        ]
+      : loadingSuggestions
     // on first render dimensions.width is passed as '100%'
     // later it is passed as number of pixels
     const autosuggestWidth = isNaN(dimensions.width)
@@ -235,7 +250,6 @@ class TreeFilter extends Component {
             onSuggestionsFetchRequested={() => {
               // Autosuggest wants this function
               // could maybe be used to indicate loading?
-              //console.log('fetch requested')
             }}
             onSuggestionsClearRequested={() => {
               // need this?
