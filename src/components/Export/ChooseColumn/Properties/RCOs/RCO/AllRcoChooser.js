@@ -9,7 +9,7 @@ import { withApollo } from 'react-apollo'
 
 import addExportRcoPropertyMutation from '../../../../addExportRcoPropertyMutation'
 import removeExportRcoPropertyMutation from '../../../../removeExportRcoPropertyMutation'
-import exportRcoPropertiesData from '../../../../exportRcoPropertiesData'
+import withExportRcoPropertiesData from '../../../../withExportRcoPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -25,7 +25,7 @@ const Label = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
-  exportRcoPropertiesData,
+  withExportRcoPropertiesData,
   withHandlers({
     onCheck: ({ properties, client }) => (event, isChecked) => {
       const mutation = isChecked
@@ -41,7 +41,7 @@ const enhance = compose(
         })
       })
     },
-  })
+  }),
 )
 
 const AllRcoChooser = ({
@@ -60,8 +60,8 @@ const AllRcoChooser = ({
         x =>
           x.pcname === p.propertyCollectionName &&
           x.relationtype === p.relationType &&
-          x.pname === p.propertyName
-      ).length > 0
+          x.pname === p.propertyName,
+      ).length > 0,
   )
   const checked = checkedArray.length > 0 && !checkedArray.includes(false)
 
