@@ -12,7 +12,7 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 
 import PCO from './PCO'
-import propsByTaxData from '../propsByTaxData'
+import withPropsByTaxData from '../withPropsByTaxData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -40,7 +40,7 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(propsByTaxData)
+const enhance = compose(withPropsByTaxData)
 
 const PCOs = ({
   propsByTaxData,
@@ -54,11 +54,11 @@ const PCOs = ({
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
   const pcoPropertiesByPropertyCollection = groupBy(
     pcoProperties,
-    'propertyCollectionName'
+    'propertyCollectionName',
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
   const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
@@ -70,7 +70,8 @@ const PCOs = ({
         <StyledCard>
           <StyledCardActions disableActionSpacing onClick={onTogglePco}>
             <CardActionTitle>
-              Eigenschaftensammlungen{
+              Eigenschaftensammlungen
+              {
                 <Count>
                   {pcoPropertiesFieldsCount > 0
                     ? `(${pCCount} Sammlungen, ${pcoPropertiesFieldsCount} Felder)`

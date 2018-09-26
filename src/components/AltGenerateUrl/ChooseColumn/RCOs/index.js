@@ -13,7 +13,7 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 
 import RCO from './RCO'
-import propsByTaxData from '../propsByTaxData'
+import withPropsByTaxData from '../withPropsByTaxData'
 import data from '../data'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
@@ -43,7 +43,11 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(withApollo, data, propsByTaxData)
+const enhance = compose(
+  withApollo,
+  data,
+  withPropsByTaxData,
+)
 
 const RCOs = ({
   propsByTaxData,
@@ -59,7 +63,7 @@ const RCOs = ({
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
@@ -78,7 +82,8 @@ const RCOs = ({
         <StyledCard>
           <StyledCardActions disableActionSpacing onClick={onToggleRco}>
             <CardActionTitle>
-              Beziehungssammlungen{
+              Beziehungssammlungen
+              {
                 <Count>
                   {rcoPropertiesFieldsCount
                     ? `(${rCCount} Sammlungen, ${rcoPropertiesFieldsCount} Felder)`

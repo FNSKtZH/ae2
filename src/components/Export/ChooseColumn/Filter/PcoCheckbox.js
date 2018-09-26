@@ -12,7 +12,7 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 
 import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
-import exportAddFilterFieldsData from '../../exportAddFilterFieldsData'
+import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
 
 const Container = styled.div`
@@ -40,11 +40,11 @@ const StyledRadio = styled(Radio)`
 
 const enhance = compose(
   withApollo,
-  exportAddFilterFieldsData,
+  withExportAddFilterFieldsData,
   withHandlers({
     onChange: ({ pcname, pname, client, exportAddFilterFieldsData }) => (
       e,
-      val
+      val,
     ) => {
       let comparator = '='
       let value = val
@@ -60,7 +60,7 @@ const enhance = compose(
       const exportAddFilterFields = get(
         exportAddFilterFieldsData,
         'exportAddFilterFields',
-        true
+        true,
       )
       if (exportAddFilterFields) {
         client.mutate({
@@ -69,7 +69,7 @@ const enhance = compose(
         })
       }
     },
-  })
+  }),
 )
 
 const PcoCheckbox = ({

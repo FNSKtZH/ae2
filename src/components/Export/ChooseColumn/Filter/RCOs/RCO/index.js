@@ -15,7 +15,7 @@ import withState from 'recompose/withState'
 
 import RcoField from '../../RcoField'
 import constants from '../../../../../../modules/constants'
-import propsByTaxData from '../../../withPropsByTaxData'
+import withPropsByTaxData from '../../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
@@ -56,8 +56,8 @@ const PropertiesContainer = styled.div`
 const enhance = compose(
   withApollo,
   exportTaxonomiesData,
-  propsByTaxData,
-  withState('expanded', 'setExpanded', false)
+  withPropsByTaxData,
+  withState('expanded', 'setExpanded', false),
 )
 
 const RcoCard = ({
@@ -78,7 +78,7 @@ const RcoCard = ({
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {

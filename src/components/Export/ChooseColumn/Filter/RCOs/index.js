@@ -14,7 +14,7 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
 import RCO from './RCO'
-import propsByTaxData from '../../withPropsByTaxData'
+import withPropsByTaxData from '../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
@@ -46,8 +46,8 @@ const Count = styled.span`
 const enhance = compose(
   withApollo,
   exportTaxonomiesData,
-  propsByTaxData,
-  withState('expanded', 'setExpanded', false)
+  withPropsByTaxData,
+  withState('expanded', 'setExpanded', false),
 )
 
 const RcosCard = ({
@@ -66,7 +66,7 @@ const RcosCard = ({
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
@@ -85,7 +85,8 @@ const RcosCard = ({
         <StyledCard>
           <StyledCardActions disableActionSpacing onClick={onToggleRco}>
             <CardActionTitle>
-              Beziehungssammlungen{rCCount > 0 && (
+              Beziehungssammlungen
+              {rCCount > 0 && (
                 <Count>{`(${rCCount} Sammlungen, ${
                   Object.keys(rcoPropertiesFields).length
                 } ${

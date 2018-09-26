@@ -29,7 +29,7 @@ import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import rowsFromObjects from './rowsFromObjects'
-import propsByTaxData from '../ChooseColumn/withPropsByTaxData'
+import withPropsByTaxData from '../ChooseColumn/withPropsByTaxData'
 
 const Container = styled.div`
   padding-top: 5px;
@@ -77,7 +77,7 @@ const StyledSnackbar = styled(Snackbar)`
 `
 
 const enhance = compose(
-  propsByTaxData,
+  withPropsByTaxData,
   exportIdsData,
   exportTaxonomiesData,
   exportTaxPropertiesData,

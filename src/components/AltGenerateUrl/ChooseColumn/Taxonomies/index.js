@@ -15,7 +15,7 @@ import sumBy from 'lodash/sumBy'
 import compose from 'recompose/compose'
 
 import JointTaxonomy from './JointTaxonomy'
-import propsByTaxData from '../propsByTaxData'
+import withPropsByTaxData from '../withPropsByTaxData'
 import data from '../data'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import constants from '../../../../modules/constants'
@@ -49,7 +49,11 @@ const StyledSnackbar = styled(Snackbar)`
   }
 `
 
-const enhance = compose(withApollo, data, propsByTaxData)
+const enhance = compose(
+  withApollo,
+  data,
+  withPropsByTaxData,
+)
 
 const Properties = ({
   propsByTaxData,
@@ -65,7 +69,7 @@ const Properties = ({
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
@@ -74,7 +78,7 @@ const Properties = ({
   let jointTaxProperties = []
   if (taxCount > 1) {
     jointTaxProperties = Object.values(
-      groupBy(taxProperties, t => t.propertyName)
+      groupBy(taxProperties, t => t.propertyName),
     ).map(t => ({
       count: sumBy(t, x => Number(x.count)),
       jsontype: t[0].jsontype,
@@ -90,11 +94,12 @@ const Properties = ({
         <StyledCard>
           <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
             <CardActionTitle>
-              Taxonomie{
+              Taxonomie
+              {
                 <Count>
                   {taxFieldsCount > 0
                     ? `(${taxFieldsCount} Felder aus: ${constants.altTaxonomies.join(
-                        ', '
+                        ', ',
                       )})`
                     : '(...)'}
                 </Count>

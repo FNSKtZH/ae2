@@ -15,7 +15,7 @@ import withState from 'recompose/withState'
 
 import TaxField from '../../TaxField'
 import constants from '../../../../../../modules/constants'
-import propsByTaxData from '../../../withPropsByTaxData'
+import withPropsByTaxData from '../../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
@@ -56,12 +56,12 @@ const PropertiesContainer = styled.div`
 const enhance = compose(
   withApollo,
   exportTaxonomiesData,
-  propsByTaxData,
+  withPropsByTaxData,
   withState(
     'expanded',
     'setExpanded',
-    ({ initiallyExpanded }) => initiallyExpanded
-  )
+    ({ initiallyExpanded }) => initiallyExpanded,
+  ),
 )
 
 const TaxonomyCard = ({
@@ -78,7 +78,7 @@ const TaxonomyCard = ({
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')

@@ -17,11 +17,11 @@ import Id from './Id'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import propsByTaxData from '../withPropsByTaxData'
+import withPropsByTaxData from '../withPropsByTaxData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import exportWithSynonymDataData from '../../exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
-import exportAddFilterFieldsData from '../../exportAddFilterFieldsData'
+import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
 import exportOnlyRowsWithPropertiesData from '../../exportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
@@ -43,9 +43,9 @@ const Label = styled(FormControlLabel)`
 const enhance = compose(
   withApollo,
   exportTaxonomiesData,
-  propsByTaxData,
+  withPropsByTaxData,
   exportWithSynonymDataData,
-  exportAddFilterFieldsData,
+  withExportAddFilterFieldsData,
   exportOnlyRowsWithPropertiesData,
   withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
@@ -113,7 +113,7 @@ const enhance = compose(
         setPropertiesExpanded(false)
       }
     },
-  })
+  }),
 )
 
 const Filter = ({
@@ -146,27 +146,27 @@ const Filter = ({
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
     'exportWithSynonymData',
-    true
+    true,
   )
   const exportAddFilterFields = get(
     exportAddFilterFieldsData,
     'exportAddFilterFields',
-    true
+    true,
   )
   const exportOnlyRowsWithProperties = get(
     exportOnlyRowsWithPropertiesData,
     'exportOnlyRowsWithProperties',
-    true
+    true,
   )
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
 
   return (

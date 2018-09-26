@@ -17,7 +17,7 @@ import trimStart from 'lodash/trimStart'
 import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
 import readableType from '../../../../modules/readableType'
 import taxFieldPropData from './taxFieldPropData'
-import exportAddFilterFieldsData from '../../exportAddFilterFieldsData'
+import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import addExportTaxPropertyMutation from '../../addExportTaxPropertyMutation'
 
 const StyledPaper = styled(Paper)`
@@ -98,8 +98,8 @@ const enhance = compose(
   withState('fetchData', 'setFetchData', false),
   withState('dataFetched', 'setDataFetched', false),
   taxFieldPropData,
-  exportAddFilterFieldsData,
-  withStyles(styles)
+  withExportAddFilterFieldsData,
+  withStyles(styles),
 )
 
 type Props = {
@@ -194,7 +194,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
       pname,
       comparator,
       client,
-      exportAddFilterFieldsData
+      exportAddFilterFieldsData,
     } = this.props
     const { value } = this.state
     // 1. change filter value
@@ -214,7 +214,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     const exportAddFilterFields = get(
       exportAddFilterFieldsData,
       'exportAddFilterFields',
-      true
+      true,
     )
     if (exportAddFilterFields && value) {
       client.mutate({
@@ -262,7 +262,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
             left: 0,
             right: 0,
             // minWidth: that of parent
-            minWidth: width
+            minWidth: width,
           },
           suggestionsList: suggestionsList,
           suggestion: suggestion,

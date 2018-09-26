@@ -16,7 +16,7 @@ import trimStart from 'lodash/trimStart'
 import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 import readableType from '../../../../modules/readableType'
 import pcoFieldPropData from './pcoFieldPropData'
-import exportAddFilterFieldsData from '../../exportAddFilterFieldsData'
+import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
 
 const StyledPaper = styled(Paper)`
@@ -104,8 +104,8 @@ const enhance = compose(
   withState('fetchData', 'setFetchData', false),
   withState('dataFetched', 'setDataFetched', false),
   pcoFieldPropData,
-  exportAddFilterFieldsData,
-  withStyles(styles)
+  withExportAddFilterFieldsData,
+  withStyles(styles),
 )
 
 type Props = {
@@ -198,7 +198,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
       pname,
       comparator,
       client,
-      exportAddFilterFieldsData
+      exportAddFilterFieldsData,
     } = this.props
     const { value } = this.state
     // 1. change filter value
@@ -218,7 +218,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     const exportAddFilterFields = get(
       exportAddFilterFieldsData,
       'exportAddFilterFields',
-      true
+      true,
     )
     if (exportAddFilterFields && value) {
       client.mutate({

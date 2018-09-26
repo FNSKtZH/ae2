@@ -17,7 +17,7 @@ import trimStart from 'lodash/trimStart'
 import exportRcoFiltersMutation from '../../exportRcoFiltersMutation'
 import readableType from '../../../../modules/readableType'
 import rcoFieldPropData from './rcoFieldPropData'
-import exportAddFilterFieldsData from '../../exportAddFilterFieldsData'
+import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import addExportRcoPropertyMutation from '../../addExportRcoPropertyMutation'
 
 const StyledPaper = styled(Paper)`
@@ -105,8 +105,8 @@ const enhance = compose(
   withState('fetchData', 'setFetchData', false),
   withState('dataFetched', 'setDataFetched', false),
   rcoFieldPropData,
-  exportAddFilterFieldsData,
-  withStyles(styles)
+  withExportAddFilterFieldsData,
+  withStyles(styles),
 )
 
 type Props = {
@@ -222,7 +222,7 @@ class IntegrationAutosuggest extends React.Component<Props, State> {
     const exportAddFilterFields = get(
       exportAddFilterFieldsData,
       'exportAddFilterFields',
-      true
+      true,
     )
     if (exportAddFilterFields && value) {
       client.mutate({
