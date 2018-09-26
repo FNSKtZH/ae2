@@ -15,7 +15,7 @@ import compose from 'recompose/compose'
 
 import Taxonomy from './Taxonomy'
 import JointTaxonomy from './JointTaxonomy'
-import propsByTaxData from '../../withPropsByTaxData'
+import withPropsByTaxData from '../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import data from '../data'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
@@ -45,7 +45,12 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(withApollo, exportTaxonomiesData, data, propsByTaxData)
+const enhance = compose(
+  withApollo,
+  exportTaxonomiesData,
+  data,
+  withPropsByTaxData,
+)
 
 const Properties = ({
   propsByTaxData,
@@ -62,7 +67,7 @@ const Properties = ({
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
@@ -72,7 +77,7 @@ const Properties = ({
   let jointTaxProperties = []
   if (taxCount > 1) {
     jointTaxProperties = Object.values(
-      groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`)
+      groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`),
     )
       .filter(v => v.length === taxCount)
       .map(t => ({
@@ -91,7 +96,8 @@ const Properties = ({
         <StyledCard>
           <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
             <CardActionTitle>
-              Taxonomien{taxCount > 0 && (
+              Taxonomien
+              {taxCount > 0 && (
                 <Count>{`(${taxCount} ${
                   taxCount === 1 ? 'Taxonomie' : 'Taxonomien'
                 }, ${taxFieldsCount} ${

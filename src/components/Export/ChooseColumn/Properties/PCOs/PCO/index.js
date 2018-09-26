@@ -15,7 +15,7 @@ import withState from 'recompose/withState'
 import AllPcoChooser from '../AllPcoChooser'
 import PcoChooser from '../PcoChooser'
 import constants from '../../../../../../modules/constants'
-import propsByTaxData from '../../../withPropsByTaxData'
+import withPropsByTaxData from '../../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
@@ -54,8 +54,8 @@ const Count = styled.span`
 
 const enhance = compose(
   exportTaxonomiesData,
-  propsByTaxData,
-  withState('expanded', 'setExpanded', false)
+  withPropsByTaxData,
+  withState('expanded', 'setExpanded', false),
 )
 
 const PCO = ({
@@ -76,11 +76,11 @@ const PCO = ({
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
   const pcoPropertiesByPropertyCollection = groupBy(
     pcoProperties,
-    'propertyCollectionName'
+    'propertyCollectionName',
   )
 
   return (

@@ -11,7 +11,7 @@ import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import propsByTaxData from '../withPropsByTaxData'
+import withPropsByTaxData from '../withPropsByTaxData'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import data from './data'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
@@ -25,7 +25,7 @@ const enhance = compose(
   withApollo,
   exportTaxonomiesData,
   data,
-  propsByTaxData,
+  withPropsByTaxData,
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
   withState('pcoExpanded', 'setFilterExpanded', false),
   withState('rcoExpanded', 'setPropertiesExpanded', false),
@@ -75,7 +75,7 @@ const enhance = compose(
         setPropertiesExpanded(false)
       }
     },
-  })
+  }),
   //withWindowSize,
 )
 
@@ -101,12 +101,12 @@ const Properties = ({
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
 
   return (

@@ -16,7 +16,7 @@ import withState from 'recompose/withState'
 import AllRcoChooser from './AllRcoChooser'
 import RcoChooser from './RcoChooser'
 import constants from '../../../../../../modules/constants'
-import propsByTaxData from '../../../withPropsByTaxData'
+import withPropsByTaxData from '../../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../../exportTaxonomiesData'
 import data from '../../data'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
@@ -61,8 +61,8 @@ const enhance = compose(
   withApollo,
   exportTaxonomiesData,
   data,
-  propsByTaxData,
-  withState('expanded', 'setExpanded', false)
+  withPropsByTaxData,
+  withState('expanded', 'setExpanded', false),
 )
 
 const RCO = ({
@@ -81,7 +81,7 @@ const RCO = ({
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
@@ -94,7 +94,7 @@ const RCO = ({
   const rcoCountByTaxonomyRelationType = get(
     data,
     'rcoCountByTaxonomyRelationTypeFunction.nodes',
-    []
+    [],
   )
   // in every key of rcoPropertiesByPropertyCollection
   // add id and name of Beziehungspartner
@@ -104,14 +104,14 @@ const RCO = ({
     let rco = rcoCountByTaxonomyRelationType.find(
       r =>
         r.propertyCollectionName === myRpc.propertyCollectionName &&
-        r.relationType === myRpc.relationType
+        r.relationType === myRpc.relationType,
     )
     if (!rco) {
       rco = rcoCountByTaxonomyRelationType.find(
         r =>
           `${r.propertyCollectionName}: ${r.relationType}` ===
             myRpc.propertyCollectionName &&
-          r.relationType === myRpc.relationType
+          r.relationType === myRpc.relationType,
       )
     }
     if (!rco) rco = {}

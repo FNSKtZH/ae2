@@ -14,7 +14,7 @@ import compose from 'recompose/compose'
 
 import RCO from './RCO'
 import ChooseNrOfRows from './ChooseNrOfRows'
-import propsByTaxData from '../../withPropsByTaxData'
+import withPropsByTaxData from '../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import data from '../data'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
@@ -45,7 +45,12 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(withApollo, exportTaxonomiesData, data, propsByTaxData)
+const enhance = compose(
+  withApollo,
+  exportTaxonomiesData,
+  data,
+  withPropsByTaxData,
+)
 
 const RCOs = ({
   propsByTaxData,
@@ -61,7 +66,7 @@ const RCOs = ({
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
 
   const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
@@ -74,7 +79,7 @@ const RCOs = ({
   const rcoCountByTaxonomyRelationType = get(
     data,
     'rcoCountByTaxonomyRelationTypeFunction.nodes',
-    []
+    [],
   )
   // in every key of rcoPropertiesByPropertyCollection
   // add id and name of Beziehungspartner
@@ -84,14 +89,14 @@ const RCOs = ({
     let rco = rcoCountByTaxonomyRelationType.find(
       r =>
         r.propertyCollectionName === myRpc.propertyCollectionName &&
-        r.relationType === myRpc.relationType
+        r.relationType === myRpc.relationType,
     )
     if (!rco) {
       rco = rcoCountByTaxonomyRelationType.find(
         r =>
           `${r.propertyCollectionName}: ${r.relationType}` ===
             myRpc.propertyCollectionName &&
-          r.relationType === myRpc.relationType
+          r.relationType === myRpc.relationType,
       )
     }
     if (!rco) rco = {}
@@ -119,7 +124,8 @@ const RCOs = ({
         <StyledCard>
           <StyledCardActions disableActionSpacing onClick={onToggleRco}>
             <CardActionTitle>
-              Beziehungssammlungen{rCCount > 0 && (
+              Beziehungssammlungen
+              {rCCount > 0 && (
                 <Count>{`(${rCCount} Sammlungen, ${
                   Object.keys(rcoPropertiesFields).length
                 } ${

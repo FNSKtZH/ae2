@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 
 export default graphql(
   gql`
-    query taxonomiesDataQuery {
+    query AllTaxonomiesQuery {
       allTaxonomies {
         nodes {
           id
@@ -16,5 +16,5 @@ export default graphql(
   `,
   {
     name: 'taxonomiesData',
-  }
+  },
 )

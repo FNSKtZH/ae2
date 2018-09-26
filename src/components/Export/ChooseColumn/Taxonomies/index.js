@@ -17,7 +17,7 @@ import exportTypeMutation from '../../exportTypeMutation'
 import exportTypeData from '../../exportTypeData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
-import propsByTaxData from '../withPropsByTaxData'
+import withPropsByTaxData from '../withPropsByTaxData'
 import taxonomiesData from './taxonomiesData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
@@ -76,16 +76,16 @@ const enhance = compose(
   taxonomiesData,
   exportTaxonomiesData,
   exportTypeData,
-  propsByTaxData,
+  withPropsByTaxData,
   withHandlers({
     onCheckType: ({ client, taxonomiesData, exportTaxonomiesData }) => async (
       event,
-      isChecked
+      isChecked,
     ) => {
       const { name } = event.target
       const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
       const taxonomiesOfType = allTaxonomies.filter(
-        t => t.type.toLowerCase() === name.toLowerCase()
+        t => t.type.toLowerCase() === name.toLowerCase(),
       )
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       if (isChecked) {
@@ -106,7 +106,7 @@ const enhance = compose(
         // check if taxonomy(s) of other type was choosen
         // if so: uncheck
         const exportTaxonomiesWithoutOtherType = exportTaxonomies.filter(
-          t => exportTypeTAXToReadable[t.type] === name
+          t => exportTypeTAXToReadable[t.type] === name,
         )
         if (exportTaxonomiesWithoutOtherType.length < exportTaxonomies.length) {
           await client.mutate({
@@ -122,7 +122,7 @@ const enhance = compose(
         // uncheck all taxonomies of this type
         const taxonomiesToUncheck = taxonomiesOfType.map(t => t.taxonomyName)
         const remainingTaxonomies = exportTaxonomies.filter(
-          t => !taxonomiesToUncheck.includes(t)
+          t => !taxonomiesToUncheck.includes(t),
         )
         await client.mutate({
           mutation: exportTaxonomiesMutation,
@@ -130,10 +130,11 @@ const enhance = compose(
         })
       }
     },
-    onCheckTaxonomy: ({ client, exportTaxonomiesData, taxonomiesData }) => async (
-      event,
-      isChecked
-    ) => {
+    onCheckTaxonomy: ({
+      client,
+      exportTaxonomiesData,
+      taxonomiesData,
+    }) => async (event, isChecked) => {
       const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       const { name } = event.target
@@ -165,7 +166,7 @@ const enhance = compose(
         }
       }
     },
-  })
+  }),
 )
 
 const Types = ({
@@ -187,7 +188,7 @@ const Types = ({
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const allTaxonomies = sortBy(
     get(taxonomiesData, 'allTaxonomies.nodes', []),
-    'name'
+    'name',
   )
   const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'

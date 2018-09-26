@@ -110,7 +110,7 @@ const enhance = compose(
       onSetMessage,
     }) => () => {
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      const loading = propsByTaxData.loading
+      const loading = propsByTaxData.loading || exportTaxonomiesData.loading
       if (!filterExpanded && exportTaxonomies.length > 0 && !loading) {
         setFilterExpanded(true)
         // close all others
@@ -134,7 +134,8 @@ const enhance = compose(
       onSetMessage,
     }) => () => {
       const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-      const loading = exportRcoData.loading ||
+      const loading =
+        exportRcoData.loading ||
         propsByTaxData.loading ||
         exportObjectData.loading ||
         exportPcoData.loading ||
@@ -152,7 +153,7 @@ const enhance = compose(
         onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
       }
     },
-  })
+  }),
 )
 
 const Export = ({
@@ -171,7 +172,7 @@ const Export = ({
   onToggleFilter: () => {},
   onToggleProperties: () => {},
   message: String,
-}) =>
+}) => (
   <ErrorBoundary>
     <Container>
       <StyledCard>
@@ -228,5 +229,6 @@ const Export = ({
       <StyledSnackbar open={!!message} message={message} />
     </Container>
   </ErrorBoundary>
+)
 
 export default enhance(Export)

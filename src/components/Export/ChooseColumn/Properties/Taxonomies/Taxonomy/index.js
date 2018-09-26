@@ -16,7 +16,7 @@ import withState from 'recompose/withState'
 import AllTaxChooser from '../AllTaxChooser'
 import TaxChooser from '../TaxChooser'
 import constants from '../../../../../../modules/constants'
-import propsByTaxData from '../../../withPropsByTaxData'
+import withPropsByTaxData from '../../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../../exportTaxonomiesData'
 import data from '../../data'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
@@ -60,12 +60,12 @@ const Count = styled.span`
 const enhance = compose(
   exportTaxonomiesData,
   data,
-  propsByTaxData,
+  withPropsByTaxData,
   withState(
     'expanded',
     'setExpanded',
-    ({ initiallyExpanded }) => initiallyExpanded
-  )
+    ({ initiallyExpanded }) => initiallyExpanded,
+  ),
 )
 
 const Properties = ({
@@ -84,7 +84,7 @@ const Properties = ({
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
-    []
+    [],
   )
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
 
