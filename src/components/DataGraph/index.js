@@ -5,10 +5,10 @@ import compose from 'recompose/compose'
 import get from 'lodash/get'
 import 'graphql-voyager/dist/voyager.css'
 
-import dataGraphData from './dataGraphData'
+import withDataGraphData from './withDataGraphData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
-const enhance = compose(dataGraphData)
+const enhance = compose(withDataGraphData)
 
 const DataGraph = ({ dataGraphData }: { dataGraphData: Object }) => {
   const loading = get(dataGraphData, 'loading', false)
