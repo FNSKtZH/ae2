@@ -12,7 +12,7 @@ import orderBy from 'lodash/orderBy'
 
 import exportRcoData from '../exportRcoData'
 import withExportObjectData from '../withExportObjectData'
-import exportPcoData from '../exportPcoData'
+import withExportPcoData from '../withExportPcoData'
 import synonymData from '../synonymData'
 import withExportIdsData from './withExportIdsData'
 import withExportTaxonomiesData from '../../withExportTaxonomiesData'
@@ -90,7 +90,7 @@ const enhance = compose(
   withExportRcoInOneRowData,
   withExportOnlyRowsWithPropertiesData,
   withExportObjectData,
-  exportPcoData,
+  withExportPcoData,
   exportRcoData,
   synonymData,
   withState('sortField', 'setSortField', 'id'),
