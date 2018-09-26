@@ -69,6 +69,13 @@ class OrgUser extends React.Component<Props, State> {
 
   render() {
     const { orgUser, orgUsersData, allUsersData, client } = this.props
+    if (orgUsersData.loading) return <OrgUserDiv>Lade Daten...</OrgUserDiv>
+    if (allUsersData.loading) return <OrgUserDiv>Lade Daten...</OrgUserDiv>
+    if (orgUsersData.error)
+      return <OrgUserDiv>`Fehler: ${orgUsersData.error.message}`</OrgUserDiv>
+    if (allUsersData.error)
+      return <OrgUserDiv>`Fehler: ${allUsersData.error.message}`</OrgUserDiv>
+
     const users = get(allUsersData, 'allUsers.nodes', [])
     const orgName = get(orgUsersData, 'organizationByName.name', '')
     const user = users.find(user => user.id === this.state.userId)

@@ -45,6 +45,10 @@ const Objekt = ({
   objectData: Object,
   stacked: Boolean,
 }) => {
+  const { loading, error } = objectData
+  if (loading) return <Container>Lade Daten...</Container>
+  if (error) return <Container>`Fehler: ${error.message}`</Container>
+
   const objekt = get(objectData, 'objectById')
   if (!objekt) return <div />
   const propertyCollectionObjects = get(
