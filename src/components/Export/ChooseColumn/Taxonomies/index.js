@@ -18,7 +18,7 @@ import exportTypeData from '../../exportTypeData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
 import withPropsByTaxData from '../withPropsByTaxData'
-import taxonomiesData from './taxonomiesData'
+import withTaxonomiesData from './withTaxonomiesData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const exportTypes = ['Arten', 'Lebensräume']
@@ -73,7 +73,7 @@ const TaxonomyLabel = styled(FormControlLabel)`
 
 const enhance = compose(
   withApollo,
-  taxonomiesData,
+  withTaxonomiesData,
   exportTaxonomiesData,
   exportTypeData,
   withPropsByTaxData,

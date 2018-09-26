@@ -21,7 +21,7 @@ import exportPcoPropertiesData from '../exportPcoPropertiesData'
 import exportRcoPropertiesData from '../exportRcoPropertiesData'
 import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import exportTaxFiltersData from '../exportTaxFiltersData'
-import exportPcoFiltersData from '../exportPcoFiltersData'
+import withExportPcoFiltersData from '../withExportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
 import exportObjectData from '../PreviewColumn/exportObjectData'
 import exportRcoData from '../PreviewColumn/exportRcoData'
@@ -69,7 +69,7 @@ const enhance = compose(
   exportPcoPropertiesData,
   exportRcoPropertiesData,
   exportTaxFiltersData,
-  exportPcoFiltersData,
+  withExportPcoFiltersData,
   exportRcoFiltersData,
   withPropsByTaxData,
   exportObjectData,

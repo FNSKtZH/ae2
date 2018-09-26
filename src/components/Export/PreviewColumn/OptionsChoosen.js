@@ -25,7 +25,7 @@ import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutatio
 import exportTaxFiltersData from '../exportTaxFiltersData'
 import exportTaxFiltersResetMutation from '../exportTaxFiltersResetMutation'
 import exportTaxFiltersMutation from '../exportTaxFiltersMutation'
-import exportPcoFiltersData from '../exportPcoFiltersData'
+import withExportPcoFiltersData from '../withExportPcoFiltersData'
 import exportPcoFiltersResetMutation from '../exportPcoFiltersResetMutation'
 import exportPcoFiltersMutation from '../exportPcoFiltersMutation'
 import exportRcoFiltersData from '../exportRcoFiltersData'
@@ -86,7 +86,7 @@ const enhance = compose(
   exportTaxPropertiesData,
   exportTaxFiltersData,
   exportPcoPropertiesData,
-  exportPcoFiltersData,
+  withExportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
   exportOnlyRowsWithPropertiesData,
@@ -160,7 +160,7 @@ const enhance = compose(
     },
   }),
   withState('expanded', 'setExpanded', true),
-  withStyles(styles)
+  withStyles(styles),
 )
 
 const OptionsChoosen = ({
@@ -209,31 +209,31 @@ const OptionsChoosen = ({
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
     'exportWithSynonymData',
-    true
+    true,
   )
   const exportOnlyRowsWithProperties = get(
     exportOnlyRowsWithPropertiesData,
     'exportOnlyRowsWithProperties',
-    true
+    true,
   )
   const exportType = get(exportTypeData, 'exportType', null)
   const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
   const exportTaxProperties = get(
     exportTaxPropertiesData,
     'exportTaxProperties',
-    []
+    [],
   )
   const exportTaxFilters = get(exportTaxFiltersData, 'exportTaxFilters', [])
   const exportPcoProperties = get(
     exportPcoPropertiesData,
     'exportPcoProperties',
-    []
+    [],
   )
   const exportPcoFilters = get(exportPcoFiltersData, 'exportPcoFilters', [])
   const exportRcoProperties = get(
     exportRcoPropertiesData,
     'exportRcoProperties',
-    []
+    [],
   )
   const exportRcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])
   const noDataChoosen =
@@ -249,7 +249,7 @@ const OptionsChoosen = ({
   const exportRcoInOneRow = get(
     exportRcoInOneRowData,
     'exportRcoInOneRow',
-    true
+    true,
   )
 
   if (noDataChoosen) return null
@@ -338,7 +338,7 @@ const OptionsChoosen = ({
                     zurücksetzen
                   </ResetSpan>
                 </li>
-              )
+              ),
             )}
             {exportPcoFilters.map(({ pcname, pname, comparator, value }, i) => (
               <li key={i}>
@@ -363,30 +363,34 @@ const OptionsChoosen = ({
                 </ResetSpan>
               </li>
             ))}
-            {exportRcoFilters.map(({ pcname, relationtype, pname, comparator, value }, i) => (
-              <li key={i}>
-                {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
-                <FilterValueSpan>
-                  {typeof value === 'boolean' ? booleanToJaNein(value) : value}
-                </FilterValueSpan>
-                <ResetSpan
-                  onClick={() => {
-                    client.mutate({
-                      mutation: exportRcoFiltersMutation,
-                      variables: {
-                        pcname,
-                        relationtype,
-                        pname,
-                        comparator: '',
-                        value: '',
-                      },
-                    })
-                  }}
-                >
-                  zurücksetzen
-                </ResetSpan>
-              </li>
-            ))}
+            {exportRcoFilters.map(
+              ({ pcname, relationtype, pname, comparator, value }, i) => (
+                <li key={i}>
+                  {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
+                  <FilterValueSpan>
+                    {typeof value === 'boolean'
+                      ? booleanToJaNein(value)
+                      : value}
+                  </FilterValueSpan>
+                  <ResetSpan
+                    onClick={() => {
+                      client.mutate({
+                        mutation: exportRcoFiltersMutation,
+                        variables: {
+                          pcname,
+                          relationtype,
+                          pname,
+                          comparator: '',
+                          value: '',
+                        },
+                      })
+                    }}
+                  >
+                    zurücksetzen
+                  </ResetSpan>
+                </li>
+              ),
+            )}
           </ul>
         </li>
         <li>

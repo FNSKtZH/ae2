@@ -20,7 +20,7 @@ import exportPcoPropertiesData from '../exportPcoPropertiesData'
 import exportRcoPropertiesData from '../exportRcoPropertiesData'
 import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import exportTaxFiltersData from '../exportTaxFiltersData'
-import exportPcoFiltersData from '../exportPcoFiltersData'
+import withExportPcoFiltersData from '../withExportPcoFiltersData'
 import exportRcoFiltersData from '../exportRcoFiltersData'
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
 import exportRcoInOneRowData from '../exportRcoInOneRowData'
@@ -83,7 +83,7 @@ const enhance = compose(
   exportTaxPropertiesData,
   exportTaxFiltersData,
   exportPcoPropertiesData,
-  exportPcoFiltersData,
+  withExportPcoFiltersData,
   exportRcoPropertiesData,
   exportRcoFiltersData,
   exportWithSynonymDataData,
@@ -157,32 +157,32 @@ const Preview = ({
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
     'exportWithSynonymData',
-    true
+    true,
   )
   const exportRcoInOneRow = get(
     exportRcoInOneRowData,
     'exportRcoInOneRow',
-    true
+    true,
   )
   const exportOnlyRowsWithProperties = get(
     exportOnlyRowsWithPropertiesData,
     'exportOnlyRowsWithProperties',
-    true
+    true,
   )
   const exportTaxProperties = get(
     exportTaxPropertiesData,
     'exportTaxProperties',
-    []
+    [],
   )
   const exportPcoProperties = get(
     exportPcoPropertiesData,
     'exportPcoProperties',
-    []
+    [],
   )
   const exportRcoProperties = get(
     exportRcoPropertiesData,
     'exportRcoProperties',
-    []
+    [],
   )
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
   const objects = get(exportObjectData, 'exportObject.nodes', [])
@@ -207,7 +207,8 @@ const Preview = ({
   })
   rows = orderBy(rows, sortField, sortDirection)
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
-  const loading = exportRcoData.loading ||
+  const loading =
+    exportRcoData.loading ||
     propsByTaxData.loading ||
     exportObjectData.loading ||
     exportPcoData.loading ||
@@ -220,7 +221,7 @@ const Preview = ({
         {rows.length > 0 && (
           <SpreadsheetContainer>
             <TotalDiv>{`${rows.length.toLocaleString(
-              'de-CH'
+              'de-CH',
             )} Datensätze, ${anzFelder.toLocaleString('de-CH')} ${
               anzFelder === 1 ? 'Feld' : 'Felder'
             }`}</TotalDiv>
@@ -239,7 +240,9 @@ const Preview = ({
         )}
         {rows.length === 0 && (
           <SpreadsheetContainer>
-            <TotalDiv>{`${rows.length.toLocaleString('de-CH')} Datensätze`}</TotalDiv>
+            <TotalDiv>{`${rows.length.toLocaleString(
+              'de-CH',
+            )} Datensätze`}</TotalDiv>
           </SpreadsheetContainer>
         )}
         {rows.length > 0 && (
@@ -253,10 +256,7 @@ const Preview = ({
           </ButtonsContainer>
         )}
         <StyledSnackbar open={!!message} message={message} />
-        <StyledSnackbar
-          open={loading}
-          message="Lade Daten..."
-        />
+        <StyledSnackbar open={loading} message="Lade Daten..." />
       </Container>
     </ErrorBoundary>
   )

@@ -6,7 +6,7 @@ import compose from 'recompose/compose'
 import Comparator from './PcoComparator'
 import PcoFieldValue from './PcoFieldValue'
 import PcoCheckbox from './PcoCheckbox'
-import exportPcoFiltersData from '../../exportPcoFiltersData'
+import withExportPcoFiltersData from '../../withExportPcoFiltersData'
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(exportPcoFiltersData)
+const enhance = compose(withExportPcoFiltersData)
 
 const PcoField = ({
   pcname,
@@ -34,7 +34,7 @@ const PcoField = ({
 }) => {
   const { exportPcoFilters } = exportPcoFiltersData
   const exportPcoFilter = exportPcoFilters.find(
-    x => x.pcname === pcname && x.pname === pname
+    x => x.pcname === pcname && x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = exportPcoFilter
   if (jsontype === 'Boolean') {
