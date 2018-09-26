@@ -2,7 +2,7 @@
 
 ## 1.1 Links auf arteigenschaften.ch
 
-### 1.1.1 Art
+### Art
 
 - bis Juli 2018: http://arteigenschaften.ch/index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
 - seither, kompatibel: http://artdaten.ch/index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
@@ -11,7 +11,7 @@
 Jede url mit "id=uuid" als Parameter wird an das Objekt weitergeleitet.<br/>
 Es ist unerheblich ob uuid gross oder klein geschrieben wird.
 
-### 1.1.2 Eigenschaften wählen
+### Eigenschaften wählen
 
 - bis Juli 2018: http://arteigenschaften.ch/index.html?exportieren_fuer_artenlistentool=true
 - seither, kompatibel (wird weitergeleitet): http://artdaten.ch/index.html?exportieren_fuer_artenlistentool=true
@@ -19,15 +19,15 @@ Es ist unerheblich ob uuid gross oder klein geschrieben wird.
 
 ## 1.2 Daten abholen
 
-### 1.2.1 Arteigenschaften
+### Arteigenschaften
 
-#### 1.2.1.1 Standardfelder
+#### Standardfelder
 
 - bis Juli 2018: http://arteigenschaften.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true
 - seither, kompatibel: http://artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true
 - seither, eleganter: https://arteigenschaften.ch/api/alt
 
-#### 1.2.1.2 Gewählte Felder
+#### Gewählte Felder
 
 Bisher: http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname vollständig"},{"DsTyp":"Datensammlung","DsName":"CH Prioritäten (2011)","Feldname":"Priorität"},{"DsTyp":"Beziehung","DsName":"ZH AP FM (2010): Art ist an Lebensraum gebunden","Feldname":"Biotopbindung"}]}
 
