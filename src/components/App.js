@@ -124,7 +124,7 @@ class App extends Component<Props, State> {
     const showAltGenerateUrl =
       url0 === 'artenlistentool' && activeNodeArray[1] === 'waehlen'
     const showLogin = url0 === 'login'
-    const showDataGraph = url0 === 'datagraph'
+    //const showDataGraph = url0 === 'datagraph'
     const showGraphIql = url0 === 'graphiql'
 
     return (
