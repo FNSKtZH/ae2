@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
 
-import exportRcoData from '../exportRcoData'
+import withExportRcoData from '../withExportRcoData'
 import withExportObjectData from '../withExportObjectData'
 import withExportPcoData from '../withExportPcoData'
 import synonymData from '../synonymData'
@@ -91,7 +91,7 @@ const enhance = compose(
   withExportOnlyRowsWithPropertiesData,
   withExportObjectData,
   withExportPcoData,
-  exportRcoData,
+  withExportRcoData,
   synonymData,
   withState('sortField', 'setSortField', 'id'),
   withState('sortDirection', 'setSortDirection', 'asc'),

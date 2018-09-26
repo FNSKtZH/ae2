@@ -24,7 +24,7 @@ import withExportTaxFiltersData from '../withExportTaxFiltersData'
 import withExportPcoFiltersData from '../withExportPcoFiltersData'
 import withExportRcoFiltersData from '../withExportRcoFiltersData'
 import withExportObjectData from '../PreviewColumn/withExportObjectData'
-import exportRcoData from '../PreviewColumn/exportRcoData'
+import withExportRcoData from '../PreviewColumn/withExportRcoData'
 import withExportPcoData from '../PreviewColumn/withExportPcoData'
 import synonymData from '../PreviewColumn/synonymData'
 import withPropsByTaxData from './withPropsByTaxData'
@@ -73,7 +73,7 @@ const enhance = compose(
   withExportRcoFiltersData,
   withPropsByTaxData,
   withExportObjectData,
-  exportRcoData,
+  withExportRcoData,
   withExportPcoData,
   synonymData,
   withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
@@ -129,6 +129,7 @@ const enhance = compose(
       propsByTaxData,
       exportObjectData,
       exportPcoData,
+      exportRcoData,
       propertiesExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
