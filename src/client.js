@@ -1,6 +1,7 @@
 // @flow
 import { ApolloClient } from 'apollo-client'
-import { createHttpLink } from 'apollo-link-http'
+//import { createHttpLink } from 'apollo-link-http'
+import { BatchHttpLink } from 'apollo-link-batch-http'
 import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { withClientState } from 'apollo-link-state'
@@ -84,11 +85,14 @@ export default async idb => {
     cache,
     defaults: myDefaults,
   })
+  // use httpLink _instead_ of batchHttpLink in order not to batch
+  /*
   const httpLink = createHttpLink({
     uri: graphQlUri(),
-  })
+  })*/
+  const batchHttpLink = new BatchHttpLink({ uri: graphQlUri() })
   const client = new ApolloClient({
-    link: ApolloLink.from([stateLink, authMiddleware, httpLink]),
+    link: ApolloLink.from([stateLink, authMiddleware, batchHttpLink]),
     cache,
   })
   return client
