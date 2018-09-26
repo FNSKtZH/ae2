@@ -40,10 +40,11 @@ const FourOhFour = Loadable({
   loader: () => import('./FourOhFour'),
   loading: LoadingComponent,
 })
+/*
 const DataGraph = Loadable({
   loader: () => import('./DataGraph'),
   loading: LoadingComponent,
-})
+})*/
 const GraphIql = Loadable({
   loader: () => import('./GraphIql'),
   loading: LoadingComponent,
@@ -135,7 +136,7 @@ class App extends Component<Props, State> {
           {showExport && <Export stacked={stacked} />}
           {showLogin && <Login />}
           {show404 && <FourOhFour />}
-          {showDataGraph && <DataGraph />}
+          {/*showDataGraph && <DataGraph />*/}
           {showGraphIql && <GraphIql />}
           {showAltGenerateUrl && <AltGenerateUrl />}
           <Snackbar
@@ -150,10 +151,7 @@ class App extends Component<Props, State> {
                 key="undo"
                 color="primary"
                 size="small"
-                onClick={() => {
-                  console.log('TODO')
-                  window.location.reload(false)
-                }}
+                onClick={() => window.location.reload(false)}
               >
                 neu laden
               </Button>

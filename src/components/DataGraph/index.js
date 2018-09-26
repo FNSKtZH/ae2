@@ -7,6 +7,11 @@ import 'graphql-voyager/dist/voyager.css'
 import withDataGraphData from './withDataGraphData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
+/**
+ * need to copy worker file to public folder, see here:
+ * https://github.com/APIs-guru/graphql-voyager#using-as-a-dependency
+ */
+
 const enhance = compose(withDataGraphData)
 
 const DataGraph = ({ data }: { data: Object }) => {
