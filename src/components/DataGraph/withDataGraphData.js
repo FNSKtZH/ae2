@@ -104,7 +104,4 @@ export default graphql(
       }
     }
   `,
-  {
-    name: 'dataGraphData',
-  }
 )
