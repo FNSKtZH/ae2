@@ -18,7 +18,7 @@ import RcoChooser from './RcoChooser'
 import constants from '../../../../../modules/constants'
 import withPropsByTaxData from '../../withPropsByTaxData'
 import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
-import data from '../../data'
+import withData from '../../withData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const PropertiesContainer = styled.div`
@@ -60,7 +60,7 @@ const Count = styled.span`
 const enhance = compose(
   withApollo,
   withExportTaxonomiesData,
-  data,
+  withData,
   withPropsByTaxData,
   withState('expanded', 'setExpanded', false),
 )

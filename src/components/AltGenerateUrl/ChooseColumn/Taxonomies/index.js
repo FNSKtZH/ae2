@@ -16,7 +16,7 @@ import compose from 'recompose/compose'
 
 import JointTaxonomy from './JointTaxonomy'
 import withPropsByTaxData from '../withPropsByTaxData'
-import data from '../data'
+import withData from '../withData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import constants from '../../../../modules/constants'
 
@@ -51,7 +51,7 @@ const StyledSnackbar = styled(Snackbar)`
 
 const enhance = compose(
   withApollo,
-  data,
+  withData,
   withPropsByTaxData,
 )
 

@@ -14,7 +14,7 @@ import compose from 'recompose/compose'
 
 import RCO from './RCO'
 import withPropsByTaxData from '../withPropsByTaxData'
-import data from '../data'
+import withData from '../withData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -45,7 +45,7 @@ const Count = styled.span`
 
 const enhance = compose(
   withApollo,
-  data,
+  withData,
   withPropsByTaxData,
 )
 
