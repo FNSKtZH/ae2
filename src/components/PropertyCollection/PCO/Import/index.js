@@ -21,7 +21,7 @@ import isUuid from 'is-uuid'
 import ReactDataGrid from 'react-data-grid'
 import { withApollo } from 'react-apollo'
 
-import importPcoData from './importPcoData'
+import withImportPcoData from './withImportPcoData'
 import pCOData from '../withPCOData'
 import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
 import createPCOMutation from './createPCOMutation'
@@ -174,7 +174,7 @@ const enhance = compose(
     undefined,
   ),
   withState('existsPropertyKey', 'setExistsPropertyKey', undefined),
-  importPcoData,
+  withImportPcoData,
   withLoginData,
 )
 
