@@ -9,7 +9,7 @@ import uniqBy from 'lodash/uniqBy'
 import TaxonomyObject from './TaxonomyObject'
 import PCO from './PCO'
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import objectData from './objectData'
+import withObjectData from './withObjectData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div``
@@ -35,7 +35,7 @@ const SynonymTitle = styled(Title)`
 
 const enhance = compose(
   withActiveNodeArrayData,
-  objectData,
+  withObjectData,
 )
 
 const Objekt = ({
