@@ -19,7 +19,7 @@ import PCOs from './PCOs'
 import RCOs from './RCOs'
 import withPropsByTaxData from '../withPropsByTaxData'
 import withExportTaxonomiesData from '../../withExportTaxonomiesData'
-import exportWithSynonymDataData from '../../exportWithSynonymDataData'
+import withExportWithSynonymDataData from '../../withExportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
@@ -44,7 +44,7 @@ const enhance = compose(
   withApollo,
   withExportTaxonomiesData,
   withPropsByTaxData,
-  exportWithSynonymDataData,
+  withExportWithSynonymDataData,
   withExportAddFilterFieldsData,
   withExportOnlyRowsWithPropertiesData,
   withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),

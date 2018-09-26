@@ -18,7 +18,7 @@ import TaxChooser from '../TaxChooser'
 import constants from '../../../../../../modules/constants'
 import withPropsByTaxData from '../../../withPropsByTaxData'
 import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
-import data from '../../data'
+import withData from '../../withData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
@@ -48,7 +48,7 @@ const StyledCardContent = styled(CardContent)`
 `
 const PropertiesContainer = styled.div`
   column-width: ${props =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
+    props['withData-width'] > 2 * constants.export.properties.columnWidth
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};
 `
@@ -59,7 +59,7 @@ const Count = styled.span`
 
 const enhance = compose(
   withExportTaxonomiesData,
-  data,
+  withData,
   withPropsByTaxData,
   withState(
     'expanded',

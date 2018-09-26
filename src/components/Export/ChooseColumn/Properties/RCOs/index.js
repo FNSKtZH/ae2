@@ -16,7 +16,7 @@ import RCO from './RCO'
 import ChooseNrOfRows from './ChooseNrOfRows'
 import withPropsByTaxData from '../../withPropsByTaxData'
 import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
-import data from '../data'
+import withData from '../withData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -48,7 +48,7 @@ const Count = styled.span`
 const enhance = compose(
   withApollo,
   withExportTaxonomiesData,
-  data,
+  withData,
   withPropsByTaxData,
 )
 

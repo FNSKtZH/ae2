@@ -22,7 +22,7 @@ import withExportTaxPropertiesData from '../../withExportTaxPropertiesData'
 import withExportTaxFiltersData from '../../withExportTaxFiltersData'
 import withExportPcoFiltersData from '../../withExportPcoFiltersData'
 import withExportRcoFiltersData from '../../withExportRcoFiltersData'
-import exportWithSynonymDataData from '../../exportWithSynonymDataData'
+import withExportWithSynonymDataData from '../../withExportWithSynonymDataData'
 import withExportRcoInOneRowData from '../../withExportRcoInOneRowData'
 import withExportOnlyRowsWithPropertiesData from '../../withExportOnlyRowsWithPropertiesData'
 import exportXlsx from '../../../../modules/exportXlsx'
@@ -86,7 +86,7 @@ const enhance = compose(
   withExportPcoFiltersData,
   withExportRcoPropertiesData,
   withExportRcoFiltersData,
-  exportWithSynonymDataData,
+  withExportWithSynonymDataData,
   withExportRcoInOneRowData,
   withExportOnlyRowsWithPropertiesData,
   exportObjectData,

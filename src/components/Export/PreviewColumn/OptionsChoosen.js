@@ -33,7 +33,7 @@ import exportRcoFiltersMutation from '../exportRcoFiltersMutation'
 import exportRcoFiltersResetMutation from '../exportRcoFiltersResetMutation'
 import withExportOnlyRowsWithPropertiesData from '../withExportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../exportOnlyRowsWithPropertiesMutation'
-import exportWithSynonymDataData from '../exportWithSynonymDataData'
+import withExportWithSynonymDataData from '../withExportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../exportWithSynonymDataMutation'
 import withExportTooManyPropertiesData from '../withExportTooManyPropertiesData'
 import withExportRcoInOneRowData from '../withExportRcoInOneRowData'
@@ -92,7 +92,7 @@ const enhance = compose(
   withExportOnlyRowsWithPropertiesData,
   withExportTooManyPropertiesData,
   withExportRcoInOneRowData,
-  exportWithSynonymDataData,
+  withExportWithSynonymDataData,
   withHandlers({
     onClickResetAll: ({ client }) => () => {
       client.mutate({
