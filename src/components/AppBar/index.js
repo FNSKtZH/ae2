@@ -13,7 +13,7 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import app from 'ampersand-app'
 import get from 'lodash/get'
-import appBarData from './data'
+import withData from './withData'
 
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import withLoginData from '../../modules/withLoginData'
@@ -68,7 +68,7 @@ const getInitials = name => name.match(/\b(\w)/g).join('')
 
 const enhance = compose(
   withActiveNodeArrayData,
-  appBarData,
+  withData,
   withLoginData,
   withHandlers({
     onClickColumnButtonData: () => () => {
