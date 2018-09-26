@@ -42,6 +42,9 @@ import withOrganizationUsersData from '../../../modules/withOrganizationUsersDat
 import withEditingTaxonomiesData from '../../../modules/withEditingTaxonomiesData'
 import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
 
+const Container = styled.div`
+  margin: 10px;
+`
 const StyledCard = styled(Card)`
   margin: 0;
   background-color: #fff3e0 !important;
@@ -121,6 +124,14 @@ const TaxonomyObject = ({
   setTaxExpanded: () => void,
   stacked: Boolean,
 }) => {
+  if (
+    loginData.loading ||
+    organizationUsersData.loading ||
+    editingTaxonomiesData.loading
+  ) {
+    return <Container>Lade Daten...</Container>
+  }
+
   const username = get(loginData, 'login.username', null)
   const organizationUsers = get(
     organizationUsersData,

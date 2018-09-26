@@ -13,6 +13,9 @@ import withObjectData from './withObjectData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div``
+const Container2 = styled.div`
+  padding: 10px;
+`
 const ScrollContainer = styled.div`
   height: 100%;
   overflow: auto !important;
@@ -46,8 +49,8 @@ const Objekt = ({
   stacked: Boolean,
 }) => {
   const { loading, error } = objectData
-  if (loading) return <Container>Lade Daten...</Container>
-  if (error) return <Container>`Fehler: ${error.message}`</Container>
+  if (loading) return <Container2>Lade Daten...</Container2>
+  if (error) return <Container2>`Fehler: ${error.message}`</Container2>
 
   const objekt = get(objectData, 'objectById')
   if (!objekt) return <div />
