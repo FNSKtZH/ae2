@@ -15,7 +15,7 @@ import trimStart from 'lodash/trimStart'
 
 import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 import readableType from '../../../../modules/readableType'
-import pcoFieldPropData from './pcoFieldPropData'
+import withPcoFieldPropData from './withPcoFieldPropData'
 import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
 
@@ -103,7 +103,7 @@ const enhance = compose(
   withApollo,
   withState('fetchData', 'setFetchData', false),
   withState('dataFetched', 'setDataFetched', false),
-  pcoFieldPropData,
+  withPcoFieldPropData,
   withExportAddFilterFieldsData,
   withStyles(styles),
 )
