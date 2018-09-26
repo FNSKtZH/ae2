@@ -15,7 +15,7 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import fetchData from './data'
+import withData from './withData'
 import withTreeData from '../Tree/withTreeData'
 import Roles from './Roles'
 import PCs from './PCs'
@@ -45,7 +45,7 @@ const enhance = compose(
     },
   }),
   withActiveNodeArrayData,
-  fetchData,
+  withData,
   withTreeData,
 )
 
