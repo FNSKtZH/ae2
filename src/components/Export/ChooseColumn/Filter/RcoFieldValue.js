@@ -16,7 +16,7 @@ import trimStart from 'lodash/trimStart'
 
 import exportRcoFiltersMutation from '../../exportRcoFiltersMutation'
 import readableType from '../../../../modules/readableType'
-import rcoFieldPropData from './rcoFieldPropData'
+import withRcoFieldPropData from './withRcoFieldPropData'
 import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import addExportRcoPropertyMutation from '../../addExportRcoPropertyMutation'
 
@@ -104,7 +104,7 @@ const enhance = compose(
   withApollo,
   withState('fetchData', 'setFetchData', false),
   withState('dataFetched', 'setDataFetched', false),
-  rcoFieldPropData,
+  withRcoFieldPropData,
   withExportAddFilterFieldsData,
   withStyles(styles),
 )
