@@ -16,7 +16,7 @@ import trimStart from 'lodash/trimStart'
 
 import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
 import readableType from '../../../../modules/readableType'
-import taxFieldPropData from './taxFieldPropData'
+import withTaxFieldPropData from './withTaxFieldPropData'
 import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import addExportTaxPropertyMutation from '../../addExportTaxPropertyMutation'
 
@@ -97,7 +97,7 @@ const enhance = compose(
   withApollo,
   withState('fetchData', 'setFetchData', false),
   withState('dataFetched', 'setDataFetched', false),
-  taxFieldPropData,
+  withTaxFieldPropData,
   withExportAddFilterFieldsData,
   withStyles(styles),
 )

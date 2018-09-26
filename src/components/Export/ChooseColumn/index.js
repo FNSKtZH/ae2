@@ -23,7 +23,7 @@ import withExportTaxPropertiesData from '../withExportTaxPropertiesData'
 import withExportTaxFiltersData from '../withExportTaxFiltersData'
 import withExportPcoFiltersData from '../withExportPcoFiltersData'
 import withExportRcoFiltersData from '../withExportRcoFiltersData'
-import exportObjectData from '../PreviewColumn/exportObjectData'
+import withExportObjectData from '../PreviewColumn/withExportObjectData'
 import exportRcoData from '../PreviewColumn/exportRcoData'
 import exportPcoData from '../PreviewColumn/exportPcoData'
 import synonymData from '../PreviewColumn/synonymData'
@@ -72,7 +72,7 @@ const enhance = compose(
   withExportPcoFiltersData,
   withExportRcoFiltersData,
   withPropsByTaxData,
-  exportObjectData,
+  withExportObjectData,
   exportRcoData,
   exportPcoData,
   synonymData,
@@ -127,6 +127,7 @@ const enhance = compose(
     onToggleProperties: ({
       exportTaxonomiesData,
       propsByTaxData,
+      exportObjectData,
       propertiesExpanded,
       setTaxonomiesExpanded,
       setFilterExpanded,
