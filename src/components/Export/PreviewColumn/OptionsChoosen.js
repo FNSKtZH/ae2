@@ -36,7 +36,7 @@ import exportOnlyRowsWithPropertiesMutation from '../exportOnlyRowsWithPropertie
 import exportWithSynonymDataData from '../exportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../exportWithSynonymDataMutation'
 import exportTooManyPropertiesData from '../exportTooManyPropertiesData'
-import exportRcoInOneRowData from '../exportRcoInOneRowData'
+import withExportRcoInOneRowData from '../withExportRcoInOneRowData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 
 const styles = theme => ({
@@ -91,7 +91,7 @@ const enhance = compose(
   withExportRcoFiltersData,
   withExportOnlyRowsWithPropertiesData,
   exportTooManyPropertiesData,
-  exportRcoInOneRowData,
+  withExportRcoInOneRowData,
   exportWithSynonymDataData,
   withHandlers({
     onClickResetAll: ({ client }) => () => {
