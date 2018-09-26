@@ -19,7 +19,7 @@ import exportTaxonomiesData from '../../exportTaxonomiesData'
 import withExportPcoPropertiesData from '../../withExportPcoPropertiesData'
 import withExportRcoPropertiesData from '../../withExportRcoPropertiesData'
 import exportTaxPropertiesData from '../../exportTaxPropertiesData'
-import exportTaxFiltersData from '../../exportTaxFiltersData'
+import withExportTaxFiltersData from '../../withExportTaxFiltersData'
 import withExportPcoFiltersData from '../../withExportPcoFiltersData'
 import withExportRcoFiltersData from '../../withExportRcoFiltersData'
 import exportWithSynonymDataData from '../../exportWithSynonymDataData'
@@ -81,7 +81,7 @@ const enhance = compose(
   withExportIdsData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
-  exportTaxFiltersData,
+  withExportTaxFiltersData,
   withExportPcoPropertiesData,
   withExportPcoFiltersData,
   withExportRcoPropertiesData,

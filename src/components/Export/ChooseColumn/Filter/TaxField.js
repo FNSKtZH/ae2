@@ -7,7 +7,7 @@ import Measure from 'react-measure'
 
 import Comparator from './TaxComparator'
 import TaxFieldValue from './TaxFieldValue'
-import exportTaxFiltersData from '../../exportTaxFiltersData'
+import withExportTaxFiltersData from '../../withExportTaxFiltersData'
 
 const Container = styled.div`
   display: flex;
@@ -18,7 +18,10 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(withState('width', 'setWidth', 0), exportTaxFiltersData)
+const enhance = compose(
+  withState('width', 'setWidth', 0),
+  withExportTaxFiltersData,
+)
 
 type Props = {
   taxname: String,
@@ -40,7 +43,7 @@ class TaxField extends React.Component<Props> {
     } = this.props
     const { exportTaxFilters } = exportTaxFiltersData
     const exportTaxFilter = exportTaxFilters.find(
-      x => x.taxname === taxname && x.pname === pname
+      x => x.taxname === taxname && x.pname === pname,
     ) || { comparator: null, value: null }
     const { comparator, value } = exportTaxFilter
 

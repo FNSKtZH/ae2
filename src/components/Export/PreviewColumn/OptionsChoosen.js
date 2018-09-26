@@ -22,7 +22,7 @@ import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutatio
 import exportTaxPropertiesData from '../exportTaxPropertiesData'
 import removeExportTaxPropertyMutation from '../removeExportTaxPropertyMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
-import exportTaxFiltersData from '../exportTaxFiltersData'
+import withExportTaxFiltersData from '../withExportTaxFiltersData'
 import exportTaxFiltersResetMutation from '../exportTaxFiltersResetMutation'
 import exportTaxFiltersMutation from '../exportTaxFiltersMutation'
 import withExportPcoFiltersData from '../withExportPcoFiltersData'
@@ -84,7 +84,7 @@ const enhance = compose(
   exportTypeData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
-  exportTaxFiltersData,
+  withExportTaxFiltersData,
   withExportPcoPropertiesData,
   withExportPcoFiltersData,
   withExportRcoPropertiesData,
