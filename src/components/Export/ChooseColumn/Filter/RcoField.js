@@ -5,7 +5,7 @@ import compose from 'recompose/compose'
 
 import Comparator from './RcoComparator'
 import RcoFieldValue from './RcoFieldValue'
-import exportRcoFiltersData from '../../exportRcoFiltersData'
+import withExportRcoFiltersData from '../../withExportRcoFiltersData'
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(exportRcoFiltersData)
+const enhance = compose(withExportRcoFiltersData)
 
 const RcoField = ({
   pcname,
@@ -38,7 +38,7 @@ const RcoField = ({
     x =>
       x.pcname === pcname &&
       x.relationtype === relationtype &&
-      x.pname === pname
+      x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = exportRcoFilter
 
