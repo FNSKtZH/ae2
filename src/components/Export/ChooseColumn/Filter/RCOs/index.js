@@ -14,7 +14,7 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
 import RCO from './RCO'
-import propsByTaxData from '../../propsByTaxData'
+import propsByTaxData from '../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 

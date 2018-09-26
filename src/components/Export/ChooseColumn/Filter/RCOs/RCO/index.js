@@ -15,7 +15,7 @@ import withState from 'recompose/withState'
 
 import RcoField from '../../RcoField'
 import constants from '../../../../../../modules/constants'
-import propsByTaxData from '../../../propsByTaxData'
+import propsByTaxData from '../../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 

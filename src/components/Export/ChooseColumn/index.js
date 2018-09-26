@@ -27,7 +27,7 @@ import exportObjectData from '../PreviewColumn/exportObjectData'
 import exportRcoData from '../PreviewColumn/exportRcoData'
 import exportPcoData from '../PreviewColumn/exportPcoData'
 import synonymData from '../PreviewColumn/synonymData'
-import propsByTaxData from './propsByTaxData'
+import withPropsByTaxData from './withPropsByTaxData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const StyledSnackbar = styled(Snackbar)`
@@ -71,7 +71,7 @@ const enhance = compose(
   exportTaxFiltersData,
   exportPcoFiltersData,
   exportRcoFiltersData,
-  propsByTaxData,
+  withPropsByTaxData,
   exportObjectData,
   exportRcoData,
   exportPcoData,

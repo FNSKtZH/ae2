@@ -14,7 +14,7 @@ import compose from 'recompose/compose'
 
 import RCO from './RCO'
 import ChooseNrOfRows from './ChooseNrOfRows'
-import propsByTaxData from '../../propsByTaxData'
+import propsByTaxData from '../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import data from '../data'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'

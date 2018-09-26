@@ -13,7 +13,7 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 
 import PCO from './PCO'
-import propsByTaxData from '../../propsByTaxData'
+import propsByTaxData from '../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 

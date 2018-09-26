@@ -17,7 +17,7 @@ import exportTypeMutation from '../../exportTypeMutation'
 import exportTypeData from '../../exportTypeData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportTaxonomiesData from '../../exportTaxonomiesData'
-import propsByTaxData from '../propsByTaxData'
+import propsByTaxData from '../withPropsByTaxData'
 import taxonomiesData from './taxonomiesData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 

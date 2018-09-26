@@ -29,7 +29,7 @@ import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import rowsFromObjects from './rowsFromObjects'
-import propsByTaxData from '../ChooseColumn/propsByTaxData'
+import propsByTaxData from '../ChooseColumn/withPropsByTaxData'
 
 const Container = styled.div`
   padding-top: 5px;

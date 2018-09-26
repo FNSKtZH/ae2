@@ -15,7 +15,7 @@ import compose from 'recompose/compose'
 
 import Taxonomy from './Taxonomy'
 import JointTaxonomy from './JointTaxonomy'
-import propsByTaxData from '../../propsByTaxData'
+import propsByTaxData from '../../withPropsByTaxData'
 import exportTaxonomiesData from '../../../exportTaxonomiesData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
