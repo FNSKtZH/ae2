@@ -24,6 +24,9 @@ const Version = styled.div`
   color: rgba(0, 0, 0, 0.87);
   user-select: none;
 `
+const TwoLineMenuItem = styled(MenuItem)`
+  height: 40px !important;
+`
 
 const ITEM_HEIGHT = 48
 
@@ -63,7 +66,7 @@ class MoreMenu extends React.Component {
           onClose={this.handleClose}
           PaperProps={{
             style: {
-              maxHeight: ITEM_HEIGHT * 7.5,
+              maxHeight: ITEM_HEIGHT * 7,
               width: 295,
             },
           }}
@@ -115,15 +118,17 @@ class MoreMenu extends React.Component {
               GrahpQL-Struktur anzeigen
             </MenuItem>
           )}
-          <MenuItem
+          <TwoLineMenuItem
             key="graphiql"
             onClick={() => {
               app.history.push('/graphiql')
               this.setState({ anchorEl: null })
             }}
           >
-            GrahpQL-Abfragetool inkl. API-Docs
-          </MenuItem>
+            GrahpQL-Abfragetool
+            <br />
+            inkl. Schnittstellen-Dokumentation
+          </TwoLineMenuItem>
           <Version>Version: 1.1.0 vom 27.9.2018</Version>
         </Menu>
       </div>
