@@ -122,9 +122,9 @@ class MoreMenu extends React.Component {
               this.setState({ anchorEl: null })
             }}
           >
-            GrahpQL-Abfragetool inkl. API-Doku
+            GrahpQL-Abfragetool inkl. API-Docs
           </MenuItem>
-          <Version>Version: 1.1.0 vom 26.9.2018</Version>
+          <Version>Version: 1.1.0 vom 27.9.2018</Version>
         </Menu>
       </div>
     )
