@@ -40,11 +40,10 @@ const FourOhFour = Loadable({
   loader: () => import('./FourOhFour'),
   loading: LoadingComponent,
 })
-/*
 const DataGraph = Loadable({
   loader: () => import('./DataGraph'),
   loading: LoadingComponent,
-})*/
+})
 const GraphIql = Loadable({
   loader: () => import('./GraphIql'),
   loading: LoadingComponent,
@@ -124,7 +123,7 @@ class App extends Component<Props, State> {
     const showAltGenerateUrl =
       url0 === 'artenlistentool' && activeNodeArray[1] === 'waehlen'
     const showLogin = url0 === 'login'
-    //const showDataGraph = url0 === 'datagraph'
+    const showDataGraph = url0 === 'datagraph'
     const showGraphIql = url0 === 'graphiql'
 
     return (
@@ -136,7 +135,7 @@ class App extends Component<Props, State> {
           {showExport && <Export stacked={stacked} />}
           {showLogin && <Login />}
           {show404 && <FourOhFour />}
-          {/*showDataGraph && <DataGraph />*/}
+          {showDataGraph && <DataGraph />}
           {showGraphIql && <GraphIql />}
           {showAltGenerateUrl && <AltGenerateUrl />}
           <Snackbar

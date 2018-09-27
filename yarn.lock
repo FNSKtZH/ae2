@@ -1278,6 +1278,38 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@f/animate@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@f/animate/-/animate-1.0.1.tgz#a031398adadf9a0bd3a56398cec931f877d88485"
+  dependencies:
+    "@f/elapsed-time" "^1.0.0"
+    "@f/raf" "^1.0.0"
+    "@f/tween" "^1.0.0"
+
+"@f/elapsed-time@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@f/elapsed-time/-/elapsed-time-1.0.0.tgz#6a079a6104a87278bf5b4080444ef02d1b595449"
+  dependencies:
+    "@f/timestamp" "^1.0.0"
+
+"@f/map-obj@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@f/map-obj/-/map-obj-1.2.2.tgz#d9a9f8bd76caa2ae11b633dda24d9c6cccc1e60d"
+
+"@f/raf@^1.0.0":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@f/raf/-/raf-1.0.3.tgz#32ddca37de345b20c8c3843018cc51b8f897914d"
+
+"@f/timestamp@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@f/timestamp/-/timestamp-1.0.0.tgz#32a9166e2516e5ccb9b0fcfdc89223819710e88c"
+
+"@f/tween@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@f/tween/-/tween-1.0.1.tgz#18aef79c4975e54415adf326e4b5e0d053d207f0"
+  dependencies:
+    "@f/map-obj" "^1.2.2"
+
 "@material-ui/core@1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-1.3.1.tgz#8b4e6db9ed4536e8ccbea0eeff3da0d524e6af2c"
@@ -1308,6 +1340,38 @@
     react-transition-group "^2.2.1"
     recompose "^0.27.0"
     scroll "^2.0.3"
+    warning "^4.0.1"
+
+"@material-ui/core@^3.0.2":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-3.1.1.tgz#377b406fd26b88df6626c1697eef3f488fddb553"
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    "@types/jss" "^9.5.3"
+    "@types/react-transition-group" "^2.0.8"
+    brcast "^3.0.1"
+    classnames "^2.2.5"
+    csstype "^2.5.2"
+    debounce "^1.1.0"
+    deepmerge "^2.0.1"
+    dom-helpers "^3.2.1"
+    hoist-non-react-statics "^2.5.0"
+    is-plain-object "^2.0.4"
+    jss "^9.3.3"
+    jss-camel-case "^6.0.0"
+    jss-default-unit "^8.0.2"
+    jss-global "^3.0.0"
+    jss-nested "^6.0.1"
+    jss-props-sort "^6.0.0"
+    jss-vendor-prefixer "^7.0.0"
+    keycode "^2.1.9"
+    normalize-scroll-left "^0.1.2"
+    popper.js "^1.14.1"
+    prop-types "^15.6.0"
+    react-event-listener "^0.6.2"
+    react-jss "^8.1.0"
+    react-transition-group "^2.2.1"
+    recompose "0.28.0 - 0.30.0"
     warning "^4.0.1"
 
 "@material-ui/icons@1.1.0":
@@ -2911,7 +2975,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.3, classnames@^2.2.5:
+classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
 
@@ -2935,7 +2999,7 @@ cli-width@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.0.tgz#ff19ede8a9a5e579324147b0c11f0fbcbabed639"
 
-clipboard@^2.0.0:
+clipboard@^2.0.0, clipboard@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.1.tgz#a12481e1c13d8a50f5f036b0560fe5d16d74e46a"
   dependencies:
@@ -3088,6 +3152,15 @@ commander@~2.14.1:
 commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
+
+commonmark@^0.28.1:
+  version "0.28.1"
+  resolved "https://registry.yarnpkg.com/commonmark/-/commonmark-0.28.1.tgz#06eab8d52338b839fa1a2d75af0085eed1b1beae"
+  dependencies:
+    entities "~ 1.1.1"
+    mdurl "~ 1.0.1"
+    minimist "~ 1.2.0"
+    string.prototype.repeat "^0.2.0"
 
 component-emitter@^1.2.1:
   version "1.2.1"
@@ -3803,7 +3876,7 @@ docopt@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/docopt/-/docopt-0.6.2.tgz#b28e9e2220da5ec49f7ea5bb24a47787405eeb11"
 
-docsify-cli@^4.2.1:
+docsify-cli@4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/docsify-cli/-/docsify-cli-4.2.1.tgz#9d9535fbdf984c2db9a8dadcde15f5c622b443a4"
   dependencies:
@@ -3975,8 +4048,8 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.42, electron-to-chromium@^1.3.47, electron-to-chromium@^1.3.62:
-  version "1.3.70"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.70.tgz#ded377256d92d81b4257d36c65aa890274afcfd2"
+  version "1.3.71"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.71.tgz#baecb282e8b27247bbfcf2f3e0254d6fe9a76789"
 
 elliptic@^6.0.0:
   version "6.4.1"
@@ -4022,7 +4095,7 @@ enhanced-resolve@^4.0.0:
     memory-fs "^0.4.0"
     tapable "^1.0.0"
 
-entities@~1.1.1:
+"entities@~ 1.1.1", entities@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
@@ -5143,6 +5216,23 @@ graphql-tag@2.9.2:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.9.2.tgz#2f60a5a981375f430bf1e6e95992427dc18af686"
 
+graphql-voyager@^1.0.0-rc.25:
+  version "1.0.0-rc.25"
+  resolved "https://registry.yarnpkg.com/graphql-voyager/-/graphql-voyager-1.0.0-rc.25.tgz#1617138ebb9c79e6467efa13166d8fda20e2eda6"
+  dependencies:
+    "@f/animate" "^1.0.1"
+    "@material-ui/core" "^3.0.2"
+    classnames "^2.2.6"
+    clipboard "^2.0.1"
+    commonmark "^0.28.1"
+    lodash "^4.17.10"
+    prop-types "^15.6.2"
+    react-redux "^5.0.7"
+    redux "^4.0.0"
+    redux-thunk "^2.3.0"
+    reselect "^3.0.1"
+    svg-pan-zoom "^3.5.2"
+
 graphql@0.13.2, graphql@14.0.2, "graphql@^0.6.0 || ^0.7.0 || ^0.8.0-b || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0":
   version "14.0.2"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.0.2.tgz#7dded337a4c3fd2d075692323384034b357f5650"
@@ -5642,7 +5732,7 @@ internal-ip@1.2.0:
   dependencies:
     meow "^3.3.0"
 
-invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
+invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   dependencies:
@@ -6778,6 +6868,10 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
+lodash-es@^4.17.5:
+  version "4.17.11"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.11.tgz#145ab4a7ac5c5e52a3531fb4f310255a152b4be0"
+
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
@@ -6892,7 +6986,7 @@ long@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/long/-/long-3.2.0.tgz#d821b7138ca1cb581c172990ef14db200b5c474b"
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.0, loose-envify@^1.3.1:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   dependencies:
@@ -6986,7 +7080,7 @@ mdn-data@~1.1.0:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-1.1.4.tgz#50b5d4ffc4575276573c4eedb8780812a8419f01"
 
-mdurl@^1.0.1:
+mdurl@^1.0.1, "mdurl@~ 1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
 
@@ -7145,7 +7239,7 @@ minimist@0.0.8:
   version "0.0.8"
   resolved "http://registry.npmjs.org/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
-minimist@1.2.0, minimist@^1.1.1, minimist@^1.1.3, minimist@^1.2.0:
+minimist@1.2.0, minimist@^1.1.1, minimist@^1.1.3, minimist@^1.2.0, "minimist@~ 1.2.0":
   version "1.2.0"
   resolved "http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
@@ -8693,7 +8787,7 @@ react-error-overlay@5.0.0-next.a671462c:
   version "5.0.0-next.a671462c"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-5.0.0-next.a671462c.tgz#e0671883358a8678a94cc8980e9848b2d3dabfb7"
 
-react-event-listener@^0.6.0:
+react-event-listener@^0.6.0, react-event-listener@^0.6.2:
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.6.4.tgz#d0ea5ed897da1a796616c44b5a8758898140f203"
   dependencies:
@@ -8762,6 +8856,17 @@ react-popper@^0.10.0:
   dependencies:
     popper.js "^1.14.1"
     prop-types "^15.6.1"
+
+react-redux@^5.0.7:
+  version "5.0.7"
+  resolved "http://registry.npmjs.org/react-redux/-/react-redux-5.0.7.tgz#0dc1076d9afb4670f993ffaef44b8f8c1155a4c8"
+  dependencies:
+    hoist-non-react-statics "^2.5.0"
+    invariant "^2.0.0"
+    lodash "^4.17.5"
+    lodash-es "^4.17.5"
+    loose-envify "^1.1.0"
+    prop-types "^15.6.0"
 
 react-reflex@2.2.9:
   version "2.2.9"
@@ -8865,11 +8970,11 @@ react-themeable@^1.1.0:
     object-assign "^3.0.0"
 
 react-transition-group@^2.2.1:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.4.0.tgz#1d9391fabfd82e016f26fabd1eec329dbd922b5a"
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.5.0.tgz#70bca0e3546102c4dc5cf3f5f57f73447cce6874"
   dependencies:
     dom-helpers "^3.3.1"
-    loose-envify "^1.3.1"
+    loose-envify "^1.4.0"
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
@@ -8969,7 +9074,7 @@ realpath-native@^1.0.0:
   dependencies:
     util.promisify "^1.0.0"
 
-recompose@0.30.0:
+"recompose@0.28.0 - 0.30.0", recompose@0.30.0:
   version "0.30.0"
   resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.30.0.tgz#82773641b3927e8c7d24a0d87d65aeeba18aabd0"
   dependencies:
@@ -9017,6 +9122,17 @@ reduce-function-call@^1.0.1:
   resolved "https://registry.yarnpkg.com/reduce-function-call/-/reduce-function-call-1.0.2.tgz#5a200bf92e0e37751752fe45b0ab330fd4b6be99"
   dependencies:
     balanced-match "^0.4.2"
+
+redux-thunk@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
+
+redux@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.0.tgz#aa698a92b729315d22b34a0553d7e6533555cc03"
+  dependencies:
+    loose-envify "^1.1.0"
+    symbol-observable "^1.2.0"
 
 regenerate-unicode-properties@^7.0.0:
   version "7.0.0"
@@ -9218,6 +9334,10 @@ require-uncached@^1.0.3:
 requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
+
+reselect@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-3.0.1.tgz#efdaa98ea7451324d092b2b2163a6a1d7a9a2147"
 
 resize-observer-polyfill@^1.4.2:
   version "1.5.0"
@@ -9870,6 +9990,10 @@ string-width@^1.0.1, string-width@^1.0.2:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^4.0.0"
 
+string.prototype.repeat@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/string.prototype.repeat/-/string.prototype.repeat-0.2.0.tgz#aba36de08dcee6a5a337d49b2ea1da1b28fc0ecf"
+
 string_decoder@^1.0.0, string_decoder@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.1.1.tgz#9cf1611ba62685d7030ae9e4ba34149c3af03fc8"
@@ -9960,6 +10084,10 @@ supports-color@^5.1.0, supports-color@^5.3.0, supports-color@^5.4.0:
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
   dependencies:
     has-flag "^3.0.0"
+
+svg-pan-zoom@^3.5.2:
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/svg-pan-zoom/-/svg-pan-zoom-3.5.3.tgz#e6b52a1b349716c78e7b5f92d0ed1cc1b860f5d8"
 
 svgo@^0.7.0:
   version "0.7.2"
@@ -10052,7 +10180,7 @@ symbol-observable@1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
 
-symbol-observable@^1.0.2, symbol-observable@^1.0.4, symbol-observable@^1.1.0:
+symbol-observable@^1.0.2, symbol-observable@^1.0.4, symbol-observable@^1.1.0, symbol-observable@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
 
@@ -10602,6 +10730,10 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+viz.js@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/viz.js/-/viz.js-2.0.0.tgz#d34aa8e68f3b4eb7107f16ea6d1530a77109f315"
 
 vm-browserify@0.0.4:
   version "0.0.4"
