@@ -63,7 +63,7 @@ class MoreMenu extends React.Component {
           onClose={this.handleClose}
           PaperProps={{
             style: {
-              maxHeight: ITEM_HEIGHT * 5.5,
+              maxHeight: ITEM_HEIGHT * 7.5,
               width: 295,
             },
           }}
@@ -104,16 +104,17 @@ class MoreMenu extends React.Component {
           >
             Felder für das Artenlistentool wählen
           </MenuItem>
-          <Version>Version: 1.1.0 vom 26.9.2018</Version>
-          {/*<MenuItem
-            key="datagraph"
-            onClick={() => {
-              app.history.push('/datagraph')
-              this.setState({ anchorEl: null })
-            }}
-          >
-            GrahpQL-Struktur anzeigen
-          </MenuItem>
+          {false && (
+            <MenuItem
+              key="datagraph"
+              onClick={() => {
+                app.history.push('/datagraph')
+                this.setState({ anchorEl: null })
+              }}
+            >
+              GrahpQL-Struktur anzeigen
+            </MenuItem>
+          )}
           <MenuItem
             key="graphiql"
             onClick={() => {
@@ -121,8 +122,9 @@ class MoreMenu extends React.Component {
               this.setState({ anchorEl: null })
             }}
           >
-            GrahpQL-Abfragetool anzeigen
-          </MenuItem>*/}
+            GrahpQL-Abfragetool inkl. API-Doku
+          </MenuItem>
+          <Version>Version: 1.1.0 vom 26.9.2018</Version>
         </Menu>
       </div>
     )
