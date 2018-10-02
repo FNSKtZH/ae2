@@ -1,3 +1,6 @@
+import gql from 'graphql-tag'
+
+export default gql`
 query AllUsersQuery {
   allUsers {
     totalCount
@@ -18,4 +21,4 @@ query AllUsersQuery {
       }
     }
   }
-}
+}`

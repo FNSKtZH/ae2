@@ -58,7 +58,7 @@
     "flow-bin": "0.82.0",
     "postgraphile": "4.0.0-rc.5.1",
     "postgraphile-plugin-connection-filter": "1.0.0-beta.16",
-    "react-scripts": "2.0.0-next.a671462c",
+    "react-scripts": "2.0.3",
     "source-map-explorer": "1.6.0"
   },
   "scripts": {
