@@ -6,7 +6,9 @@ import Collapse from '@material-ui/core/Collapse'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import InfoOutlineIcon from '@material-ui/icons/InfoOutline'
+// seemst that InfoOutline does not exist any more????
+// TODO: revert to InfoOutline when google has added that again
+import InfoOutlineIcon from '@material-ui/icons/Info'
 import InfoIcon from '@material-ui/icons/Info'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
@@ -57,7 +59,7 @@ const CardText = styled.div`
 
 const enhance = compose(
   withState('expanded', 'setExpanded', false),
-  withState('pCDescriptionExpanded', 'setPCDescriptionExpanded', false)
+  withState('pCDescriptionExpanded', 'setPCDescriptionExpanded', false),
 )
 
 const PCO = ({
@@ -84,10 +86,10 @@ const PCO = ({
 
   let propertiesArray = Object.entries(properties)
   propertiesArray = propertiesArray.filter(
-    o => o[1] || o[1] === 0 || o[1] === false
+    o => o[1] || o[1] === 0 || o[1] === false,
   )
   propertiesArray = sortBy(propertiesArray, e => e[0]).filter(
-    ([key, value]) => value || value === 0 || value === false
+    ([key, value]) => value || value === 0 || value === false,
   )
   const relationsTitleText =
     relations.length > 1 ? 'Beziehungen:' : 'Beziehung:'
@@ -147,7 +149,7 @@ const PCO = ({
                     />
                   ) : (
                     <PropertyReadOnly key={key} value={value} label={key} />
-                  )
+                  ),
               )}
               {relations &&
                 relations.length > 0 && (
