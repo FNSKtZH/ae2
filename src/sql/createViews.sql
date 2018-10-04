@@ -98,6 +98,7 @@ create or replace view ae.evab_arten as
 -- - wissenschArtname:
 --   - Artname.substring(0, 255)
 --   -  or: Gattung + Art
+--   2018-10-04: corrected to name field (= Artname vollständig)
 -- - deutscherArtname: ['Name Deutsch'].substring(0, 255)
 -- - status:
 --   - Fauna: 'A'
@@ -110,7 +111,7 @@ create or replace view ae.evab_arten as
 select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
-  substring(COALESCE(ae.object.properties->>'Artname', concat(ae.object.properties->>'Gattung', ' ', ae.object.properties->>'Art')), 1, 255) as "wissenschArtname",
+  substring(ae.object.name, 1, 255) as "wissenschArtname",
   substring(ae.object.properties->>'Name Deutsch', 1, 255) as "deutscherArtname",
   'A'::text as status,
   substring(ae.property_collection_object.properties->>'GIS-Layer', 1, 50) as "klasse"
@@ -131,7 +132,7 @@ where
 UNION select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
-  substring(COALESCE(ae.object.properties->>'Artname', concat(ae.object.properties->>'Gattung', ' ', ae.object.properties->>'Art')), 1, 255) as "wissenschArtname",
+  substring(ae.object.name, 1, 255) as "wissenschArtname",
   substring(ae.object.properties->>'Name Deutsch', 1, 255) as "deutscherArtname",
   ae.evab_flora_status.encoded as status,
   'Flora'::text as "klasse"
@@ -149,7 +150,7 @@ where
 UNION select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
-  substring(COALESCE(ae.object.properties->>'Artname', concat(ae.object.properties->>'Gattung', ' ', ae.object.properties->>'Art')), 1, 255) as "wissenschArtname",
+  substring(ae.object.name, 1, 255) as "wissenschArtname",
   substring(ae.object.properties->>'Name Deutsch', 1, 255) as "deutscherArtname",
   'A'::text as status,
   'Moose'::text as "klasse"
