@@ -1,5 +1,4 @@
 # Was ist arteigenschaften.ch?
-[arteigenschaften.ch](https://arteigenschaften.ch)
 
 ## Ziele
 
