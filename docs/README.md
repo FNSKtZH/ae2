@@ -238,88 +238,83 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
   - viel einfacher zu steuern
   - ...und aus wiederverwertbaren und testbaren Komponenten aufgebaut
 
-### Aktueller Stand
+### Ein paar Eindrücke
 
-- [x] Datenstruktur:<br/>![Datenstruktur](/etc/structure_relational.png?raw=true "Datenstruktur")
-- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](/etc/import.png?raw=true "Import")
+- [x] Datenstruktur:<br/>![Datenstruktur](./_media/structure_relational.png "Datenstruktur")
+- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](./_media/import.png "Import")
 - [x] Anwendungs-API-Server ([PostGraphile](https://github.com/graphile/postgraphile))<br/>
-  ![API-Server](/etc/postgraphql.png?raw=true "API-Server")
-- [x] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](https://github.com/barbalex/ae2/blob/master/docs/schnittstellen.md)
-
-Die neue Anwendung ist implementiert und auf https://arteigenschaften.ch verfügbar.
-
-Ein paar Eindrücke:
-
-  - [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](/etc/dev.png?raw=true "Entwicklungsumgebung")
-  - [x] Layout und Navigation
-    - neu kann die Grenze zwischen Strukturbaum und Objekt stufenlos verschoben werden
-    ![Layout & Navigation](/etc/layout.png?raw=true "Layout & Navigation")
-  - [x] Struktur- und Navigationsbaum
-    - neu inklusive Taxonomien, Eigenschaften-Sammlungen, Benutzer und Organisationen
-    ![Strukturbaum](/etc/strukturbaum.png?raw=true "Strukturbaum")
-  - [x] Suche:
-    - neu nach allen Taxonomien gleichzeitig
-    - neu nach allen Hierarchiestufen (z.B. Ordnungen, Familien)
-    - neu und gleichzeitig nach Eigenschaften-Sammlungen
-    ![Datenstruktur](/etc/suche.png?raw=true "Suche")
-  - [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](/etc/grasfrosch.png?raw=true "Datenstruktur")
-    - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaften-Sammlung](/etc/eigenschaftensammlung.png?raw=true "Eigenschaften-Sammlung")
-    - [x] inklusive Synonymen<br/>
-    - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>
-      ![Synonym](/etc/synonym.png?raw=true "Synonym")
-  - [x] Neu: Alle Hierarchiestufen des Taxonomie-Baums anzeigen:<br/>
-    Taxonomie:<br/>
-    ![Strukturbaum: Taxonomie](/etc/taxonomie.png?raw=true "Strukturbaum: Taxonomie")<br/>
-    Z.B. Klasse:<br/>
-    ![Strukturbaum: Klasse](/etc/klasse.png?raw=true "Strukturbaum: Klasse")<br/>
-    Z.B. Ordnung:<br/>
-    ![Strukturbaum: Ordnung](/etc/ordnung.png?raw=true "Strukturbaum: Ordnung")<br/>
-    Z.B. Familie:<br/>
-    ![Strukturbaum: Familie](/etc/familie.png?raw=true "Strukturbaum: Familie")<br/>
-    Diese Hierarchiestufen haben ihre eigene id und können gleich verwendet werden, wie Arten bzw. Lebensräume.
-  - [x] Neu: Eigenschaften-Sammlungen anzeigen:<br/>
-    Die Liste aller:<br/>
-    ![Eigenschaften-Sammlungen: Liste](/etc/pcs_list.png?raw=true "Eigenschaften-Sammlungen: Liste")<br/>
-    Die Daten der Eigenschaften-Sammlung selbst:<br/>
-    ![Eigenschaften-Sammlung: Daten](/etc/pcs_form.png?raw=true "Eigenschaften-Sammlung: Daten")<br/>
-    Ihre Eigenschaften:<br/>
-    ![Eigenschaften-Sammlung: Eigenschaften](/etc/pcs_p.png?raw=true "Eigenschaften-Sammlung: Eigenschaften")<br/>
-    Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
-    Die Beziehungen der Eigenschaften-Sammlung:<br/>
-    ![Eigenschaften-Sammlung: Beziehungen](/etc/pcs_p.png?raw=true "Eigenschaften-Sammlung: Beziehungen")<br/>
-    Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
-  - [x] Daten exportieren<br/>
-    ![exportieren](/etc/export.png?raw=true "exportieren")
-    - [x] Neu: Während Filter gesetzt und Felder gewählt werden, werden die resultierenden Daten direkt angezeigt
-    - [x] Neu: Gewählte Optionen können einzeln oder als Ganzes zurückgesetzt werden
-    - [x] Neu: Erfasst man in einem Feld einen Filter-Wert, werden die Werte aufgelistet, welche in diesem Feld vorkommen
-  - [x] Neu: Anmeldung<br/>
-    Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen und exportieren.<br/>
-    ![anmelden](/etc/anmeldung.png?raw=true "anmelden")<br/>
-    Angemeldete Benutzer können Daten gemäss den ihnen von Organisationen erteilten Rollen verändern.
-  - [x] Neu: Benutzer<br/>
-    Benutzer können Name, Email und Passwort verändern.<br/>
-    Sie sehen die ihnen erteilten Rollen:<br/>
-    ![Benutzer-Rollen](/etc/user_rollen.png?raw=true "Benutzer-Rollen")
-    ... die von ihnen importierten Taxonomien:<br/>
-    ![Benutzer-Taxonomien](/etc/user_tax.png?raw=true "Benutzer-Taxonomien")
-    ... und die von ihnen importierten Eigenschaften-Sammlungen:<br/>
-    ![Benutzer-Eigenschaften-Sammlungen](/etc/user_pcs.png?raw=true "Benutzer-Eigenschaften-Sammlungen")
-    Organisations-Administratoren können neue Benutzer erstellen:<br/>
-    ![Neuen Benutzer erstellen](/etc/user_create_new.png?raw=true "Neuen Benutzer erstellen")<br/>
-    ... bestehende löschen:<br/>
-    ![Benutzer löschen](/etc/user_delete.png?raw=true "Benutzer löschen")<br/>
-    ... und bei bestehenden Namen und Email ändern, nicht aber das Passwort:<br/>
-    ![Benutzer ändern](/etc/user_from_admin.png?raw=true "Benutzer ändern")
-  - [x] Neu: Organisationen<br/>
-    Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen:
-    ![Rollen verwalten](/etc/org_rollen.png?raw=true "Rollen verwalten")
-    ...sehen, für welche Taxonomien sie zuständig sind: 
-    ![Taxonomien](/etc/org_tax.png?raw=true "Taxonomien")
-    ...sehen, für welche Eigenschaften-Sammlungen sie zuständig sind:
-    ![Eigenschaften-Sammlungen](/etc/org_pcs.png?raw=true "Eigenschaften-Sammlungen")
-  - [x] Import von Eigenschaften- und Beziehungs-Sammlungen
-  - [x] Neu: Taxonomien und Objekte bearbeiten
-  - [x] Links zu: Google Bilder, Wikipedia Suche. Neu: GBIF, Info Flora
-  - [x] Layout passt sich an Mobilgeräte an
-  - [x] Neu: arteigenschaften.ch ist nicht nur eine Applikation, sondern auch eine API bzw. Daten-Schnittstelle, aufgebaut mit [GraphQL](https://github.com/facebook/graphql). Alles, was ein Benutzer über die Anwendung machen kann, ist auch via die API möglich!
+  ![API-Server](./_media/postgraphql.png "API-Server")
+- [x] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](/docs/schnittstellen.md)
+- [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](./_media/dev.png "Entwicklungsumgebung")
+- [x] Layout und Navigation
+  - neu kann die Grenze zwischen Strukturbaum und Objekt stufenlos verschoben werden
+  ![Layout & Navigation](./_media/layout.png "Layout & Navigation")
+- [x] Struktur- und Navigationsbaum
+  - neu inklusive Taxonomien, Eigenschaften-Sammlungen, Benutzer und Organisationen
+  ![Strukturbaum](./_media/strukturbaum.png "Strukturbaum")
+- [x] Suche:
+  - neu nach allen Taxonomien gleichzeitig
+  - neu nach allen Hierarchiestufen (z.B. Ordnungen, Familien)
+  - neu und gleichzeitig nach Eigenschaften-Sammlungen
+  ![Datenstruktur](./_media/suche.png "Suche")
+- [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](./_media/grasfrosch.png "Datenstruktur")
+  - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaften-Sammlung](./_media/eigenschaftensammlung.png "Eigenschaften-Sammlung")
+  - [x] inklusive Synonymen<br/>
+  - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>
+    ![Synonym](./_media/synonym.png "Synonym")
+- [x] Neu: Alle Hierarchiestufen des Taxonomie-Baums anzeigen:<br/>
+  Taxonomie:<br/>
+  ![Strukturbaum: Taxonomie](./_media/taxonomie.png "Strukturbaum: Taxonomie")<br/>
+  Z.B. Klasse:<br/>
+  ![Strukturbaum: Klasse](./_media/klasse.png "Strukturbaum: Klasse")<br/>
+  Z.B. Ordnung:<br/>
+  ![Strukturbaum: Ordnung](./_media/ordnung.png "Strukturbaum: Ordnung")<br/>
+  Z.B. Familie:<br/>
+  ![Strukturbaum: Familie](./_media/familie.png "Strukturbaum: Familie")<br/>
+  Diese Hierarchiestufen haben ihre eigene id und können gleich verwendet werden, wie Arten bzw. Lebensräume.
+- [x] Neu: Eigenschaften-Sammlungen anzeigen:<br/>
+  Die Liste aller:<br/>
+  ![Eigenschaften-Sammlungen: Liste](./_media/pcs_list.png "Eigenschaften-Sammlungen: Liste")<br/>
+  Die Daten der Eigenschaften-Sammlung selbst:<br/>
+  ![Eigenschaften-Sammlung: Daten](./_media/pcs_form.png "Eigenschaften-Sammlung: Daten")<br/>
+  Ihre Eigenschaften:<br/>
+  ![Eigenschaften-Sammlung: Eigenschaften](./_media/pcs_p.png "Eigenschaften-Sammlung: Eigenschaften")<br/>
+  Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
+  Die Beziehungen der Eigenschaften-Sammlung:<br/>
+  ![Eigenschaften-Sammlung: Beziehungen](./_media/pcs_p.png "Eigenschaften-Sammlung: Beziehungen")<br/>
+  Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
+- [x] Daten exportieren<br/>
+  ![exportieren](./_media/export.png "exportieren")
+  - [x] Neu: Während Filter gesetzt und Felder gewählt werden, werden die resultierenden Daten direkt angezeigt
+  - [x] Neu: Gewählte Optionen können einzeln oder als Ganzes zurückgesetzt werden
+  - [x] Neu: Erfasst man in einem Feld einen Filter-Wert, werden die Werte aufgelistet, welche in diesem Feld vorkommen
+- [x] Neu: Anmeldung<br/>
+  Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen und exportieren.<br/>
+  ![anmelden](./_media/anmeldung.png "anmelden")<br/>
+  Angemeldete Benutzer können Daten gemäss den ihnen von Organisationen erteilten Rollen verändern.
+- [x] Neu: Benutzer<br/>
+  Benutzer können Name, Email und Passwort verändern.<br/>
+  Sie sehen die ihnen erteilten Rollen:<br/>
+  ![Benutzer-Rollen](./_media/user_rollen.png "Benutzer-Rollen")
+  ... die von ihnen importierten Taxonomien:<br/>
+  ![Benutzer-Taxonomien](./_media/user_tax.png "Benutzer-Taxonomien")
+  ... und die von ihnen importierten Eigenschaften-Sammlungen:<br/>
+  ![Benutzer-Eigenschaften-Sammlungen](./_media/user_pcs.png "Benutzer-Eigenschaften-Sammlungen")
+  Organisations-Administratoren können neue Benutzer erstellen:<br/>
+  ![Neuen Benutzer erstellen](./_media/user_create_new.png "Neuen Benutzer erstellen")<br/>
+  ... bestehende löschen:<br/>
+  ![Benutzer löschen](./_media/user_delete.png "Benutzer löschen")<br/>
+  ... und bei bestehenden Namen und Email ändern, nicht aber das Passwort:<br/>
+  ![Benutzer ändern](./_media/user_from_admin.png "Benutzer ändern")
+- [x] Neu: Organisationen<br/>
+  Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen:
+  ![Rollen verwalten](./_media/org_rollen.png "Rollen verwalten")
+  ...sehen, für welche Taxonomien sie zuständig sind: 
+  ![Taxonomien](./_media/org_tax.png "Taxonomien")
+  ...sehen, für welche Eigenschaften-Sammlungen sie zuständig sind:
+  ![Eigenschaften-Sammlungen](./_media/org_pcs.png "Eigenschaften-Sammlungen")
+- [x] Import von Eigenschaften- und Beziehungs-Sammlungen
+- [x] Neu: Taxonomien und Objekte bearbeiten
+- [x] Links zu: Google Bilder, Wikipedia Suche. Neu: GBIF, Info Flora
+- [x] Layout passt sich an Mobilgeräte an
+- [x] Neu: arteigenschaften.ch ist nicht nur eine Applikation, sondern auch eine API bzw. Daten-Schnittstelle, aufgebaut mit [GraphQL](https://github.com/facebook/graphql). Alles, was ein Benutzer über die Anwendung machen kann, ist auch via die API möglich!
