@@ -74,7 +74,7 @@ class MoreMenu extends React.Component {
           <MenuItem
             key="ueber"
             onClick={() => {
-              window.open('https://github.com/FNSKtZH/ae2')
+              window.open('https://docs.arteigenschaften.ch')
               this.setState({ anchorEl: null })
             }}
           >
