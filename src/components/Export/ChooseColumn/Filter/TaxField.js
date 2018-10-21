@@ -53,7 +53,7 @@ class TaxField extends React.Component<Props> {
         onResize={contentRect => setWidth(contentRect.bounds.width)}
       >
         {({ measureRef }) => (
-          <Container innerRef={measureRef}>
+          <Container ref={measureRef}>
             <TaxFieldValue
               key={`${taxname}/${pname}/${jsontype}`}
               taxname={taxname}
