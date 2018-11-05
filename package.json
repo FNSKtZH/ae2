@@ -39,7 +39,7 @@
     "react-apollo": "2.2.4",
     "react-autosuggest": "9.4.2",
     "react-contextmenu": "2.9.4",
-    "react-data-grid": "4.0.8",
+    "react-data-grid": "5.0.4-2",
     "react-dom": "16.6.0",
     "react-dropzone": "7.0.1",
     "react-fns": "1.4.0",
