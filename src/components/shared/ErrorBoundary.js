@@ -12,33 +12,32 @@ const ErrorTitle = styled.div`
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
-    this.state = { error: null, errorInfo: null }
+    this.state = { error: null }
   }
 
-  componentDidCatch(error, errorInfo) {
+  static getDerivedStateFromError(error) {
     // Catch errors in any components below and re-render with error message
-    this.setState({
-      error: error,
-      errorInfo: errorInfo,
-    })
+    return {
+      error,
+    }
   }
 
   render() {
-    const { errorInfo } = this.state
-    if (errorInfo) {
+    const { error } = this.state
+    if (error) {
       return (
         <Container>
           <ErrorTitle>
             Oh nein, es ist ein Fehler aufgetreten! Bericht:
           </ErrorTitle>
-          {errorInfo.componentStack}
+          {error.message}
           <div />
         </Container>
       )
     }
     const { children } = this.props
     var childrenWithProps = React.Children.map(children, child =>
-      React.cloneElement(child, { ...this.props })
+      React.cloneElement(child, { ...this.props }),
     )
 
     // Normally, just render children
