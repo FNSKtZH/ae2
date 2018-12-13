@@ -323,6 +323,8 @@ const ImportPco = ({
     f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
   )
 
+  console.log('PCO', { objectIdsExist })
+
   return (
     <Container>
       <StyledH3>Anforderungen an zu importierende Eigenschaften</StyledH3>
@@ -790,6 +792,11 @@ const ImportPco = ({
                   .map(d => d.objectId)
                   .filter(d => d !== undefined)
                 const _objectIdsExist = _objectIds.length === data.length
+                console.log('Dropzone, onDrop', {
+                  _objectIds,
+                  _objectIdsExist,
+                  data,
+                })
                 setObjectIdsExist(_objectIdsExist)
                 setObjectIdsAreUuid(
                   _objectIdsExist
@@ -833,10 +840,16 @@ const ImportPco = ({
                   flatten(data.map(d => Object.values(d))),
                 )
                 setPropertyValuesDontContainApostroph(
-                  !some(propertyValues, k => k.includes('"')),
+                  !some(propertyValues, k => {
+                    if (!k.includes) return false
+                    return k.includes('"')
+                  }),
                 )
                 setPropertyValuesDontContainBackslash(
-                  !some(propertyValues, k => k.includes('\\')),
+                  !some(propertyValues, k => {
+                    if (!k.includes) return false
+                    return k.includes('\\')
+                  }),
                 )
               }
               reader.onabort = () => console.log('file reading was aborted')
@@ -848,13 +861,27 @@ const ImportPco = ({
           //disablePreview
           multiple={false}
         >
-          {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
+          {({
+            getRootProps,
+            getInputProps,
+            isDragActive,
+            isDragReject,
+            acceptedFiles,
+            rejectedFiles,
+          }) => {
             if (isDragActive)
-              return <DropzoneDivActive>Hier fallen lassen</DropzoneDivActive>
+              return (
+                <DropzoneDivActive {...getRootProps()}>
+                  Hier fallen lassen
+                </DropzoneDivActive>
+              )
             if (isDragReject)
-              return <DropzoneDivActive>njet!</DropzoneDivActive>
+              return (
+                <DropzoneDivActive {...getRootProps()}>njet!</DropzoneDivActive>
+              )
             return (
-              <DropzoneDiv>
+              <DropzoneDiv {...getRootProps()}>
+                <input {...getInputProps()} />
                 Datei hierhin ziehen.
                 <br />
                 Oder hier klicken, um eine Datei auszuwählen.

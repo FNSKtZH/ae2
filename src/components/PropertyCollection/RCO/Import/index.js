@@ -1046,13 +1046,27 @@ const ImportPco = ({
           //disablePreview
           multiple={false}
         >
-          {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
+          {({
+            getRootProps,
+            getInputProps,
+            isDragActive,
+            isDragReject,
+            acceptedFiles,
+            rejectedFiles,
+          }) => {
             if (isDragActive)
-              return <DropzoneDivActive>Hier fallen lassen</DropzoneDivActive>
+              return (
+                <DropzoneDivActive {...getRootProps()}>
+                  Hier fallen lassen
+                </DropzoneDivActive>
+              )
             if (isDragReject)
-              return <DropzoneDivActive>njet!</DropzoneDivActive>
+              return (
+                <DropzoneDivActive {...getRootProps()}>njet!</DropzoneDivActive>
+              )
             return (
-              <DropzoneDiv>
+              <DropzoneDiv {...getRootProps()}>
+                <input {...getInputProps()} />
                 Datei hierhin ziehen.
                 <br />
                 Oder hier klicken, um eine Datei auszuwählen.
