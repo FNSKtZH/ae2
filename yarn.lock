@@ -1595,12 +1595,12 @@ apollo-link-batch@^1.1.5:
   dependencies:
     apollo-link "^1.2.4"
 
-apollo-link-context@1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/apollo-link-context/-/apollo-link-context-1.0.9.tgz#7fbc034de44546e957a840be76b2f6277c785e8f"
-  integrity sha512-gcC1WH7mTyNtS0bF4fPijepXqnERwZjm1JCkuOT6ADBTpDTXIqK+Ec+/QkVawDO26EV9OX5ujWe4kI1qC6T6tA==
+apollo-link-context@1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/apollo-link-context/-/apollo-link-context-1.0.10.tgz#c20b0b32c6e4e08c0d3967174f9c2a897c8431fe"
+  integrity sha512-HX3BEmkANs2A8AcYCy92SFJrW+0SbGrhDTSHV6ZwKIJ9ZrsOtly8cMrRLzEw1emjHIz5SP7XJEn3ko7BwhBBSw==
   dependencies:
-    apollo-link "^1.2.3"
+    apollo-link "^1.2.4"
 
 apollo-link-dedup@^1.0.0:
   version "1.0.11"
@@ -1632,7 +1632,7 @@ apollo-link-state@0.4.2:
     apollo-utilities "^1.0.8"
     graphql-anywhere "^4.1.0-alpha.0"
 
-apollo-link@1.2.4, apollo-link@^1.0.0, apollo-link@^1.2.3, apollo-link@^1.2.4:
+apollo-link@1.2.4, apollo-link@^1.0.0, apollo-link@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.4.tgz#ab4d21d2e428db848e88b5e8f4adc717b19c954b"
   integrity sha512-B1z+9H2nTyWEhMXRFSnoZ1vSuAYP+V/EdUJvRx9uZ8yuIBZMm6reyVtr1n0BWlKeSFyPieKJy2RLzmITAAQAMQ==
