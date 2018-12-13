@@ -1043,7 +1043,6 @@ const ImportPco = ({
             }
           }}
           accept=".xlsx, .xls, .csv, .ods, .dbf, .dif"
-          //disablePreview
           multiple={false}
         >
           {({

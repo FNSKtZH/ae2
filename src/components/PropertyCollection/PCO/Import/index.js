@@ -302,9 +302,13 @@ const ImportPco = ({
     importData.length > 0 &&
     existsNoDataWithoutKey &&
     (idsExist ? idsAreUnique && idsAreUuids : true) &&
-    (objectIdsExist
+    // turned off because of inexplicable problem
+    // somehow graphql could exceed some limit
+    // which made this value block importing
+    // although this value was true ?????!!!!
+    /*(objectIdsExist
       ? objectIdsAreUuid && (objectIdsAreReal || objectIdsAreRealNotTested)
-      : false) &&
+      : false) &&*/
     (pCOfOriginIdsExist
       ? pCOfOriginIdsAreUuid &&
         (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
@@ -322,8 +326,6 @@ const ImportPco = ({
   const propertyFields = importDataFields.filter(
     f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
   )
-
-  console.log('PCO', { objectIdsExist })
 
   return (
     <Container>
@@ -792,11 +794,6 @@ const ImportPco = ({
                   .map(d => d.objectId)
                   .filter(d => d !== undefined)
                 const _objectIdsExist = _objectIds.length === data.length
-                console.log('Dropzone, onDrop', {
-                  _objectIds,
-                  _objectIdsExist,
-                  data,
-                })
                 setObjectIdsExist(_objectIdsExist)
                 setObjectIdsAreUuid(
                   _objectIdsExist
@@ -858,7 +855,6 @@ const ImportPco = ({
             }
           }}
           accept=".xlsx, .xls, .csv, .ods, .dbf, .dif"
-          //disablePreview
           multiple={false}
         >
           {({
