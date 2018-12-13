@@ -9808,10 +9808,10 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-apollo@2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.2.4.tgz#05b2a91deb4d5f30d2511fc663abc465b219435e"
-  integrity sha512-haS5R30Qvteb65ZLfWomUZQh47VU4ld4Kof3zlqdbLOrYPt3/DdVZC8ZFPZSxd5zPeIJtZqpUfAxD1WHVoMPIA==
+react-apollo@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.3.2.tgz#b8e287d2813722b9e0a886cabf8149ab3b84a3b7"
+  integrity sha512-3lU9iqmj4KMIZvlWWSuLihxMGLEAL6oNmnSTWrb3/mRP36Zy0zJD4rdaonDx4WzqFYQAnUPaOiFnHGp0UQUTwA==
   dependencies:
     fbjs "^1.0.0"
     hoist-non-react-statics "^3.0.0"
