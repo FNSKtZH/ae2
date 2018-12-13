@@ -88,6 +88,10 @@ const DropzoneContainer = styled.div`
 `
 const DropzoneDiv = styled.div`
   padding: 8px;
+  border-width: 2px;
+  border-color: rgb(102, 102, 102);
+  border-style: dashed;
+  border-radius: 5px;
 `
 const DropzoneDivActive = styled(DropzoneDiv)`
   background-color: rgba(255, 224, 178, 0.2);
@@ -562,14 +566,13 @@ const ImportPco = ({
                       </InlineIcon>
                     </div>
                   )}
-                  {objectIdsAreReal === false &&
-                    !objectIdsAreRealNotTested && (
-                      <div>
-                        <InlineIcon>
-                          <StyledErrorIcon />
-                        </InlineIcon>
-                      </div>
-                    )}
+                  {objectIdsAreReal === false && !objectIdsAreRealNotTested && (
+                    <div>
+                      <InlineIcon>
+                        <StyledErrorIcon />
+                      </InlineIcon>
+                    </div>
+                  )}
                   {objectIdsAreRealNotTested && (
                     <Fragment>
                       <InlineIcon>
@@ -1040,7 +1043,7 @@ const ImportPco = ({
             }
           }}
           accept=".xlsx, .xls, .csv, .ods, .dbf, .dif"
-          disablePreview
+          //disablePreview
           multiple={false}
         >
           {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
