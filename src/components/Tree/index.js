@@ -1,8 +1,7 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 // if observer is active, forceUpdate during rendering happens
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
-import List from 'react-virtualized/dist/commonjs/List'
+import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import findIndex from 'lodash/findIndex'
@@ -36,18 +35,15 @@ const Container = styled.div`
     list-style: none;
     padding: 0 0 0 1.1em;
   }
-  .ReactVirtualized__Grid {
-    /* try to prevent overflow shivering */
-    overflow-x: hidden !important;
-  }
-  .ReactVirtualized__Grid:focus {
-    outline-style: none;
-  }
+`
+const StyledList = styled(List)`
+  overflow-x: hidden !important;
 `
 const AutoSizerContainer = styled.div`
   height: 100%;
   padding: 5px 0;
 `
+/*
 const ListContainer = styled(List)`
   font-size: 14px;
   font-weight: normal;
@@ -59,11 +55,7 @@ const ListContainer = styled(List)`
   &:focus {
     outline-color: rgb(48, 48, 48) !important;
   }
-`
-const LoadingDiv = styled.div`
-  padding-left: 15px;
-  font-size: 14px;
-`
+`*/
 const StyledSnackbar = styled(Snackbar)`
   div {
     min-width: auto;
@@ -75,13 +67,7 @@ const StyledSnackbar = styled(Snackbar)`
     flex-grow: 0;
   }
 `
-const listContainerStyle = { padding: '5px' }
-
-const noRowsRenderer = nodes => (
-  <Container>
-    <LoadingDiv>lade Daten...</LoadingDiv>
-  </Container>
-)
+//const listContainerStyle = { padding: '5px' }
 
 const enhance = compose(
   withOrganizationUsersData,
@@ -127,18 +113,15 @@ const Tree = ({
     treeData,
     activeNodeArray,
   })
-  const rowRenderer = ({ key, index, style }) => (
-    <Row
-      key={key}
-      index={index}
-      style={style}
-      node={nodes[index]}
-      activeNodeArray={activeNodeArray}
-    />
+
+  useEffect(
+    () => {
+      const index = findIndex(nodes, node => isEqual(node.url, activeNodeArray))
+      listRef.current.scrollToItem(index)
+    },
+    [activeNodeArray, nodes],
   )
-  const activeNodeIndex = findIndex(nodes, node =>
-    isEqual(node.url, activeNodeArray),
-  )
+
   const username = get(treeData, 'login.username', null)
   const organizationUsers = get(
     organizationUsersData,
@@ -151,25 +134,33 @@ const Tree = ({
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
 
+  const height = isNaN(dimensions.height) ? 250 : dimensions.height - 40
+  const width = isNaN(dimensions.width) ? 250 : dimensions.width
+
+  const listRef = React.createRef()
+
   return (
     <ErrorBoundary>
       <Container>
         <Filter dimensions={dimensions} />
         <AutoSizerContainer>
-          <AutoSizer>
-            {({ height, width }) => (
-              <ListContainer
-                height={height}
-                rowCount={nodes.length}
-                rowHeight={singleRowHeight}
-                rowRenderer={rowRenderer}
-                noRowsRenderer={noRowsRenderer}
-                scrollToIndex={activeNodeIndex}
-                width={width}
-                style={listContainerStyle}
+          <StyledList
+            height={height}
+            itemCount={nodes.length}
+            itemSize={singleRowHeight}
+            width={width}
+            ref={listRef}
+          >
+            {({ index, style }) => (
+              <Row
+                key={index}
+                index={index}
+                style={style}
+                node={nodes[index]}
+                activeNodeArray={activeNodeArray}
               />
             )}
-          </AutoSizer>
+          </StyledList>
         </AutoSizerContainer>
         <StyledSnackbar open={treeDataLoading} message="lade Daten..." />
         <CmBenutzerFolder />
