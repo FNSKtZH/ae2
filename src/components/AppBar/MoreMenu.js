@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import Icon from '@material-ui/core/Icon'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -29,111 +29,89 @@ const TwoLineMenuItem = styled(MenuItem)`
 `
 
 const ITEM_HEIGHT = 48
+const paperProps = {
+  style: {
+    maxHeight: ITEM_HEIGHT * 7,
+    width: 295,
+  },
+}
 
-class MoreMenu extends React.Component {
-  state = {
-    anchorEl: null,
-  }
+const MoreMenu = () => {
+  const [anchorEl, setAnchorEl] = useState(null)
 
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget })
-  }
+  const onClickButton = useCallback(event => setAnchorEl(event.currentTarget))
+  const onClose = useCallback(() => setAnchorEl(null))
+  const onClickUeber = useCallback(() => {
+    window.open('https://docs.arteigenschaften.ch')
+    setAnchorEl(null)
+  })
+  const onClickStruktur = useCallback(() => {
+    window.open(relations)
+    setAnchorEl(null)
+  })
+  const onClickMelden = useCallback(() => {
+    window.open('https://github.com/FNSKtZH/ae2/issues')
+    setAnchorEl(null)
+  })
+  const onClickFelderAlt = useCallback(() => {
+    app.history.push('/artenlistentool/waehlen')
+    setAnchorEl(null)
+  })
+  const onClickGqlStructure = useCallback(() => {
+    app.history.push('/datagraph')
+    setAnchorEl(null)
+  })
+  const onClickGqlQuery = useCallback(() => {
+    app.history.push('/graphiql')
+    setAnchorEl(null)
+  })
 
-  handleClose = () => {
-    this.setState({ anchorEl: null })
-  }
-
-  render() {
-    const { anchorEl } = this.state
-
-    return (
-      <div>
-        <StyledButton
-          aria-label="More"
-          aria-owns={anchorEl ? 'long-menu' : null}
-          aria-haspopup="true"
-          onClick={this.handleClick}
-          title="Mehr..."
-        >
-          <Icon>
-            <StyledMoreVertIcon />
-          </Icon>
-        </StyledButton>
-        <Menu
-          id="long-menu"
-          anchorEl={this.state.anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-          PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 7,
-              width: 295,
-            },
-          }}
-        >
-          <MenuItem
-            key="ueber"
-            onClick={() => {
-              window.open('https://docs.arteigenschaften.ch')
-              this.setState({ anchorEl: null })
-            }}
-          >
-            über arteigenschaften.ch
+  return (
+    <div>
+      <StyledButton
+        aria-label="More"
+        aria-owns={anchorEl ? 'long-menu' : null}
+        aria-haspopup="true"
+        onClick={onClickButton}
+        title="Mehr..."
+      >
+        <Icon>
+          <StyledMoreVertIcon />
+        </Icon>
+      </StyledButton>
+      <Menu
+        id="long-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={onClose}
+        PaperProps={paperProps}
+      >
+        <MenuItem key="ueber" onClick={onClickUeber}>
+          über arteigenschaften.ch
+        </MenuItem>
+        <MenuItem key="relations" onClick={onClickStruktur}>
+          Daten-Struktur
+        </MenuItem>
+        <MenuItem key="melden" onClick={onClickMelden}>
+          Fehler oder Wünsche melden
+        </MenuItem>
+        <MenuItem key="alt" onClick={onClickFelderAlt}>
+          Felder für das Artenlistentool wählen
+        </MenuItem>
+        {false && (
+          <MenuItem key="datagraph" onClick={onClickGqlStructure}>
+            GrahpQL-Struktur anzeigen
           </MenuItem>
-          <MenuItem
-            key="relations"
-            onClick={() => {
-              window.open(relations)
-              this.setState({ anchorEl: null })
-            }}
-          >
-            Daten-Struktur
-          </MenuItem>
-          <MenuItem
-            key="melden"
-            onClick={() => {
-              window.open('https://github.com/FNSKtZH/ae2/issues')
-              this.setState({ anchorEl: null })
-            }}
-          >
-            Fehler oder Wünsche melden
-          </MenuItem>
-          <MenuItem
-            key="alt"
-            onClick={() => {
-              app.history.push('/artenlistentool/waehlen')
-              this.setState({ anchorEl: null })
-            }}
-          >
-            Felder für das Artenlistentool wählen
-          </MenuItem>
-          {false && (
-            <MenuItem
-              key="datagraph"
-              onClick={() => {
-                app.history.push('/datagraph')
-                this.setState({ anchorEl: null })
-              }}
-            >
-              GrahpQL-Struktur anzeigen
-            </MenuItem>
-          )}
-          <TwoLineMenuItem
-            key="graphiql"
-            onClick={() => {
-              app.history.push('/graphiql')
-              this.setState({ anchorEl: null })
-            }}
-          >
-            GrahpQL-Abfragetool
-            <br />
-            inkl. Schnittstellen-Dokumentation
-          </TwoLineMenuItem>
-          <Version>Version: 1.1.2 vom 27.12.2018</Version>
-        </Menu>
-      </div>
-    )
-  }
+        )}
+        <TwoLineMenuItem key="graphiql" onClick={onClickGqlQuery}>
+          GrahpQL-Abfragetool
+          <br />
+          inkl. Schnittstellen-Dokumentation
+        </TwoLineMenuItem>
+        <Version>Version: 1.1.2 vom 27.12.2018</Version>
+      </Menu>
+    </div>
+  )
 }
 
 export default MoreMenu
