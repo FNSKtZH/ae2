@@ -1,22 +1,25 @@
 // @flow
 /**
-   * As all nodes are now in one flat list,
-   * we need to sort them
-   *
-   * This is the sorting algorithm:
-   *
-   * compare the sort array value in the nodes
-   * to determine sorting
-   *
-   * compare arrays element by element, starting with first
-   * if a has no value at this index (> a is folder), sort a before b
-   * if b has no value at this index (> b is folder), sort a after b
-   * if a is smaller than b, sort a before b
-   * if both array elements at this index are same,
-   * compare values at next index
-   */
+ * As all nodes are now in one flat list,
+ * we need to sort them
+ *
+ * This is the sorting algorithm:
+ *
+ * compare the sort array value in the nodes
+ * to determine sorting
+ *
+ * compare arrays element by element, starting with first
+ * if a has no value at this index (> a is folder), sort a before b
+ * if b has no value at this index (> b is folder), sort a after b
+ * if a is smaller than b, sort a before b
+ * if both array elements at this index are same,
+ * compare values at next index
+ */
 const collator = new window.Intl.Collator('de-CH')
+const exists = value => !!value || value === 0
 const compare = (a, b) => {
+  // without this user without name is sorted above users node
+  if (!exists(a) && !exists(b)) return 0
   // sort a before, if it has no value at this index
   if (a !== 0 && !a) return -1
   // sort a after if b has no value at this index
@@ -41,5 +44,5 @@ export default (nodes: Array<Object>): Array<Object> =>
       compare(a.sort[7], b.sort[7]) ||
       compare(a.sort[8], b.sort[8]) ||
       compare(a.sort[9], b.sort[9]) ||
-      compare(a.sort[10], b.sort[10])
+      compare(a.sort[10], b.sort[10]),
   )
