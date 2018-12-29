@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -50,11 +50,12 @@ const DataStacked = ({
   const e = d.documentElement
   const g = d.getElementsByTagName('body')[0]
   const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+  const windowHeight = w.innerHeight || e.clientHeight || g.clientHeight
   const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const disableDataType = activeNodeArray.length < 2
 
   return (
-    <Fragment>
+    <>
       <StyledPaper>
         <Tabs
           centered
@@ -72,10 +73,10 @@ const DataStacked = ({
         onChangeIndex={i => setTab(i)}
         disabled={disableDataType}
       >
-        <Tree dimensions={{ width: windowWidth }} />
+        <Tree dimensions={{ width: windowWidth, height: windowHeight - 103 }} />
         <DataType stacked={true} dimensions={{ width: windowWidth }} />
       </StyledSwipeableViews>
-    </Fragment>
+    </>
   )
 }
 
