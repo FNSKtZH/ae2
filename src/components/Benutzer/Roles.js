@@ -24,6 +24,7 @@ const Roles = ({ orgUsers }: { orgUsers: Array<Object> }) => (
           const orgName = get(u, 'organizationByOrganizationId.name', '')
           const role = get(u, 'role', '')
           const val = `${orgName}: ${role}`
+
           return <li key={val}>{val}</li>
         })}
       </ul>
