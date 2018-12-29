@@ -1,8 +1,7 @@
 //@flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import Measure from 'react-measure'
 
 import Comparator from './TaxComparator'
@@ -18,37 +17,33 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(
-  withState('width', 'setWidth', 0),
-  withExportTaxFiltersData,
-)
+const enhance = compose(withExportTaxFiltersData)
 
 const TaxField = ({
   taxname,
   pname,
   jsontype,
   exportTaxFiltersData,
-  width,
-  setWidth,
 }: {
   taxname: String,
   pname: String,
   jsontype: String,
   exportTaxFiltersData: Object,
-  width: Number,
-  setWidth: () => void,
 }) => {
+  const [width, setWidth] = useState(0)
+
   const { exportTaxFilters } = exportTaxFiltersData
   const exportTaxFilter = exportTaxFilters.find(
     x => x.taxname === taxname && x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = exportTaxFilter
 
+  const onResize = useCallback(contentRect =>
+    setWidth(contentRect.bounds.width),
+  )
+
   return (
-    <Measure
-      bounds
-      onResize={contentRect => setWidth(contentRect.bounds.width)}
-    >
+    <Measure bounds onResize={onResize}>
       {({ measureRef }) => (
         <Container ref={measureRef}>
           <TaxFieldValue
