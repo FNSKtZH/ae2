@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import Measure from 'react-measure'
 
-import Comparator from './TaxComparator'
-import TaxFieldValue from './TaxFieldValue'
+import Comparator from './Comparator'
+import Value from './Value'
 import withExportTaxFiltersData from '../../../withExportTaxFiltersData'
 
 const Container = styled.div`
@@ -46,7 +46,7 @@ const TaxField = ({
     <Measure bounds onResize={onResize}>
       {({ measureRef }) => (
         <Container ref={measureRef}>
-          <TaxFieldValue
+          <Value
             key={`${taxname}/${pname}/${jsontype}`}
             taxname={taxname}
             pname={pname}
