@@ -31,8 +31,9 @@ const PCs = ({ pcs }: { pcs: Array<Object> }) => {
         <ul>
           {pcs.map(u => {
             const link = `${appBaseUrl}/Eigenschaften-Sammlungen/${encodeURIComponent(
-              u.id
+              u.id,
             )}`
+
             return (
               <li key={u.name}>
                 <StyledA href={link} target="_blank">
