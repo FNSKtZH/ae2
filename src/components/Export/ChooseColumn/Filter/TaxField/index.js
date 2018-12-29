@@ -7,7 +7,7 @@ import Measure from 'react-measure'
 
 import Comparator from './TaxComparator'
 import TaxFieldValue from './TaxFieldValue'
-import withExportTaxFiltersData from '../../withExportTaxFiltersData'
+import withExportTaxFiltersData from '../../../withExportTaxFiltersData'
 
 const Container = styled.div`
   display: flex;
@@ -63,15 +63,14 @@ class TaxField extends React.Component<Props> {
               comparator={comparator}
               width={width - 32}
             />
-            {value !== undefined &&
-              value !== null && (
-                <Comparator
-                  taxname={taxname}
-                  pname={pname}
-                  comparator={comparator}
-                  value={value}
-                />
-              )}
+            {value !== undefined && value !== null && (
+              <Comparator
+                taxname={taxname}
+                pname={pname}
+                comparator={comparator}
+                value={value}
+              />
+            )}
           </Container>
         )}
       </Measure>
