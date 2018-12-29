@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -9,8 +9,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Snackbar from '@material-ui/core/Snackbar'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import withHandlers from 'recompose/withHandlers'
 import get from 'lodash/get'
 
 import Taxonomies from './Taxonomies'
@@ -76,40 +74,47 @@ const enhance = compose(
   withExportRcoData,
   withExportPcoData,
   withSynonymData,
-  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', true),
-  withState('filterExpanded', 'setFilterExpanded', false),
-  withState('propertiesExpanded', 'setPropertiesExpanded', false),
-  withState('message', 'setMessage', ''),
-  withHandlers({
-    onSetMessage: ({ message, setMessage }) => (message: String) => {
-      setMessage(message)
-      if (!!message) {
-        setTimeout(() => setMessage(''), 5000)
-      }
-    },
-  }),
-  withHandlers({
-    onToggleTaxonomies: ({
-      taxonomiesExpanded,
-      setTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+)
+
+const Export = ({
+  exportTaxonomiesData,
+  propsByTaxData,
+  exportRcoData,
+  exportObjectData,
+  exportPcoData,
+  synonymData,
+}: {
+  exportTaxonomiesData: Object,
+  propsByTaxData: Object,
+  exportRcoData: Object,
+  exportObjectData: Object,
+  exportPcoData: Object,
+  synonymData: Object,
+}) => {
+  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+
+  const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(true)
+  const [filterExpanded, setFilterExpanded] = useState(false)
+  const [propertiesExpanded, setPropertiesExpanded] = useState(false)
+  const [message, setMessage] = useState('')
+
+  const onSetMessage = useCallback(message => {
+    setMessage(message)
+    if (!!message) {
+      setTimeout(() => setMessage(''), 5000)
+    }
+  })
+  const onToggleTaxonomies = useCallback(
+    () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
       // close all others
       setFilterExpanded(false)
       setPropertiesExpanded(false)
     },
-    onToggleFilter: ({
-      exportTaxonomiesData,
-      propsByTaxData,
-      filterExpanded,
-      setTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-      onSetMessage,
-    }) => () => {
-      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+    [taxonomiesExpanded],
+  )
+  const onToggleFilter = useCallback(
+    () => {
       const loading = propsByTaxData.loading || exportTaxonomiesData.loading
       if (!filterExpanded && exportTaxonomies.length > 0 && !loading) {
         setFilterExpanded(true)
@@ -124,20 +129,15 @@ const enhance = compose(
         onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
       }
     },
-    onToggleProperties: ({
-      exportTaxonomiesData,
-      propsByTaxData,
-      exportObjectData,
-      exportPcoData,
-      exportRcoData,
-      synonymData,
-      propertiesExpanded,
-      setTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-      onSetMessage,
-    }) => () => {
-      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+    [
+      exportTaxonomies,
+      propsByTaxData.loading,
+      exportTaxonomiesData.loading,
+      filterExpanded,
+    ],
+  )
+  const onToggleProperties = useCallback(
+    () => {
       const loading =
         exportRcoData.loading ||
         propsByTaxData.loading ||
@@ -157,82 +157,75 @@ const enhance = compose(
         onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
       }
     },
-  }),
-)
+    [
+      propertiesExpanded,
+      exportTaxonomies.length,
+      exportRcoData.loading,
+      propsByTaxData.loading,
+      exportObjectData.loading,
+      exportPcoData.loading,
+      synonymData.loading,
+    ],
+  )
 
-const Export = ({
-  taxonomiesExpanded,
-  filterExpanded,
-  propertiesExpanded,
-  onToggleTaxonomies,
-  onToggleFilter,
-  onToggleProperties,
-  message,
-}: {
-  taxonomiesExpanded: Boolean,
-  filterExpanded: Boolean,
-  propertiesExpanded: Boolean,
-  onToggleTaxonomies: () => {},
-  onToggleFilter: () => {},
-  onToggleProperties: () => {},
-  message: String,
-}) => (
-  <ErrorBoundary>
-    <Container>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
-          <CardActionTitle>1. Taxonomie(n) wählen</CardActionTitle>
-          <CardActionIconButton
-            data-expanded={taxonomiesExpanded}
-            aria-expanded={taxonomiesExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
-          <Taxonomies />
-        </Collapse>
-      </StyledCard>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleFilter}>
-          <CardActionTitle>2. filtern</CardActionTitle>
-          <CardActionIconButton
-            data-expanded={filterExpanded}
-            aria-expanded={filterExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={filterExpanded} timeout="auto" unmountOnExit>
-          <Filter />
-        </Collapse>
-      </StyledCard>
-      <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onToggleProperties}>
-          <CardActionTitle>3. Eigenschaften wählen</CardActionTitle>
-          <CardActionIconButton
-            data-expanded={propertiesExpanded}
-            aria-expanded={propertiesExpanded}
-            aria-label="Show more"
-          >
-            <Icon>
-              <ExpandMoreIcon />
-            </Icon>
-          </CardActionIconButton>
-        </StyledCardActions>
-        <Collapse in={propertiesExpanded} timeout="auto" unmountOnExit>
-          <Properties />
-        </Collapse>
-      </StyledCard>
-      <StyledSnackbar open={!!message} message={message} />
-    </Container>
-  </ErrorBoundary>
-)
+  return (
+    <ErrorBoundary>
+      <Container>
+        <StyledCard>
+          <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
+            <CardActionTitle>1. Taxonomie(n) wählen</CardActionTitle>
+            <CardActionIconButton
+              data-expanded={taxonomiesExpanded}
+              aria-expanded={taxonomiesExpanded}
+              aria-label="Show more"
+            >
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
+            </CardActionIconButton>
+          </StyledCardActions>
+          <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
+            <Taxonomies />
+          </Collapse>
+        </StyledCard>
+        <StyledCard>
+          <StyledCardActions disableActionSpacing onClick={onToggleFilter}>
+            <CardActionTitle>2. filtern</CardActionTitle>
+            <CardActionIconButton
+              data-expanded={filterExpanded}
+              aria-expanded={filterExpanded}
+              aria-label="Show more"
+            >
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
+            </CardActionIconButton>
+          </StyledCardActions>
+          <Collapse in={filterExpanded} timeout="auto" unmountOnExit>
+            <Filter />
+          </Collapse>
+        </StyledCard>
+        <StyledCard>
+          <StyledCardActions disableActionSpacing onClick={onToggleProperties}>
+            <CardActionTitle>3. Eigenschaften wählen</CardActionTitle>
+            <CardActionIconButton
+              data-expanded={propertiesExpanded}
+              aria-expanded={propertiesExpanded}
+              aria-label="Show more"
+            >
+              <Icon>
+                <ExpandMoreIcon />
+              </Icon>
+            </CardActionIconButton>
+          </StyledCardActions>
+          <Collapse in={propertiesExpanded} timeout="auto" unmountOnExit>
+            <Properties />
+          </Collapse>
+        </StyledCard>
+        <StyledSnackbar open={!!message} message={message} />
+      </Container>
+    </ErrorBoundary>
+  )
+}
 
 export default enhance(Export)
