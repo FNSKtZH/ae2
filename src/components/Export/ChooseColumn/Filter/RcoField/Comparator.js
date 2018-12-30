@@ -8,8 +8,8 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import exportRcoFiltersMutation from '../../exportRcoFiltersMutation'
-import ComparatorSelect from './ComparatorSelect'
+import exportRcoFiltersMutation from '../../../exportRcoFiltersMutation'
+import ComparatorSelect from '../ComparatorSelect'
 
 const Container = styled.div`
   flex-basis: 150px;
@@ -44,9 +44,15 @@ const enhance = compose(
     onChange: ({ pcname, relationtype, pname, value, client }) => event =>
       client.mutate({
         mutation: exportRcoFiltersMutation,
-        variables: { pcname, relationtype, pname, comparator: event.target.value, value },
+        variables: {
+          pcname,
+          relationtype,
+          pname,
+          comparator: event.target.value,
+          value,
+        },
       }),
-  })
+  }),
 )
 
 const RcoComparator = ({
@@ -62,10 +68,7 @@ const RcoComparator = ({
     <Container>
       <StyledFormControl className={classes.formControl}>
         <InputLabel htmlFor="v-op">Vergleichs-Operator</InputLabel>
-        <ComparatorSelect
-          comparator={comparator}
-          onChange={onChange}
-        />
+        <ComparatorSelect comparator={comparator} onChange={onChange} />
       </StyledFormControl>
     </Container>
   )

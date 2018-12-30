@@ -3,9 +3,9 @@ import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 
-import Comparator from './RcoComparator'
-import RcoFieldValue from './RcoFieldValue'
-import withExportRcoFiltersData from '../../withExportRcoFiltersData'
+import Comparator from './Comparator'
+import Value from './Value'
+import withExportRcoFiltersData from '../../../withExportRcoFiltersData'
 
 const Container = styled.div`
   display: flex;
@@ -44,7 +44,7 @@ const RcoField = ({
 
   return (
     <Container>
-      <RcoFieldValue
+      <Value
         pcname={pcname}
         relationtype={relationtype}
         pname={pname}
@@ -52,16 +52,15 @@ const RcoField = ({
         comparator={comparator}
         jsontype={jsontype}
       />
-      {value !== undefined &&
-        value !== null && (
-          <Comparator
-            pcname={pcname}
-            relationtype={relationtype}
-            pname={pname}
-            comparator={comparator}
-            value={value}
-          />
-        )}
+      {value !== undefined && value !== null && (
+        <Comparator
+          pcname={pcname}
+          relationtype={relationtype}
+          pname={pname}
+          comparator={comparator}
+          value={value}
+        />
+      )}
     </Container>
   )
 }
