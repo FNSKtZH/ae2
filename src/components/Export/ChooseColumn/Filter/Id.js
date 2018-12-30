@@ -1,5 +1,5 @@
 //@flow
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
@@ -14,57 +14,45 @@ const IdField = styled(TextField)`
 
 const enhance = compose(withApollo)
 
-type Props = {
-  value: string,
-  propData: Object,
-}
+const IdFilterField = ({ client }: { client: Object }) => {
+  const [value, setValue] = useState('')
 
-type State = {
-  value: string,
-}
+  const change = useCallback(
+    debounce(value => {
+      client.mutate({
+        mutation: exportIdsMutation,
+        variables: {
+          value,
+        },
+      })
+    }, 200),
+  )
 
-class IdFilterField extends React.Component<Props, State> {
-  state = {
-    value: '',
-  }
-
-  change = debounce(value => {
-    const { client } = this.props
-    client.mutate({
-      mutation: exportIdsMutation,
-      variables: {
-        value,
-      },
-    })
-  }, 200)
-
-  handleChange = event => {
+  const handleChange = useCallback(event => {
     const { value } = event.target
-    this.setState({ value })
+    setValue(value)
     // convert values into an array of values, separated by commas
     const valueForStore = value ? JSON.parse(`"[${event.target.value}]"`) : []
-    this.change(valueForStore)
-  }
+    change(valueForStore)
+  })
 
-  render() {
-    return (
-      <IdField
-        id="id"
-        label="id"
-        multiline
-        rowsMax="5"
-        value={this.state.value}
-        onChange={this.handleChange}
-        margin="normal"
-        fullWidth
-        helperText="Sie können mehrere id's kommagetrennt einfügen"
-        autoComplete="off"
-        autoCorrect="off"
-        autoCapitalize="off"
-        spellCheck="false"
-      />
-    )
-  }
+  return (
+    <IdField
+      id="id"
+      label="id"
+      multiline
+      rowsMax="5"
+      value={value}
+      onChange={handleChange}
+      margin="normal"
+      fullWidth
+      helperText="Sie können mehrere id's kommagetrennt einfügen"
+      autoComplete="off"
+      autoCorrect="off"
+      autoCapitalize="off"
+      spellCheck="false"
+    />
+  )
 }
 
 export default enhance(IdFilterField)
