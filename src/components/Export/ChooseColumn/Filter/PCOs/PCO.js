@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -80,13 +80,12 @@ const PcoCard = ({
     'propertyCollectionName',
   )
 
+  const onClickAction = useCallback(() => setExpanded(!expanded), [expanded])
+
   return (
     <ErrorBoundary>
       <StyledCard key={pc}>
-        <StyledCardActions
-          disableActionSpacing
-          onClick={() => setExpanded(!expanded)}
-        >
+        <StyledCardActions disableActionSpacing onClick={onClickAction}>
           <CardActionTitle>
             {pc}
             <Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${
