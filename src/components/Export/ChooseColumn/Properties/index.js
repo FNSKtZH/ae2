@@ -1,10 +1,8 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import withHandlers from 'recompose/withHandlers'
 import get from 'lodash/get'
 
 import HowTo from './HowTo'
@@ -26,16 +24,21 @@ const enhance = compose(
   withExportTaxonomiesData,
   withData,
   withPropsByTaxData,
-  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
-  withState('pcoExpanded', 'setFilterExpanded', false),
-  withState('rcoExpanded', 'setPropertiesExpanded', false),
-  withHandlers({
-    onToggleTaxonomies: ({
-      taxonomiesExpanded,
-      setTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+)
+
+const Properties = ({
+  propsByTaxData,
+  data,
+}: {
+  propsByTaxData: Object,
+  data: Object,
+}) => {
+  const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(false)
+  const [pcoExpanded, setFilterExpanded] = useState(false)
+  const [rcoExpanded, setPropertiesExpanded] = useState(false)
+
+  const onToggleTaxonomies = useCallback(
+    () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
       // TODO (later)
       // check if only one Taxonomy
@@ -45,12 +48,10 @@ const enhance = compose(
       setFilterExpanded(false)
       setPropertiesExpanded(false)
     },
-    onTogglePco: ({
-      pcoExpanded,
-      setTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+    [taxonomiesExpanded],
+  )
+  const onTogglePco = useCallback(
+    () => {
       if (!pcoExpanded) {
         setFilterExpanded(true)
         // close all others
@@ -60,12 +61,10 @@ const enhance = compose(
         setFilterExpanded(false)
       }
     },
-    onToggleRco: ({
-      rcoExpanded,
-      setTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+    [pcoExpanded],
+  )
+  const onToggleRco = useCallback(
+    () => {
       if (!rcoExpanded) {
         setPropertiesExpanded(true)
         // close all others
@@ -75,29 +74,9 @@ const enhance = compose(
         setPropertiesExpanded(false)
       }
     },
-  }),
-  //withWindowSize,
-)
+    [rcoExpanded],
+  )
 
-const Properties = ({
-  propsByTaxData,
-  data,
-  taxonomiesExpanded,
-  pcoExpanded,
-  rcoExpanded,
-  onToggleTaxonomies,
-  onTogglePco,
-  onToggleRco,
-}: {
-  propsByTaxData: Object,
-  data: Object,
-  taxonomiesExpanded: Boolean,
-  pcoExpanded: Boolean,
-  rcoExpanded: Boolean,
-  onToggleTaxonomies: () => {},
-  onTogglePco: () => {},
-  onToggleRco: () => {},
-}) => {
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',

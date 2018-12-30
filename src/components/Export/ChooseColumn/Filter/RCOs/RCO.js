@@ -11,7 +11,6 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 
 import RcoField from '../RcoField'
 import constants from '../../../../../modules/constants'

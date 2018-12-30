@@ -12,8 +12,8 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
-import AllPcoChooser from '../AllPcoChooser'
-import PcoChooser from '../PcoChooser'
+import AllChooser from './AllChooser'
+import Chooser from './Chooser'
 import constants from '../../../../../../modules/constants'
 import withPropsByTaxData from '../../../withPropsByTaxData'
 import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
@@ -111,13 +111,11 @@ const PCO = ({
         <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
           <Fragment>
             {pcoPropertiesByPropertyCollection[pc].length > 1 && (
-              <AllPcoChooser
-                properties={pcoPropertiesByPropertyCollection[pc]}
-              />
+              <AllChooser properties={pcoPropertiesByPropertyCollection[pc]} />
             )}
             <PropertiesContainer data-width={window.innerWidth - 84}>
               {pcoPropertiesByPropertyCollection[pc].map(field => (
-                <PcoChooser
+                <Chooser
                   key={`${field.propertyName}${field.jsontype}`}
                   pcname={field.propertyCollectionName}
                   pname={field.propertyName}
