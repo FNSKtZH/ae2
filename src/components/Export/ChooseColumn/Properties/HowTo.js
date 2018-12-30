@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -7,8 +7,6 @@ import Collapse from '@material-ui/core/Collapse'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
@@ -36,46 +34,42 @@ const StyledCardContent = styled(CardContent)`
   }
 `
 
-const enhance = compose(withState('expanded', 'setExpanded', false))
+const HowToProperties = () => {
+  const [expanded, setExpanded] = useState(false)
 
-const HowToProperties = ({
-  expanded,
-  setExpanded,
-}: {
-  expanded: Boolean,
-  setExpanded: () => void,
-}) => (
-  <StyledCard>
-    <StyledCardActions
-      disableActionSpacing
-      onClick={() => setExpanded(!expanded)}
-    >
-      <CardActionTitle>So geht's</CardActionTitle>
-      <CardActionIconButton
-        data-expanded={expanded}
-        aria-expanded={expanded}
-        aria-label="Show more"
+  return (
+    <StyledCard>
+      <StyledCardActions
+        disableActionSpacing
+        onClick={() => setExpanded(!expanded)}
       >
-        <Icon>
-          <ExpandMoreIcon />
-        </Icon>
-      </CardActionIconButton>
-    </StyledCardActions>
-    <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <StyledCardContent>
-        <ul>
-          <li>
-            Nachfolgend sind alle Eigenschaften aufgelistet, die in den
-            gewählten Taxonomien vorkommen
-          </li>
-          <li>
-            Markieren Sie die Eigenschaften, die Sie exportieren möchten...
-          </li>
-          <li>...und laden Sie danach die Daten herunter</li>
-        </ul>
-      </StyledCardContent>
-    </Collapse>
-  </StyledCard>
-)
+        <CardActionTitle>So geht's</CardActionTitle>
+        <CardActionIconButton
+          data-expanded={expanded}
+          aria-expanded={expanded}
+          aria-label="Show more"
+        >
+          <Icon>
+            <ExpandMoreIcon />
+          </Icon>
+        </CardActionIconButton>
+      </StyledCardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <StyledCardContent>
+          <ul>
+            <li>
+              Nachfolgend sind alle Eigenschaften aufgelistet, die in den
+              gewählten Taxonomien vorkommen
+            </li>
+            <li>
+              Markieren Sie die Eigenschaften, die Sie exportieren möchten...
+            </li>
+            <li>...und laden Sie danach die Daten herunter</li>
+          </ul>
+        </StyledCardContent>
+      </Collapse>
+    </StyledCard>
+  )
+}
 
-export default enhance(HowToProperties)
+export default HowToProperties
