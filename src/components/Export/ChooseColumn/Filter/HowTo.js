@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -36,50 +36,46 @@ const StyledCardContent = styled(CardContent)`
   }
 `
 
-const enhance = compose(withState('expanded', 'setExpanded', false))
+const enhance = compose()
 
-const HowToFilter = ({
-  expanded,
-  setExpanded,
-}: {
-  expanded: Boolean,
-  setExpanded: () => void,
-}) => (
-  <StyledCard>
-    <StyledCardActions
-      disableActionSpacing
-      onClick={() => setExpanded(!expanded)}
-    >
-      <CardActionTitle>So geht's</CardActionTitle>
-      <CardActionIconButton
-        data-expanded={expanded}
-        aria-expanded={expanded}
-        aria-label="Show more"
-      >
-        <Icon>
-          <ExpandMoreIcon />
-        </Icon>
-      </CardActionIconButton>
-    </StyledCardActions>
-    <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <StyledCardContent>
-        <ul>
-          <li>
-            Nachfolgend sind alle Eigenschaften aufgelistet, die in den
-            gewählten Gruppen vorkommen
-          </li>
-          <li>
-            Erfassen Sie in den Eigenschaften Ihrer Wahl die gewünschten
-            Filter-Kriterien...
-          </li>
-          <li>
-            ...und wählen Sie danach unter "3. Eigenschaften wählen", welche
-            Eigenschaften exportiert werden sollen
-          </li>
-        </ul>
-      </StyledCardContent>
-    </Collapse>
-  </StyledCard>
-)
+const HowToFilter = () => {
+  const [expanded, setExpanded] = useState(false)
+  const onClickAction = useCallback(() => setExpanded(!expanded), [expanded])
+
+  return (
+    <StyledCard>
+      <StyledCardActions disableActionSpacing onClick={onClickAction}>
+        <CardActionTitle>So geht's</CardActionTitle>
+        <CardActionIconButton
+          data-expanded={expanded}
+          aria-expanded={expanded}
+          aria-label="Show more"
+        >
+          <Icon>
+            <ExpandMoreIcon />
+          </Icon>
+        </CardActionIconButton>
+      </StyledCardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <StyledCardContent>
+          <ul>
+            <li>
+              Nachfolgend sind alle Eigenschaften aufgelistet, die in den
+              gewählten Gruppen vorkommen
+            </li>
+            <li>
+              Erfassen Sie in den Eigenschaften Ihrer Wahl die gewünschten
+              Filter-Kriterien...
+            </li>
+            <li>
+              ...und wählen Sie danach unter "3. Eigenschaften wählen", welche
+              Eigenschaften exportiert werden sollen
+            </li>
+          </ul>
+        </StyledCardContent>
+      </Collapse>
+    </StyledCard>
+  )
+}
 
 export default enhance(HowToFilter)

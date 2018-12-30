@@ -29,50 +29,55 @@ const ComparatorSelect = ({
   comparator: String,
   onChange: () => {},
   classes: Object,
-}) => {
-  return (
-    <StyledSelect
-      value={comparator}
-      onChange={onChange}
-      input={<Input id="v-op" />}
-    >
-      <MenuItem value="ILIKE">
-        <MenuItemRow>
-          <Value>enthalten</Value><Comment>Gross-Schreibung ignoriert</Comment>
-        </MenuItemRow>
-      </MenuItem>
-      <MenuItem value="LIKE">
-        <MenuItemRow>
-          <Value>enthalten</Value><Comment>Gross-Schreibung berücksichtigt</Comment>
-        </MenuItemRow>
-      </MenuItem>
-      <MenuItem value="=">
-        <MenuItemRow>
-          <Value>&#61;</Value><Comment>genau gleich</Comment>
-        </MenuItemRow>
-      </MenuItem>
-      <MenuItem value=">">
-        <MenuItemRow>
-          <Value>&#62;</Value><Comment>(Zahlen wie Text sortiert)</Comment>
-        </MenuItemRow>
-      </MenuItem>
-      <MenuItem value=">=">
-        <MenuItemRow>
-          <Value>&#62;&#61;</Value><Comment>(Zahlen wie Text sortiert)</Comment>
-        </MenuItemRow>
-      </MenuItem>
-      <MenuItem value="<">
-        <MenuItemRow>
-          <Value>&#60;</Value><Comment>(Zahlen wie Text sortiert)</Comment>
-        </MenuItemRow>
-      </MenuItem>
-      <MenuItem value="<=">
-        <MenuItemRow>
-          <Value>&#60;&#61;</Value><Comment>(Zahlen wie Text sortiert)</Comment>
-        </MenuItemRow>
-      </MenuItem>
-    </StyledSelect>
-  )
-}
+}) => (
+  <StyledSelect
+    value={comparator}
+    onChange={onChange}
+    input={<Input id="v-op" />}
+  >
+    <MenuItem value="ILIKE">
+      <MenuItemRow>
+        <Value>enthalten</Value>
+        <Comment>Gross-Schreibung ignoriert</Comment>
+      </MenuItemRow>
+    </MenuItem>
+    <MenuItem value="LIKE">
+      <MenuItemRow>
+        <Value>enthalten</Value>
+        <Comment>Gross-Schreibung berücksichtigt</Comment>
+      </MenuItemRow>
+    </MenuItem>
+    <MenuItem value="=">
+      <MenuItemRow>
+        <Value>&#61;</Value>
+        <Comment>genau gleich</Comment>
+      </MenuItemRow>
+    </MenuItem>
+    <MenuItem value=">">
+      <MenuItemRow>
+        <Value>&#62;</Value>
+        <Comment>(Zahlen wie Text sortiert)</Comment>
+      </MenuItemRow>
+    </MenuItem>
+    <MenuItem value=">=">
+      <MenuItemRow>
+        <Value>&#62;&#61;</Value>
+        <Comment>(Zahlen wie Text sortiert)</Comment>
+      </MenuItemRow>
+    </MenuItem>
+    <MenuItem value="<">
+      <MenuItemRow>
+        <Value>&#60;</Value>
+        <Comment>(Zahlen wie Text sortiert)</Comment>
+      </MenuItemRow>
+    </MenuItem>
+    <MenuItem value="<=">
+      <MenuItemRow>
+        <Value>&#60;&#61;</Value>
+        <Comment>(Zahlen wie Text sortiert)</Comment>
+      </MenuItemRow>
+    </MenuItem>
+  </StyledSelect>
+)
 
 export default ComparatorSelect
