@@ -1,10 +1,9 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 
@@ -28,8 +27,25 @@ const Label = styled(FormControlLabel)`
 const enhance = compose(
   withApollo,
   withExportPcoPropertiesData,
-  withHandlers({
-    onCheck: ({ pcname, pname, client }) => (event, isChecked) => {
+)
+
+const PcoChooser = ({
+  pcname,
+  pname,
+  jsontype,
+  count,
+  exportPcoPropertiesData,
+  client,
+}: {
+  pcname: string,
+  pname: string,
+  jsontype: string,
+  count: number,
+  exportPcoPropertiesData: Object,
+  client: Object,
+}) => {
+  const onCheck = useCallback(
+    (event, isChecked) => {
       const mutation = isChecked
         ? addExportPcoPropertyMutation
         : removeExportPcoPropertyMutation
@@ -38,30 +54,14 @@ const enhance = compose(
         variables: { pcname, pname },
       })
     },
-  }),
-)
+    [pcname, pname],
+  )
 
-const PcoChooser = ({
-  pcname,
-  pname,
-  jsontype,
-  count,
-  onCheck,
-  exportPcoPropertiesData,
-}: {
-  pcname: string,
-  pname: string,
-  jsontype: string,
-  count: number,
-  onCheck: () => {},
-  exportPcoPropertiesData: Object,
-}) => {
   const exportPcoProperties = get(
     exportPcoPropertiesData,
     'exportPcoProperties',
     [],
   )
-  //const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
   const checked =
     exportPcoProperties.filter(x => x.pcname === pcname && x.pname === pname)
       .length > 0
