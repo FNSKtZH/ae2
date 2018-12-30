@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -10,7 +10,6 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 
 import AllChooser from './AllChooser'
 import Chooser from './Chooser'
@@ -55,24 +54,22 @@ const Count = styled.span`
 const enhance = compose(
   withExportTaxonomiesData,
   withPropsByTaxData,
-  withState('expanded', 'setExpanded', false),
 )
 
 const PCO = ({
-  expanded,
-  setExpanded,
   propsByTaxData,
   pcoExpanded,
   onTogglePco,
   pc,
 }: {
-  expanded: Boolean,
-  setExpanded: () => void,
   propsByTaxData: Object,
   pcoExpanded: Boolean,
   onTogglePco: () => {},
   pc: Object,
 }) => {
+  const [expanded, setExpanded] = useState(false)
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
@@ -86,10 +83,7 @@ const PCO = ({
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions
-          disableActionSpacing
-          onClick={() => setExpanded(!expanded)}
-        >
+        <StyledCardActions disableActionSpacing onClick={onClickActions}>
           <CardActionTitle>
             {pc}
             <Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${
@@ -109,7 +103,7 @@ const PCO = ({
           </CardActionIconButton>
         </StyledCardActions>
         <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
-          <Fragment>
+          <>
             {pcoPropertiesByPropertyCollection[pc].length > 1 && (
               <AllChooser properties={pcoPropertiesByPropertyCollection[pc]} />
             )}
@@ -124,7 +118,7 @@ const PCO = ({
                 />
               ))}
             </PropertiesContainer>
-          </Fragment>
+          </>
         </StyledCollapse>
       </StyledCard>
     </ErrorBoundary>
