@@ -1,5 +1,5 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormLabel from '@material-ui/core/FormLabel'
@@ -7,7 +7,6 @@ import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 
@@ -41,11 +40,23 @@ const StyledRadio = styled(Radio)`
 const enhance = compose(
   withApollo,
   withExportAddFilterFieldsData,
-  withHandlers({
-    onChange: ({ pcname, pname, client, exportAddFilterFieldsData }) => (
-      e,
-      val,
-    ) => {
+)
+
+const PcoCheckbox = ({
+  pname,
+  pcname,
+  value,
+  client,
+  exportAddFilterFieldsData,
+}: {
+  pname: string,
+  pcname: string,
+  value: string,
+  client: Object,
+  exportAddFilterFieldsData: Object,
+}) => {
+  const onChange = useCallback(
+    (e, val) => {
       let comparator = '='
       let value = val
       if (value === 'null') {
@@ -69,45 +80,38 @@ const enhance = compose(
         })
       }
     },
-  }),
-)
+    [pcname, pname, exportAddFilterFieldsData],
+  )
 
-const PcoCheckbox = ({
-  pname,
-  value,
-  onChange,
-}: {
-  pname: string,
-  value: string,
-  onChange: () => {},
-}) => (
-  <Container>
-    <FormControl component="fieldset">
-      <StyledFormLabel component="legend">{pname}</StyledFormLabel>
-      <RadioGroup
-        aria-label={pname}
-        name={pname}
-        value={value}
-        onChange={onChange}
-      >
-        <StyledFormControlLabel
-          value="true"
-          control={<StyledRadio color="primary" />}
-          label="Ja"
-        />
-        <StyledFormControlLabel
-          value="false"
-          control={<StyledRadio color="primary" />}
-          label="Nein"
-        />
-        <StyledFormControlLabel
-          value="null"
-          control={<StyledRadio color="primary" />}
-          label="nicht filtern"
-        />
-      </RadioGroup>
-    </FormControl>
-  </Container>
-)
+  return (
+    <Container>
+      <FormControl component="fieldset">
+        <StyledFormLabel component="legend">{pname}</StyledFormLabel>
+        <RadioGroup
+          aria-label={pname}
+          name={pname}
+          value={value}
+          onChange={onChange}
+        >
+          <StyledFormControlLabel
+            value="true"
+            control={<StyledRadio color="primary" />}
+            label="Ja"
+          />
+          <StyledFormControlLabel
+            value="false"
+            control={<StyledRadio color="primary" />}
+            label="Nein"
+          />
+          <StyledFormControlLabel
+            value="null"
+            control={<StyledRadio color="primary" />}
+            label="nicht filtern"
+          />
+        </RadioGroup>
+      </FormControl>
+    </Container>
+  )
+}
 
 export default enhance(PcoCheckbox)
