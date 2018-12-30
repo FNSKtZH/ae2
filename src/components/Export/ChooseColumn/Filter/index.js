@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -7,8 +7,6 @@ import styled from 'styled-components'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import withHandlers from 'recompose/withHandlers'
 import app from 'ampersand-app'
 
 import HowTo from './HowTo'
@@ -47,45 +45,46 @@ const enhance = compose(
   withExportWithSynonymDataData,
   withExportAddFilterFieldsData,
   withExportOnlyRowsWithPropertiesData,
-  withState('jointTaxonomiesExpanded', 'setJointTaxonomiesExpanded', false),
-  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
-  withState('pcoExpanded', 'setFilterExpanded', false),
-  withState('rcoExpanded', 'setPropertiesExpanded', false),
-  withHandlers({
-    onToggleJointTaxonomies: ({
-      jointTaxonomiesExpanded,
-      setJointTaxonomiesExpanded,
-      taxonomiesExpanded,
-      setTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+)
+
+const Filter = ({
+  propsByTaxData,
+  exportWithSynonymDataData,
+  exportAddFilterFieldsData,
+  exportOnlyRowsWithPropertiesData,
+}: {
+  propsByTaxData: Object,
+  exportWithSynonymDataData: Object,
+  exportAddFilterFieldsData: Object,
+  exportOnlyRowsWithPropertiesData: Object,
+}) => {
+  const [jointTaxonomiesExpanded, setJointTaxonomiesExpanded] = useState(false)
+  const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(false)
+  const [pcoExpanded, setFilterExpanded] = useState(false)
+  const [rcoExpanded, setPropertiesExpanded] = useState(false)
+
+  const onToggleJointTaxonomies = useCallback(
+    () => {
       setJointTaxonomiesExpanded(!jointTaxonomiesExpanded)
       // close all others
       setTaxonomiesExpanded(false)
       setFilterExpanded(false)
       setPropertiesExpanded(false)
     },
-    onToggleTaxonomies: ({
-      taxonomiesExpanded,
-      setTaxonomiesExpanded,
-      setJointTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+    [jointTaxonomiesExpanded],
+  )
+  const onToggleTaxonomies = useCallback(
+    () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
       // close all others
       setJointTaxonomiesExpanded(false)
       setFilterExpanded(false)
       setPropertiesExpanded(false)
     },
-    onTogglePco: ({
-      pcoExpanded,
-      setTaxonomiesExpanded,
-      setJointTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+    [taxonomiesExpanded],
+  )
+  const onTogglePco = useCallback(
+    () => {
       if (!pcoExpanded) {
         setFilterExpanded(true)
         // close all others
@@ -96,13 +95,10 @@ const enhance = compose(
         setFilterExpanded(false)
       }
     },
-    onToggleRco: ({
-      rcoExpanded,
-      setTaxonomiesExpanded,
-      setJointTaxonomiesExpanded,
-      setFilterExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+    [pcoExpanded],
+  )
+  const onToggleRco = useCallback(
+    () => {
       if (!rcoExpanded) {
         setPropertiesExpanded(true)
         // close all others
@@ -113,36 +109,9 @@ const enhance = compose(
         setPropertiesExpanded(false)
       }
     },
-  }),
-)
+    [rcoExpanded],
+  )
 
-const Filter = ({
-  propsByTaxData,
-  exportWithSynonymDataData,
-  exportAddFilterFieldsData,
-  exportOnlyRowsWithPropertiesData,
-  taxonomiesExpanded,
-  jointTaxonomiesExpanded,
-  pcoExpanded,
-  rcoExpanded,
-  onToggleTaxonomies,
-  onToggleJointTaxonomies,
-  onTogglePco,
-  onToggleRco,
-}: {
-  propsByTaxData: Object,
-  exportWithSynonymDataData: Object,
-  exportAddFilterFieldsData: Object,
-  exportOnlyRowsWithPropertiesData: Object,
-  taxonomiesExpanded: Boolean,
-  jointTaxonomiesExpanded: Boolean,
-  pcoExpanded: Boolean,
-  rcoExpanded: Boolean,
-  onToggleTaxonomies: () => {},
-  onToggleJointTaxonomies: () => {},
-  onTogglePco: () => {},
-  onToggleRco: () => {},
-}) => {
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
     'exportWithSynonymData',
