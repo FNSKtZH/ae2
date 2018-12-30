@@ -13,11 +13,11 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
 
-import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
-import readableType from '../../../../modules/readableType'
+import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
+import readableType from '../../../../../modules/readableType'
 import withPcoFieldPropData from './withPcoFieldPropData'
-import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
-import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
+import withExportAddFilterFieldsData from '../../../withExportAddFilterFieldsData'
+import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;

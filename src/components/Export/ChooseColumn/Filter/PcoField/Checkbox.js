@@ -10,9 +10,9 @@ import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 
-import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
-import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
-import addExportPcoPropertyMutation from '../../addExportPcoPropertyMutation'
+import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
+import withExportAddFilterFieldsData from '../../../withExportAddFilterFieldsData'
+import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
 
 const Container = styled.div`
   width: 100%;

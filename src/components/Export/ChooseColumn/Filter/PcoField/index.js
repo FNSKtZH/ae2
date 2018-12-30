@@ -3,10 +3,10 @@ import React from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 
-import Comparator from './PcoComparator'
-import PcoFieldValue from './PcoFieldValue'
-import PcoCheckbox from './PcoCheckbox'
-import withExportPcoFiltersData from '../../withExportPcoFiltersData'
+import Comparator from './Comparator'
+import Value from './Value'
+import Checkbox from './Checkbox'
+import withExportPcoFiltersData from '../../../withExportPcoFiltersData'
 
 const Container = styled.div`
   display: flex;
@@ -38,12 +38,12 @@ const PcoField = ({
   ) || { comparator: null, value: null }
   const { comparator, value } = exportPcoFilter
   if (jsontype === 'Boolean') {
-    return <PcoCheckbox pcname={pcname} pname={pname} value={value} />
+    return <Checkbox pcname={pcname} pname={pname} value={value} />
   }
 
   return (
     <Container>
-      <PcoFieldValue
+      <Value
         key={`${pcname}/${pname}/${jsontype}`}
         pcname={pcname}
         pname={pname}
@@ -51,16 +51,14 @@ const PcoField = ({
         comparator={comparator}
         jsontype={jsontype}
       />
-      {value !== undefined &&
-        value !== null &&
-        value !== ' ' && (
-          <Comparator
-            pcname={pcname}
-            pname={pname}
-            comparator={comparator}
-            value={value}
-          />
-        )}
+      {value !== undefined && value !== null && value !== ' ' && (
+        <Comparator
+          pcname={pcname}
+          pname={pname}
+          comparator={comparator}
+          value={value}
+        />
+      )}
     </Container>
   )
 }
