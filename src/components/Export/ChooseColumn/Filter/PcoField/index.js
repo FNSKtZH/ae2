@@ -37,6 +37,7 @@ const PcoField = ({
     x => x.pcname === pcname && x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = exportPcoFilter
+
   if (jsontype === 'Boolean') {
     return <Checkbox pcname={pcname} pname={pname} value={value} />
   }
