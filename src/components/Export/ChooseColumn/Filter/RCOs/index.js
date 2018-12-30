@@ -11,7 +11,6 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 
 import RCO from './RCO'
 import withPropsByTaxData from '../../withPropsByTaxData'
@@ -47,18 +46,13 @@ const enhance = compose(
   withApollo,
   withExportTaxonomiesData,
   withPropsByTaxData,
-  withState('expanded', 'setExpanded', false),
 )
 
 const RcosCard = ({
-  expanded,
-  setExpanded,
   propsByTaxData,
   rcoExpanded,
   onToggleRco,
 }: {
-  expanded: Boolean,
-  setExpanded: () => void,
   propsByTaxData: Object,
   rcoExpanded: Boolean,
   onToggleRco: () => {},

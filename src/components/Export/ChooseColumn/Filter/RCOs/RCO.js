@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -57,24 +57,18 @@ const enhance = compose(
   withApollo,
   withExportTaxonomiesData,
   withPropsByTaxData,
-  withState('expanded', 'setExpanded', false),
 )
 
 const RcoCard = ({
-  expanded,
-  setExpanded,
   propsByTaxData,
-  rcoExpanded,
-  onToggleRco,
   pc,
 }: {
   propsByTaxData: Object,
-  rcoExpanded: Boolean,
-  onToggleRco: () => {},
   pc: Object,
-  expanded: Boolean,
-  setExpanded: () => void,
 }) => {
+  const [expanded, setExpanded] = useState(false)
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
@@ -91,10 +85,7 @@ const RcoCard = ({
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions
-          disableActionSpacing
-          onClick={() => setExpanded(!expanded)}
-        >
+        <StyledCardActions disableActionSpacing onClick={onClickActions}>
           <CardActionTitle>
             {pc}
             <Count>{`(${rcoPropertiesByPropertyCollection[pc].length} ${
