@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
@@ -108,7 +108,22 @@ const enhance = compose(
   withStyles(styles),
 )
 
-type Props = {
+const IntegrationAutosuggest = ({
+  pcname,
+  pname,
+  jsontype,
+  comparator,
+  value: propsValue,
+  propData,
+  classes,
+  fetchData,
+  setFetchData,
+  dataFetched,
+  setDataFetched,
+  exportAddFilterFieldsData,
+  client,
+}: {
+  pcname: string,
   pname: string,
   jsontype: string,
   comparator: string,
@@ -120,168 +135,141 @@ type Props = {
   dataFetched: Boolean,
   setDataFetched: () => void,
   exportAddFilterFieldsData: Object,
-}
+  client: Object,
+}) => {
+  const [suggestions, setSuggestions] = useState([])
+  const [propValues, setPropValues] = useState([])
+  const [value, setValue] = useState(propsValue || '')
 
-type State = {
-  suggestions: Array<String>,
-  propValues: Array<String>,
-  value: string,
-}
-
-class IntegrationAutosuggest extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      suggestions: [],
-      propValues: [],
-      value: props.value || '',
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const {
-      propData,
-      fetchData,
-      dataFetched,
-      setFetchData,
-      setDataFetched,
-    } = this.props
-    if (fetchData && !dataFetched) {
-      const propValues = get(propData, 'propValuesFunction.nodes', [])
-        .filter(v => v !== null && v !== undefined)
-        .map(v => v.value)
-      if (propValues.length > 0) {
-        this.setState({ propValues })
-        setFetchData(false)
-        setDataFetched(true)
+  useEffect(
+    () => {
+      if (fetchData && !dataFetched) {
+        const propValues = get(propData, 'propValuesFunction.nodes', [])
+          .filter(v => v !== null && v !== undefined)
+          .map(v => v.value)
+        if (propValues.length > 0) {
+          setPropValues(propValues)
+          setFetchData(false)
+          setDataFetched(true)
+        }
       }
-    }
-  }
+    },
+    [propData, dataFetched],
+  )
 
-  getSuggestions = value => {
-    const { propValues } = this.state
-    const inputValue = value.toLowerCase()
+  const getSuggestions = useCallback(
+    value => {
+      const inputValue = value.toLowerCase()
 
-    if (value === ' ') return propValues
-    if (inputValue.length === 0) return []
-    return propValues.filter(v => v.toLowerCase().includes(inputValue))
-  }
+      if (value === ' ') return propValues
+      if (inputValue.length === 0) return []
+      return propValues.filter(v => v.toLowerCase().includes(inputValue))
+    },
+    [propValues],
+  )
 
-  handleSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: this.getSuggestions(value),
-    })
-  }
+  const handleSuggestionsFetchRequested = useCallback(({ value }) => {
+    setSuggestions(getSuggestions(value))
+  })
 
-  handleSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: this.getSuggestions(' '),
-    })
-  }
+  const handleSuggestionsClearRequested = useCallback(() => {
+    setSuggestions(getSuggestions(' '))
+  })
 
-  onFocus = event => {
-    const { dataFetched, setFetchData } = this.props
-    // fetch data if not yet happened
-    if (!dataFetched) setFetchData(true)
-  }
+  const onFocus = useCallback(
+    event => {
+      // fetch data if not yet happened
+      if (!dataFetched) setFetchData(true)
+    },
+    [dataFetched],
+  )
 
-  handleChange = (event, { newValue }) => {
+  const handleChange = useCallback((event, { newValue }) =>
     // trim the start to enable entering space
     // at start to open list
-    const value = trimStart(newValue)
-    this.setState({ value })
-  }
+    setValue(trimStart(newValue)),
+  )
 
-  handleBlur = () => {
-    const {
-      pcname,
-      pname,
-      comparator,
-      client,
-      exportAddFilterFieldsData,
-    } = this.props
-    const { value } = this.state
-    // 1. change filter value
-    let comparatorValue = comparator
-    if (!comparator && value) comparatorValue = 'ILIKE'
-    if (!value) comparatorValue = null
-    client.mutate({
-      mutation: exportPcoFiltersMutation,
-      variables: {
-        pcname,
-        pname,
-        comparator: comparatorValue,
-        value,
-      },
-    })
-    // 2. if value and field is not choosen, choose it
-    const exportAddFilterFields = get(
-      exportAddFilterFieldsData,
-      'exportAddFilterFields',
-      true,
-    )
-    if (exportAddFilterFields && value) {
+  const handleBlur = useCallback(
+    () => {
+      // 1. change filter value
+      let comparatorValue = comparator
+      if (!comparator && value) comparatorValue = 'ILIKE'
+      if (!value) comparatorValue = null
       client.mutate({
-        mutation: addExportPcoPropertyMutation,
-        variables: { pcname, pname },
-      })
-    }
-  }
-
-  renderInput = inputProps => {
-    const { classes, pname, jsontype } = this.props
-    const { value } = this.state
-    const labelText = `${pname} (${readableType(jsontype)})`
-    const { autoFocus, ref, ...other } = inputProps
-
-    return (
-      <StyledTextField
-        label={labelText}
-        fullWidth
-        value={value || ''}
-        inputRef={ref}
-        InputProps={{
-          classes: {
-            input: classes.input,
-          },
-          ...other,
-        }}
-      />
-    )
-  }
-
-  render() {
-    const { classes } = this.props
-    const { value } = this.state
-    const { suggestions } = this.state
-
-    return (
-      <Autosuggest
-        theme={{
-          container: classes.container,
-          suggestionsContainerOpen: classes.suggestionsContainerOpen,
-          suggestionsList: classes.suggestionsList,
-          suggestion: classes.suggestion,
-        }}
-        renderInputComponent={this.renderInput}
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
-        renderSuggestionsContainer={renderSuggestionsContainer}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
-        shouldRenderSuggestions={shouldRenderSuggestions}
-        inputProps={{
+        mutation: exportPcoFiltersMutation,
+        variables: {
+          pcname,
+          pname,
+          comparator: comparatorValue,
           value,
-          autoFocus: true,
-          placeholder: 'Für Auswahlliste: Leerschlag tippen',
-          onChange: this.handleChange,
-          onBlur: this.handleBlur,
-          onFocus: this.onFocus,
-        }}
-      />
-    )
-  }
+        },
+      })
+      // 2. if value and field is not choosen, choose it
+      const exportAddFilterFields = get(
+        exportAddFilterFieldsData,
+        'exportAddFilterFields',
+        true,
+      )
+      if (exportAddFilterFields && value) {
+        client.mutate({
+          mutation: addExportPcoPropertyMutation,
+          variables: { pcname, pname },
+        })
+      }
+    },
+    [pcname, pname, comparator, exportAddFilterFieldsData, value],
+  )
+
+  const renderInput = useCallback(
+    inputProps => {
+      const labelText = `${pname} (${readableType(jsontype)})`
+      const { autoFocus, ref, ...other } = inputProps
+
+      return (
+        <StyledTextField
+          label={labelText}
+          fullWidth
+          value={value || ''}
+          inputRef={ref}
+          InputProps={{
+            classes: {
+              input: classes.input,
+            },
+            ...other,
+          }}
+        />
+      )
+    },
+    [pname, jsontype, value],
+  )
+
+  return (
+    <Autosuggest
+      theme={{
+        container: classes.container,
+        suggestionsContainerOpen: classes.suggestionsContainerOpen,
+        suggestionsList: classes.suggestionsList,
+        suggestion: classes.suggestion,
+      }}
+      renderInputComponent={renderInput}
+      suggestions={suggestions}
+      onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
+      onSuggestionsClearRequested={handleSuggestionsClearRequested}
+      renderSuggestionsContainer={renderSuggestionsContainer}
+      getSuggestionValue={getSuggestionValue}
+      renderSuggestion={renderSuggestion}
+      shouldRenderSuggestions={shouldRenderSuggestions}
+      inputProps={{
+        value,
+        autoFocus: true,
+        placeholder: 'Für Auswahlliste: Leerschlag tippen',
+        onChange: handleChange,
+        onBlur: handleBlur,
+        onFocus: onFocus,
+      }}
+    />
+  )
 }
 
 export default enhance(IntegrationAutosuggest)
