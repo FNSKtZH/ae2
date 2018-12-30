@@ -13,11 +13,11 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
-import RcoField from '../../RcoField'
-import constants from '../../../../../../modules/constants'
-import withPropsByTaxData from '../../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
+import RcoField from '../RcoField'
+import constants from '../../../../../modules/constants'
+import withPropsByTaxData from '../../withPropsByTaxData'
+import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
