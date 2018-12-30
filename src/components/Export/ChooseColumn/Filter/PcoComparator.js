@@ -1,5 +1,5 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
@@ -40,33 +40,38 @@ const styles = theme => ({
 const enhance = compose(
   withApollo,
   withStyles(styles),
-  withHandlers({
-    onChange: ({ pcname, pname, value, client }) => event => {
+)
+
+const PcoComparator = ({
+  pcname,
+  pname,
+  value,
+  comparator,
+  classes,
+  client,
+}: {
+  pcname: string,
+  pname: string,
+  value: string,
+  comparator: String,
+  classes: Object,
+  cliet: Object,
+}) => {
+  const onChange = useCallback(
+    event => {
       client.mutate({
         mutation: exportPcoFiltersMutation,
         variables: { pcname, pname, comparator: event.target.value, value },
       })
     },
-  })
-)
+    [pcname, pname, value],
+  )
 
-const PcoComparator = ({
-  comparator,
-  onChange,
-  classes,
-}: {
-  comparator: String,
-  onChange: () => {},
-  classes: Object,
-}) => {
   return (
     <Container>
       <StyledFormControl className={classes.formControl}>
         <InputLabel htmlFor="v-op">Vergleichs-Operator</InputLabel>
-        <ComparatorSelect
-          comparator={comparator}
-          onChange={onChange}
-        />
+        <ComparatorSelect comparator={comparator} onChange={onChange} />
       </StyledFormControl>
     </Container>
   )
