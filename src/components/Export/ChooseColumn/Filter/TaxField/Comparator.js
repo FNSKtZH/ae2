@@ -1,11 +1,10 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
 import exportTaxFiltersMutation from '../../../exportTaxFiltersMutation'
@@ -40,8 +39,25 @@ const styles = theme => ({
 const enhance = compose(
   withApollo,
   withStyles(styles),
-  withHandlers({
-    onChange: ({ taxname, pname, value, client }) => event =>
+)
+
+const Comparator = ({
+  comparator,
+  classes,
+  taxname,
+  pname,
+  value,
+  client,
+}: {
+  comparator: string,
+  classes: Object,
+  taxname: string,
+  pname: string,
+  value: string,
+  client: Object,
+}) => {
+  const onChange = useCallback(
+    event =>
       client.mutate({
         mutation: exportTaxFiltersMutation,
         variables: {
@@ -51,18 +67,9 @@ const enhance = compose(
           value,
         },
       }),
-  }),
-)
+    [taxname, pname, value],
+  )
 
-const Comparator = ({
-  comparator,
-  onChange,
-  classes,
-}: {
-  comparator: String,
-  onChange: () => {},
-  classes: Object,
-}) => {
   return (
     <Container>
       <StyledFormControl className={classes.formControl}>
