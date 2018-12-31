@@ -29,12 +29,12 @@ import withExportWithSynonymDataData from '../../withExportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import withExportTooManyPropertiesData from '../../withExportTooManyPropertiesData'
 import withExportRcoInOneRowData from '../../withExportRcoInOneRowData'
-import ExportTaxFilterListItems from './ExportTaxFilterListItems'
-import ExportPcoFilterListItems from './ExportPcoFilterListItems'
-import ExportRcoFilterListItems from './ExportRcoFilterListItems'
-import ExportTaxPropertiesListItems from './ExportTaxPropertiesListItems'
-import ExportPcoPropertiesListItems from './ExportPcoPropertiesListItems'
-import ExportRcoPropertiesListItems from './ExportRcoPropertiesListItems'
+import TaxFilterItems from './TaxFilterItems'
+import PcoFilterItems from './PcoFilterItems'
+import RcoFilterItems from './RcoFilterItems'
+import TaxPropertiesItems from './TaxPropertiesItems'
+import PcoPropertiesItems from './PcoPropertiesItems'
+import RcoPropertiesItems from './RcoPropertiesItems'
 
 const styles = theme => ({
   button: {
@@ -286,9 +286,9 @@ const OptionsChoosen = ({
               : ''
           }`}
           <ul>
-            <ExportTaxFilterListItems exportTaxFilters={exportTaxFilters} />
-            <ExportPcoFilterListItems exportPcoFilters={exportPcoFilters} />
-            <ExportRcoFilterListItems exportRcoFilters={exportRcoFilters} />
+            <TaxFilterItems exportTaxFilters={exportTaxFilters} />
+            <PcoFilterItems exportPcoFilters={exportPcoFilters} />
+            <RcoFilterItems exportRcoFilters={exportRcoFilters} />
           </ul>
         </li>
         <li>
@@ -302,15 +302,9 @@ const OptionsChoosen = ({
               : ' (die id kommt immer mit)'
           }`}
           <ul>
-            <ExportTaxPropertiesListItems
-              exportTaxProperties={exportTaxProperties}
-            />
-            <ExportPcoPropertiesListItems
-              exportPcoProperties={exportPcoProperties}
-            />
-            <ExportRcoPropertiesListItems
-              exportRcoProperties={exportRcoProperties}
-            />
+            <TaxPropertiesItems exportTaxProperties={exportTaxProperties} />
+            <PcoPropertiesItems exportPcoProperties={exportPcoProperties} />
+            <RcoPropertiesItems exportRcoProperties={exportRcoProperties} />
           </ul>
         </li>
       </ul>
