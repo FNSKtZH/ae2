@@ -22,7 +22,9 @@ function graphQLFetcher(graphQLParams) {
 
 const DataGraph = ({ dataGraphData }: { dataGraphData: Object }) => {
   const loading = get(dataGraphData, 'loading', false)
+
   if (loading) return <Container>Lade Daten...</Container>
+
   return (
     <ErrorBoundary>
       <GraphiQL fetcher={graphQLFetcher} />
