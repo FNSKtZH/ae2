@@ -1,10 +1,9 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
 import addExportRcoPropertyMutation from '../../../../addExportRcoPropertyMutation'
@@ -27,20 +26,6 @@ const Label = styled(FormControlLabel)`
 const enhance = compose(
   withApollo,
   withExportRcoPropertiesData,
-  withHandlers({
-    onCheck: ({ pcname, relationtype, pname, client }) => (
-      event,
-      isChecked,
-    ) => {
-      const mutation = isChecked
-        ? addExportRcoPropertyMutation
-        : removeExportRcoPropertyMutation
-      client.mutate({
-        mutation,
-        variables: { pcname, relationtype, pname },
-      })
-    },
-  }),
 )
 
 const RcoChooser = ({
@@ -49,17 +34,30 @@ const RcoChooser = ({
   pname,
   jsontype,
   count,
-  onCheck,
   exportRcoPropertiesData,
+  client,
 }: {
   pcname: String,
   relationtype: String,
   pname: String,
   jsontype: String,
   count: Number,
-  onCheck: () => void,
   exportRcoPropertiesData: Object,
+  client: Object,
 }) => {
+  const onCheck = useCallback(
+    (event, isChecked) => {
+      const mutation = isChecked
+        ? addExportRcoPropertyMutation
+        : removeExportRcoPropertyMutation
+      client.mutate({
+        mutation,
+        variables: { pcname, relationtype, pname },
+      })
+    },
+    [pcname, relationtype, pname],
+  )
+
   const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
   const checked =
     exportRcoProperties.filter(
