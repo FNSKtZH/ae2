@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -93,17 +93,6 @@ const enhance = compose(
   withExportPcoData,
   withExportRcoData,
   withSynonymData,
-  withState('sortField', 'setSortField', 'id'),
-  withState('sortDirection', 'setSortDirection', 'asc'),
-  withState('message', 'setMessage', ''),
-  withHandlers({
-    onSetMessage: ({ message, setMessage }) => (message: String) => {
-      setMessage(message)
-      if (!!message) {
-        setTimeout(() => setMessage(''), 5000)
-      }
-    },
-  }),
 )
 
 const Preview = ({
@@ -123,12 +112,6 @@ const Preview = ({
   exportWithSynonymDataData,
   exportRcoInOneRowData,
   exportOnlyRowsWithPropertiesData,
-  sortField,
-  sortDirection,
-  setSortField,
-  setSortDirection,
-  message,
-  onSetMessage,
 }: {
   exportRcoData: Object,
   exportObjectData: Object,
@@ -146,13 +129,21 @@ const Preview = ({
   exportWithSynonymDataData: Object,
   exportRcoInOneRowData: Object,
   exportOnlyRowsWithPropertiesData: Object,
-  sortField: String,
-  sortDirection: String,
-  setSortField: () => void,
-  setSortDirection: () => void,
-  message: String,
-  onSetMessage: () => void,
 }) => {
+  const [sortField, setSortField] = useState('id')
+  const [sortDirection, setSortDirection] = useState('asc')
+  const [message, setMessage] = useState('')
+
+  const onSetMessage = useCallback(
+    message => {
+      setMessage(message)
+      if (!!message) {
+        setTimeout(() => setMessage(''), 5000)
+      }
+    },
+    [message],
+  )
+
   const exportIds = get(exportIdsData, 'exportIds', [])
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
