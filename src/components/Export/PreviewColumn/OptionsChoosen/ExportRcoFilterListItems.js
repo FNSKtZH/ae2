@@ -23,7 +23,7 @@ const ResetSpan = styled.span`
 
 const enhance = compose(withApollo)
 
-const OptionsChoosen = ({
+const ExportRcoFilterListItems = ({
   client,
   exportRcoFilters,
 }: {
@@ -57,4 +57,4 @@ const OptionsChoosen = ({
     ),
   )
 
-export default enhance(OptionsChoosen)
+export default enhance(ExportRcoFilterListItems)

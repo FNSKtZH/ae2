@@ -25,7 +25,6 @@ import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
 import withExportPcoFiltersData from '../../withExportPcoFiltersData'
 import exportPcoFiltersResetMutation from '../../exportPcoFiltersResetMutation'
 import withExportRcoFiltersData from '../../withExportRcoFiltersData'
-import exportRcoFiltersMutation from '../../exportRcoFiltersMutation'
 import exportRcoFiltersResetMutation from '../../exportRcoFiltersResetMutation'
 import withExportOnlyRowsWithPropertiesData from '../../withExportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
@@ -33,9 +32,9 @@ import withExportWithSynonymDataData from '../../withExportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import withExportTooManyPropertiesData from '../../withExportTooManyPropertiesData'
 import withExportRcoInOneRowData from '../../withExportRcoInOneRowData'
-import booleanToJaNein from '../../../../modules/booleanToJaNein'
 import ExportTaxFilterListItems from './ExportTaxFilterListItems'
 import ExportPcoFilterListItems from './ExportPcoFilterListItems'
+import ExportRcoFilterListItems from './ExportRcoFilterListItems'
 
 const styles = theme => ({
   button: {
@@ -57,12 +56,6 @@ const Container = styled.div`
 `
 const Title = styled.div`
   font-weight: bold;
-`
-const FilterValueSpan = styled.span`
-  background-color: #dadada;
-  padding: 1px 8px;
-  margin-left: 5px;
-  border-radius: 3px;
 `
 const ResetSpan = styled.span`
   margin-left: 8px;
@@ -295,34 +288,7 @@ const OptionsChoosen = ({
           <ul>
             <ExportTaxFilterListItems exportTaxFilters={exportTaxFilters} />
             <ExportPcoFilterListItems exportPcoFilters={exportPcoFilters} />
-            {exportRcoFilters.map(
-              ({ pcname, relationtype, pname, comparator, value }, i) => (
-                <li key={i}>
-                  {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
-                  <FilterValueSpan>
-                    {typeof value === 'boolean'
-                      ? booleanToJaNein(value)
-                      : value}
-                  </FilterValueSpan>
-                  <ResetSpan
-                    onClick={() => {
-                      client.mutate({
-                        mutation: exportRcoFiltersMutation,
-                        variables: {
-                          pcname,
-                          relationtype,
-                          pname,
-                          comparator: '',
-                          value: '',
-                        },
-                      })
-                    }}
-                  >
-                    zurücksetzen
-                  </ResetSpan>
-                </li>
-              ),
-            )}
+            <ExportRcoFilterListItems exportRcoFilters={exportRcoFilters} />
           </ul>
         </li>
         <li>
