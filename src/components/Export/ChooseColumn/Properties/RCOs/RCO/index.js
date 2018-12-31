@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -11,10 +11,9 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 
-import AllRcoChooser from './AllRcoChooser'
-import RcoChooser from './RcoChooser'
+import AllChooser from './AllChooser'
+import Chooser from './Chooser'
 import constants from '../../../../../../modules/constants'
 import withPropsByTaxData from '../../../withPropsByTaxData'
 import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
@@ -62,22 +61,19 @@ const enhance = compose(
   withExportTaxonomiesData,
   withData,
   withPropsByTaxData,
-  withState('expanded', 'setExpanded', false),
 )
 
 const RCO = ({
-  expanded,
-  setExpanded,
   propsByTaxData,
   data,
   pc,
 }: {
-  expanded: Boolean,
-  setExpanded: () => void,
   propsByTaxData: Object,
   data: Object,
   pc: Object,
 }) => {
+  const [expanded, setExpanded] = useState(false)
+
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
@@ -131,13 +127,12 @@ const RCO = ({
     })
   })
 
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions
-          disableActionSpacing
-          onClick={() => setExpanded(!expanded)}
-        >
+        <StyledCardActions disableActionSpacing onClick={onClickActions}>
           <CardActionTitle>
             {pc}
             <Count>{`(${rcoPropertiesByPropertyCollection[pc].length} ${
@@ -157,15 +152,13 @@ const RCO = ({
           </CardActionIconButton>
         </StyledCardActions>
         <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
-          <Fragment>
+          <>
             {rcoPropertiesByPropertyCollection[pc].length > 1 && (
-              <AllRcoChooser
-                properties={rcoPropertiesByPropertyCollection[pc]}
-              />
+              <AllChooser properties={rcoPropertiesByPropertyCollection[pc]} />
             )}
             <PropertiesContainer data-width={window.innerWidth - 84}>
               {rcoPropertiesByPropertyCollection[pc].map(field => (
-                <RcoChooser
+                <Chooser
                   key={`${field.propertyName}${field.jsontype}`}
                   pcname={field.propertyCollectionName}
                   relationtype={field.relationType}
@@ -175,7 +168,7 @@ const RCO = ({
                 />
               ))}
             </PropertiesContainer>
-          </Fragment>
+          </>
         </StyledCollapse>
       </StyledCard>
     </ErrorBoundary>
