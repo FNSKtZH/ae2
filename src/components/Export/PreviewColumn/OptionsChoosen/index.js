@@ -36,6 +36,7 @@ import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import withExportTooManyPropertiesData from '../../withExportTooManyPropertiesData'
 import withExportRcoInOneRowData from '../../withExportRcoInOneRowData'
 import booleanToJaNein from '../../../../modules/booleanToJaNein'
+import ExportTaxFilterListItems from './ExportTaxFilterListItems'
 
 const styles = theme => ({
   button: {
@@ -293,33 +294,7 @@ const OptionsChoosen = ({
               : ''
           }`}
           <ul>
-            {exportTaxFilters.map(
-              ({ taxname, pname, comparator, value }, i) => (
-                <li key={i}>
-                  {`${taxname}: ${pname} ${comparator ? `${comparator}` : ''}`}
-                  <FilterValueSpan>
-                    {typeof value === 'boolean'
-                      ? booleanToJaNein(value)
-                      : value}
-                  </FilterValueSpan>
-                  <ResetSpan
-                    onClick={() => {
-                      client.mutate({
-                        mutation: exportTaxFiltersMutation,
-                        variables: {
-                          taxname,
-                          pname,
-                          comparator: '',
-                          value: '',
-                        },
-                      })
-                    }}
-                  >
-                    zurücksetzen
-                  </ResetSpan>
-                </li>
-              ),
-            )}
+            <ExportTaxFilterListItems exportTaxFilters={exportTaxFilters} />
             {exportPcoFilters.map(({ pcname, pname, comparator, value }, i) => (
               <li key={i}>
                 {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
