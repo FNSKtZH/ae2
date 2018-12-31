@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -11,7 +11,6 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 
 import AllChooser from './AllChooser'
 import Chooser from './Chooser'
@@ -61,26 +60,22 @@ const enhance = compose(
   withExportTaxonomiesData,
   withData,
   withPropsByTaxData,
-  withState(
-    'expanded',
-    'setExpanded',
-    ({ initiallyExpanded }) => initiallyExpanded,
-  ),
 )
 
 const Properties = ({
-  expanded,
-  setExpanded,
+  initiallyExpanded,
   propsByTaxData,
   data,
   tax,
 }: {
-  expanded: Boolean,
-  setExpanded: () => void,
+  initiallyExpanded: Boolean,
   propsByTaxData: Object,
   data: Object,
   tax: String,
 }) => {
+  const [expanded, setExpanded] = useState()
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
@@ -91,10 +86,7 @@ const Properties = ({
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions
-          disableActionSpacing
-          onClick={() => setExpanded(!expanded)}
-        >
+        <StyledCardActions disableActionSpacing onClick={onClickActions}>
           <CardActionTitle>
             {tax}
             <Count>{`(${taxPropertiesByTaxonomy[tax].length} ${
@@ -113,7 +105,7 @@ const Properties = ({
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <StyledCardContent>
-            <Fragment>
+            <>
               {taxPropertiesByTaxonomy[tax].length > 1 && (
                 <AllChooser properties={taxPropertiesByTaxonomy[tax]} />
               )}
@@ -128,7 +120,7 @@ const Properties = ({
                   />
                 ))}
               </PropertiesContainer>
-            </Fragment>
+            </>
           </StyledCardContent>
         </Collapse>
       </StyledCard>

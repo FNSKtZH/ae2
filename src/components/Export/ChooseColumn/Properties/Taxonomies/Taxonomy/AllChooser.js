@@ -35,7 +35,7 @@ const enhance = compose(
         client.mutate({
           mutation,
           variables: {
-            taxname: p.taxname,
+            taxname: p.taxname ? p.taxname : p.taxonomyName,
             pname: p.propertyName,
           },
         })
@@ -54,12 +54,14 @@ const AllTaxChooser = ({
   exportTaxPropertiesData: Object,
 }) => {
   const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
-  const checkedArray = properties.map(
-    p =>
+  const checkedArray = properties.map(p => {
+    const taxname = p.taxname ? p.taxname : p.taxonomyName
+    return (
       exportTaxProperties.filter(
-        x => x.taxname === p.taxname && x.pname === p.propertyName,
-      ).length > 0,
-  )
+        x => x.taxname === taxname && x.pname === p.propertyName,
+      ).length > 0
+    )
+  })
   const checked = checkedArray.length > 0 && !checkedArray.includes(false)
 
   return (
