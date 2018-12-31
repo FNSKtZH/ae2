@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
@@ -23,137 +23,117 @@ const StyledLinkIcon = styled(LinkIcon)`
 
 const ITEM_HEIGHT = 48
 
-type Props = {
-  objekt: Object,
-}
+const LinkMenu = ({ objekt }: { objekt: Object }) => {
+  const [anchorEl, setAnchorEl] = useState(null)
 
-type State = {
-  anchorEl: Object,
-}
+  const handleClick = useCallback(event => {
+    setAnchorEl(event.currentTarget)
+  })
+  const handleClose = useCallback(() => setAnchorEl(null))
 
-class LinkMenu extends React.Component<Props, State> {
-  state = {
-    anchorEl: null,
-  }
+  const props = JSON.parse(get(objekt, 'properties', {})) || {}
+  const gattung = get(props, 'Gattung')
+  const art = get(props, 'Art')
+  const taxName = get(objekt, 'taxonomyByTaxonomyId.name')
+  const isFlora = taxName.toLowerCase().includes('sisf')
 
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget })
-  }
-
-  handleClose = () => {
-    this.setState({ anchorEl: null })
-  }
-
-  render() {
-    const { anchorEl } = this.state
-    const { objekt } = this.props
-    const props = JSON.parse(get(objekt, 'properties', {})) || {}
-    const gattung = get(props, 'Gattung')
-    const art = get(props, 'Art')
-    const taxName = get(objekt, 'taxonomyByTaxonomyId.name')
-    const isFlora = taxName.toLowerCase().includes('sisf')
-
-    return (
-      <div>
-        <StyledButton
-          aria-label="Externe Links"
-          title="Externe Links"
-          aria-owns={anchorEl ? 'menu' : null}
-          aria-haspopup="true"
+  return (
+    <div>
+      <StyledButton
+        aria-label="Externe Links"
+        title="Externe Links"
+        aria-owns={anchorEl ? 'menu' : null}
+        aria-haspopup="true"
+        onClick={event => {
+          event.stopPropagation()
+          handleClick(event)
+        }}
+      >
+        <Icon>
+          <StyledLinkIcon />
+        </Icon>
+      </StyledButton>
+      <Menu
+        id="menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: 200,
+          },
+        }}
+      >
+        <MenuItem
+          key="googleBilder"
           onClick={event => {
             event.stopPropagation()
-            this.handleClick(event)
+            const nameDeutsch = get(props, 'Name Deutsch', null)
+            const einheit = get(props, 'Einheit', null)
+            const url = einheit
+              ? `https://www.google.ch/search?tbm=isch&q=${einheit}`
+              : `https://www.google.ch/search?tbm=isch&q="${objekt.name}"${
+                  nameDeutsch ? `+OR+"${nameDeutsch}"` : ''
+                }`
+            window.open(url)
+            setAnchorEl(null)
           }}
         >
-          <Icon>
-            <StyledLinkIcon />
-          </Icon>
-        </StyledButton>
-        <Menu
-          id="menu"
-          anchorEl={this.state.anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-          PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: 200,
-            },
+          Bilder googeln
+        </MenuItem>
+        <MenuItem
+          key="wikipedia"
+          onClick={event => {
+            event.stopPropagation()
+            const nameDeutsch = get(props, 'Name Deutsch', null)
+            const einheit = get(props, 'Einheit', null)
+            const url = einheit
+              ? `https://www.google.ch/search?q=${einheit} site:wikipedia.org`
+              : nameDeutsch
+              ? `https://www.google.ch/search?q="${nameDeutsch}"+OR+"${
+                  objekt.name
+                }" site:wikipedia.org`
+              : `https://www.google.ch/search?q="${
+                  objekt.name
+                }" site:wikipedia.org`
+            window.open(url)
+            setAnchorEl(null)
           }}
         >
+          Wikipedia-Artikel suchen
+        </MenuItem>
+        {gattung && art && (
           <MenuItem
-            key="googleBilder"
+            key="gbif"
             onClick={event => {
               event.stopPropagation()
-              const nameDeutsch = get(props, 'Name Deutsch', null)
-              const einheit = get(props, 'Einheit', null)
-              const url = einheit
-                ? `https://www.google.ch/search?tbm=isch&q=${einheit}`
-                : `https://www.google.ch/search?tbm=isch&q="${objekt.name}"${
-                    nameDeutsch ? `+OR+"${nameDeutsch}"` : ''
-                  }`
+              const url = `https://www.gbif.org/species/search?q=${encodeURIComponent(
+                `${gattung} ${art}`,
+              )}`
               window.open(url)
-              this.setState({ anchorEl: null })
+              setAnchorEl(null)
             }}
           >
-            Bilder googeln
+            Im GBIF suchen
           </MenuItem>
+        )}
+        {isFlora && gattung && art && (
           <MenuItem
-            key="wikipedia"
+            key="infoflora"
             onClick={event => {
               event.stopPropagation()
-              const nameDeutsch = get(props, 'Name Deutsch', null)
-              const einheit = get(props, 'Einheit', null)
-              const url = einheit
-                ? `https://www.google.ch/search?q=${einheit} site:wikipedia.org`
-                : nameDeutsch
-                  ? `https://www.google.ch/search?q="${nameDeutsch}"+OR+"${
-                      objekt.name
-                    }" site:wikipedia.org`
-                  : `https://www.google.ch/search?q="${
-                      objekt.name
-                    }" site:wikipedia.org`
+              const url = `https://www.infoflora.ch/de/flora/${`${gattung.toLowerCase()}-${art.toLowerCase()}.html`}`
               window.open(url)
-              this.setState({ anchorEl: null })
+              setAnchorEl(null)
             }}
           >
-            Wikipedia-Artikel suchen
+            Bei Info Flora suchen
           </MenuItem>
-          {gattung &&
-            art && (
-              <MenuItem
-                key="gbif"
-                onClick={event => {
-                  event.stopPropagation()
-                  const url = `https://www.gbif.org/species/search?q=${encodeURIComponent(
-                    `${gattung} ${art}`
-                  )}`
-                  window.open(url)
-                  this.setState({ anchorEl: null })
-                }}
-              >
-                Im GBIF suchen
-              </MenuItem>
-            )}
-          {isFlora &&
-            gattung &&
-            art && (
-              <MenuItem
-                key="infoflora"
-                onClick={event => {
-                  event.stopPropagation()
-                  const url = `https://www.infoflora.ch/de/flora/${`${gattung.toLowerCase()}-${art.toLowerCase()}.html`}`
-                  window.open(url)
-                  this.setState({ anchorEl: null })
-                }}
-              >
-                Bei Info Flora suchen
-              </MenuItem>
-            )}
-        </Menu>
-      </div>
-    )
-  }
+        )}
+      </Menu>
+    </div>
+  )
 }
 
 export default LinkMenu
