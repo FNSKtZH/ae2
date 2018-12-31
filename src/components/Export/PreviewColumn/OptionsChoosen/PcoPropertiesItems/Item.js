@@ -37,7 +37,7 @@ const ExportPcoPropertiesListItem = ({
   )
 
   return (
-    <li key={`${pcname}: ${pname}`}>
+    <li>
       {`${pcname}: ${pname}`}
       <ResetSpan onClick={onClick}>zurücksetzen</ResetSpan>
     </li>
