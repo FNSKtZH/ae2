@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -7,11 +7,9 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 
-import AllTaxChooser from './Taxonomy/AllChooser'
-import TaxChooser from './Taxonomy/Chooser'
+import AllChooser from './Taxonomy/AllChooser'
+import Chooser from './Taxonomy/Chooser'
 import constants from '../../../../../modules/constants'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
@@ -50,55 +48,51 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(withState('expanded', 'setExpanded', false))
-
 const JointTaxonomy = ({
-  expanded,
-  setExpanded,
   jointTaxProperties,
 }: {
-  expanded: Boolean,
-  setExpanded: () => void,
   jointTaxProperties: Array<Object>,
-}) => (
-  <ErrorBoundary>
-    <StyledCard key="jointTax">
-      <StyledCardActions
-        disableActionSpacing
-        onClick={() => setExpanded(!expanded)}
-      >
-        <CardActionTitle>
-          {`Gemeinsame Felder`}
-          <Count>{`(${jointTaxProperties.length})`}</Count>
-        </CardActionTitle>
-        <CardActionIconButton
-          data-expanded={expanded}
-          aria-expanded={expanded}
-          aria-label="Show more"
-        >
-          <Icon>
-            <ExpandMoreIcon />
-          </Icon>
-        </CardActionIconButton>
-      </StyledCardActions>
-      <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
-        {jointTaxProperties.length > 1 && (
-          <AllTaxChooser properties={jointTaxProperties} />
-        )}
-        <PropertiesContainer data-width={window.innerWidth - 84}>
-          {jointTaxProperties.map(field => (
-            <TaxChooser
-              key={`${field.propertyName}${field.jsontype}`}
-              taxname={'Taxonomie'}
-              pname={field.propertyName}
-              jsontype={field.jsontype}
-              count={field.count}
-            />
-          ))}
-        </PropertiesContainer>
-      </StyledCollapse>
-    </StyledCard>
-  </ErrorBoundary>
-)
+}) => {
+  const [expanded, setExpanded] = useState(false)
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
 
-export default enhance(JointTaxonomy)
+  return (
+    <ErrorBoundary>
+      <StyledCard key="jointTax">
+        <StyledCardActions disableActionSpacing onClick={onClickActions}>
+          <CardActionTitle>
+            {`Gemeinsame Felder`}
+            <Count>{`(${jointTaxProperties.length})`}</Count>
+          </CardActionTitle>
+          <CardActionIconButton
+            data-expanded={expanded}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <Icon>
+              <ExpandMoreIcon />
+            </Icon>
+          </CardActionIconButton>
+        </StyledCardActions>
+        <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
+          {jointTaxProperties.length > 1 && (
+            <AllChooser properties={jointTaxProperties} />
+          )}
+          <PropertiesContainer data-width={window.innerWidth - 84}>
+            {jointTaxProperties.map(field => (
+              <Chooser
+                key={`${field.propertyName}${field.jsontype}`}
+                taxname={'Taxonomie'}
+                pname={field.propertyName}
+                jsontype={field.jsontype}
+                count={field.count}
+              />
+            ))}
+          </PropertiesContainer>
+        </StyledCollapse>
+      </StyledCard>
+    </ErrorBoundary>
+  )
+}
+
+export default JointTaxonomy
