@@ -12,13 +12,11 @@ import exportTypeMutation from '../../exportTypeMutation'
 import withExportTaxonomiesData from '../../withExportTaxonomiesData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import withExportPcoPropertiesData from '../../withExportPcoPropertiesData'
-import removeExportPcoPropertyMutation from '../../removeExportPcoPropertyMutation'
 import exportPcoPropertiesResetMutation from '../../exportPcoPropertiesResetMutation'
 import withExportRcoPropertiesData from '../../withExportRcoPropertiesData'
 import removeExportRcoPropertyMutation from '../../removeExportRcoPropertyMutation'
 import exportRcoPropertiesResetMutation from '../../exportRcoPropertiesResetMutation'
 import withExportTaxPropertiesData from '../../withExportTaxPropertiesData'
-import removeExportTaxPropertyMutation from '../../removeExportTaxPropertyMutation'
 import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMutation'
 import withExportTaxFiltersData from '../../withExportTaxFiltersData'
 import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
@@ -35,6 +33,8 @@ import withExportRcoInOneRowData from '../../withExportRcoInOneRowData'
 import ExportTaxFilterListItems from './ExportTaxFilterListItems'
 import ExportPcoFilterListItems from './ExportPcoFilterListItems'
 import ExportRcoFilterListItems from './ExportRcoFilterListItems'
+import ExportTaxPropertiesListItems from './ExportTaxPropertiesListItems'
+import ExportPcoPropertiesListItems from './ExportPcoPropertiesListItems'
 
 const styles = theme => ({
   button: {
@@ -302,42 +302,12 @@ const OptionsChoosen = ({
               : ' (die id kommt immer mit)'
           }`}
           <ul>
-            {exportTaxProperties.map(({ taxname, pname }, i) => (
-              <li key={i}>
-                {`${taxname}: ${pname}`}
-                <ResetSpan
-                  onClick={() => {
-                    client.mutate({
-                      mutation: removeExportTaxPropertyMutation,
-                      variables: {
-                        taxname,
-                        pname,
-                      },
-                    })
-                  }}
-                >
-                  zurücksetzen
-                </ResetSpan>
-              </li>
-            ))}
-            {exportPcoProperties.map(({ pcname, pname }, i) => (
-              <li key={i}>
-                {`${pcname}: ${pname}`}
-                <ResetSpan
-                  onClick={() => {
-                    client.mutate({
-                      mutation: removeExportPcoPropertyMutation,
-                      variables: {
-                        pcname,
-                        pname,
-                      },
-                    })
-                  }}
-                >
-                  zurücksetzen
-                </ResetSpan>
-              </li>
-            ))}
+            <ExportTaxPropertiesListItems
+              exportTaxProperties={exportTaxProperties}
+            />
+            <ExportPcoPropertiesListItems
+              exportPcoProperties={exportPcoProperties}
+            />
             {exportRcoProperties.map(({ pcname, relationtype, pname }, i) => (
               <li key={i}>
                 {`${pcname} - ${relationtype}: ${pname}`}
