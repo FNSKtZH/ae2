@@ -8,28 +8,35 @@ import loginStoreMutation from '../../modules/loginMutation'
 import historyAfterLoginMutation from '../../modules/historyAfterLoginMutation'
 
 export default async ({
-  props,
+  client,
+  changeNameErrorText,
+  changePassErrorText,
+  name: propsName,
+  changeName,
+  pass: propsPass,
+  changePass,
+  changeLoginSuccessfull,
+  historyAfterLoginData,
   namePassed,
   passPassed,
 }: {
-  props: Object,
+  client: Object,
+  changeNameErrorText: () => void,
+  changePassErrorText: () => void,
+  name: string,
+  changeName: () => void,
+  pass: string,
+  changePass: () => void,
+  changeLoginSuccessfull: () => void,
+  historyAfterLoginData: Object,
   namePassed: String,
   passPassed: String,
 }) => {
-  const {
-    client,
-    changeNameErrorText,
-    changePassErrorText,
-    changeName,
-    changePass,
-    changeLoginSuccessfull,
-    historyAfterLoginData,
-  } = props
   // when bluring fields need to pass event value
   // on the other hand when clicking on Anmelden button,
   // need to grab props
-  const name = namePassed || props.name
-  const pass = passPassed || props.pass
+  const name = namePassed || propsName
+  const pass = passPassed || propsPass
   if (!name) {
     return changeNameErrorText('Bitte Benutzernamen eingeben')
   }

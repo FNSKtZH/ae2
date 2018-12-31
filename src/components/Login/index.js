@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
@@ -13,14 +13,12 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
 
-import fetchLogin from './fetchLogin'
-import historyAfterLoginData from '../../modules/historyAfterLoginData'
+import fetchLoginModule from './fetchLogin'
+import withHistoryAfterLoginData from '../../modules/historyAfterLoginData'
 import setLoginMutation from '../../modules/loginMutation'
 import withLoginData from '../../modules/withLoginData'
 import ErrorBoundary from '../shared/ErrorBoundary'
@@ -41,47 +39,65 @@ const StyledSnackbar = styled(Snackbar)`
 
 const enhance = compose(
   withApollo,
-  historyAfterLoginData,
+  withHistoryAfterLoginData,
   withLoginData,
-  withState('name', 'changeName', ''),
-  withState('pass', 'changePass', ''),
-  withState('showPass', 'changeShowPass', false),
-  withState('nameErrorText', 'changeNameErrorText', ''),
-  withState('passErrorText', 'changePassErrorText', ''),
-  withState('loginSuccessfull', 'changeLoginSuccessfull', false),
-  withHandlers({
-    fetchLogin: props => (namePassed, passPassed) =>
-      fetchLogin({
-        props,
+)
+
+const Login = ({
+  client,
+  historyAfterLoginData,
+  loginData,
+}: {
+  client: Object,
+  historyAfterLoginData: Object,
+  loginData: Object,
+}) => {
+  const token = get(loginData, 'login.token')
+
+  const [name, changeName] = useState('')
+  const [pass, changePass] = useState('')
+  const [showPass, changeShowPass] = useState(false)
+  const [nameErrorText, changeNameErrorText] = useState('')
+  const [passErrorText, changePassErrorText] = useState('')
+  const [loginSuccessfull, changeLoginSuccessfull] = useState(false)
+
+  const fetchLogin = useCallback(
+    (namePassed, passPassed) =>
+      fetchLoginModule({
+        client,
+        changeNameErrorText,
+        changePassErrorText,
+        name,
+        changeName,
+        pass,
+        changePass,
+        changeLoginSuccessfull,
+        historyAfterLoginData,
         namePassed,
         passPassed,
       }),
-    onLogout: ({ client }) => () => {
-      app.idb.users.clear()
-      client.mutate({
-        mutation: setLoginMutation,
-        variables: {
+    [name, pass, historyAfterLoginData],
+  )
+  const onLogout = useCallback(() => {
+    app.idb.users.clear()
+    client.mutate({
+      mutation: setLoginMutation,
+      variables: {
+        username: '',
+        token: '',
+      },
+      optimisticResponse: {
+        setLoginInStore: {
           username: '',
           token: '',
+          __typename: 'Login',
         },
-        optimisticResponse: {
-          setLoginInStore: {
-            username: '',
-            token: '',
-            __typename: 'Login',
-          },
-          __typename: 'Mutation',
-        },
-      })
-    },
-  }),
-  withHandlers({
-    onBlurName: ({
-      pass,
-      changeName,
-      changeNameErrorText,
-      fetchLogin,
-    }) => e => {
+        __typename: 'Mutation',
+      },
+    })
+  })
+  const onBlurName = useCallback(
+    e => {
       changeNameErrorText('')
       const name = e.target.value
       changeName(name)
@@ -91,8 +107,10 @@ const enhance = compose(
         fetchLogin(name, pass)
       }
     },
-    onBlurPassword: props => e => {
-      const { name, changePass, changePassErrorText, fetchLogin } = props
+    [pass],
+  )
+  const onBlurPassword = useCallback(
+    e => {
       changePassErrorText('')
       const pass = e.target.value
       changePass(pass)
@@ -102,43 +120,8 @@ const enhance = compose(
         fetchLogin(name, pass)
       }
     },
-  }),
-)
-
-const Login = ({
-  name,
-  pass,
-  showPass,
-  nameErrorText,
-  passErrorText,
-  changeNameErrorText,
-  changePassErrorText,
-  changeShowPass,
-  onBlurName,
-  onBlurPassword,
-  fetchLogin,
-  onLogout,
-  loginSuccessfull,
-  loginData,
-}: {
-  name: string,
-  changeName: () => void,
-  pass: string,
-  showPass: Boolean,
-  changePass: () => void,
-  nameErrorText: string,
-  changeNameErrorText: () => void,
-  passErrorText: string,
-  changePassErrorText: () => void,
-  changeShowPass: () => void,
-  onBlurName: () => void,
-  onBlurPassword: () => void,
-  fetchLogin: () => void,
-  onLogout: () => void,
-  loginDate: Object,
-  loginSuccessfull: Boolean,
-}) => {
-  const token = get(loginData, 'login.token')
+    [name],
+  )
 
   return (
     <ErrorBoundary>
