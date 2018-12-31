@@ -35,7 +35,7 @@ const enhance = compose(
         client.mutate({
           mutation,
           variables: {
-            taxname: p.taxonomyName,
+            taxname: p.taxname,
             pname: p.propertyName,
           },
         })
