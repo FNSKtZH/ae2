@@ -13,8 +13,8 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
-import AllTaxChooser from '../AllTaxChooser'
-import TaxChooser from '../TaxChooser'
+import AllChooser from './AllChooser'
+import Chooser from './Chooser'
 import constants from '../../../../../../modules/constants'
 import withPropsByTaxData from '../../../withPropsByTaxData'
 import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
@@ -115,11 +115,11 @@ const Properties = ({
           <StyledCardContent>
             <Fragment>
               {taxPropertiesByTaxonomy[tax].length > 1 && (
-                <AllTaxChooser properties={taxPropertiesByTaxonomy[tax]} />
+                <AllChooser properties={taxPropertiesByTaxonomy[tax]} />
               )}
               <PropertiesContainer data-width={window.innerWidth - 84}>
                 {taxPropertiesByTaxonomy[tax].map(field => (
-                  <TaxChooser
+                  <Chooser
                     key={`${field.propertyName}${field.jsontype}`}
                     taxname={field.taxonomyName}
                     pname={field.propertyName}

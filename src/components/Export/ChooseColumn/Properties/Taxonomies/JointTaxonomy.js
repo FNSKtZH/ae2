@@ -10,8 +10,8 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
-import AllTaxChooser from './AllTaxChooser'
-import TaxChooser from './TaxChooser'
+import AllTaxChooser from './Taxonomy/AllChooser'
+import TaxChooser from './Taxonomy/Chooser'
 import constants from '../../../../../modules/constants'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
