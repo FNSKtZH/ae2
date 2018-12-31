@@ -122,6 +122,20 @@ const Login = ({
     },
     [name],
   )
+  const onKeyPressName = useCallback(e => {
+    if (e.key === 'Enter') {
+      onBlurName(e)
+    }
+  })
+  const onKeyPressPass = useCallback(e => {
+    if (e.key === 'Enter') {
+      onBlurPassword(e)
+    }
+  })
+  const onClickTogglePass = useCallback(() => changeShowPass(!showPass), [
+    showPass,
+  ])
+  const onMouseDownTogglePass = useCallback(e => e.preventDefault())
 
   return (
     <ErrorBoundary>
@@ -134,11 +148,7 @@ const Login = ({
               onBlur={onBlurName}
               fullWidth
               autoFocus
-              onKeyPress={e => {
-                if (e.key === 'Enter') {
-                  onBlurName(e)
-                }
-              }}
+              onKeyPress={onKeyPressName}
               autoComplete="username"
             />
             <FormHelperText id="name-error-text">
@@ -155,19 +165,15 @@ const Login = ({
               defaultValue={pass}
               onBlur={onBlurPassword}
               fullWidth
-              onKeyPress={e => {
-                if (e.key === 'Enter') {
-                  onBlurPassword(e)
-                }
-              }}
+              onKeyPress={onKeyPressPass}
               autoComplete="current-password"
               autoCorrect="off"
               spellCheck="false"
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
-                    onClick={() => changeShowPass(!showPass)}
-                    onMouseDown={e => e.preventDefault()}
+                    onClick={onClickTogglePass}
+                    onMouseDown={onMouseDownTogglePass}
                     title={showPass ? 'verstecken' : 'anzeigen'}
                   >
                     {showPass ? <VisibilityOff /> : <Visibility />}
