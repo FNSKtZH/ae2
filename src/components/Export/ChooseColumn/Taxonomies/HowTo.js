@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -7,8 +7,6 @@ import Collapse from '@material-ui/core/Collapse'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
@@ -36,42 +34,36 @@ const StyledCardContent = styled(CardContent)`
   }
 `
 
-const enhance = compose(withState('expanded', 'setExpanded', false))
+const HowToTaxonomies = () => {
+  const [expanded, setExpanded] = useState(false)
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
 
-const HowToTaxonomies = ({
-  expanded,
-  setExpanded,
-}: {
-  expanded: Boolean,
-  setExpanded: () => void,
-}) => (
-  <StyledCard>
-    <StyledCardActions
-      disableActionSpacing
-      onClick={() => setExpanded(!expanded)}
-    >
-      <CardActionTitle>So geht's</CardActionTitle>
-      <CardActionIconButton
-        data-expanded={expanded}
-        aria-expanded={expanded}
-        aria-label="Show more"
-      >
-        <Icon>
-          <ExpandMoreIcon />
-        </Icon>
-      </CardActionIconButton>
-    </StyledCardActions>
-    <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <StyledCardContent>
-        <ul>
-          <li>Wählen Sie Arten oder Lebensräume...</li>
-          <li>...und darin Taxonomien</li>
-          <li>...dann werden ihre Eigenschaften aufgebaut</li>
-          <li>...und Sie können filtern und Eigenschaften wählen</li>
-        </ul>
-      </StyledCardContent>
-    </Collapse>
-  </StyledCard>
-)
+  return (
+    <StyledCard>
+      <StyledCardActions disableActionSpacing onClick={onClickActions}>
+        <CardActionTitle>So geht's</CardActionTitle>
+        <CardActionIconButton
+          data-expanded={expanded}
+          aria-expanded={expanded}
+          aria-label="Show more"
+        >
+          <Icon>
+            <ExpandMoreIcon />
+          </Icon>
+        </CardActionIconButton>
+      </StyledCardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <StyledCardContent>
+          <ul>
+            <li>Wählen Sie Arten oder Lebensräume...</li>
+            <li>...und darin Taxonomien</li>
+            <li>...dann werden ihre Eigenschaften aufgebaut</li>
+            <li>...und Sie können filtern und Eigenschaften wählen</li>
+          </ul>
+        </StyledCardContent>
+      </Collapse>
+    </StyledCard>
+  )
+}
 
-export default enhance(HowToTaxonomies)
+export default HowToTaxonomies
