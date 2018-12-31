@@ -7,7 +7,7 @@
  * if user klicks it, toggle store > editingTaxonomies
  * edit prop: see https://stackoverflow.com/a/35349699/712005
  */
-import React, { Fragment } from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -89,12 +89,6 @@ const enhance = compose(
   withLoginData,
   withOrganizationUsersData,
   withEditingTaxonomiesData,
-  withState(
-    'expanded',
-    'setExpanded',
-    ({ showLink }) => (showLink ? false : true),
-  ),
-  withState('taxExpanded', 'setTaxExpanded', false),
 )
 
 const TaxonomyObject = ({
@@ -105,10 +99,6 @@ const TaxonomyObject = ({
   editingTaxonomiesData,
   objekt,
   showLink,
-  expanded,
-  setExpanded,
-  taxExpanded,
-  setTaxExpanded,
   stacked,
 }: {
   client: Object,
@@ -118,32 +108,10 @@ const TaxonomyObject = ({
   editingTaxonomiesData: Object,
   objekt: Object,
   showLink: Boolean,
-  expanded: Boolean,
-  setExpanded: () => void,
-  taxExpanded: Boolean,
-  setTaxExpanded: () => void,
   stacked: Boolean,
 }) => {
-  if (
-    loginData.loading ||
-    organizationUsersData.loading ||
-    editingTaxonomiesData.loading
-  ) {
-    return <Container>Lade Daten...</Container>
-  }
-  if (loginData.error) {
-    return <Container>`Fehler: ${loginData.error.message}`</Container>
-  }
-  if (organizationUsersData.error) {
-    return (
-      <Container>`Fehler: ${organizationUsersData.error.message}`</Container>
-    )
-  }
-  if (editingTaxonomiesData.error) {
-    return (
-      <Container>`Fehler: ${editingTaxonomiesData.error.message}`</Container>
-    )
-  }
+  const [expanded, setExpanded] = useState(showLink ? false : true)
+  const [taxExpanded, setTaxExpanded] = useState(false)
 
   const username = get(loginData, 'login.username', null)
   const organizationUsers = get(
@@ -175,13 +143,76 @@ const TaxonomyObject = ({
     linkText = `${linkText} öffnen`
   }
 
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const onClickLink = useCallback(
+    e => {
+      e.stopPropagation()
+      app.history.push(linkUrl)
+    },
+    [linkUrl],
+  )
+  const onClickStopEditing = useCallback(e => {
+    e.stopPropagation()
+    client.mutate({
+      mutation: editingTaxonomiesMutation,
+      variables: { value: false },
+      optimisticResponse: {
+        setEditingTaxonomies: {
+          editingTaxonomies: false,
+          __typename: 'EditingTaxonomies',
+        },
+        __typename: 'Mutation',
+      },
+    })
+  })
+  const onClickStartEditing = useCallback(e => {
+    e.stopPropagation()
+    client.mutate({
+      mutation: editingTaxonomiesMutation,
+      variables: { value: true },
+      optimisticResponse: {
+        setEditingTaxonomies: {
+          editingTaxonomies: true,
+          __typename: 'EditingTaxonomies',
+        },
+        __typename: 'Mutation',
+      },
+    })
+  })
+  const onClickToggleTaxDescription = useCallback(
+    e => {
+      e.stopPropagation()
+      setTaxExpanded(!taxExpanded)
+      setExpanded(true)
+    },
+    [taxExpanded],
+  )
+
+  if (
+    loginData.loading ||
+    organizationUsersData.loading ||
+    editingTaxonomiesData.loading
+  ) {
+    return <Container>Lade Daten...</Container>
+  }
+  if (loginData.error) {
+    return <Container>`Fehler: ${loginData.error.message}`</Container>
+  }
+  if (organizationUsersData.error) {
+    return (
+      <Container>`Fehler: ${organizationUsersData.error.message}`</Container>
+    )
+  }
+  if (editingTaxonomiesData.error) {
+    return (
+      <Container>`Fehler: ${editingTaxonomiesData.error.message}`</Container>
+    )
+  }
+
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions
-          disableActionSpacing
-          onClick={() => setExpanded(!expanded)}
-        >
+        <StyledCardActions disableActionSpacing onClick={onClickActions}>
           <CardActionTitle>{taxname}</CardActionTitle>
           <CardActionsButtons>
             <LinkMenu objekt={objekt} />
@@ -189,66 +220,33 @@ const TaxonomyObject = ({
               <StyledButton
                 aria-label={linkText}
                 title={linkText}
-                onClick={event => {
-                  event.stopPropagation()
-                  app.history.push(linkUrl)
-                }}
+                onClick={onClickLink}
               >
                 <SynonymIcon />
               </StyledButton>
             )}
-            {userMayWrite &&
-              editing &&
-              expanded && (
-                <StyledButton
-                  aria-label="Daten anzeigen"
-                  title="Daten anzeigen"
-                  onClick={event => {
-                    event.stopPropagation()
-                    client.mutate({
-                      mutation: editingTaxonomiesMutation,
-                      variables: { value: false },
-                      optimisticResponse: {
-                        setEditingTaxonomies: {
-                          editingTaxonomies: false,
-                          __typename: 'EditingTaxonomies',
-                        },
-                        __typename: 'Mutation',
-                      },
-                    })
-                  }}
-                >
-                  <Icon>
-                    <ViewIcon />
-                  </Icon>
-                </StyledButton>
-              )}
-            {userMayWrite &&
-              !editing &&
-              expanded && (
-                <StyledButton
-                  aria-label="Daten bearbeiten"
-                  title="Daten bearbeiten"
-                  onClick={event => {
-                    event.stopPropagation()
-                    client.mutate({
-                      mutation: editingTaxonomiesMutation,
-                      variables: { value: true },
-                      optimisticResponse: {
-                        setEditingTaxonomies: {
-                          editingTaxonomies: true,
-                          __typename: 'EditingTaxonomies',
-                        },
-                        __typename: 'Mutation',
-                      },
-                    })
-                  }}
-                >
-                  <Icon>
-                    <EditIcon />
-                  </Icon>
-                </StyledButton>
-              )}
+            {userMayWrite && editing && expanded && (
+              <StyledButton
+                aria-label="Daten anzeigen"
+                title="Daten anzeigen"
+                onClick={onClickStopEditing}
+              >
+                <Icon>
+                  <ViewIcon />
+                </Icon>
+              </StyledButton>
+            )}
+            {userMayWrite && !editing && expanded && (
+              <StyledButton
+                aria-label="Daten bearbeiten"
+                title="Daten bearbeiten"
+                onClick={onClickStartEditing}
+              >
+                <Icon>
+                  <EditIcon />
+                </Icon>
+              </StyledButton>
+            )}
             <IconButton
               data-expanded={taxExpanded}
               aria-expanded={taxExpanded}
@@ -258,11 +256,7 @@ const TaxonomyObject = ({
                   ? 'Taxonomie-Beschreibung schliessen'
                   : 'Taxonomie-Beschreibung öffnen'
               }
-              onClick={event => {
-                event.stopPropagation()
-                setTaxExpanded(!taxExpanded)
-                setExpanded(true)
-              }}
+              onClick={onClickToggleTaxDescription}
             >
               <Icon>
                 {!taxExpanded && <InfoOutlineIcon />}
@@ -285,7 +279,7 @@ const TaxonomyObject = ({
           {taxExpanded && <TaxonomyDescription taxonomy={taxonomy} />}
           <StyledCardContent>
             {editing ? (
-              <Fragment>
+              <>
                 <Property
                   key={`${objekt.id}/id`}
                   label="ID"
@@ -299,9 +293,9 @@ const TaxonomyObject = ({
                   field="name"
                   objekt={objekt}
                 />
-              </Fragment>
+              </>
             ) : stacked ? (
-              <Fragment>
+              <>
                 <PropertyReadOnlyStacked
                   key={`${objekt.id}/id`}
                   value={objekt.id}
@@ -312,9 +306,9 @@ const TaxonomyObject = ({
                   value={objekt.name}
                   label="Name"
                 />
-              </Fragment>
+              </>
             ) : (
-              <Fragment>
+              <>
                 <PropertyReadOnly
                   key={`${objekt.id}/id`}
                   value={objekt.id}
@@ -325,7 +319,7 @@ const TaxonomyObject = ({
                   value={objekt.name}
                   label="Name"
                 />
-              </Fragment>
+              </>
             )}
             <Properties
               id={objekt.id}
