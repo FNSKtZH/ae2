@@ -1,43 +1,41 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { withApollo } from 'react-apollo'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
 
-import withExportTypeData from '../withExportTypeData'
-import exportTypeMutation from '../exportTypeMutation'
-import withExportTaxonomiesData from '../withExportTaxonomiesData'
-import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
-import withExportPcoPropertiesData from '../withExportPcoPropertiesData'
-import removeExportPcoPropertyMutation from '../removeExportPcoPropertyMutation'
-import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
-import withExportRcoPropertiesData from '../withExportRcoPropertiesData'
-import removeExportRcoPropertyMutation from '../removeExportRcoPropertyMutation'
-import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutation'
-import withExportTaxPropertiesData from '../withExportTaxPropertiesData'
-import removeExportTaxPropertyMutation from '../removeExportTaxPropertyMutation'
-import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
-import withExportTaxFiltersData from '../withExportTaxFiltersData'
-import exportTaxFiltersResetMutation from '../exportTaxFiltersResetMutation'
-import exportTaxFiltersMutation from '../exportTaxFiltersMutation'
-import withExportPcoFiltersData from '../withExportPcoFiltersData'
-import exportPcoFiltersResetMutation from '../exportPcoFiltersResetMutation'
-import exportPcoFiltersMutation from '../exportPcoFiltersMutation'
-import withExportRcoFiltersData from '../withExportRcoFiltersData'
-import exportRcoFiltersMutation from '../exportRcoFiltersMutation'
-import exportRcoFiltersResetMutation from '../exportRcoFiltersResetMutation'
-import withExportOnlyRowsWithPropertiesData from '../withExportOnlyRowsWithPropertiesData'
-import exportOnlyRowsWithPropertiesMutation from '../exportOnlyRowsWithPropertiesMutation'
-import withExportWithSynonymDataData from '../withExportWithSynonymDataData'
-import exportWithSynonymDataMutation from '../exportWithSynonymDataMutation'
-import withExportTooManyPropertiesData from '../withExportTooManyPropertiesData'
-import withExportRcoInOneRowData from '../withExportRcoInOneRowData'
-import booleanToJaNein from '../../../modules/booleanToJaNein'
+import withExportTypeData from '../../withExportTypeData'
+import exportTypeMutation from '../../exportTypeMutation'
+import withExportTaxonomiesData from '../../withExportTaxonomiesData'
+import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
+import withExportPcoPropertiesData from '../../withExportPcoPropertiesData'
+import removeExportPcoPropertyMutation from '../../removeExportPcoPropertyMutation'
+import exportPcoPropertiesResetMutation from '../../exportPcoPropertiesResetMutation'
+import withExportRcoPropertiesData from '../../withExportRcoPropertiesData'
+import removeExportRcoPropertyMutation from '../../removeExportRcoPropertyMutation'
+import exportRcoPropertiesResetMutation from '../../exportRcoPropertiesResetMutation'
+import withExportTaxPropertiesData from '../../withExportTaxPropertiesData'
+import removeExportTaxPropertyMutation from '../../removeExportTaxPropertyMutation'
+import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMutation'
+import withExportTaxFiltersData from '../../withExportTaxFiltersData'
+import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
+import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
+import withExportPcoFiltersData from '../../withExportPcoFiltersData'
+import exportPcoFiltersResetMutation from '../../exportPcoFiltersResetMutation'
+import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
+import withExportRcoFiltersData from '../../withExportRcoFiltersData'
+import exportRcoFiltersMutation from '../../exportRcoFiltersMutation'
+import exportRcoFiltersResetMutation from '../../exportRcoFiltersResetMutation'
+import withExportOnlyRowsWithPropertiesData from '../../withExportOnlyRowsWithPropertiesData'
+import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
+import withExportWithSynonymDataData from '../../withExportWithSynonymDataData'
+import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
+import withExportTooManyPropertiesData from '../../withExportTooManyPropertiesData'
+import withExportRcoInOneRowData from '../../withExportRcoInOneRowData'
+import booleanToJaNein from '../../../../modules/booleanToJaNein'
 
 const styles = theme => ({
   button: {
@@ -93,80 +91,11 @@ const enhance = compose(
   withExportTooManyPropertiesData,
   withExportRcoInOneRowData,
   withExportWithSynonymDataData,
-  withHandlers({
-    onClickResetAll: ({ client }) => () => {
-      client.mutate({
-        mutation: exportTypeMutation,
-        variables: { value: [] },
-      })
-      client.mutate({
-        mutation: exportTaxonomiesMutation,
-        variables: { value: [] },
-      })
-      client.mutate({
-        mutation: exportPcoPropertiesResetMutation,
-      })
-      client.mutate({
-        mutation: exportRcoPropertiesResetMutation,
-      })
-      client.mutate({
-        mutation: exportTaxPropertiesResetMutation,
-      })
-      client.mutate({
-        mutation: exportTaxFiltersResetMutation,
-      })
-      client.mutate({
-        mutation: exportPcoFiltersResetMutation,
-      })
-      client.mutate({
-        mutation: exportRcoFiltersResetMutation,
-      })
-      client.mutate({
-        mutation: exportOnlyRowsWithPropertiesMutation,
-        variables: { value: true },
-      })
-      client.mutate({
-        mutation: exportWithSynonymDataMutation,
-        variables: { value: true },
-      })
-    },
-    onClickResetType: ({ client }) => () => {
-      client.mutate({
-        mutation: exportTypeMutation,
-        variables: { value: [] },
-      })
-      client.mutate({
-        mutation: exportTaxonomiesMutation,
-        variables: { value: [] },
-      })
-    },
-    onClickResetTaxonomies: ({ client }) => () => {
-      client.mutate({
-        mutation: exportTaxonomiesMutation,
-        variables: { value: [] },
-      })
-    },
-    onClickResetExportWithSynonymData: ({ client }) => () => {
-      client.mutate({
-        mutation: exportWithSynonymDataMutation,
-        variables: { value: true },
-      })
-    },
-    onClickResetExportOnlyRowsWithProperties: ({ client }) => () => {
-      client.mutate({
-        mutation: exportOnlyRowsWithPropertiesMutation,
-        variables: { value: true },
-      })
-    },
-  }),
-  withState('expanded', 'setExpanded', true),
   withStyles(styles),
 )
 
 const OptionsChoosen = ({
   client,
-  expanded,
-  setExpanded,
   exportTypeData,
   exportTaxonomiesData,
   exportTaxPropertiesData,
@@ -179,15 +108,8 @@ const OptionsChoosen = ({
   exportWithSynonymDataData,
   exportRcoInOneRowData,
   classes,
-  onClickResetAll,
-  onClickResetTaxonomies,
-  onClickResetType,
-  onClickResetExportWithSynonymData,
-  onClickResetExportOnlyRowsWithProperties,
 }: {
   client: Object,
-  expanded: Boolean,
-  setExpanded: () => void,
   exportTypeData: Object,
   exportTaxonomiesData: Object,
   exportTaxPropertiesData: Object,
@@ -200,11 +122,6 @@ const OptionsChoosen = ({
   exportWithSynonymDataData: Object,
   exportRcoInOneRowData: Object,
   classes: Object,
-  onClickResetAll: () => void,
-  onClickResetTaxonomies: () => void,
-  onClickResetType: () => void,
-  onClickResetExportWithSynonymData: () => void,
-  onClickResetExportOnlyRowsWithProperties: () => void,
 }) => {
   const exportWithSynonymData = get(
     exportWithSynonymDataData,
@@ -252,6 +169,71 @@ const OptionsChoosen = ({
     true,
   )
 
+  const onClickResetAll = useCallback(() => {
+    client.mutate({
+      mutation: exportTypeMutation,
+      variables: { value: [] },
+    })
+    client.mutate({
+      mutation: exportTaxonomiesMutation,
+      variables: { value: [] },
+    })
+    client.mutate({
+      mutation: exportPcoPropertiesResetMutation,
+    })
+    client.mutate({
+      mutation: exportRcoPropertiesResetMutation,
+    })
+    client.mutate({
+      mutation: exportTaxPropertiesResetMutation,
+    })
+    client.mutate({
+      mutation: exportTaxFiltersResetMutation,
+    })
+    client.mutate({
+      mutation: exportPcoFiltersResetMutation,
+    })
+    client.mutate({
+      mutation: exportRcoFiltersResetMutation,
+    })
+    client.mutate({
+      mutation: exportOnlyRowsWithPropertiesMutation,
+      variables: { value: true },
+    })
+    client.mutate({
+      mutation: exportWithSynonymDataMutation,
+      variables: { value: true },
+    })
+  })
+  const onClickResetType = useCallback(() => {
+    client.mutate({
+      mutation: exportTypeMutation,
+      variables: { value: [] },
+    })
+    client.mutate({
+      mutation: exportTaxonomiesMutation,
+      variables: { value: [] },
+    })
+  })
+  const onClickResetTaxonomies = useCallback(() => {
+    client.mutate({
+      mutation: exportTaxonomiesMutation,
+      variables: { value: [] },
+    })
+  })
+  const onClickResetExportWithSynonymData = useCallback(() => {
+    client.mutate({
+      mutation: exportWithSynonymDataMutation,
+      variables: { value: true },
+    })
+  })
+  const onClickResetExportOnlyRowsWithProperties = useCallback(() => {
+    client.mutate({
+      mutation: exportOnlyRowsWithPropertiesMutation,
+      variables: { value: true },
+    })
+  })
+
   if (noDataChoosen) return null
   return (
     <Container>
@@ -297,14 +279,12 @@ const OptionsChoosen = ({
             </ResetSpan>
           )}
         </li>
-        {exportRcoProperties.length > 0 &&
-          exportRcoInOneRow && (
-            <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
-          )}
-        {exportRcoProperties.length > 0 &&
-          !exportRcoInOneRow && (
-            <li>Für jede Beziehung wird eine Zeile erstellt</li>
-          )}
+        {exportRcoProperties.length > 0 && exportRcoInOneRow && (
+          <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
+        )}
+        {exportRcoProperties.length > 0 && !exportRcoInOneRow && (
+          <li>Für jede Beziehung wird eine Zeile erstellt</li>
+        )}
         <li>
           {`Filter:${
             [...exportTaxFilters, ...exportPcoFilters, ...exportRcoFilters]
