@@ -22,10 +22,8 @@ import removeExportTaxPropertyMutation from '../../removeExportTaxPropertyMutati
 import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMutation'
 import withExportTaxFiltersData from '../../withExportTaxFiltersData'
 import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
-import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
 import withExportPcoFiltersData from '../../withExportPcoFiltersData'
 import exportPcoFiltersResetMutation from '../../exportPcoFiltersResetMutation'
-import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 import withExportRcoFiltersData from '../../withExportRcoFiltersData'
 import exportRcoFiltersMutation from '../../exportRcoFiltersMutation'
 import exportRcoFiltersResetMutation from '../../exportRcoFiltersResetMutation'
@@ -37,6 +35,7 @@ import withExportTooManyPropertiesData from '../../withExportTooManyPropertiesDa
 import withExportRcoInOneRowData from '../../withExportRcoInOneRowData'
 import booleanToJaNein from '../../../../modules/booleanToJaNein'
 import ExportTaxFilterListItems from './ExportTaxFilterListItems'
+import ExportPcoFilterListItems from './ExportPcoFilterListItems'
 
 const styles = theme => ({
   button: {
@@ -295,29 +294,7 @@ const OptionsChoosen = ({
           }`}
           <ul>
             <ExportTaxFilterListItems exportTaxFilters={exportTaxFilters} />
-            {exportPcoFilters.map(({ pcname, pname, comparator, value }, i) => (
-              <li key={i}>
-                {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
-                <FilterValueSpan>
-                  {typeof value === 'boolean' ? booleanToJaNein(value) : value}
-                </FilterValueSpan>
-                <ResetSpan
-                  onClick={() => {
-                    client.mutate({
-                      mutation: exportPcoFiltersMutation,
-                      variables: {
-                        pcname,
-                        pname,
-                        comparator: '',
-                        value: '',
-                      },
-                    })
-                  }}
-                >
-                  zurücksetzen
-                </ResetSpan>
-              </li>
-            ))}
+            <ExportPcoFilterListItems exportPcoFilters={exportPcoFilters} />
             {exportRcoFilters.map(
               ({ pcname, relationtype, pname, comparator, value }, i) => (
                 <li key={i}>

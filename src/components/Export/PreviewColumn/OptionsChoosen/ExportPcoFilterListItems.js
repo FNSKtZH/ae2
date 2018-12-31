@@ -4,7 +4,7 @@ import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 
-import exportTaxFiltersMutation from '../../exportTaxFiltersMutation'
+import exportPcoFiltersMutation from '../../exportPcoFiltersMutation'
 import booleanToJaNein from '../../../../modules/booleanToJaNein'
 
 const FilterValueSpan = styled.span`
@@ -23,25 +23,25 @@ const ResetSpan = styled.span`
 
 const enhance = compose(withApollo)
 
-const ExportTaxFilterListItems = ({
-  exportTaxFilters,
+const ExportPcoFilterListItems = ({
   client,
+  exportPcoFilters,
 }: {
-  exportTaxFilters: Array<Object>,
   client: Object,
+  exportPcoFilters: Array<Object>,
 }) =>
-  exportTaxFilters.map(({ taxname, pname, comparator, value }) => (
-    <li key={`${taxname}: ${pname}`}>
-      {`${taxname}: ${pname} ${comparator ? `${comparator}` : ''}`}
+  exportPcoFilters.map(({ pcname, pname, comparator, value }) => (
+    <li key={`${pcname}: ${pname}`}>
+      {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
       <FilterValueSpan>
         {typeof value === 'boolean' ? booleanToJaNein(value) : value}
       </FilterValueSpan>
       <ResetSpan
         onClick={() => {
           client.mutate({
-            mutation: exportTaxFiltersMutation,
+            mutation: exportPcoFiltersMutation,
             variables: {
-              taxname,
+              pcname,
               pname,
               comparator: '',
               value: '',
@@ -54,4 +54,4 @@ const ExportTaxFilterListItems = ({
     </li>
   ))
 
-export default enhance(ExportTaxFilterListItems)
+export default enhance(ExportPcoFilterListItems)
