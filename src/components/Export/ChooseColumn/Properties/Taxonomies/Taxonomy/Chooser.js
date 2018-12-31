@@ -1,10 +1,9 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
 import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
@@ -27,8 +26,25 @@ const Label = styled(FormControlLabel)`
 const enhance = compose(
   withApollo,
   withExportTaxPropertiesData,
-  withHandlers({
-    onCheck: ({ taxname, pname, client }) => (event, isChecked) => {
+)
+
+const TaxChooser = ({
+  taxname,
+  pname,
+  jsontype,
+  count,
+  exportTaxPropertiesData,
+  client,
+}: {
+  taxname: string,
+  pname: string,
+  jsontype: string,
+  count: number,
+  exportTaxPropertiesData: Object,
+  client: Object,
+}) => {
+  const onCheck = useCallback(
+    (event, isChecked) => {
       const mutation = isChecked
         ? addExportTaxPropertyMutation
         : removeExportTaxPropertyMutation
@@ -37,24 +53,9 @@ const enhance = compose(
         variables: { taxname, pname },
       })
     },
-  }),
-)
+    [taxname, pname],
+  )
 
-const TaxChooser = ({
-  taxname,
-  pname,
-  jsontype,
-  count,
-  onCheck,
-  exportTaxPropertiesData,
-}: {
-  taxname: string,
-  pname: string,
-  jsontype: string,
-  count: number,
-  onCheck: () => {},
-  exportTaxPropertiesData: Object,
-}) => {
   const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
   const checked =
     exportTaxProperties.filter(
