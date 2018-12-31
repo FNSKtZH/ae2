@@ -4,7 +4,7 @@ import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 
-import removeExportPcoPropertyMutation from '../../removeExportPcoPropertyMutation'
+import removeExportRcoPropertyMutation from '../../removeExportRcoPropertyMutation'
 
 const ResetSpan = styled.span`
   margin-left: 8px;
@@ -16,22 +16,23 @@ const ResetSpan = styled.span`
 
 const enhance = compose(withApollo)
 
-const ExportPcoPropertiesListItems = ({
+const ExportRcoPropertiesListItems = ({
   client,
-  exportPcoProperties,
+  exportRcoProperties,
 }: {
   client: Object,
-  exportPcoProperties: Array<Object>,
+  exportRcoProperties: Array<Object>,
 }) =>
-  exportPcoProperties.map(({ pcname, pname }) => (
-    <li key={`${pcname}: ${pname}`}>
-      {`${pcname}: ${pname}`}
+  exportRcoProperties.map(({ pcname, relationtype, pname }) => (
+    <li key={`${pcname} - ${relationtype}: ${pname}`}>
+      {`${pcname} - ${relationtype}: ${pname}`}
       <ResetSpan
         onClick={() => {
           client.mutate({
-            mutation: removeExportPcoPropertyMutation,
+            mutation: removeExportRcoPropertyMutation,
             variables: {
               pcname,
+              relationtype,
               pname,
             },
           })
@@ -42,4 +43,4 @@ const ExportPcoPropertiesListItems = ({
     </li>
   ))
 
-export default enhance(ExportPcoPropertiesListItems)
+export default enhance(ExportRcoPropertiesListItems)

@@ -14,7 +14,6 @@ import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import withExportPcoPropertiesData from '../../withExportPcoPropertiesData'
 import exportPcoPropertiesResetMutation from '../../exportPcoPropertiesResetMutation'
 import withExportRcoPropertiesData from '../../withExportRcoPropertiesData'
-import removeExportRcoPropertyMutation from '../../removeExportRcoPropertyMutation'
 import exportRcoPropertiesResetMutation from '../../exportRcoPropertiesResetMutation'
 import withExportTaxPropertiesData from '../../withExportTaxPropertiesData'
 import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMutation'
@@ -35,6 +34,7 @@ import ExportPcoFilterListItems from './ExportPcoFilterListItems'
 import ExportRcoFilterListItems from './ExportRcoFilterListItems'
 import ExportTaxPropertiesListItems from './ExportTaxPropertiesListItems'
 import ExportPcoPropertiesListItems from './ExportPcoPropertiesListItems'
+import ExportRcoPropertiesListItems from './ExportRcoPropertiesListItems'
 
 const styles = theme => ({
   button: {
@@ -308,25 +308,9 @@ const OptionsChoosen = ({
             <ExportPcoPropertiesListItems
               exportPcoProperties={exportPcoProperties}
             />
-            {exportRcoProperties.map(({ pcname, relationtype, pname }, i) => (
-              <li key={i}>
-                {`${pcname} - ${relationtype}: ${pname}`}
-                <ResetSpan
-                  onClick={() => {
-                    client.mutate({
-                      mutation: removeExportRcoPropertyMutation,
-                      variables: {
-                        pcname,
-                        relationtype,
-                        pname,
-                      },
-                    })
-                  }}
-                >
-                  zurücksetzen
-                </ResetSpan>
-              </li>
-            ))}
+            <ExportRcoPropertiesListItems
+              exportRcoProperties={exportRcoProperties}
+            />
           </ul>
         </li>
       </ul>

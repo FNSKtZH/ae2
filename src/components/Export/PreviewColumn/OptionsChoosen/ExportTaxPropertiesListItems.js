@@ -23,7 +23,7 @@ const ExportTaxPropertiesListItems = ({
   client: Object,
   exportTaxProperties: Array<Object>,
 }) => {
-  return exportTaxProperties.map(({ taxname, pname }, i) => (
+  return exportTaxProperties.map(({ taxname, pname }) => (
     <li key={`${taxname}: ${pname}`}>
       {`${taxname}: ${pname}`}
       <ResetSpan

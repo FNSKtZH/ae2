@@ -30,31 +30,29 @@ const ExportRcoFilterListItems = ({
   client: Object,
   exportRcoFilters: Array<Object>,
 }) =>
-  exportRcoFilters.map(
-    ({ pcname, relationtype, pname, comparator, value }, i) => (
-      <li key={i}>
-        {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
-        <FilterValueSpan>
-          {typeof value === 'boolean' ? booleanToJaNein(value) : value}
-        </FilterValueSpan>
-        <ResetSpan
-          onClick={() => {
-            client.mutate({
-              mutation: exportRcoFiltersMutation,
-              variables: {
-                pcname,
-                relationtype,
-                pname,
-                comparator: '',
-                value: '',
-              },
-            })
-          }}
-        >
-          zurücksetzen
-        </ResetSpan>
-      </li>
-    ),
-  )
+  exportRcoFilters.map(({ pcname, relationtype, pname, comparator, value }) => (
+    <li key={`${pcname}: ${pname}`}>
+      {`${pcname}: ${pname} ${comparator ? `${comparator}` : ''}`}
+      <FilterValueSpan>
+        {typeof value === 'boolean' ? booleanToJaNein(value) : value}
+      </FilterValueSpan>
+      <ResetSpan
+        onClick={() => {
+          client.mutate({
+            mutation: exportRcoFiltersMutation,
+            variables: {
+              pcname,
+              relationtype,
+              pname,
+              comparator: '',
+              value: '',
+            },
+          })
+        }}
+      >
+        zurücksetzen
+      </ResetSpan>
+    </li>
+  ))
 
 export default enhance(ExportRcoFilterListItems)
