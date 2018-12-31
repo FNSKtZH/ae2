@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 import FormGroup from '@material-ui/core/FormGroup'
@@ -7,7 +7,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 
@@ -77,17 +76,32 @@ const enhance = compose(
   withExportTaxonomiesData,
   withExportTypeData,
   withPropsByTaxData,
-  withHandlers({
-    onCheckType: ({ client, taxonomiesData, exportTaxonomiesData }) => async (
-      event,
-      isChecked,
-    ) => {
+)
+
+const Types = ({
+  taxonomiesData,
+  propsByTaxData,
+  exportTypeData,
+  exportTaxonomiesData,
+  client,
+}: {
+  taxonomiesData: Object,
+  propsByTaxData: Object,
+  exportTypeData: Object,
+  exportTaxonomiesData: Object,
+}) => {
+  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+  const allTaxonomies = sortBy(
+    get(taxonomiesData, 'allTaxonomies.nodes', []),
+    'name',
+  )
+
+  const onCheckType = useCallback(
+    async (event, isChecked) => {
       const { name } = event.target
-      const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
       const taxonomiesOfType = allTaxonomies.filter(
         t => t.type.toLowerCase() === name.toLowerCase(),
       )
-      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
       if (isChecked) {
         await client.mutate({
           mutation: exportTypeMutation,
@@ -130,13 +144,10 @@ const enhance = compose(
         })
       }
     },
-    onCheckTaxonomy: ({
-      client,
-      exportTaxonomiesData,
-      taxonomiesData,
-    }) => async (event, isChecked) => {
-      const allTaxonomies = get(taxonomiesData, 'allTaxonomies.nodes', [])
-      const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+    [taxonomiesData, exportTaxonomiesData],
+  )
+  const onCheckTaxonomy = useCallback(
+    async (event, isChecked) => {
       const { name } = event.target
       let taxonomies
       if (isChecked) {
@@ -166,30 +177,10 @@ const enhance = compose(
         }
       }
     },
-  }),
-)
-
-const Types = ({
-  taxonomiesData,
-  propsByTaxData,
-  exportTypeData,
-  exportTaxonomiesData,
-  onCheckType,
-  onCheckTaxonomy,
-}: {
-  taxonomiesData: Object,
-  propsByTaxData: Object,
-  exportTypeData: Object,
-  exportTaxonomiesData: Object,
-  onCheckType: () => void,
-  onCheckTaxonomy: () => void,
-}) => {
-  const exportType = get(exportTypeData, 'exportType', null)
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-  const allTaxonomies = sortBy(
-    get(taxonomiesData, 'allTaxonomies.nodes', []),
-    'name',
+    [exportTaxonomiesData, taxonomiesData],
   )
+
+  const exportType = get(exportTypeData, 'exportType', null)
   const { loading } = propsByTaxData
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Taxonomien.'
