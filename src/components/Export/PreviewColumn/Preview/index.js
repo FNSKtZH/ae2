@@ -4,8 +4,6 @@ import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import withHandlers from 'recompose/withHandlers'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
@@ -204,7 +202,16 @@ const Preview = ({
     exportObjectData.loading ||
     exportPcoData.loading ||
     synonymData.loading
-  //console.log('Preview:',{rows,anzFelder})
+
+  const onGridSort = useCallback((column, direction) => {
+    setSortField(column)
+    setSortDirection(direction.toLowerCase())
+  })
+  const onClickXlsx = useCallback(() => exportXlsx({ rows, onSetMessage }), [
+    rows,
+    message,
+  ])
+  const onClickCsv = useCallback(() => exportCsv(rows), [rows])
 
   return (
     <ErrorBoundary>
@@ -217,10 +224,7 @@ const Preview = ({
               anzFelder === 1 ? 'Feld' : 'Felder'
             }`}</TotalDiv>
             <ReactDataGrid
-              onGridSort={(column, direction) => {
-                setSortField(column)
-                setSortDirection(direction.toLowerCase())
-              }}
+              onGridSort={onGridSort}
               columns={pvColumns}
               rowGetter={i => rows[i]}
               rowsCount={rows.length}
@@ -238,12 +242,10 @@ const Preview = ({
         )}
         {rows.length > 0 && (
           <ButtonsContainer>
-            <StyledButton onClick={() => exportXlsx({ rows, onSetMessage })}>
+            <StyledButton onClick={onClickXlsx}>
               .xlsx herunterladen
             </StyledButton>
-            <StyledButton onClick={() => exportCsv(rows)}>
-              .csv herunterladen
-            </StyledButton>
+            <StyledButton onClick={onClickCsv}>.csv herunterladen</StyledButton>
           </ButtonsContainer>
         )}
         <StyledSnackbar open={!!message} message={message} />
