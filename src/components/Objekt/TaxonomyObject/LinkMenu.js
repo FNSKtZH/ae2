@@ -26,16 +26,73 @@ const ITEM_HEIGHT = 48
 const LinkMenu = ({ objekt }: { objekt: Object }) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const handleClick = useCallback(event => {
-    setAnchorEl(event.currentTarget)
-  })
-  const handleClose = useCallback(() => setAnchorEl(null))
-
   const props = JSON.parse(get(objekt, 'properties', {})) || {}
+  const nameDeutsch = get(props, 'Name Deutsch', null)
+  const einheit = get(props, 'Einheit', null)
   const gattung = get(props, 'Gattung')
   const art = get(props, 'Art')
   const taxName = get(objekt, 'taxonomyByTaxonomyId.name')
   const isFlora = taxName.toLowerCase().includes('sisf')
+  const paperProps = {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5,
+      width: 200,
+    },
+  }
+
+  const onClickIcon = useCallback(e => {
+    e.stopPropagation()
+    setAnchorEl(e.currentTarget)
+  })
+  const handleClose = useCallback(() => setAnchorEl(null))
+  const onClickGoogleImages = useCallback(
+    e => {
+      e.stopPropagation()
+      const url = einheit
+        ? `https://www.google.ch/search?tbm=isch&q=${einheit}`
+        : `https://www.google.ch/search?tbm=isch&q="${objekt.name}"${
+            nameDeutsch ? `+OR+"${nameDeutsch}"` : ''
+          }`
+      window.open(url)
+      setAnchorEl(null)
+    },
+    [objekt],
+  )
+  const onClickWikepedia = useCallback(
+    e => {
+      e.stopPropagation()
+      const url = einheit
+        ? `https://www.google.ch/search?q=${einheit} site:wikipedia.org`
+        : nameDeutsch
+        ? `https://www.google.ch/search?q="${nameDeutsch}"+OR+"${
+            objekt.name
+          }" site:wikipedia.org`
+        : `https://www.google.ch/search?q="${objekt.name}" site:wikipedia.org`
+      window.open(url)
+      setAnchorEl(null)
+    },
+    [objekt],
+  )
+  const onClickGbif = useCallback(
+    e => {
+      e.stopPropagation()
+      const url = `https://www.gbif.org/species/search?q=${encodeURIComponent(
+        `${gattung} ${art}`,
+      )}`
+      window.open(url)
+      setAnchorEl(null)
+    },
+    [objekt],
+  )
+  const onClickInfoflora = useCallback(
+    e => {
+      e.stopPropagation()
+      const url = `https://www.infoflora.ch/de/flora/${`${gattung.toLowerCase()}-${art.toLowerCase()}.html`}`
+      window.open(url)
+      setAnchorEl(null)
+    },
+    [objekt],
+  )
 
   return (
     <div>
@@ -44,10 +101,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
         title="Externe Links"
         aria-owns={anchorEl ? 'menu' : null}
         aria-haspopup="true"
-        onClick={event => {
-          event.stopPropagation()
-          handleClick(event)
-        }}
+        onClick={onClickIcon}
       >
         <Icon>
           <StyledLinkIcon />
@@ -58,76 +112,21 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        PaperProps={{
-          style: {
-            maxHeight: ITEM_HEIGHT * 4.5,
-            width: 200,
-          },
-        }}
+        PaperProps={paperProps}
       >
-        <MenuItem
-          key="googleBilder"
-          onClick={event => {
-            event.stopPropagation()
-            const nameDeutsch = get(props, 'Name Deutsch', null)
-            const einheit = get(props, 'Einheit', null)
-            const url = einheit
-              ? `https://www.google.ch/search?tbm=isch&q=${einheit}`
-              : `https://www.google.ch/search?tbm=isch&q="${objekt.name}"${
-                  nameDeutsch ? `+OR+"${nameDeutsch}"` : ''
-                }`
-            window.open(url)
-            setAnchorEl(null)
-          }}
-        >
+        <MenuItem key="googleBilder" onClick={onClickGoogleImages}>
           Bilder googeln
         </MenuItem>
-        <MenuItem
-          key="wikipedia"
-          onClick={event => {
-            event.stopPropagation()
-            const nameDeutsch = get(props, 'Name Deutsch', null)
-            const einheit = get(props, 'Einheit', null)
-            const url = einheit
-              ? `https://www.google.ch/search?q=${einheit} site:wikipedia.org`
-              : nameDeutsch
-              ? `https://www.google.ch/search?q="${nameDeutsch}"+OR+"${
-                  objekt.name
-                }" site:wikipedia.org`
-              : `https://www.google.ch/search?q="${
-                  objekt.name
-                }" site:wikipedia.org`
-            window.open(url)
-            setAnchorEl(null)
-          }}
-        >
+        <MenuItem key="wikipedia" onClick={onClickWikepedia}>
           Wikipedia-Artikel suchen
         </MenuItem>
         {gattung && art && (
-          <MenuItem
-            key="gbif"
-            onClick={event => {
-              event.stopPropagation()
-              const url = `https://www.gbif.org/species/search?q=${encodeURIComponent(
-                `${gattung} ${art}`,
-              )}`
-              window.open(url)
-              setAnchorEl(null)
-            }}
-          >
+          <MenuItem key="gbif" onClick={onClickGbif}>
             Im GBIF suchen
           </MenuItem>
         )}
         {isFlora && gattung && art && (
-          <MenuItem
-            key="infoflora"
-            onClick={event => {
-              event.stopPropagation()
-              const url = `https://www.infoflora.ch/de/flora/${`${gattung.toLowerCase()}-${art.toLowerCase()}.html`}`
-              window.open(url)
-              setAnchorEl(null)
-            }}
-          >
+          <MenuItem key="infoflora" onClick={onClickInfoflora}>
             Bei Info Flora suchen
           </MenuItem>
         )}
