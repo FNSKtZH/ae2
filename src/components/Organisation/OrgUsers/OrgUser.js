@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -69,6 +69,45 @@ const OrgUser = ({
     .map(role => role.name)
     .sort()
 
+  const onChangeName = useCallback(
+    async e => {
+      const val = e.target.value
+      const user = users.find(u => u.name === val)
+      if (user && user.id) {
+        const variables = {
+          nodeId: orgUser.nodeId,
+          organizationId: orgUser.organizationId,
+          userId: user.id,
+          role,
+        }
+        try {
+          await client.mutate({
+            mutation: updateOrgUserMutation,
+            variables,
+            optimisticResponse: {
+              updateOrganizationUser: {
+                organizationUser: {
+                  nodeId: orgUser.nodeId,
+                  id: orgUser.id,
+                  organizationId: orgUser.organizationId,
+                  userId: user.id,
+                  role,
+                  __typename: 'OrganizationUser',
+                },
+                __typename: 'Mutation',
+              },
+            },
+          })
+        } catch (error) {
+          console.log(error)
+          setUserId('')
+        }
+        setUserId(user.id)
+      }
+    },
+    [users, orgUser],
+  )
+
   if (orgUsersData.loading) {
     return <OrgUserDiv>Lade Daten...</OrgUserDiv>
   }
@@ -89,41 +128,7 @@ const OrgUser = ({
           <InputLabel htmlFor="Benutzer">Benutzer</InputLabel>
           <Select
             value={userName}
-            onChange={async event => {
-              const val = event.target.value
-              const user = users.find(u => u.name === val)
-              if (user && user.id) {
-                const variables = {
-                  nodeId: orgUser.nodeId,
-                  organizationId: orgUser.organizationId,
-                  userId: user.id,
-                  role,
-                }
-                try {
-                  await client.mutate({
-                    mutation: updateOrgUserMutation,
-                    variables,
-                    optimisticResponse: {
-                      updateOrganizationUser: {
-                        organizationUser: {
-                          nodeId: orgUser.nodeId,
-                          id: orgUser.id,
-                          organizationId: orgUser.organizationId,
-                          userId: user.id,
-                          role,
-                          __typename: 'OrganizationUser',
-                        },
-                        __typename: 'Mutation',
-                      },
-                    },
-                  })
-                } catch (error) {
-                  console.log(error)
-                  setUserId('')
-                }
-                setUserId(user.id)
-              }
-            }}
+            onChange={onChangeName}
             input={<Input id="Benutzer" />}
           >
             {userNames.map(u => (
