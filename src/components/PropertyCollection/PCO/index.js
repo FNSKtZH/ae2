@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useCallback } from 'react'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
@@ -77,8 +77,6 @@ const enhance = compose(
   withApollo,
   withActiveNodeArrayData,
   withTreeData,
-  withState('sortField', 'setSortField', 'Objekt Name'),
-  withState('sortDirection', 'setSortDirection', 'asc'),
   withPCOData,
   withLoginData,
   withStyles(styles),
@@ -90,10 +88,6 @@ const PCO = ({
   pCOData,
   loginData,
   dimensions,
-  sortField,
-  sortDirection,
-  setSortField,
-  setSortDirection,
   classes,
   client,
 }: {
@@ -102,21 +96,13 @@ const PCO = ({
   pCOData: Object,
   loginData: Object,
   dimensions: Object,
-  sortField: String,
-  sortDirection: String,
-  setSortField: () => void,
-  setSortDirection: () => void,
   classes: Object,
   client: Object,
 }) => {
+  const [sortField, setSortField] = useState('Objekt Name')
+  const [sortDirection, setSortDirection] = useState('asc')
+
   const { loading } = pCOData
-  if (loading) {
-    return (
-      <Container>
-        <TotalDiv>Lade Daten...</TotalDiv>
-      </Container>
-    )
-  }
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
   let pCO = []
@@ -163,6 +149,45 @@ const PCO = ({
   const username = get(loginData, 'login.username')
   const userIsWriter = !!username && writerNames.includes(username)
   const showImportPco = pCO.length === 0 && userIsWriter
+  const pcId = get(
+    activeNodeArrayData,
+    'activeNodeArray[1]',
+    '99999999-9999-9999-9999-999999999999',
+  )
+
+  const onGridSort = useCallback((column, direction) => {
+    setSortField(column)
+    setSortDirection(direction.toLowerCase())
+  })
+  const rowGetter = useCallback(i => pCO[i], [pCO])
+  const onClickXlsx = useCallback(
+    () =>
+      exportXlsx({
+        rows: pCO,
+        onSetMessage: console.log,
+      }),
+    [pCO],
+  )
+  const onClickCsv = useCallback(() => exportCsv(pCO), [pCO])
+  const onClickDelete = useCallback(
+    async () => {
+      await client.mutate({
+        mutation: deletePcoOfPcMutation,
+        variables: { pcId },
+      })
+      pCOData.refetch()
+      treeData.refetch()
+    },
+    [pcId],
+  )
+
+  if (loading) {
+    return (
+      <Container>
+        <TotalDiv>Lade Daten...</TotalDiv>
+      </Container>
+    )
+  }
 
   return (
     <Container>
@@ -174,54 +199,28 @@ const PCO = ({
         }`}</TotalDiv>
       )}
       {pCO.length > 0 && (
-        <Fragment>
+        <>
           <ReactDataGrid
-            onGridSort={(column, direction) => {
-              setSortField(column)
-              setSortDirection(direction.toLowerCase())
-            }}
+            onGridSort={onGridSort}
             columns={columns}
-            rowGetter={i => pCO[i]}
+            rowGetter={rowGetter}
             rowsCount={pCO.length}
             minHeight={height - 33 - 37}
             minWidth={width}
           />
           <ButtonsContainer>
             <ExportButtons>
-              <StyledButton
-                onClick={() =>
-                  exportXlsx({
-                    rows: pCO,
-                    onSetMessage: console.log,
-                  })
-                }
-                className={classes.button}
-              >
+              <StyledButton onClick={onClickXlsx} className={classes.button}>
                 xlsx exportieren
               </StyledButton>
-              <StyledButton
-                onClick={() => exportCsv(pCO)}
-                className={classes.button}
-              >
+              <StyledButton onClick={onClickCsv} className={classes.button}>
                 csv exportieren
               </StyledButton>
             </ExportButtons>
             {userIsWriter && (
               <MutationButtons>
                 <StyledButton
-                  onClick={async () => {
-                    const pcId = get(
-                      activeNodeArrayData,
-                      'activeNodeArray[1]',
-                      '99999999-9999-9999-9999-999999999999',
-                    )
-                    await client.mutate({
-                      mutation: deletePcoOfPcMutation,
-                      variables: { pcId },
-                    })
-                    pCOData.refetch()
-                    treeData.refetch()
-                  }}
+                  onClick={onClickDelete}
                   className={classes.button}
                 >
                   Daten löschen
@@ -229,7 +228,7 @@ const PCO = ({
               </MutationButtons>
             )}
           </ButtonsContainer>
-        </Fragment>
+        </>
       )}
       {showImportPco && <ImportPco />}
     </Container>
