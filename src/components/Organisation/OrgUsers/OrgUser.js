@@ -105,7 +105,85 @@ const OrgUser = ({
         setUserId(user.id)
       }
     },
-    [users, orgUser],
+    [users, orgUser, role],
+  )
+  const onChangeRole = useCallback(
+    async event => {
+      const newRole = event.target.value
+      const variables = {
+        nodeId: orgUser.nodeId,
+        organizationId: orgUser.organizationId,
+        userId,
+        role: newRole,
+      }
+      try {
+        await client.mutate({
+          mutation: updateOrgUserMutation,
+          variables,
+          optimisticResponse: {
+            updateOrganizationUser: {
+              organizationUser: {
+                nodeId: orgUser.nodeId,
+                id: orgUser.id,
+                organizationId: orgUser.organizationId,
+                userId,
+                role: newRole,
+                __typename: 'OrganizationUser',
+              },
+              __typename: 'Mutation',
+            },
+          },
+        })
+      } catch (error) {
+        // TODO: surface this message
+        console.log('error.message:', error.message)
+        setRole('')
+      }
+      setRole(newRole)
+    },
+    [orgUser, userId],
+  )
+  const onClickDelete = useCallback(
+    async () => {
+      client.mutate({
+        mutation: deleteOrgUserMutation,
+        variables: {
+          id: orgUser.id,
+        },
+        optimisticResponse: {
+          deleteOrganizationUserById: {
+            organizationUser: {
+              id: orgUser.id,
+              __typename: 'OrganizationUser',
+            },
+            __typename: 'Mutation',
+          },
+        },
+        update: (proxy, { data: { deleteOrgUserMutation } }) => {
+          const data = proxy.readQuery({
+            query: orgUsersGql,
+            variables: { name: orgName },
+          })
+          const orgUsers = get(
+            data,
+            'organizationByName.organizationUsersByOrganizationId.nodes',
+            [],
+          )
+          const newOrgUsers = orgUsers.filter(u => u.id !== orgUser.id)
+          set(
+            data,
+            'organizationByName.organizationUsersByOrganizationId.nodes',
+            newOrgUsers,
+          )
+          proxy.writeQuery({
+            query: orgUsersGql,
+            variables: { name: orgName },
+            data,
+          })
+        },
+      })
+    },
+    [orgUser],
   )
 
   if (orgUsersData.loading) {
@@ -142,39 +220,7 @@ const OrgUser = ({
           <InputLabel htmlFor="Rolle">Rolle</InputLabel>
           <Select
             value={role || ''}
-            onChange={async event => {
-              const newRole = event.target.value
-              const variables = {
-                nodeId: orgUser.nodeId,
-                organizationId: orgUser.organizationId,
-                userId,
-                role: newRole,
-              }
-              try {
-                await client.mutate({
-                  mutation: updateOrgUserMutation,
-                  variables,
-                  optimisticResponse: {
-                    updateOrganizationUser: {
-                      organizationUser: {
-                        nodeId: orgUser.nodeId,
-                        id: orgUser.id,
-                        organizationId: orgUser.organizationId,
-                        userId: user.id,
-                        role: newRole,
-                        __typename: 'OrganizationUser',
-                      },
-                      __typename: 'Mutation',
-                    },
-                  },
-                })
-              } catch (error) {
-                // TODO: surface this message
-                console.log('error.message:', error.message)
-                setRole('')
-              }
-              setRole(newRole)
-            }}
+            onChange={onChangeRole}
             input={<Input id="Rolle" />}
           >
             {roles.map(u => (
@@ -187,45 +233,7 @@ const OrgUser = ({
         <DeleteButton
           title="löschen"
           aria-label="löschen"
-          onClick={async () => {
-            client.mutate({
-              mutation: deleteOrgUserMutation,
-              variables: {
-                id: orgUser.id,
-              },
-              optimisticResponse: {
-                deleteOrganizationUserById: {
-                  organizationUser: {
-                    id: orgUser.id,
-                    __typename: 'OrganizationUser',
-                  },
-                  __typename: 'Mutation',
-                },
-              },
-              update: (proxy, { data: { deleteOrgUserMutation } }) => {
-                const data = proxy.readQuery({
-                  query: orgUsersGql,
-                  variables: { name: orgName },
-                })
-                const orgUsers = get(
-                  data,
-                  'organizationByName.organizationUsersByOrganizationId.nodes',
-                  [],
-                )
-                const newOrgUsers = orgUsers.filter(u => u.id !== orgUser.id)
-                set(
-                  data,
-                  'organizationByName.organizationUsersByOrganizationId.nodes',
-                  newOrgUsers,
-                )
-                proxy.writeQuery({
-                  query: orgUsersGql,
-                  variables: { name: orgName },
-                  data,
-                })
-              },
-            })
-          }}
+          onClick={onClickDelete}
         >
           <Icon>
             <ClearIcon color="error" />
