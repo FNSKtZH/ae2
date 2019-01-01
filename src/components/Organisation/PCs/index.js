@@ -37,8 +37,6 @@ const enhance = compose(
 
 const PCs = ({ pcsData }: { pcsData: Object }) => {
   const { loading, error } = pcsData
-  if (loading) return <Container>Lade Daten...</Container>
-  if (error) return <Container>`Fehler: ${error.message}`</Container>
 
   const pcs = sortBy(
     get(
@@ -49,21 +47,25 @@ const PCs = ({ pcsData }: { pcsData: Object }) => {
     'name',
   )
 
+  if (loading) return <Container>Lade Daten...</Container>
+  if (error) return <Container>`Fehler: ${error.message}`</Container>
+
   return (
     <ErrorBoundary>
       <Container>
         <List>
           <ul>
-            {pcs.map(u => {
-              const link = `${appBaseUrl}Eigenschaften-Sammlungen/${u.id}`
-              return (
-                <li key={u.name}>
-                  <StyledA href={link} target="_blank">
-                    {u.name}
-                  </StyledA>
-                </li>
-              )
-            })}
+            {pcs.map(u => (
+              <li key={u.name}>
+                <StyledA
+                  href={`${appBaseUrl}Eigenschaften-Sammlungen/${u.id}`}
+                  target="_blank"
+                >
+                  {u.name}
+                </StyledA>
+              </li>
+            ))}
+            )}
           </ul>
         </List>
       </Container>
