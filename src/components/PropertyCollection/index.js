@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { useCallback } from 'react'
 import compose from 'recompose/compose'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
@@ -79,26 +79,6 @@ const PropertyCollection = ({
   loginData: Object,
   editingPCsData: Object,
 }) => {
-  if (
-    pCData.loading ||
-    allUsersData.loading ||
-    loginData.loading ||
-    editingPCsData.loading
-  ) {
-    return <Container>Lade Daten...</Container>
-  }
-  if (pCData.error) {
-    return <Container>`Fehler: ${pCData.error.message}`</Container>
-  }
-  if (allUsersData.error) {
-    return <Container>`Fehler: ${allUsersData.error.message}`</Container>
-  }
-  if (loginData.error) {
-    return <Container>`Fehler: ${loginData.error.message}`</Container>
-  }
-  if (editingPCsData.error) {
-    return <Container>`Fehler: ${editingPCsData.error.message}`</Container>
-  }
   const pC = get(pCData, 'propertyCollectionById', {})
   const org = get(pC, 'organizationByOrganizationId.name', '')
   const editing = get(editingPCsData, 'editingPCs', false)
@@ -128,61 +108,116 @@ const PropertyCollection = ({
   const importedBy = pC.importedBy
   const importedByUser = allUsers.find(u => u.id === importedBy)
 
+  const onClickStopEditing = useCallback(event => {
+    event.stopPropagation()
+    client.mutate({
+      mutation: editingPCsMutation,
+      variables: { value: false },
+      optimisticResponse: {
+        setEditingPCs: {
+          editingPCs: false,
+          __typename: 'EditingPCs',
+        },
+        __typename: 'Mutation',
+      },
+    })
+  })
+  const onClickStartEditing = useCallback(event => {
+    event.stopPropagation()
+    client.mutate({
+      mutation: editingPCsMutation,
+      variables: { value: true },
+      optimisticResponse: {
+        setEditingPCs: {
+          editingPCs: true,
+          __typename: 'EditingPCs',
+        },
+        __typename: 'Mutation',
+      },
+    })
+  })
+  const onChangeCombining = useCallback(
+    (event, isChecked) =>
+      onBlur({
+        client,
+        field: 'combining',
+        pC,
+        value: isChecked,
+        prevValue: pC.combining,
+      }),
+    [pC],
+  )
+  const onChangeOrganization = useCallback(
+    event =>
+      onBlur({
+        client,
+        field: 'organizationId',
+        pC,
+        value: event.target.value,
+        prevValue: pC.organizationId,
+      }),
+    [pC],
+  )
+  const onChangeImportedBy = useCallback(
+    event =>
+      onBlur({
+        client,
+        field: 'importedBy',
+        pC,
+        value: event.target.value,
+        prevValue: pC.importedBy,
+      }),
+    [pC],
+  )
+
+  if (
+    pCData.loading ||
+    allUsersData.loading ||
+    loginData.loading ||
+    editingPCsData.loading
+  ) {
+    return <Container>Lade Daten...</Container>
+  }
+  if (pCData.error) {
+    return <Container>`Fehler: ${pCData.error.message}`</Container>
+  }
+  if (allUsersData.error) {
+    return <Container>`Fehler: ${allUsersData.error.message}`</Container>
+  }
+  if (loginData.error) {
+    return <Container>`Fehler: ${loginData.error.message}`</Container>
+  }
+  if (editingPCsData.error) {
+    return <Container>`Fehler: ${editingPCsData.error.message}`</Container>
+  }
+
   return (
     <ErrorBoundary>
       <Container>
-        {userIsThisPCWriter &&
-          editing && (
-            <CardEditButton
-              aria-label="Daten anzeigen"
-              title="Daten anzeigen"
-              onClick={event => {
-                event.stopPropagation()
-                client.mutate({
-                  mutation: editingPCsMutation,
-                  variables: { value: false },
-                  optimisticResponse: {
-                    setEditingPCs: {
-                      editingPCs: false,
-                      __typename: 'EditingPCs',
-                    },
-                    __typename: 'Mutation',
-                  },
-                })
-              }}
-            >
-              <Icon>
-                <ViewIcon />
-              </Icon>
-            </CardEditButton>
-          )}
-        {userIsThisPCWriter &&
-          !editing && (
-            <CardEditButton
-              aria-label="Daten bearbeiten"
-              title="Daten bearbeiten"
-              onClick={event => {
-                event.stopPropagation()
-                client.mutate({
-                  mutation: editingPCsMutation,
-                  variables: { value: true },
-                  optimisticResponse: {
-                    setEditingPCs: {
-                      editingPCs: true,
-                      __typename: 'EditingPCs',
-                    },
-                    __typename: 'Mutation',
-                  },
-                })
-              }}
-            >
-              <Icon>
-                <EditIcon />
-              </Icon>
-            </CardEditButton>
-          )}
+        {userIsThisPCWriter && editing && (
+          <CardEditButton
+            aria-label="Daten anzeigen"
+            title="Daten anzeigen"
+            onClick={onClickStopEditing}
+          >
+            <Icon>
+              <ViewIcon />
+            </Icon>
+          </CardEditButton>
+        )}
+        {userIsThisPCWriter && !editing && (
+          <CardEditButton
+            aria-label="Daten bearbeiten"
+            title="Daten bearbeiten"
+            onClick={onClickStartEditing}
+          >
+            <Icon>
+              <EditIcon />
+            </Icon>
+          </CardEditButton>
+        )}
         {!editing && (
-          <Fragment>
+          <>
             <PropertyReadOnly key="id" value={pC.id} label="id" />
             <PropertyReadOnly key="name" value={pC.name} label="Name" />
             <PropertyReadOnly
@@ -227,10 +262,10 @@ const PropertyCollection = ({
               value={pC.termsOfUse}
               label="Nutzungs-Bedingungen"
             />
-          </Fragment>
+          </>
         )}
         {editing && (
-          <Fragment>
+          <>
             <Property
               key={`${pC.id}/id`}
               label="ID"
@@ -244,7 +279,7 @@ const PropertyCollection = ({
               field="name"
               pC={pC}
               helperText={
-                <Fragment>
+                <>
                   <span>
                     Ziel: der Leser sieht in der Liste der
                     Eigenschaften-Sammlungen auf einen Blick, worum es geht.
@@ -267,7 +302,7 @@ const PropertyCollection = ({
                   </span>
                   <br />
                   <span>Beispiel: "ZH Artwert (2000)".</span>
-                </Fragment>
+                </>
               }
             />
             <Property
@@ -276,7 +311,7 @@ const PropertyCollection = ({
               field="description"
               pC={pC}
               helperText={
-                <Fragment>
+                <>
                   <span>
                     Ziel: der Leser kann urteilen, ob er diese Daten für seinen
                     Zweck benutzen kann.
@@ -312,7 +347,7 @@ const PropertyCollection = ({
                     Oft ist es zudem hilfreich zu wissen, für welchen Zweck die
                     Informationen zusammengestellt wurden.
                   </span>
-                </Fragment>
+                </>
               }
             />
             <StyledFormControl>
@@ -321,15 +356,7 @@ const PropertyCollection = ({
                   <Checkbox
                     color="primary"
                     checked={pC.combining}
-                    onChange={(event, isChecked) =>
-                      onBlur({
-                        client,
-                        field: 'combining',
-                        pC,
-                        value: isChecked,
-                        prevValue: pC.combining,
-                      })
-                    }
+                    onChange={onChangeCombining}
                   />
                 }
                 label={'zusammenfassend'}
@@ -374,7 +401,7 @@ const PropertyCollection = ({
               field="links"
               pC={pC}
               helperText={
-                <Fragment>
+                <>
                   <span>
                     Z.B. zu Originalpublikation, erläuternde Webseite...
                   </span>
@@ -383,7 +410,7 @@ const PropertyCollection = ({
                   <span>
                     Mehrere Links können komma-getrennt erfasst werden.
                   </span>
-                </Fragment>
+                </>
               }
             />
             <StyledFormControl>
@@ -393,15 +420,7 @@ const PropertyCollection = ({
               <Select
                 key={`${pC.id}/organizationId`}
                 value={pC.organizationId || ''}
-                onChange={event =>
-                  onBlur({
-                    client,
-                    field: 'organizationId',
-                    pC,
-                    value: event.target.value,
-                    prevValue: pC.organizationId,
-                  })
-                }
+                onChange={onChangeOrganization}
                 input={<Input id="organizationIdArten" />}
               >
                 {orgsUserIsPCWriter.map(o => (
@@ -416,15 +435,7 @@ const PropertyCollection = ({
               <Select
                 key={`${pC.id}/importedBy`}
                 value={pC.importedBy}
-                onChange={event =>
-                  onBlur({
-                    client,
-                    field: 'importedBy',
-                    pC,
-                    value: event.target.value,
-                    prevValue: pC.importedBy,
-                  })
-                }
+                onChange={onChangeImportedBy}
                 input={<Input id="importedByArten" />}
               >
                 {allUsers.map(u => (
@@ -440,7 +451,7 @@ const PropertyCollection = ({
               field="termsOfUse"
               pC={pC}
               helperText={
-                <Fragment>
+                <>
                   <span>
                     Beispiel, wenn Fremddaten mit Einverständnis des Autors
                     importiert werden:
@@ -464,10 +475,10 @@ const PropertyCollection = ({
                     mit Hilfe dieser Daten hergestellten Produkte wird indessen
                     keine Haftung übernommen.
                   </span>
-                </Fragment>
+                </>
               }
             />
-          </Fragment>
+          </>
         )}
       </Container>
     </ErrorBoundary>
