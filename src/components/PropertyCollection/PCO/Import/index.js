@@ -1,7 +1,6 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { useState } from 'react'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -135,49 +134,6 @@ const enhance = compose(
   withApollo,
   withActiveNodeArrayData,
   pCOData,
-  withState('existsNoDataWithoutKey', 'setExistsNoDataWithoutKey', undefined),
-  withState('idsAreUuids', 'setIdsAreUuid', undefined),
-  withState('idsExist', 'setIdsExist', undefined),
-  withState('idsAreUnique', 'setIdsAreUnique', undefined),
-  withState('objectIdsExist', 'setObjectIdsExist', undefined),
-  withState('pCOfOriginIdsExist', 'setPCOfOriginIdsExist', undefined),
-  withState(
-    'objectIdsAreRealNotTested',
-    'setObjectIdsAreRealNotTested',
-    undefined,
-  ),
-  withState(
-    'pCOfOriginIdsAreRealNotTested',
-    'setPCOfOriginIdsAreRealNotTested',
-    undefined,
-  ),
-  withState('objectIds', 'setObjectIds', []),
-  withState('pCOfOriginIds', 'setPCOfOriginIds', []),
-  withState('objectIdsAreUuid', 'setObjectIdsAreUuid', undefined),
-  withState('pCOfOriginIdsAreUuid', 'setPCOfOriginIdsAreUuid', undefined),
-  withState('importData', 'setImportData', []),
-  withState('importing', 'setImporting', false),
-  withState(
-    'propertyKeysDontContainApostroph',
-    'setPropertyKeysDontContainApostroph',
-    undefined,
-  ),
-  withState(
-    'propertyKeysDontContainBackslash',
-    'setPropertyKeysDontContainBackslash',
-    undefined,
-  ),
-  withState(
-    'propertyValuesDontContainApostroph',
-    'setPropertyValuesDontContainApostroph',
-    undefined,
-  ),
-  withState(
-    'propertyValuesDontContainBackslash',
-    'setPropertyValuesDontContainBackslash',
-    undefined,
-  ),
-  withState('existsPropertyKey', 'setExistsPropertyKey', undefined),
   withImportPcoData,
   withLoginData,
 )
@@ -186,93 +142,56 @@ const ImportPco = ({
   loginData,
   activeNodeArrayData,
   pCOData,
-  existsNoDataWithoutKey,
-  setExistsNoDataWithoutKey,
-  idsAreUuids,
-  setIdsAreUuid,
-  idsExist,
-  setIdsExist,
-  idsAreUnique,
-  setIdsAreUnique,
-  objectIdsExist,
-  setObjectIdsExist,
-  pCOfOriginIdsExist,
-  setPCOfOriginIdsExist,
-  objectIdsAreRealNotTested,
-  setObjectIdsAreRealNotTested,
-  pCOfOriginIdsAreRealNotTested,
-  setPCOfOriginIdsAreRealNotTested,
-  objectIdsAreUuid,
-  setObjectIdsAreUuid,
-  pCOfOriginIdsAreUuid,
-  setPCOfOriginIdsAreUuid,
-  propertyKeysDontContainApostroph,
-  setPropertyKeysDontContainApostroph,
-  propertyKeysDontContainBackslash,
-  setPropertyKeysDontContainBackslash,
-  existsPropertyKey,
-  setExistsPropertyKey,
-  propertyValuesDontContainApostroph,
-  setPropertyValuesDontContainApostroph,
-  propertyValuesDontContainBackslash,
-  setPropertyValuesDontContainBackslash,
-  objectIds,
-  setObjectIds,
-  pCOfOriginIds,
-  setPCOfOriginIds,
-  importData,
-  setImportData,
   importPcoData,
   setCompleted,
-  importing,
-  setImporting,
   client,
 }: {
   loginData: Object,
   activeNodeArrayData: Object,
   pCOData: Object,
-  existsNoDataWithoutKey: Boolean,
-  setExistsNoDataWithoutKey: () => void,
-  idsAreUuids: Boolean,
-  setIdsAreUuid: () => void,
-  idsExist: Boolean,
-  setIdsExist: () => void,
-  idsAreUnique: Boolean,
-  setIdsAreUnique: () => void,
-  objectIdsExist: Boolean,
-  setObjectIdsExist: () => void,
-  pCOfOriginIdsExist: Boolean,
-  setPCOfOriginIdsExist: () => void,
-  objectIdsAreRealNotTested: Boolean,
-  setObjectIdsAreRealNotTested: () => void,
-  pCOfOriginIdsAreRealNotTested: Boolean,
-  setPCOfOriginIdsAreRealNotTested: () => void,
-  objectIdsAreUuid: Boolean,
-  setObjectIdsAreUuid: () => void,
-  pCOfOriginIdsAreUuid: Boolean,
-  setPCOfOriginIdsAreUuid: () => void,
-  propertyKeysDontContainApostroph: Boolean,
-  setPropertyKeysDontContainApostroph: () => void,
-  propertyKeysDontContainBackslash: Boolean,
-  setPropertyKeysDontContainBackslash: () => void,
-  existsPropertyKey: Boolean,
-  setExistsPropertyKey: () => void,
-  propertyValuesDontContainApostroph: Boolean,
-  setPropertyValuesDontContainApostroph: () => void,
-  propertyValuesDontContainBackslash: Boolean,
-  setPropertyValuesDontContainBackslash: () => void,
-  objectIds: Array<String>,
-  setObjectIds: () => void,
-  pCOfOriginIds: Array<String>,
-  setPCOfOriginIds: () => void,
-  importData: Array<Object>,
-  setImportData: () => void,
   importPcoData: Object,
   setCompleted: () => void,
-  importing: Boolean,
-  setImporting: () => void,
   client: Object,
 }) => {
+  const [existsNoDataWithoutKey, setExistsNoDataWithoutKey] = useState(
+    undefined,
+  )
+  const [idsAreUuids, setIdsAreUuid] = useState(undefined)
+  const [idsExist, setIdsExist] = useState(undefined)
+  const [idsAreUnique, setIdsAreUnique] = useState(undefined)
+  const [objectIdsExist, setObjectIdsExist] = useState(undefined)
+  const [pCOfOriginIdsExist, setPCOfOriginIdsExist] = useState(undefined)
+  const [objectIdsAreRealNotTested, setObjectIdsAreRealNotTested] = useState(
+    undefined,
+  )
+  const [
+    pCOfOriginIdsAreRealNotTested,
+    setPCOfOriginIdsAreRealNotTested,
+  ] = useState(undefined)
+  const [objectIds, setObjectIds] = useState([])
+  const [pCOfOriginIds, setPCOfOriginIds] = useState([])
+  const [objectIdsAreUuid, setObjectIdsAreUuid] = useState(undefined)
+  const [pCOfOriginIdsAreUuid, setPCOfOriginIdsAreUuid] = useState(undefined)
+  const [importData, setImportData] = useState([])
+  const [importing, setImporting] = useState(false)
+  const [
+    propertyKeysDontContainApostroph,
+    setPropertyKeysDontContainApostroph,
+  ] = useState(undefined)
+  const [
+    propertyKeysDontContainBackslash,
+    setPropertyKeysDontContainBackslash,
+  ] = useState(undefined)
+  const [
+    propertyValuesDontContainApostroph,
+    setPropertyValuesDontContainApostroph,
+  ] = useState(undefined)
+  const [
+    propertyValuesDontContainBackslash,
+    setPropertyValuesDontContainBackslash,
+  ] = useState(undefined)
+  const [existsPropertyKey, setExistsPropertyKey] = useState(undefined)
+
   const { loading, error } = importPcoData
   if (error && error.message) {
     if (error.message === 'GraphQL error: request entity too large') {
@@ -531,7 +450,7 @@ const ImportPco = ({
                     </div>
                   )}
                   {objectIdsAreRealNotTested && (
-                    <Fragment>
+                    <>
                       <InlineIcon>
                         <StyledInfoOutlineIcon />
                       </InlineIcon>
@@ -540,7 +459,7 @@ const ImportPco = ({
                         dieses Kriterium nicht erfüllen, werden nicht
                         importiert)
                       </InlineDiv>
-                    </Fragment>
+                    </>
                   )}
                 </LiContainer>
               </li>
@@ -632,7 +551,7 @@ const ImportPco = ({
                       </div>
                     )}
                   {pCOfOriginIdsAreRealNotTested && (
-                    <Fragment>
+                    <>
                       <InlineIcon>
                         <StyledInfoOutlineIcon />
                       </InlineIcon>
@@ -641,7 +560,7 @@ const ImportPco = ({
                         dieses Kriterium nicht erfüllen, werden nicht
                         importiert)
                       </InlineDiv>
-                    </Fragment>
+                    </>
                   )}
                 </LiContainer>
               </li>
@@ -924,7 +843,7 @@ const ImportPco = ({
         </StyledButton>
       )}
       {showPreview && (
-        <Fragment>
+        <>
           <TotalDiv>{`${importData.length.toLocaleString(
             'de-CH',
           )} Datensätze, ${propertyFields.length.toLocaleString('de-CH')} Feld${
@@ -939,7 +858,7 @@ const ImportPco = ({
             rowGetter={i => importData[i]}
             rowsCount={importData.length}
           />
-        </Fragment>
+        </>
       )}
       <StyledSnackbar open={loading} message="lade Daten..." />
     </Container>
