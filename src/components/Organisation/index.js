@@ -1,8 +1,6 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import withHandlers from 'recompose/withHandlers'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import Paper from '@material-ui/core/Paper'
@@ -21,12 +19,6 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 const enhance = compose(
   withActiveNodeArrayData,
   withOrgData,
-  withState('tab', 'setTab', 0),
-  withHandlers({
-    onChangeTab: ({ setTab }) => (event, value) => {
-      setTab(value)
-    },
-  }),
 )
 
 const Container = styled.div``
@@ -39,22 +31,21 @@ const StyledPaper = styled(Paper)`
 
 const Organization = ({
   orgData,
-  tab,
-  setTab,
-  onChangeTab,
   dimensions: { width },
 }: {
   orgData: Object,
-  tab: Number,
-  setTab: () => void,
-  onChangeTab: () => void,
   dimensions: Object,
 }) => {
+  const [tab, setTab] = useState(0)
+
+  const onChangeTab = useCallback((event, value) => setTab(value))
+
   const { loading } = orgData
+  const org = get(orgData, 'organizationByName', {})
+
   if (loading) {
     return <Container>Lade Daten...</Container>
   }
-  const org = get(orgData, 'organizationByName', {})
 
   return (
     <ErrorBoundary>
