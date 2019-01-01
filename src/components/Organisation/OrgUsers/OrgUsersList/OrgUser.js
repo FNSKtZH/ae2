@@ -14,12 +14,13 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import set from 'lodash/set'
 
-import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
-import withAllUsersData from '../../../modules/withAllUsersData'
+import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
+import withAllUsersData from '../../../../modules/withAllUsersData'
 import updateOrgUserMutation from './updateOrgUserMutation'
 import deleteOrgUserMutation from './deleteOrgUserMutation'
-import ErrorBoundary from '../../shared/ErrorBoundary'
-import orgUsersGql from './orgUsersGql'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
+import orgUsersGql from '../orgUsersGql'
+import withOrgUsersData from '../withOrgUsersData'
 
 const OrgUserDiv = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ const enhance = compose(
   withApollo,
   withAllUsersData,
   withActiveNodeArrayData,
+  withOrgUsersData,
 )
 
 const OrgUser = ({

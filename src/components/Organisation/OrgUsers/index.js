@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -13,7 +13,7 @@ import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import withOrgUsersData from './withOrgUsersData'
 import createOrgUserMutation from './createOrgUserMutation'
 import ErrorBoundary from '../../shared/ErrorBoundary'
-import OrgUser from './OrgUser'
+import OrgUsersList from './OrgUsersList'
 
 const Container = styled.div`
   display: flex;
@@ -43,8 +43,6 @@ const OrgUsers = ({
   client: Object,
 }) => {
   const { loading, error } = orgUsersData
-  if (loading) return <Container>Lade Daten...</Container>
-  if (error) return <Container>`Fehler: ${error.message}`</Container>
 
   const orgUsers = get(
     orgUsersData,
@@ -64,32 +62,34 @@ const OrgUsers = ({
     '99999999-9999-9999-9999-999999999999',
   )
 
+  const onClickNew = useCallback(
+    async () => {
+      await client.mutate({
+        mutation: createOrgUserMutation,
+        variables: {
+          organizationId,
+        },
+        /**
+         * adding to cache seems to be darn hard
+         * so just refetch
+         */
+      })
+      orgUsersData.refetch()
+    },
+    [organizationId],
+  )
+
+  if (loading) return <Container>Lade Daten...</Container>
+  if (error) return <Container>`Fehler: ${error.message}`</Container>
+
   return (
     <ErrorBoundary>
       <Container>
-        {orgUserSorted.map(orgUser => (
-          <OrgUser
-            orgUser={orgUser}
-            orgUsersData={orgUsersData}
-            key={`${orgUser.id}/${orgUser.role}`}
-          />
-        ))}
+        <OrgUsersList orgUsers={orgUserSorted} />
         <AddNewButton
           title="Neuen Benutzer mit Rolle erstellen"
           aria-label="Neue Rolle vergeben"
-          onClick={async () => {
-            await client.mutate({
-              mutation: createOrgUserMutation,
-              variables: {
-                organizationId,
-              },
-              /**
-               * adding to cache seems to be darn hard
-               * so just refetch
-               */
-            })
-            orgUsersData.refetch()
-          }}
+          onClick={onClickNew}
         >
           <Icon>
             <AddIcon color="error" />
