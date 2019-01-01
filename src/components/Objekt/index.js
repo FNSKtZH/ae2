@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import compose from 'recompose/compose'
-import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
 
 import TaxonomyObjects from './TaxonomyObjects'
