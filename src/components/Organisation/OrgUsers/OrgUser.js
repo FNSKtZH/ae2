@@ -14,12 +14,12 @@ import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import set from 'lodash/set'
 
-import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
-import withAllUsersData from '../../../../modules/withAllUsersData'
-import updateOrgUserMutation from '../updateOrgUserMutation'
-import deleteOrgUserMutation from '../deleteOrgUserMutation'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
-import orgUsersGql from '../orgUsersGql'
+import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
+import withAllUsersData from '../../../modules/withAllUsersData'
+import updateOrgUserMutation from './updateOrgUserMutation'
+import deleteOrgUserMutation from './deleteOrgUserMutation'
+import ErrorBoundary from '../../shared/ErrorBoundary'
+import orgUsersGql from './orgUsersGql'
 
 const OrgUserDiv = styled.div`
   display: flex;
