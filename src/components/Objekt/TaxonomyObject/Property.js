@@ -1,10 +1,8 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 
 import ErrorBoundary from '../../shared/ErrorBoundary'
@@ -14,12 +12,26 @@ const Container = styled.div`
   margin: 12px 8px 12px 0;
 `
 
-const enhance = compose(
-  withApollo,
-  withState('value', 'setValue', ({ objekt, field }) => objekt[field] || ''),
-  withHandlers({
-    onChange: ({ setValue }) => event => setValue(event.target.value),
-    onBlur: ({ client, field, objekt }) => event => {
+const enhance = compose(withApollo)
+
+const Property = ({
+  client,
+  field,
+  label,
+  objekt,
+  disabled,
+}: {
+  client: Object,
+  field: String,
+  label: String,
+  objekt: Object,
+  disabled: Boolean,
+}) => {
+  const [value, setValue] = useState(objekt[field] || '')
+
+  const onChange = useCallback(event => setValue(event.target.value))
+  const onBlur = useCallback(
+    event => {
       const { value } = event.target
       if (value !== 'prevValue') {
         client.mutate({
@@ -42,28 +54,9 @@ const enhance = compose(
         })
       }
     },
-  })
-)
+    [field, objekt],
+  )
 
-const Property = ({
-  client,
-  field,
-  label,
-  objekt,
-  value,
-  disabled,
-  onChange,
-  onBlur,
-}: {
-  client: Object,
-  field: String,
-  label: String,
-  objekt: Object,
-  disabled: Boolean,
-  value: String,
-  onChange: () => void,
-  onBlur: () => void,
-}) => {
   return (
     <ErrorBoundary>
       <Container>

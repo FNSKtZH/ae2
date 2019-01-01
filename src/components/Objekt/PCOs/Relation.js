@@ -4,8 +4,8 @@ import sortBy from 'lodash/sortBy'
 import get from 'lodash/get'
 import styled from 'styled-components'
 
-import PropertyReadOnly from '../shared/PropertyReadOnly'
-import ErrorBoundary from '../shared/ErrorBoundary'
+import PropertyReadOnly from '../../shared/PropertyReadOnly'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   border-bottom: ${props =>
@@ -31,7 +31,7 @@ const Relation = ({
   const taxType = get(
     relation,
     'objectByObjectIdRelation.taxonomyByTaxonomyId.type',
-    'Objekt'
+    'Objekt',
   )
     .replace('ART', 'Art')
     .replace('LEBENSRAUM', 'Lebensraum')
@@ -43,7 +43,7 @@ const Relation = ({
           value={`${get(
             relation,
             'objectByObjectIdRelation.taxonomyByTaxonomyId.name',
-            ''
+            '',
           )}: ${get(relation, 'objectByObjectIdRelation.name', '(kein Name)')}`}
           label={taxType}
         />

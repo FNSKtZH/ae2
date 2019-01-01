@@ -16,11 +16,11 @@ import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
 
-import PCDescription from '../shared/PCDescription'
-import PropertyReadOnly from '../shared/PropertyReadOnly'
-import PropertyReadOnlyStacked from '../shared/PropertyReadOnlyStacked'
+import PCDescription from '../../shared/PCDescription'
+import PropertyReadOnly from '../../shared/PropertyReadOnly'
+import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
 import Relation from './Relation'
-import ErrorBoundary from '../shared/ErrorBoundary'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -139,22 +139,20 @@ const PCO = ({
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             {pCDescriptionExpanded && <PCDescription pC={pC} />}
             <CardText>
-              {propertiesArray.map(
-                ([key, value]) =>
-                  stacked ? (
-                    <PropertyReadOnlyStacked
-                      key={key}
-                      value={value}
-                      label={key}
-                    />
-                  ) : (
-                    <PropertyReadOnly key={key} value={value} label={key} />
-                  ),
+              {propertiesArray.map(([key, value]) =>
+                stacked ? (
+                  <PropertyReadOnlyStacked
+                    key={key}
+                    value={value}
+                    label={key}
+                  />
+                ) : (
+                  <PropertyReadOnly key={key} value={value} label={key} />
+                ),
               )}
-              {relations &&
-                relations.length > 0 && (
-                  <RelationTitle>{relationsTitle}</RelationTitle>
-                )}
+              {relations && relations.length > 0 && (
+                <RelationTitle>{relationsTitle}</RelationTitle>
+              )}
               {relations.map((relation, index) => (
                 <Relation
                   key={relation.id}

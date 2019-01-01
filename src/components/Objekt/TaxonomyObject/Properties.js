@@ -7,7 +7,7 @@
  * if user klicks it, toggle store > editingTaxonomies
  * edit prop: see https://stackoverflow.com/a/35349699/712005
  */
-import React, { Fragment } from 'react'
+import React from 'react'
 import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
@@ -71,7 +71,7 @@ const Properties = ({
   const propertiesArray = Object.entries(properties)
 
   return (
-    <Fragment>
+    <>
       {propertiesArray.length > 0 && (
         <PropertiesTitleContainer>
           {editing ? (
@@ -91,20 +91,19 @@ const Properties = ({
       {sortBy(
         propertiesArray.filter(([key, value]) => value || value === 0),
         e => e[0],
-      ).map(
-        ([key, value]) =>
-          editing ? (
-            <Property
-              key={`${id}/${key}/${value}`}
-              id={id}
-              properties={properties}
-              field={key}
-            />
-          ) : stacked ? (
-            <PropertyReadOnlyStacked key={key} value={value} label={key} />
-          ) : (
-            <PropertyReadOnly key={key} value={value} label={key} />
-          ),
+      ).map(([key, value]) =>
+        editing ? (
+          <Property
+            key={`${id}/${key}/${value}`}
+            id={id}
+            properties={properties}
+            field={key}
+          />
+        ) : stacked ? (
+          <PropertyReadOnlyStacked key={key} value={value} label={key} />
+        ) : (
+          <PropertyReadOnly key={key} value={value} label={key} />
+        ),
       )}
       {editing && (
         <NewProperty
@@ -113,7 +112,7 @@ const Properties = ({
           properties={properties}
         />
       )}
-    </Fragment>
+    </>
   )
 }
 

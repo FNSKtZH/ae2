@@ -7,7 +7,7 @@ import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
 
 import TaxonomyObject from './TaxonomyObject'
-import PCO from './PCO'
+import PCOs from './PCOs'
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import withObjectData from './withObjectData'
 import ErrorBoundary from '../shared/ErrorBoundary'
@@ -107,22 +107,11 @@ const Objekt = ({
               })`}</TitleSpan>
             </Title>
           )}
-          {sortBy(propertyCollectionObjects, pCO =>
-            get(
-              pCO,
-              'propertyCollectionByPropertyCollectionId.name',
-              '(Name fehlt)',
-            ),
-          ).map((pCO, index) => (
-            <PCO
-              key={`${pCO.propertyCollectionId}`}
-              pCO={pCO}
-              relations={relations.filter(
-                r => r.propertyCollectionId === pCO.propertyCollectionId,
-              )}
-              stacked={stacked}
-            />
-          ))}
+          <PCOs
+            pCOs={propertyCollectionObjects}
+            relations={relations}
+            stacked={stacked}
+          />
           {propertyCollectionObjectsOfSynonyms.length > 0 && (
             <Title>
               Eigenschaften von Synonymen
@@ -135,22 +124,11 @@ const Objekt = ({
               </TitleSpan>
             </Title>
           )}
-          {sortBy(propertyCollectionObjectsOfSynonyms, pCO =>
-            get(
-              pCO,
-              'propertyCollectionByPropertyCollectionId.name',
-              '(Name fehlt)',
-            ),
-          ).map((pCO, index) => (
-            <PCO
-              key={`${pCO.propertyCollectionId}`}
-              pCO={pCO}
-              relations={relations.filter(
-                r => r.propertyCollectionId === pCO.propertyCollectionId,
-              )}
-              stacked={stacked}
-            />
-          ))}
+          <PCOs
+            pCOs={propertyCollectionObjectsOfSynonyms}
+            relations={relations}
+            stacked={stacked}
+          />
         </ScrollContainer>
       </Container>
     </ErrorBoundary>
