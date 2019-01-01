@@ -37,13 +37,14 @@ const enhance = compose(
 
 const TCs = ({ tcsData }: { tcsData: Object }) => {
   const { loading, error } = tcsData
-  if (loading) return <Container>Lade Daten...</Container>
-  if (error) return <Container>`Fehler: ${error.message}`</Container>
 
   const tcs = sortBy(
     get(tcsData, 'organizationByName.taxonomiesByOrganizationId.nodes', []),
     'name',
   )
+
+  if (loading) return <Container>Lade Daten...</Container>
+  if (error) return <Container>`Fehler: ${error.message}`</Container>
 
   return (
     <ErrorBoundary>
