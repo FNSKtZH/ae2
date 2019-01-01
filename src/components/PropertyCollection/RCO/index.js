@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { useState, useCallback } from 'react'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import styled from 'styled-components'
@@ -77,8 +77,6 @@ const enhance = compose(
   withApollo,
   withActiveNodeArrayData,
   withTreeData,
-  withState('sortField', 'setSortField', 'Objekt Name'),
-  withState('sortDirection', 'setSortDirection', 'asc'),
   withRCOData,
   withLoginData,
   withStyles(styles),
@@ -91,10 +89,6 @@ const RCO = ({
   activeNodeArrayData,
   loginData,
   dimensions,
-  sortField,
-  sortDirection,
-  setSortField,
-  setSortDirection,
   classes,
 }: {
   client: Object,
@@ -103,20 +97,12 @@ const RCO = ({
   activeNodeArrayData: Object,
   loginData: Object,
   dimensions: Object,
-  sortField: String,
-  sortDirection: String,
-  setSortField: () => void,
-  setSortDirection: () => void,
   classes: Object,
 }) => {
+  const [sortField, setSortField] = useState('Objekt Name')
+  const [sortDirection, setSortDirection] = useState('asc')
+
   const { loading } = rCOData
-  if (loading) {
-    return (
-      <Container>
-        <TotalDiv>Lade Daten...</TotalDiv>
-      </Container>
-    )
-  }
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
   let rCO = []
@@ -173,12 +159,45 @@ const RCO = ({
   const username = get(loginData, 'login.username')
   const userIsWriter = !!username && writerNames.includes(username)
   const showImportRco = rCO.length === 0 && userIsWriter
-  /**
-   * TODO
-   * if user is writer:
-   * enable removing pco data
-   * enable importing pco data if none exists
-   */
+  const pcId = get(
+    activeNodeArrayData,
+    'activeNodeArray[1]',
+    '99999999-9999-9999-9999-999999999999',
+  )
+
+  const onGridSort = useCallback((column, direction) => {
+    setSortField(column)
+    setSortDirection(direction.toLowerCase())
+  })
+  const rowGetter = useCallback(i => rCO[i], [rCO])
+  const onClickXlsx = useCallback(
+    () =>
+      exportXlsx({
+        rows: rCO,
+        onSetMessage: console.log,
+      }),
+    [rCO],
+  )
+  const onClickCsv = useCallback(() => exportCsv(rCO), [rCO])
+  const onClickDelete = useCallback(
+    async () => {
+      await client.mutate({
+        mutation: deleteRcoOfPcMutation,
+        variables: { pcId },
+      })
+      rCOData.refetch()
+      treeData.refetch()
+    },
+    [pcId],
+  )
+
+  if (loading) {
+    return (
+      <Container>
+        <TotalDiv>Lade Daten...</TotalDiv>
+      </Container>
+    )
+  }
 
   return (
     <Container>
@@ -190,54 +209,28 @@ const RCO = ({
         }`}</TotalDiv>
       )}
       {rCO.length > 0 && (
-        <Fragment>
+        <>
           <ReactDataGrid
-            onGridSort={(column, direction) => {
-              setSortField(column)
-              setSortDirection(direction.toLowerCase())
-            }}
+            onGridSort={onGridSort}
             columns={columns}
-            rowGetter={i => rCO[i]}
+            rowGetter={rowGetter}
             rowsCount={rCO.length}
             minHeight={height - 33 - 37}
             minWidth={width}
           />
           <ButtonsContainer>
             <ExportButtons>
-              <StyledButton
-                onClick={() =>
-                  exportXlsx({
-                    rows: rCO,
-                    onSetMessage: console.log,
-                  })
-                }
-                className={classes.button}
-              >
+              <StyledButton onClick={onClickXlsx} className={classes.button}>
                 xlsx exportieren
               </StyledButton>
-              <StyledButton
-                onClick={() => exportCsv(rCO)}
-                className={classes.button}
-              >
+              <StyledButton onClick={onClickCsv} className={classes.button}>
                 csv exportieren
               </StyledButton>
             </ExportButtons>
             {userIsWriter && (
               <MutationButtons>
                 <StyledButton
-                  onClick={async () => {
-                    const pcId = get(
-                      activeNodeArrayData,
-                      'activeNodeArray[1]',
-                      '99999999-9999-9999-9999-999999999999',
-                    )
-                    await client.mutate({
-                      mutation: deleteRcoOfPcMutation,
-                      variables: { pcId },
-                    })
-                    rCOData.refetch()
-                    treeData.refetch()
-                  }}
+                  onClick={onClickDelete}
                   className={classes.button}
                 >
                   Daten löschen
@@ -245,7 +238,7 @@ const RCO = ({
               </MutationButtons>
             )}
           </ButtonsContainer>
-        </Fragment>
+        </>
       )}
       {showImportRco && <ImportRco />}
     </Container>
