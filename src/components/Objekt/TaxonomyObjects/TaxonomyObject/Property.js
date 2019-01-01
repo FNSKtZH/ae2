@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
 
-import ErrorBoundary from '../../shared/ErrorBoundary'
-import updateObjectMutation from '../updateObjectMutation'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
+import updateObjectMutation from '../../updateObjectMutation'
 
 const Container = styled.div`
   margin: 12px 8px 12px 0;

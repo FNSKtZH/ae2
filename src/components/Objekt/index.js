@@ -6,7 +6,8 @@ import compose from 'recompose/compose'
 import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
 
-import TaxonomyObject from './TaxonomyObject'
+import TaxonomyObjects from './TaxonomyObjects'
+import TaxonomyObject from './TaxonomyObjects/TaxonomyObject'
 import PCOs from './PCOs'
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import withObjectData from './withObjectData'
@@ -94,11 +95,7 @@ const Objekt = ({
               </TitleSpan>
             </SynonymTitle>
           )}
-          {sortBy(synonymObjects, tO =>
-            get(tO, 'taxonomyByTaxonomyId.name', '(Name fehlt)'),
-          ).map(o => (
-            <TaxonomyObject key={o.id} objekt={o} showLink stacked={stacked} />
-          ))}
+          <TaxonomyObjects objects={synonymObjects} stacked={stacked} />
           {propertyCollectionObjects.length > 0 && (
             <Title>
               Eigenschaften

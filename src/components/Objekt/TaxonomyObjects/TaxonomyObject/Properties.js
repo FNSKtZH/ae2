@@ -14,11 +14,11 @@ import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 
-import PropertyReadOnly from '../../shared/PropertyReadOnly'
-import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
-import Property from '../../shared/Property'
-import NewProperty from '../../shared/NewProperty'
-import withEditingTaxonomiesData from '../../../modules/withEditingTaxonomiesData'
+import PropertyReadOnly from '../../../shared/PropertyReadOnly'
+import PropertyReadOnlyStacked from '../../../shared/PropertyReadOnlyStacked'
+import Property from '../../../shared/Property'
+import NewProperty from '../../../shared/NewProperty'
+import withEditingTaxonomiesData from '../../../../modules/withEditingTaxonomiesData'
 
 const PropertiesTitleContainer = styled.div`
   display: flex;
