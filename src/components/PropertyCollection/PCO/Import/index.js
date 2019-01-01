@@ -1,6 +1,7 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import compose from 'recompose/compose'
+import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -134,6 +135,10 @@ const enhance = compose(
   withApollo,
   withActiveNodeArrayData,
   pCOData,
+  // need following state for next data query
+  // so no hook used (yet)
+  withState('objectIds', 'setObjectIds', []),
+  withState('pCOfOriginIds', 'setPCOfOriginIds', []),
   withImportPcoData,
   withLoginData,
 )
@@ -145,6 +150,10 @@ const ImportPco = ({
   importPcoData,
   setCompleted,
   client,
+  objectIds,
+  setObjectIds,
+  pCOfOriginIds,
+  setPCOfOriginIds,
 }: {
   loginData: Object,
   activeNodeArrayData: Object,
@@ -152,6 +161,10 @@ const ImportPco = ({
   importPcoData: Object,
   setCompleted: () => void,
   client: Object,
+  objectIds: Array<String>,
+  setObjectIds: () => void,
+  setObjectIds: () => void,
+  pCOfOriginIds: Array<String>,
 }) => {
   const [existsNoDataWithoutKey, setExistsNoDataWithoutKey] = useState(
     undefined,
@@ -168,8 +181,6 @@ const ImportPco = ({
     pCOfOriginIdsAreRealNotTested,
     setPCOfOriginIdsAreRealNotTested,
   ] = useState(undefined)
-  const [objectIds, setObjectIds] = useState([])
-  const [pCOfOriginIds, setPCOfOriginIds] = useState([])
   const [objectIdsAreUuid, setObjectIdsAreUuid] = useState(undefined)
   const [pCOfOriginIdsAreUuid, setPCOfOriginIdsAreUuid] = useState(undefined)
   const [importData, setImportData] = useState([])
@@ -245,6 +256,123 @@ const ImportPco = ({
   const propertyFields = importDataFields.filter(
     f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
   )
+
+  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+    const file = acceptedFiles[0]
+    if (!!file) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const fileAsBinaryString = reader.result
+        const workbook = XLSX.read(fileAsBinaryString, {
+            type: 'binary',
+          }),
+          sheetName = workbook.SheetNames[0],
+          worksheet = workbook.Sheets[sheetName]
+        const data = XLSX.utils
+          .sheet_to_json(worksheet)
+          .map(d => omit(d, ['__rowNum__']))
+        // test the data
+        setImportData(data)
+        setExistsNoDataWithoutKey(data.filter(d => !!d.__EMPTY).length === 0)
+        const ids = data.map(d => d.id).filter(d => d !== undefined)
+        const _idsExist = ids.length > 0
+        setIdsExist(_idsExist)
+        setIdsAreUuid(
+          _idsExist
+            ? !ids.map(d => isUuid.anyNonNil(d)).includes(false)
+            : undefined,
+        )
+        setIdsAreUnique(_idsExist ? ids.length === uniq(ids).length : undefined)
+        const _objectIds = data
+          .map(d => d.objectId)
+          .filter(d => d !== undefined)
+        const _objectIdsExist = _objectIds.length === data.length
+        setObjectIdsExist(_objectIdsExist)
+        setObjectIdsAreUuid(
+          _objectIdsExist
+            ? !_objectIds.map(d => isUuid.anyNonNil(d)).includes(false)
+            : undefined,
+        )
+        setObjectIds(_objectIds)
+
+        const _pCOfOriginIds = data
+          .map(d => d.propertyCollectionOfOrigin)
+          .filter(d => d !== undefined)
+        const _pCOfOriginIdsExist = _pCOfOriginIds.length > 0
+        setPCOfOriginIdsExist(_pCOfOriginIdsExist)
+        setPCOfOriginIdsAreUuid(
+          _pCOfOriginIdsExist
+            ? !_pCOfOriginIds.map(d => isUuid.anyNonNil(d)).includes(false)
+            : undefined,
+        )
+        setPCOfOriginIds(_pCOfOriginIds)
+
+        const propertyKeys = union(
+          flatten(data.map(d => Object.keys(omit(d, ['id', 'objectId'])))),
+        )
+        const _existsPropertyKey = propertyKeys.length > 0
+        setExistsPropertyKey(_existsPropertyKey)
+        setPropertyKeysDontContainApostroph(
+          _existsPropertyKey
+            ? !some(propertyKeys, k => k.includes('"'))
+            : undefined,
+        )
+        setPropertyKeysDontContainBackslash(
+          _existsPropertyKey
+            ? !some(propertyKeys, k => k.includes('\\'))
+            : undefined,
+        )
+        const propertyValues = union(flatten(data.map(d => Object.values(d))))
+        setPropertyValuesDontContainApostroph(
+          !some(propertyValues, k => {
+            if (!k.includes) return false
+            return k.includes('"')
+          }),
+        )
+        setPropertyValuesDontContainBackslash(
+          !some(propertyValues, k => {
+            if (!k.includes) return false
+            return k.includes('\\')
+          }),
+        )
+      }
+      reader.onabort = () => console.log('file reading was aborted')
+      reader.onerror = () => console.log('file reading has failed')
+      reader.readAsBinaryString(file)
+    }
+  })
+  const onClickImport = useCallback(
+    async () => {
+      setImporting(true)
+      // need a list of all fields
+      // loop all rows, build variables and create pco
+      importData.forEach(async (d, i) => {
+        const variables = {}
+        importDataFields.forEach(f => (variables[f] = d[f] || null))
+        variables.propertyCollectionId = pCId
+        const properties = omit(d, [
+          'id',
+          'objectId',
+          'propertyCollectionId',
+          'propertyCollectionOfOrigin',
+        ])
+        variables.properties = JSON.stringify(properties)
+        try {
+          await client.mutate({
+            mutation: createPCOMutation,
+            variables,
+          })
+        } catch (error) {
+          console.log(error)
+        }
+      })
+      await pCOData.refetch()
+      // do not set false because an unmounted component is updated
+      //setImporting(false)
+    },
+    [importData],
+  )
+  const rowGetter = useCallback(i => importData[i], [importData])
 
   return (
     <Container>
@@ -679,100 +807,7 @@ const ImportPco = ({
       </HowToImportContainer>
       <DropzoneContainer>
         <Dropzone
-          onDrop={(acceptedFiles, rejectedFiles) => {
-            const file = acceptedFiles[0]
-            if (!!file) {
-              const reader = new FileReader()
-              reader.onload = () => {
-                const fileAsBinaryString = reader.result
-                const workbook = XLSX.read(fileAsBinaryString, {
-                    type: 'binary',
-                  }),
-                  sheetName = workbook.SheetNames[0],
-                  worksheet = workbook.Sheets[sheetName]
-                const data = XLSX.utils
-                  .sheet_to_json(worksheet)
-                  .map(d => omit(d, ['__rowNum__']))
-                // test the data
-                setImportData(data)
-                setExistsNoDataWithoutKey(
-                  data.filter(d => !!d.__EMPTY).length === 0,
-                )
-                const ids = data.map(d => d.id).filter(d => d !== undefined)
-                const _idsExist = ids.length > 0
-                setIdsExist(_idsExist)
-                setIdsAreUuid(
-                  _idsExist
-                    ? !ids.map(d => isUuid.anyNonNil(d)).includes(false)
-                    : undefined,
-                )
-                setIdsAreUnique(
-                  _idsExist ? ids.length === uniq(ids).length : undefined,
-                )
-                const _objectIds = data
-                  .map(d => d.objectId)
-                  .filter(d => d !== undefined)
-                const _objectIdsExist = _objectIds.length === data.length
-                setObjectIdsExist(_objectIdsExist)
-                setObjectIdsAreUuid(
-                  _objectIdsExist
-                    ? !_objectIds.map(d => isUuid.anyNonNil(d)).includes(false)
-                    : undefined,
-                )
-                setObjectIds(_objectIds)
-
-                const _pCOfOriginIds = data
-                  .map(d => d.propertyCollectionOfOrigin)
-                  .filter(d => d !== undefined)
-                const _pCOfOriginIdsExist = _pCOfOriginIds.length > 0
-                setPCOfOriginIdsExist(_pCOfOriginIdsExist)
-                setPCOfOriginIdsAreUuid(
-                  _pCOfOriginIdsExist
-                    ? !_pCOfOriginIds
-                        .map(d => isUuid.anyNonNil(d))
-                        .includes(false)
-                    : undefined,
-                )
-                setPCOfOriginIds(_pCOfOriginIds)
-
-                const propertyKeys = union(
-                  flatten(
-                    data.map(d => Object.keys(omit(d, ['id', 'objectId']))),
-                  ),
-                )
-                const _existsPropertyKey = propertyKeys.length > 0
-                setExistsPropertyKey(_existsPropertyKey)
-                setPropertyKeysDontContainApostroph(
-                  _existsPropertyKey
-                    ? !some(propertyKeys, k => k.includes('"'))
-                    : undefined,
-                )
-                setPropertyKeysDontContainBackslash(
-                  _existsPropertyKey
-                    ? !some(propertyKeys, k => k.includes('\\'))
-                    : undefined,
-                )
-                const propertyValues = union(
-                  flatten(data.map(d => Object.values(d))),
-                )
-                setPropertyValuesDontContainApostroph(
-                  !some(propertyValues, k => {
-                    if (!k.includes) return false
-                    return k.includes('"')
-                  }),
-                )
-                setPropertyValuesDontContainBackslash(
-                  !some(propertyValues, k => {
-                    if (!k.includes) return false
-                    return k.includes('\\')
-                  }),
-                )
-              }
-              reader.onabort = () => console.log('file reading was aborted')
-              reader.onerror = () => console.log('file reading has failed')
-              reader.readAsBinaryString(file)
-            }
-          }}
+          onDrop={onDrop}
           accept=".xlsx, .xls, .csv, .ods, .dbf, .dif"
           multiple={false}
         >
@@ -809,36 +844,7 @@ const ImportPco = ({
         </Dropzone>
       </DropzoneContainer>
       {showImportButton && (
-        <StyledButton
-          onClick={async () => {
-            setImporting(true)
-            // need a list of all fields
-            // loop all rows, build variables and create pco
-            importData.forEach(async (d, i) => {
-              const variables = {}
-              importDataFields.forEach(f => (variables[f] = d[f] || null))
-              variables.propertyCollectionId = pCId
-              const properties = omit(d, [
-                'id',
-                'objectId',
-                'propertyCollectionId',
-                'propertyCollectionOfOrigin',
-              ])
-              variables.properties = JSON.stringify(properties)
-              try {
-                await client.mutate({
-                  mutation: createPCOMutation,
-                  variables,
-                })
-              } catch (error) {
-                console.log(error)
-              }
-            })
-            await pCOData.refetch()
-            // do not set false because an unmounted component is updated
-            //setImporting(false)
-          }}
-        >
+        <StyledButton onClick={onClickImport}>
           {importing ? 'Daten werden importiert...' : 'importieren'}
         </StyledButton>
       )}
@@ -855,7 +861,7 @@ const ImportPco = ({
               name: k,
               resizable: true,
             }))}
-            rowGetter={i => importData[i]}
+            rowGetter={rowGetter}
             rowsCount={importData.length}
           />
         </>
