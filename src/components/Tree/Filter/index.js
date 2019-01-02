@@ -137,6 +137,33 @@ const TreeFilter = ({
     },
     [treeFilterText],
   )
+  const renderSuggestion = useCallback(
+    (suggestion, { query, isHighlighted }) => {
+      const matches = match(suggestion.name, query)
+      const parts = parse(suggestion.name, matches)
+      return (
+        <div>
+          {parts.map((part, index) => {
+            return part.highlight ? (
+              <strong
+                key={String(index)}
+                style={{ fontWeight: '500 !important' }}
+              >
+                {part.text}
+              </strong>
+            ) : (
+              <span
+                key={String(index)}
+                style={{ fontWeight: '300 !important' }}
+              >
+                {part.text}
+              </span>
+            )
+          })}
+        </div>
+      )
+    },
+  )
 
   useEffect(
     () => {
@@ -252,31 +279,7 @@ const TreeFilter = ({
           getSuggestionValue={suggestion => suggestion && suggestion.name}
           shouldRenderSuggestions={value => value.trim().length > 2}
           onSuggestionSelected={onSuggestionSelected}
-          renderSuggestion={(suggestion, { query, isHighlighted }) => {
-            const matches = match(suggestion.name, query)
-            const parts = parse(suggestion.name, matches)
-            return (
-              <div>
-                {parts.map((part, index) => {
-                  return part.highlight ? (
-                    <strong
-                      key={String(index)}
-                      style={{ fontWeight: '500 !important' }}
-                    >
-                      {part.text}
-                    </strong>
-                  ) : (
-                    <span
-                      key={String(index)}
-                      style={{ fontWeight: '300 !important' }}
-                    >
-                      {part.text}
-                    </span>
-                  )
-                })}
-              </div>
-            )
-          }}
+          renderSuggestion={renderSuggestion}
           multiSection={true}
           renderSectionTitle={section => <strong>{section.title}</strong>}
           getSectionSuggestions={section => section.suggestions}
