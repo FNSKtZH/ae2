@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -83,19 +83,36 @@ const enhance = compose(
   withTreeFilterData,
   withFilterSuggestionsData,
   withObjectUrlData,
-  withHandlers({
-    onChange: ({ client, treeFilterData }) => (event, { newValue }) => {
-      const id = get(treeFilterData, 'treeFilter.id', null)
+)
+
+const TreeFilter = ({
+  client,
+  treeFilterData,
+  filterSuggestionsData,
+  objectUrlData,
+  dimensions,
+}: {
+  client: Object,
+  treeFilterData: Object,
+  filterSuggestionsData: Object,
+  objectUrlData: Object,
+  dimensions: Object,
+}) => {
+  const urlObject = get(objectUrlData, 'objectById', {})
+  const treeFilterId = get(treeFilterData, 'treeFilter.id', null)
+  const treeFilterText = get(treeFilterData, 'treeFilter.text', '')
+
+  const onChange = useCallback(
+    (event, { newValue }) => {
       client.mutate({
         mutation: treeFilterMutation,
-        variables: { text: newValue, id },
+        variables: { text: newValue, id: treeFilterId },
       })
     },
-    onSuggestionSelected: ({ client, treeFilterData }) => (
-      event,
-      { suggestion },
-    ) => {
-      const text = get(treeFilterData, 'treeFilter.text', '')
+    [treeFilterId],
+  )
+  const onSuggestionSelected = useCallback(
+    (event, { suggestion }) => {
       switch (suggestion.type) {
         case 'pC':
           app.history.push(`/Eigenschaften-Sammlungen/${suggestion.id}`)
@@ -113,33 +130,13 @@ const enhance = compose(
            */
           client.mutate({
             mutation: treeFilterMutation,
-            variables: { id: suggestion.id, text },
+            variables: { id: suggestion.id, text: treeFilterText },
           })
         }
       }
     },
-  }),
-)
-
-const TreeFilter = ({
-  client,
-  treeFilterData,
-  filterSuggestionsData,
-  objectUrlData,
-  onChange,
-  onSuggestionSelected,
-  dimensions,
-}: {
-  client: Object,
-  treeFilterData: Object,
-  filterSuggestionsData: Object,
-  objectUrlData: Object,
-  onChange: () => {},
-  onSuggestionSelected: () => {},
-  dimensions: Object,
-}) => {
-  const urlObject = get(objectUrlData, 'objectById', {})
-  const treeFilterId = get(treeFilterData, 'treeFilter.id', null)
+    [treeFilterText],
+  )
 
   useEffect(
     () => {
@@ -176,7 +173,6 @@ const TreeFilter = ({
     'propertyCollectionByPropertyName.nodes',
     [],
   )
-  const treeFilterText = get(treeFilterData, 'treeFilter.text', '')
   const inputProps = {
     value: treeFilterText,
     onChange,
