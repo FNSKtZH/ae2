@@ -1,53 +1,30 @@
 // @flow
-import React, { Component } from 'react'
+import React, { Component, lazy, Suspense } from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import get from 'lodash/get'
-import Loadable from 'react-loadable'
 
 import AppBar from './AppBar'
 import withActiveNodeArrayData from '../modules/withActiveNodeArrayData'
 import updateAvailableData from '../modules/updateAvailableData'
 import ErrorBoundary from './shared/ErrorBoundary'
-import LoadingComponent from './shared/LoadingComponent'
+import LazyImportFallback from './shared/LazyImportFallback'
 
 const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
 `
-
-const Export = Loadable({
-  loader: () => import('./Export'),
-  loading: LoadingComponent,
-})
-const AltGenerateUrl = Loadable({
-  loader: () => import('./AltGenerateUrl'),
-  loading: LoadingComponent,
-})
-const Login = Loadable({
-  loader: () => import('./Login'),
-  loading: LoadingComponent,
-})
-const Data = Loadable({
-  loader: () => import('./Data'),
-  loading: LoadingComponent,
-})
-const FourOhFour = Loadable({
-  loader: () => import('./FourOhFour'),
-  loading: LoadingComponent,
-})
-const DataGraph = Loadable({
-  loader: () => import('./DataGraph'),
-  loading: LoadingComponent,
-})
-const GraphIql = Loadable({
-  loader: () => import('./GraphIql'),
-  loading: LoadingComponent,
-})
+const Export = lazy(() => import('./Export'))
+const AltGenerateUrl = lazy(() => import('./AltGenerateUrl'))
+const Login = lazy(() => import('./Login'))
+const Data = lazy(() => import('./Data'))
+const FourOhFour = lazy(() => import('./FourOhFour'))
+const DataGraph = lazy(() => import('./DataGraph'))
+const GraphIql = lazy(() => import('./GraphIql'))
 
 const enhance = compose(
   withActiveNodeArrayData,
@@ -129,33 +106,35 @@ class App extends Component<Props, State> {
     return (
       <ErrorBoundary>
         <Container data-stacked={stacked}>
-          <CssBaseline />
-          <AppBar />
-          {showData && <Data stacked={stacked} />}
-          {showExport && <Export stacked={stacked} />}
-          {showLogin && <Login />}
-          {show404 && <FourOhFour />}
-          {showDataGraph && <DataGraph />}
-          {showGraphIql && <GraphIql />}
-          {showAltGenerateUrl && <AltGenerateUrl />}
-          <Snackbar
-            open={updateAvailable}
-            message={
-              <span id="message-id">
-                Für arteigenschaften.ch ist ein Update verfügbar
-              </span>
-            }
-            action={
-              <Button
-                key="undo"
-                color="primary"
-                size="small"
-                onClick={() => window.location.reload(false)}
-              >
-                neu laden
-              </Button>
-            }
-          />
+          <Suspense fallback={<LazyImportFallback />}>
+            <CssBaseline />
+            <AppBar />
+            {showData && <Data stacked={stacked} />}
+            {showExport && <Export stacked={stacked} />}
+            {showLogin && <Login />}
+            {show404 && <FourOhFour />}
+            {showDataGraph && <DataGraph />}
+            {showGraphIql && <GraphIql />}
+            {showAltGenerateUrl && <AltGenerateUrl />}
+            <Snackbar
+              open={updateAvailable}
+              message={
+                <span id="message-id">
+                  Für arteigenschaften.ch ist ein Update verfügbar
+                </span>
+              }
+              action={
+                <Button
+                  key="undo"
+                  color="primary"
+                  size="small"
+                  onClick={() => window.location.reload(false)}
+                >
+                  neu laden
+                </Button>
+              }
+            />
+          </Suspense>
         </Container>
       </ErrorBoundary>
     )

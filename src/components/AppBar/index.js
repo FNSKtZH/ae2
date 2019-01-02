@@ -1,7 +1,6 @@
 // @flow
-import React, { Component } from 'react'
+import React, { Component, lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom'
-import Loadable from 'react-loadable'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Icon from '@material-ui/core/Icon'
@@ -18,12 +17,9 @@ import withData from './withData'
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import withLoginData from '../../modules/withLoginData'
 import ErrorBoundary from '../shared/ErrorBoundary'
-import LoadingComponent from '../shared/LoadingComponent'
+import LazyImportFallback from '../shared/LazyImportFallback'
 
-const MoreMenu = Loadable({
-  loader: () => import('./MoreMenu'),
-  loading: LoadingComponent,
-})
+const MoreMenu = lazy(() => import('./MoreMenu'))
 
 /**
  * For unknown reason appbar does not follow display flex when
@@ -85,12 +81,12 @@ const enhance = compose(
       const name = pCName
         ? pCName
         : objektName
-          ? `${taxName}: ${objektName}`
-          : taxName
-            ? taxName
-            : url0
-              ? url0
-              : ''
+        ? `${taxName}: ${objektName}`
+        : taxName
+        ? taxName
+        : url0
+        ? url0
+        : ''
       const title = `arteigenschaften.ch${!!name ? ': ' : ''}${name}`
       navigator.share({
         title,
@@ -172,7 +168,7 @@ class MyAppBar extends Component<Props, State> {
       datenComponent.offsetWidth +
       exportComponent.offsetWidth +
       loginComponent.offsetWidth +
-      moreComponent.offsetWidth +
+      (moreComponent ? moreComponent.offsetWidth : 0) +
       (shareComponent ? shareComponent.offsetWidth : 0)
     const shouldLayoutWide = clientWidth - totalWidth > 260
     if (shouldLayoutWide !== wideLayout) {
@@ -199,8 +195,8 @@ class MyAppBar extends Component<Props, State> {
         ? username
         : getInitials(username)
       : wideLayout
-        ? 'nicht angemeldet'
-        : 'n.a.'
+      ? 'nicht angemeldet'
+      : 'n.a.'
     const loginTitle = username ? 'abmelden' : 'anmelden'
 
     return (
@@ -252,7 +248,9 @@ class MyAppBar extends Component<Props, State> {
                   </Icon>
                 </ShareButton>
               )}
-              <MoreMenu ref={c => (this.more = c)} />
+              <Suspense fallback={<LazyImportFallback />}>
+                <MoreMenu ref={c => (this.more = c)} />
+              </Suspense>
             </StyledToolbar>
           </StyledAppBar>
         </Container>
