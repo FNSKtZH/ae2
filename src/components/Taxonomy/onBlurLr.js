@@ -18,9 +18,9 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
       habitatComments:
         field === 'habitatComments' ? value : taxonomy.habitatComments,
       habitatNrFnsMin:
-        field === 'habitatNrFnsMin' ? value : taxonomy.habitatNrFnsMin,
+        field === 'habitatNrFnsMin' ? +value : taxonomy.habitatNrFnsMin,
       habitatNrFnsMax:
-        field === 'habitatNrFnsMax' ? value : taxonomy.habitatNrFnsMax,
+        field === 'habitatNrFnsMax' ? +value : taxonomy.habitatNrFnsMax,
       type: taxonomy.type,
     }
     client.mutate({
@@ -43,9 +43,9 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
             habitatComments:
               field === 'habitatComments' ? value : taxonomy.habitatComments,
             habitatNrFnsMin:
-              field === 'habitatNrFnsMin' ? value : taxonomy.habitatNrFnsMin,
+              field === 'habitatNrFnsMin' ? +value : taxonomy.habitatNrFnsMin,
             habitatNrFnsMax:
-              field === 'habitatNrFnsMax' ? value : taxonomy.habitatNrFnsMax,
+              field === 'habitatNrFnsMax' ? +value : taxonomy.habitatNrFnsMax,
             type: taxonomy.type,
             __typename: 'Taxonomy',
           },
