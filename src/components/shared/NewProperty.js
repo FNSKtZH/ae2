@@ -1,11 +1,9 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
@@ -19,21 +17,24 @@ const FieldContainer = styled.div`
   display: flex;
 `
 
-const enhance = compose(
-  withApollo,
-  withState('label', 'setLabel', ''),
-  withState('value', 'setValue', ''),
-  withHandlers({
-    onChangeLabel: ({ setLabel }) => event => setLabel(event.target.value),
-    onChangeValue: ({ setValue }) => event => setValue(event.target.value),
-    onBlurValue: ({
-      client,
-      properties: propertiesPrevious,
-      id,
-      label,
-      setLabel,
-      setValue,
-    }) => async event => {
+const enhance = compose(withApollo)
+
+const Property = ({
+  id,
+  properties: propertiesPrevious,
+  client,
+}: {
+  id: string,
+  properties: object,
+  client: Object,
+}) => {
+  const [label, setLabel] = useState('')
+  const [value, setValue] = useState('')
+
+  const onChangeLabel = useCallback(event => setLabel(event.target.value))
+  const onChangeValue = useCallback(event => setValue(event.target.value))
+  const onBlurValue = useCallback(
+    async event => {
       const { value } = event.target
       if (value !== null && value !== undefined && !!label) {
         const properties = {
@@ -48,26 +49,9 @@ const enhance = compose(
         setValue('')
       }
     },
-  })
-)
+    [propertiesPrevious, id, label],
+  )
 
-const Property = ({
-  id,
-  properties,
-  label,
-  value,
-  onChangeLabel,
-  onChangeValue,
-  onBlurValue,
-}: {
-  id: string,
-  properties: object,
-  label: string,
-  value: string,
-  onChangeLabel: () => void,
-  onChangeValue: () => void,
-  onBlurValue: () => void,
-}) => {
   return (
     <ErrorBoundary>
       <Container>
