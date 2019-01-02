@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { useCallback } from 'react'
 import compose from 'recompose/compose'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
@@ -67,6 +67,99 @@ const Taxonomy = ({
   editingTaxonomiesData: Object,
   loginData: Object,
 }) => {
+  const tax = get(taxData, 'taxonomyById', {})
+  const importedByName = get(tax, 'userByImportedBy.name')
+  const organizationName = get(tax, 'organizationByOrganizationId.name')
+  const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
+  const editingArten = editing && tax.type === 'ART'
+  const editingLr = editing && tax.type === 'LEBENSRAUM'
+  const username = get(loginData, 'login.username', null)
+  const allUsers = get(allUsersData, 'allUsers.nodes', [])
+  const user = allUsers.find(u => u.name === username)
+  const orgsUserIsTaxWriter = get(user, 'organizationUsersByUserId.nodes', [])
+    .filter(o => ['orgTaxonomyWriter', 'orgAdmin'].includes(o.role))
+    .map(o => ({
+      id: o.organizationId,
+      name: get(o, 'organizationByOrganizationId.name', ''),
+    }))
+  const userIsTaxWriter = orgsUserIsTaxWriter.length > 0
+  const userIsThisTaxWriter =
+    !!orgsUserIsTaxWriter.find(o => o.id === tax.organizationId) ||
+    (userIsTaxWriter && !tax.organizationId)
+
+  const onClickStopEditing = useCallback(event => {
+    event.stopPropagation()
+    client.mutate({
+      mutation: editingTaxonomiesMutation,
+      variables: { value: false },
+      optimisticResponse: {
+        setEditingTaxonomies: {
+          editingTaxonomies: false,
+          __typename: 'EditingTaxonomies',
+        },
+        __typename: 'Mutation',
+      },
+    })
+  })
+  const onClickStartEditing = useCallback(event => {
+    event.stopPropagation()
+    client.mutate({
+      mutation: editingTaxonomiesMutation,
+      variables: { value: true },
+      optimisticResponse: {
+        setEditingTaxonomies: {
+          editingTaxonomies: true,
+          __typename: 'EditingTaxonomies',
+        },
+        __typename: 'Mutation',
+      },
+    })
+  })
+  const onChangeImportedByArten = useCallback(
+    event =>
+      onBlurArten({
+        client,
+        field: 'importedBy',
+        taxonomy: tax,
+        value: event.target.value,
+        prevValue: tax.importedBy,
+      }),
+    [tax],
+  )
+  const onChangeOrganizationArten = useCallback(
+    event =>
+      onBlurArten({
+        client,
+        field: 'organizationId',
+        taxonomy: tax,
+        value: event.target.value,
+        prevValue: tax.organizationId,
+      }),
+    [tax],
+  )
+  const onChangeImportedByLr = useCallback(
+    event =>
+      onBlurLr({
+        client,
+        field: 'importedBy',
+        taxonomy: tax,
+        value: event.target.value,
+        prevValue: tax.importedBy,
+      }),
+    [tax],
+  )
+  const onChangeOrganizationLr = useCallback(
+    event =>
+      onBlurLr({
+        client,
+        field: 'organizationId',
+        taxonomy: tax,
+        value: event.target.value,
+        prevValue: tax.organizationId,
+      }),
+    [tax],
+  )
+
   if (
     taxData.loading ||
     allUsersData.loading ||
@@ -89,81 +182,34 @@ const Taxonomy = ({
   if (loginData.error) {
     return <Container>`Fehler: ${loginData.error.message}`</Container>
   }
-  const tax = get(taxData, 'taxonomyById', {})
-  const importedByName = get(tax, 'userByImportedBy.name')
-  const organizationName = get(tax, 'organizationByOrganizationId.name')
-  const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
-  const editingArten = editing && tax.type === 'ART'
-  const editingLr = editing && tax.type === 'LEBENSRAUM'
-  const username = get(loginData, 'login.username', null)
-  const allUsers = get(allUsersData, 'allUsers.nodes', [])
-  const user = allUsers.find(u => u.name === username)
-  const orgsUserIsTaxWriter = get(user, 'organizationUsersByUserId.nodes', [])
-    .filter(o => ['orgTaxonomyWriter', 'orgAdmin'].includes(o.role))
-    .map(o => ({
-      id: o.organizationId,
-      name: get(o, 'organizationByOrganizationId.name', ''),
-    }))
-  const userIsTaxWriter = orgsUserIsTaxWriter.length > 0
-  const userIsThisTaxWriter =
-    !!orgsUserIsTaxWriter.find(o => o.id === tax.organizationId) ||
-    (userIsTaxWriter && !tax.organizationId)
 
   return (
     <ErrorBoundary>
       <Container>
-        {userIsThisTaxWriter &&
-          editing && (
-            <CardEditButton
-              aria-label="Daten anzeigen"
-              title="Daten anzeigen"
-              onClick={event => {
-                event.stopPropagation()
-                client.mutate({
-                  mutation: editingTaxonomiesMutation,
-                  variables: { value: false },
-                  optimisticResponse: {
-                    setEditingTaxonomies: {
-                      editingTaxonomies: false,
-                      __typename: 'EditingTaxonomies',
-                    },
-                    __typename: 'Mutation',
-                  },
-                })
-              }}
-            >
-              <Icon>
-                <ViewIcon />
-              </Icon>
-            </CardEditButton>
-          )}
-        {userIsThisTaxWriter &&
-          !editing && (
-            <CardEditButton
-              aria-label="Daten bearbeiten"
-              title="Daten bearbeiten"
-              onClick={event => {
-                event.stopPropagation()
-                client.mutate({
-                  mutation: editingTaxonomiesMutation,
-                  variables: { value: true },
-                  optimisticResponse: {
-                    setEditingTaxonomies: {
-                      editingTaxonomies: true,
-                      __typename: 'EditingTaxonomies',
-                    },
-                    __typename: 'Mutation',
-                  },
-                })
-              }}
-            >
-              <Icon>
-                <EditIcon />
-              </Icon>
-            </CardEditButton>
-          )}
+        {userIsThisTaxWriter && editing && (
+          <CardEditButton
+            aria-label="Daten anzeigen"
+            title="Daten anzeigen"
+            onClick={onClickStopEditing}
+          >
+            <Icon>
+              <ViewIcon />
+            </Icon>
+          </CardEditButton>
+        )}
+        {userIsThisTaxWriter && !editing && (
+          <CardEditButton
+            aria-label="Daten bearbeiten"
+            title="Daten bearbeiten"
+            onClick={onClickStartEditing}
+          >
+            <Icon>
+              <EditIcon />
+            </Icon>
+          </CardEditButton>
+        )}
         {!editing && (
-          <Fragment>
+          <>
             <PropertyReadOnly key="id" value={tax.id} label="ID" />
             {!!tax.name && (
               <PropertyReadOnly key="name" value={tax.name} label="Name" />
@@ -238,10 +284,10 @@ const Taxonomy = ({
                 label="Bemerkungen"
               />
             )}
-          </Fragment>
+          </>
         )}
         {editingArten && (
-          <Fragment>
+          <>
             <PropertyArten
               key={`${tax.id}/id`}
               label="ID"
@@ -266,15 +312,7 @@ const Taxonomy = ({
               <Select
                 key={`${tax.id}/importedBy`}
                 value={tax.importedBy}
-                onChange={event =>
-                  onBlurArten({
-                    client,
-                    field: 'importedBy',
-                    taxonomy: tax,
-                    value: event.target.value,
-                    prevValue: tax.importedBy,
-                  })
-                }
+                onChange={onChangeImportedByArten}
                 input={<Input id="importedByArten" />}
               >
                 {allUsers.map(u => (
@@ -291,15 +329,7 @@ const Taxonomy = ({
               <Select
                 key={`${tax.id}/organizationId`}
                 value={tax.organizationId || ''}
-                onChange={event =>
-                  onBlurArten({
-                    client,
-                    field: 'organizationId',
-                    taxonomy: tax,
-                    value: event.target.value,
-                    prevValue: tax.organizationId,
-                  })
-                }
+                onChange={onChangeOrganizationArten}
                 input={<Input id="organizationIdArten" />}
               >
                 {orgsUserIsTaxWriter.map(o => (
@@ -322,10 +352,10 @@ const Taxonomy = ({
               field="termsOfUse"
               taxonomy={tax}
             />
-          </Fragment>
+          </>
         )}
         {editingLr && (
-          <Fragment>
+          <>
             <PropertyLr
               key={`${tax.id}/id`}
               label="ID"
@@ -350,15 +380,7 @@ const Taxonomy = ({
               <Select
                 key={`${tax.id}/importedBy`}
                 value={tax.importedBy}
-                onChange={event =>
-                  onBlurLr({
-                    client,
-                    field: 'importedBy',
-                    taxonomy: tax,
-                    value: event.target.value,
-                    prevValue: tax.importedBy,
-                  })
-                }
+                onChange={onChangeImportedByLr}
                 input={<Input id="importedByLr" />}
               >
                 {allUsers.map(u => (
@@ -375,15 +397,7 @@ const Taxonomy = ({
               <Select
                 key={`${tax.id}/organizationId`}
                 value={tax.organizationId || ''}
-                onChange={event =>
-                  onBlurLr({
-                    client,
-                    field: 'organizationId',
-                    taxonomy: tax,
-                    value: event.target.value,
-                    prevValue: tax.organizationId,
-                  })
-                }
+                onChange={onChangeOrganizationLr}
                 input={<Input id="organizationIdLr" />}
               >
                 {orgsUserIsTaxWriter.map(o => (
@@ -432,7 +446,7 @@ const Taxonomy = ({
               taxonomy={tax}
               type="number"
             />
-          </Fragment>
+          </>
         )}
       </Container>
     </ErrorBoundary>
