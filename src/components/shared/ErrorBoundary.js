@@ -1,4 +1,9 @@
 // @flow
+/**
+ * There is no equivalent for getDerivedStateFromError
+ * in hooks yet, but it will be added soon
+ * see: https://reactjs.org/docs/hooks-faq.html#how-do-lifecycle-methods-correspond-to-hooks
+ */
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
