@@ -1,7 +1,6 @@
 // @flow
 import React, { useState, useCallback } from 'react'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
