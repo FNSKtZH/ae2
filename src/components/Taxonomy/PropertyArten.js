@@ -20,7 +20,7 @@ const enhance = compose(
   withState(
     'value',
     'setValue',
-    ({ taxonomy, field }) => taxonomy[field] || ''
+    ({ taxonomy, field }) => taxonomy[field] || '',
   ),
   withHandlers({
     onChange: ({ setValue }) => event => setValue(event.target.value),
@@ -32,7 +32,7 @@ const enhance = compose(
         value: event.target.value,
         prevValue: taxonomy[field],
       }),
-  })
+  }),
 )
 
 const Property = ({
@@ -68,7 +68,7 @@ const Property = ({
           onChange={onChange}
           onBlur={onBlur}
           fullWidth
-          multiline
+          multiline={type === 'number' ? false : true}
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
