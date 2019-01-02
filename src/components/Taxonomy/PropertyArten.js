@@ -1,59 +1,50 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import format from 'date-fns/format'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
-import onBlur from './onBlurArten'
+import onBlurArten from './onBlurArten'
 
 const Container = styled.div`
   margin: 5px 0;
 `
 
-const enhance = compose(
-  withApollo,
-  withState(
-    'value',
-    'setValue',
-    ({ taxonomy, field }) => taxonomy[field] || '',
-  ),
-  withHandlers({
-    onChange: ({ setValue }) => event => setValue(event.target.value),
-    onBlur: ({ client, field, taxonomy, value }) => event =>
-      onBlur({
+const enhance = compose(withApollo)
+
+const Property = ({
+  client,
+  taxonomy,
+  field,
+  label,
+  type = 'text',
+  disabled,
+}: {
+  client: Object,
+  taxonomy: Object,
+  field: String,
+  label: String,
+  disabled: Boolean,
+  type: String,
+}) => {
+  const [value, setValue] = useState(taxonomy[field] || '')
+
+  const onChange = useCallback(event => setValue(event.target.value))
+  const onBlur = useCallback(
+    event =>
+      onBlurArten({
         client,
         field,
         taxonomy,
         value: event.target.value,
         prevValue: taxonomy[field],
       }),
-  }),
-)
+    [field, taxonomy, value],
+  )
 
-const Property = ({
-  client,
-  field,
-  label,
-  value,
-  type = 'text',
-  disabled,
-  onChange,
-  onBlur,
-}: {
-  client: Object,
-  field: String,
-  label: String,
-  disabled: Boolean,
-  value: String,
-  type: String,
-  onChange: () => void,
-  onBlur: () => void,
-}) => {
   return (
     <ErrorBoundary>
       <Container>
