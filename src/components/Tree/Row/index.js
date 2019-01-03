@@ -2,7 +2,6 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import { ContextMenuTrigger } from 'react-contextmenu'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
@@ -13,12 +12,12 @@ import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
-import onClickContextMenu from './onClickContextMenu'
+import onClickContextMenuDo from './onClickContextMenu'
 import withEditingTaxonomiesData from '../../../modules/withEditingTaxonomiesData'
 import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import withLoginData from '../../../modules/withLoginData'
 import withRowData from './withRowData'
-import treeData from '../withTreeData'
+import withTreeData from '../withTreeData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const singleRowHeight = 23
@@ -89,7 +88,7 @@ function collect(props) {
 const enhance = compose(
   withApollo,
   withLoginData,
-  treeData,
+  withTreeData,
   withActiveNodeArrayData,
   withRowData,
   withEditingTaxonomiesData,
@@ -104,6 +103,7 @@ const Row = ({
   activeNodeArray,
   activeNodeArrayData,
   rowData,
+  treeData,
   editingTaxonomiesData,
 }: {
   key?: number,
@@ -114,6 +114,7 @@ const Row = ({
   activeNodeArray: Array<String>,
   activeNodeArrayData: Object,
   rowData: Object,
+  treeData: Object,
   editingTaxonomiesData: Object,
 }) => {
   //console.log('Row: node:', node)
@@ -166,7 +167,7 @@ const Row = ({
   )
   const onClickContextMenu = useCallback(
     (e, data, target) => {
-      onClickContextMenu({
+      onClickContextMenuDo({
         e,
         activeNodeArrayData,
         data,
