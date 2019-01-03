@@ -84,9 +84,7 @@ const App = ({
     setStacked(shouldBeStacked)
   })
 
-  useEffect(() => {
-    updateStacked()
-  }, [])
+  useEffect(() => updateStacked(), [])
 
   useEffect(() => {
     window.addEventListener('resize', debounce(updateStacked, 100))
