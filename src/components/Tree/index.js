@@ -166,13 +166,13 @@ const Tree = ({
         <CmBenutzerFolder />
         <CmBenutzer />
         {userIsTaxWriter && (
-          <Fragment>
+          <>
             <CmObject />
             <CmTaxonomy />
             <CmType />
             <CmPCFolder />
             <CmPC />
-          </Fragment>
+          </>
         )}
       </Container>
     </ErrorBoundary>
