@@ -1,12 +1,9 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { useState, useCallback } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import withHandlers from 'recompose/withHandlers'
 import SwipeableViews from 'react-swipeable-views'
 
 import ChooseColumn from './ChooseColumn'
@@ -22,24 +19,11 @@ const StyledSwipeableViews = styled(SwipeableViews)`
   }
 `
 
-const enhance = compose(
-  withState('tab', 'setTab', 0),
-  withHandlers({
-    onChangeTab: ({ setTab }) => (event, value) => {
-      setTab(value)
-    },
-  })
-)
+const ExportStacked = () => {
+  const [tab, setTab] = useState(0)
 
-const ExportStacked = ({
-  tab,
-  setTab,
-  onChangeTab,
-}: {
-  tab: Number,
-  setTab: () => void,
-  onChangeTab: () => void,
-}) => {
+  const onChangeTab = useCallback((event, value) => setTab(value))
+
   const w = window
   const d = document
   const e = d.documentElement
@@ -47,10 +31,10 @@ const ExportStacked = ({
   const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
 
   return (
-    <Fragment>
+    <>
       <StyledPaper>
         <Tabs
-          centered
+          variant="fullWidth"
           value={tab}
           onChange={onChangeTab}
           indicatorColor="primary"
@@ -63,8 +47,8 @@ const ExportStacked = ({
         <ChooseColumn dimensions={{ width: windowWidth }} />
         <PreviewColumn dimensions={{ width: windowWidth }} />
       </StyledSwipeableViews>
-    </Fragment>
+    </>
   )
 }
 
-export default enhance(ExportStacked)
+export default ExportStacked

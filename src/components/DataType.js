@@ -84,13 +84,13 @@ const DataType = ({
   if (showBenutzer)
     return (
       <Suspense fallback={<LazyImportFallback />}>
-        <Benutzer dimensions={dimensions} />
+        <Benutzer />
       </Suspense>
     )
   if (showOrganization)
     return (
       <Suspense fallback={<LazyImportFallback />}>
-        <Organisation dimensions={dimensions} />
+        <Organisation />
       </Suspense>
     )
   return null

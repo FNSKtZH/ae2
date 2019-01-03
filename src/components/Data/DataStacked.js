@@ -1,12 +1,10 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import withHandlers from 'recompose/withHandlers'
 import SwipeableViews from 'react-swipeable-views'
 import get from 'lodash/get'
 
@@ -24,27 +22,16 @@ const StyledSwipeableViews = styled(SwipeableViews)`
   }
 `
 
-const enhance = compose(
-  withActiveNodeArrayData,
-  withState('tab', 'setTab', 0),
-  withHandlers({
-    onChangeTab: ({ setTab }) => (event, value) => {
-      setTab(value)
-    },
-  }),
-)
+const enhance = compose(withActiveNodeArrayData)
 
 const DataStacked = ({
-  tab,
-  setTab,
-  onChangeTab,
   activeNodeArrayData,
 }: {
-  tab: Number,
-  setTab: () => void,
-  onChangeTab: () => void,
   activeNodeArrayData: Object,
 }) => {
+  const [tab, setTab] = useState(0)
+  const onChangeTab = useCallback((event, value) => setTab(value))
+
   const w = window
   const d = document
   const e = d.documentElement
@@ -58,7 +45,7 @@ const DataStacked = ({
     <>
       <StyledPaper>
         <Tabs
-          centered
+          variant="fullWidth"
           value={tab}
           onChange={onChangeTab}
           indicatorColor="primary"

@@ -29,13 +29,7 @@ const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
 `
 
-const Organization = ({
-  orgData,
-  dimensions: { width },
-}: {
-  orgData: Object,
-  dimensions: Object,
-}) => {
+const Organization = ({ orgData }: { orgData: Object }) => {
   const [tab, setTab] = useState(0)
 
   const onChangeTab = useCallback((event, value) => setTab(value))
@@ -65,12 +59,10 @@ const Organization = ({
         </OrgContainer>
         <StyledPaper>
           <Tabs
-            centered={width > 705}
+            variant="fullWidth"
             value={tab}
             onChange={onChangeTab}
             indicatorColor="primary"
-            scrollable={width <= 705}
-            scrollButtons="auto"
           >
             <Tab label="Benutzer mit Rollen" />
             <Tab label="Taxonomien" />

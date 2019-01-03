@@ -45,12 +45,10 @@ const User = ({
   client,
   data,
   treeData,
-  dimensions,
 }: {
   client: Object,
   data: Object,
   treeData: Object,
-  dimensions: Object,
 }) => {
   const user = get(data, 'userById', {})
 
@@ -62,7 +60,6 @@ const User = ({
   const [tab, setTab] = useState(0)
 
   const { id } = user
-  const { width } = dimensions
   const loginUsername = get(data, 'login.username')
   const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
   const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
@@ -186,12 +183,10 @@ const User = ({
         </OrgContainer>
         <StyledPaper>
           <Tabs
-            centered={width > 779}
+            variant="fullWidth"
             value={tab}
             onChange={onChangeTab}
             indicatorColor="primary"
-            scrollable={width <= 779}
-            scrollButtons="auto"
           >
             <Tab label={`Rollen (${orgUsers.length})`} />
             <Tab label={`importierte Taxonomien (${tcs.length})`} />
