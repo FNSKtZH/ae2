@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
 
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import app from 'ampersand-app'
@@ -88,9 +89,11 @@ const launchApp = async () => {
 
     ReactDOM.render(
       <ApolloProvider client={myClient}>
-        <MuiThemeProvider theme={theme}>
-          <Router />
-        </MuiThemeProvider>
+        <ApolloHooksProvider client={client}>
+          <MuiThemeProvider theme={theme}>
+            <Router />
+          </MuiThemeProvider>
+        </ApolloHooksProvider>
       </ApolloProvider>,
       document.getElementById('root'),
     )
