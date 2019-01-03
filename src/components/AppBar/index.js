@@ -142,7 +142,7 @@ class MyAppBar extends Component<Props, State> {
       shareComponent,
     })
     window.addEventListener('resize', this.updateLayout)
-    setTimeout(() => this.updateLayout())
+    setTimeout(() => this.updateLayout(), 100)
   }
 
   componentWillUnmount() {
