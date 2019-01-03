@@ -2,7 +2,6 @@
 import React, { useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
