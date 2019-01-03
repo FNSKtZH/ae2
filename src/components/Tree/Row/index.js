@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
@@ -93,48 +93,6 @@ const enhance = compose(
   withActiveNodeArrayData,
   withRowData,
   withEditingTaxonomiesData,
-  withHandlers({
-    onClickNode: ({ node, index, activeNodeArray }) => event => {
-      const { url, loadingNode } = node
-      // do nothing when loading indicator is clicked
-      if (loadingNode) return
-      // or if node is already active
-      if (!isEqual(url, activeNodeArray)) {
-        app.history.push(`/${url.join('/')}`)
-      }
-    },
-    onClickExpandMore: ({ node, index, activeNodeArray }) => event => {
-      const { url, loadingNode } = node
-      // do nothing when loading indicator is clicked
-      if (loadingNode) return
-      if (isEqual(url, activeNodeArray)) {
-        // close node if its expand mor symbol was clicked
-        const newUrl = [...url]
-        newUrl.pop()
-        app.history.push(`/${newUrl.join('/')}`)
-        // prevent onClick on node
-        event.preventDefault()
-      }
-    },
-    onClickContextMenu: ({
-      client,
-      activeNodeArrayData,
-      treeData,
-      rowData,
-      editingTaxonomiesData,
-    }) => (e, data, target) => {
-      onClickContextMenu({
-        e,
-        activeNodeArrayData,
-        data,
-        target,
-        client,
-        treeData,
-        rowData,
-        editingTaxonomiesData,
-      })
-    },
-  }),
 )
 
 const Row = ({
@@ -143,20 +101,20 @@ const Row = ({
   style,
   node,
   client,
-  onClickNode,
-  onClickExpandMore,
-  onClickContextMenu,
   activeNodeArray,
+  activeNodeArrayData,
+  rowData,
+  editingTaxonomiesData,
 }: {
   key?: number,
   index: number,
   style: Object,
   node: Object,
   client: Object,
-  onClickNode: () => void,
-  onClickExpandMore: () => void,
-  onClickContextMenu: () => void,
   activeNodeArray: Array<String>,
+  activeNodeArrayData: Object,
+  rowData: Object,
+  editingTaxonomiesData: Object,
 }) => {
   //console.log('Row: node:', node)
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
@@ -177,8 +135,50 @@ const Row = ({
     useSymbolSpan = true
     useSymbolIcon = false
   }
-  if (!node.url) console.log('Row: node:', node)
-  const level = node.url.length
+  const { url, loadingNode } = node
+  const level = url.length
+
+  const onClickNode = useCallback(
+    event => {
+      // do nothing when loading indicator is clicked
+      if (loadingNode) return
+      // or if node is already active
+      if (!isEqual(url, activeNodeArray)) {
+        app.history.push(`/${url.join('/')}`)
+      }
+    },
+    [url, loadingNode, activeNodeArray],
+  )
+  const onClickExpandMore = useCallback(
+    event => {
+      // do nothing when loading indicator is clicked
+      if (loadingNode) return
+      if (isEqual(url, activeNodeArray)) {
+        // close node if its expand mor symbol was clicked
+        const newUrl = [...url]
+        newUrl.pop()
+        app.history.push(`/${newUrl.join('/')}`)
+        // prevent onClick on node
+        event.preventDefault()
+      }
+    },
+    [url, loadingNode, activeNodeArray],
+  )
+  const onClickContextMenu = useCallback(
+    (e, data, target) => {
+      onClickContextMenu({
+        e,
+        activeNodeArrayData,
+        data,
+        target,
+        client,
+        treeData,
+        rowData,
+        editingTaxonomiesData,
+      })
+    },
+    [activeNodeArrayData, treeData, rowData, editingTaxonomiesData],
+  )
 
   return (
     <div key={key} style={style}>
