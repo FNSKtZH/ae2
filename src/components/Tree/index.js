@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useCallback } from 'react'
 // if observer is active, forceUpdate during rendering happens
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
@@ -139,6 +139,16 @@ const Tree = ({
 
   const listRef = React.createRef()
 
+  const getRow = useCallback(({ index, style }) => (
+    <Row
+      key={index}
+      index={index}
+      style={style}
+      node={nodes[index]}
+      activeNodeArray={activeNodeArray}
+    />
+  ))
+
   return (
     <ErrorBoundary>
       <Container>
@@ -151,15 +161,7 @@ const Tree = ({
             width={width}
             ref={listRef}
           >
-            {({ index, style }) => (
-              <Row
-                key={index}
-                index={index}
-                style={style}
-                node={nodes[index]}
-                activeNodeArray={activeNodeArray}
-              />
-            )}
+            {getRow}
           </StyledList>
         </AutoSizerContainer>
         <StyledSnackbar open={treeDataLoading} message="lade Daten..." />
