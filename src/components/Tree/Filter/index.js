@@ -263,6 +263,15 @@ const TreeFilter = ({
   // later it is passed as number of pixels
   const autosuggestWidth = isNaN(dimensions.width) ? 380 : dimensions.width - 29
 
+  const getSuggestionValue = useCallback(
+    suggestion => suggestion && suggestion.name,
+  )
+  const shouldRenderSuggestions = useCallback(value => value.trim().length > 2)
+  const renderSectionTitle = useCallback(section => (
+    <strong>{section.title}</strong>
+  ))
+  const getSectionSuggestions = useCallback(section => section.suggestions)
+
   return (
     <ErrorBoundary>
       <Container data-autosuggestwidth={autosuggestWidth}>
@@ -276,13 +285,13 @@ const TreeFilter = ({
             // need this?
             //console.log('clear requested')
           }}
-          getSuggestionValue={suggestion => suggestion && suggestion.name}
-          shouldRenderSuggestions={value => value.trim().length > 2}
+          getSuggestionValue={getSuggestionValue}
+          shouldRenderSuggestions={shouldRenderSuggestions}
           onSuggestionSelected={onSuggestionSelected}
           renderSuggestion={renderSuggestion}
           multiSection={true}
-          renderSectionTitle={section => <strong>{section.title}</strong>}
-          getSectionSuggestions={section => section.suggestions}
+          renderSectionTitle={renderSectionTitle}
+          getSectionSuggestions={getSectionSuggestions}
           inputProps={inputProps}
           focusInputOnSuggestionClick={false}
         />
