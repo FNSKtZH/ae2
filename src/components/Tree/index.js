@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment, useEffect, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 // if observer is active, forceUpdate during rendering happens
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
@@ -137,7 +137,7 @@ const Tree = ({
   const height = isNaN(dimensions.height) ? 250 : dimensions.height - 40
   const width = isNaN(dimensions.width) ? 250 : dimensions.width
 
-  const listRef = React.createRef()
+  const listRef = useRef(null)
 
   const getRow = useCallback(({ index, style }) => (
     <Row
