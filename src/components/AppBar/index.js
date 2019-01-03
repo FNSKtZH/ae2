@@ -14,16 +14,16 @@ import ShareIcon from '@material-ui/icons/Share'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import app from 'ampersand-app'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
+import { useQuery } from 'react-apollo-hooks'
 
-import withData from './withData'
-import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import withLoginData from '../../modules/withLoginData'
+import query from './query'
+import storeQuery from './storeQuery'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import LazyImportFallback from '../shared/LazyImportFallback'
+import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
 
 const MoreMenu = lazy(() => import('./MoreMenu'))
 
@@ -68,21 +68,40 @@ const StyledMoreVertIcon = styled(ShareIcon)`
 `
 const getInitials = name => name.match(/\b(\w)/g).join('')
 
-const enhance = compose(
-  withActiveNodeArrayData,
-  withData,
-  withLoginData,
-)
-
-const MyAppBar = ({
-  activeNodeArrayData,
-  loginData,
-  appBarData,
-}: {
-  activeNodeArrayData: Object,
-  loginData: Object,
-  appBarData: Object,
-}) => {
+const MyAppBar = () => {
+  const {
+    data: storeData,
+    error: storeDataError,
+    loading: storeDataLoading,
+  } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+  const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
+  let pCId = '99999999-9999-9999-9999-999999999999'
+  if (activeNodeArray[0] === 'Eigenschaften-Sammlungen' && activeNodeArray[1]) {
+    pCId = activeNodeArray[1]
+  }
+  const existsPCId = pCId !== '99999999-9999-9999-9999-999999999999'
+  let taxId = '99999999-9999-9999-9999-999999999999'
+  if (
+    ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
+    activeNodeArray[1]
+  ) {
+    taxId = activeNodeArray[1]
+  }
+  const existsTaxId = taxId !== '99999999-9999-9999-9999-999999999999'
+  const { data, error: dataError, loading: dataLoading } = useQuery(query, {
+    suspend: false,
+    variables: {
+      objectId: objectId || '99999999-9999-9999-9999-999999999999',
+      existsObjectId: !!objectId,
+      pCId,
+      existsPCId,
+      taxId,
+      existsTaxId,
+    },
+  })
   /**
    * need to measure all buttons width
    * to change them when view is too narrow
@@ -104,9 +123,8 @@ const MyAppBar = ({
   const moreC = useRef(null)
   const shareC = useRef(null)
 
-  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
-  const username = get(loginData, 'login.username')
+  const username = get(storeData, 'login.username')
   const loginLabel = username
     ? wideLayout
       ? username
@@ -115,9 +133,9 @@ const MyAppBar = ({
     ? 'nicht angemeldet'
     : 'n.a.'
   const loginTitle = username ? 'abmelden' : 'anmelden'
-  const objektName = get(appBarData, 'objectById.name')
-  const pCName = get(appBarData, 'propertyCollectionById.name')
-  const taxName = get(appBarData, 'taxonomyById.name')
+  const objektName = get(data, 'objectById.name')
+  const pCName = get(data, 'propertyCollectionById.name')
+  const taxName = get(data, 'taxonomyById.name')
 
   const onClickColumnButtonData = useCallback(() => app.history.push('/'))
   const onClickColumnButtonExport = useCallback(() =>
@@ -238,4 +256,4 @@ const MyAppBar = ({
   )
 }
 
-export default enhance(MyAppBar)
+export default MyAppBar

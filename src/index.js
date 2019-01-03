@@ -89,7 +89,7 @@ const launchApp = async () => {
 
     ReactDOM.render(
       <ApolloProvider client={myClient}>
-        <ApolloHooksProvider client={client}>
+        <ApolloHooksProvider client={myClient}>
           <MuiThemeProvider theme={theme}>
             <Router />
           </MuiThemeProvider>
