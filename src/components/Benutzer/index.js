@@ -47,14 +47,13 @@ const User = () => {
     suspend: false,
   })
   const activeNodeArray = get(storeData, 'activeNodeArray', [])
-  const treeDataVariables = getTreeDataVariables({ activeNodeArray })
   const {
     data: treeData,
     error: treeDataError,
     loading: treeDataLoading,
   } = useQuery(treeDataQuery, {
     suspend: false,
-    variables: treeDataVariables,
+    variables: getTreeDataVariables({ activeNodeArray }),
   })
   const { data, error: dataError, loading: dataLoading } = useQuery(query, {
     suspend: false,
