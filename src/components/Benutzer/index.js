@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
+import { useQuery } from 'react-apollo-hooks'
 
 import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
 import withData from './withData'
