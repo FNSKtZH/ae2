@@ -7,18 +7,20 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import PCO from './PCO'
-import withPropsByTaxData from '../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
+import propsByTaxQuery from './propsByTaxQuery'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
+`
+const ErrorContainer = styled.div`
+  padding: 5px;
 `
 const StyledCard = styled(Card)`
   background-color: rgb(255, 243, 224) !important;
@@ -42,21 +44,31 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
 
 const PcosCard = ({
-  propsByTaxData,
   pcoExpanded,
   onTogglePco,
 }: {
-  propsByTaxData: Object,
   pcoExpanded: Boolean,
   onTogglePco: () => {},
 }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
@@ -68,6 +80,14 @@ const PcosCard = ({
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
   const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
+
+  if (propsByTaxDataError) {
+    return (
+      <ErrorContainer>
+        `Error loading data: ${propsByTaxDataError.message}`
+      </ErrorContainer>
+    )
+  }
 
   return (
     <ErrorBoundary>
@@ -107,4 +127,4 @@ const PcosCard = ({
   )
 }
 
-export default enhance(PcosCard)
+export default PcosCard
