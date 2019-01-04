@@ -12,7 +12,7 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 
-import RcoField from './RcoField'
+import Property from './Property'
 import constants from '../../../../../../modules/constants'
 import withPropsByTaxData from '../../../withPropsByTaxData'
 import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
@@ -106,7 +106,7 @@ const RcoCard = ({
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PropertiesContainer data-width={window.innerWidth - 84}>
             {rcoPropertiesByPropertyCollection[pc].map(field => (
-              <RcoField
+              <Property
                 key={`${field.propertyName}${field.jsontype}`}
                 pcname={field.propertyCollectionName}
                 relationtype={field.relationType}
