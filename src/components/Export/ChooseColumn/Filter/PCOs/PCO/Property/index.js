@@ -17,7 +17,7 @@ const Container = styled.div`
   }
 `
 
-const PcoField = ({
+const PcoProperty = ({
   pcname,
   pname,
   jsontype,
@@ -63,4 +63,4 @@ const PcoField = ({
   )
 }
 
-export default PcoField
+export default PcoProperty

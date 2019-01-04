@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
 
-import Field from './Field'
+import Property from './Property'
 
-const Fields = ({ properties }: { properties: Array<Object> }) =>
+const Properties = ({ properties }: { properties: Array<Object> }) =>
   properties.map(field => (
-    <Field
+    <Property
       key={`${field.propertyName}${field.jsontype}`}
       pcname={field.propertyCollectionName}
       pname={field.propertyName}
@@ -13,4 +13,4 @@ const Fields = ({ properties }: { properties: Array<Object> }) =>
     />
   ))
 
-export default Fields
+export default Properties
