@@ -1,10 +1,10 @@
 // @flow
 import React from 'react'
 import { Voyager } from 'graphql-voyager'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
 import 'graphql-voyager/dist/voyager.css'
 
-import withDataGraphData from './withDataGraphData'
+import query from './query'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 /**
@@ -12,12 +12,13 @@ import ErrorBoundary from '../shared/ErrorBoundary'
  * https://github.com/APIs-guru/graphql-voyager#using-as-a-dependency
  */
 
-const enhance = compose(withDataGraphData)
-
-const DataGraph = ({ data }: { data: Object }) => {
-  const {loading} = data
+const DataGraph = () => {
+  const { data, error, loading } = useQuery(query, {
+    suspend: false,
+  })
   if (loading) return null
-  
+  if (error) return `Error loading data:${error.message}`
+
   return (
     <ErrorBoundary>
       <Voyager
@@ -29,4 +30,4 @@ const DataGraph = ({ data }: { data: Object }) => {
   )
 }
 
-export default enhance(DataGraph)
+export default DataGraph
