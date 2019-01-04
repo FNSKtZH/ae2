@@ -10,8 +10,8 @@ import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
-import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
+import exportPcoFiltersMutation from '../../../../../exportPcoFiltersMutation'
+import addExportPcoPropertyMutation from '../../../../../addExportPcoPropertyMutation'
 
 const Container = styled.div`
   width: 100%;

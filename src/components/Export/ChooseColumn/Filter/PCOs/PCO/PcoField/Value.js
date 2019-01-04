@@ -13,10 +13,10 @@ import trimStart from 'lodash/trimStart'
 import gql from 'graphql-tag'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 
-import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
-import readableType from '../../../../../modules/readableType'
+import exportPcoFiltersMutation from '../../../../../exportPcoFiltersMutation'
+import readableType from '../../../../../../../modules/readableType'
 import pcoFieldPropQuery from './pcoFieldPropQuery'
-import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
+import addExportPcoPropertyMutation from '../../../../../addExportPcoPropertyMutation'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;

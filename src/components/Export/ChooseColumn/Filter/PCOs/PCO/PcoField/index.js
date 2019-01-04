@@ -6,7 +6,7 @@ import { useQuery } from 'react-apollo-hooks'
 import Comparator from './Comparator'
 import Value from './Value'
 import Checkbox from './Checkbox'
-import exportPcoFiltersQuery from '../../../exportPcoFiltersGql'
+import exportPcoFiltersQuery from '../../../../../exportPcoFiltersGql'
 
 const Container = styled.div`
   display: flex;

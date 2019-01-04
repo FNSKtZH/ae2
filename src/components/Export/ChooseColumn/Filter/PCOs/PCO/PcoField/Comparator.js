@@ -7,8 +7,8 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { useApolloClient } from 'react-apollo-hooks'
 
-import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
-import ComparatorSelect from '../ComparatorSelect'
+import exportPcoFiltersMutation from '../../../../../exportPcoFiltersMutation'
+import ComparatorSelect from '../../../ComparatorSelect'
 
 const Container = styled.div`
   flex-basis: 150px;

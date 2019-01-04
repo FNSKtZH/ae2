@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -7,18 +7,20 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import PcoField from '../PcoField'
-import constants from '../../../../../modules/constants'
-import withPropsByTaxData from '../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
+import PcoField from './PcoField'
+import constants from '../../../../../../modules/constants'
+import propsByTaxQuery from '../propsByTaxQuery'
+import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
+const ErrorContainer = styled.div`
+  padding: 5px;
+`
 const StyledCard = styled(Card)`
   margin: 0;
   background-color: rgb(255, 243, 224) !important;
@@ -52,24 +54,30 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withPropsByTaxData,
-  withState('expanded', 'setExpanded', false),
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
 
-const PcoCard = ({
-  expanded,
-  setExpanded,
-  propsByTaxData,
-  pc,
-}: {
-  expanded: Boolean,
-  setExpanded: () => void,
-  propsByTaxData: Object,
-  pc: Object,
-}) => {
+const enhance = compose()
+
+const PcoCard = ({ pc }: { pc: Object }) => {
+  const [expanded, setExpanded] = useState(false)
+
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
@@ -81,6 +89,14 @@ const PcoCard = ({
   )
 
   const onClickAction = useCallback(() => setExpanded(!expanded), [expanded])
+
+  if (propsByTaxDataError) {
+    return (
+      <ErrorContainer>
+        `Error loading data: ${propsByTaxDataError.message}`
+      </ErrorContainer>
+    )
+  }
 
   return (
     <ErrorBoundary>
