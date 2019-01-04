@@ -8,8 +8,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { withStyles } from '@material-ui/core/styles'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
 import gql from 'graphql-tag'
@@ -17,8 +15,7 @@ import { useQuery, useApolloClient } from 'react-apollo-hooks'
 
 import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
 import readableType from '../../../../../modules/readableType'
-import withPcoFieldPropData from './withPcoFieldPropData'
-import withExportAddFilterFieldsData from '../../../withExportAddFilterFieldsData'
+import pcoFieldPropQuery from './pcoFieldPropQuery'
 import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
 
 const StyledPaper = styled(Paper)`
@@ -107,14 +104,7 @@ const storeQuery = gql`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withState('fetchData', 'setFetchData', false),
-  withState('dataFetched', 'setDataFetched', false),
-  withPcoFieldPropData,
-  withExportAddFilterFieldsData,
-  withStyles(styles),
-)
+const enhance = compose(withStyles(styles))
 
 const IntegrationAutosuggest = ({
   pcname,
@@ -122,32 +112,37 @@ const IntegrationAutosuggest = ({
   jsontype,
   comparator,
   value: propsValue,
-  propData,
   classes,
-  fetchData,
-  setFetchData,
-  dataFetched,
-  setDataFetched,
 }: {
   pcname: string,
   pname: string,
   jsontype: string,
   comparator: string,
   value: string,
-  propData: Object,
   classes: Object,
-  fetchData: Boolean,
-  setFetchData: () => void,
-  dataFetched: Boolean,
-  setDataFetched: () => void,
 }) => {
   const client = useApolloClient()
-  const { data: exportAddFilterFieldsData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+
   const [suggestions, setSuggestions] = useState([])
   const [propValues, setPropValues] = useState([])
   const [value, setValue] = useState(propsValue || '')
+  const [fetchData, setFetchData] = useState(false)
+  const [dataFetched, setDataFetched] = useState(false)
+
+  const { data: exportAddFilterFieldsData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const { data: propData, error: propDataError } = useQuery(pcoFieldPropQuery, {
+    suspend: false,
+    variables: {
+      tableName: 'property_collection_object',
+      propName: pname,
+      pcFieldName: 'property_collection_id',
+      pcTableName: 'property_collection',
+      pcName: pcname,
+      fetchData,
+    },
+  })
 
   useEffect(
     () => {
@@ -251,6 +246,8 @@ const IntegrationAutosuggest = ({
     },
     [pname, jsontype, value],
   )
+
+  if (propDataError) return `Error loading data: ${propDataError.message}`
 
   return (
     <Autosuggest
