@@ -1,12 +1,12 @@
 //@flow
 import React from 'react'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
 
 import Comparator from './Comparator'
 import Value from './Value'
 import Checkbox from './Checkbox'
-import withExportPcoFiltersData from '../../../withExportPcoFiltersData'
+import exportPcoFiltersQuery from '../../../exportPcoFiltersGql'
 
 const Container = styled.div`
   display: flex;
@@ -17,22 +17,21 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(withExportPcoFiltersData)
-
 const PcoField = ({
   pcname,
   pname,
   jsontype,
   count,
-  exportPcoFiltersData,
 }: {
   pcname: string,
   pname: string,
   jsontype: string,
   count: number,
-  exportPcoFiltersData: Object,
 }) => {
-  const { exportPcoFilters } = exportPcoFiltersData
+  const { data } = useQuery(exportPcoFiltersQuery, {
+    suspend: false,
+  })
+  const { exportPcoFilters } = data
   const exportPcoFilter = exportPcoFilters.find(
     x => x.pcname === pcname && x.pname === pname,
   ) || { comparator: null, value: null }
@@ -64,4 +63,4 @@ const PcoField = ({
   )
 }
 
-export default enhance(PcoField)
+export default PcoField
