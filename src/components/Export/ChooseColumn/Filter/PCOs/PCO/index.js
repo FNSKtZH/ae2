@@ -13,7 +13,7 @@ import compose from 'recompose/compose'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import PcoField from './PcoField'
+import Fields from './Fields'
 import constants from '../../../../../../modules/constants'
 import propsByTaxQuery from '../propsByTaxQuery'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
@@ -122,14 +122,7 @@ const PcoCard = ({ pc }: { pc: Object }) => {
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PropertiesContainer data-width={window.innerWidth - 84}>
-            {pcoPropertiesByPropertyCollection[pc].map(field => (
-              <PcoField
-                key={`${field.propertyName}${field.jsontype}`}
-                pcname={field.propertyCollectionName}
-                pname={field.propertyName}
-                jsontype={field.jsontype}
-              />
-            ))}
+            <Fields properties={pcoPropertiesByPropertyCollection[pc]} />
           </PropertiesContainer>
         </Collapse>
       </StyledCard>
