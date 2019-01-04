@@ -12,6 +12,8 @@ import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
+import gql from 'graphql-tag'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
 
 import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
 import readableType from '../../../../../modules/readableType'
@@ -99,6 +101,12 @@ const styles = theme => ({
   },
 })
 
+const storeQuery = gql`
+  query exportAddFilterFieldsQuery {
+    exportAddFilterFields @client
+  }
+`
+
 const enhance = compose(
   withApollo,
   withState('fetchData', 'setFetchData', false),
@@ -120,8 +128,6 @@ const IntegrationAutosuggest = ({
   setFetchData,
   dataFetched,
   setDataFetched,
-  exportAddFilterFieldsData,
-  client,
 }: {
   pcname: string,
   pname: string,
@@ -134,9 +140,11 @@ const IntegrationAutosuggest = ({
   setFetchData: () => void,
   dataFetched: Boolean,
   setDataFetched: () => void,
-  exportAddFilterFieldsData: Object,
-  client: Object,
 }) => {
+  const client = useApolloClient()
+  const { data: exportAddFilterFieldsData } = useQuery(storeQuery, {
+    suspend: false,
+  })
   const [suggestions, setSuggestions] = useState([])
   const [propValues, setPropValues] = useState([])
   const [value, setValue] = useState(propsValue || '')
