@@ -8,14 +8,13 @@ import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
 
-import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import withData from './withData'
-import withTreeData from '../Tree/withTreeData'
+import query from './query'
+import storeQuery from './storeQuery'
+import treeDataQuery from '../Tree/treeDataGql'
+import getTreeDataVariables from '../Tree/treeDataVariables'
 import Roles from './Roles'
 import PCs from './PCs'
 import TCs from './TCs'
@@ -24,6 +23,9 @@ import updateUserMutationWithPass from './updateUserMutationWithPass'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div``
+const LEContainer = styled.div`
+  padding: 10px;
+`
 const OrgContainer = styled.div`
   padding: 10px;
 `
@@ -35,22 +37,31 @@ const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
 `
 
-const enhance = compose(
-  withApollo,
-  withActiveNodeArrayData,
-  withData,
-  withTreeData,
-)
-
-const User = ({
-  client,
-  data,
-  treeData,
-}: {
-  client: Object,
-  data: Object,
-  treeData: Object,
-}) => {
+const User = () => {
+  const client = useApolloClient()
+  const {
+    data: storeData,
+    error: storeDataError,
+    loading: storeDataLoading,
+  } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+  const treeDataVariables = getTreeDataVariables({ activeNodeArray })
+  const {
+    data: treeData,
+    error: treeDataError,
+    loading: treeDataLoading,
+  } = useQuery(treeDataQuery, {
+    suspend: false,
+    variables: treeDataVariables,
+  })
+  const { data, error: dataError, loading: dataLoading } = useQuery(query, {
+    suspend: false,
+    variables: {
+      id: activeNodeArray[1] || '99999999-9999-9999-9999-999999999999',
+    },
+  })
   const user = get(data, 'userById', {})
 
   const [name, setName] = useState(user.name)
@@ -126,6 +137,31 @@ const User = ({
     },
     [user, name, email, passNew],
   )
+
+  if (dataLoading || treeDataLoading || storeDataLoading) {
+    return <LEContainer>Lade Daten...</LEContainer>
+  }
+  if (storeDataError) {
+    return (
+      <LEContainer>
+        `Fehler beim Laden der Daten: ${storeDataError.message}`
+      </LEContainer>
+    )
+  }
+  if (treeDataError) {
+    return (
+      <LEContainer>
+        `Fehler beim Laden der Daten: ${treeDataError.message}`
+      </LEContainer>
+    )
+  }
+  if (dataError) {
+    return (
+      <LEContainer>
+        `Fehler beim Laden der Daten: ${dataError.message}`
+      </LEContainer>
+    )
+  }
 
   return (
     <ErrorBoundary>
@@ -204,4 +240,4 @@ const User = ({
   )
 }
 
-export default enhance(User)
+export default User
