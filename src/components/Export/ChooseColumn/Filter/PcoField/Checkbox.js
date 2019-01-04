@@ -6,12 +6,11 @@ import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
-import withExportAddFilterFieldsData from '../../../withExportAddFilterFieldsData'
 import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
 
 const Container = styled.div`
@@ -37,24 +36,25 @@ const StyledRadio = styled(Radio)`
   height: 26px !important;
 `
 
-const enhance = compose(
-  withApollo,
-  withExportAddFilterFieldsData,
-)
+const storeQuery = gql`
+  query exportAddFilterFieldsQuery {
+    exportAddFilterFields @client
+  }
+`
 
 const PcoCheckbox = ({
   pname,
   pcname,
   value,
-  client,
-  exportAddFilterFieldsData,
 }: {
   pname: string,
   pcname: string,
   value: string,
-  client: Object,
-  exportAddFilterFieldsData: Object,
 }) => {
+  const client = useApolloClient()
+  const { data } = useQuery(storeQuery, {
+    suspend: false,
+  })
   const onChange = useCallback(
     (e, val) => {
       let comparator = '='
@@ -68,11 +68,7 @@ const PcoCheckbox = ({
         variables: { pcname, pname, comparator, value },
       })
       // if value and not choosen, choose
-      const exportAddFilterFields = get(
-        exportAddFilterFieldsData,
-        'exportAddFilterFields',
-        true,
-      )
+      const exportAddFilterFields = get(data, 'exportAddFilterFields', true)
       if (exportAddFilterFields) {
         client.mutate({
           mutation: addExportPcoPropertyMutation,
@@ -80,7 +76,7 @@ const PcoCheckbox = ({
         })
       }
     },
-    [pcname, pname, exportAddFilterFieldsData],
+    [pcname, pname, data],
   )
 
   return (
@@ -114,4 +110,4 @@ const PcoCheckbox = ({
   )
 }
 
-export default enhance(PcoCheckbox)
+export default PcoCheckbox
