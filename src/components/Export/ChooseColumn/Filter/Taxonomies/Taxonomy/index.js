@@ -13,7 +13,7 @@ import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
-import TaxField from '../../TaxField'
+import TaxField from '../TaxField'
 import constants from '../../../../../../modules/constants'
 import withPropsByTaxData from '../../../withPropsByTaxData'
 import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'

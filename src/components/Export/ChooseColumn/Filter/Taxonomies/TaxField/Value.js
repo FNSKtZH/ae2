@@ -14,11 +14,11 @@ import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
 
-import exportTaxFiltersMutation from '../../../exportTaxFiltersMutation'
-import readableType from '../../../../../modules/readableType'
+import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
+import readableType from '../../../../../../modules/readableType'
 import withTaxFieldPropData from './withTaxFieldPropData'
-import withExportAddFilterFieldsData from '../../../withExportAddFilterFieldsData'
-import addExportTaxPropertyMutation from '../../../addExportTaxPropertyMutation'
+import withExportAddFilterFieldsData from '../../../../withExportAddFilterFieldsData'
+import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;

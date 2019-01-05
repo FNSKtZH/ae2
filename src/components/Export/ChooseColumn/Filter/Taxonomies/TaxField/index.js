@@ -6,7 +6,7 @@ import Measure from 'react-measure'
 
 import Comparator from './Comparator'
 import Value from './Value'
-import withExportTaxFiltersData from '../../../withExportTaxFiltersData'
+import withExportTaxFiltersData from '../../../../withExportTaxFiltersData'
 
 const Container = styled.div`
   display: flex;

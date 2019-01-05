@@ -7,8 +7,8 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
 
-import exportTaxFiltersMutation from '../../../exportTaxFiltersMutation'
-import ComparatorSelect from '../ComparatorSelect'
+import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
+import ComparatorSelect from '../../ComparatorSelect'
 
 const Container = styled.div`
   flex-basis: 150px;

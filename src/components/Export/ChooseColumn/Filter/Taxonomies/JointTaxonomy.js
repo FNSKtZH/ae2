@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 
-import TaxField from '../TaxField'
+import TaxField from './TaxField'
 import constants from '../../../../../modules/constants'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
