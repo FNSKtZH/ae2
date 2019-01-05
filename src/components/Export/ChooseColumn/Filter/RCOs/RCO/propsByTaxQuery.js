@@ -2,14 +2,15 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  query pcoPropsByTaxDataQuery(
+  query rcoPropsByTaxDataQuery(
     $queryExportTaxonomies: Boolean!
     $exportTaxonomies: [String]
   ) {
-    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
       @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
+        relationType
         propertyName
         jsontype
         count

@@ -7,17 +7,19 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import Property from './Property'
 import constants from '../../../../../../modules/constants'
-import withPropsByTaxData from '../../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
+import propsByTaxQuery from './propsByTaxQuery'
 
+const ErrorContainer = styled.div`
+  padding: 5px;
+`
 const StyledCard = styled(Card)`
   margin: 0;
   background-color: rgb(255, 243, 224) !important;
@@ -52,19 +54,26 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
 
-const RcoCard = ({
-  propsByTaxData,
-  pc,
-}: {
-  propsByTaxData: Object,
-  pc: Object,
-}) => {
+const RcoCard = ({ pc }: { pc: Object }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
 
@@ -80,6 +89,14 @@ const RcoCard = ({
     }
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
+
+  if (propsByTaxDataError) {
+    return (
+      <ErrorContainer>
+        `Error loading data: ${propsByTaxDataError.message}`
+      </ErrorContainer>
+    )
+  }
 
   return (
     <ErrorBoundary>
@@ -121,4 +138,4 @@ const RcoCard = ({
   )
 }
 
-export default enhance(RcoCard)
+export default RcoCard
