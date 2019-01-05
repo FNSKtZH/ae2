@@ -5,7 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
+import { useApolloClient } from 'react-apollo-hooks'
 
 import exportRcoFiltersMutation from '../../../../../exportRcoFiltersMutation'
 import ComparatorSelect from '../../../ComparatorSelect'
@@ -36,10 +36,7 @@ const styles = theme => ({
   },
 })
 
-const enhance = compose(
-  withApollo,
-  withStyles(styles),
-)
+const enhance = compose(withStyles(styles))
 
 const RcoComparator = ({
   pcname,
@@ -48,7 +45,6 @@ const RcoComparator = ({
   value,
   comparator,
   classes,
-  client,
 }: {
   pcname: string,
   relationtype: string,
@@ -56,8 +52,8 @@ const RcoComparator = ({
   value: string,
   comparator: String,
   classes: Object,
-  client: Object,
 }) => {
+  const client = useApolloClient()
   const onChange = useCallback(
     event =>
       client.mutate({

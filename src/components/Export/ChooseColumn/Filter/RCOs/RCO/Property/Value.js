@@ -9,15 +9,14 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { withStyles } from '@material-ui/core/styles'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import exportRcoFiltersMutation from '../../../../../exportRcoFiltersMutation'
 import readableType from '../../../../../../../modules/readableType'
-import withRcoFieldPropData from './withRcoFieldPropData'
-import withExportAddFilterFieldsData from '../../../../../withExportAddFilterFieldsData'
+import rcoFieldPropQuery from './rcoFieldPropQuery'
 import addExportRcoPropertyMutation from '../../../../../addExportRcoPropertyMutation'
 
 const StyledPaper = styled(Paper)`
@@ -100,14 +99,13 @@ const styles = theme => ({
   },
 })
 
-const enhance = compose(
-  withApollo,
-  withState('fetchData', 'setFetchData', false),
-  withState('dataFetched', 'setDataFetched', false),
-  withRcoFieldPropData,
-  withExportAddFilterFieldsData,
-  withStyles(styles),
-)
+const storeQuery = gql`
+  query exportAddFilterFieldsQuery {
+    exportAddFilterFields @client
+  }
+`
+
+const enhance = compose(withStyles(styles))
 
 const IntegrationAutosuggest = ({
   relationtype,
@@ -116,14 +114,7 @@ const IntegrationAutosuggest = ({
   jsontype,
   comparator,
   value: propValue,
-  propData,
   classes,
-  fetchData,
-  setFetchData,
-  dataFetched,
-  setDataFetched,
-  exportAddFilterFieldsData,
-  client,
 }: {
   relationtype: String,
   pcname: string,
@@ -131,18 +122,29 @@ const IntegrationAutosuggest = ({
   jsontype: String,
   comparator: String,
   value: String,
-  propData: Object,
   classes: Object,
-  fetchData: Boolean,
-  setFetchData: () => void,
-  dataFetched: Boolean,
-  setDataFetched: () => void,
-  exportAddFilterFieldsData: Object,
-  client: Object,
 }) => {
+  const client = useApolloClient()
   const [suggestions, setSuggestions] = useState([])
   const [propValues, setPropValues] = useState([])
   const [value, setValue] = useState(propValue || '')
+  const [fetchData, setFetchData] = useState(false)
+  const [dataFetched, setDataFetched] = useState(false)
+
+  const { data: exportAddFilterFieldsData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const { data: propData, error: propDataError } = useQuery(rcoFieldPropQuery, {
+    suspend: false,
+    variables: {
+      tableName: 'relation',
+      propName: pname,
+      pcFieldName: 'property_collection_id',
+      pcTableName: 'property_collection',
+      pcName: pcname,
+      fetchData,
+    },
+  })
 
   useEffect(
     () => {
@@ -247,6 +249,10 @@ const IntegrationAutosuggest = ({
     },
     [pname, jsontype, value],
   )
+
+  if (propDataError) {
+    return `Error loading data: ${propDataError.message}`
+  }
 
   return (
     <Autosuggest

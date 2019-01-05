@@ -1,11 +1,11 @@
 //@flow
 import React from 'react'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
+import gql from 'graphql-tag'
+import { useQuery } from 'react-apollo-hooks'
 
 import Comparator from './Comparator'
 import Value from './Value'
-import withExportRcoFiltersData from '../../../../../withExportRcoFiltersData'
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +16,16 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(withExportRcoFiltersData)
+const storeQuery = gql`
+  query exportRcoFiltersQuery {
+    exportRcoFilters @client {
+      pcname
+      pname
+      comparator
+      value
+    }
+  }
+`
 
 const RcoField = ({
   pcname,
@@ -24,15 +33,16 @@ const RcoField = ({
   pname,
   jsontype,
   count,
-  exportRcoFiltersData,
 }: {
   pcname: String,
   relationtype: String,
   pname: String,
   jsontype: String,
   count: Number,
-  exportRcoFiltersData: Object,
 }) => {
+  const { data: exportRcoFiltersData } = useQuery(storeQuery, {
+    suspend: false,
+  })
   const { exportRcoFilters } = exportRcoFiltersData
   const exportRcoFilter = exportRcoFilters.find(
     x =>
@@ -41,6 +51,15 @@ const RcoField = ({
       x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = exportRcoFilter
+
+  console.log('RCO Property', {
+    value,
+    exportRcoFilters,
+    pcname,
+    relationtype,
+    pname,
+    exportRcoFilter,
+  })
 
   return (
     <Container>
@@ -65,4 +84,4 @@ const RcoField = ({
   )
 }
 
-export default enhance(RcoField)
+export default RcoField
