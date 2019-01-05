@@ -7,18 +7,20 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import RCO from './RCO'
-import withPropsByTaxData from '../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
+import propsByTaxQuery from './propsByTaxQuery'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
+`
+const ErrorContainer = styled.div`
+  padding: 5px;
 `
 const StyledCard = styled(Card)`
   background-color: rgb(255, 243, 224) !important;
@@ -42,21 +44,32 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
 
 const RcosCard = ({
-  propsByTaxData,
   rcoExpanded,
   onToggleRco,
 }: {
-  propsByTaxData: Object,
   rcoExpanded: Boolean,
   onToggleRco: () => {},
 }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
@@ -70,8 +83,15 @@ const RcosCard = ({
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
-  //console.log('RcosCard: pcoPropertiesFields:', pcoPropertiesFields)
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
+
+  if (propsByTaxDataError) {
+    return (
+      <ErrorContainer>
+        `Error loading data: ${propsByTaxDataError.message}`
+      </ErrorContainer>
+    )
+  }
 
   return (
     <ErrorBoundary>
@@ -111,4 +131,4 @@ const RcosCard = ({
   )
 }
 
-export default enhance(RcosCard)
+export default RcosCard
