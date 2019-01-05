@@ -8,6 +8,8 @@ const ExportRcoFilterListItems = ({
 }: {
   exportRcoFilters: Array<Object>,
 }) =>
-  exportRcoFilters.map(f => <Item key={`${f.pcname}: ${f.pname}`} filter={f} />)
+  exportRcoFilters.map(f => (
+    <Item key={`${f.pcname}|${f.relationtype}|${f.pname}`} filter={f} />
+  ))
 
 export default ExportRcoFilterListItems

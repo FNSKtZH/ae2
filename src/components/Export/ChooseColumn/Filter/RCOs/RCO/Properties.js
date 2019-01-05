@@ -4,13 +4,13 @@ import React from 'react'
 import Property from './Property'
 
 const RcoCard = ({ properties }: { properties: Array<Object> }) =>
-  properties.map(field => (
+  properties.map(p => (
     <Property
-      key={`${field.propertyName}${field.jsontype}`}
-      pcname={field.propertyCollectionName}
-      relationtype={field.relationType}
-      pname={field.propertyName}
-      jsontype={field.jsontype}
+      key={`${p.propertyName}|${p.relationType}|${p.jsontype}`}
+      pcname={p.propertyCollectionName}
+      relationtype={p.relationType}
+      pname={p.propertyName}
+      jsontype={p.jsontype}
     />
   ))
 

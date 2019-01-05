@@ -9,7 +9,7 @@ const ExportRcoPropertiesListItems = ({
   exportRcoProperties: Array<Object>,
 }) =>
   exportRcoProperties.map(p => (
-    <Item key={`${p.pcname} - ${p.relationtype}: ${p.pname}`} properties={p} />
+    <Item key={`${p.pcname}|${p.relationtype}|${p.pname}`} properties={p} />
   ))
 
 export default ExportRcoPropertiesListItems

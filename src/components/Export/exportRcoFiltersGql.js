@@ -6,6 +6,7 @@ export default gql`
     exportRcoFilters @client {
       pcname
       pname
+      relationtype
       comparator
       value
     }

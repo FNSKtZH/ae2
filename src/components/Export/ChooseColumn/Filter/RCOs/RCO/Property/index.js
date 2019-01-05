@@ -21,6 +21,7 @@ const storeQuery = gql`
     exportRcoFilters @client {
       pcname
       pname
+      relationtype
       comparator
       value
     }
@@ -51,15 +52,6 @@ const RcoField = ({
       x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = exportRcoFilter
-
-  console.log('RCO Property', {
-    value,
-    exportRcoFilters,
-    pcname,
-    relationtype,
-    pname,
-    exportRcoFilter,
-  })
 
   return (
     <Container>
