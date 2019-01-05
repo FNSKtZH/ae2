@@ -12,7 +12,7 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import Property from './Property'
+import Properties from './Properties'
 import constants from '../../../../../../modules/constants'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import propsByTaxQuery from './propsByTaxQuery'
@@ -122,15 +122,7 @@ const RcoCard = ({ pc }: { pc: Object }) => {
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PropertiesContainer data-width={window.innerWidth - 84}>
-            {rcoPropertiesByPropertyCollection[pc].map(field => (
-              <Property
-                key={`${field.propertyName}${field.jsontype}`}
-                pcname={field.propertyCollectionName}
-                relationtype={field.relationType}
-                pname={field.propertyName}
-                jsontype={field.jsontype}
-              />
-            ))}
+            <Properties properties={rcoPropertiesByPropertyCollection[pc]} />
           </PropertiesContainer>
         </Collapse>
       </StyledCard>
