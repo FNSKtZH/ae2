@@ -14,7 +14,7 @@ import withState from 'recompose/withState'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import TaxField from '../TaxField'
+import Properties from './Properties'
 import constants from '../../../../../../modules/constants'
 import propsByTaxQuery from './propsByTaxQuery'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
@@ -132,14 +132,7 @@ const TaxonomyCard = ({
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PropertiesContainer data-width={window.innerWidth - 84}>
-            {taxPropertiesByTaxonomy[pc].map(field => (
-              <TaxField
-                key={`${field.propertyName}${field.jsontype}`}
-                taxname={field.taxonomyName}
-                pname={field.propertyName}
-                jsontype={field.jsontype}
-              />
-            ))}
+            <Properties properties={taxPropertiesByTaxonomy[pc]} />
           </PropertiesContainer>
         </Collapse>
       </StyledCard>
