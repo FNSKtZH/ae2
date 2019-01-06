@@ -1,5 +1,5 @@
 //@flow
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState, useMemo } from 'react'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
@@ -237,8 +237,35 @@ const IntegrationAutosuggest = ({
     },
     [pname, jsontype],
   )
-
+  const inputProps = useMemo(
+    () => ({
+      value,
+      autoFocus: true,
+      placeholder: 'Für Auswahlliste: Leerschlag tippen',
+      onChange: handleChange,
+      onBlur: handleBlur,
+      onFocus: onFocus,
+    }),
+    [value],
+  )
   const { container, suggestionsList, suggestion } = classes
+  const theme = useMemo(
+    () => ({
+      container: container,
+      suggestionsContainerOpen: {
+        position: 'absolute',
+        marginTop: 8,
+        marginBottom: 8 * 3,
+        left: 0,
+        right: 0,
+        // minWidth: that of parent
+        minWidth: width,
+      },
+      suggestionsList: suggestionsList,
+      suggestion: suggestion,
+    }),
+    [width],
+  )
 
   if (propDataError) {
     return `Error loading data: ${propDataError.message}`
@@ -246,20 +273,7 @@ const IntegrationAutosuggest = ({
 
   return (
     <Autosuggest
-      theme={{
-        container: container,
-        suggestionsContainerOpen: {
-          position: 'absolute',
-          marginTop: 8,
-          marginBottom: 8 * 3,
-          left: 0,
-          right: 0,
-          // minWidth: that of parent
-          minWidth: width,
-        },
-        suggestionsList: suggestionsList,
-        suggestion: suggestion,
-      }}
+      theme={theme}
       renderInputComponent={renderInput}
       suggestions={suggestions}
       onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
@@ -268,14 +282,7 @@ const IntegrationAutosuggest = ({
       getSuggestionValue={getSuggestionValue}
       renderSuggestion={renderSuggestion}
       shouldRenderSuggestions={shouldRenderSuggestions}
-      inputProps={{
-        value,
-        autoFocus: true,
-        placeholder: 'Für Auswahlliste: Leerschlag tippen',
-        onChange: handleChange,
-        onBlur: handleBlur,
-        onFocus: onFocus,
-      }}
+      inputProps={inputProps}
     />
   )
 }
