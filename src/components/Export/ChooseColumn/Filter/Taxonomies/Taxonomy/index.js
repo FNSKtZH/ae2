@@ -7,22 +7,24 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
 import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import TaxField from '../TaxField'
 import constants from '../../../../../../modules/constants'
-import withPropsByTaxData from '../../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
+import propsByTaxQuery from './propsByTaxQuery'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
   background-color: rgb(255, 243, 224) !important;
+`
+const ErrorContainer = styled.div`
+  padding: 5px;
 `
 const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
@@ -54,10 +56,13 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
+
 const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withPropsByTaxData,
   withState(
     'expanded',
     'setExpanded',
@@ -67,15 +72,25 @@ const enhance = compose(
 
 const TaxonomyCard = ({
   pc,
-  propsByTaxData,
   expanded,
   setExpanded,
 }: {
   pc: Object,
-  propsByTaxData: Object,
   expanded: Boolean,
   setExpanded: () => void,
 }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
@@ -83,6 +98,14 @@ const TaxonomyCard = ({
   )
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
+
+  if (propsByTaxDataError) {
+    return (
+      <ErrorContainer>
+        `Error loading data: ${propsByTaxDataError.message}`
+      </ErrorContainer>
+    )
+  }
 
   return (
     <ErrorBoundary>
