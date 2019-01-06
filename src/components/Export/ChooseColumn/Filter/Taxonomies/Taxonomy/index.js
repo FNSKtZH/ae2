@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -9,8 +9,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
@@ -62,22 +60,12 @@ const storeQuery = gql`
   }
 `
 
-const enhance = compose(
-  withState(
-    'expanded',
-    'setExpanded',
-    ({ initiallyExpanded }) => initiallyExpanded,
-  ),
-)
-
 const TaxonomyCard = ({
   pc,
-  expanded,
-  setExpanded,
+  initiallyExpanded,
 }: {
   pc: Object,
-  expanded: Boolean,
-  setExpanded: () => void,
+  initiallyExpanded: boolean,
 }) => {
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
@@ -96,6 +84,8 @@ const TaxonomyCard = ({
     'taxPropertiesByTaxonomiesFunction.nodes',
     [],
   )
+
+  const [expanded, setExpanded] = useState(initiallyExpanded)
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
 
@@ -140,4 +130,4 @@ const TaxonomyCard = ({
   )
 }
 
-export default enhance(TaxonomyCard)
+export default TaxonomyCard
