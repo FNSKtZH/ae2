@@ -1,13 +1,12 @@
 //@flow
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import Measure from 'react-measure'
 import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import Comparator from './Comparator'
 import Value from './Value'
-import withExportTaxFiltersData from '../../../../withExportTaxFiltersData'
 
 const Container = styled.div`
   display: flex;
@@ -18,22 +17,31 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(withExportTaxFiltersData)
+const storeQuery = gql`
+  query exportTaxFiltersQuery {
+    exportTaxFilters @client {
+      taxname
+      pname
+      comparator
+      value
+    }
+  }
+`
 
 const TaxField = ({
   taxname,
   pname,
   jsontype,
-  exportTaxFiltersData,
 }: {
   taxname: String,
   pname: String,
   jsontype: String,
-  exportTaxFiltersData: Object,
 }) => {
   const [width, setWidth] = useState(0)
 
-  const { exportTaxFilters } = exportTaxFiltersData
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
+  const { exportTaxFilters } = storeData
   const exportTaxFilter = exportTaxFilters.find(
     x => x.taxname === taxname && x.pname === pname,
   ) || { comparator: null, value: null }
@@ -70,4 +78,4 @@ const TaxField = ({
   )
 }
 
-export default enhance(TaxField)
+export default TaxField
