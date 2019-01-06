@@ -3,12 +3,11 @@ import React, { useCallback } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import addExportPcoPropertyMutation from '../../../../addExportPcoPropertyMutation'
 import removeExportPcoPropertyMutation from '../../../../removeExportPcoPropertyMutation'
-import withExportPcoPropertiesData from '../../../../withExportPcoPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -22,20 +21,19 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withExportPcoPropertiesData,
-)
+const storeQuery = gql`
+  query exportPcoPropertiesQuery {
+    exportPcoProperties @client {
+      pcname
+      pname
+    }
+  }
+`
 
-const AllPcoChooser = ({
-  properties,
-  exportPcoPropertiesData,
-  client,
-}: {
-  properties: Array<Object>,
-  exportPcoPropertiesData: Object,
-  client: Object,
-}) => {
+const AllPcoChooser = ({ properties }: { properties: Array<Object> }) => {
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
   const onCheck = useCallback(
     (event, isChecked) => {
       const mutation = isChecked
@@ -53,7 +51,7 @@ const AllPcoChooser = ({
     [properties],
   )
 
-  const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+  const exportPcoProperties = storeData.exportPcoProperties || []
   const checkedArray = properties.map(
     p =>
       exportPcoProperties.filter(
@@ -75,4 +73,4 @@ const AllPcoChooser = ({
   )
 }
 
-export default enhance(AllPcoChooser)
+export default AllPcoChooser
