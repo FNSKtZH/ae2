@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import { withApollo } from 'react-apollo'
+import { useQuery } from 'react-apollo-hooks'
 
 import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
 import ComparatorSelect from '../../ComparatorSelect'

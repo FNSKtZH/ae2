@@ -4,10 +4,10 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
-import compose from 'recompose/compose'
 import app from 'ampersand-app'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import HowTo from './HowTo'
 import Tipps from './Tipps'
@@ -15,19 +15,18 @@ import Id from './Id'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import withPropsByTaxData from '../withPropsByTaxData'
-import withExportTaxonomiesData from '../../withExportTaxonomiesData'
-import withExportWithSynonymDataData from '../../withExportWithSynonymDataData'
+import propsByTaxQuery from './propsByTaxQuery'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
-import withExportAddFilterFieldsData from '../../withExportAddFilterFieldsData'
 import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
-import withExportOnlyRowsWithPropertiesData from '../../withExportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 0 5px;
   overflow: auto !important;
+`
+const ErrorContainer = styled.div`
+  padding: 5px;
 `
 const Label = styled(FormControlLabel)`
   height: 30px;
@@ -38,26 +37,29 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withPropsByTaxData,
-  withExportWithSynonymDataData,
-  withExportAddFilterFieldsData,
-  withExportOnlyRowsWithPropertiesData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+    exportWithSynonymData @client
+    exportAddFilterFields @client
+    exportOnlyRowsWithProperties @client
+  }
+`
 
-const Filter = ({
-  propsByTaxData,
-  exportWithSynonymDataData,
-  exportAddFilterFieldsData,
-  exportOnlyRowsWithPropertiesData,
-}: {
-  propsByTaxData: Object,
-  exportWithSynonymDataData: Object,
-  exportAddFilterFieldsData: Object,
-  exportOnlyRowsWithPropertiesData: Object,
-}) => {
+const Filter = () => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+
   const [jointTaxonomiesExpanded, setJointTaxonomiesExpanded] = useState(false)
   const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(false)
   const [pcoExpanded, setFilterExpanded] = useState(false)
@@ -112,18 +114,10 @@ const Filter = ({
     [rcoExpanded],
   )
 
-  const exportWithSynonymData = get(
-    exportWithSynonymDataData,
-    'exportWithSynonymData',
-    true,
-  )
-  const exportAddFilterFields = get(
-    exportAddFilterFieldsData,
-    'exportAddFilterFields',
-    true,
-  )
+  const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
+  const exportAddFilterFields = get(storeData, 'exportAddFilterFields', true)
   const exportOnlyRowsWithProperties = get(
-    exportOnlyRowsWithPropertiesData,
+    storeData,
     'exportOnlyRowsWithProperties',
     true,
   )
@@ -137,6 +131,14 @@ const Filter = ({
     'rcoPropertiesByTaxonomiesFunction.nodes',
     [],
   )
+
+  if (propsByTaxDataError) {
+    return (
+      <ErrorContainer>
+        `Error loading data: ${propsByTaxDataError.message}`
+      </ErrorContainer>
+    )
+  }
 
   return (
     <ErrorBoundary>
@@ -208,4 +210,4 @@ const Filter = ({
   )
 }
 
-export default enhance(Filter)
+export default Filter

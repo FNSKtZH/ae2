@@ -12,6 +12,7 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
+import { useQuery } from 'react-apollo-hooks'
 
 import TaxField from '../TaxField'
 import constants from '../../../../../../modules/constants'

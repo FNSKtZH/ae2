@@ -13,6 +13,7 @@ import withState from 'recompose/withState'
 import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
+import { useQuery } from 'react-apollo-hooks'
 
 import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
 import readableType from '../../../../../../modules/readableType'

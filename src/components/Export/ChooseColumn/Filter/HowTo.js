@@ -7,7 +7,6 @@ import Collapse from '@material-ui/core/Collapse'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
@@ -34,8 +33,6 @@ const StyledCardContent = styled(CardContent)`
     margin-top: 4px;
   }
 `
-
-const enhance = compose()
 
 const HowToFilter = () => {
   const [expanded, setExpanded] = useState(false)
@@ -77,4 +74,4 @@ const HowToFilter = () => {
   )
 }
 
-export default enhance(HowToFilter)
+export default HowToFilter

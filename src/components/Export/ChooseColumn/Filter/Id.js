@@ -2,9 +2,8 @@
 import React, { useCallback, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
 import debounce from 'lodash/debounce'
+import { useApolloClient } from 'react-apollo-hooks'
 
 import exportIdsMutation from '../../exportIdsMutation'
 
@@ -12,9 +11,8 @@ const IdField = styled(TextField)`
   margin-top: 2px !important;
 `
 
-const enhance = compose(withApollo)
-
-const IdFilterField = ({ client }: { client: Object }) => {
+const IdFilterField = () => {
+  const client = useApolloClient()
   const [value, setValue] = useState('')
 
   const change = useCallback(
@@ -55,4 +53,4 @@ const IdFilterField = ({ client }: { client: Object }) => {
   )
 }
 
-export default enhance(IdFilterField)
+export default IdFilterField

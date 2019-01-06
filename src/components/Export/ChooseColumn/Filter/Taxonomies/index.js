@@ -12,6 +12,7 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
 import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
 
 import Taxonomy from './Taxonomy'
 import JointTaxonomy from './JointTaxonomy'

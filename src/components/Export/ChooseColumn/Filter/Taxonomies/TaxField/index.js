@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import Measure from 'react-measure'
+import { useQuery } from 'react-apollo-hooks'
 
 import Comparator from './Comparator'
 import Value from './Value'
