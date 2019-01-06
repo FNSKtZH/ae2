@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -8,7 +8,7 @@ import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 
-import TaxField from './TaxField'
+import Properties from './Properties'
 import constants from '../../../../../modules/constants'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
@@ -50,14 +50,12 @@ const JointTaxonomiesCard = ({
   jointTaxProperties: Array<Object>,
 }) => {
   const [expanded, setExpanded] = useState(false)
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
 
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions
-          disableActionSpacing
-          onClick={() => setExpanded(!expanded)}
-        >
+        <StyledCardActions disableActionSpacing onClick={onClickActions}>
           <CardActionTitle>
             {`Gemeinsame Felder`}
             <Count>{`(${jointTaxProperties.length})`}</Count>
@@ -74,14 +72,7 @@ const JointTaxonomiesCard = ({
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PropertiesContainer data-width={window.innerWidth - 84}>
-            {jointTaxProperties.map(field => (
-              <TaxField
-                key={`${field.propertyName}${field.jsontype}`}
-                taxname="Taxonomie"
-                pname={field.propertyName}
-                jsontype={field.jsontype}
-              />
-            ))}
+            <Properties properties={jointTaxProperties} />
           </PropertiesContainer>
         </Collapse>
       </StyledCard>

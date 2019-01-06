@@ -12,7 +12,7 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import Properties from './Properties'
+import Properties from '../Properties'
 import constants from '../../../../../../modules/constants'
 import propsByTaxQuery from './propsByTaxQuery'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'

@@ -15,9 +15,9 @@ import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
+import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
 import readableType from '../../../../../../modules/readableType'
 import taxFieldPropQuery from './taxFieldPropQuery'
-import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;

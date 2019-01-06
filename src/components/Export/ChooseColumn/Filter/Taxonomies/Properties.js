@@ -1,13 +1,13 @@
 // @flow
 import React from 'react'
 
-import TaxField from '../TaxField'
+import TaxField from './TaxField'
 
 const TaxProperties = ({ properties }: { properties: Array<Object> }) =>
   properties.map(p => (
     <TaxField
       key={`${p.propertyName}${p.jsontype}`}
-      taxname={p.taxonomyName}
+      taxname={p.taxonomyName || p.taxname}
       pname={p.propertyName}
       jsontype={p.jsontype}
     />
