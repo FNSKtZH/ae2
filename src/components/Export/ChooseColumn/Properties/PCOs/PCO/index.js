@@ -9,13 +9,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import AllChooser from './AllChooser'
-import Chooser from './Chooser'
+import Properties from './Properties'
 import constants from '../../../../../../modules/constants'
-import withPropsByTaxData from '../../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
+import propsByTaxQuery from './propsByTaxQuery'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
@@ -51,27 +51,36 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withExportTaxonomiesData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
 
 const PCO = ({
-  propsByTaxData,
   pcoExpanded,
   onTogglePco,
   pc,
 }: {
-  propsByTaxData: Object,
   pcoExpanded: Boolean,
   onTogglePco: () => {},
   pc: Object,
 }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsData, error: propsDataError } = useQuery(propsByTaxQuery, {
+    suspend: false,
+    variables: {
+      exportTaxonomies,
+      queryExportTaxonomies: exportTaxonomies.length > 0,
+    },
+  })
+
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
 
   const pcoProperties = get(
-    propsByTaxData,
+    propsData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
     [],
   )
@@ -79,6 +88,9 @@ const PCO = ({
     pcoProperties,
     'propertyCollectionName',
   )
+  const properties = pcoPropertiesByPropertyCollection[pc]
+
+  if (propsDataError) return `Error fetching data: ${propsDataError.message}`
 
   return (
     <ErrorBoundary>
@@ -86,10 +98,8 @@ const PCO = ({
         <StyledCardActions disableActionSpacing onClick={onClickActions}>
           <CardActionTitle>
             {pc}
-            <Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${
-              pcoPropertiesByPropertyCollection[pc].length === 1
-                ? 'Feld'
-                : 'Felder'
+            <Count>{`(${properties.length} ${
+              properties.length === 1 ? 'Feld' : 'Felder'
             })`}</Count>
           </CardActionTitle>
           <CardActionIconButton
@@ -104,19 +114,9 @@ const PCO = ({
         </StyledCardActions>
         <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
           <>
-            {pcoPropertiesByPropertyCollection[pc].length > 1 && (
-              <AllChooser properties={pcoPropertiesByPropertyCollection[pc]} />
-            )}
+            {properties.length > 1 && <AllChooser properties={properties} />}
             <PropertiesContainer data-width={window.innerWidth - 84}>
-              {pcoPropertiesByPropertyCollection[pc].map(field => (
-                <Chooser
-                  key={`${field.propertyName}${field.jsontype}`}
-                  pcname={field.propertyCollectionName}
-                  pname={field.propertyName}
-                  jsontype={field.jsontype}
-                  count={field.count}
-                />
-              ))}
+              <Properties properties={properties} />
             </PropertiesContainer>
           </>
         </StyledCollapse>
@@ -125,4 +125,4 @@ const PCO = ({
   )
 }
 
-export default enhance(PCO)
+export default PCO
