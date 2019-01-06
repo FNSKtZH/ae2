@@ -9,12 +9,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import PCO from './PCO'
-import withPropsByTaxData from '../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
+import PCOs from './PCOs'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
+import propsByTaxQuery from './PCO/propsByTaxQuery'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -41,22 +41,30 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withExportTaxonomiesData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
 
-const PCOs = ({
-  propsByTaxData,
+const PcoList = ({
   pcoExpanded,
   onTogglePco,
 }: {
-  propsByTaxData: Object,
   pcoExpanded: Boolean,
   onTogglePco: () => {},
 }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsData, error: propsDataError } = useQuery(propsByTaxQuery, {
+    suspend: false,
+    variables: {
+      exportTaxonomies,
+      queryExportTaxonomies: exportTaxonomies.length > 0,
+    },
+  })
   const pcoProperties = get(
-    propsByTaxData,
+    propsData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
     [],
   )
@@ -66,6 +74,8 @@ const PCOs = ({
   )
   const pcoPropertiesFields = groupBy(pcoProperties, 'propertyName')
   const pCCount = Object.keys(pcoPropertiesByPropertyCollection).length
+
+  if (propsDataError) return `Error fetching data: ${propsDataError.message}`
 
   return (
     <ErrorBoundary>
@@ -95,9 +105,7 @@ const PCOs = ({
             </CardActionIconButton>
           </StyledCardActions>
           <Collapse in={pcoExpanded} timeout="auto" unmountOnExit>
-            {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
-              <PCO key={pc} pc={pc} />
-            ))}
+            <PCOs pcNames={Object.keys(pcoPropertiesByPropertyCollection)} />
           </Collapse>
         </StyledCard>
       </Container>
@@ -105,4 +113,4 @@ const PCOs = ({
   )
 }
 
-export default enhance(PCOs)
+export default PcoList
