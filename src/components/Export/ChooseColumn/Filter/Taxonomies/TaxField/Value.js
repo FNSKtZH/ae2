@@ -9,16 +9,14 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { withStyles } from '@material-ui/core/styles'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
 import readableType from '../../../../../../modules/readableType'
-import withTaxFieldPropData from './withTaxFieldPropData'
-import withExportAddFilterFieldsData from '../../../../withExportAddFilterFieldsData'
+import taxFieldPropQuery from './taxFieldPropQuery'
 import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
 
 const StyledPaper = styled(Paper)`
@@ -94,14 +92,13 @@ const styles = theme => ({
   },
 })
 
-const enhance = compose(
-  withApollo,
-  withState('fetchData', 'setFetchData', false),
-  withState('dataFetched', 'setDataFetched', false),
-  withTaxFieldPropData,
-  withExportAddFilterFieldsData,
-  withStyles(styles),
-)
+const storeQuery = gql`
+  query exportAddFilterFieldsQuery {
+    exportAddFilterFields @client
+  }
+`
+
+const enhance = compose(withStyles(styles))
 
 const IntegrationAutosuggest = ({
   taxname,
@@ -109,34 +106,36 @@ const IntegrationAutosuggest = ({
   jsontype,
   comparator,
   value: propsValue,
-  propData,
   classes,
-  fetchData,
-  setFetchData,
-  dataFetched,
-  setDataFetched,
-  exportAddFilterFieldsData,
   width,
-  client,
 }: {
   taxname: string,
   pname: string,
   jsontype: string,
   comparator: string,
   value: string,
-  propData: Object,
   classes: Object,
-  fetchData: Boolean,
-  setFetchData: () => void,
-  dataFetched: Boolean,
-  setDataFetched: () => void,
-  exportAddFilterFieldsData: Object,
   width: Number,
-  client: Object,
 }) => {
+  const [fetchData, setFetchData] = useState(false)
+  const [dataFetched, setDataFetched] = useState(false)
   const [suggestions, setSuggestions] = useState([])
   const [propValues, setPropValues] = useState([])
   const [value, setValue] = useState(propsValue || '')
+
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const { data: propData, error: propDataError } = useQuery(taxFieldPropQuery, {
+    suspend: false,
+    variables: {
+      tableName: 'object',
+      propName: pname,
+      pcFieldName: 'taxonomy_id',
+      pcTableName: 'taxonomy',
+      pcName: taxname,
+      fetchData,
+    },
+  })
 
   useEffect(
     () => {
@@ -202,7 +201,7 @@ const IntegrationAutosuggest = ({
       })
       // 2. if value and field not choosen, choose it
       const exportAddFilterFields = get(
-        exportAddFilterFieldsData,
+        storeData,
         'exportAddFilterFields',
         true,
       )
@@ -213,7 +212,7 @@ const IntegrationAutosuggest = ({
         })
       }
     },
-    [taxname, pname, comparator, exportAddFilterFieldsData, value],
+    [taxname, pname, comparator, storeData, value],
   )
 
   const renderInput = useCallback(
@@ -241,6 +240,10 @@ const IntegrationAutosuggest = ({
 
   const { container, suggestionsList, suggestion } = classes
 
+  if (propDataError) {
+    return `Error loading data: ${propDataError.message}`
+  }
+
   return (
     <Autosuggest
       theme={{
@@ -266,7 +269,7 @@ const IntegrationAutosuggest = ({
       renderSuggestion={renderSuggestion}
       shouldRenderSuggestions={shouldRenderSuggestions}
       inputProps={{
-        value: value,
+        value,
         autoFocus: true,
         placeholder: 'Für Auswahlliste: Leerschlag tippen',
         onChange: handleChange,
