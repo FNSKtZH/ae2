@@ -3,12 +3,11 @@ import React, { useCallback } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
 import removeExportTaxPropertyMutation from '../../../../removeExportTaxPropertyMutation'
-import withExportTaxPropertiesData from '../../../../withExportTaxPropertiesData'
 
 const Container = styled.div``
 const Count = styled.span`
@@ -23,26 +22,29 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxPropertiesData,
-)
+const storeQuery = gql`
+  query exportTaxPropertiesQuery {
+    exportTaxProperties @client {
+      taxname
+      pname
+    }
+  }
+`
 
 const TaxChooser = ({
   taxname,
   pname,
   jsontype,
   count,
-  exportTaxPropertiesData,
-  client,
 }: {
   taxname: string,
   pname: string,
   jsontype: string,
   count: number,
-  exportTaxPropertiesData: Object,
-  client: Object,
 }) => {
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
   const onCheck = useCallback(
     (event, isChecked) => {
       const mutation = isChecked
@@ -56,7 +58,7 @@ const TaxChooser = ({
     [taxname, pname],
   )
 
-  const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
+  const exportTaxProperties = storeData.exportTaxProperties || []
   const checked =
     exportTaxProperties.filter(
       x => /*x.taxname === taxname && */ x.pname === pname,
@@ -78,4 +80,4 @@ const TaxChooser = ({
   )
 }
 
-export default enhance(TaxChooser)
+export default TaxChooser

@@ -10,14 +10,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import AllChooser from './AllChooser'
 import Chooser from './Chooser'
 import constants from '../../../../../../modules/constants'
-import withPropsByTaxData from '../../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
-import withData from '../../withData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
@@ -56,23 +54,48 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withExportTaxonomiesData,
-  withData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        taxonomyName
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
 
 const Properties = ({
   initiallyExpanded,
-  propsByTaxData,
-  data,
   tax,
 }: {
   initiallyExpanded: Boolean,
-  propsByTaxData: Object,
-  data: Object,
   tax: String,
 }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsByTaxData, error: propsByTaxError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+
   const [expanded, setExpanded] = useState()
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
 
@@ -82,6 +105,8 @@ const Properties = ({
     [],
   )
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
+
+  if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
   return (
     <ErrorBoundary>
@@ -128,4 +153,4 @@ const Properties = ({
   )
 }
 
-export default enhance(Properties)
+export default Properties
