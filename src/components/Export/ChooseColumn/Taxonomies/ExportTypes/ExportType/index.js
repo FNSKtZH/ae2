@@ -4,14 +4,12 @@ import styled from 'styled-components'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import { withApollo } from 'react-apollo'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import exportTypeMutation from '../../../../exportTypeMutation'
-import withExportTypeData from '../../../../withExportTypeData'
 import exportTaxonomiesMutation from '../../../../exportTaxonomiesMutation'
-import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import Taxonomies from './Taxonomies'
 
@@ -39,26 +37,23 @@ const TypeLabel = styled(FormControlLabel)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withExportTypeData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+    exportType @client
+  }
+`
 
 const ExportTypes = ({
-  exportTypeData,
-  exportTaxonomiesData,
-  client,
   type,
   taxonomies,
 }: {
-  exportTypeData: Object,
-  exportTaxonomiesData: Object,
-  client: Object,
   type: string,
   taxonomies: Array<Object>,
 }) => {
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
 
   const onCheckType = useCallback(
     async (event, isChecked) => {
@@ -107,7 +102,7 @@ const ExportTypes = ({
     [taxonomies, exportTaxonomies],
   )
 
-  const exportType = get(exportTypeData, 'exportType', null)
+  const exportType = get(storeData, 'exportType', null)
 
   return (
     <ErrorBoundary>
@@ -138,4 +133,4 @@ const ExportTypes = ({
   )
 }
 
-export default enhance(ExportTypes)
+export default ExportTypes
