@@ -14,6 +14,7 @@ import gql from 'graphql-tag'
 
 import AllChooser from './AllChooser'
 import Chooser from './Chooser'
+import Properties from './Properties'
 import constants from '../../../../../../../modules/constants'
 import ErrorBoundary from '../../../../../../shared/ErrorBoundary'
 
@@ -192,16 +193,7 @@ const RCO = ({ pc }: { pc: Object }) => {
               <AllChooser properties={rcoPropertiesByPropertyCollection[pc]} />
             )}
             <PropertiesContainer data-width={window.innerWidth - 84}>
-              {rcoPropertiesByPropertyCollection[pc].map(field => (
-                <Chooser
-                  key={`${field.propertyName}${field.jsontype}`}
-                  pcname={field.propertyCollectionName}
-                  relationtype={field.relationType}
-                  pname={field.propertyName}
-                  jsontype={field.jsontype}
-                  count={field.count}
-                />
-              ))}
+              <Properties properties={rcoPropertiesByPropertyCollection[pc]} />
             </PropertiesContainer>
           </>
         </StyledCollapse>
