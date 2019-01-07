@@ -1,17 +1,14 @@
 // @flow
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import withPropsByTaxData from '../withPropsByTaxData'
-import withExportTaxonomiesData from '../../withExportTaxonomiesData'
-import withData from './withData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -19,20 +16,52 @@ const Container = styled.div`
   overflow: auto !important;
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
 
-const Properties = ({
-  propsByTaxData,
-  data,
-}: {
-  propsByTaxData: Object,
-  data: Object,
-}) => {
+const Properties = () => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsByTaxData, error: propsByTaxError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+
   const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(false)
   const [pcoExpanded, setFilterExpanded] = useState(false)
   const [rcoExpanded, setPropertiesExpanded] = useState(false)
@@ -88,6 +117,8 @@ const Properties = ({
     [],
   )
 
+  if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
+
   return (
     <ErrorBoundary>
       <Container>
@@ -107,4 +138,4 @@ const Properties = ({
   )
 }
 
-export default enhance(Properties)
+export default Properties
