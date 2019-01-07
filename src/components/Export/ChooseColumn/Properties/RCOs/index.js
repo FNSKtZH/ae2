@@ -9,15 +9,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import RCO from './RCO'
+import PcList from './PcList'
 import ChooseNrOfRows from './ChooseNrOfRows'
-import withPropsByTaxData from '../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
-import withData from '../withData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -194,9 +190,7 @@ const RCOs = ({
           </StyledCardActions>
           <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
             <ChooseNrOfRows />
-            {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
-              <RCO key={pc} pc={pc} />
-            ))}
+            <PcList pcNames={Object.keys(rcoPropertiesByPropertyCollection)} />
           </Collapse>
         </StyledCard>
       </Container>

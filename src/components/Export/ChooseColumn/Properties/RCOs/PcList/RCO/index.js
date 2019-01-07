@@ -14,11 +14,11 @@ import compose from 'recompose/compose'
 
 import AllChooser from './AllChooser'
 import Chooser from './Chooser'
-import constants from '../../../../../../modules/constants'
-import withPropsByTaxData from '../../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
-import withData from '../../withData'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
+import constants from '../../../../../../../modules/constants'
+import withPropsByTaxData from '../../../../withPropsByTaxData'
+import withExportTaxonomiesData from '../../../../../withExportTaxonomiesData'
+import withData from '../../../withData'
+import ErrorBoundary from '../../../../../../shared/ErrorBoundary'
 
 const PropertiesContainer = styled.div`
   column-width: ${props =>
