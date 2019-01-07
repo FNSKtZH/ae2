@@ -1,21 +1,40 @@
 // @flow
 import React from 'react'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withTaxonomiesData from '../withTaxonomiesData'
 import ExportType from './ExportType'
 
 const exportTypes = ['Arten', 'Lebensräume']
 
-const enhance = compose(withTaxonomiesData)
+const taxonomiesQuery = gql`
+  query AllTaxonomiesQuery {
+    allTaxonomies {
+      nodes {
+        id
+        name
+        type
+      }
+    }
+  }
+`
 
-const ExportTypes = ({ taxonomiesData }: { taxonomiesData: Object }) => {
+const ExportTypes = () => {
+  const { data: taxonomiesData, error: taxonomiesError } = useQuery(
+    taxonomiesQuery,
+    {
+      suspend: false,
+    },
+  )
+
   const allTaxonomies = sortBy(
     get(taxonomiesData, 'allTaxonomies.nodes', []),
     'name',
   )
+
+  if (taxonomiesError) return `Error fetching data: ${taxonomiesError.message}`
 
   return exportTypes.map(type => {
     const taxonomies = allTaxonomies
@@ -29,4 +48,4 @@ const ExportTypes = ({ taxonomiesData }: { taxonomiesData: Object }) => {
   })
 }
 
-export default enhance(ExportTypes)
+export default ExportTypes
