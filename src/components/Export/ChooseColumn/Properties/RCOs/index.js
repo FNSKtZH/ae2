@@ -12,7 +12,7 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import PcList from './PcList'
+import RcList from './RcList'
 import ChooseNrOfRows from './ChooseNrOfRows'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
@@ -191,7 +191,7 @@ const RCOs = ({
           </StyledCardActions>
           <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
             <ChooseNrOfRows />
-            <PcList pcNames={pcNames} />
+            <RcList pcNames={pcNames} />
           </Collapse>
         </StyledCard>
       </Container>
