@@ -3,13 +3,12 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import { withApollo } from 'react-apollo'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import exportTypeMutation from '../../../../exportTypeMutation'
 import exportTaxonomiesMutation from '../../../../exportTaxonomiesMutation'
-import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
 
 const TaxonomyLabel = styled(FormControlLabel)`
   height: 33px;
@@ -21,21 +20,16 @@ const TaxonomyLabel = styled(FormControlLabel)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
 
-const Taxonomies = ({
-  exportTaxonomiesData,
-  client,
-  taxonomies,
-}: {
-  exportTaxonomiesData: Object,
-  client: Object,
-  taxonomies: Array<Object>,
-}) => {
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+const Taxonomies = ({ taxonomies }: { taxonomies: Array<Object> }) => {
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
 
   const onCheckTaxonomy = useCallback(
     async (event, isChecked) => {
@@ -87,4 +81,4 @@ const Taxonomies = ({
   ))
 }
 
-export default enhance(Taxonomies)
+export default Taxonomies
