@@ -2,15 +2,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import HowTo from './HowTo'
 import ExportTypes from './ExportTypes'
 
-import withExportTypeData from '../../withExportTypeData'
-import withExportTaxonomiesData from '../../withExportTaxonomiesData'
-import withPropsByTaxData from '../withPropsByTaxData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -31,37 +29,77 @@ const StyledPaper = styled(Paper)`
   margin-top: 10px;
 `
 
-const enhance = compose(
-  withExportTaxonomiesData,
-  withExportTypeData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+    exportType @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        taxonomyName
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
 
-const Taxonomies = ({
-  propsByTaxData,
-  exportTypeData,
-  exportTaxonomiesData,
-}: {
-  propsByTaxData: Object,
-  exportTypeData: Object,
-  exportTaxonomiesData: Object,
-}) => {
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+const Taxonomies = () => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
 
-  const exportType = get(exportTypeData, 'exportType', null)
-  const { loading } = propsByTaxData
+  const exportType = get(storeData, 'exportType', null)
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Taxonomien.'
   if (!exportType) {
     textProperties = 'Wählen Sie Arten oder Lebensräume.'
   }
-  if (loading) {
+  if (propsByTaxLoading) {
     textProperties = 'Die Eigenschaften werden ergänzt...'
   }
-  if (!loading && exportTaxonomies.length > 0) {
+  if (!propsByTaxLoading && exportTaxonomies.length > 0) {
     paperBackgroundColor = '#2E7D32'
     textProperties = 'Die Eigenschaften wurden geladen.'
   }
+
+  if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
   return (
     <ErrorBoundary>
@@ -78,4 +116,4 @@ const Taxonomies = ({
   )
 }
 
-export default enhance(Taxonomies)
+export default Taxonomies
