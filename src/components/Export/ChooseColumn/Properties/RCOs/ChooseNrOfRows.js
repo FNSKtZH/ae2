@@ -1,5 +1,4 @@
 // @flow
-import app from 'ampersand-app'
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import Radio from '@material-ui/core/Radio'
@@ -9,10 +8,10 @@ import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import uniq from 'lodash/uniq'
-import compose from 'recompose/compose'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import exportRcoInOneRowMutation from '../../../../exportRcoInOneRowMutation'
-import query from './query'
+import exportRcoInOneRowMutation from '../../../exportRcoInOneRowMutation'
 
 const StyledFormLabel = styled(FormLabel)`
   color: rgba(0, 0, 0, 0.87) !important;
@@ -38,29 +37,41 @@ const StyledUl = styled.ul`
   padding-left: 52px;
 `
 
-const enhance = compose(query)
+const storeQuery = gql`
+  {
+    exportRcoInOneRow @client
+    exportRcoProperties @client {
+      pcname
+      relationtype
+    }
+  }
+`
 
-const ChooseNrOfRows = ({ data }: { data: Object }) => {
-  if (data.loading) return 'Lade Daten...'
-  if (data.error) return `Fehler: ${data.error.message}`
+const ChooseNrOfRows = () => {
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const multipleRowsDisabled =
-    uniq(data.exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`))
-      .length > 1
+    uniq(
+      storeData.exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`),
+    ).length > 1
   const onChange = useCallback(
     () =>
-      app.client.mutate({
+      client.mutate({
         mutation: exportRcoInOneRowMutation,
-        variables: { value: !data.exportRcoInOneRow },
+        variables: { value: !storeData.exportRcoInOneRow },
       }),
-    [data.exportRcoInOneRow],
+    [storeData.exportRcoInOneRow],
   )
+
+  if (storeData.loading) return 'Lade Daten...'
+  if (storeData.error) return `Fehler: ${storeData.error.message}`
 
   return (
     <StyledFormControl>
       <StyledFormLabel>Wie wollen Sie Beziehungen exportieren?</StyledFormLabel>
       <StyledRadioGroup
         aria-label="Wie wollen Sie Beziehungen exportieren?"
-        value={data.exportRcoInOneRow.toString()}
+        value={storeData.exportRcoInOneRow.toString()}
         onChange={onChange}
       >
         <StyledFormControlLabel
@@ -136,4 +147,4 @@ const ChooseNrOfRows = ({ data }: { data: Object }) => {
   )
 }
 
-export default enhance(ChooseNrOfRows)
+export default ChooseNrOfRows

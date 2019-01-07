@@ -7,10 +7,11 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import RCO from './RCO'
 import ChooseNrOfRows from './ChooseNrOfRows'
@@ -45,24 +46,66 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
+const rcoCountByTaxonomyRelationTypeQuery = gql`
+  query dataQuery {
+    rcoCountByTaxonomyRelationTypeFunction {
+      nodes {
+        propertyCollectionName
+        relationType
+        count
+      }
+    }
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
 
 const RCOs = ({
-  propsByTaxData,
-  data,
   rcoExpanded,
   onToggleRco,
 }: {
-  propsByTaxData: Object,
-  data: Object,
   rcoExpanded: Boolean,
   onToggleRco: () => {},
 }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data, error: dataError } = useQuery(
+    rcoCountByTaxonomyRelationTypeQuery,
+    {
+      suspend: false,
+    },
+  )
+  const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
@@ -118,6 +161,10 @@ const RCOs = ({
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
 
+  if (propsByTaxDataError)
+    return `Error fetching data: ${propsByTaxDataError.message}`
+  if (dataError) return `Error fetching data: ${dataError.message}`
+
   return (
     <ErrorBoundary>
       <Container>
@@ -157,4 +204,4 @@ const RCOs = ({
   )
 }
 
-export default enhance(RCOs)
+export default RCOs
