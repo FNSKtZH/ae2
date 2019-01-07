@@ -7,17 +7,14 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import Taxonomy from './Taxonomy'
+import TaxonomiesList from './TaxonomiesList'
 import JointTaxonomy from './JointTaxonomy'
-import withPropsByTaxData from '../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
-import withData from '../withData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -45,25 +42,48 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withData,
-  withPropsByTaxData,
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        taxonomyName
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
 
 const Properties = ({
-  propsByTaxData,
-  data,
   taxonomiesExpanded,
   onToggleTaxonomies,
 }: {
-  propsByTaxData: Object,
-  data: Object,
   taxonomiesExpanded: Boolean,
   onToggleTaxonomies: () => {},
 }) => {
-  //console.log('Properties: rcoProperties:', rcoProperties)
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { data: propsByTaxData, error: propsByTaxError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
@@ -72,7 +92,8 @@ const Properties = ({
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
   const taxPropertiesFields = groupBy(taxProperties, 'propertyName')
-  const taxCount = Object.keys(taxPropertiesByTaxonomy).length
+  const taxonomies = Object.keys(taxPropertiesByTaxonomy)
+  const taxCount = taxonomies.length
   const taxFieldsCount = Object.keys(taxPropertiesFields).length
   let jointTaxProperties = []
   if (taxCount > 1) {
@@ -88,7 +109,9 @@ const Properties = ({
         taxname: 'Taxonomie',
       }))
   }
-  const initiallyExpanded = Object.keys(taxPropertiesByTaxonomy).length === 1
+  const initiallyExpanded = taxonomies.length === 1
+
+  if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
   return (
     <ErrorBoundary>
@@ -119,13 +142,10 @@ const Properties = ({
             {jointTaxProperties.length > 0 && (
               <JointTaxonomy jointTaxProperties={jointTaxProperties} />
             )}
-            {Object.keys(taxPropertiesByTaxonomy).map(tax => (
-              <Taxonomy
-                key={tax}
-                tax={tax}
-                initiallyExpanded={initiallyExpanded}
-              />
-            ))}
+            <TaxonomiesList
+              taxonomies={taxonomies}
+              initiallyExpanded={initiallyExpanded}
+            />
           </Collapse>
         </StyledCard>
       </Container>
@@ -133,4 +153,4 @@ const Properties = ({
   )
 }
 
-export default enhance(Properties)
+export default Properties

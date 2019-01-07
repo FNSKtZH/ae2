@@ -96,7 +96,7 @@ const Properties = ({
     },
   )
 
-  const [expanded, setExpanded] = useState()
+  const [expanded, setExpanded] = useState(initiallyExpanded)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
 
   const taxProperties = get(
