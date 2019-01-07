@@ -13,7 +13,6 @@ import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import AllChooser from './AllChooser'
-import Chooser from './Chooser'
 import Properties from './Properties'
 import constants from '../../../../../../../modules/constants'
 import ErrorBoundary from '../../../../../../shared/ErrorBoundary'

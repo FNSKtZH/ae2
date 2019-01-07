@@ -11,7 +11,6 @@ import ExportTypes from './ExportTypes'
 import withExportTypeData from '../../withExportTypeData'
 import withExportTaxonomiesData from '../../withExportTaxonomiesData'
 import withPropsByTaxData from '../withPropsByTaxData'
-import withTaxonomiesData from './withTaxonomiesData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`

@@ -13,7 +13,7 @@ import withExportTypeData from '../../../../withExportTypeData'
 import exportTaxonomiesMutation from '../../../../exportTaxonomiesMutation'
 import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
-import Taxonomies from '../Taxonomies'
+import Taxonomies from './Taxonomies'
 
 const exportTypes = ['Arten', 'Lebensräume']
 const exportTypeTAXToReadable = {

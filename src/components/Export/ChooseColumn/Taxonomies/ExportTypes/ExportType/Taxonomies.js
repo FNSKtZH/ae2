@@ -7,9 +7,9 @@ import { withApollo } from 'react-apollo'
 import compose from 'recompose/compose'
 import get from 'lodash/get'
 
-import exportTypeMutation from '../../../exportTypeMutation'
-import exportTaxonomiesMutation from '../../../exportTaxonomiesMutation'
-import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
+import exportTypeMutation from '../../../../exportTypeMutation'
+import exportTaxonomiesMutation from '../../../../exportTaxonomiesMutation'
+import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
 
 const TaxonomyLabel = styled(FormControlLabel)`
   height: 33px;
