@@ -50,6 +50,7 @@ const storeQuery = gql`
 const ChooseNrOfRows = () => {
   const client = useApolloClient()
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
   const multipleRowsDisabled =
     uniq(
       storeData.exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`),

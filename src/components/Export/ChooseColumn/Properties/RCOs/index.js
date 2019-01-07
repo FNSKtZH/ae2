@@ -155,8 +155,8 @@ const RCOs = ({
     })
   })
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
-  const pcNames = Object.keys(rcoPropertiesByPropertyCollection)
-  const rCCount = pcNames.length
+  const rcNames = Object.keys(rcoPropertiesByPropertyCollection)
+  const rCCount = rcNames.length
 
   if (propsByTaxDataError)
     return `Error fetching data: ${propsByTaxDataError.message}`
@@ -191,7 +191,7 @@ const RCOs = ({
           </StyledCardActions>
           <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
             <ChooseNrOfRows />
-            <RcList pcNames={pcNames} />
+            <RcList rcNames={rcNames} />
           </Collapse>
         </StyledCard>
       </Container>
