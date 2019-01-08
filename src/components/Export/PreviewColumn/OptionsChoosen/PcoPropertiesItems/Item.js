@@ -1,8 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
-import { withApollo } from 'react-apollo'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
+import { useApolloClient } from 'react-apollo-hooks'
 
 import removeExportPcoPropertyMutation from '../../../removeExportPcoPropertyMutation'
 
@@ -14,15 +13,12 @@ const ResetSpan = styled.span`
   text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
 
-const enhance = compose(withApollo)
-
 const ExportPcoPropertiesListItem = ({
-  client,
   properties,
 }: {
-  client: Object,
   properties: Object,
 }) => {
+  const client = useApolloClient()
   const { pcname, pname } = properties
   const onClick = useCallback(
     () =>
@@ -44,4 +40,4 @@ const ExportPcoPropertiesListItem = ({
   )
 }
 
-export default enhance(ExportPcoPropertiesListItem)
+export default ExportPcoPropertiesListItem
