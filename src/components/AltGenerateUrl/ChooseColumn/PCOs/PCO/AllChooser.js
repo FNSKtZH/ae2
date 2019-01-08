@@ -1,15 +1,13 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
 import removeExportPcoPropertyMutation from '../../../removeExportPcoPropertyMutation'
-import withExportPcoPropertiesData from '../../../withExportPcoPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -23,11 +21,22 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withExportPcoPropertiesData,
-  withHandlers({
-    onCheck: ({ properties, client }) => (event, isChecked) => {
+const storeQuery = gql`
+  query exportPcoPropertiesQuery {
+    exportPcoProperties @client {
+      pcname
+      pname
+    }
+  }
+`
+
+const AllPcoChooser = ({ properties }: { properties: Array<Object> }) => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
+  const onCheck = useCallback(
+    (event, isChecked) => {
       const mutation = isChecked
         ? addExportPcoPropertyMutation
         : removeExportPcoPropertyMutation
@@ -40,19 +49,10 @@ const enhance = compose(
         })
       })
     },
-  }),
-)
+    [properties],
+  )
 
-const AllPcoChooser = ({
-  onCheck,
-  properties,
-  exportPcoPropertiesData,
-}: {
-  onCheck: () => {},
-  properties: Array<Object>,
-  exportPcoPropertiesData: Object,
-}) => {
-  const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+  const exportPcoProperties = storeData.exportPcoProperties || []
   const checkedArray = properties.map(
     p =>
       exportPcoProperties.filter(
@@ -74,4 +74,4 @@ const AllPcoChooser = ({
   )
 }
 
-export default enhance(AllPcoChooser)
+export default AllPcoChooser
