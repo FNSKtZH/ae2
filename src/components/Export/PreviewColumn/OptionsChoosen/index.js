@@ -1,34 +1,23 @@
 // @flow
 import React, { useCallback } from 'react'
-import { withApollo } from 'react-apollo'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withExportTypeData from '../../withExportTypeData'
 import exportTypeMutation from '../../exportTypeMutation'
-import withExportTaxonomiesData from '../../withExportTaxonomiesData'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
-import withExportPcoPropertiesData from '../../withExportPcoPropertiesData'
 import exportPcoPropertiesResetMutation from '../../exportPcoPropertiesResetMutation'
-import withExportRcoPropertiesData from '../../withExportRcoPropertiesData'
 import exportRcoPropertiesResetMutation from '../../exportRcoPropertiesResetMutation'
-import withExportTaxPropertiesData from '../../withExportTaxPropertiesData'
 import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMutation'
-import withExportTaxFiltersData from '../../withExportTaxFiltersData'
 import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
-import withExportPcoFiltersData from '../../withExportPcoFiltersData'
 import exportPcoFiltersResetMutation from '../../exportPcoFiltersResetMutation'
-import withExportRcoFiltersData from '../../withExportRcoFiltersData'
 import exportRcoFiltersResetMutation from '../../exportRcoFiltersResetMutation'
-import withExportOnlyRowsWithPropertiesData from '../../withExportOnlyRowsWithPropertiesData'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
-import withExportWithSynonymDataData from '../../withExportWithSynonymDataData'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
-import withExportTooManyPropertiesData from '../../withExportTooManyPropertiesData'
-import withExportRcoInOneRowData from '../../withExportRcoInOneRowData'
 import TaxFilterItems from './TaxFilterItems'
 import PcoFilterItems from './PcoFilterItems'
 import RcoFilterItems from './RcoFilterItems'
@@ -70,82 +59,65 @@ const StyledButton = styled(Button)`
   margin-top: 0 !important;
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTypeData,
-  withExportTaxonomiesData,
-  withExportTaxPropertiesData,
-  withExportTaxFiltersData,
-  withExportPcoPropertiesData,
-  withExportPcoFiltersData,
-  withExportRcoPropertiesData,
-  withExportRcoFiltersData,
-  withExportOnlyRowsWithPropertiesData,
-  withExportTooManyPropertiesData,
-  withExportRcoInOneRowData,
-  withExportWithSynonymDataData,
-  withStyles(styles),
-)
+const storeQuery = gql`
+  query exportTypeQuery {
+    exportTaxonomies @client
+    exportType @client
+    exportTaxProperties @client {
+      taxname
+      pname
+    }
+    exportTaxFilters @client {
+      taxname
+      pname
+      comparator
+      value
+    }
+    exportPcoFilters @client {
+      pcname
+      pname
+      comparator
+      value
+    }
+    exportRcoProperties @client {
+      pcname
+      relationtype
+      pname
+    }
+    exportRcoFilters @client {
+      pcname
+      pname
+      relationtype
+      comparator
+      value
+    }
+    exportOnlyRowsWithProperties @client
+    exportRcoInOneRow @client
+    exportWithSynonymData @client
+  }
+`
 
-const OptionsChoosen = ({
-  client,
-  exportTypeData,
-  exportTaxonomiesData,
-  exportTaxPropertiesData,
-  exportTaxFiltersData,
-  exportPcoPropertiesData,
-  exportPcoFiltersData,
-  exportRcoPropertiesData,
-  exportRcoFiltersData,
-  exportOnlyRowsWithPropertiesData,
-  exportWithSynonymDataData,
-  exportRcoInOneRowData,
-  classes,
-}: {
-  client: Object,
-  exportTypeData: Object,
-  exportTaxonomiesData: Object,
-  exportTaxPropertiesData: Object,
-  exportTaxFiltersData: Object,
-  exportPcoPropertiesData: Object,
-  exportPcoFiltersData: Object,
-  exportRcoPropertiesData: Object,
-  exportRcoFiltersData: Object,
-  exportOnlyRowsWithPropertiesData: Object,
-  exportWithSynonymDataData: Object,
-  exportRcoInOneRowData: Object,
-  classes: Object,
-}) => {
-  const exportWithSynonymData = get(
-    exportWithSynonymDataData,
-    'exportWithSynonymData',
-    true,
-  )
+const enhance = compose(withStyles(styles))
+
+const OptionsChoosen = ({ classes }: { classes: Object }) => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
+  const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
   const exportOnlyRowsWithProperties = get(
-    exportOnlyRowsWithPropertiesData,
+    storeData,
     'exportOnlyRowsWithProperties',
     true,
   )
-  const exportType = get(exportTypeData, 'exportType', null)
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-  const exportTaxProperties = get(
-    exportTaxPropertiesData,
-    'exportTaxProperties',
-    [],
-  )
-  const exportTaxFilters = get(exportTaxFiltersData, 'exportTaxFilters', [])
-  const exportPcoProperties = get(
-    exportPcoPropertiesData,
-    'exportPcoProperties',
-    [],
-  )
-  const exportPcoFilters = get(exportPcoFiltersData, 'exportPcoFilters', [])
-  const exportRcoProperties = get(
-    exportRcoPropertiesData,
-    'exportRcoProperties',
-    [],
-  )
-  const exportRcoFilters = get(exportRcoFiltersData, 'exportRcoFilters', [])
+  const exportType = get(storeData, 'exportType', null)
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
+  const exportTaxFilters = get(storeData, 'exportTaxFilters', [])
+  const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
+  const exportPcoFilters = get(storeData, 'exportPcoFilters', [])
+  const exportRcoProperties = get(storeData, 'exportRcoProperties', [])
+  const exportRcoFilters = get(storeData, 'exportRcoFilters', [])
   const noDataChoosen =
     [
       ...exportTaxonomies,
@@ -156,11 +128,7 @@ const OptionsChoosen = ({
       ...exportPcoFilters,
       ...exportRcoFilters,
     ].length === 0
-  const exportRcoInOneRow = get(
-    exportRcoInOneRowData,
-    'exportRcoInOneRow',
-    true,
-  )
+  const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
 
   const onClickResetAll = useCallback(() => {
     client.mutate({
@@ -228,6 +196,7 @@ const OptionsChoosen = ({
   })
 
   if (noDataChoosen) return null
+
   return (
     <Container>
       <Title title="Gewählte Optionen">Gewählte Optionen</Title>
