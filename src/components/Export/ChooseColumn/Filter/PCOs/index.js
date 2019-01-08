@@ -13,7 +13,6 @@ import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import PCO from './PCO'
-import propsByTaxQuery from './propsByTaxQuery'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -47,6 +46,22 @@ const Count = styled.span`
 const storeQuery = gql`
   query exportTaxonomiesQuery {
     exportTaxonomies @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
 `
 

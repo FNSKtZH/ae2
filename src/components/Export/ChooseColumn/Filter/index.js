@@ -15,7 +15,6 @@ import Id from './Id'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import propsByTaxQuery from './propsByTaxQuery'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
@@ -43,6 +42,32 @@ const storeQuery = gql`
     exportWithSynonymData @client
     exportAddFilterFields @client
     exportOnlyRowsWithProperties @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
 `
 
