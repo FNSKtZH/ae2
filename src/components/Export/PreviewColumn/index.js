@@ -1,15 +1,13 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withExportTaxonomiesData from '../withExportTaxonomiesData'
 import OptionsChoosen from './OptionsChoosen'
 import Preview from './Preview'
 import ErrorBoundary from '../../shared/ErrorBoundary'
-
-const enhance = compose(withExportTaxonomiesData)
 
 const Container = styled.div`
   padding: 5px 0;
@@ -18,8 +16,15 @@ const HowToDiv = styled.div`
   padding: 15px 10px 0 10px;
 `
 
-const Filter = ({ exportTaxonomiesData }: { exportTaxonomiesData: Object }) => {
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+const storeQuery = gql`
+  query storeQuery {
+    exportTaxonomies @client
+  }
+`
+
+const Filter = () => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
 
   return (
     <ErrorBoundary>
@@ -36,4 +41,4 @@ const Filter = ({ exportTaxonomiesData }: { exportTaxonomiesData: Object }) => {
   )
 }
 
-export default enhance(Filter)
+export default Filter
