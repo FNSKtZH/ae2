@@ -14,8 +14,8 @@ import gql from 'graphql-tag'
 
 import AllChooser from './AllChooser'
 import ChooserList from './ChooserList'
-import constants from '../../../../../modules/constants'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
+import constants from '../../../../../../modules/constants'
+import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;

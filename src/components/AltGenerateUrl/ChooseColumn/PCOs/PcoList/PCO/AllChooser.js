@@ -6,8 +6,8 @@ import styled from 'styled-components'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
-import removeExportPcoPropertyMutation from '../../../removeExportPcoPropertyMutation'
+import addExportPcoPropertyMutation from '../../../../addExportPcoPropertyMutation'
+import removeExportPcoPropertyMutation from '../../../../removeExportPcoPropertyMutation'
 
 const Container = styled.div`
   margin-bottom: 16px;
