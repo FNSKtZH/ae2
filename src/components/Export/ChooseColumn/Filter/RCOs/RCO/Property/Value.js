@@ -16,7 +16,6 @@ import gql from 'graphql-tag'
 
 import exportRcoFiltersMutation from '../../../../../exportRcoFiltersMutation'
 import readableType from '../../../../../../../modules/readableType'
-import rcoFieldPropQuery from './rcoFieldPropQuery'
 import addExportRcoPropertyMutation from '../../../../../addExportRcoPropertyMutation'
 
 const StyledPaper = styled(Paper)`
@@ -102,6 +101,28 @@ const styles = theme => ({
 const storeQuery = gql`
   query exportAddFilterFieldsQuery {
     exportAddFilterFields @client
+  }
+`
+const rcoFieldPropQuery = gql`
+  query propDataQuery(
+    $tableName: String!
+    $propName: String!
+    $pcFieldName: String!
+    $pcTableName: String!
+    $pcName: String!
+    $fetchData: Boolean!
+  ) {
+    propValuesFunction(
+      tableName: $tableName
+      propName: $propName
+      pcFieldName: $pcFieldName
+      pcTableName: $pcTableName
+      pcName: $pcName
+    ) @include(if: $fetchData) {
+      nodes {
+        value
+      }
+    }
   }
 `
 
