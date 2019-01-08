@@ -54,34 +54,40 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportTaxonomies @client
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery($exportTaxonomies: [String]) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
 `
 
-const enhance = compose(
-  withExportTaxonomiesData,
-  withPropsByTaxData,
-  withState('expanded', 'setExpanded', false),
-)
+const enhance = compose(withState('expanded', 'setExpanded', false))
 
 const PCO = ({
   expanded,
   setExpanded,
-  propsByTaxData,
   pcoExpanded,
   onTogglePco,
   pc,
 }: {
   expanded: Boolean,
   setExpanded: () => void,
-  propsByTaxData: Object,
   pcoExpanded: Boolean,
   onTogglePco: () => {},
   pc: Object,
 }) => {
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const { data: propsByTaxData } = useQuery(propsByTaxQuery, {
+    suspend: false,
+    variables: {
+      exportTaxonomies: constants.altTaxonomies,
+    },
+  })
 
   const pcoProperties = get(
     propsByTaxData,
