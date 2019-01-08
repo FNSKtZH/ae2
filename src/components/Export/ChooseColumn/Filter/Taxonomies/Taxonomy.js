@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -13,21 +13,21 @@ import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import Properties from './Properties'
-import constants from '../../../../../../modules/constants'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
+import constants from '../../../../../modules/constants'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
-const ErrorContainer = styled.div`
-  padding: 5px;
-`
 const StyledCard = styled(Card)`
   margin: 0;
   background-color: rgb(255, 243, 224) !important;
+`
+const ErrorContainer = styled.div`
+  padding: 5px;
 `
 const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
   cursor: pointer;
   background-color: #fff3e0;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   padding-top: 4px !important;
   padding-bottom: 4px !important;
   height: auto !important;
@@ -63,11 +63,10 @@ const propsByTaxQuery = gql`
     $queryExportTaxonomies: Boolean!
     $exportTaxonomies: [String]
   ) {
-    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
       @include(if: $queryExportTaxonomies) {
       nodes {
-        propertyCollectionName
-        relationType
+        taxonomyName
         propertyName
         jsontype
         count
@@ -76,7 +75,13 @@ const propsByTaxQuery = gql`
   }
 `
 
-const RcoCard = ({ pc }: { pc: Object }) => {
+const TaxonomyCard = ({
+  pc,
+  initiallyExpanded,
+}: {
+  pc: Object,
+  initiallyExpanded: boolean,
+}) => {
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
@@ -89,22 +94,15 @@ const RcoCard = ({ pc }: { pc: Object }) => {
       },
     },
   )
-
-  const [expanded, setExpanded] = useState(false)
-  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
-
-  const rcoProperties = get(
+  const taxProperties = get(
     propsByTaxData,
-    'rcoPropertiesByTaxonomiesFunction.nodes',
+    'taxPropertiesByTaxonomiesFunction.nodes',
     [],
   )
 
-  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
-    if (x.propertyCollectionName.includes(x.relationType)) {
-      return x.propertyCollectionName
-    }
-    return `${x.propertyCollectionName}: ${x.relationType}`
-  })
+  const [expanded, setExpanded] = useState(initiallyExpanded)
+
+  const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
 
   if (propsByTaxDataError) {
     return (
@@ -117,13 +115,14 @@ const RcoCard = ({ pc }: { pc: Object }) => {
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onClickActions}>
+        <StyledCardActions
+          disableActionSpacing
+          onClick={() => setExpanded(!expanded)}
+        >
           <CardActionTitle>
             {pc}
-            <Count>{`(${rcoPropertiesByPropertyCollection[pc].length} ${
-              rcoPropertiesByPropertyCollection[pc].length === 1
-                ? 'Feld'
-                : 'Felder'
+            <Count>{`(${taxPropertiesByTaxonomy[pc].length} ${
+              taxPropertiesByTaxonomy[pc].length === 1 ? 'Feld' : 'Felder'
             })`}</Count>
           </CardActionTitle>
           <CardActionIconButton
@@ -138,7 +137,7 @@ const RcoCard = ({ pc }: { pc: Object }) => {
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PropertiesContainer data-width={window.innerWidth - 84}>
-            <Properties properties={rcoPropertiesByPropertyCollection[pc]} />
+            <Properties properties={taxPropertiesByTaxonomy[pc]} />
           </PropertiesContainer>
         </Collapse>
       </StyledCard>
@@ -146,4 +145,4 @@ const RcoCard = ({ pc }: { pc: Object }) => {
   )
 }
 
-export default RcoCard
+export default TaxonomyCard
