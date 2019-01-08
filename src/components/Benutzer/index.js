@@ -51,11 +51,17 @@ const User = () => {
     data: treeData,
     error: treeDataError,
     loading: treeDataLoading,
+    refetch: treeDataRefetch,
   } = useQuery(treeDataQuery, {
     suspend: false,
     variables: getTreeDataVariables({ activeNodeArray }),
   })
-  const { data, error: dataError, loading: dataLoading } = useQuery(query, {
+  const {
+    data,
+    error: dataError,
+    loading: dataLoading,
+    refetch: dataRefetch,
+  } = useQuery(query, {
     suspend: false,
     variables: {
       id: activeNodeArray[1] || '99999999-9999-9999-9999-999999999999',
@@ -128,8 +134,8 @@ const User = () => {
         return console.log(error)
       }
       // refetch to update
-      data.refetch()
-      treeData.refetch()
+      dataRefetch()
+      treeDataRefetch()
       setNameErrorText('')
       setEmailErrorText('')
       setPassNew('')
