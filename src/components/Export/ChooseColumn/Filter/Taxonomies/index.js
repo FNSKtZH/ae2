@@ -15,7 +15,6 @@ import gql from 'graphql-tag'
 
 import Taxonomy from './Taxonomy'
 import JointTaxonomy from './JointTaxonomy'
-import propsByTaxQuery from './propsByTaxQuery'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -49,6 +48,22 @@ const Count = styled.span`
 const storeQuery = gql`
   query exportTaxonomiesQuery {
     exportTaxonomies @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        taxonomyName
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
 `
 
