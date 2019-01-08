@@ -10,10 +10,10 @@ import orderBy from 'lodash/orderBy'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import exportXlsx from '../../../../modules/exportXlsx'
-import exportCsv from '../../../../modules/exportCsv'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
-import rowsFromObjects from '../rowsFromObjects'
+import exportXlsx from '../../../modules/exportXlsx'
+import exportCsv from '../../../modules/exportCsv'
+import ErrorBoundary from '../../shared/ErrorBoundary'
+import rowsFromObjects from './rowsFromObjects'
 
 const Container = styled.div`
   padding-top: 5px;
