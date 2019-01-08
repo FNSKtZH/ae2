@@ -17,7 +17,6 @@ import gql from 'graphql-tag'
 import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
 import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
 import readableType from '../../../../../../modules/readableType'
-import taxFieldPropQuery from './taxFieldPropQuery'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;
@@ -95,6 +94,28 @@ const styles = theme => ({
 const storeQuery = gql`
   query exportAddFilterFieldsQuery {
     exportAddFilterFields @client
+  }
+`
+const taxFieldPropQuery = gql`
+  query propDataQuery(
+    $tableName: String!
+    $propName: String!
+    $pcFieldName: String!
+    $pcTableName: String!
+    $pcName: String!
+    $fetchData: Boolean!
+  ) {
+    propValuesFunction(
+      tableName: $tableName
+      propName: $propName
+      pcFieldName: $pcFieldName
+      pcTableName: $pcTableName
+      pcName: $pcName
+    ) @include(if: $fetchData) {
+      nodes {
+        value
+      }
+    }
   }
 `
 
