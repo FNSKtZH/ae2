@@ -15,7 +15,6 @@ import gql from 'graphql-tag'
 import AllChooser from './AllChooser'
 import Properties from './Properties'
 import constants from '../../../../../../modules/constants'
-import propsByTaxQuery from './propsByTaxQuery'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
@@ -54,6 +53,22 @@ const Count = styled.span`
 const storeQuery = gql`
   query exportTaxonomiesQuery {
     exportTaxonomies @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
 `
 
