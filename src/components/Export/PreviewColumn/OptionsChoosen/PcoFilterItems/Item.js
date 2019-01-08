@@ -1,8 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
-import { withApollo } from 'react-apollo'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
+import { useApolloClient } from 'react-apollo-hooks'
 
 import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
 import booleanToJaNein from '../../../../../modules/booleanToJaNein'
@@ -21,16 +20,11 @@ const ResetSpan = styled.span`
   text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
 
-const enhance = compose(withApollo)
+const ExportPcoFilterListItem = ({ filter }: { filter: Object }) => {
+  const client = useApolloClient()
 
-const ExportPcoFilterListItem = ({
-  client,
-  filter,
-}: {
-  client: Object,
-  filter: Object,
-}) => {
   const { pcname, pname, comparator, value } = filter
+
   const onClick = useCallback(
     () =>
       client.mutate({
@@ -56,4 +50,4 @@ const ExportPcoFilterListItem = ({
   )
 }
 
-export default enhance(ExportPcoFilterListItem)
+export default ExportPcoFilterListItem
