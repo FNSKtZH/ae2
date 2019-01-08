@@ -7,9 +7,6 @@ import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
-import removeExportPcoPropertyMutation from '../../../removeExportPcoPropertyMutation'
-
 const Container = styled.div``
 const Count = styled.span`
   font-size: xx-small;
@@ -29,6 +26,16 @@ const storeQuery = gql`
       pcname
       pname
     }
+  }
+`
+const addExportPcoPropertyMutation = gql`
+  mutation addExportPcoProperty($pcname: String, $pname: String) {
+    addExportPcoProperty(pcname: $pcname, pname: $pname) @client
+  }
+`
+const removeExportPcoPropertyMutation = gql`
+  mutation removeExportPcoProperty($pcname: String, $pname: String) {
+    removeExportPcoProperty(pcname: $pcname, pname: $pname) @client
   }
 `
 

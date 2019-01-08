@@ -13,7 +13,7 @@ import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import AllChooser from './AllChooser'
-import PcoChooser from './Chooser'
+import ChooserList from './ChooserList'
 import constants from '../../../../../modules/constants'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
@@ -120,15 +120,7 @@ const PCO = ({
               <AllChooser properties={pcoPropertiesByPropertyCollection[pc]} />
             )}
             <PropertiesContainer data-width={window.innerWidth - 84}>
-              {pcoPropertiesByPropertyCollection[pc].map(field => (
-                <PcoChooser
-                  key={`${field.propertyName}${field.jsontype}`}
-                  pcname={field.propertyCollectionName}
-                  pname={field.propertyName}
-                  jsontype={field.jsontype}
-                  count={field.count}
-                />
-              ))}
+              <ChooserList properties={pcoPropertiesByPropertyCollection[pc]} />
             </PropertiesContainer>
           </>
         </StyledCollapse>
