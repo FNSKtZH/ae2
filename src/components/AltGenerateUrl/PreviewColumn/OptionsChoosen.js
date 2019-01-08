@@ -9,7 +9,6 @@ import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
-import removeExportPcoPropertyMutation from '../removeExportPcoPropertyMutation'
 import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
 import removeExportRcoPropertyMutation from '../removeExportRcoPropertyMutation'
 import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutation'
@@ -17,6 +16,7 @@ import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutatio
 import constants from '../../../modules/constants'
 import TaxProperties from './TaxProperties'
 import PcoProperties from './PcoProperties'
+import RcoProperties from './RcoProperties'
 
 const styles = theme => ({
   button: {
@@ -134,25 +134,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
           <ul>
             <TaxProperties properties={exportTaxProperties} />
             <PcoProperties properties={exportPcoProperties} />
-            {exportRcoProperties.map(({ pcname, relationtype, pname }, i) => (
-              <li key={i}>
-                {`${pcname} - ${relationtype}: ${pname}`}
-                <ResetSpan
-                  onClick={() => {
-                    client.mutate({
-                      mutation: removeExportRcoPropertyMutation,
-                      variables: {
-                        pcname,
-                        relationtype,
-                        pname,
-                      },
-                    })
-                  }}
-                >
-                  zurücksetzen
-                </ResetSpan>
-              </li>
-            ))}
+            <RcoProperties properties={exportRcoProperties} />
           </ul>
         </li>
       </ul>
