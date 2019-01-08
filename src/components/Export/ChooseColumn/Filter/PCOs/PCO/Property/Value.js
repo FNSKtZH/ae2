@@ -15,7 +15,6 @@ import { useQuery, useApolloClient } from 'react-apollo-hooks'
 
 import exportPcoFiltersMutation from '../../../../../exportPcoFiltersMutation'
 import readableType from '../../../../../../../modules/readableType'
-import pcoFieldPropQuery from './pcoFieldPropQuery'
 import addExportPcoPropertyMutation from '../../../../../addExportPcoPropertyMutation'
 
 const StyledPaper = styled(Paper)`
@@ -101,6 +100,28 @@ const styles = theme => ({
 const storeQuery = gql`
   query exportAddFilterFieldsQuery {
     exportAddFilterFields @client
+  }
+`
+const pcoFieldPropQuery = gql`
+  query propDataQuery(
+    $tableName: String!
+    $propName: String!
+    $pcFieldName: String!
+    $pcTableName: String!
+    $pcName: String!
+    $fetchData: Boolean!
+  ) {
+    propValuesFunction(
+      tableName: $tableName
+      propName: $propName
+      pcFieldName: $pcFieldName
+      pcTableName: $pcTableName
+      pcName: $pcName
+    ) @include(if: $fetchData) {
+      nodes {
+        value
+      }
+    }
   }
 `
 
