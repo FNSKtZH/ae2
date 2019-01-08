@@ -10,22 +10,15 @@ import Snackbar from '@material-ui/core/Snackbar'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
 import get from 'lodash/get'
+import omit from 'lodash/omit'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import Taxonomies from './Taxonomies'
 import Properties from './Properties'
 import Filter from './Filter'
-import withExportTaxonomiesData from '../withExportTaxonomiesData'
-import withExportPcoPropertiesData from '../withExportPcoPropertiesData'
-import withExportRcoPropertiesData from '../withExportRcoPropertiesData'
-import withExportTaxPropertiesData from '../withExportTaxPropertiesData'
-import withExportTaxFiltersData from '../withExportTaxFiltersData'
-import withExportPcoFiltersData from '../withExportPcoFiltersData'
-import withExportRcoFiltersData from '../withExportRcoFiltersData'
-import withExportObjectData from '../PreviewColumn/withExportObjectData'
 import withExportRcoData from '../PreviewColumn/withExportRcoData'
-import withExportPcoData from '../PreviewColumn/withExportPcoData'
 import withSynonymData from '../PreviewColumn/withSynonymData'
-import withPropsByTaxData from './withPropsByTaxData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const StyledSnackbar = styled(Snackbar)`
@@ -59,39 +52,184 @@ const Container = styled.div`
   overflow-y: auto !important;
   height: 100%;
 `
+const ErrorContainer = styled.div`
+  padding: 10px;
+`
+
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+    exportTaxFilters @client {
+      taxname
+      pname
+      comparator
+      value
+    }
+    exportRcoFilters @client {
+      pcname
+      pname
+      relationtype
+      comparator
+      value
+    }
+    exportRcoProperties @client {
+      pcname
+      relationtype
+      pname
+    }
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        taxonomyName
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
+const exportObjectQuery = gql`
+  query Query(
+    $exportTaxonomies: [String]!
+    $taxFilters: [TaxFilterInput]!
+    $fetchTaxProperties: Boolean!
+  ) {
+    exportObject(exportTaxonomies: $exportTaxonomies, taxFilters: $taxFilters) {
+      totalCount
+      nodes {
+        id
+        properties @include(if: $fetchTaxProperties)
+      }
+    }
+  }
+`
+// turned off because of errors
+/*
+const exportRcoQuery = gql`
+  query exportDataQuery(
+    $rcoFilters: [RcoFilterInput]!
+    $rcoProperties: [RcoPropertyInput]!
+    $fetchRcoProperties: Boolean!
+  ) {
+    exportRco(rcoFilters: $rcoFilters, rcoProperties: $rcoProperties)
+      @include(if: $fetchRcoProperties) {
+      totalCount
+      nodes {
+        id
+        propertyCollectionId
+        objectId
+        objectIdRelation
+        objectByObjectIdRelation {
+          id
+          name
+          taxonomyByTaxonomyId {
+            id
+            name
+          }
+        }
+        propertyCollectionByPropertyCollectionId {
+          id
+          name
+        }
+        propertyCollectionOfOrigin
+        relationType
+        properties
+      }
+    }
+  }
+`*/
+const synonymQuery = gql`
+  query Query {
+    allSynonyms {
+      nodes {
+        objectId
+        objectIdSynonym
+      }
+    }
+  }
+`
 // need to call all local data in case it has not yet been initiated
 // (this is an apollo-link-state error)
-const enhance = compose(
-  withExportTaxonomiesData,
-  withExportTaxPropertiesData,
-  withExportPcoPropertiesData,
-  withExportRcoPropertiesData,
-  withExportTaxFiltersData,
-  withExportPcoFiltersData,
-  withExportRcoFiltersData,
-  withPropsByTaxData,
-  withExportObjectData,
-  withExportRcoData,
-  withExportPcoData,
-  withSynonymData,
-)
+const enhance = compose(withSynonymData)
 
-const Export = ({
-  exportTaxonomiesData,
-  propsByTaxData,
-  exportRcoData,
-  exportObjectData,
-  exportPcoData,
-  synonymData,
-}: {
-  exportTaxonomiesData: Object,
-  propsByTaxData: Object,
-  exportRcoData: Object,
-  exportObjectData: Object,
-  exportPcoData: Object,
-  synonymData: Object,
-}) => {
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
+const Export = () => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  // need to remove __typename because apollo passes it along ?!
+  const taxFilters = get(storeData, 'exportTaxFilters', []).map(d =>
+    omit(d, ['__typename']),
+  )
+  const taxProperties = get(storeData, 'exportTaxProperties', []).map(d =>
+    omit(d, ['__typename']),
+  )
+  const fetchTaxProperties = taxProperties.length > 0
+  const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+  const { loading: exportObjectLoading, error: exportObjectError } = useQuery(
+    exportObjectQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        taxFilters,
+        fetchTaxProperties,
+      },
+    },
+  )
+  /*
+  const rcoFilters = get(storeData, 'exportRcoFilters', []).map(d =>
+    omit(d, ['__typename']),
+  )
+  const rcoProperties = get(storeData, 'exportRcoProperties', []).map(d =>
+    omit(d, ['__typename']),
+  )
+  const fetchRcoProperties = rcoProperties.length > 0
+  const { loading: exportRcoLoading, error: exportRcoError } = useQuery(
+    exportRcoQuery,
+    {
+      suspend: false,
+      variables: {
+        rcoFilters,
+        rcoProperties,
+        fetchRcoProperties,
+      },
+    },
+  )*/
+  const { loading: synonymLoading } = useQuery(synonymQuery, { suspend: false })
 
   const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(true)
   const [filterExpanded, setFilterExpanded] = useState(false)
@@ -115,7 +253,7 @@ const Export = ({
   )
   const onToggleFilter = useCallback(
     () => {
-      const loading = propsByTaxData.loading || exportTaxonomiesData.loading
+      const loading = propsByTaxLoading
       if (!filterExpanded && exportTaxonomies.length > 0 && !loading) {
         setFilterExpanded(true)
         // close all others
@@ -129,21 +267,11 @@ const Export = ({
         onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
       }
     },
-    [
-      exportTaxonomies,
-      propsByTaxData.loading,
-      exportTaxonomiesData.loading,
-      filterExpanded,
-    ],
+    [exportTaxonomies, propsByTaxLoading, filterExpanded],
   )
   const onToggleProperties = useCallback(
     () => {
-      const loading =
-        exportRcoData.loading ||
-        propsByTaxData.loading ||
-        exportObjectData.loading ||
-        exportPcoData.loading ||
-        synonymData.loading
+      const loading = propsByTaxLoading || exportObjectLoading || synonymLoading
       if (!propertiesExpanded && exportTaxonomies.length > 0 && !loading) {
         setPropertiesExpanded(true)
         // close all others
@@ -160,13 +288,19 @@ const Export = ({
     [
       propertiesExpanded,
       exportTaxonomies.length,
-      exportRcoData.loading,
-      propsByTaxData.loading,
-      exportObjectData.loading,
-      exportPcoData.loading,
-      synonymData.loading,
+      propsByTaxLoading,
+      exportObjectLoading,
+      synonymLoading,
     ],
   )
+
+  if (propsByTaxError) {
+    return (
+      <ErrorContainer>
+        `Error fetching data: ${propsByTaxError.message}`
+      </ErrorContainer>
+    )
+  }
 
   return (
     <ErrorBoundary>
