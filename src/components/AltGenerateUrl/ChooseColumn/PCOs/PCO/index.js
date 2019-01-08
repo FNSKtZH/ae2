@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -9,8 +9,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
@@ -65,17 +63,11 @@ const propsByTaxQuery = gql`
   }
 `
 
-const enhance = compose(withState('expanded', 'setExpanded', false))
-
 const PCO = ({
-  expanded,
-  setExpanded,
   pcoExpanded,
   onTogglePco,
   pc,
 }: {
-  expanded: Boolean,
-  setExpanded: () => void,
   pcoExpanded: Boolean,
   onTogglePco: () => {},
   pc: Object,
@@ -97,6 +89,7 @@ const PCO = ({
     'propertyCollectionName',
   )
 
+  const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
 
   return (
@@ -144,4 +137,4 @@ const PCO = ({
   )
 }
 
-export default enhance(PCO)
+export default PCO
