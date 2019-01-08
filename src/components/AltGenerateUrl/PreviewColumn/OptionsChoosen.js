@@ -1,27 +1,22 @@
 // @flow
-import React from 'react'
-import { withApollo } from 'react-apollo'
+import React, { useCallback } from 'react'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withExportTaxonomiesData from '../withExportTaxonomiesData'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
-import withExportPcoPropertiesData from '../withExportPcoPropertiesData'
 import removeExportPcoPropertyMutation from '../removeExportPcoPropertyMutation'
 import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
-import withExportRcoPropertiesData from '../withExportRcoPropertiesData'
 import removeExportRcoPropertyMutation from '../removeExportRcoPropertyMutation'
 import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutation'
-import withExportTaxPropertiesData from '../withExportTaxPropertiesData'
 import removeExportTaxPropertyMutation from '../removeExportTaxPropertyMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
-import withExportTooManyPropertiesData from '../withExportTooManyPropertiesData'
 import constants from '../../../modules/constants'
+import TaxProperties from './TaxProperties'
 
 const styles = theme => ({
   button: {
@@ -57,71 +52,55 @@ const StyledButton = styled(Button)`
   margin-top: 0 !important;
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withExportTaxPropertiesData,
-  withExportPcoPropertiesData,
-  withExportRcoPropertiesData,
-  withExportTooManyPropertiesData,
-  withHandlers({
-    onClickResetAll: ({ client }) => () => {
-      client.mutate({
-        mutation: exportTaxonomiesMutation,
-        variables: { value: [] },
-      })
-      client.mutate({
-        mutation: exportPcoPropertiesResetMutation,
-      })
-      client.mutate({
-        mutation: exportRcoPropertiesResetMutation,
-      })
-      client.mutate({
-        mutation: exportTaxPropertiesResetMutation,
-      })
-    },
-  }),
-  withState('expanded', 'setExpanded', true),
-  withStyles(styles),
-)
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+    exportTaxProperties @client {
+      taxname
+      pname
+    }
+    exportPcoProperties @client {
+      pcname
+      pname
+    }
+    exportRcoProperties @client {
+      pcname
+      relationtype
+      pname
+    }
+  }
+`
 
-const OptionsChoosen = ({
-  client,
-  expanded,
-  setExpanded,
-  exportTaxonomiesData,
-  exportTaxPropertiesData,
-  exportPcoPropertiesData,
-  exportRcoPropertiesData,
-  classes,
-  onClickResetAll,
-}: {
-  client: Object,
-  expanded: Boolean,
-  setExpanded: () => void,
-  exportTaxonomiesData: Object,
-  exportTaxPropertiesData: Object,
-  exportPcoPropertiesData: Object,
-  exportRcoPropertiesData: Object,
-  classes: Object,
-  onClickResetAll: () => void,
-}) => {
-  const exportTaxonomies = get(exportTaxonomiesData, 'exportTaxonomies', [])
-  const exportTaxProperties = get(
-    exportTaxPropertiesData,
-    'exportTaxProperties',
-    [],
-  )
-  const exportPcoProperties = get(
-    exportPcoPropertiesData,
-    'exportPcoProperties',
-    [],
-  )
-  const exportRcoProperties = get(
-    exportRcoPropertiesData,
-    'exportRcoProperties',
-    [],
-  )
+const enhance = compose(withStyles(styles))
+
+const OptionsChoosen = ({ classes }: { classes: Object }) => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
+  const onClickResetAll = useCallback(() => {
+    client.mutate({
+      mutation: exportTaxonomiesMutation,
+      variables: { value: [] },
+    })
+    client.mutate({
+      mutation: exportPcoPropertiesResetMutation,
+      variables: { value: [] },
+    })
+    client.mutate({
+      mutation: exportRcoPropertiesResetMutation,
+      variables: { value: [] },
+    })
+    client.mutate({
+      mutation: exportTaxPropertiesResetMutation,
+      variables: { value: [] },
+    })
+  })
+
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
+  const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
+  const exportRcoProperties = get(storeData, 'exportRcoProperties', [])
   const noDataChoosen =
     [
       ...exportTaxonomies,
@@ -131,12 +110,12 @@ const OptionsChoosen = ({
     ].length === 0
 
   if (noDataChoosen) return null
+
   return (
     <Container>
       <Title title="Gewählte Optionen">Gewählte Optionen</Title>
       <ul>
-        <li
-        >{`Taxonomien (welche das Artenlistentool erwartet): ${constants.altTaxonomies.join(
+        <li>{`Taxonomien (welche das Artenlistentool erwartet): ${constants.altTaxonomies.join(
           ', ',
         )}`}</li>
         {exportRcoProperties.length > 0 && (
@@ -153,24 +132,7 @@ const OptionsChoosen = ({
               : ''
           }`}
           <ul>
-            {exportTaxProperties.map(({ taxname, pname }, i) => (
-              <li key={i}>
-                {`${taxname}: ${pname}`}
-                <ResetSpan
-                  onClick={() => {
-                    client.mutate({
-                      mutation: removeExportTaxPropertyMutation,
-                      variables: {
-                        taxname,
-                        pname,
-                      },
-                    })
-                  }}
-                >
-                  zurücksetzen
-                </ResetSpan>
-              </li>
-            ))}
+            <TaxProperties properties={exportTaxProperties} />
             {exportPcoProperties.map(({ pcname, pname }, i) => (
               <li key={i}>
                 {`${pcname}: ${pname}`}
