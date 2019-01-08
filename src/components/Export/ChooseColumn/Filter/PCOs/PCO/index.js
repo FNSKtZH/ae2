@@ -15,7 +15,6 @@ import gql from 'graphql-tag'
 
 import Properties from './Properties'
 import constants from '../../../../../../modules/constants'
-import propsByTaxQuery from '../propsByTaxQuery'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const ErrorContainer = styled.div`
@@ -57,6 +56,22 @@ const PropertiesContainer = styled.div`
 const storeQuery = gql`
   query exportTaxonomiesQuery {
     exportTaxonomies @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
 `
 

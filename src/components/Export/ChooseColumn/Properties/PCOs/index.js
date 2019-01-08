@@ -14,7 +14,6 @@ import gql from 'graphql-tag'
 
 import PCOs from './PCOs'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
-import propsByTaxQuery from './PCO/propsByTaxQuery'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -44,6 +43,22 @@ const Count = styled.span`
 const storeQuery = gql`
   query exportTaxonomiesQuery {
     exportTaxonomies @client
+  }
+`
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
 `
 
