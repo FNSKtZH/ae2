@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 
 import AllChooser from './Taxonomy/AllChooser'
-import Chooser from './Taxonomy/Chooser'
+import Properties from './Properties'
 import constants from '../../../../../modules/constants'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
@@ -79,15 +79,7 @@ const JointTaxonomy = ({
             <AllChooser properties={jointTaxProperties} />
           )}
           <PropertiesContainer data-width={window.innerWidth - 84}>
-            {jointTaxProperties.map(field => (
-              <Chooser
-                key={`${field.propertyName}${field.jsontype}`}
-                taxname={'Taxonomie'}
-                pname={field.propertyName}
-                jsontype={field.jsontype}
-                count={field.count}
-              />
-            ))}
+            <Properties properties={jointTaxProperties} />
           </PropertiesContainer>
         </StyledCollapse>
       </StyledCard>

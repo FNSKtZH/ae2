@@ -14,7 +14,7 @@ import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import AllChooser from './AllChooser'
-import Chooser from './Chooser'
+import Properties from '../Properties'
 import constants from '../../../../../../modules/constants'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
@@ -76,7 +76,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const Properties = ({
+const Taxonomy = ({
   initiallyExpanded,
   tax,
 }: {
@@ -108,14 +108,16 @@ const Properties = ({
 
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
+  const properties = taxPropertiesByTaxonomy[tax]
+
   return (
     <ErrorBoundary>
       <StyledCard>
         <StyledCardActions disableActionSpacing onClick={onClickActions}>
           <CardActionTitle>
             {tax}
-            <Count>{`(${taxPropertiesByTaxonomy[tax].length} ${
-              taxPropertiesByTaxonomy[tax].length === 1 ? 'Feld' : 'Felder'
+            <Count>{`(${properties.length} ${
+              properties.length === 1 ? 'Feld' : 'Felder'
             })`}</Count>
             <CardActionIconButton
               data-expanded={expanded}
@@ -131,19 +133,9 @@ const Properties = ({
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <StyledCardContent>
             <>
-              {taxPropertiesByTaxonomy[tax].length > 1 && (
-                <AllChooser properties={taxPropertiesByTaxonomy[tax]} />
-              )}
+              {properties.length > 1 && <AllChooser properties={properties} />}
               <PropertiesContainer data-width={window.innerWidth - 84}>
-                {taxPropertiesByTaxonomy[tax].map(field => (
-                  <Chooser
-                    key={`${field.propertyName}${field.jsontype}`}
-                    taxname={field.taxonomyName}
-                    pname={field.propertyName}
-                    jsontype={field.jsontype}
-                    count={field.count}
-                  />
-                ))}
+                <Properties properties={properties} />
               </PropertiesContainer>
             </>
           </StyledCardContent>
@@ -153,4 +145,4 @@ const Properties = ({
   )
 }
 
-export default Properties
+export default Taxonomy
