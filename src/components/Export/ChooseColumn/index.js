@@ -8,7 +8,6 @@ import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Snackbar from '@material-ui/core/Snackbar'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 import { useQuery } from 'react-apollo-hooks'
@@ -17,8 +16,6 @@ import gql from 'graphql-tag'
 import Taxonomies from './Taxonomies'
 import Properties from './Properties'
 import Filter from './Filter'
-import withExportRcoData from '../PreviewColumn/withExportRcoData'
-import withSynonymData from '../PreviewColumn/withSynonymData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const StyledSnackbar = styled(Snackbar)`
@@ -174,9 +171,6 @@ const synonymQuery = gql`
     }
   }
 `
-// need to call all local data in case it has not yet been initiated
-// (this is an apollo-link-state error)
-const enhance = compose(withSynonymData)
 
 const Export = () => {
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
@@ -362,4 +356,4 @@ const Export = () => {
   )
 }
 
-export default enhance(Export)
+export default Export
