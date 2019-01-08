@@ -1,8 +1,7 @@
 // @flow
 import React, { useCallback } from 'react'
-import { withApollo } from 'react-apollo'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
+import { useApolloClient } from 'react-apollo-hooks'
 
 import exportTaxFiltersMutation from '../../../exportTaxFiltersMutation'
 import booleanToJaNein from '../../../../../modules/booleanToJaNein'
@@ -21,15 +20,8 @@ const ResetSpan = styled.span`
   text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
 
-const enhance = compose(withApollo)
-
-const ExportTaxFilterListItem = ({
-  filter,
-  client,
-}: {
-  filter: Object,
-  client: Object,
-}) => {
+const ExportTaxFilterListItem = ({ filter }: { filter: Object }) => {
+  const client = useApolloClient()
   const { taxname, pname, comparator, value } = filter
   const onClick = useCallback(
     () =>
@@ -56,4 +48,4 @@ const ExportTaxFilterListItem = ({
   )
 }
 
-export default enhance(ExportTaxFilterListItem)
+export default ExportTaxFilterListItem
