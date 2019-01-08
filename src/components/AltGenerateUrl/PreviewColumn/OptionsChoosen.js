@@ -13,10 +13,10 @@ import removeExportPcoPropertyMutation from '../removeExportPcoPropertyMutation'
 import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
 import removeExportRcoPropertyMutation from '../removeExportRcoPropertyMutation'
 import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutation'
-import removeExportTaxPropertyMutation from '../removeExportTaxPropertyMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
 import constants from '../../../modules/constants'
 import TaxProperties from './TaxProperties'
+import PcoProperties from './PcoProperties'
 
 const styles = theme => ({
   button: {
@@ -133,24 +133,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
           }`}
           <ul>
             <TaxProperties properties={exportTaxProperties} />
-            {exportPcoProperties.map(({ pcname, pname }, i) => (
-              <li key={i}>
-                {`${pcname}: ${pname}`}
-                <ResetSpan
-                  onClick={() => {
-                    client.mutate({
-                      mutation: removeExportPcoPropertyMutation,
-                      variables: {
-                        pcname,
-                        pname,
-                      },
-                    })
-                  }}
-                >
-                  zurücksetzen
-                </ResetSpan>
-              </li>
-            ))}
+            <PcoProperties properties={exportPcoProperties} />
             {exportRcoProperties.map(({ pcname, relationtype, pname }, i) => (
               <li key={i}>
                 {`${pcname} - ${relationtype}: ${pname}`}
