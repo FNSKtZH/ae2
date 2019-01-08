@@ -11,6 +11,8 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import AllPcoChooser from '../AllPcoChooser'
 import PcoChooser from '../PcoChooser'
@@ -52,6 +54,12 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
+const storeQuery = gql`
+  query exportTaxonomiesQuery {
+    exportTaxonomies @client
+  }
+`
+
 const enhance = compose(
   withExportTaxonomiesData,
   withPropsByTaxData,
@@ -73,6 +81,8 @@ const PCO = ({
   onTogglePco: () => {},
   pc: Object,
 }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',

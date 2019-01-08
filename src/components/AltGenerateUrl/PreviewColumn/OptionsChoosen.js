@@ -10,7 +10,6 @@ import gql from 'graphql-tag'
 
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
 import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
-import removeExportRcoPropertyMutation from '../removeExportRcoPropertyMutation'
 import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
 import constants from '../../../modules/constants'
@@ -38,13 +37,6 @@ const Container = styled.div`
 `
 const Title = styled.div`
   font-weight: bold;
-`
-const ResetSpan = styled.span`
-  margin-left: 8px;
-  font-weight: 100;
-  font-style: italic;
-  cursor: pointer;
-  text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
 const StyledButton = styled(Button)`
   border: 1px solid !important;
