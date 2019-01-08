@@ -14,7 +14,7 @@ import withState from 'recompose/withState'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import AllPcoChooser from '../AllPcoChooser'
+import AllChooser from './AllChooser'
 import PcoChooser from './Chooser'
 import constants from '../../../../../modules/constants'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
@@ -124,9 +124,7 @@ const PCO = ({
         <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
           <>
             {pcoPropertiesByPropertyCollection[pc].length > 1 && (
-              <AllPcoChooser
-                properties={pcoPropertiesByPropertyCollection[pc]}
-              />
+              <AllChooser properties={pcoPropertiesByPropertyCollection[pc]} />
             )}
             <PropertiesContainer data-width={window.innerWidth - 84}>
               {pcoPropertiesByPropertyCollection[pc].map(field => (
