@@ -2,14 +2,23 @@
 
 import app from 'ampersand-app'
 import uniq from 'lodash/uniq'
+import gql from 'graphql-tag'
 
-import exportTaxPropertiesGql from '../../components/Export/exportTaxPropertiesGql'
 import exportPcoPropertiesGql from '../../components/Export/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from '../../components/Export/exportRcoPropertiesGql'
 import exportRcoInOneRowGql from '../../components/Export/exportRcoInOneRowGql'
 import exportRcoFiltersGql from '../../components/Export/exportRcoFiltersGql'
 import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
+
+const exportTaxPropertiesGql = gql`
+  query exportTaxPropertiesQuery {
+    exportTaxProperties @client {
+      taxname
+      pname
+    }
+  }
+`
 
 export default {
   Mutation: {
@@ -36,7 +45,7 @@ export default {
             t =>
               t.pcname === pcname &&
               t.relationtype === relationtype &&
-              t.pname === pname
+              t.pname === pname,
           )
         ) {
           const exportRcoProperties = [
@@ -55,7 +64,7 @@ export default {
           })
           // set exportRcoInOneRow if more than one type of rco is choosen
           const rcoPCTypes = uniq(
-            exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`)
+            exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`),
           )
           if (rcoPCTypes.length > 1 && !exportRcoInOneRow) {
             cache.writeData({ data: { exportRcoInOneRow: true } })
@@ -67,7 +76,7 @@ export default {
     removeExportRcoProperty: (
       _,
       { pcname, relationtype, pname },
-      { cache }
+      { cache },
     ) => {
       const current = cache.readQuery({ query: exportRcoPropertiesGql })
       const exportRcoProperties = current.exportRcoProperties.filter(
@@ -76,7 +85,7 @@ export default {
             x.pcname === pcname &&
             x.relationtype === relationtype &&
             x.pname === pname
-          )
+          ),
       )
       cache.writeData({
         data: { exportRcoProperties },
@@ -86,7 +95,7 @@ export default {
     setExportRcoFilters: (
       _,
       { pcname, relationtype, pname, comparator, value },
-      { cache }
+      { cache },
     ) => {
       const { exportRcoFilters } = cache.readQuery({
         query: exportRcoFiltersGql,
@@ -95,7 +104,7 @@ export default {
         x =>
           x.pcname === pcname &&
           x.relationtype === relationtype &&
-          x.pname === pname
+          x.pname === pname,
       )
       if (!comparator && !value && value !== 0) {
         // remove
@@ -107,7 +116,7 @@ export default {
                   x.pcname === pcname &&
                   x.relationtype === relationtype &&
                   x.pname === pname
-                )
+                ),
             ),
           },
         })
@@ -139,7 +148,7 @@ export default {
                     x.pcname === pcname &&
                     x.relationtype === relationtype &&
                     x.pname === pname
-                  )
+                  ),
               ),
               {
                 pcname,

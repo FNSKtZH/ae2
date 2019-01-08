@@ -1,13 +1,22 @@
 // @flow
 
 import app from 'ampersand-app'
+import gql from 'graphql-tag'
 
-import exportTaxPropertiesGql from '../../components/Export/exportTaxPropertiesGql'
 import exportTaxFiltersGql from '../../components/Export/exportTaxFiltersGql'
 import exportPcoPropertiesGql from '../../components/Export/exportPcoPropertiesGql'
 import exportRcoPropertiesGql from '../../components/Export/exportRcoPropertiesGql'
 import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
+
+const exportTaxPropertiesGql = gql`
+  query exportTaxPropertiesQuery {
+    exportTaxProperties @client {
+      taxname
+      pname
+    }
+  }
+`
 
 export default {
   Mutation: {

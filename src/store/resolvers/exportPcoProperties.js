@@ -1,13 +1,22 @@
 // @flow
 
 import app from 'ampersand-app'
+import gql from 'graphql-tag'
 
-import exportTaxPropertiesGql from '../../components/Export/exportTaxPropertiesGql'
 import exportPcoPropertiesGql from '../../components/Export/exportPcoPropertiesGql'
 import exportPcoFiltersGql from '../../components/Export/exportPcoFiltersGql'
 import exportRcoPropertiesGql from '../../components/Export/exportRcoPropertiesGql'
 import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
+
+const exportTaxPropertiesGql = gql`
+  query exportTaxPropertiesQuery {
+    exportTaxProperties @client {
+      taxname
+      pname
+    }
+  }
+`
 
 export default {
   Mutation: {
@@ -36,7 +45,7 @@ export default {
         // only add if not yet done
         if (
           !currentPco.exportPcoProperties.find(
-            t => t.pcname === pcname && t.pname === pname
+            t => t.pcname === pcname && t.pname === pname,
           )
         ) {
           cache.writeData({
@@ -60,7 +69,7 @@ export default {
         query: exportPcoPropertiesGql,
       })
       const exportPcoProperties = current.exportPcoProperties.filter(
-        x => !(x.pcname === pcname && x.pname === pname)
+        x => !(x.pcname === pcname && x.pname === pname),
       )
       cache.writeData({
         data: {
@@ -72,20 +81,20 @@ export default {
     setExportPcoFilters: (
       _,
       { pcname, pname, comparator, value },
-      { cache }
+      { cache },
     ) => {
       const { exportPcoFilters } = cache.readQuery({
         query: exportPcoFiltersGql,
       })
       const exportPcoFilter = exportPcoFilters.find(
-        x => x.pcname === pcname && x.pname === pname
+        x => x.pcname === pcname && x.pname === pname,
       )
       if (!comparator && !value && value !== 0) {
         // remove
         cache.writeData({
           data: {
             exportPcoFilters: exportPcoFilters.filter(
-              x => !(x.pcname === pcname && x.pname === pname)
+              x => !(x.pcname === pcname && x.pname === pname),
             ),
           },
         })
@@ -111,7 +120,7 @@ export default {
           data: {
             exportPcoFilters: [
               ...exportPcoFilters.filter(
-                x => !(x.pcname === pcname && x.pname === pname)
+                x => !(x.pcname === pcname && x.pname === pname),
               ),
               {
                 pcname,
