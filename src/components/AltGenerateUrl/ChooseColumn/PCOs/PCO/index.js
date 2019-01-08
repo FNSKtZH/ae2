@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -83,13 +83,12 @@ const PCO = ({
     'propertyCollectionName',
   )
 
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions
-          disableActionSpacing
-          onClick={() => setExpanded(!expanded)}
-        >
+        <StyledCardActions disableActionSpacing onClick={onClickActions}>
           <CardActionTitle>
             {pc}
             <Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${
@@ -109,7 +108,7 @@ const PCO = ({
           </CardActionIconButton>
         </StyledCardActions>
         <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
-          <Fragment>
+          <>
             {pcoPropertiesByPropertyCollection[pc].length > 1 && (
               <AllPcoChooser
                 properties={pcoPropertiesByPropertyCollection[pc]}
@@ -126,7 +125,7 @@ const PCO = ({
                 />
               ))}
             </PropertiesContainer>
-          </Fragment>
+          </>
         </StyledCollapse>
       </StyledCard>
     </ErrorBoundary>
