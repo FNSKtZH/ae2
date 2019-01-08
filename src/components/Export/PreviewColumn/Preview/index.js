@@ -3,31 +3,17 @@ import React, { useState, useCallback } from 'react'
 import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import omit from 'lodash/omit'
 import orderBy from 'lodash/orderBy'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withExportRcoData from '../withExportRcoData'
-import withExportObjectData from '../withExportObjectData'
-import withExportPcoData from '../withExportPcoData'
-import withSynonymData from '../withSynonymData'
-import withExportIdsData from './withExportIdsData'
-import withExportTaxonomiesData from '../../withExportTaxonomiesData'
-import withExportPcoPropertiesData from '../../withExportPcoPropertiesData'
-import withExportRcoPropertiesData from '../../withExportRcoPropertiesData'
-import withExportTaxPropertiesData from '../../withExportTaxPropertiesData'
-import withExportTaxFiltersData from '../../withExportTaxFiltersData'
-import withExportPcoFiltersData from '../../withExportPcoFiltersData'
-import withExportRcoFiltersData from '../../withExportRcoFiltersData'
-import withExportWithSynonymDataData from '../../withExportWithSynonymDataData'
-import withExportRcoInOneRowData from '../../withExportRcoInOneRowData'
-import withExportOnlyRowsWithPropertiesData from '../../withExportOnlyRowsWithPropertiesData'
 import exportXlsx from '../../../../modules/exportXlsx'
 import exportCsv from '../../../../modules/exportCsv'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import rowsFromObjects from '../rowsFromObjects'
-import withPropsByTaxData from '../../ChooseColumn/withPropsByTaxData'
 
 const Container = styled.div`
   padding-top: 5px;
@@ -48,6 +34,9 @@ const Container = styled.div`
   .react-grid-Cell {
     border: #ddd solid 1px !important;
   }
+`
+const ErrorContainer = styled.div`
+  padding: 9px;
 `
 const SpreadsheetContainer = styled.div`
   display: flex;
@@ -74,60 +63,230 @@ const StyledSnackbar = styled(Snackbar)`
   }
 `
 
-const enhance = compose(
-  withPropsByTaxData,
-  withExportIdsData,
-  withExportTaxonomiesData,
-  withExportTaxPropertiesData,
-  withExportTaxFiltersData,
-  withExportPcoPropertiesData,
-  withExportPcoFiltersData,
-  withExportRcoPropertiesData,
-  withExportRcoFiltersData,
-  withExportWithSynonymDataData,
-  withExportRcoInOneRowData,
-  withExportOnlyRowsWithPropertiesData,
-  withExportObjectData,
-  withExportPcoData,
-  withExportRcoData,
-  withSynonymData,
-)
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery(
+    $queryExportTaxonomies: Boolean!
+    $exportTaxonomies: [String]
+  ) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
+      @include(if: $queryExportTaxonomies) {
+      nodes {
+        taxonomyName
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
+const exportObjectQuery = gql`
+  query Query(
+    $exportTaxonomies: [String]!
+    $taxFilters: [TaxFilterInput]!
+    $fetchTaxProperties: Boolean!
+  ) {
+    exportObject(exportTaxonomies: $exportTaxonomies, taxFilters: $taxFilters) {
+      totalCount
+      nodes {
+        id
+        properties @include(if: $fetchTaxProperties)
+      }
+    }
+  }
+`
+const exportPcoQuery = gql`
+  query exportDataQuery(
+    $pcoFilters: [PcoFilterInput]!
+    $pcoProperties: [PcoPropertyInput]!
+    $fetchPcoProperties: Boolean!
+  ) {
+    exportPco(pcoFilters: $pcoFilters, pcoProperties: $pcoProperties)
+      @include(if: $fetchPcoProperties) {
+      totalCount
+      nodes {
+        id
+        objectId
+        propertyCollectionId
+        propertyCollectionOfOrigin
+        properties
+      }
+    }
+  }
+`
+const exportRcoQuery = gql`
+  query exportDataQuery(
+    $rcoFilters: [RcoFilterInput]!
+    $rcoProperties: [RcoPropertyInput]!
+    $fetchRcoProperties: Boolean!
+  ) {
+    exportRco(rcoFilters: $rcoFilters, rcoProperties: $rcoProperties)
+      @include(if: $fetchRcoProperties) {
+      totalCount
+      nodes {
+        id
+        propertyCollectionId
+        objectId
+        objectIdRelation
+        objectByObjectIdRelation {
+          id
+          name
+          taxonomyByTaxonomyId {
+            id
+            name
+          }
+        }
+        propertyCollectionByPropertyCollectionId {
+          id
+          name
+        }
+        propertyCollectionOfOrigin
+        relationType
+        properties
+      }
+    }
+  }
+`
+const synonymQuery = gql`
+  query Query {
+    allSynonyms {
+      nodes {
+        objectId
+        objectIdSynonym
+      }
+    }
+  }
+`
+const storeQuery = gql`
+  query storeQuery {
+    exportTaxonomies @client
+    exportTaxProperties @client {
+      taxname
+      pname
+    }
+    exportTaxFilters @client {
+      taxname
+      pname
+      comparator
+      value
+    }
+    exportPcoProperties @client {
+      pcname
+      pname
+    }
+    exportPcoFilters @client {
+      pcname
+      pname
+      comparator
+      value
+    }
+    exportRcoProperties @client {
+      pcname
+      relationtype
+      pname
+    }
+    exportPcoFilters @client {
+      pcname
+      pname
+      comparator
+      value
+    }
+    exportWithSynonymData @client
+    exportIds @client
+    exportRcoInOneRow @client
+    exportOnlyRowsWithProperties @client
+  }
+`
 
-const Preview = ({
-  exportRcoData,
-  exportObjectData,
-  exportPcoData,
-  synonymData,
-  propsByTaxData,
-  exportIdsData,
-  exportTaxonomiesData,
-  exportTaxPropertiesData,
-  exportTaxFiltersData,
-  exportPcoPropertiesData,
-  exportPcoFiltersData,
-  exportRcoPropertiesData,
-  exportRcoFiltersData,
-  exportWithSynonymDataData,
-  exportRcoInOneRowData,
-  exportOnlyRowsWithPropertiesData,
-}: {
-  exportRcoData: Object,
-  exportObjectData: Object,
-  exportPcoData: Object,
-  synonymData: Object,
-  propsByTaxData: Object,
-  exportIdsData: Object,
-  exportTaxonomiesData: Object,
-  exportTaxPropertiesData: Object,
-  exportTaxFiltersData: Object,
-  exportPcoPropertiesData: Object,
-  exportPcoFiltersData: Object,
-  exportRcoPropertiesData: Object,
-  exportRcoFiltersData: Object,
-  exportWithSynonymDataData: Object,
-  exportRcoInOneRowData: Object,
-  exportOnlyRowsWithPropertiesData: Object,
-}) => {
+const Preview = () => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies,
+        queryExportTaxonomies: exportTaxonomies.length > 0,
+      },
+    },
+  )
+  // need to remove __typename because apollo passes it along ?!
+  const taxFilters = get(storeData, 'exportTaxFilters', []).map(d =>
+    omit(d, ['__typename']),
+  )
+  const {
+    data: exportObjectData,
+    loading: exportObjectLoading,
+    error: exportObjectError,
+  } = useQuery(exportObjectQuery, {
+    suspend: false,
+    variables: {
+      exportTaxonomies,
+      taxFilters,
+      fetchTaxProperties: get(storeData, 'exportTaxProperties', []).length > 0,
+    },
+  })
+  const {
+    data: synonymData,
+    loading: synonymLoading,
+    error: synonymError,
+  } = useQuery(synonymQuery, { suspend: false })
+  const pcoFilters = get(storeData, 'exportPcoFilters', []).map(d =>
+    omit(d, ['__typename']),
+  )
+  const pcoProperties = get(storeData, 'exportPcoProperties', []).map(d =>
+    omit(d, ['__typename']),
+  )
+  const {
+    data: exportPcoData,
+    loading: exportPcoLoading,
+    error: exportPcoError,
+  } = useQuery(exportPcoQuery, {
+    suspend: false,
+    variables: {
+      pcoFilters,
+      pcoProperties,
+      fetchPcoProperties: pcoProperties.length > 0,
+    },
+  })
+  const rcoFilters = get(storeData, 'exportRcoFilters', []).map(d =>
+    omit(d, ['__typename']),
+  )
+  const rcoProperties = get(storeData, 'exportRcoProperties', []).map(d =>
+    omit(d, ['__typename']),
+  )
+  const {
+    data: exportRcoData,
+    loading: exportRcoLoading,
+    error: exportRcoError,
+  } = useQuery(exportRcoQuery, {
+    suspend: false,
+    variables: {
+      rcoFilters,
+      rcoProperties,
+      fetchRcoProperties: rcoProperties.length > 0,
+    },
+  })
+
   const [sortField, setSortField] = useState('id')
   const [sortDirection, setSortDirection] = useState('asc')
   const [message, setMessage] = useState('')
@@ -142,37 +301,17 @@ const Preview = ({
     [message],
   )
 
-  const exportIds = get(exportIdsData, 'exportIds', [])
-  const exportWithSynonymData = get(
-    exportWithSynonymDataData,
-    'exportWithSynonymData',
-    true,
-  )
-  const exportRcoInOneRow = get(
-    exportRcoInOneRowData,
-    'exportRcoInOneRow',
-    true,
-  )
+  const exportIds = get(storeData, 'exportIds', [])
+  const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
+  const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
   const exportOnlyRowsWithProperties = get(
-    exportOnlyRowsWithPropertiesData,
+    storeData,
     'exportOnlyRowsWithProperties',
     true,
   )
-  const exportTaxProperties = get(
-    exportTaxPropertiesData,
-    'exportTaxProperties',
-    [],
-  )
-  const exportPcoProperties = get(
-    exportPcoPropertiesData,
-    'exportPcoProperties',
-    [],
-  )
-  const exportRcoProperties = get(
-    exportRcoPropertiesData,
-    'exportRcoProperties',
-    [],
-  )
+  const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
+  const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
+  const exportRcoProperties = get(storeData, 'exportRcoProperties', [])
   const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
   const objects = get(exportObjectData, 'exportObject.nodes', [])
   const pco = get(exportPcoData, 'exportPco.nodes', [])
@@ -197,11 +336,11 @@ const Preview = ({
   rows = orderBy(rows, sortField, sortDirection)
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
   const loading =
-    exportRcoData.loading ||
-    propsByTaxData.loading ||
-    exportObjectData.loading ||
-    exportPcoData.loading ||
-    synonymData.loading
+    exportRcoLoading ||
+    propsByTaxLoading ||
+    exportObjectLoading ||
+    exportPcoLoading ||
+    synonymLoading
 
   const onGridSort = useCallback((column, direction) => {
     setSortField(column)
@@ -212,6 +351,42 @@ const Preview = ({
     message,
   ])
   const onClickCsv = useCallback(() => exportCsv(rows), [rows])
+
+  if (propsByTaxError) {
+    return (
+      <ErrorContainer>
+        `Error fetching data: ${propsByTaxError.message}`
+      </ErrorContainer>
+    )
+  }
+  if (exportObjectError) {
+    return (
+      <ErrorContainer>
+        `Error fetching data: ${exportObjectError.message}`
+      </ErrorContainer>
+    )
+  }
+  if (synonymError) {
+    return (
+      <ErrorContainer>
+        `Error fetching data: ${synonymError.message}`
+      </ErrorContainer>
+    )
+  }
+  if (exportPcoError) {
+    return (
+      <ErrorContainer>
+        `Error fetching data: ${exportPcoError.message}`
+      </ErrorContainer>
+    )
+  }
+  if (exportRcoError) {
+    return (
+      <ErrorContainer>
+        `Error fetching data: ${exportRcoError.message}`
+      </ErrorContainer>
+    )
+  }
 
   return (
     <ErrorBoundary>
@@ -255,4 +430,4 @@ const Preview = ({
   )
 }
 
-export default enhance(Preview)
+export default Preview
