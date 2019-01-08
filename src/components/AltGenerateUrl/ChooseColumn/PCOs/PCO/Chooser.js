@@ -1,16 +1,14 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import addExportPcoPropertyMutation from '../../../addExportPcoPropertyMutation'
 import removeExportPcoPropertyMutation from '../../../removeExportPcoPropertyMutation'
-import withExportPcoPropertiesData from '../../../withExportPcoPropertiesData'
 
 const Container = styled.div``
 const Count = styled.span`
@@ -25,11 +23,32 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withExportPcoPropertiesData,
-  withHandlers({
-    onCheck: ({ pcname, pname, client }) => (event, isChecked) => {
+const storeQuery = gql`
+  query exportPcoPropertiesQuery {
+    exportPcoProperties @client {
+      pcname
+      pname
+    }
+  }
+`
+
+const PcoChooser = ({
+  pcname,
+  pname,
+  jsontype,
+  count,
+}: {
+  pcname: string,
+  pname: string,
+  jsontype: string,
+  count: number,
+}) => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
+  const onCheck = useCallback(
+    (event, isChecked) => {
       const mutation = isChecked
         ? addExportPcoPropertyMutation
         : removeExportPcoPropertyMutation
@@ -38,30 +57,10 @@ const enhance = compose(
         variables: { pcname, pname },
       })
     },
-  }),
-)
-
-const PcoChooser = ({
-  pcname,
-  pname,
-  jsontype,
-  count,
-  onCheck,
-  exportPcoPropertiesData,
-}: {
-  pcname: string,
-  pname: string,
-  jsontype: string,
-  count: number,
-  onCheck: () => {},
-  exportPcoPropertiesData: Object,
-}) => {
-  const exportPcoProperties = get(
-    exportPcoPropertiesData,
-    'exportPcoProperties',
-    [],
+    [pcname, pname],
   )
-  //const exportPcoProperties = exportPcoPropertiesData.exportPcoProperties || []
+
+  const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
   const checked =
     exportPcoProperties.filter(x => x.pcname === pcname && x.pname === pname)
       .length > 0
@@ -82,4 +81,4 @@ const PcoChooser = ({
   )
 }
 
-export default enhance(PcoChooser)
+export default PcoChooser
