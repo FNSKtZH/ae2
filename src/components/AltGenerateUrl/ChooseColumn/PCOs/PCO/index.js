@@ -11,14 +11,12 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import AllPcoChooser from '../AllPcoChooser'
-import PcoChooser from '../PcoChooser'
+import PcoChooser from './Chooser'
 import constants from '../../../../../modules/constants'
-import withPropsByTaxData from '../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
