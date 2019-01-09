@@ -1,6 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
-import Snackbar from '@material-ui/core/Snackbar'
+import React from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -8,15 +7,13 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import JointTaxonomy from './JointTaxonomy'
-import withPropsByTaxData from '../withPropsByTaxData'
-import withData from '../withData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import constants from '../../../../modules/constants'
 
@@ -42,30 +39,37 @@ const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
-const StyledSnackbar = styled(Snackbar)`
-  div {
-    min-width: auto;
-    background-color: #2e7d32 !important;
+
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery($exportTaxonomies: [String]) {
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
+      nodes {
+        taxonomyName
+        propertyName
+        jsontype
+        count
+      }
+    }
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withData,
-  withPropsByTaxData,
-)
-
 const Properties = ({
-  propsByTaxData,
-  data,
   taxonomiesExpanded,
   onToggleTaxonomies,
 }: {
-  propsByTaxData: Object,
-  data: Object,
   taxonomiesExpanded: Boolean,
   onToggleTaxonomies: () => {},
 }) => {
+  const { data: propsByTaxData, error: propsByTaxError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies: constants.altTaxonomies,
+      },
+    },
+  )
+
   const taxProperties = get(
     propsByTaxData,
     'taxPropertiesByTaxonomiesFunction.nodes',
@@ -88,9 +92,11 @@ const Properties = ({
     }))
   }
 
+  if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
+
   return (
     <ErrorBoundary>
-      <Fragment>
+      <>
         <StyledCard>
           <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
             <CardActionTitle>
@@ -119,13 +125,9 @@ const Properties = ({
             <JointTaxonomy jointTaxProperties={jointTaxProperties} />
           </Collapse>
         </StyledCard>
-        <StyledSnackbar
-          open={propsByTaxData.loading || data.loading}
-          message="Lade Daten. Das dauert eine Weile..."
-        />
-      </Fragment>
+      </>
     </ErrorBoundary>
   )
 }
 
-export default enhance(Properties)
+export default Properties
