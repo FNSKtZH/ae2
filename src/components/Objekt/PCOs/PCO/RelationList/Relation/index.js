@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import sortBy from 'lodash/sortBy'
 import get from 'lodash/get'
 import styled from 'styled-components'
 
