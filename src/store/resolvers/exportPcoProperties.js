@@ -3,7 +3,6 @@
 import app from 'ampersand-app'
 import gql from 'graphql-tag'
 
-import exportPcoFiltersGql from '../../components/Export/exportPcoFiltersGql'
 import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
 
@@ -20,6 +19,16 @@ const exportPcoPropertiesGql = gql`
     exportPcoProperties @client {
       pcname
       pname
+    }
+  }
+`
+const exportPcoFiltersGql = gql`
+  query exportPcoFiltersQuery {
+    exportPcoFilters @client {
+      pcname
+      pname
+      comparator
+      value
     }
   }
 `
