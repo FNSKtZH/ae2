@@ -1,15 +1,13 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import addExportRcoPropertyMutation from '../../../../addExportRcoPropertyMutation'
 import removeExportRcoPropertyMutation from '../../../../removeExportRcoPropertyMutation'
-import withExportRcoPropertiesData from '../../../../withExportRcoPropertiesData'
 
 const Container = styled.div``
 const Count = styled.span`
@@ -24,14 +22,45 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withExportRcoPropertiesData,
-  withHandlers({
-    onCheck: ({ pcname, relationtype, pname, client }) => (
-      event,
-      isChecked,
-    ) => {
+const storeQuery = gql`
+  query exportRcoPropertiesQuery {
+    exportRcoProperties @client {
+      pcname
+      relationtype
+      pname
+    }
+  }
+`
+
+const RcoChooser = ({
+  pcname,
+  relationtype,
+  pname,
+  jsontype,
+  count,
+}: {
+  pcname: String,
+  relationtype: String,
+  pname: String,
+  jsontype: String,
+  count: Number,
+}) => {
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+
+  const exportRcoProperties = storeData.exportRcoProperties || []
+  const checked =
+    exportRcoProperties.filter(
+      x =>
+        x.pcname === pcname &&
+        x.relationtype === relationtype &&
+        x.pname === pname,
+    ).length > 0
+
+  const onCheck = useCallback(
+    (event, isChecked) => {
       const mutation = isChecked
         ? addExportRcoPropertyMutation
         : removeExportRcoPropertyMutation
@@ -40,34 +69,8 @@ const enhance = compose(
         variables: { pcname, relationtype, pname },
       })
     },
-  }),
-)
-
-const RcoChooser = ({
-  pcname,
-  relationtype,
-  pname,
-  jsontype,
-  count,
-  onCheck,
-  exportRcoPropertiesData,
-}: {
-  pcname: String,
-  relationtype: String,
-  pname: String,
-  jsontype: String,
-  count: Number,
-  onCheck: () => void,
-  exportRcoPropertiesData: Object,
-}) => {
-  const exportRcoProperties = exportRcoPropertiesData.exportRcoProperties || []
-  const checked =
-    exportRcoProperties.filter(
-      x =>
-        x.pcname === pcname &&
-        x.relationtype === relationtype &&
-        x.pname === pname,
-    ).length > 0
+    [pcname, relationtype, pname],
+  )
 
   return (
     <Container>
@@ -85,4 +88,4 @@ const RcoChooser = ({
   )
 }
 
-export default enhance(RcoChooser)
+export default RcoChooser
