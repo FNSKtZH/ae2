@@ -69,11 +69,7 @@ const StyledMoreVertIcon = styled(ShareIcon)`
 const getInitials = name => name.match(/\b(\w)/g).join('')
 
 const MyAppBar = () => {
-  const {
-    data: storeData,
-    error: storeDataError,
-    loading: storeDataLoading,
-  } = useQuery(storeQuery, {
+  const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
   })
   const activeNodeArray = get(storeData, 'activeNodeArray', [])
@@ -91,7 +87,7 @@ const MyAppBar = () => {
     taxId = activeNodeArray[1]
   }
   const existsTaxId = taxId !== '99999999-9999-9999-9999-999999999999'
-  const { data, error: dataError, loading: dataLoading } = useQuery(query, {
+  const { data, error: dataError } = useQuery(query, {
     suspend: false,
     variables: {
       objectId: objectId || '99999999-9999-9999-9999-999999999999',
@@ -191,6 +187,8 @@ const MyAppBar = () => {
     setTimeout(() => setLayout(), 100)
     return () => window.removeEventListener('resize', debounce(setLayout, 200))
   })
+
+  if (dataError) return `Error fetching data: ${dataError.message}`
 
   return (
     <ErrorBoundary>
