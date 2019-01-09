@@ -296,6 +296,14 @@ const Export = () => {
     )
   }
 
+  if (exportObjectError) {
+    return (
+      <ErrorContainer>
+        `Error fetching data: ${exportObjectError.message}`
+      </ErrorContainer>
+    )
+  }
+
   return (
     <ErrorBoundary>
       <Container>
