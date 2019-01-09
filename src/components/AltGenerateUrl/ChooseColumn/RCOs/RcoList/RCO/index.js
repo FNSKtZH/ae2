@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -12,6 +12,8 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import compose from 'recompose/compose'
 import withState from 'recompose/withState'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import AllRcoChooser from './AllRcoChooser'
 import RcoChooser from './RcoChooser'
@@ -57,27 +59,33 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxonomiesData,
-  withData,
-  withPropsByTaxData,
-  withState('expanded', 'setExpanded', false),
-)
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery($exportTaxonomies: [String]) {
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
 
-const RCO = ({
-  expanded,
-  setExpanded,
-  propsByTaxData,
-  data,
-  pc,
-}: {
-  expanded: Boolean,
-  setExpanded: () => void,
-  propsByTaxData: Object,
-  data: Object,
-  pc: Object,
-}) => {
+const RCO = ({ pc }: { pc: Object }) => {
+  const { data: propsByTaxData, error: propsByTaxError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies: constants.altTaxonomies,
+      },
+    },
+  )
+
+  const [expanded, setExpanded] = useState(false)
+
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
@@ -90,6 +98,8 @@ const RCO = ({
     }
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
+
+  if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
   return (
     <ErrorBoundary>
@@ -142,4 +152,4 @@ const RCO = ({
   )
 }
 
-export default enhance(RCO)
+export default RCO
