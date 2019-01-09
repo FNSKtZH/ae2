@@ -12,7 +12,7 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import RCO from './RCO'
+import RcoList from './RcoList'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import constants from '../../../../modules/constants'
 
@@ -112,9 +112,7 @@ const RCOs = ({
             </CardActionIconButton>
           </StyledCardActions>
           <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
-            {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
-              <RCO key={pc} pc={pc} />
-            ))}
+            <RcoList rcNames={Object.keys(rcoPropertiesByPropertyCollection)} />
           </Collapse>
         </StyledCard>
       </Container>

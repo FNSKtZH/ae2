@@ -7,9 +7,9 @@ import compose from 'recompose/compose'
 import withHandlers from 'recompose/withHandlers'
 import { withApollo } from 'react-apollo'
 
-import addExportRcoPropertyMutation from '../../../addExportRcoPropertyMutation'
-import removeExportRcoPropertyMutation from '../../../removeExportRcoPropertyMutation'
-import withExportRcoPropertiesData from '../../../withExportRcoPropertiesData'
+import addExportRcoPropertyMutation from '../../../../addExportRcoPropertyMutation'
+import removeExportRcoPropertyMutation from '../../../../removeExportRcoPropertyMutation'
+import withExportRcoPropertiesData from '../../../../withExportRcoPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;

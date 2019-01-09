@@ -15,11 +15,11 @@ import withState from 'recompose/withState'
 
 import AllRcoChooser from './AllRcoChooser'
 import RcoChooser from './RcoChooser'
-import constants from '../../../../../modules/constants'
-import withPropsByTaxData from '../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../withExportTaxonomiesData'
-import withData from '../../withData'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
+import constants from '../../../../../../modules/constants'
+import withPropsByTaxData from '../../../withPropsByTaxData'
+import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
+import withData from '../../../withData'
+import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const PropertiesContainer = styled.div`
   column-width: ${props =>
