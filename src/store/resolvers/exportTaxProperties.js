@@ -3,7 +3,6 @@
 import app from 'ampersand-app'
 import gql from 'graphql-tag'
 
-import exportTaxFiltersGql from '../../components/Export/exportTaxFiltersGql'
 import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
 
@@ -12,6 +11,16 @@ const exportTaxPropertiesGql = gql`
     exportTaxProperties @client {
       taxname
       pname
+    }
+  }
+`
+const exportTaxFiltersGql = gql`
+  query exportTaxFiltersQuery {
+    exportTaxFilters @client {
+      taxname
+      pname
+      comparator
+      value
     }
   }
 `
