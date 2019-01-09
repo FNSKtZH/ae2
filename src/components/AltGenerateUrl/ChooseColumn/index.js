@@ -1,17 +1,13 @@
 // @flow
-import React from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import withHandlers from 'recompose/withHandlers'
-import lifecycle from 'recompose/lifecycle'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import withExportTaxonomiesData from '../withExportTaxonomiesData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import Snackbar from '@material-ui/core/Snackbar'
 import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
@@ -32,29 +28,60 @@ const StyledH3 = styled.h3`
   padding-left: 10px;
 `
 
-const enhance = compose(
-  withApollo,
-  lifecycle({
-    componentDidMount() {
-      const { client } = this.props
-      client.mutate({
-        mutation: exportTaxonomiesMutation,
-        variables: { value: constants.altTaxonomies },
-      })
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery($exportTaxonomies: [String]) {
+    pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        propertyName
+        jsontype
+        count
+      }
+    }
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
+    taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
+      nodes {
+        taxonomyName
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
+
+const Properties = () => {
+  const client = useApolloClient()
+
+  const { loading } = useQuery(propsByTaxQuery, {
+    suspend: false,
+    variables: {
+      exportTaxonomies: constants.altTaxonomies,
     },
-  }),
-  withExportTaxonomiesData,
-  withState('taxonomiesExpanded', 'setTaxonomiesExpanded', false),
-  withState('pcoExpanded', 'setPcoExpanded', false),
-  withState('rcoExpanded', 'setPropertiesExpanded', false),
-  withState('message', 'setMessage', ''),
-  withHandlers({
-    onToggleTaxonomies: ({
-      taxonomiesExpanded,
-      setTaxonomiesExpanded,
-      setPcoExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+  })
+
+  useEffect(() => {
+    client.mutate({
+      mutation: exportTaxonomiesMutation,
+      variables: { value: constants.altTaxonomies },
+    })
+  }, [])
+
+  const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(false)
+  const [pcoExpanded, setPcoExpanded] = useState(false)
+  const [rcoExpanded, setPropertiesExpanded] = useState(false)
+  const message = loading ? 'Lade Daten. Das dauert eine Weile' : ''
+
+  const onToggleTaxonomies = useCallback(
+    () => {
       setTaxonomiesExpanded(!taxonomiesExpanded)
       // TODO (later)
       // check if only one Taxonomy
@@ -64,12 +91,10 @@ const enhance = compose(
       setPcoExpanded(false)
       setPropertiesExpanded(false)
     },
-    onTogglePco: ({
-      pcoExpanded,
-      setTaxonomiesExpanded,
-      setPcoExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+    [taxonomiesExpanded],
+  )
+  const onTogglePco = useCallback(
+    () => {
       if (!pcoExpanded) {
         setPcoExpanded(true)
         // close all others
@@ -79,12 +104,10 @@ const enhance = compose(
         setPcoExpanded(false)
       }
     },
-    onToggleRco: ({
-      rcoExpanded,
-      setTaxonomiesExpanded,
-      setPcoExpanded,
-      setPropertiesExpanded,
-    }) => () => {
+    [pcoExpanded],
+  )
+  const onToggleRco = useCallback(
+    () => {
       if (!rcoExpanded) {
         setPropertiesExpanded(true)
         // close all others
@@ -94,32 +117,9 @@ const enhance = compose(
         setPropertiesExpanded(false)
       }
     },
-    onSetMessage: ({ message, setMessage }) => (message: String) => {
-      setMessage(message)
-      if (!!message) {
-        setTimeout(() => setMessage(''), 5000)
-      }
-    },
-  }),
-)
+    [rcoExpanded],
+  )
 
-const Properties = ({
-  taxonomiesExpanded,
-  pcoExpanded,
-  rcoExpanded,
-  onToggleTaxonomies,
-  onTogglePco,
-  onToggleRco,
-  message,
-}: {
-  taxonomiesExpanded: Boolean,
-  pcoExpanded: Boolean,
-  rcoExpanded: Boolean,
-  onToggleTaxonomies: () => {},
-  onTogglePco: () => {},
-  onToggleRco: () => {},
-  message: String,
-}) => {
   return (
     <ErrorBoundary>
       <Container>
@@ -137,4 +137,4 @@ const Properties = ({
   )
 }
 
-export default enhance(Properties)
+export default Properties
