@@ -6,8 +6,8 @@ import styled from 'styled-components'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import addExportRcoPropertyMutation from '../../../../addExportRcoPropertyMutation'
-import removeExportRcoPropertyMutation from '../../../../removeExportRcoPropertyMutation'
+import addExportRcoPropertyMutation from '../../../../../addExportRcoPropertyMutation'
+import removeExportRcoPropertyMutation from '../../../../../removeExportRcoPropertyMutation'
 
 const Container = styled.div``
 const Count = styled.span`

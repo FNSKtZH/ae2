@@ -7,20 +7,14 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import AllRcoChooser from './AllRcoChooser'
-import RcoChooser from './RcoChooser'
+import RcoChooserList from './RcoChooserList'
 import constants from '../../../../../../modules/constants'
-import withPropsByTaxData from '../../../withPropsByTaxData'
-import withExportTaxonomiesData from '../../../../withExportTaxonomiesData'
-import withData from '../../../withData'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const PropertiesContainer = styled.div`
@@ -134,16 +128,9 @@ const RCO = ({ pc }: { pc: Object }) => {
               />
             )}
             <PropertiesContainer data-width={window.innerWidth - 84}>
-              {rcoPropertiesByPropertyCollection[pc].map(field => (
-                <RcoChooser
-                  key={`${field.propertyName}${field.jsontype}`}
-                  pcname={field.propertyCollectionName}
-                  relationtype={field.relationType}
-                  pname={field.propertyName}
-                  jsontype={field.jsontype}
-                  count={field.count}
-                />
-              ))}
+              <RcoChooserList
+                properties={rcoPropertiesByPropertyCollection[pc]}
+              />
             </PropertiesContainer>
           </Fragment>
         </StyledCollapse>

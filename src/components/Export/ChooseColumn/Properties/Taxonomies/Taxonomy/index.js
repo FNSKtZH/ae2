@@ -45,7 +45,7 @@ const StyledCardContent = styled(CardContent)`
 `
 const PropertiesContainer = styled.div`
   column-width: ${props =>
-    props['withData-width'] > 2 * constants.export.properties.columnWidth
+    props['data-width'] > 2 * constants.export.properties.columnWidth
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};
 `
