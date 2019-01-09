@@ -2,14 +2,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import compose from 'recompose/compose'
 import uniqBy from 'lodash/uniqBy'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import TaxonomyObjects from './TaxonomyObjects'
 import TaxonomyObject from './TaxonomyObjects/TaxonomyObject'
 import PCOs from './PCOs'
-import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import withObjectData from './withObjectData'
+import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
+import objectDataQuery from './objectDataQuery'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div``
@@ -36,21 +37,26 @@ const SynonymTitle = styled(Title)`
   margin-bottom: 5px;
 `
 
-const enhance = compose(
-  withActiveNodeArrayData,
-  withObjectData,
-)
+const storeQuery = gql`
+  query storeQuery {
+    activeNodeArray @client
+  }
+`
 
-const Objekt = ({
-  objectData,
-  stacked = false,
-}: {
-  objectData: Object,
-  stacked: Boolean,
-}) => {
-  const { loading, error } = objectData
-  if (loading) return <Container2>Lade Daten...</Container2>
-  if (error) return <Container2>`Fehler: ${error.message}`</Container2>
+const Objekt = ({ stacked = false }: { stacked: Boolean }) => {
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+  const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
+  const {
+    data: objectData,
+    loading: objectLoading,
+    error: objectError,
+  } = useQuery(objectDataQuery, {
+    suspend: false,
+    variables: {
+      objectId,
+    },
+  })
 
   const objekt = get(objectData, 'objectById')
   if (!objekt) return <div />
@@ -79,6 +85,10 @@ const Objekt = ({
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
     pco => !propertyCollectionIds.includes(pco.propertyCollectionId),
   )
+
+  if (objectLoading) return <Container2>Lade Daten...</Container2>
+  if (objectError)
+    return <Container2>{`Fehler: ${objectError.message}`}</Container2>
 
   return (
     <ErrorBoundary>
@@ -131,4 +141,4 @@ const Objekt = ({
   )
 }
 
-export default enhance(Objekt)
+export default Objekt

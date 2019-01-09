@@ -9,15 +9,12 @@
  */
 import React from 'react'
 import get from 'lodash/get'
-import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
-import PropertyReadOnly from '../../../shared/PropertyReadOnly'
-import PropertyReadOnlyStacked from '../../../shared/PropertyReadOnlyStacked'
-import Property from '../../../shared/Property'
-import NewProperty from '../../../shared/NewProperty'
+import PropertyList from './PropertyList'
+import NewProperty from '../../../../shared/NewProperty'
 
 const PropertiesTitleContainer = styled.div`
   display: flex;
@@ -86,23 +83,13 @@ const Properties = ({
           <PropertiesTitleValue />
         </PropertiesTitleContainer>
       )}
-      {sortBy(
-        propertiesArray.filter(([key, value]) => value || value === 0),
-        e => e[0],
-      ).map(([key, value]) =>
-        editing ? (
-          <Property
-            key={`${id}/${key}/${value}`}
-            id={id}
-            properties={properties}
-            field={key}
-          />
-        ) : stacked ? (
-          <PropertyReadOnlyStacked key={key} value={value} label={key} />
-        ) : (
-          <PropertyReadOnly key={key} value={value} label={key} />
-        ),
-      )}
+      <PropertyList
+        propertiesArray={propertiesArray}
+        properties={properties}
+        editing={editing}
+        stacked={stacked}
+        id={id}
+      />
       {editing && (
         <NewProperty
           key={`${id}/newProperty`}
