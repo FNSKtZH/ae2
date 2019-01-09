@@ -4,7 +4,6 @@ import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
 
 import ChooseColumn from './ChooseColumn'
 import PreviewColumn from './PreviewColumn'
-import ErrorBoundary from '../shared/ErrorBoundary'
 
 const ExportFlexed = () => (
   <ReflexContainer orientation="vertical">
@@ -15,15 +14,11 @@ const ExportFlexed = () => (
       renderOnResizeRate={50}
       renderOnResize={true}
     >
-      <ErrorBoundary>
-        <ChooseColumn />
-      </ErrorBoundary>
+      <ChooseColumn />
     </ReflexElement>
     <ReflexSplitter key="treeSplitter" />
     <ReflexElement>
-      <ErrorBoundary>
-        <PreviewColumn />
-      </ErrorBoundary>
+      <PreviewColumn />
     </ReflexElement>
   </ReflexContainer>
 )

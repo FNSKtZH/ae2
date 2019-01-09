@@ -23,12 +23,14 @@ const ExportStacked = () => {
   const [tab, setTab] = useState(0)
 
   const onChangeTab = useCallback((event, value) => setTab(value))
+  const onChangeIndex = useCallback(i => setTab(i))
 
   const w = window
   const d = document
   const e = d.documentElement
   const g = d.getElementsByTagName('body')[0]
   const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+  const dimensions = { width: windowWidth }
 
   return (
     <>
@@ -43,9 +45,9 @@ const ExportStacked = () => {
           <Tab label="Vorschau" />
         </Tabs>
       </StyledPaper>
-      <StyledSwipeableViews axis="x" index={tab} onChangeIndex={i => setTab(i)}>
-        <ChooseColumn dimensions={{ width: windowWidth }} />
-        <PreviewColumn dimensions={{ width: windowWidth }} />
+      <StyledSwipeableViews axis="x" index={tab} onChangeIndex={onChangeIndex}>
+        <ChooseColumn dimensions={dimensions} />
+        <PreviewColumn dimensions={dimensions} />
       </StyledSwipeableViews>
     </>
   )
