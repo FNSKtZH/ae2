@@ -39,20 +39,11 @@ const StyledPaper = styled(Paper)`
 
 const User = () => {
   const client = useApolloClient()
-  const {
-    data: storeData,
-    error: storeDataError,
-    loading: storeDataLoading,
-  } = useQuery(storeQuery, {
+  const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
   })
   const activeNodeArray = get(storeData, 'activeNodeArray', [])
-  const {
-    data: treeData,
-    error: treeDataError,
-    loading: treeDataLoading,
-    refetch: treeDataRefetch,
-  } = useQuery(treeDataQuery, {
+  const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
     suspend: false,
     variables: getTreeDataVariables({ activeNodeArray }),
   })
@@ -143,22 +134,8 @@ const User = () => {
     [user, name, email, passNew],
   )
 
-  if (dataLoading || treeDataLoading || storeDataLoading) {
+  if (dataLoading) {
     return <LEContainer>Lade Daten...</LEContainer>
-  }
-  if (storeDataError) {
-    return (
-      <LEContainer>
-        `Fehler beim Laden der Daten: ${storeDataError.message}`
-      </LEContainer>
-    )
-  }
-  if (treeDataError) {
-    return (
-      <LEContainer>
-        `Fehler beim Laden der Daten: ${treeDataError.message}`
-      </LEContainer>
-    )
   }
   if (dataError) {
     return (
