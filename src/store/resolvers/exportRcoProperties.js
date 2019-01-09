@@ -4,8 +4,6 @@ import app from 'ampersand-app'
 import uniq from 'lodash/uniq'
 import gql from 'graphql-tag'
 
-import exportRcoInOneRowGql from '../../components/Export/exportRcoInOneRowGql'
-import exportRcoFiltersGql from '../../components/Export/exportRcoFiltersGql'
 import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
 
@@ -32,6 +30,22 @@ const exportRcoPropertiesGql = gql`
       relationtype
       pname
     }
+  }
+`
+const exportRcoFiltersGql = gql`
+  query exportRcoFiltersQuery {
+    exportRcoFilters @client {
+      pcname
+      pname
+      relationtype
+      comparator
+      value
+    }
+  }
+`
+const exportRcoInOneRowGql = gql`
+  query exportRcoInOneRowQuery {
+    exportRcoInOneRow @client
   }
 `
 
