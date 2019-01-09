@@ -1,10 +1,9 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import copy from 'copy-to-clipboard'
-import compose from 'recompose/compose'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
@@ -44,8 +43,6 @@ const query = gql`
   }
 `
 
-const enhance = compose()
-
 const Url = () => {
   const [copyButtonText, setCopyButtonText] = useState('url kopieren')
 
@@ -75,6 +72,15 @@ const Url = () => {
     props,
   )}`
 
+  const onClickButton = useCallback(
+    () => {
+      setCopyButtonText('kopiert')
+      setTimeout(() => setCopyButtonText('url kopieren'), 3000)
+      copy(url)
+    },
+    [url],
+  )
+
   if (!fieldsChoosen) {
     return (
       <InfoDiv>
@@ -99,18 +105,10 @@ const Url = () => {
           autoCapitalize="off"
           spellCheck="false"
         />
-        <StyledButton
-          onClick={() => {
-            setCopyButtonText('kopiert')
-            setTimeout(() => setCopyButtonText('url kopieren'), 3000)
-            copy(url)
-          }}
-        >
-          {copyButtonText}
-        </StyledButton>
+        <StyledButton onClick={onClickButton}>{copyButtonText}</StyledButton>
       </Container>
     </ErrorBoundary>
   )
 }
 
-export default enhance(Url)
+export default Url
