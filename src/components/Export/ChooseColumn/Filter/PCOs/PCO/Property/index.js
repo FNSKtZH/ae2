@@ -2,11 +2,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import Comparator from './Comparator'
 import Value from './Value'
 import Checkbox from './Checkbox'
-import exportPcoFiltersQuery from '../../../../../exportPcoFiltersGql'
 
 const Container = styled.div`
   display: flex;
@@ -14,6 +14,16 @@ const Container = styled.div`
   padding: 4px 16px;
   > div {
     height: auto;
+  }
+`
+const exportPcoFiltersQuery = gql`
+  query exportPcoFiltersQuery {
+    exportPcoFilters @client {
+      pcname
+      pname
+      comparator
+      value
+    }
   }
 `
 
