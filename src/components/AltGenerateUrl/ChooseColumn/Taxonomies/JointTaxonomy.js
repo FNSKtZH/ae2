@@ -1,10 +1,9 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 
 import AllTaxChooser from './AllTaxChooser'
-import TaxChooser from './TaxChooser'
+import TaxChooserList from './TaxChooserList'
 import constants from '../../../../modules/constants'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 
@@ -20,8 +19,6 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const enhance = compose()
-
 const JointTaxonomy = ({
   jointTaxProperties,
 }: {
@@ -31,18 +28,10 @@ const JointTaxonomy = ({
     <Container>
       <AllTaxChooser properties={jointTaxProperties} />
       <PropertiesContainer data-width={window.innerWidth - 84}>
-        {jointTaxProperties.map(field => (
-          <TaxChooser
-            key={`${field.propertyName}${field.jsontype}`}
-            taxname={'Taxonomie'}
-            pname={field.propertyName}
-            jsontype={field.jsontype}
-            count={field.count}
-          />
-        ))}
+        <TaxChooserList properties={jointTaxProperties} />
       </PropertiesContainer>
     </Container>
   </ErrorBoundary>
 )
 
-export default enhance(JointTaxonomy)
+export default JointTaxonomy
