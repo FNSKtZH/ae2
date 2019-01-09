@@ -63,12 +63,15 @@ const RCOs = ({
   rcoExpanded: Boolean,
   onToggleRco: () => {},
 }) => {
-  const { data: propsByTaxData } = useQuery(propsByTaxQuery, {
-    suspend: false,
-    variables: {
-      exportTaxonomies: constants.altTaxonomies,
+  const { data: propsByTaxData, error: propsByTaxError } = useQuery(
+    propsByTaxQuery,
+    {
+      suspend: false,
+      variables: {
+        exportTaxonomies: constants.altTaxonomies,
+      },
     },
-  })
+  )
 
   const rcoProperties = get(
     propsByTaxData,
@@ -85,6 +88,8 @@ const RCOs = ({
   const rcoPropertiesFields = groupBy(rcoProperties, 'propertyName')
   const rCCount = Object.keys(rcoPropertiesByPropertyCollection).length
   const rcoPropertiesFieldsCount = Object.keys(rcoPropertiesFields).length
+
+  if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
   return (
     <ErrorBoundary>
