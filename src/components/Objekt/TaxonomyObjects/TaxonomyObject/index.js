@@ -20,11 +20,11 @@ import ViewIcon from '@material-ui/icons/Visibility'
 import SynonymIcon from '@material-ui/icons/Forward'
 import InfoOutlineIcon from '@material-ui/icons/Info'
 import InfoIcon from '@material-ui/icons/Info'
-import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import styled from 'styled-components'
 import app from 'ampersand-app'
+import { useApolloClient, useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import PropertyReadOnly from '../../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../../shared/PropertyReadOnlyStacked'
@@ -34,11 +34,6 @@ import LinkMenu from './LinkMenu'
 import Properties from './Properties'
 import getUrlForObject from '../../../../modules/getUrlForObject'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
-import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
-import withObjectData from '../../withObjectData'
-import withLoginData from '../../../../modules/withLoginData'
-import withOrganizationUsersData from '../../../../modules/withOrganizationUsersData'
-import withEditingTaxonomiesData from '../../../../modules/withEditingTaxonomiesData'
 import editingTaxonomiesMutation from '../../../../modules/editingTaxonomiesMutation'
 
 const Container = styled.div`
@@ -81,44 +76,62 @@ const StyledButton = styled(IconButton)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withActiveNodeArrayData,
-  withObjectData,
-  withLoginData,
-  withOrganizationUsersData,
-  withEditingTaxonomiesData,
-)
+const storeQuery = gql`
+  query storeQuery {
+    activeNodeArray @client
+    login @client {
+      token
+      username
+    }
+    editingTaxonomies @client
+  }
+`
+const organizationUsersQuery = gql`
+  query AllOrganizationUsersQuery {
+    allOrganizationUsers {
+      nodes {
+        id
+        nodeId
+        organizationId
+        userId
+        role
+        userByUserId {
+          id
+          name
+        }
+      }
+    }
+  }
+`
 
 const TaxonomyObject = ({
-  client,
-  activeNodeArrayData,
-  loginData,
-  organizationUsersData,
-  editingTaxonomiesData,
   objekt,
   showLink,
   stacked,
 }: {
-  client: Object,
-  activeNodeArrayData: Object,
-  loginData: Object,
-  organizationUsersData: Object,
-  editingTaxonomiesData: Object,
   objekt: Object,
   showLink: Boolean,
   stacked: Boolean,
 }) => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const {
+    data: organizationUsersData,
+    loading: organizationUsersLoading,
+    error: organizationUsersError,
+  } = useQuery(organizationUsersQuery, { suspend: false })
+
   const [expanded, setExpanded] = useState(showLink ? false : true)
   const [taxExpanded, setTaxExpanded] = useState(false)
 
-  const username = get(loginData, 'login.username', null)
+  const username = get(storeData, 'login.username', null)
   const organizationUsers = get(
     organizationUsersData,
     'allOrganizationUsers.nodes',
     [],
   )
-  const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
+  const editing = get(storeData, 'editingTaxonomies', false)
   const userRoles = organizationUsers
     .filter(oU => username === get(oU, 'userByUserId.name', ''))
     .map(oU => oU.role)
@@ -187,25 +200,11 @@ const TaxonomyObject = ({
     [taxExpanded],
   )
 
-  if (
-    loginData.loading ||
-    organizationUsersData.loading ||
-    editingTaxonomiesData.loading
-  ) {
+  if (organizationUsersLoading) {
     return <Container>Lade Daten...</Container>
   }
-  if (loginData.error) {
-    return <Container>`Fehler: ${loginData.error.message}`</Container>
-  }
-  if (organizationUsersData.error) {
-    return (
-      <Container>`Fehler: ${organizationUsersData.error.message}`</Container>
-    )
-  }
-  if (editingTaxonomiesData.error) {
-    return (
-      <Container>`Fehler: ${editingTaxonomiesData.error.message}`</Container>
-    )
+  if (organizationUsersError) {
+    return <Container>{`Fehler: ${organizationUsersError.message}`}</Container>
   }
 
   return (
@@ -332,4 +331,4 @@ const TaxonomyObject = ({
   )
 }
 
-export default enhance(TaxonomyObject)
+export default TaxonomyObject
