@@ -1,15 +1,13 @@
 //@flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import addExportTaxPropertyMutation from '../../addExportTaxPropertyMutation'
 import removeExportTaxPropertyMutation from '../../removeExportTaxPropertyMutation'
-import withExportTaxPropertiesData from '../../withExportTaxPropertiesData'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -23,11 +21,32 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withExportTaxPropertiesData,
-  withHandlers({
-    onCheck: ({ properties, client }) => (event, isChecked) => {
+const storeQuery = gql`
+  query storeQuery {
+    exportTaxProperties @client {
+      taxname
+      pname
+    }
+  }
+`
+
+const AllTaxChooser = ({ properties }: { properties: Array<Object> }) => {
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+
+  const exportTaxProperties = storeData.exportTaxProperties || []
+  const checkedArray = properties.map(
+    p =>
+      exportTaxProperties.filter(
+        x => x.taxname === p.taxname && x.pname === p.propertyName,
+      ).length > 0,
+  )
+  const checked = checkedArray.length > 0 && !checkedArray.includes(false)
+
+  const onCheck = useCallback(
+    (event, isChecked) => {
       const mutation = isChecked
         ? addExportTaxPropertyMutation
         : removeExportTaxPropertyMutation
@@ -40,26 +59,8 @@ const enhance = compose(
         })
       })
     },
-  }),
-)
-
-const AllTaxChooser = ({
-  onCheck,
-  properties,
-  exportTaxPropertiesData,
-}: {
-  onCheck: () => {},
-  properties: Array<Object>,
-  exportTaxPropertiesData: Object,
-}) => {
-  const exportTaxProperties = exportTaxPropertiesData.exportTaxProperties || []
-  const checkedArray = properties.map(
-    p =>
-      exportTaxProperties.filter(
-        x => x.taxname === p.taxname && x.pname === p.propertyName,
-      ).length > 0,
+    [properties],
   )
-  const checked = checkedArray.length > 0 && !checkedArray.includes(false)
 
   return (
     <Container>
@@ -73,4 +74,4 @@ const AllTaxChooser = ({
   )
 }
 
-export default enhance(AllTaxChooser)
+export default AllTaxChooser
