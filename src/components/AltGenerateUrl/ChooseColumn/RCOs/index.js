@@ -7,15 +7,14 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import RCO from './RCO'
-import withPropsByTaxData from '../withPropsByTaxData'
-import withData from '../withData'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
+import constants from '../../../../modules/constants'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -43,23 +42,34 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const enhance = compose(
-  withApollo,
-  withData,
-  withPropsByTaxData,
-)
+const propsByTaxQuery = gql`
+  query propsByTaxDataQuery($exportTaxonomies: [String]) {
+    rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies) {
+      nodes {
+        propertyCollectionName
+        relationType
+        propertyName
+        jsontype
+        count
+      }
+    }
+  }
+`
 
 const RCOs = ({
-  propsByTaxData,
-  data,
   rcoExpanded,
   onToggleRco,
 }: {
-  propsByTaxData: Object,
-  data: Object,
   rcoExpanded: Boolean,
   onToggleRco: () => {},
 }) => {
+  const { data: propsByTaxData } = useQuery(propsByTaxQuery, {
+    suspend: false,
+    variables: {
+      exportTaxonomies: constants.altTaxonomies,
+    },
+  })
+
   const rcoProperties = get(
     propsByTaxData,
     'rcoPropertiesByTaxonomiesFunction.nodes',
@@ -112,4 +122,4 @@ const RCOs = ({
   )
 }
 
-export default enhance(RCOs)
+export default RCOs
