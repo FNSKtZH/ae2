@@ -4,8 +4,9 @@ import sortBy from 'lodash/sortBy'
 import get from 'lodash/get'
 import styled from 'styled-components'
 
-import PropertyReadOnly from '../../shared/PropertyReadOnly'
-import ErrorBoundary from '../../shared/ErrorBoundary'
+import PropertyReadOnly from '../../../../../shared/PropertyReadOnly'
+import PropertyList from './PropertyList'
+import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   border-bottom: ${props =>
@@ -53,12 +54,7 @@ const Relation = ({
             label="Art der Beziehung"
           />
         )}
-        {properties &&
-          sortBy(Object.entries(properties), e => e[0])
-            .filter(([key, value]) => value || value === 0)
-            .map(([key, value]) => (
-              <PropertyReadOnly key={key} value={value} label={key} />
-            ))}
+        {properties && <PropertyList properties={properties} />}
       </ErrorBoundary>
     </Container>
   )

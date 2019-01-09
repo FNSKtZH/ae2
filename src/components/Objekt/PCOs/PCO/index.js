@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -12,15 +12,12 @@ import InfoOutlineIcon from '@material-ui/icons/Info'
 import InfoIcon from '@material-ui/icons/Info'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import styled from 'styled-components'
 
-import PCDescription from '../../shared/PCDescription'
-import PropertyReadOnly from '../../shared/PropertyReadOnly'
-import PropertyReadOnlyStacked from '../../shared/PropertyReadOnlyStacked'
-import Relation from './Relation'
-import ErrorBoundary from '../../shared/ErrorBoundary'
+import PCDescription from '../../../shared/PCDescription'
+import RelationList from './RelationList'
+import PropertyList from './PropertyList'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -57,28 +54,18 @@ const CardText = styled.div`
   column-width: 500px;
 `
 
-const enhance = compose(
-  withState('expanded', 'setExpanded', false),
-  withState('pCDescriptionExpanded', 'setPCDescriptionExpanded', false),
-)
-
 const PCO = ({
-  expanded,
-  setExpanded,
-  pCDescriptionExpanded,
-  setPCDescriptionExpanded,
   pCO,
   relations,
   stacked,
 }: {
-  expanded: Boolean,
-  setExpanded: () => void,
-  pCDescriptionExpanded: Boolean,
-  setPCDescriptionExpanded: () => void,
   pCO: Object,
   relations: Array<Object>,
   stacked: Boolean,
 }) => {
+  const [expanded, setExpanded] = useState(false)
+  const [pCDescriptionExpanded, setPCDescriptionExpanded] = useState(false)
+
   const pC = get(pCO, 'propertyCollectionByPropertyCollectionId', {})
   const pcname = get(pC, 'name', '(Name fehlt)')
   // never pass null to object.entries!!!
@@ -95,30 +82,32 @@ const PCO = ({
     relations.length > 1 ? 'Beziehungen:' : 'Beziehung:'
   const relationsTitle = `${relations.length} ${relationsTitleText}`
 
+  const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const iconTitle = pCDescriptionExpanded
+    ? 'Beschreibung der Eigenschaften-Sammlung schliessen'
+    : 'Beschreibung der Eigenschaften-Sammlung öffnen'
+  const onClickIcon = useCallback(
+    event => {
+      event.stopPropagation()
+      setPCDescriptionExpanded(!pCDescriptionExpanded)
+      setExpanded(true)
+    },
+    [pCDescriptionExpanded],
+  )
+
   return (
     <ErrorBoundary>
       <Container>
         <StyledCard>
-          <StyledCardActions
-            disableActionSpacing
-            onClick={() => setExpanded(!expanded)}
-          >
+          <StyledCardActions disableActionSpacing onClick={onClickActions}>
             <CardActionTitle>{pcname}</CardActionTitle>
             <CardActionsButtons>
               <IconButton
                 data-expanded={pCDescriptionExpanded}
                 aria-expanded={pCDescriptionExpanded}
                 aria-label="über diese Eigenschaften-Sammlung"
-                title={
-                  pCDescriptionExpanded
-                    ? 'Beschreibung der Eigenschaften-Sammlung schliessen'
-                    : 'Beschreibung der Eigenschaften-Sammlung öffnen'
-                }
-                onClick={event => {
-                  event.stopPropagation()
-                  setPCDescriptionExpanded(!pCDescriptionExpanded)
-                  setExpanded(true)
-                }}
+                title={iconTitle}
+                onClick={onClickIcon}
               >
                 <Icon>
                   {!pCDescriptionExpanded && <InfoOutlineIcon />}
@@ -139,27 +128,14 @@ const PCO = ({
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             {pCDescriptionExpanded && <PCDescription pC={pC} />}
             <CardText>
-              {propertiesArray.map(([key, value]) =>
-                stacked ? (
-                  <PropertyReadOnlyStacked
-                    key={key}
-                    value={value}
-                    label={key}
-                  />
-                ) : (
-                  <PropertyReadOnly key={key} value={value} label={key} />
-                ),
-              )}
+              <PropertyList
+                propertiesArray={propertiesArray}
+                stacked={stacked}
+              />
               {relations && relations.length > 0 && (
                 <RelationTitle>{relationsTitle}</RelationTitle>
               )}
-              {relations.map((relation, index) => (
-                <Relation
-                  key={relation.id}
-                  relation={relation}
-                  intermediateRelation={index < relations.length - 1}
-                />
-              ))}
+              <RelationList relations={relations} />
             </CardText>
           </Collapse>
         </StyledCard>
@@ -168,4 +144,4 @@ const PCO = ({
   )
 }
 
-export default enhance(PCO)
+export default PCO

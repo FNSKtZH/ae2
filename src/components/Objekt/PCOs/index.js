@@ -5,7 +5,7 @@ import sortBy from 'lodash/sortBy'
 
 import PCO from './PCO'
 
-const Objekt = ({
+const PCOs = ({
   pCOs,
   relations,
   stacked,
@@ -18,7 +18,7 @@ const Objekt = ({
     get(pCO, 'propertyCollectionByPropertyCollectionId.name', '(Name fehlt)'),
   ).map(pCO => (
     <PCO
-      key={`${pCO.propertyCollectionId}`}
+      key={pCO.propertyCollectionId}
       pCO={pCO}
       relations={relations.filter(
         r => r.propertyCollectionId === pCO.propertyCollectionId,
@@ -27,4 +27,4 @@ const Objekt = ({
     />
   ))
 
-export default Objekt
+export default PCOs
