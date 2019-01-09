@@ -8,17 +8,16 @@
  * edit prop: see https://stackoverflow.com/a/35349699/712005
  */
 import React from 'react'
-import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import PropertyReadOnly from '../../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../../shared/PropertyReadOnlyStacked'
 import Property from '../../../shared/Property'
 import NewProperty from '../../../shared/NewProperty'
-import withEditingTaxonomiesData from '../../../../modules/withEditingTaxonomiesData'
 
 const PropertiesTitleContainer = styled.div`
   display: flex;
@@ -47,27 +46,26 @@ const PropertiesTitleValue = styled.p`
   width: 100%;
 `
 
-const enhance = compose(
-  withApollo,
-  withEditingTaxonomiesData,
-)
+const storeQuery = gql`
+  query editingTaxonomiesQuery {
+    editingTaxonomies @client
+  }
+`
 
 const Properties = ({
-  client,
-  editingTaxonomiesData,
   id,
   properties,
   objectData,
   stacked,
 }: {
-  client: Object,
-  editingTaxonomiesData: Object,
   id: string,
   properties: Object,
   objectData: Object,
   stacked: Boolean,
 }) => {
-  const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
+  const editing = get(storeData, 'editingTaxonomies', false)
   const propertiesArray = Object.entries(properties)
 
   return (
@@ -116,4 +114,4 @@ const Properties = ({
   )
 }
 
-export default enhance(Properties)
+export default Properties
