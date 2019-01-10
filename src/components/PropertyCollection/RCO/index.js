@@ -10,17 +10,16 @@ import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import ImportRco from './Import'
-import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
-import withRCOData from './withRCOData'
-import withLoginData from '../../../modules/withLoginData'
 import deleteRcoOfPcMutation from './deleteRcoOfPcMutation'
-import withTreeData from '../../Tree/withTreeData'
+import treeDataQuery from '../../Tree/treeDataGql'
+import treeDataVariables from '../../Tree/treeDataVariables'
 
 const Container = styled.div`
   height: 100%;
@@ -72,43 +71,100 @@ const styles = theme => ({
   },
 })
 
-const enhance = compose(
-  withApollo,
-  withActiveNodeArrayData,
-  withTreeData,
-  withRCOData,
-  withLoginData,
-  withStyles(styles),
-)
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+    login @client {
+      token
+      username
+    }
+  }
+`
+const rcoQuery = gql`
+  query rCOQuery($pCId: UUID!) {
+    propertyCollectionById(id: $pCId) {
+      id
+      organizationByOrganizationId {
+        id
+        name
+        organizationUsersByOrganizationId {
+          nodes {
+            id
+            userId
+            role
+            userByUserId {
+              id
+              name
+            }
+          }
+        }
+      }
+      relationsByPropertyCollectionId {
+        totalCount
+        nodes {
+          id
+          objectId
+          objectByObjectId {
+            id
+            name
+          }
+          objectIdRelation
+          objectByObjectIdRelation {
+            id
+            name
+          }
+          relationType
+          properties
+        }
+      }
+    }
+  }
+`
+
+const enhance = compose(withStyles(styles))
 
 const RCO = ({
-  client,
-  rCOData,
-  treeData,
-  activeNodeArrayData,
-  loginData,
   dimensions,
   classes,
 }: {
-  client: Object,
-  rCOData: Object,
-  treeData: Object,
-  activeNodeArrayData: Object,
-  loginData: Object,
   dimensions: Object,
   classes: Object,
 }) => {
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+  const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
+    suspend: false,
+    variables: treeDataVariables({ activeNodeArray }),
+  })
+  const {
+    data: rcoData,
+    loading: rcoLoading,
+    error: rcoError,
+    refetch: rcoRefetch,
+  } = useQuery(rcoQuery, {
+    suspend: false,
+    variables: {
+      pCId: get(
+        storeData,
+        'activeNodeArray[1]',
+        '99999999-9999-9999-9999-999999999999',
+      ),
+    },
+  })
+
   const [sortField, setSortField] = useState('Objekt Name')
   const [sortDirection, setSortDirection] = useState('asc')
 
-  const { loading } = rCOData
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
   let rCO = []
   // collect all keys
   const allKeys = []
   const rCORaw = get(
-    rCOData,
+    rcoData,
     'propertyCollectionById.relationsByPropertyCollectionId.nodes',
     [],
   ).map(p => omit(p, ['__typename']))
@@ -150,16 +206,16 @@ const RCO = ({
     sortable: true,
   }))
   const rCOWriters = get(
-    rCOData,
+    rcoData,
     'propertyCollectionById.organizationByOrganizationId.organizationUsersByOrganizationId.nodes',
     [],
   ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
   const writerNames = union(rCOWriters.map(w => w.userByUserId.name))
-  const username = get(loginData, 'login.username')
+  const username = get(storeData, 'login.username')
   const userIsWriter = !!username && writerNames.includes(username)
   const showImportRco = rCO.length === 0 && userIsWriter
   const pcId = get(
-    activeNodeArrayData,
+    storeData,
     'activeNodeArray[1]',
     '99999999-9999-9999-9999-999999999999',
   )
@@ -184,18 +240,21 @@ const RCO = ({
         mutation: deleteRcoOfPcMutation,
         variables: { pcId },
       })
-      rCOData.refetch()
-      treeData.refetch()
+      rcoRefetch()
+      treeDataRefetch()
     },
     [pcId],
   )
 
-  if (loading) {
+  if (rcoLoading) {
     return (
       <Container>
         <TotalDiv>Lade Daten...</TotalDiv>
       </Container>
     )
+  }
+  if (rcoError) {
+    return <Container>{`Error fetching data: ${rcoError.message}`}</Container>
   }
 
   return (
