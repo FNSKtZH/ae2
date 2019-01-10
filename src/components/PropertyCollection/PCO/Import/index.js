@@ -262,9 +262,8 @@ const ImportPco = () => {
   ] = useState(undefined)
   const [existsPropertyKey, setExistsPropertyKey] = useState(undefined)
 
-  const { loading, error } = importPcoData
-  if (error && error.message) {
-    if (error.message === 'GraphQL error: request entity too large') {
+  if (importPcoError && importPcoError.message) {
+    if (importPcoError.message === 'GraphQL error: request entity too large') {
       setObjectIdsAreRealNotTested(true)
     }
   }
@@ -275,7 +274,7 @@ const ImportPco = () => {
   )
   const objectsCheckData = get(importPcoData, 'allObjects.nodes', [])
   const objectIdsAreReal =
-    !importPcoData.loading && objectIds.length > 0
+    !importPcoLoading && objectIds.length > 0
       ? objectIds.length === objectsCheckData.length
       : undefined
   const pCOfOriginsCheckData = get(
@@ -284,7 +283,7 @@ const ImportPco = () => {
     [],
   )
   const pCOfOriginIdsAreReal =
-    !importPcoData.loading && pCOfOriginIds.length > 0
+    !importPcoLoading && pCOfOriginIds.length > 0
       ? pCOfOriginIds.length === pCOfOriginsCheckData.length
       : undefined
   const showImportButton =
@@ -925,7 +924,7 @@ const ImportPco = () => {
           />
         </>
       )}
-      <StyledSnackbar open={loading} message="lade Daten..." />
+      <StyledSnackbar open={importPcoLoading} message="lade Daten..." />
     </Container>
   )
 }
