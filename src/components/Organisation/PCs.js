@@ -3,12 +3,11 @@ import React from 'react'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import appBaseUrl from '../../../modules/appBaseUrl'
-import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
-import withPcsData from './withPcsData'
-import ErrorBoundary from '../../shared/ErrorBoundary'
+import appBaseUrl from '../../modules/appBaseUrl'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;
@@ -30,13 +29,39 @@ const StyledA = styled.a`
   text-decoration-style: dotted;
 `
 
-const enhance = compose(
-  withActiveNodeArrayData,
-  withPcsData,
-)
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+  }
+`
+const pcsQuery = gql`
+  query orgPCsQuery($name: String!) {
+    organizationByName(name: $name) {
+      id
+      propertyCollectionsByOrganizationId {
+        totalCount
+        nodes {
+          id
+          name
+        }
+      }
+    }
+  }
+`
 
-const PCs = ({ pcsData }: { pcsData: Object }) => {
-  const { loading, error } = pcsData
+const PCs = () => {
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const { data: pcsData, loading: pcsLoading, error: pcsError } = useQuery(
+    pcsQuery,
+    {
+      suspend: false,
+      variables: {
+        name: get(storeData, 'activeNodeArray', ['none', 'none'])[1],
+      },
+    },
+  )
 
   const pcs = sortBy(
     get(
@@ -47,8 +72,8 @@ const PCs = ({ pcsData }: { pcsData: Object }) => {
     'name',
   )
 
-  if (loading) return <Container>Lade Daten...</Container>
-  if (error) return <Container>`Fehler: ${error.message}`</Container>
+  if (pcsLoading) return <Container>Lade Daten...</Container>
+  if (pcsError) return <Container>`Fehler: ${pcsError.message}`</Container>
 
   return (
     <ErrorBoundary>
@@ -73,4 +98,4 @@ const PCs = ({ pcsData }: { pcsData: Object }) => {
   )
 }
 
-export default enhance(PCs)
+export default PCs
