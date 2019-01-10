@@ -1,25 +1,19 @@
 // @flow
 import React, { useState, useCallback } from 'react'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import withOrgData from './withOrgData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import UserReadOnly from '../shared/UserReadOnly'
 import OrgUsers from './OrgUsers'
 import TCs from './TCs'
 import PCs from './PCs'
 import ErrorBoundary from '../shared/ErrorBoundary'
-
-const enhance = compose(
-  withActiveNodeArrayData,
-  withOrgData,
-)
 
 const Container = styled.div``
 const OrgContainer = styled.div`
@@ -29,16 +23,78 @@ const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
 `
 
-const Organization = ({ orgData }: { orgData: Object }) => {
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+  }
+`
+const orgQuery = gql`
+  query orgQuery($orgName: String!) {
+    organizationByName(name: $orgName) {
+      id
+      name
+      links
+      contact
+      userByContact {
+        id
+        name
+        email
+      }
+      propertyCollectionsByOrganizationId {
+        totalCount
+        nodes {
+          id
+          name
+        }
+      }
+      taxonomiesByOrganizationId {
+        totalCount
+        nodes {
+          id
+          name
+        }
+      }
+      organizationUsersByOrganizationId {
+        totalCount
+        nodes {
+          id
+          userByUserId {
+            id
+            name
+            email
+          }
+          role
+        }
+      }
+    }
+  }
+`
+
+const Organization = () => {
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const { data: orgData, loading: orgLoading, error: orgError } = useQuery(
+    orgQuery,
+    {
+      suspend: false,
+      variables: {
+        orgName: get(storeData, 'activeNodeArray[1]'),
+      },
+    },
+  )
+
   const [tab, setTab] = useState(0)
 
   const onChangeTab = useCallback((event, value) => setTab(value))
 
-  const { loading } = orgData
   const org = get(orgData, 'organizationByName', {})
 
-  if (loading) {
+  if (orgLoading) {
     return <Container>Lade Daten...</Container>
+  }
+  if (orgError) {
+    return <Container>{`Fehler: ${orgError.message}`}</Container>
   }
 
   return (
@@ -77,4 +133,4 @@ const Organization = ({ orgData }: { orgData: Object }) => {
   )
 }
 
-export default enhance(Organization)
+export default Organization

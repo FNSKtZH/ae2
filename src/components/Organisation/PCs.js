@@ -73,7 +73,7 @@ const PCs = () => {
   )
 
   if (pcsLoading) return <Container>Lade Daten...</Container>
-  if (pcsError) return <Container>`Fehler: ${pcsError.message}`</Container>
+  if (pcsError) return <Container>{`Fehler: ${pcsError.message}`}</Container>
 
   return (
     <ErrorBoundary>
