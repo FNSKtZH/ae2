@@ -1,16 +1,14 @@
 // @flow
 import React, { useCallback } from 'react'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
-import { withApollo } from 'react-apollo'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import AddIcon from '@material-ui/icons/Add'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
-import withOrgUsersData from './withOrgUsersData'
 import createOrgUserMutation from './createOrgUserMutation'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import OrgUsersList from './OrgUsersList'
@@ -29,20 +27,55 @@ const AddNewButton = styled(IconButton)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withActiveNodeArrayData,
-  withOrgUsersData,
-)
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+  }
+`
+const orgUsersQuery = gql`
+  query orgUsersQuery($name: String!) {
+    organizationByName(name: $name) {
+      id
+      name
+      organizationUsersByOrganizationId {
+        totalCount
+        nodes {
+          id
+          organizationId
+          userId
+          nodeId
+          userByUserId {
+            id
+            name
+          }
+          role
+        }
+      }
+    }
+    allRoles {
+      nodes {
+        nodeId
+        name
+      }
+    }
+  }
+`
 
-const OrgUsers = ({
-  orgUsersData,
-  client,
-}: {
-  orgUsersData: Object,
-  client: Object,
-}) => {
-  const { loading, error } = orgUsersData
+const OrgUsers = () => {
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const {
+    data: orgUsersData,
+    loading: orgUsersLoading,
+    error: orgUsersError,
+  } = useQuery(orgUsersQuery, {
+    suspend: false,
+    variables: {
+      name: get(storeData, 'activeNodeArray', ['none', 'none'])[1],
+    },
+  })
 
   const orgUsers = get(
     orgUsersData,
@@ -79,8 +112,12 @@ const OrgUsers = ({
     [organizationId],
   )
 
-  if (loading) return <Container>Lade Daten...</Container>
-  if (error) return <Container>`Fehler: ${error.message}`</Container>
+  if (orgUsersLoading) {
+    return <Container>Lade Daten...</Container>
+  }
+  if (orgUsersError) {
+    return <Container>{`Fehler: ${orgUsersError.message}`}</Container>
+  }
 
   return (
     <ErrorBoundary>
@@ -100,4 +137,4 @@ const OrgUsers = ({
   )
 }
 
-export default enhance(OrgUsers)
+export default OrgUsers
