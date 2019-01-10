@@ -1,7 +1,5 @@
 // @flow
 import React, { useState, useCallback } from 'react'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -19,13 +17,10 @@ import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
 import ReactDataGrid from 'react-data-grid'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withImportPcoData from './withImportPcoData'
-import pCOData from '../withPCOData'
-import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
 import createPCOMutation from './createPCOMutation'
-import withLoginData from '../../../../modules/withLoginData'
 
 const Container = styled.div`
   height: 100%;
@@ -131,41 +126,105 @@ const StyledSnackbar = styled(Snackbar)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withActiveNodeArrayData,
-  pCOData,
-  // need following state for next data query
-  // so no hook used (yet)
-  withState('objectIds', 'setObjectIds', []),
-  withState('pCOfOriginIds', 'setPCOfOriginIds', []),
-  withImportPcoData,
-  withLoginData,
-)
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+  }
+`
+const pcoQuery = gql`
+  query pCOQuery($pCId: UUID!) {
+    propertyCollectionById(id: $pCId) {
+      id
+      organizationByOrganizationId {
+        id
+        name
+        organizationUsersByOrganizationId {
+          nodes {
+            id
+            userId
+            role
+            userByUserId {
+              id
+              name
+              email
+            }
+          }
+        }
+      }
+      propertyCollectionObjectsByPropertyCollectionId {
+        totalCount
+        nodes {
+          id
+          objectId
+          objectByObjectId {
+            id
+            name
+          }
+          properties
+        }
+      }
+    }
+  }
+`
+const importPcoQuery = gql`
+  query pCOQuery(
+    $getObjectIds: Boolean!
+    $objectIds: [UUID!]
+    $getPCOfOriginIds: Boolean!
+    $pCOfOriginIds: [UUID!]
+  ) {
+    allObjects(filter: { id: { in: $objectIds } }) @include(if: $getObjectIds) {
+      nodes {
+        id
+      }
+    }
+    allPropertyCollections(filter: { id: { in: $pCOfOriginIds } })
+      @include(if: $getPCOfOriginIds) {
+      nodes {
+        id
+      }
+    }
+  }
+`
 
-const ImportPco = ({
-  loginData,
-  activeNodeArrayData,
-  pCOData,
-  importPcoData,
-  setCompleted,
-  client,
-  objectIds,
-  setObjectIds,
-  pCOfOriginIds,
-  setPCOfOriginIds,
-}: {
-  loginData: Object,
-  activeNodeArrayData: Object,
-  pCOData: Object,
-  importPcoData: Object,
-  setCompleted: () => void,
-  client: Object,
-  objectIds: Array<String>,
-  setObjectIds: () => void,
-  setObjectIds: () => void,
-  pCOfOriginIds: Array<String>,
-}) => {
+const ImportPco = () => {
+  const [objectIds, setObjectIds] = useState([])
+  const [pCOfOriginIds, setPCOfOriginIds] = useState([])
+
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const { refetch: pcoRefetch } = useQuery(pcoQuery, {
+    suspend: false,
+    variables: {
+      pCId: get(
+        storeData,
+        'activeNodeArray[1]',
+        '99999999-9999-9999-9999-999999999999',
+      ),
+    },
+  })
+  const {
+    data: importPcoData,
+    loading: importPcoLoading,
+    error: importPcoError,
+  } = useQuery(importPcoQuery, {
+    suspend: false,
+    variables: {
+      getObjectIds: objectIds.length > 0,
+      objectIds:
+        objectIds.length > 0
+          ? objectIds
+          : ['99999999-9999-9999-9999-999999999999'],
+      getPCOfOriginIds: pCOfOriginIds.length > 0,
+      pCOfOriginIds:
+        pCOfOriginIds.length > 0
+          ? pCOfOriginIds
+          : ['99999999-9999-9999-9999-999999999999'],
+    },
+  })
+
   const [existsNoDataWithoutKey, setExistsNoDataWithoutKey] = useState(
     undefined,
   )
@@ -210,7 +269,7 @@ const ImportPco = ({
     }
   }
   const pCId = get(
-    activeNodeArrayData,
+    storeData,
     'activeNodeArray[1]',
     '99999999-9999-9999-9999-999999999999',
   )
@@ -366,7 +425,7 @@ const ImportPco = ({
           console.log(error)
         }
       })
-      await pCOData.refetch()
+      await pcoRefetch()
       // do not set false because an unmounted component is updated
       //setImporting(false)
     },
@@ -871,4 +930,4 @@ const ImportPco = ({
   )
 }
 
-export default enhance(ImportPco)
+export default ImportPco
