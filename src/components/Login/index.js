@@ -13,12 +13,12 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import fetchLoginModule from './fetchLogin'
-import withHistoryAfterLoginData from '../../modules/historyAfterLoginData'
 import setLoginMutation from '../../modules/loginMutation'
 import withLoginData from '../../modules/withLoginData'
 import ErrorBoundary from '../shared/ErrorBoundary'
@@ -37,22 +37,24 @@ const StyledSnackbar = styled(Snackbar)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withHistoryAfterLoginData,
-  withLoginData,
-)
+const storeQuery = gql`
+  query storeQuery {
+    historyAfterLogin @client
+    login @client {
+      token
+      username
+    }
+  }
+`
 
-const Login = ({
-  client,
-  historyAfterLoginData,
-  loginData,
-}: {
-  client: Object,
-  historyAfterLoginData: Object,
-  loginData: Object,
-}) => {
-  const token = get(loginData, 'login.token')
+const enhance = compose(withLoginData)
+
+const Login = () => {
+  const client = useApolloClient()
+  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+
+  const token = get(storeData, 'login.token')
+  const historyAfterLogin = get(storeData, 'historyAfterLogin')
 
   const [name, changeName] = useState('')
   const [pass, changePass] = useState('')
@@ -72,11 +74,11 @@ const Login = ({
         pass,
         changePass,
         changeLoginSuccessfull,
-        historyAfterLoginData,
+        historyAfterLogin,
         namePassed,
         passPassed,
       }),
-    [name, pass, historyAfterLoginData],
+    [name, pass, historyAfterLogin],
   )
   const onLogout = useCallback(() => {
     app.idb.users.clear()

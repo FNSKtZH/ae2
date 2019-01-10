@@ -16,7 +16,7 @@ export default async ({
   pass: propsPass,
   changePass,
   changeLoginSuccessfull,
-  historyAfterLoginData,
+  historyAfterLogin,
   namePassed,
   passPassed,
 }: {
@@ -28,7 +28,7 @@ export default async ({
   pass: string,
   changePass: () => void,
   changeLoginSuccessfull: () => void,
-  historyAfterLoginData: Object,
+  historyAfterLogin: String,
   namePassed: String,
   passPassed: String,
 }) => {
@@ -118,7 +118,6 @@ export default async ({
       changeName('')
       changePass('')
       changeLoginSuccessfull(false)
-      const historyAfterLogin = get(historyAfterLoginData, 'historyAfterLogin')
       if (!!historyAfterLogin) {
         app.history.push(historyAfterLogin)
         client.mutate({
