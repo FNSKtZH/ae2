@@ -1,9 +1,7 @@
 // @flow
 import React, { useState, useCallback } from 'react'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import { withApollo } from 'react-apollo'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ClearIcon from '@material-ui/icons/Clear'
@@ -13,14 +11,12 @@ import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import set from 'lodash/set'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
-import withAllUsersData from '../../../../modules/withAllUsersData'
 import updateOrgUserMutation from './updateOrgUserMutation'
 import deleteOrgUserMutation from './deleteOrgUserMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
-import orgUsersGql from '../orgUsersGql'
-import withOrgUsersData from '../withOrgUsersData'
 
 const OrgUserDiv = styled.div`
   display: flex;
@@ -41,24 +37,87 @@ const StyledFormControl = styled(FormControl)`
   width: calc(50% - 24px);
 `
 
-const enhance = compose(
-  withApollo,
-  withAllUsersData,
-  withActiveNodeArrayData,
-  withOrgUsersData,
-)
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+  }
+`
+const allUsersQuery = gql`
+  query AllUsersQuery {
+    allUsers {
+      totalCount
+      nodes {
+        id
+        name
+        email
+        organizationUsersByUserId {
+          nodes {
+            id
+            organizationId
+            role
+            organizationByOrganizationId {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`
+const orgUsersQuery = gql`
+  query orgUsersQuery($name: String!) {
+    organizationByName(name: $name) {
+      id
+      name
+      organizationUsersByOrganizationId {
+        totalCount
+        nodes {
+          id
+          organizationId
+          userId
+          nodeId
+          userByUserId {
+            id
+            name
+          }
+          role
+        }
+      }
+    }
+    allRoles {
+      nodes {
+        nodeId
+        name
+      }
+    }
+  }
+`
 
-const OrgUser = ({
-  orgUser,
-  orgUsersData,
-  allUsersData,
-  client,
-}: {
-  orgUser: Object,
-  orgUsersData: Object,
-  allUsersData: Object,
-  client: Object,
-}) => {
+const OrgUser = ({ orgUser }: { orgUser: Object }) => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const {
+    data: allUsersData,
+    loading: allUsersLoading,
+    error: allUsersError,
+  } = useQuery(allUsersQuery, {
+    suspend: false,
+  })
+  const {
+    data: orgUsersData,
+    loading: orgUsersLoading,
+    error: orgUsersError,
+  } = useQuery(orgUsersQuery, {
+    suspend: false,
+    variables: {
+      name: get(storeData, 'activeNodeArray', ['none', 'none'])[1],
+    },
+  })
+
   const [userId, setUserId] = useState(orgUser.userId)
   const [role, setRole] = useState(orgUser.role || null)
 
@@ -163,7 +222,7 @@ const OrgUser = ({
         },
         update: (proxy, { data: { deleteOrgUserMutation } }) => {
           const data = proxy.readQuery({
-            query: orgUsersGql,
+            query: orgUsersQuery,
             variables: { name: orgName },
           })
           const orgUsers = get(
@@ -178,7 +237,7 @@ const OrgUser = ({
             newOrgUsers,
           )
           proxy.writeQuery({
-            query: orgUsersGql,
+            query: orgUsersQuery,
             variables: { name: orgName },
             data,
           })
@@ -188,17 +247,14 @@ const OrgUser = ({
     [orgUser],
   )
 
-  if (orgUsersData.loading) {
+  if (orgUsersLoading || allUsersLoading) {
     return <OrgUserDiv>Lade Daten...</OrgUserDiv>
   }
-  if (allUsersData.loading) {
-    return <OrgUserDiv>Lade Daten...</OrgUserDiv>
+  if (orgUsersError) {
+    return <OrgUserDiv>`Fehler: ${orgUsersError.message}`</OrgUserDiv>
   }
-  if (orgUsersData.error) {
-    return <OrgUserDiv>`Fehler: ${orgUsersData.error.message}`</OrgUserDiv>
-  }
-  if (allUsersData.error) {
-    return <OrgUserDiv>`Fehler: ${allUsersData.error.message}`</OrgUserDiv>
+  if (allUsersError) {
+    return <OrgUserDiv>`Fehler: ${allUsersError.message}`</OrgUserDiv>
   }
 
   return (
@@ -246,4 +302,4 @@ const OrgUser = ({
   )
 }
 
-export default enhance(OrgUser)
+export default OrgUser
