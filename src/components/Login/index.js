@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import app from 'ampersand-app'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
@@ -20,7 +19,6 @@ import gql from 'graphql-tag'
 
 import fetchLoginModule from './fetchLogin'
 import setLoginMutation from '../../modules/loginMutation'
-import withLoginData from '../../modules/withLoginData'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -46,8 +44,6 @@ const storeQuery = gql`
     }
   }
 `
-
-const enhance = compose(withLoginData)
 
 const Login = () => {
   const client = useApolloClient()
@@ -199,4 +195,4 @@ const Login = () => {
   )
 }
 
-export default enhance(Login)
+export default Login
