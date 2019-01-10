@@ -1,7 +1,5 @@
 // @flow
 import React, { useState, useCallback } from 'react'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -19,13 +17,10 @@ import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
 import isUuid from 'is-uuid'
 import ReactDataGrid from 'react-data-grid'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withImportRcoData from './withImportRcoData'
-import withRCOData from '../withRCOData'
-import withActiveNodeArrayData from '../../../../modules/withActiveNodeArrayData'
 import createRCOMutation from './createRCOMutation'
-import withLoginData from '../../../../modules/withLoginData'
 
 const Container = styled.div`
   height: 100%;
@@ -131,44 +126,125 @@ const StyledSnackbar = styled(Snackbar)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withActiveNodeArrayData,
-  withRCOData,
-  withState('objectIds', 'setObjectIds', []),
-  withState('objectRelationIds', 'setObjectRelationIds', []),
-  withState('pCOfOriginIds', 'setPCOfOriginIds', []),
-  withImportRcoData,
-  withLoginData,
-)
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+  }
+`
+const rcoQuery = gql`
+  query rCOQuery($pCId: UUID!) {
+    propertyCollectionById(id: $pCId) {
+      id
+      organizationByOrganizationId {
+        id
+        name
+        organizationUsersByOrganizationId {
+          nodes {
+            id
+            userId
+            role
+            userByUserId {
+              id
+              name
+            }
+          }
+        }
+      }
+      relationsByPropertyCollectionId {
+        totalCount
+        nodes {
+          id
+          objectId
+          objectByObjectId {
+            id
+            name
+          }
+          objectIdRelation
+          objectByObjectIdRelation {
+            id
+            name
+          }
+          relationType
+          properties
+        }
+      }
+    }
+  }
+`
+const importRcoQuery = gql`
+  query rCOQuery(
+    $getObjectIds: Boolean!
+    $objectIds: [UUID!]
+    $getObjectRelationIds: Boolean!
+    $objectRelationIds: [UUID!]
+    $getPCOfOriginIds: Boolean!
+    $pCOfOriginIds: [UUID!]
+  ) {
+    allObjects(filter: { id: { in: $objectIds } }) @include(if: $getObjectIds) {
+      nodes {
+        id
+      }
+    }
+    allObjectRelations: allObjects(filter: { id: { in: $objectRelationIds } })
+      @include(if: $getObjectRelationIds) {
+      nodes {
+        id
+      }
+    }
+    allPropertyCollections(filter: { id: { in: $pCOfOriginIds } })
+      @include(if: $getPCOfOriginIds) {
+      nodes {
+        id
+      }
+    }
+  }
+`
 
-const ImportPco = ({
-  loginData,
-  activeNodeArrayData,
-  rCOData,
-  objectIds,
-  setObjectIds,
-  objectRelationIds,
-  setObjectRelationIds,
-  pCOfOriginIds,
-  setPCOfOriginIds,
-  importRcoData,
-  setCompleted,
-  client,
-}: {
-  loginData: Object,
-  activeNodeArrayData: Object,
-  rCOData: Object,
-  objectIds: Array<String>,
-  setObjectIds: () => void,
-  objectRelationIds: Array<String>,
-  setObjectRelationIds: () => void,
-  pCOfOriginIds: Array<String>,
-  setPCOfOriginIds: () => void,
-  importRcoData: Object,
-  setCompleted: () => void,
-  client: Object,
-}) => {
+const ImportPco = () => {
+  const client = useApolloClient()
+
+  const [objectIds, setObjectIds] = useState([])
+  const [objectRelationIds, setObjectRelationIds] = useState([])
+  const [pCOfOriginIds, setPCOfOriginIds] = useState([])
+
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const { refetch: rcoRefetch } = useQuery(rcoQuery, {
+    suspend: false,
+    variables: {
+      pCId: get(
+        storeData,
+        'activeNodeArray[1]',
+        '99999999-9999-9999-9999-999999999999',
+      ),
+    },
+  })
+  const {
+    data: importRcoData,
+    loading: importRcoLoading,
+    error: importRcoError,
+  } = useQuery(importRcoQuery, {
+    suspend: false,
+    variables: {
+      getObjectIds: objectIds.length > 0,
+      objectIds:
+        objectIds.length > 0
+          ? objectIds
+          : ['99999999-9999-9999-9999-999999999999'],
+      getObjectRelationIds: objectRelationIds.length > 0,
+      objectRelationIds:
+        objectRelationIds.length > 0
+          ? objectRelationIds
+          : ['99999999-9999-9999-9999-999999999999'],
+      getPCOfOriginIds: pCOfOriginIds.length > 0,
+      pCOfOriginIds:
+        pCOfOriginIds.length > 0
+          ? pCOfOriginIds
+          : ['99999999-9999-9999-9999-999999999999'],
+    },
+  })
+
   const [existsNoDataWithoutKey, setExistsNoDataWithoutKey] = useState(
     undefined,
   )
@@ -217,20 +293,19 @@ const ImportPco = ({
   ] = useState(undefined)
   const [existsPropertyKey, setExistsPropertyKey] = useState(undefined)
 
-  const { loading, error } = importRcoData
-  if (error && error.message) {
-    if (error.message === 'GraphQL error: request entity too large') {
+  if (importRcoError && importRcoError.message) {
+    if (importRcoError.message === 'GraphQL error: request entity too large') {
       setObjectIdsAreRealNotTested(true)
     }
   }
   const pCId = get(
-    activeNodeArrayData,
+    storeData,
     'activeNodeArray[1]',
     '99999999-9999-9999-9999-999999999999',
   )
   const objectsCheckData = get(importRcoData, 'allObjects.nodes', [])
   const objectIdsAreReal =
-    !importRcoData.loading && objectIds.length > 0
+    !importRcoLoading && objectIds.length > 0
       ? objectIds.length === objectsCheckData.length
       : undefined
   const objectRelationsCheckData = get(
@@ -239,7 +314,7 @@ const ImportPco = ({
     [],
   )
   const objectRelationIdsAreReal =
-    !importRcoData.loading && objectRelationIds.length > 0
+    !importRcoLoading && objectRelationIds.length > 0
       ? uniq(objectRelationIds).length === objectRelationsCheckData.length
       : undefined
   const pCOfOriginsCheckData = get(
@@ -248,7 +323,7 @@ const ImportPco = ({
     [],
   )
   const pCOfOriginIdsAreReal =
-    !importRcoData.loading && pCOfOriginIds.length > 0
+    !importRcoLoading && pCOfOriginIds.length > 0
       ? pCOfOriginIds.length === pCOfOriginsCheckData.length
       : undefined
   const showImportButton =
@@ -408,7 +483,7 @@ const ImportPco = ({
           console.log(error)
         }
       })
-      await rCOData.refetch()
+      await rcoRefetch()
       // do not set false because an unmounted component is updated
       //setImporting(false)
     },
@@ -1037,9 +1112,9 @@ const ImportPco = ({
           />
         </>
       )}
-      <StyledSnackbar open={loading} message="lade Daten..." />
+      <StyledSnackbar open={importRcoLoading} message="lade Daten..." />
     </Container>
   )
 }
 
-export default enhance(ImportPco)
+export default ImportPco
