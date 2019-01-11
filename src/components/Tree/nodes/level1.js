@@ -6,12 +6,14 @@ import jwtDecode from 'jwt-decode'
 export default ({
   treeData,
   activeNodeArray,
+  treeDataLoading,
 }: {
   treeData: Object,
   activeNodeArray: Array<String>,
+  treeDataLoading: boolean,
 }): Array<Object> => {
   if (!treeData) return []
-  const loading = get(treeData, 'loading', false)
+  const loading = treeDataLoading
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
   const taxonomies = get(treeData, 'allTaxonomies.nodes', [])
   const artTaxonomies = taxonomies.filter(t => t.type === 'ART')

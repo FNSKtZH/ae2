@@ -118,7 +118,7 @@ const Row = ({
     suspend: false,
   })
   const activeNodeArray = get(storeData, 'activeNodeArray', [])
-  const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
+  const { refetch: treeRefetch } = useQuery(treeDataQuery, {
     suspend: false,
     variables: treeDataVariables({ activeNodeArray }),
   })
@@ -186,7 +186,7 @@ const Row = ({
         data,
         target,
         client,
-        treeDataRefetch,
+        treeRefetch,
         userId,
         editing,
       })

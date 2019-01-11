@@ -22,7 +22,7 @@ export default async ({
   data,
   target,
   client,
-  treeDataRefetch,
+  treeRefetch,
   userData,
   editing,
   activeNodeArray,
@@ -31,7 +31,7 @@ export default async ({
   data: Object,
   target: Object,
   client: Object,
-  treeDataRefetch: () => void,
+  treeRefetch: () => void,
   userData: Object,
   editing: Object,
   activeNodeArray: Object,
@@ -56,7 +56,7 @@ export default async ({
           console.log(error)
         }
         const newUserId = get(newUser, 'data.createUser.user.id')
-        treeDataRefetch()
+        treeRefetch()
         !!newUserId && app.history.push(`/Benutzer/${newUserId}`)
       }
       if (table === 'object') {
@@ -90,7 +90,7 @@ export default async ({
             },
           })
         }
-        treeDataRefetch()
+        treeRefetch()
       }
       if (table === 'taxonomy') {
         const typeConverter = {
@@ -125,7 +125,7 @@ export default async ({
             },
           })
         }
-        treeDataRefetch()
+        treeRefetch()
       }
       if (table === 'pc') {
         const newPCData = await client.mutate({
@@ -152,7 +152,7 @@ export default async ({
             },
           })
         }
-        treeDataRefetch()
+        treeRefetch()
       }
     },
     delete: async () => {
@@ -190,7 +190,7 @@ export default async ({
         } catch (error) {
           console.log(error)
         }
-        treeDataRefetch()
+        treeRefetch()
         app.history.push('/Benutzer')
       }
       if (table === 'object') {

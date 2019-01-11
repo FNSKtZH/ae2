@@ -24,9 +24,11 @@ import sort from './nodes/sort'
 export default ({
   treeData,
   activeNodeArray,
+  treeDataLoading,
 }: {
   treeData: Object,
   activeNodeArray: Object,
+  treeDataLoading: boolean,
 }): Array<Object> => {
   const activeLevel2TaxonomyNodes = activeNodeArray[0]
     ? get(treeData, 'allTaxonomies.nodes', []).filter(n => {
@@ -113,6 +115,7 @@ export default ({
   let nodes = level1({
     treeData,
     activeNodeArray,
+    treeDataLoading,
   })
   if (activeNodeArray.length > 0) {
     switch (activeNodeArray[0]) {

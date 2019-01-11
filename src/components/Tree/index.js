@@ -3,19 +3,18 @@ import React, { useRef, useEffect, useCallback } from 'react'
 // if observer is active, forceUpdate during rendering happens
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
 import Snackbar from '@material-ui/core/Snackbar'
 import get from 'lodash/get'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import Row from './Row'
 import Filter from './Filter'
 import buildNodes from './buildNodes'
-import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import withTreeData from './withTreeData'
-import withOrganizationUsersData from '../../modules/withOrganizationUsersData'
-import withAllUsersData from '../../modules/withAllUsersData'
+import treeDataQuery from './treeDataQuery'
+import treeDataVariables from './treeDataVariables'
 import CmBenutzerFolder from './contextmenu/BenutzerFolder'
 import CmBenutzer from './contextmenu/Benutzer'
 import CmObject from './contextmenu/Object'
@@ -69,49 +68,96 @@ const StyledSnackbar = styled(Snackbar)`
 `
 //const listContainerStyle = { padding: '5px' }
 
-const enhance = compose(
-  withOrganizationUsersData,
-  withAllUsersData,
-  withActiveNodeArrayData,
-  withTreeData,
-)
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+    login @client {
+      token
+      username
+    }
+    editingTaxonomies @client
+  }
+`
+const orgUsersQuery = gql`
+  query AllOrganizationUsersQuery {
+    allOrganizationUsers {
+      nodes {
+        id
+        nodeId
+        organizationId
+        userId
+        role
+        userByUserId {
+          id
+          name
+        }
+      }
+    }
+  }
+`
+const usersQuery = gql`
+  query AllUsersQuery {
+    allUsers {
+      totalCount
+      nodes {
+        id
+        name
+        email
+        organizationUsersByUserId {
+          nodes {
+            id
+            organizationId
+            role
+            organizationByOrganizationId {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 const Tree = ({
-  organizationUsersData,
-  activeNodeArrayData,
-  treeData: treeDataPassed,
-  allUsersData,
   // dimensions is passed down from ReflexElement
   dimensions,
 }: {
-  organizationUsersData: Object,
-  activeNodeArrayData: Object,
-  treeData: Object,
-  allUsersData: Object,
   dimensions: Object,
 }) => {
-  const treeDataLoading =
-    treeDataPassed.loading ||
-    organizationUsersData.loading ||
-    activeNodeArrayData.loading ||
-    allUsersData.loading
-  if (treeDataPassed.error) {
-    return <div> {treeDataPassed.error.message} </div>
-  }
-  if (activeNodeArrayData.error) {
-    return <div> {activeNodeArrayData.error.message} </div>
-  }
-  if (organizationUsersData.error) {
-    return <div> {organizationUsersData.error.message} </div>
-  }
-  if (allUsersData.error) {
-    return <div> {allUsersData.error.message} </div>
-  }
-  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
-  const treeData = { ...allUsersData, ...treeDataPassed }
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+  const {
+    data: treeDataFetched,
+    loading: treeLoading,
+    error: treeError,
+  } = useQuery(treeDataQuery, {
+    suspend: false,
+    variables: treeDataVariables({ activeNodeArray }),
+  })
+  const {
+    data: orgUsersData,
+    loading: orgUsersLoading,
+    error: orgUsersError,
+  } = useQuery(orgUsersQuery, {
+    suspend: false,
+  })
+  const {
+    data: usersData,
+    loading: usersLoading,
+    error: usersError,
+  } = useQuery(usersQuery, {
+    suspend: false,
+  })
+
+  const treeDataLoading = treeLoading || orgUsersLoading || usersLoading
+  const treeData = { ...usersData, ...treeDataFetched }
   const nodes = buildNodes({
     treeData,
     activeNodeArray,
+    treeDataLoading,
   })
 
   useEffect(
@@ -123,11 +169,7 @@ const Tree = ({
   )
 
   const username = get(treeData, 'login.username', null)
-  const organizationUsers = get(
-    organizationUsersData,
-    'allOrganizationUsers.nodes',
-    [],
-  )
+  const organizationUsers = get(orgUsersData, 'allOrganizationUsers.nodes', [])
   const userRoles = organizationUsers
     .filter(oU => username === get(oU, 'userByUserId.name', ''))
     .map(oU => oU.role)
@@ -142,6 +184,18 @@ const Tree = ({
   const getRow = useCallback(({ index, style }) => (
     <Row key={index} index={index} style={style} node={nodes[index]} />
   ))
+
+  if (treeError) {
+    return <Container>{`Error fetching data: ${treeError.message}`}</Container>
+  }
+  if (orgUsersError) {
+    return (
+      <Container> {`Error fetching data: ${orgUsersError.message}`} </Container>
+    )
+  }
+  if (usersError) {
+    return <Container> {`Error fetching data: ${usersError}`} </Container>
+  }
 
   return (
     <ErrorBoundary>
@@ -175,4 +229,4 @@ const Tree = ({
   )
 }
 
-export default enhance(Tree)
+export default Tree
