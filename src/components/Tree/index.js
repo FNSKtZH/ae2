@@ -140,13 +140,7 @@ const Tree = ({
   const listRef = useRef(null)
 
   const getRow = useCallback(({ index, style }) => (
-    <Row
-      key={index}
-      index={index}
-      style={style}
-      node={nodes[index]}
-      activeNodeArray={activeNodeArray}
-    />
+    <Row key={index} index={index} style={style} node={nodes[index]} />
   ))
 
   return (

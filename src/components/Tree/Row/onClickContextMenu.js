@@ -24,8 +24,8 @@ export default async ({
   client,
   treeData,
   rowData,
-  editingTaxonomiesData,
-  activeNodeArrayData,
+  editing,
+  activeNodeArray,
 }: {
   e: Object,
   data: Object,
@@ -33,12 +33,10 @@ export default async ({
   client: Object,
   treeData: Object,
   rowData: Object,
-  editingTaxonomiesData: Object,
-  activeNodeArrayData: Object,
+  editing: Object,
+  activeNodeArray: Object,
 }) => {
   const userId = get(rowData, 'userByName.id', null)
-  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
-  const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
   if (!data) return console.log('no data passed with click')
   if (!target) {
     return console.log('no target passed with click')
@@ -110,7 +108,7 @@ export default async ({
         const newId = get(
           newTaxonomyData,
           'data.createTaxonomy.taxonomy.id',
-          null
+          null,
         )
         app.history.push(`/${[...url, newId].join('/')}`)
         // if not editing, set editing true
@@ -137,7 +135,7 @@ export default async ({
         const newId = get(
           newPCData,
           'data.createPropertyCollection.propertyCollection.id',
-          null
+          null,
         )
         app.history.push(`/${[...url, newId].join('/')}`)
         // if not editing, set editing true
@@ -179,7 +177,7 @@ export default async ({
                 variables,
               })
               const nodes = get(data, 'allUsers.nodes', []).filter(
-                u => u.id !== id
+                u => u.id !== id,
               )
               set(data, 'allUsers.nodes', nodes)
               proxy.writeQuery({
@@ -252,7 +250,7 @@ export default async ({
               variables,
             })
             const nodes = get(data, 'allTaxonomies.nodes', []).filter(
-              u => u.id !== id
+              u => u.id !== id,
             )
             set(data, 'allTaxonomies.nodes', nodes)
             proxy.writeQuery({
@@ -287,7 +285,7 @@ export default async ({
               variables,
             })
             const nodes = get(data, 'allPropertyCollections.nodes', []).filter(
-              u => u.id !== id
+              u => u.id !== id,
             )
             set(data, 'allPropertyCollections.nodes', nodes)
             proxy.writeQuery({

@@ -8,13 +8,13 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import Icon from '@material-ui/core/Icon'
 import isEqual from 'lodash/isEqual'
-import { withApollo } from 'react-apollo'
+import get from 'lodash/get'
 import app from 'ampersand-app'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenuDo from './onClickContextMenu'
-import withEditingTaxonomiesData from '../../../modules/withEditingTaxonomiesData'
-import withActiveNodeArrayData from '../../../modules/withActiveNodeArrayData'
 import withLoginData from '../../../modules/withLoginData'
 import withRowData from './withRowData'
 import withTreeData from '../withTreeData'
@@ -85,13 +85,21 @@ function collect(props) {
   return props
 }
 
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+    login @client {
+      token
+      username
+    }
+    editingTaxonomies @client
+  }
+`
+
 const enhance = compose(
-  withApollo,
   withLoginData,
   withTreeData,
-  withActiveNodeArrayData,
   withRowData,
-  withEditingTaxonomiesData,
 )
 
 const Row = ({
@@ -99,24 +107,24 @@ const Row = ({
   index,
   style,
   node,
-  client,
-  activeNodeArray,
-  activeNodeArrayData,
   rowData,
   treeData,
-  editingTaxonomiesData,
 }: {
   key?: number,
   index: number,
   style: Object,
   node: Object,
-  client: Object,
-  activeNodeArray: Array<String>,
-  activeNodeArrayData: Object,
   rowData: Object,
   treeData: Object,
-  editingTaxonomiesData: Object,
 }) => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const editing = get(storeData, 'editingTaxonomies', false)
+  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+
   //console.log('Row: node:', node)
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     node.url,
@@ -169,16 +177,16 @@ const Row = ({
     (e, data, target) => {
       onClickContextMenuDo({
         e,
-        activeNodeArrayData,
+        activeNodeArray,
         data,
         target,
         client,
         treeData,
         rowData,
-        editingTaxonomiesData,
+        editing,
       })
     },
-    [activeNodeArrayData, treeData, rowData, editingTaxonomiesData],
+    [activeNodeArray, treeData, rowData, editing],
   )
 
   return (
