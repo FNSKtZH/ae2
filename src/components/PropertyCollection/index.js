@@ -1,6 +1,5 @@
 // @flow
 import React, { useCallback } from 'react'
-import compose from 'recompose/compose'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import EditIcon from '@material-ui/icons/Edit'
@@ -16,16 +15,12 @@ import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import format from 'date-fns/format'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import Property from './Property'
 import onBlur from './onBlur'
-import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import withAllUsersData from '../../modules/withAllUsersData'
-import withEditingPCsData from './withEditingPCsData'
 import editingPCsMutation from '../../modules/editingPCsMutation'
-import withLoginData from '../../modules/withLoginData'
-import withPCData from './withPCData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
@@ -57,32 +52,100 @@ const StyledA = styled.a`
   color: rgba(0, 0, 0, 0.54);
 `
 
-const enhance = compose(
-  withApollo,
-  withAllUsersData,
-  withActiveNodeArrayData,
-  withLoginData,
-  withEditingPCsData,
-  withPCData,
-)
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+    login @client {
+      token
+      username
+    }
+    editingPCs @client
+  }
+`
+const allUsersQuery = gql`
+  query AllUsersQuery {
+    allUsers {
+      totalCount
+      nodes {
+        id
+        name
+        email
+        organizationUsersByUserId {
+          nodes {
+            id
+            organizationId
+            role
+            organizationByOrganizationId {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`
+const pcQuery = gql`
+  query pCQuery($pCId: UUID!) {
+    propertyCollectionById(id: $pCId) {
+      id
+      name
+      description
+      links
+      combining
+      organizationId
+      lastUpdated
+      termsOfUse
+      importedBy
+      organizationByOrganizationId {
+        id
+        name
+      }
+      propertyCollectionObjectsByPropertyCollectionId {
+        totalCount
+      }
+    }
+    # leave this as is only called once more and with more props
+    allPropertyCollections {
+      nodes {
+        id
+        name
+      }
+    }
+  }
+`
 
-const PropertyCollection = ({
-  client,
-  allUsersData,
-  pCData,
-  loginData,
-  editingPCsData,
-}: {
-  client: Object,
-  allUsersData: Object,
-  pCData: Object,
-  loginData: Object,
-  editingPCsData: Object,
-}) => {
-  const pC = get(pCData, 'propertyCollectionById', {})
+const PropertyCollection = () => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const {
+    data: allUsersData,
+    loading: allUsersLoading,
+    error: allUsersError,
+  } = useQuery(allUsersQuery, {
+    suspend: false,
+  })
+  const { data: pcData, loading: pcLoading, error: pcError } = useQuery(
+    pcQuery,
+    {
+      suspend: false,
+      variables: {
+        pCId: get(
+          storeData,
+          'activeNodeArray[1]',
+          '99999999-9999-9999-9999-999999999999',
+        ),
+      },
+    },
+  )
+
+  const pC = get(pcData, 'propertyCollectionById', {})
   const org = get(pC, 'organizationByOrganizationId.name', '')
-  const editing = get(editingPCsData, 'editingPCs', false)
-  const username = get(loginData, 'login.username', null)
+  const editing = get(storeData, 'editingPCs', false)
+  const username = get(storeData, 'login.username', null)
   const allUsers = get(allUsersData, 'allUsers.nodes', [])
   const user = allUsers.find(u => u.name === username)
   const orgsUserIsPCWriter = get(user, 'organizationUsersByUserId.nodes', [])
@@ -170,25 +233,14 @@ const PropertyCollection = ({
     [pC],
   )
 
-  if (
-    pCData.loading ||
-    allUsersData.loading ||
-    loginData.loading ||
-    editingPCsData.loading
-  ) {
+  if (pcLoading || allUsersLoading) {
     return <Container>Lade Daten...</Container>
   }
-  if (pCData.error) {
-    return <Container>`Fehler: ${pCData.error.message}`</Container>
+  if (pcError) {
+    return <Container>{`Fehler: ${pcError.message}`}</Container>
   }
-  if (allUsersData.error) {
-    return <Container>`Fehler: ${allUsersData.error.message}`</Container>
-  }
-  if (loginData.error) {
-    return <Container>`Fehler: ${loginData.error.message}`</Container>
-  }
-  if (editingPCsData.error) {
-    return <Container>`Fehler: ${editingPCsData.error.message}`</Container>
+  if (allUsersError) {
+    return <Container>{`Fehler: ${allUsersError.message}`}</Container>
   }
 
   return (
@@ -485,4 +537,4 @@ const PropertyCollection = ({
   )
 }
 
-export default enhance(PropertyCollection)
+export default PropertyCollection
