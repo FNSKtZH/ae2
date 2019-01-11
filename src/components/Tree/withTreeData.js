@@ -2,10 +2,10 @@
 import { graphql } from 'react-apollo'
 import get from 'lodash/get'
 
-import treeDataGql from './treeDataGql'
+import treeDataQuery from './treeDataQuery'
 import treeDataVariables from './treeDataVariables'
 
-export default graphql(treeDataGql, {
+export default graphql(treeDataQuery, {
   options: ({ activeNodeArrayData }: { activeNodeArrayData: Object }) => {
     const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
     const variables = treeDataVariables({ activeNodeArray })

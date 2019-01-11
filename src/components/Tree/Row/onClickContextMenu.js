@@ -12,7 +12,7 @@ import createTaxonomyMutation from '../../Taxonomy/createTaxonomyMutation'
 import createPCMutation from '../../PropertyCollection/createPCMutation'
 import deletePCMutation from '../../PropertyCollection/deletePCMutation'
 import deleteTaxonomyMutation from '../../Taxonomy/deleteTaxonomyMutation'
-import treeDataGql from '../treeDataGql'
+import treeDataQuery from '../treeDataQuery'
 import treeDataVariables from '../treeDataVariables'
 import editingTaxonomiesMutation from '../../../modules/editingTaxonomiesMutation'
 import editingPCsMutation from '../../../modules/editingPCsMutation'
@@ -22,8 +22,8 @@ export default async ({
   data,
   target,
   client,
-  treeData,
-  rowData,
+  treeDataRefetch,
+  userData,
   editing,
   activeNodeArray,
 }: {
@@ -31,12 +31,12 @@ export default async ({
   data: Object,
   target: Object,
   client: Object,
-  treeData: Object,
-  rowData: Object,
+  treeDataRefetch: () => void,
+  userData: Object,
   editing: Object,
   activeNodeArray: Object,
 }) => {
-  const userId = get(rowData, 'userByName.id', null)
+  const userId = get(userData, 'userByName.id', null)
   if (!data) return console.log('no data passed with click')
   if (!target) {
     return console.log('no target passed with click')
@@ -56,7 +56,7 @@ export default async ({
           console.log(error)
         }
         const newUserId = get(newUser, 'data.createUser.user.id')
-        treeData.refetch()
+        treeDataRefetch()
         !!newUserId && app.history.push(`/Benutzer/${newUserId}`)
       }
       if (table === 'object') {
@@ -90,7 +90,7 @@ export default async ({
             },
           })
         }
-        treeData.refetch()
+        treeDataRefetch()
       }
       if (table === 'taxonomy') {
         const typeConverter = {
@@ -125,7 +125,7 @@ export default async ({
             },
           })
         }
-        treeData.refetch()
+        treeDataRefetch()
       }
       if (table === 'pc') {
         const newPCData = await client.mutate({
@@ -152,7 +152,7 @@ export default async ({
             },
           })
         }
-        treeData.refetch()
+        treeDataRefetch()
       }
     },
     delete: async () => {
@@ -173,7 +173,7 @@ export default async ({
             update: (proxy, { data: { deleteUserMutation } }) => {
               const variables = treeDataVariables({ activeNodeArray })
               const data = proxy.readQuery({
-                query: treeDataGql,
+                query: treeDataQuery,
                 variables,
               })
               const nodes = get(data, 'allUsers.nodes', []).filter(
@@ -181,7 +181,7 @@ export default async ({
               )
               set(data, 'allUsers.nodes', nodes)
               proxy.writeQuery({
-                query: treeDataGql,
+                query: treeDataQuery,
                 variables,
                 data,
               })
@@ -190,7 +190,7 @@ export default async ({
         } catch (error) {
           console.log(error)
         }
-        treeData.refetch()
+        treeDataRefetch()
         app.history.push('/Benutzer')
       }
       if (table === 'object') {
@@ -209,7 +209,7 @@ export default async ({
           update: (proxy, { data: { deleteObjectMutation } }) => {
             const variables = treeDataVariables({ activeNodeArray })
             const data = proxy.readQuery({
-              query: treeDataGql,
+              query: treeDataQuery,
               variables,
             })
             const nodesPath =
@@ -219,7 +219,7 @@ export default async ({
             const nodes = get(data, nodesPath, []).filter(u => u.id !== id)
             set(data, nodesPath, nodes)
             proxy.writeQuery({
-              query: treeDataGql,
+              query: treeDataQuery,
               variables,
               data,
             })
@@ -246,7 +246,7 @@ export default async ({
           update: (proxy, { data: { deleteTaxonomyMutation } }) => {
             const variables = treeDataVariables({ activeNodeArray })
             const data = proxy.readQuery({
-              query: treeDataGql,
+              query: treeDataQuery,
               variables,
             })
             const nodes = get(data, 'allTaxonomies.nodes', []).filter(
@@ -254,7 +254,7 @@ export default async ({
             )
             set(data, 'allTaxonomies.nodes', nodes)
             proxy.writeQuery({
-              query: treeDataGql,
+              query: treeDataQuery,
               variables,
               data,
             })
@@ -281,7 +281,7 @@ export default async ({
           update: (proxy, { data: { deletePCMutation } }) => {
             const variables = treeDataVariables({ activeNodeArray })
             const data = proxy.readQuery({
-              query: treeDataGql,
+              query: treeDataQuery,
               variables,
             })
             const nodes = get(data, 'allPropertyCollections.nodes', []).filter(
@@ -289,7 +289,7 @@ export default async ({
             )
             set(data, 'allPropertyCollections.nodes', nodes)
             proxy.writeQuery({
-              query: treeDataGql,
+              query: treeDataQuery,
               variables,
               data,
             })

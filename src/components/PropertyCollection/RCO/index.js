@@ -18,7 +18,7 @@ import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import deleteRcoOfPcMutation from './deleteRcoOfPcMutation'
-import treeDataQuery from '../../Tree/treeDataGql'
+import treeDataQuery from '../../Tree/treeDataQuery'
 import treeDataVariables from '../../Tree/treeDataVariables'
 
 const Container = styled.div`

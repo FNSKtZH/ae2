@@ -13,7 +13,7 @@ import { useQuery, useApolloClient } from 'react-apollo-hooks'
 
 import query from './query'
 import storeQuery from './storeQuery'
-import treeDataQuery from '../Tree/treeDataGql'
+import treeDataQuery from '../Tree/treeDataQuery'
 import getTreeDataVariables from '../Tree/treeDataVariables'
 import Roles from './Roles'
 import PCs from './PCs'

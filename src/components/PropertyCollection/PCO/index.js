@@ -17,7 +17,7 @@ import ImportPco from './Import'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
-import treeDataQuery from '../../Tree/treeDataGql'
+import treeDataQuery from '../../Tree/treeDataQuery'
 import treeDataVariables from '../../Tree/treeDataVariables'
 import deletePcoOfPcMutation from './deletePcoOfPcMutation'
 

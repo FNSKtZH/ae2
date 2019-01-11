@@ -1,7 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import { ContextMenuTrigger } from 'react-contextmenu'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
@@ -15,9 +14,8 @@ import gql from 'graphql-tag'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenuDo from './onClickContextMenu'
-import withLoginData from '../../../modules/withLoginData'
-import withRowData from './withRowData'
-import withTreeData from '../withTreeData'
+import treeDataQuery from '../treeDataQuery'
+import treeDataVariables from '../treeDataVariables'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const singleRowHeight = 23
@@ -95,37 +93,43 @@ const storeQuery = gql`
     editingTaxonomies @client
   }
 `
-
-const enhance = compose(
-  withLoginData,
-  withTreeData,
-  withRowData,
-)
+const userQuery = gql`
+  query rowQuery($username: String!) {
+    userByName(name: $username) {
+      id
+    }
+  }
+`
 
 const Row = ({
   key,
   index,
   style,
   node,
-  rowData,
-  treeData,
 }: {
   key?: number,
   index: number,
   style: Object,
   node: Object,
-  rowData: Object,
-  treeData: Object,
 }) => {
   const client = useApolloClient()
 
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
   })
-  const editing = get(storeData, 'editingTaxonomies', false)
   const activeNodeArray = get(storeData, 'activeNodeArray', [])
+  const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
+    suspend: false,
+    variables: treeDataVariables({ activeNodeArray }),
+  })
+  const { data: userData } = useQuery(userQuery, {
+    suspend: false,
+    variables: {
+      username: get(storeData, 'login.username', null),
+    },
+  })
+  const editing = get(storeData, 'editingTaxonomies', false)
 
-  //console.log('Row: node:', node)
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     node.url,
     activeNodeArray,
@@ -146,6 +150,7 @@ const Row = ({
   }
   const { url, loadingNode } = node
   const level = url.length
+  const userId = get(userData, 'userByName.id', null)
 
   const onClickNode = useCallback(
     event => {
@@ -181,12 +186,12 @@ const Row = ({
         data,
         target,
         client,
-        treeData,
-        rowData,
+        treeDataRefetch,
+        userId,
         editing,
       })
     },
-    [activeNodeArray, treeData, rowData, editing],
+    [activeNodeArray, userId, editing],
   )
 
   return (
@@ -236,4 +241,4 @@ const Row = ({
   )
 }
 
-export default enhance(Row)
+export default Row
