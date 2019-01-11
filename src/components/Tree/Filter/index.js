@@ -145,7 +145,6 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
     '99999999-9999-9999-9999-999999999999'
   const {
     data: filterSuggestionsData,
-    loading: filterSuggestionsLoading,
     error: filterSuggestionsError,
   } = useQuery(filterSuggestionsQuery, {
     suspend: false,
@@ -153,16 +152,15 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
       treeFilterText: get(storeData, 'treeFilter.text') || 'ZZZZ',
     },
   })
-  const {
-    data: objectUrlData,
-    loading: objectUrlLoading,
-    error: objectUrlError,
-  } = useQuery(objectUrlQuery, {
-    suspend: false,
-    variables: {
-      treeFilterId,
+  const { data: objectUrlData, error: objectUrlError } = useQuery(
+    objectUrlQuery,
+    {
+      suspend: false,
+      variables: {
+        treeFilterId,
+      },
     },
-  })
+  )
 
   const urlObject = get(objectUrlData, 'objectById', {})
   const treeFilterText = get(storeData, 'treeFilter.text', '')
