@@ -239,7 +239,7 @@ const PropertyCollection = ({
             />
             <PropertyReadOnly
               key="lastUpdated"
-              value={format(new Date(pC.lastUpdated), 'DD.MM.YYYY')}
+              value={format(new Date(pC.lastUpdated), 'dd.MM.yyyy')}
               label="Zuletzt aktualisiert"
             />
             <PropertyReadOnly

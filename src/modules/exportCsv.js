@@ -7,6 +7,6 @@ export default (jsonData: Array<Object>) => {
   const csvData = parse(jsonData)
   fileDownload(
     csvData,
-    `arteigenschaften_${format(new Date(), 'YYYY-MM-DD_HH-mm-ss')}.csv`
+    `arteigenschaften_${format(new Date(), 'yyyy-MM-dd_HH-mm-ss')}.csv`,
   )
 }

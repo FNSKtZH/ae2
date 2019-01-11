@@ -231,7 +231,7 @@ const Taxonomy = ({
             {!!tax.lastUpdated && (
               <PropertyReadOnly
                 key="lastUpdated"
-                value={format(new Date(tax.lastUpdated), 'DD.MM.YYYY')}
+                value={format(new Date(tax.lastUpdated), 'dd.MM.yyyy')}
                 label="Zuletzt aktualisiert"
               />
             )}

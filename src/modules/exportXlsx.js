@@ -23,6 +23,6 @@ export default async ({
     new Blob([buffer], {
       type: 'application/octet-stream',
     }),
-    `arteigenschaften_${format(new Date(), 'YYYY-MM-DD_HH-mm-ss')}.xlsx`
+    `arteigenschaften_${format(new Date(), 'yyyy-MM-dd_HH-mm-ss')}.xlsx`,
   )
 }

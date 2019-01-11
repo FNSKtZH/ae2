@@ -53,7 +53,7 @@ const Property = ({
           label={label}
           value={
             field === 'lastUpdated' && value
-              ? format(new Date(value), 'DD.MM.YYYY')
+              ? format(new Date(value), 'dd.MM.yyyy')
               : value
           }
           onChange={onChange}
