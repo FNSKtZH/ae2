@@ -1,9 +1,9 @@
 // @flow
 import React, { lazy, Suspense } from 'react'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withActiveNodeArrayData from '../modules/withActiveNodeArrayData'
 import LazyImportFallback from './shared/LazyImportFallback'
 
 const Pco = lazy(() => import('./PropertyCollection/PCO'))
@@ -14,18 +14,24 @@ const PropertyCollection = lazy(() => import('./PropertyCollection'))
 const Benutzer = lazy(() => import('./Benutzer'))
 const Organisation = lazy(() => import('./Organisation'))
 
-const enhance = compose(withActiveNodeArrayData)
+const storeQuery = gql`
+  query storeQuery {
+    activeNodeArray @client
+  }
+`
 
 const DataType = ({
-  activeNodeArrayData,
   dimensions,
   stacked = false,
 }: {
-  activeNodeArrayData: Object,
   dimensions: Object,
   stacked: Boolean,
 }) => {
-  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+
   const showObjekt =
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
     activeNodeArray.length > 1
@@ -96,4 +102,4 @@ const DataType = ({
   return null
 }
 
-export default enhance(DataType)
+export default DataType
