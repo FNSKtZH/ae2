@@ -69,6 +69,6 @@ Beispiele:
 
 ## GraphQL
 
-Unter https://arteigenschaften.ch/graphql befindet sich eine GraphQL-Schnittstelle. Eine Benutzer-Oberfläche und Dokumentation dafür findet sich unter https://arteigenschaften.ch/graphiql (in der Anwendung über das Menü oben rechts erreichbar).
+Unter https://arteigenschaften.ch/graphql befindet sich eine GraphQL-Schnittstelle. Benutzer-Oberfläche und Dokumentation sind in der Anwendung über das Mehr-Menü oben rechts erreichbar.
 
-Diese GraphQL-Schnittstelle wird auch von arteigenschaften.ch selber benutzt.
+Diese GraphQL-Schnittstelle wird auch von arteigenschaften.ch selber benutzt. Es gibt daher kaum eine Funktionalität, welche damit nicht möglich ist, solange man sich mit ausreichenden Benutzerrechten anmeldet.
