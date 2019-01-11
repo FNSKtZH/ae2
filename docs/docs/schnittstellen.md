@@ -66,3 +66,7 @@ Beispiele:
 - bis Juli 2018: http://arteigenschaften.ch/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true
 - seither, kompatibel: http://arteigenschaften.ch/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true
 - seither, eleganter: https://arteigenschaften.ch/api/evab/arten
+
+## GraphQL
+
+Unter https://arteigenschaften.ch/graphql befindet sich eine GraphQL-Schnittstelle. Eine Benutzer-Oberfläche und Dokumentation dafür findet sich unter https://arteigenschaften.ch/graphiql.
