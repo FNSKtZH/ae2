@@ -18,9 +18,8 @@ import app from 'ampersand-app'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import query from './query'
-import storeQuery from './storeQuery'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import LazyImportFallback from '../shared/LazyImportFallback'
 import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
@@ -67,6 +66,39 @@ const StyledMoreVertIcon = styled(ShareIcon)`
   color: white !important;
 `
 const getInitials = name => name.match(/\b(\w)/g).join('')
+
+const storeQuery = gql`
+  query appBarStoreQuery {
+    login @client {
+      token
+      username
+    }
+    activeNodeArray @client
+  }
+`
+const query = gql`
+  query ObjectQuery(
+    $objectId: UUID!
+    $existsObjectId: Boolean!
+    $pCId: UUID!
+    $existsPCId: Boolean!
+    $taxId: UUID!
+    $existsTaxId: Boolean!
+  ) {
+    objectById(id: $objectId) @include(if: $existsObjectId) {
+      id
+      name
+    }
+    propertyCollectionById(id: $pCId) @include(if: $existsPCId) {
+      id
+      name
+    }
+    taxonomyById(id: $taxId) @include(if: $existsTaxId) {
+      id
+      name
+    }
+  }
+`
 
 const MyAppBar = () => {
   const { data: storeData } = useQuery(storeQuery, {
