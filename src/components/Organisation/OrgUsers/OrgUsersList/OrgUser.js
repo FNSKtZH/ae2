@@ -251,10 +251,10 @@ const OrgUser = ({ orgUser }: { orgUser: Object }) => {
     return <OrgUserDiv>Lade Daten...</OrgUserDiv>
   }
   if (orgUsersError) {
-    return <OrgUserDiv>`Fehler: ${orgUsersError.message}`</OrgUserDiv>
+    return <OrgUserDiv>{`Fehler: ${orgUsersError.message}`}</OrgUserDiv>
   }
   if (allUsersError) {
-    return <OrgUserDiv>`Fehler: ${allUsersError.message}`</OrgUserDiv>
+    return <OrgUserDiv>{`Fehler: ${allUsersError.message}`}</OrgUserDiv>
   }
 
   return (

@@ -5,9 +5,8 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ClearIcon from '@material-ui/icons/Clear'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
 import omit from 'lodash/omit'
+import { useApolloClient } from 'react-apollo-hooks'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
 import updatePropertyMutation from './updatePropertyMutation'
@@ -28,19 +27,16 @@ const DeleteButton = styled(IconButton)`
   }
 `
 
-const enhance = compose(withApollo)
-
 const Property = ({
-  client,
   id,
   properties: propertiesPrevious,
   field: key,
 }: {
-  client: Object,
   id: string,
   properties: Object,
   key: string,
 }) => {
+  const client = useApolloClient()
   const [value, setValue] = useState(propertiesPrevious[key] || '')
 
   const onChange = useCallback(event => setValue(event.target.value))
@@ -112,4 +108,4 @@ const Property = ({
   )
 }
 
-export default enhance(Property)
+export default Property

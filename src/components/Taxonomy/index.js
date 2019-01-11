@@ -1,6 +1,5 @@
 // @flow
 import React, { useCallback } from 'react'
-import compose from 'recompose/compose'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import EditIcon from '@material-ui/icons/Edit'
@@ -13,14 +12,10 @@ import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import format from 'date-fns/format'
-import { withApollo } from 'react-apollo'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
-import withActiveNodeArrayData from '../../modules/withActiveNodeArrayData'
-import withEditingTaxonomiesData from '../../modules/withEditingTaxonomiesData'
-import withAllUsersData from '../../modules/withAllUsersData'
 import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
-import withLoginData from '../../modules/withLoginData'
-import withTaxData from './withTaxData'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyArten from './PropertyArten'
 import PropertyLr from './PropertyLr'
@@ -45,35 +40,112 @@ const StyledFormControl = styled(FormControl)`
   margin: 10px 0 5px 0 !important;
 `
 
-const enhance = compose(
-  withApollo,
-  withAllUsersData,
-  withActiveNodeArrayData,
-  withTaxData,
-  withLoginData,
-  withEditingTaxonomiesData,
-)
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+    login @client {
+      token
+      username
+    }
+    editingTaxonomies @client
+  }
+`
+const allUsersQuery = gql`
+  query AllUsersQuery {
+    allUsers {
+      totalCount
+      nodes {
+        id
+        name
+        email
+        organizationUsersByUserId {
+          nodes {
+            id
+            organizationId
+            role
+            organizationByOrganizationId {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`
+const taxQuery = gql`
+  query taxQuery($taxId: UUID!) {
+    taxonomyById(id: $taxId) {
+      id
+      name
+      description
+      links
+      lastUpdated
+      organizationId
+      organizationByOrganizationId {
+        id
+        name
+        organizationUsersByOrganizationId {
+          nodes {
+            id
+            role
+            userId
+            userByUserId {
+              id
+              name
+            }
+          }
+        }
+      }
+      importedBy
+      userByImportedBy {
+        id
+        name
+      }
+      termsOfUse
+      habitatLabel
+      habitatComments
+      habitatNrFnsMin
+      habitatNrFnsMax
+      type
+    }
+  }
+`
 
-const Taxonomy = ({
-  client,
-  allUsersData,
-  taxData,
-  editingTaxonomiesData,
-  loginData,
-}: {
-  client: Object,
-  allUsersData: Object,
-  taxData: Object,
-  editingTaxonomiesData: Object,
-  loginData: Object,
-}) => {
+const Taxonomy = () => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const {
+    data: allUsersData,
+    loading: allUsersLoading,
+    error: allUsersError,
+  } = useQuery(allUsersQuery, {
+    suspend: false,
+  })
+  const { data: taxData, loading: taxLoading, error: taxError } = useQuery(
+    taxQuery,
+    {
+      suspend: false,
+      variables: {
+        taxId: get(
+          storeData,
+          'activeNodeArray[1]',
+          '99999999-9999-9999-9999-999999999999',
+        ),
+      },
+    },
+  )
+
   const tax = get(taxData, 'taxonomyById', {})
   const importedByName = get(tax, 'userByImportedBy.name')
   const organizationName = get(tax, 'organizationByOrganizationId.name')
-  const editing = get(editingTaxonomiesData, 'editingTaxonomies', false)
+  const editing = get(storeData, 'editingTaxonomies', false)
   const editingArten = editing && tax.type === 'ART'
   const editingLr = editing && tax.type === 'LEBENSRAUM'
-  const username = get(loginData, 'login.username', null)
+  const username = get(storeData, 'login.username', null)
   const allUsers = get(allUsersData, 'allUsers.nodes', [])
   const user = allUsers.find(u => u.name === username)
   const orgsUserIsTaxWriter = get(user, 'organizationUsersByUserId.nodes', [])
@@ -160,27 +232,14 @@ const Taxonomy = ({
     [tax],
   )
 
-  if (
-    taxData.loading ||
-    allUsersData.loading ||
-    editingTaxonomiesData.loading ||
-    loginData.loading
-  ) {
+  if (taxLoading || allUsersLoading) {
     return <Container>Lade Daten...</Container>
   }
-  if (taxData.error) {
-    return <Container>`Fehler: ${taxData.error.message}`</Container>
+  if (taxError) {
+    return <Container>{`Fehler: ${taxError.message}`}</Container>
   }
-  if (allUsersData.error) {
-    return <Container>`Fehler: ${allUsersData.error.message}`</Container>
-  }
-  if (editingTaxonomiesData.error) {
-    return (
-      <Container>`Fehler: ${editingTaxonomiesData.error.message}`</Container>
-    )
-  }
-  if (loginData.error) {
-    return <Container>`Fehler: ${loginData.error.message}`</Container>
+  if (allUsersError) {
+    return <Container>{`Fehler: ${allUsersError.message}`}</Container>
   }
 
   return (
@@ -453,4 +512,4 @@ const Taxonomy = ({
   )
 }
 
-export default enhance(Taxonomy)
+export default Taxonomy

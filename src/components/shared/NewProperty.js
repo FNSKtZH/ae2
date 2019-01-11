@@ -3,8 +3,7 @@ import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import { withApollo } from 'react-apollo'
+import { useApolloClient } from 'react-apollo-hooks'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
 import updatePropertyMutation from './updatePropertyMutation'
@@ -17,17 +16,15 @@ const FieldContainer = styled.div`
   display: flex;
 `
 
-const enhance = compose(withApollo)
-
 const Property = ({
   id,
   properties: propertiesPrevious,
-  client,
 }: {
   id: string,
   properties: object,
-  client: Object,
 }) => {
+  const client = useApolloClient()
+
   const [label, setLabel] = useState('')
   const [value, setValue] = useState('')
 
@@ -88,4 +85,4 @@ const Property = ({
   )
 }
 
-export default enhance(Property)
+export default Property

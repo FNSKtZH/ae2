@@ -69,7 +69,7 @@ const TCs = () => {
   )
 
   if (tcsLoading) return <Container>Lade Daten...</Container>
-  if (tcsError) return <Container>`Fehler: ${tcsError.message}`</Container>
+  if (tcsError) return <Container>{`Fehler: ${tcsError.message}`}</Container>
 
   return (
     <ErrorBoundary>
