@@ -9,6 +9,45 @@ import App from './App'
 import getUrlForObject from '../modules/getUrlForObject'
 import getUrlParamByName from '../modules/getUrlParamByName'
 
+const objectQuery = gql`
+  query ObjectQuery($id: UUID!) {
+    objectById(id: $id) {
+      id
+      taxonomyByTaxonomyId {
+        id
+        type
+      }
+      objectByParentId {
+        id
+        objectByParentId {
+          id
+          objectByParentId {
+            id
+            objectByParentId {
+              id
+              objectByParentId {
+                id
+                objectByParentId {
+                  id
+                  objectByParentId {
+                    id
+                    objectByParentId {
+                      id
+                      objectByParentId {
+                        id
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 const Router = () => {
   /**
    * check if old url was passed that contains objectId-Param
@@ -31,47 +70,7 @@ const Router = () => {
 
   if (!!objectId) {
     return (
-      <Query
-        query={gql`
-          query ObjectQuery($id: UUID!) {
-            objectById(id: $id) {
-              id
-              taxonomyByTaxonomyId {
-                id
-                type
-              }
-              objectByParentId {
-                id
-                objectByParentId {
-                  id
-                  objectByParentId {
-                    id
-                    objectByParentId {
-                      id
-                      objectByParentId {
-                        id
-                        objectByParentId {
-                          id
-                          objectByParentId {
-                            id
-                            objectByParentId {
-                              id
-                              objectByParentId {
-                                id
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        `}
-        variables={{ id: objectId }}
-      >
+      <Query query={objectQuery} variables={{ id: objectId }}>
         {({ loading, error, data: { objectById } }) => {
           if (loading) return 'Loading...'
           if (error) return `Fehler: ${error.message}`
