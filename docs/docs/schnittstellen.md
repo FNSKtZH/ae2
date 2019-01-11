@@ -40,7 +40,7 @@ Die Feldnamen sind bewusst kurz gehalten, um den Netzwerkverkehr zu minimieren. 
 - t: collection-**t**ype ('tax', 'pco' oder 'rco')
 - n: collection-**n**ame
 - p: **p**roperty
-- rt: relation-type (nur für Beziehungen)
+- rt: **r**elation-**t**ype (nur für Beziehungen)
 
 Es werden nur die manuell gewählten Felder übermittelt.
 
