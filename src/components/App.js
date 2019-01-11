@@ -1,16 +1,15 @@
 // @flow
 import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
+import { useQuery } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import AppBar from './AppBar'
-import withActiveNodeArrayData from '../modules/withActiveNodeArrayData'
-import updateAvailableData from '../modules/updateAvailableData'
 import ErrorBoundary from './shared/ErrorBoundary'
 import LazyImportFallback from './shared/LazyImportFallback'
 
@@ -27,21 +26,22 @@ const FourOhFour = lazy(() => import('./FourOhFour'))
 const DataGraph = lazy(() => import('./DataGraph'))
 const GraphIql = lazy(() => import('./GraphIql'))
 
-const enhance = compose(
-  withActiveNodeArrayData,
-  updateAvailableData,
-)
-const App = ({
-  activeNodeArrayData,
-  updateAvailableData,
-}: {
-  activeNodeArrayData: Object,
-  updateAvailableData: Object,
-}) => {
+const storeQuery = gql`
+  query activeNodeArrayQuery {
+    activeNodeArray @client
+    updateAvailable @client
+  }
+`
+
+const App = () => {
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+
   const [stacked, setStacked] = useState(false)
 
-  const activeNodeArray = get(activeNodeArrayData, 'activeNodeArray', [])
-  const updateAvailable = get(updateAvailableData, 'updateAvailable', false)
+  const updateAvailable = get(storeData, 'updateAvailable', false)
   const url0 =
     activeNodeArray[0] && activeNodeArray[0].toLowerCase()
       ? activeNodeArray[0].toLowerCase()
@@ -130,4 +130,4 @@ const App = ({
   )
 }
 
-export default enhance(App)
+export default App
