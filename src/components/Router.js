@@ -58,10 +58,8 @@ const Router = () => {
   const objectId =
     idParam && isUuid.anyNonNil(idParam) ? idParam.toLowerCase() : null
   /**
-   * redirect
-   * /index.html?exportieren_fuer_artenlistentool=true
-   * to
-   * /artenlistentool/waehlen
+   * redirect /index.html?exportieren_fuer_artenlistentool=true
+   * to /artenlistentool/waehlen
    */
   const altUrlGenParam = getUrlParamByName('exportieren_fuer_artenlistentool')
   if (altUrlGenParam) {
