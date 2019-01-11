@@ -9,7 +9,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
-import compose from 'recompose/compose'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
@@ -74,8 +73,6 @@ const propsByTaxQuery = gql`
     }
   }
 `
-
-const enhance = compose()
 
 const PcoCard = ({ pc }: { pc: Object }) => {
   const [expanded, setExpanded] = useState(false)
@@ -145,4 +142,4 @@ const PcoCard = ({ pc }: { pc: Object }) => {
   )
 }
 
-export default enhance(PcoCard)
+export default PcoCard
