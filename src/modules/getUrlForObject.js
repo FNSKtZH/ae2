@@ -3,7 +3,7 @@ import get from 'lodash/get'
 
 export default (tO: Object) => {
   let url = []
-  const type = get(tO, 'taxonomyByTaxonomyId.type')
+  const type = get(tO, 'taxonomyByTaxonomyId.type', '')
     .replace('ART', 'Arten')
     .replace('LEBENSRAUM', 'Lebensräume')
   if (type) url.push(type)
@@ -18,22 +18,22 @@ export default (tO: Object) => {
   if (level6Id) tOIdsArray.unshift(level6Id)
   const level7Id = get(
     tO,
-    'objectByParentId.objectByParentId.objectByParentId.id'
+    'objectByParentId.objectByParentId.objectByParentId.id',
   )
   if (level7Id) tOIdsArray.unshift(level7Id)
   const level8Id = get(
     tO,
-    'objectByParentId.objectByParentId.objectByParentId.objectByParentId.id'
+    'objectByParentId.objectByParentId.objectByParentId.objectByParentId.id',
   )
   if (level8Id) tOIdsArray.unshift(level8Id)
   const level9Id = get(
     tO,
-    'objectByParentId.objectByParentId.objectByParentId.objectByParentId.objectByParentId.id'
+    'objectByParentId.objectByParentId.objectByParentId.objectByParentId.objectByParentId.id',
   )
   if (level9Id) tOIdsArray.unshift(level9Id)
   const level10Id = get(
     tO,
-    'objectByParentId.objectByParentId.objectByParentId.objectByParentId.objectByParentId.objectByParentId.id'
+    'objectByParentId.objectByParentId.objectByParentId.objectByParentId.objectByParentId.objectByParentId.id',
   )
   if (level10Id) tOIdsArray.unshift(level10Id)
 

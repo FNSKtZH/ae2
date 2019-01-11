@@ -1,19 +1,16 @@
 // @flow
 import React, { useEffect, useCallback } from 'react'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
-import { withApollo } from 'react-apollo'
 import app from 'ampersand-app'
 import get from 'lodash/get'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import gql from 'graphql-tag'
 
 import treeFilterMutation from './treeFilterMutation'
-import withTreeFilterData from './withTreeFilterData'
-import withFilterSuggestionsData from './withFilterSuggestionsData'
 import getUrlForObject from '../../../modules/getUrlForObject'
-import withObjectUrlData from '../../../modules/withObjectUrlData'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
@@ -77,29 +74,98 @@ const Container = styled.div`
     color: #777;
   }
 `
-const enhance = compose(
-  withApollo,
-  withTreeFilterData,
-  withFilterSuggestionsData,
-  withObjectUrlData,
-)
 
-const TreeFilter = ({
-  client,
-  treeFilterData,
-  filterSuggestionsData,
-  objectUrlData,
-  dimensions,
-}: {
-  client: Object,
-  treeFilterData: Object,
-  filterSuggestionsData: Object,
-  objectUrlData: Object,
-  dimensions: Object,
-}) => {
+const storeQuery = gql`
+  query storeQuery {
+    treeFilter @client {
+      text
+      id
+    }
+  }
+`
+const filterSuggestionsQuery = gql`
+  query filterSuggestionsQuery($treeFilterText: String!) {
+    propertyCollectionByPropertyName(propertyName: $treeFilterText) {
+      nodes {
+        id
+        name
+      }
+    }
+    objectByObjectName(objectName: $treeFilterText) {
+      nodes {
+        id
+        name
+        taxonomyByTaxonomyId {
+          id
+          type
+        }
+      }
+    }
+  }
+`
+const objectUrlQuery = gql`
+  query objectUrlDataQuery($treeFilterId: UUID!) {
+    objectById(id: $treeFilterId) {
+      id
+      objectByParentId {
+        id
+        objectByParentId {
+          id
+          objectByParentId {
+            id
+            objectByParentId {
+              id
+              objectByParentId {
+                id
+                objectByParentId {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+      taxonomyByTaxonomyId {
+        id
+        type
+      }
+    }
+  }
+`
+
+const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
+  const client = useApolloClient()
+
+  const { data: storeData } = useQuery(storeQuery, {
+    suspend: false,
+  })
+  // need the extra || because if key exists and value is null, null is returned
+  const treeFilterId =
+    get(storeData, 'treeFilter.id', '99999999-9999-9999-9999-999999999999') ||
+    '99999999-9999-9999-9999-999999999999'
+  const {
+    data: filterSuggestionsData,
+    loading: filterSuggestionsLoading,
+    error: filterSuggestionsError,
+  } = useQuery(filterSuggestionsQuery, {
+    suspend: false,
+    variables: {
+      treeFilterText: get(storeData, 'treeFilter.text') || 'ZZZZ',
+    },
+  })
+  const {
+    data: objectUrlData,
+    loading: objectUrlLoading,
+    error: objectUrlError,
+  } = useQuery(objectUrlQuery, {
+    suspend: false,
+    variables: {
+      treeFilterId,
+    },
+  })
+
   const urlObject = get(objectUrlData, 'objectById', {})
-  const treeFilterId = get(treeFilterData, 'treeFilter.id', null)
-  const treeFilterText = get(treeFilterData, 'treeFilter.text', '')
+  const treeFilterText = get(storeData, 'treeFilter.text', '')
 
   const onChange = useCallback(
     (event, { newValue }) => {
@@ -176,7 +242,8 @@ const TreeFilter = ({
       if (
         treeFilterId &&
         treeFilterId !== '99999999-9999-9999-9999-999999999999' &&
-        urlObject
+        urlObject &&
+        urlObject.id
       ) {
         const url = getUrlForObject(urlObject)
         app.history.push(`/${url.join('/')}`)
@@ -271,6 +338,13 @@ const TreeFilter = ({
   ))
   const getSectionSuggestions = useCallback(section => section.suggestions)
 
+  if (filterSuggestionsError) {
+    return `Error fetching data: ${filterSuggestionsError.message}`
+  }
+  if (objectUrlError) {
+    return `Error fetching data: ${objectUrlError.message}`
+  }
+
   return (
     <ErrorBoundary>
       <Container data-autosuggestwidth={autosuggestWidth}>
@@ -299,4 +373,4 @@ const TreeFilter = ({
   )
 }
 
-export default enhance(TreeFilter)
+export default TreeFilter
