@@ -1,16 +1,13 @@
 // @flow
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
-import withState from 'recompose/withState'
-import { withApollo } from 'react-apollo'
 import format from 'date-fns/format'
+import { useApolloClient } from 'react-apollo-hooks'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
-import onBlur from './onBlur'
+import onBlurDo from './onBlur'
 
 const Container = styled.div`
   margin: 5px 0;
@@ -24,14 +21,30 @@ const StyledTextField = styled(TextField)`
   }
 `
 
-const enhance = compose(
-  withApollo,
-  withState('value', 'setValue', ({ pC, field }) => pC[field] || ''),
-  withState('error', 'setError', null),
-  withHandlers({
-    onChange: ({ setValue }) => event => setValue(event.target.value),
-    onBlur: ({ client, field, pC, value, setError }) => event =>
-      onBlur({
+const Property = ({
+  field,
+  label,
+  pC,
+  helperText,
+  type = 'text',
+  disabled,
+}: {
+  field: String,
+  label: String,
+  pC: Object,
+  disabled: Boolean,
+  helperText: Element,
+  type: String,
+}) => {
+  const client = useApolloClient()
+
+  const [value, setValue] = useState(pC[field] || '')
+  const [error, setError] = useState(null)
+
+  const onChange = useCallback(event => setValue(event.target.value))
+  const onBlur = useCallback(
+    event =>
+      onBlurDo({
         client,
         field,
         pC,
@@ -39,59 +52,38 @@ const enhance = compose(
         prevValue: pC[field],
         setError,
       }),
-  })
-)
+    [field, pC, value],
+  )
 
-const Property = ({
-  client,
-  field,
-  label,
-  value,
-  error,
-  helperText,
-  type = 'text',
-  disabled,
-  onChange,
-  onBlur,
-}: {
-  client: Object,
-  field: String,
-  label: String,
-  disabled: Boolean,
-  value: String,
-  error: String,
-  helperText: Element,
-  type: String,
-  onChange: () => void,
-  onBlur: () => void,
-}) => (
-  <ErrorBoundary>
-    <Container>
-      <StyledFormControl error={!!error}>
-        <StyledTextField
-          autoFocus={label === 'Name' && !value}
-          label={label}
-          value={
-            field === 'lastUpdated' && value
-              ? format(new Date(value), 'dd.MM.yyyy')
-              : value
-          }
-          onChange={onChange}
-          onBlur={onBlur}
-          fullWidth
-          multiline
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          spellCheck="false"
-          disabled={!!disabled}
-          type={type}
-          helperText={error ? error : helperText ? helperText : ''}
-          error={!!error}
-        />
-      </StyledFormControl>
-    </Container>
-  </ErrorBoundary>
-)
+  return (
+    <ErrorBoundary>
+      <Container>
+        <StyledFormControl error={!!error}>
+          <StyledTextField
+            autoFocus={label === 'Name' && !value}
+            label={label}
+            value={
+              field === 'lastUpdated' && value
+                ? format(new Date(value), 'dd.MM.yyyy')
+                : value
+            }
+            onChange={onChange}
+            onBlur={onBlur}
+            fullWidth
+            multiline
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            disabled={!!disabled}
+            type={type}
+            helperText={error ? error : helperText ? helperText : ''}
+            error={!!error}
+          />
+        </StyledFormControl>
+      </Container>
+    </ErrorBoundary>
+  )
+}
 
-export default enhance(Property)
+export default Property
