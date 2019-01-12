@@ -20,23 +20,24 @@ import editingPCs from './editingPCs'
 import historyAfterLogin from './historyAfterLogin'
 import updateAvailable from './updateAvailable'
 
-export default merge(
-  activeNodeArray,
-  treeFilter,
-  login,
-  exportType,
-  exportIds,
-  exportTaxonomies,
-  exportTaxProperties,
-  exportPcoProperties,
-  exportRcoProperties,
-  exportTooManyProperties,
-  exportWithSynonymData,
-  exportAddFilterFields,
-  exportRcoInOneRow,
-  editingTaxonomies,
-  editingPCs,
-  exportOnlyRowsWithProperties,
-  historyAfterLogin,
-  updateAvailable
-)
+export default history =>
+  merge(
+    activeNodeArray(history),
+    treeFilter,
+    login,
+    exportType,
+    exportIds,
+    exportTaxonomies,
+    exportTaxProperties,
+    exportPcoProperties,
+    exportRcoProperties,
+    exportTooManyProperties,
+    exportWithSynonymData,
+    exportAddFilterFields,
+    exportRcoInOneRow,
+    editingTaxonomies,
+    editingPCs,
+    exportOnlyRowsWithProperties,
+    historyAfterLogin,
+    updateAvailable,
+  )

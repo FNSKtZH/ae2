@@ -16,7 +16,7 @@ import graphQlUri from './modules/graphQlUri'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
 
-export default async idb => {
+export default async ({ idb, history }) => {
   /**
    * On the next line Firefox 45.3.0 errors out with:
    * Unhandled Rejection (OpenFailedError): UnknownError The operation failed
@@ -81,7 +81,7 @@ export default async idb => {
   const cache = new InMemoryCache()
   const myDefaults = await defaults(idb)
   const stateLink = withClientState({
-    resolvers,
+    resolvers: resolvers(history),
     cache,
     defaults: myDefaults,
   })

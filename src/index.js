@@ -38,10 +38,11 @@ const launchApp = async () => {
 
   try {
     const idb = initializeIdb()
-    const myClient = await client(idb)
-
     // configure history
     const history = createHistory()
+
+    const myClient = await client({ idb, history })
+
     // make ui follow when user uses browser back and forward buttons
     history.listen(location => {
       const activeNodeArray = getActiveNodeArrayFromPathname()
