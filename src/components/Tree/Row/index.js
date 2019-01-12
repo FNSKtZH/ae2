@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import { ContextMenuTrigger } from 'react-contextmenu'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -8,7 +8,6 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import Icon from '@material-ui/core/Icon'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
-import app from 'ampersand-app'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
@@ -17,6 +16,7 @@ import onClickContextMenuDo from './onClickContextMenu'
 import treeDataQuery from '../treeDataQuery'
 import treeDataVariables from '../treeDataVariables'
 import ErrorBoundary from '../../shared/ErrorBoundary'
+import historyContext from '../../../historyContext'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -113,6 +113,7 @@ const Row = ({
   node: Object,
 }) => {
   const client = useApolloClient()
+  const { history } = useContext(historyContext)
 
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
@@ -158,7 +159,7 @@ const Row = ({
       if (loadingNode) return
       // or if node is already active
       if (!isEqual(url, activeNodeArray)) {
-        app.history.push(`/${url.join('/')}`)
+        history.push(`/${url.join('/')}`)
       }
     },
     [url, loadingNode, activeNodeArray],
@@ -171,7 +172,7 @@ const Row = ({
         // close node if its expand mor symbol was clicked
         const newUrl = [...url]
         newUrl.pop()
-        app.history.push(`/${newUrl.join('/')}`)
+        history.push(`/${newUrl.join('/')}`)
         // prevent onClick on node
         event.preventDefault()
       }
@@ -189,6 +190,7 @@ const Row = ({
         treeRefetch,
         userId,
         editing,
+        history,
       })
     },
     [activeNodeArray, userId, editing],

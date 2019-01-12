@@ -26,6 +26,7 @@ export default async ({
   userData,
   editing,
   activeNodeArray,
+  history,
 }: {
   e: Object,
   data: Object,
@@ -35,6 +36,7 @@ export default async ({
   userData: Object,
   editing: Object,
   activeNodeArray: Object,
+  history: Object,
 }) => {
   const userId = get(userData, 'userByName.id', null)
   if (!data) return console.log('no data passed with click')
@@ -57,7 +59,7 @@ export default async ({
         }
         const newUserId = get(newUser, 'data.createUser.user.id')
         treeRefetch()
-        !!newUserId && app.history.push(`/Benutzer/${newUserId}`)
+        !!newUserId && history.push(`/Benutzer/${newUserId}`)
       }
       if (table === 'object') {
         let newObjectData
@@ -75,7 +77,7 @@ export default async ({
           })
         }
         const newId = get(newObjectData, 'data.createObject.object.id', null)
-        app.history.push(`/${[...url, newId].join('/')}`)
+        history.push(`/${[...url, newId].join('/')}`)
         // if not editing, set editing true
         if (!editing) {
           client.mutate({
@@ -110,7 +112,7 @@ export default async ({
           'data.createTaxonomy.taxonomy.id',
           null,
         )
-        app.history.push(`/${[...url, newId].join('/')}`)
+        history.push(`/${[...url, newId].join('/')}`)
         // if not editing, set editing true
         if (!editing) {
           client.mutate({
@@ -137,7 +139,7 @@ export default async ({
           'data.createPropertyCollection.propertyCollection.id',
           null,
         )
-        app.history.push(`/${[...url, newId].join('/')}`)
+        history.push(`/${[...url, newId].join('/')}`)
         // if not editing, set editing true
         if (!editing) {
           client.mutate({
@@ -191,7 +193,7 @@ export default async ({
           console.log(error)
         }
         treeRefetch()
-        app.history.push('/Benutzer')
+        history.push('/Benutzer')
       }
       if (table === 'object') {
         await client.mutate({
@@ -227,7 +229,7 @@ export default async ({
         })
         if (url.includes(id)) {
           url.length = url.indexOf(id)
-          app.history.push(`/${url.join('/')}`)
+          history.push(`/${url.join('/')}`)
         }
       }
       if (table === 'taxonomy') {
@@ -262,7 +264,7 @@ export default async ({
         })
         if (url.includes(id)) {
           url.length = url.indexOf(id)
-          app.history.push(`/${url.join('/')}`)
+          history.push(`/${url.join('/')}`)
         }
       }
       if (table === 'pc') {
@@ -297,7 +299,7 @@ export default async ({
         })
         if (url.includes(id)) {
           url.length = url.indexOf(id)
-          app.history.push(`/${url.join('/')}`)
+          history.push(`/${url.join('/')}`)
         }
       }
     },
