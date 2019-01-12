@@ -18,6 +18,7 @@ import setLoginFromIdb from './modules/setLoginFromIdb'
 import Router from './components/Router'
 import detectIE from './modules/detectIE'
 import client from './client'
+import { Provider as IdbProvider } from './idbContext'
 
 const launchApp = async () => {
   const ieVersion = detectIE()
@@ -87,14 +88,18 @@ const launchApp = async () => {
       },
     })
 
+    const idbContext = { idb }
+
     ReactDOM.render(
-      <ApolloProvider client={myClient}>
-        <ApolloHooksProvider client={myClient}>
-          <MuiThemeProvider theme={theme}>
-            <Router />
-          </MuiThemeProvider>
-        </ApolloHooksProvider>
-      </ApolloProvider>,
+      <IdbProvider value={idbContext}>
+        <ApolloProvider client={myClient}>
+          <ApolloHooksProvider client={myClient}>
+            <MuiThemeProvider theme={theme}>
+              <Router />
+            </MuiThemeProvider>
+          </ApolloHooksProvider>
+        </ApolloProvider>
+      </IdbProvider>,
       document.getElementById('root'),
     )
 

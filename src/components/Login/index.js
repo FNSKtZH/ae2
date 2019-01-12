@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
@@ -20,6 +20,7 @@ import gql from 'graphql-tag'
 import fetchLoginModule from './fetchLogin'
 import setLoginMutation from '../../modules/loginMutation'
 import ErrorBoundary from '../shared/ErrorBoundary'
+import idbContext from '../../idbContext'
 
 const Container = styled.div`
   padding: 10px;
@@ -47,6 +48,8 @@ const storeQuery = gql`
 
 const Login = () => {
   const client = useApolloClient()
+  const { idb } = useContext(idbContext)
+
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
   const token = get(storeData, 'login.token')
@@ -77,7 +80,7 @@ const Login = () => {
     [name, pass, historyAfterLogin],
   )
   const onLogout = useCallback(() => {
-    app.idb.users.clear()
+    idb.users.clear()
     client.mutate({
       mutation: setLoginMutation,
       variables: {
