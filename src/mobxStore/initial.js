@@ -5,7 +5,7 @@
  * but only those that are async
  */
 
-export default async () => {
+export default async ({ idb }) => {
   const initialStore = {}
 
   return initialStore

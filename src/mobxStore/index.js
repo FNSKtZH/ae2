@@ -1,6 +1,7 @@
 import { types } from 'mobx-state-tree'
 
 import Export, { defaultValue as defaultExport } from './Export'
+import TreeFilter, { defaultValue as defaultTreeFilter } from './TreeFilter'
 
 const myTypes = types
   .model({
@@ -12,6 +13,7 @@ const myTypes = types
       types.array(types.union(types.string, types.number)),
       [],
     ),
+    treeFilter: types.optional(TreeFilter, defaultTreeFilter),
   })
   .volatile(() => ({}))
   .views(self => ({}))
