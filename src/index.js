@@ -19,6 +19,9 @@ import detectIE from './modules/detectIE'
 import client from './client'
 import { Provider as IdbProvider } from './idbContext'
 import { Provider as HistoryProvider } from './historyContext'
+import { Provider as MobxProvider } from './mobxStoreContext'
+import MobxStore from './mobxStore'
+import createInitialMobxStore from './mobxStore/initial'
 
 const launchApp = async () => {
   const ieVersion = detectIE()
@@ -81,17 +84,22 @@ const launchApp = async () => {
     const idbContext = { idb }
     const historyContext = { history }
 
+    const initialMobxStore = await createInitialMobxStore()
+    const mobxStore = MobxStore.create(initialMobxStore)
+
     ReactDOM.render(
       <IdbProvider value={idbContext}>
-        <HistoryProvider value={historyContext}>
-          <ApolloProvider client={myClient}>
-            <ApolloHooksProvider client={myClient}>
-              <MuiThemeProvider theme={theme}>
-                <Router history={history} />
-              </MuiThemeProvider>
-            </ApolloHooksProvider>
-          </ApolloProvider>
-        </HistoryProvider>
+        <MobxProvider value={mobxStore}>
+          <HistoryProvider value={historyContext}>
+            <ApolloProvider client={myClient}>
+              <ApolloHooksProvider client={myClient}>
+                <MuiThemeProvider theme={theme}>
+                  <Router history={history} />
+                </MuiThemeProvider>
+              </ApolloHooksProvider>
+            </ApolloProvider>
+          </HistoryProvider>
+        </MobxProvider>
       </IdbProvider>,
       document.getElementById('root'),
     )

@@ -8011,6 +8011,21 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
+mobx-react-lite@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-0.3.5.tgz#da4d5fd2f4c21f010beca3c9726fcad47d9b9d6c"
+  integrity sha512-/mvWsDBqdwKtw3mGXZczsWVp0c3LCWQGAhwDMcmgKorB1ldMjG4s5wIVif2BccQ5jq9AiGLi7wen+66cjt4b1A==
+
+mobx-state-tree@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/mobx-state-tree/-/mobx-state-tree-3.10.0.tgz#92b893e2c85339e246779d19928b6d69b798a813"
+  integrity sha512-CEOZRx8wOSwEI7cYiD+kvPrAtpDB5VNpWVWL11mCXljx8WE9Ec6nwL/xZRYMZVFRvxvAoSFS9VqmVDiUHAZ1LA==
+
+mobx@^5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.8.0.tgz#cf59eae4baa2fde4387ffb6462b7ccf3b497b03c"
+  integrity sha512-NsZB+9bF5j+nv9Qwk6bNeE3np26a4TbTGkMpOLf6o1zXoM9BtHPQn/00px4uZ2AXJXtQML5P4MEWdMm6icMIfQ==
+
 moment@>=2.14.0, moment@>=2.19.3:
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
