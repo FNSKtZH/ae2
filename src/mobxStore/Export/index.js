@@ -22,13 +22,6 @@ export default types.model('Export', {
   tooManyProperties: types.optional(types.boolean, false),
   addFilterFields: types.optional(types.boolean, true),
   rcoInOneRow: types.optional(types.boolean, true),
-  editingTaxonomies: types.optional(types.boolean, false),
-  editingPCs: types.optional(types.boolean, false),
-  updateAvailable: types.optional(types.boolean, false),
-  activeNodeArray: types.optional(
-    types.array(types.union(types.string, types.number)),
-    [],
-  ),
 })
 
 export const defaultValue = {}
