@@ -14,9 +14,21 @@ export default types.model('Export', {
   taxProperties: types.optional(TaxProperty, defaultTaxProperty),
   pcoProperties: types.optional(PcoProperty, defaultPcoProperty),
   rcoProperties: types.optional(RcoProperty, defaultRcoProperty),
-  taxFilter: types.optional(TaxFilter, defaultTaxFilter),
-  pcoFilter: types.optional(PcoFilter, defaultPcoFilter),
-  rcoFilter: types.optional(RcoFilter, defaultRcoFilter),
+  taxFilters: types.optional(TaxFilter, defaultTaxFilter),
+  pcoFilters: types.optional(PcoFilter, defaultPcoFilter),
+  rcoFilters: types.optional(RcoFilter, defaultRcoFilter),
+  onlyRowsWithProperties: types.optional(types.boolean, true),
+  withSynonymData: types.optional(types.boolean, true),
+  tooManyProperties: types.optional(types.boolean, false),
+  addFilterFields: types.optional(types.boolean, true),
+  rcoInOneRow: types.optional(types.boolean, true),
+  editingTaxonomies: types.optional(types.boolean, false),
+  editingPCs: types.optional(types.boolean, false),
+  updateAvailable: types.optional(types.boolean, false),
+  activeNodeArray: types.optional(
+    types.array(types.union(types.string, types.number)),
+    [],
+  ),
 })
 
 export const defaultValue = {}
