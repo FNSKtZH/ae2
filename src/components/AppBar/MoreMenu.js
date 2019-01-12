@@ -5,7 +5,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import styled from 'styled-components'
-import app from 'ampersand-app'
 
 import relations from '../../modules/relations.png'
 import historyContext from '../../historyContext'

@@ -1,7 +1,6 @@
 // @flow
 import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
-import app from 'ampersand-app'
 
 import loginDbMutation from './loginDbMutation'
 import loginStoreMutation from '../../modules/loginMutation'

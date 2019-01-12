@@ -1,7 +1,6 @@
 // @flow
 import get from 'lodash/get'
 import set from 'lodash/set'
-import app from 'ampersand-app'
 
 import createUserMutation from '../../Benutzer/createUserMutation'
 import deleteUserMutation from '../../Benutzer/deleteUserMutation'

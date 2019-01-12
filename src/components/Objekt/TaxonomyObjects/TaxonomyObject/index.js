@@ -22,7 +22,6 @@ import InfoOutlineIcon from '@material-ui/icons/Info'
 import InfoIcon from '@material-ui/icons/Info'
 import get from 'lodash/get'
 import styled from 'styled-components'
-import app from 'ampersand-app'
 import { useApolloClient, useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 

@@ -5,8 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import app from 'ampersand-app'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 
 import HowTo from './HowTo'
@@ -72,6 +71,7 @@ const propsByTaxQuery = gql`
 `
 
 const Filter = () => {
+  const client = useApolloClient()
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
@@ -177,7 +177,7 @@ const Filter = () => {
                 color="primary"
                 checked={exportWithSynonymData}
                 onChange={(event, checked) => {
-                  app.client.mutate({
+                  client.mutate({
                     mutation: exportWithSynonymDataMutation,
                     variables: { value: checked },
                   })
@@ -192,7 +192,7 @@ const Filter = () => {
                 color="primary"
                 checked={exportOnlyRowsWithProperties}
                 onChange={(event, checked) => {
-                  app.client.mutate({
+                  client.mutate({
                     mutation: exportOnlyRowsWithPropertiesMutation,
                     variables: { value: checked },
                   })
@@ -207,7 +207,7 @@ const Filter = () => {
                 color="primary"
                 checked={exportAddFilterFields}
                 onChange={(event, checked) => {
-                  app.client.mutate({
+                  client.mutate({
                     mutation: exportAddFilterFieldsMutation,
                     variables: { value: checked },
                   })

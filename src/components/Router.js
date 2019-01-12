@@ -3,7 +3,6 @@ import React from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import isUuid from 'is-uuid'
-import app from 'ampersand-app'
 
 import App from './App'
 import getUrlForObject from '../modules/getUrlForObject'
