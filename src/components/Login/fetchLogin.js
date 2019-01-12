@@ -20,6 +20,7 @@ export default async ({
   namePassed,
   passPassed,
   idb,
+  history,
 }: {
   client: Object,
   changeNameErrorText: () => void,
@@ -33,6 +34,7 @@ export default async ({
   namePassed: String,
   passPassed: String,
   idb: Object,
+  history: Object,
 }) => {
   // when bluring fields need to pass event value
   // on the other hand when clicking on Anmelden button,
@@ -121,7 +123,7 @@ export default async ({
       changePass('')
       changeLoginSuccessfull(false)
       if (!!historyAfterLogin) {
-        app.history.push(historyAfterLogin)
+        history.push(historyAfterLogin)
         client.mutate({
           mutation: historyAfterLoginMutation,
           variables: {
@@ -136,7 +138,7 @@ export default async ({
           },
         })
       } else {
-        app.history.push('/')
+        history.push('/')
       }
     }, 2000)
   }

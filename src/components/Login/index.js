@@ -20,6 +20,7 @@ import fetchLoginModule from './fetchLogin'
 import setLoginMutation from '../../modules/loginMutation'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import idbContext from '../../idbContext'
+import historyContext from '../../historyContext'
 
 const Container = styled.div`
   padding: 10px;
@@ -48,6 +49,7 @@ const storeQuery = gql`
 const Login = () => {
   const client = useApolloClient()
   const { idb } = useContext(idbContext)
+  const { history } = useContext(historyContext)
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
@@ -76,6 +78,7 @@ const Login = () => {
         namePassed,
         passPassed,
         idb,
+        history,
       }),
     [name, pass, historyAfterLogin],
   )

@@ -6,6 +6,7 @@ import React, {
   useState,
   useCallback,
   useEffect,
+  useContext,
 } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -14,7 +15,6 @@ import ShareIcon from '@material-ui/icons/Share'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import styled from 'styled-components'
-import app from 'ampersand-app'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import { useQuery } from 'react-apollo-hooks'
@@ -23,6 +23,7 @@ import gql from 'graphql-tag'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import LazyImportFallback from '../shared/LazyImportFallback'
 import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
+import historyContext from '../../historyContext'
 
 const MoreMenu = lazy(() => import('./MoreMenu'))
 
@@ -101,6 +102,8 @@ const query = gql`
 `
 
 const MyAppBar = () => {
+  const { history } = useContext(historyContext)
+
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
   })
@@ -165,11 +168,9 @@ const MyAppBar = () => {
   const pCName = get(data, 'propertyCollectionById.name')
   const taxName = get(data, 'taxonomyById.name')
 
-  const onClickColumnButtonData = useCallback(() => app.history.push('/'))
-  const onClickColumnButtonExport = useCallback(() =>
-    app.history.push('/Export'),
-  )
-  const onClickColumnButtonLogin = useCallback(() => app.history.push('/Login'))
+  const onClickColumnButtonData = useCallback(() => history.push('/'))
+  const onClickColumnButtonExport = useCallback(() => history.push('/Export'))
+  const onClickColumnButtonLogin = useCallback(() => history.push('/Login'))
   const onClickShare = useCallback(
     () => {
       const name = pCName

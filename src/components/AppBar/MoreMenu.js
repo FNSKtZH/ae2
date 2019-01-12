@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useContext } from 'react'
 import Icon from '@material-ui/core/Icon'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import app from 'ampersand-app'
 
 import relations from '../../modules/relations.png'
+import historyContext from '../../historyContext'
 
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
@@ -38,6 +39,7 @@ const paperProps = {
 
 const MoreMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const { history } = useContext(historyContext)
 
   const onClickButton = useCallback(event => setAnchorEl(event.currentTarget))
   const onClose = useCallback(() => setAnchorEl(null))
@@ -54,15 +56,15 @@ const MoreMenu = () => {
     setAnchorEl(null)
   })
   const onClickFelderAlt = useCallback(() => {
-    app.history.push('/artenlistentool/waehlen')
+    history.push('/artenlistentool/waehlen')
     setAnchorEl(null)
   })
   const onClickGqlStructure = useCallback(() => {
-    app.history.push('/datagraph')
+    history.push('/datagraph')
     setAnchorEl(null)
   })
   const onClickGqlQuery = useCallback(() => {
-    app.history.push('/graphiql')
+    history.push('/graphiql')
     setAnchorEl(null)
   })
 
@@ -108,7 +110,7 @@ const MoreMenu = () => {
           <br />
           inkl. Schnittstellen-Dokumentation
         </TwoLineMenuItem>
-        <Version>Version: 1.1.3 vom 10.01.2019</Version>
+        <Version>Version: 1.1.3 vom 12.01.2019</Version>
       </Menu>
     </div>
   )
