@@ -64,7 +64,6 @@ const launchApp = async () => {
     app.extend({
       init() {
         this.client = myClient
-        this.history = history
       },
     })
     app.init()

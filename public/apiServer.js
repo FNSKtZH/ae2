@@ -9,7 +9,6 @@ const pgp = require(`pg-promise`)()
 const app = require(`ampersand-app`)
 
 const config = require(`./apiServer/config.js`)
-const altStandard = require('./apiServer/handlers/altStandard.js')
 const alt = require('./apiServer/handlers/alt.js')
 const evabArten = require('./apiServer/handlers/evabArten.js')
 
