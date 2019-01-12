@@ -1,10 +1,7 @@
 // @flow
-
-import app from 'ampersand-app'
 import uniq from 'lodash/uniq'
 import gql from 'graphql-tag'
 
-import exportTooManyPropertiesMutation from '../../components/Export/exportTooManyPropertiesMutation'
 import constants from '../../modules/constants'
 
 const exportTaxPropertiesGql = gql`
@@ -63,9 +60,10 @@ export default {
         currentRco.exportRcoProperties.length +
         currentPco.exportPcoProperties.length
       if (nrOfPropertiesExported > constants.export.maxFields) {
-        app.client.mutate({
-          mutation: exportTooManyPropertiesMutation,
-          variables: { value: true },
+        cache.writeData({
+          data: {
+            exportTooManyProperties: true,
+          },
         })
       } else {
         // only add if not yet done

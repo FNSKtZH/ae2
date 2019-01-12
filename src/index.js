@@ -4,7 +4,6 @@ import { ApolloProvider } from 'react-apollo'
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
 
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import app from 'ampersand-app'
 import createHistory from 'history/createBrowserHistory'
 
 import theme from './theme'
@@ -61,16 +60,7 @@ const launchApp = async () => {
       })
     })
 
-    app.extend({
-      init() {
-        this.client = myClient
-      },
-    })
-    app.init()
-    // set login from idb
     setLoginFromIdb({ client: myClient, idb })
-    // make app accessible in console
-    window.app = app
 
     // initiate activeNodeArray
     let activeNodeArray = getActiveNodeArrayFromPathname()
