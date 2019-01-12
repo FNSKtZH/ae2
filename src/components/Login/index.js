@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import styled from 'styled-components'
-import app from 'ampersand-app'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
@@ -76,6 +75,7 @@ const Login = () => {
         historyAfterLogin,
         namePassed,
         passPassed,
+        idb,
       }),
     [name, pass, historyAfterLogin],
   )

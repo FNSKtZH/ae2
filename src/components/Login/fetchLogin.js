@@ -19,6 +19,7 @@ export default async ({
   historyAfterLogin,
   namePassed,
   passPassed,
+  idb,
 }: {
   client: Object,
   changeNameErrorText: () => void,
@@ -31,6 +32,7 @@ export default async ({
   historyAfterLogin: String,
   namePassed: String,
   passPassed: String,
+  idb: Object,
 }) => {
   // when bluring fields need to pass event value
   // on the other hand when clicking on Anmelden button,
@@ -44,7 +46,7 @@ export default async ({
     return changePassErrorText('Bitte Passwort eingeben')
   }
   // reset existing token
-  await app.idb.users.clear()
+  await idb.users.clear()
   client.mutate({
     mutation: loginStoreMutation,
     variables: {
@@ -87,8 +89,8 @@ export default async ({
     const tokenDecoded = jwtDecode(jwtToken)
     const { username } = tokenDecoded
     // refresh currentUser in idb
-    await app.idb.users.clear()
-    await app.idb.users.put({
+    await idb.users.clear()
+    await idb.users.put({
       username,
       token: jwtToken,
     })
