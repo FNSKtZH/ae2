@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree'
 
-import Export, { defaultValue as defaultExport } from './export'
+import Export, { defaultValue as defaultExport } from './Export'
 
 const myTypes = types
   .model({
