@@ -1,5 +1,5 @@
 // @flow
-import React, { useRef, useEffect, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback, useState } from 'react'
 // if observer is active, forceUpdate during rendering happens
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
@@ -152,8 +152,20 @@ const Tree = ({
     suspend: false,
   })
 
+  // prevent tree from rebuilding from the top
+  // every time a new branch is clicked
+  const [treeDataState, setTreeDataState] = useState({})
+  useEffect(
+    () => {
+      if (!treeLoading) {
+        setTreeDataState(treeDataFetched)
+      }
+    },
+    [treeLoading],
+  )
+
   const treeDataLoading = treeLoading || orgUsersLoading || usersLoading
-  const treeData = { ...usersData, ...treeDataFetched }
+  const treeData = { ...usersData, ...treeDataState }
   const nodes = buildNodes({
     treeData,
     activeNodeArray,
