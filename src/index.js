@@ -97,7 +97,7 @@ const launchApp = async () => {
           <ApolloProvider client={myClient}>
             <ApolloHooksProvider client={myClient}>
               <MuiThemeProvider theme={theme}>
-                <Router />
+                <Router history={history} />
               </MuiThemeProvider>
             </ApolloHooksProvider>
           </ApolloProvider>

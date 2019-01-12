@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
@@ -12,6 +12,7 @@ import gql from 'graphql-tag'
 import treeFilterMutation from './treeFilterMutation'
 import getUrlForObject from '../../../modules/getUrlForObject'
 import ErrorBoundary from '../../shared/ErrorBoundary'
+import historyContext from '../../../historyContext'
 
 const Container = styled.div`
   padding: 5px 16px 0 13px;
@@ -135,6 +136,7 @@ const objectUrlQuery = gql`
 
 const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
   const client = useApolloClient()
+  const { history } = useContext(historyContext)
 
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
@@ -178,7 +180,7 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
     (event, { suggestion }) => {
       switch (suggestion.type) {
         case 'pC':
-          app.history.push(`/Eigenschaften-Sammlungen/${suggestion.id}`)
+          history.push(`/Eigenschaften-Sammlungen/${suggestion.id}`)
           break
         case 'art':
         case 'lr':
@@ -244,7 +246,7 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
         urlObject.id
       ) {
         const url = getUrlForObject(urlObject)
-        app.history.push(`/${url.join('/')}`)
+        history.push(`/${url.join('/')}`)
         client.mutate({
           mutation: treeFilterMutation,
           variables: { id: null, text: '' },

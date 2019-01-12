@@ -48,7 +48,7 @@ const objectQuery = gql`
   }
 `
 
-const Router = () => {
+const Router = ({ history }: { history: Object }) => {
   /**
    * check if old url was passed that contains objectId-Param
    * for instance: from artenlistentool like this:
@@ -63,7 +63,7 @@ const Router = () => {
    */
   const altUrlGenParam = getUrlParamByName('exportieren_fuer_artenlistentool')
   if (altUrlGenParam) {
-    app.history.push('/artenlistentool/waehlen')
+    history.push('/artenlistentool/waehlen')
   }
 
   if (!!objectId) {
@@ -74,7 +74,7 @@ const Router = () => {
           if (error) return `Fehler: ${error.message}`
           // if idParam was passed, open object
           const url = getUrlForObject(objectById)
-          app.history.push(`/${url.join('/')}`)
+          history.push(`/${url.join('/')}`)
           return <App />
         }}
       </Query>

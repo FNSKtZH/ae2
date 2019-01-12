@@ -7,7 +7,7 @@
  * if user klicks it, toggle store > editingTaxonomies
  * edit prop: see https://stackoverflow.com/a/35349699/712005
  */
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -35,6 +35,7 @@ import Properties from './Properties'
 import getUrlForObject from '../../../../modules/getUrlForObject'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import editingTaxonomiesMutation from '../../../../modules/editingTaxonomiesMutation'
+import historyContext from '../../../../historyContext'
 
 const Container = styled.div`
   margin: 10px;
@@ -114,6 +115,7 @@ const TaxonomyObject = ({
   stacked: Boolean,
 }) => {
   const client = useApolloClient()
+  const { history } = useContext(historyContext)
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const {
@@ -159,7 +161,7 @@ const TaxonomyObject = ({
   const onClickLink = useCallback(
     e => {
       e.stopPropagation()
-      app.history.push(linkUrl)
+      history.push(linkUrl)
     },
     [linkUrl],
   )

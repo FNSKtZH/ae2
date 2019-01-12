@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import EditIcon from '@material-ui/icons/Edit'
@@ -23,6 +23,7 @@ import onBlur from './onBlur'
 import editingPCsMutation from '../../modules/editingPCsMutation'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import ErrorBoundary from '../shared/ErrorBoundary'
+import historyContext from '../../historyContext'
 
 const Container = styled.div`
   padding: 10px;
@@ -117,6 +118,7 @@ const pcQuery = gql`
 
 const PropertyCollection = () => {
   const client = useApolloClient()
+  const { history } = useContext(historyContext)
 
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
@@ -207,6 +209,7 @@ const PropertyCollection = () => {
         pC,
         value: isChecked,
         prevValue: pC.combining,
+        history,
       }),
     [pC],
   )
@@ -218,6 +221,7 @@ const PropertyCollection = () => {
         pC,
         value: event.target.value,
         prevValue: pC.organizationId,
+        history,
       }),
     [pC],
   )
@@ -229,6 +233,7 @@ const PropertyCollection = () => {
         pC,
         value: event.target.value,
         prevValue: pC.importedBy,
+        history,
       }),
     [pC],
   )

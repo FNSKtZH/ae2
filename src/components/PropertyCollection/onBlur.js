@@ -1,9 +1,15 @@
 // #flow
-import app from 'ampersand-app'
-
 import updatePCMutation from './updatePCMutation'
 
-export default async ({ client, field, pC, value, prevValue, setError }) => {
+export default async ({
+  client,
+  field,
+  pC,
+  value,
+  prevValue,
+  setError,
+  history,
+}) => {
   //setError(null)
   if (value !== prevValue) {
     const variables = {
@@ -50,7 +56,7 @@ export default async ({ client, field, pC, value, prevValue, setError }) => {
     }
     // if id was updated, need to update url
     if (field === 'id') {
-      app.history.push(`/Eigenschaften-Sammlungen/${value}`)
+      history.push(`/Eigenschaften-Sammlungen/${value}`)
     }
   }
 }
