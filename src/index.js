@@ -67,7 +67,7 @@ const launchApp = async () => {
     })
     app.init()
     // set login from idb
-    setLoginFromIdb({ myClient, idb })
+    setLoginFromIdb({ client: myClient, idb })
     // make app accessible in console
     window.app = app
 
