@@ -1,7 +1,6 @@
 // @flow
 import merge from 'lodash/merge'
 
-import activeNodeArray from './activeNodeArray'
 import treeFilter from './treeFilter'
 import login from './login'
 import exportType from './exportType'
@@ -22,7 +21,6 @@ import updateAvailable from './updateAvailable'
 
 export default history =>
   merge(
-    activeNodeArray(history),
     treeFilter,
     login,
     exportType,
