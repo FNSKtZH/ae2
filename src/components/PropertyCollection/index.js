@@ -21,7 +21,6 @@ import { observer } from 'mobx-react-lite'
 
 import Property from './Property'
 import onBlur from './onBlur'
-import editingPCsMutation from '../../modules/editingPCsMutation'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import historyContext from '../../historyContext'
@@ -61,7 +60,6 @@ const storeQuery = gql`
       token
       username
     }
-    editingPCs @client
   }
 `
 const allUsersQuery = gql`
@@ -121,7 +119,7 @@ const PropertyCollection = () => {
   const client = useApolloClient()
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const { activeNodeArray, editingPCs, setEditingPCs } = mobxStore
   const pCId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]
@@ -149,7 +147,6 @@ const PropertyCollection = () => {
 
   const pC = get(pcData, 'propertyCollectionById', {})
   const org = get(pC, 'organizationByOrganizationId.name', '')
-  const editing = get(storeData, 'editingPCs', false)
   const username = get(storeData, 'login.username', null)
   const allUsers = get(allUsersData, 'allUsers.nodes', [])
   const user = allUsers.find(u => u.name === username)
@@ -178,31 +175,11 @@ const PropertyCollection = () => {
 
   const onClickStopEditing = useCallback(event => {
     event.stopPropagation()
-    client.mutate({
-      mutation: editingPCsMutation,
-      variables: { value: false },
-      optimisticResponse: {
-        setEditingPCs: {
-          editingPCs: false,
-          __typename: 'EditingPCs',
-        },
-        __typename: 'Mutation',
-      },
-    })
+    setEditingPCs(false)
   })
   const onClickStartEditing = useCallback(event => {
     event.stopPropagation()
-    client.mutate({
-      mutation: editingPCsMutation,
-      variables: { value: true },
-      optimisticResponse: {
-        setEditingPCs: {
-          editingPCs: true,
-          __typename: 'EditingPCs',
-        },
-        __typename: 'Mutation',
-      },
-    })
+    setEditingPCs(true)
   })
   const onChangeCombining = useCallback(
     (event, isChecked) =>
@@ -254,7 +231,7 @@ const PropertyCollection = () => {
   return (
     <ErrorBoundary>
       <Container>
-        {userIsThisPCWriter && editing && (
+        {userIsThisPCWriter && editingPCs && (
           <CardEditButton
             aria-label="Daten anzeigen"
             title="Daten anzeigen"
@@ -265,7 +242,7 @@ const PropertyCollection = () => {
             </Icon>
           </CardEditButton>
         )}
-        {userIsThisPCWriter && !editing && (
+        {userIsThisPCWriter && !editingPCs && (
           <CardEditButton
             aria-label="Daten bearbeiten"
             title="Daten bearbeiten"
@@ -276,7 +253,7 @@ const PropertyCollection = () => {
             </Icon>
           </CardEditButton>
         )}
-        {!editing && (
+        {!editingPCs && (
           <>
             <PropertyReadOnly key="id" value={pC.id} label="id" />
             <PropertyReadOnly key="name" value={pC.name} label="Name" />
@@ -324,7 +301,7 @@ const PropertyCollection = () => {
             />
           </>
         )}
-        {editing && (
+        {editingPCs && (
           <>
             <Property
               key={`${pC.id}/id`}
