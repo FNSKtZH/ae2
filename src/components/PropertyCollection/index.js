@@ -57,7 +57,6 @@ const StyledA = styled.a`
 
 const storeQuery = gql`
   query activeNodeArrayQuery {
-    activeNodeArray @client
     login @client {
       token
       username
