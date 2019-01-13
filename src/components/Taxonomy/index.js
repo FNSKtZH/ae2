@@ -16,7 +16,6 @@ import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyArten from './PropertyArten'
 import PropertyLr from './PropertyLr'
@@ -48,7 +47,6 @@ const storeQuery = gql`
       token
       username
     }
-    editingTaxonomies @client
   }
 `
 const allUsersQuery = gql`
@@ -116,7 +114,7 @@ const taxQuery = gql`
 const Taxonomy = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const { activeNodeArray, editingTaxonomies, setEditingTaxonomies } = mobxStore
   const taxId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]
@@ -145,7 +143,7 @@ const Taxonomy = () => {
   const tax = get(taxData, 'taxonomyById', {})
   const importedByName = get(tax, 'userByImportedBy.name')
   const organizationName = get(tax, 'organizationByOrganizationId.name')
-  const editing = get(storeData, 'editingTaxonomies', false)
+  const editing = editingTaxonomies
   const editingArten = editing && tax.type === 'ART'
   const editingLr = editing && tax.type === 'LEBENSRAUM'
   const username = get(storeData, 'login.username', null)
@@ -164,31 +162,11 @@ const Taxonomy = () => {
 
   const onClickStopEditing = useCallback(event => {
     event.stopPropagation()
-    client.mutate({
-      mutation: editingTaxonomiesMutation,
-      variables: { value: false },
-      optimisticResponse: {
-        setEditingTaxonomies: {
-          editingTaxonomies: false,
-          __typename: 'EditingTaxonomies',
-        },
-        __typename: 'Mutation',
-      },
-    })
+    setEditingTaxonomies(false)
   })
   const onClickStartEditing = useCallback(event => {
     event.stopPropagation()
-    client.mutate({
-      mutation: editingTaxonomiesMutation,
-      variables: { value: true },
-      optimisticResponse: {
-        setEditingTaxonomies: {
-          editingTaxonomies: true,
-          __typename: 'EditingTaxonomies',
-        },
-        __typename: 'Mutation',
-      },
-    })
+    setEditingTaxonomies(true)
   })
   const onChangeImportedByArten = useCallback(
     event =>
