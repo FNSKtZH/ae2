@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenuDo from './onClickContextMenu'
@@ -17,6 +18,7 @@ import treeDataQuery from '../treeDataQuery'
 import treeDataVariables from '../treeDataVariables'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import historyContext from '../../../historyContext'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
@@ -85,7 +87,6 @@ function collect(props) {
 
 const storeQuery = gql`
   query activeNodeArrayQuery {
-    activeNodeArray @client
     login @client {
       token
       username
@@ -114,11 +115,12 @@ const Row = ({
 }) => {
   const client = useApolloClient()
   const { history } = useContext(historyContext)
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
 
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
   })
-  const activeNodeArray = get(storeData, 'activeNodeArray', [])
   const { refetch: treeRefetch } = useQuery(treeDataQuery, {
     suspend: false,
     variables: treeDataVariables({ activeNodeArray }),
@@ -243,4 +245,4 @@ const Row = ({
   )
 }
 
-export default Row
+export default observer(Row)
