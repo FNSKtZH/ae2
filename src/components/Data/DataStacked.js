@@ -1,16 +1,15 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import styled from 'styled-components'
 import SwipeableViews from 'react-swipeable-views'
-import get from 'lodash/get'
-import gql from 'graphql-tag'
-import { useQuery } from 'react-apollo-hooks'
+import { observer } from 'mobx-react-lite'
 
 import Tree from '../Tree'
 import DataType from '../DataType'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
@@ -22,16 +21,10 @@ const StyledSwipeableViews = styled(SwipeableViews)`
   }
 `
 
-const storeQuery = gql`
-  query dataStackedQuery {
-    activeNodeArray @client
-  }
-`
-
 const DataStacked = () => {
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
+
   const [tab, setTab] = useState(0)
   const onChangeTab = useCallback((event, value) => setTab(value))
 
@@ -41,7 +34,6 @@ const DataStacked = () => {
   const g = d.getElementsByTagName('body')[0]
   const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
   const windowHeight = w.innerHeight || e.clientHeight || g.clientHeight
-  const activeNodeArray = get(storeData, 'activeNodeArray', [])
   const disableDataType = activeNodeArray.length < 2
 
   return (
@@ -70,4 +62,4 @@ const DataStacked = () => {
   )
 }
 
-export default DataStacked
+export default observer(DataStacked)
