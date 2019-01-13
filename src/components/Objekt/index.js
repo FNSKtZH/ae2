@@ -1,10 +1,10 @@
 // @flow
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import uniqBy from 'lodash/uniqBy'
 import { useQuery } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import TaxonomyObjects from './TaxonomyObjects'
 import TaxonomyObject from './TaxonomyObjects/TaxonomyObject'
@@ -12,6 +12,7 @@ import PCOs from './PCOs'
 import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
 import objectDataQuery from './objectDataQuery'
 import ErrorBoundary from '../shared/ErrorBoundary'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div``
 const Container2 = styled.div`
@@ -37,15 +38,10 @@ const SynonymTitle = styled(Title)`
   margin-bottom: 5px;
 `
 
-const storeQuery = gql`
-  query storeQuery {
-    activeNodeArray @client
-  }
-`
-
 const Objekt = ({ stacked = false }: { stacked: Boolean }) => {
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
+
   const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const {
     data: objectData,
@@ -141,4 +137,4 @@ const Objekt = ({ stacked = false }: { stacked: Boolean }) => {
   )
 }
 
-export default Objekt
+export default observer(Objekt)
