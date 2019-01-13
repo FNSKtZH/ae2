@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import EditIcon from '@material-ui/icons/Edit'
@@ -14,6 +14,7 @@ import get from 'lodash/get'
 import format from 'date-fns/format'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import editingTaxonomiesMutation from '../../modules/editingTaxonomiesMutation'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
@@ -22,6 +23,7 @@ import PropertyLr from './PropertyLr'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import onBlurArten from './onBlurArten'
 import onBlurLr from './onBlurLr'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 10px;
@@ -42,7 +44,6 @@ const StyledFormControl = styled(FormControl)`
 
 const storeQuery = gql`
   query activeNodeArrayQuery {
-    activeNodeArray @client
     login @client {
       token
       username
@@ -114,6 +115,12 @@ const taxQuery = gql`
 
 const Taxonomy = () => {
   const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
+  const taxId =
+    activeNodeArray.length > 0
+      ? activeNodeArray[1]
+      : '99999999-9999-9999-9999-999999999999'
 
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
@@ -130,11 +137,7 @@ const Taxonomy = () => {
     {
       suspend: false,
       variables: {
-        taxId: get(
-          storeData,
-          'activeNodeArray[1]',
-          '99999999-9999-9999-9999-999999999999',
-        ),
+        taxId,
       },
     },
   )
@@ -512,4 +515,4 @@ const Taxonomy = () => {
   )
 }
 
-export default Taxonomy
+export default observer(Taxonomy)
