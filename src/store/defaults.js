@@ -20,8 +20,6 @@ export default async idb => {
     exportTooManyProperties: false,
     exportAddFilterFields: true,
     exportRcoInOneRow: true,
-    editingPCs: false,
-    updateAvailable: false,
     treeFilter: {
       text: '',
       id: null,
