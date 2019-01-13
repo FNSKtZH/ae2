@@ -43,7 +43,7 @@ const StyledFormControl = styled(FormControl)`
 `
 
 const storeQuery = gql`
-  query activeNodeArrayQuery {
+  query storeQuery {
     login @client {
       token
       username
