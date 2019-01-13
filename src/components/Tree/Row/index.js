@@ -91,7 +91,6 @@ const storeQuery = gql`
       token
       username
     }
-    editingTaxonomies @client
   }
 `
 const userQuery = gql`
@@ -116,7 +115,7 @@ const Row = ({
   const client = useApolloClient()
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const { activeNodeArray, editingTaxonomies } = mobxStore
 
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
@@ -131,7 +130,6 @@ const Row = ({
       username: get(storeData, 'login.username', null),
     },
   })
-  const editing = get(storeData, 'editingTaxonomies', false)
 
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     node.url,
@@ -191,11 +189,12 @@ const Row = ({
         client,
         treeRefetch,
         userId,
-        editing,
+        editingTaxonomies,
         history,
+        mobxStore,
       })
     },
-    [activeNodeArray, userId, editing],
+    [activeNodeArray, userId, editingTaxonomies],
   )
 
   return (
