@@ -14,7 +14,6 @@ import exportWithSynonymData from './exportWithSynonymData'
 import exportAddFilterFields from './exportAddFilterFields'
 import exportRcoInOneRow from './exportRcoInOneRow'
 import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
-import editingTaxonomies from './editingTaxonomies'
 import editingPCs from './editingPCs'
 import historyAfterLogin from './historyAfterLogin'
 import updateAvailable from './updateAvailable'
@@ -33,7 +32,6 @@ export default history =>
     exportWithSynonymData,
     exportAddFilterFields,
     exportRcoInOneRow,
-    editingTaxonomies,
     editingPCs,
     exportOnlyRowsWithProperties,
     historyAfterLogin,
