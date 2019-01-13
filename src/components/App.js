@@ -11,10 +11,7 @@ import styled from 'styled-components'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
-import get from 'lodash/get'
 import debounce from 'lodash/debounce'
-import { useQuery } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
 import AppBar from './AppBar'
@@ -35,22 +32,12 @@ const FourOhFour = lazy(() => import('./FourOhFour'))
 const DataGraph = lazy(() => import('./DataGraph'))
 const GraphIql = lazy(() => import('./GraphIql'))
 
-const storeQuery = gql`
-  query activeNodeArrayQuery {
-    updateAvailable @client
-  }
-`
-
 const App = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const { activeNodeArray, updateAvailable } = mobxStore
 
   const [stacked, setStacked] = useState(false)
 
-  const updateAvailable = get(storeData, 'updateAvailable', false)
   const url0 =
     activeNodeArray[0] && activeNodeArray[0].toLowerCase()
       ? activeNodeArray[0].toLowerCase()
