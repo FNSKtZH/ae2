@@ -13,7 +13,6 @@ import deletePCMutation from '../../PropertyCollection/deletePCMutation'
 import deleteTaxonomyMutation from '../../Taxonomy/deleteTaxonomyMutation'
 import treeDataQuery from '../treeDataQuery'
 import treeDataVariables from '../treeDataVariables'
-import editingPCsMutation from '../../../modules/editingPCsMutation'
 
 export default async ({
   e,
@@ -38,7 +37,7 @@ export default async ({
   history: Object,
   mobxStore: Object,
 }) => {
-  const { setEditingTaxonomies } = mobxStore
+  const { setEditingTaxonomies, setEditingPCs } = mobxStore
   const userId = get(userData, 'userByName.id', null)
   if (!data) return console.log('no data passed with click')
   if (!target) {
@@ -123,17 +122,7 @@ export default async ({
         history.push(`/${[...url, newId].join('/')}`)
         // if not editing, set editingTaxonomies true
         if (!editingTaxonomies) {
-          client.mutate({
-            mutation: editingPCsMutation,
-            variables: { value: true },
-            optimisticResponse: {
-              setEditingPCs: {
-                editingPCs: true,
-                __typename: 'EditingPCs',
-              },
-              __typename: 'Mutation',
-            },
-          })
+          setEditingPCs(true)
         }
         treeRefetch()
       }
