@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -19,8 +19,10 @@ import isUuid from 'is-uuid'
 import ReactDataGrid from 'react-data-grid'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import createRCOMutation from './createRCOMutation'
+import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`
   height: 100%;
@@ -126,11 +128,6 @@ const StyledSnackbar = styled(Snackbar)`
   }
 `
 
-const storeQuery = gql`
-  query activeNodeArrayQuery {
-    activeNodeArray @client
-  }
-`
 const rcoQuery = gql`
   query rCOQuery($pCId: UUID!) {
     propertyCollectionById(id: $pCId) {
@@ -202,22 +199,21 @@ const importRcoQuery = gql`
 
 const ImportPco = () => {
   const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
+  const pCId =
+    activeNodeArray.length > 0
+      ? activeNodeArray[1]
+      : '99999999-9999-9999-9999-999999999999'
 
   const [objectIds, setObjectIds] = useState([])
   const [objectRelationIds, setObjectRelationIds] = useState([])
   const [pCOfOriginIds, setPCOfOriginIds] = useState([])
 
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
   const { refetch: rcoRefetch } = useQuery(rcoQuery, {
     suspend: false,
     variables: {
-      pCId: get(
-        storeData,
-        'activeNodeArray[1]',
-        '99999999-9999-9999-9999-999999999999',
-      ),
+      pCId,
     },
   })
   const {
@@ -298,11 +294,6 @@ const ImportPco = () => {
       setObjectIdsAreRealNotTested(true)
     }
   }
-  const pCId = get(
-    storeData,
-    'activeNodeArray[1]',
-    '99999999-9999-9999-9999-999999999999',
-  )
   const objectsCheckData = get(importRcoData, 'allObjects.nodes', [])
   const objectIdsAreReal =
     !importRcoLoading && objectIds.length > 0
@@ -1117,4 +1108,4 @@ const ImportPco = () => {
   )
 }
 
-export default ImportPco
+export default observer(ImportPco)
