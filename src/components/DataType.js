@@ -1,10 +1,9 @@
 // @flow
-import React, { lazy, Suspense } from 'react'
-import get from 'lodash/get'
-import { useQuery } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import React, { lazy, Suspense, useContext } from 'react'
+import { observer } from 'mobx-react-lite'
 
 import LazyImportFallback from './shared/LazyImportFallback'
+import mobxStoreContext from '../mobxStoreContext'
 
 const Pco = lazy(() => import('./PropertyCollection/PCO'))
 const Rco = lazy(() => import('./PropertyCollection/RCO'))
@@ -14,12 +13,6 @@ const PropertyCollection = lazy(() => import('./PropertyCollection'))
 const Benutzer = lazy(() => import('./Benutzer'))
 const Organisation = lazy(() => import('./Organisation'))
 
-const storeQuery = gql`
-  query storeQuery {
-    activeNodeArray @client
-  }
-`
-
 const DataType = ({
   dimensions,
   stacked = false,
@@ -27,10 +20,8 @@ const DataType = ({
   dimensions: Object,
   stacked: Boolean,
 }) => {
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
-  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
 
   const showObjekt =
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
@@ -102,4 +93,4 @@ const DataType = ({
   return null
 }
 
-export default DataType
+export default observer(DataType)
