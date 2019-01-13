@@ -11,7 +11,6 @@ import './index.css'
 import 'react-reflex/styles.css'
 import registerServiceWorker from './registerServiceWorker'
 import getActiveNodeArrayFromPathname from './modules/getActiveNodeArrayFromPathname'
-import activeNodeArrayMutation from './modules/activeNodeArrayMutation'
 import initializeIdb from './modules/initializeIdb'
 import setLoginFromIdb from './modules/setLoginFromIdb'
 import Router from './components/Router'
@@ -45,47 +44,23 @@ const launchApp = async () => {
 
     const myClient = await client({ idb, history })
 
+    const initialMobxStore = await createInitialMobxStore({ idb })
+    const mobxStore = MobxStore({ history }).create(initialMobxStore)
+
+    const { setActiveNodeArray } = mobxStore
+
     // make ui follow when user uses browser back and forward buttons
-    history.listen(location => {
-      const activeNodeArray = getActiveNodeArrayFromPathname()
-      myClient.mutate({
-        mutation: activeNodeArrayMutation,
-        variables: {
-          value: activeNodeArray,
-        },
-        optimisticResponse: {
-          setActiveNodeArray: {
-            activeNodeArray,
-            __typename: 'ActiveNodeArray',
-          },
-          __typename: 'Mutation',
-        },
-      })
-    })
+    history.listen(location =>
+      setActiveNodeArray(getActiveNodeArrayFromPathname()),
+    )
 
     setLoginFromIdb({ client: myClient, idb })
 
     // initiate activeNodeArray
-    let activeNodeArray = getActiveNodeArrayFromPathname()
-    myClient.mutate({
-      mutation: activeNodeArrayMutation,
-      variables: {
-        value: activeNodeArray,
-      },
-      optimisticResponse: {
-        setActiveNodeArray: {
-          activeNodeArray,
-          __typename: 'ActiveNodeArray',
-        },
-        __typename: 'Mutation',
-      },
-    })
+    setActiveNodeArray(getActiveNodeArrayFromPathname())
 
     const idbContext = { idb }
     const historyContext = { history }
-
-    const initialMobxStore = await createInitialMobxStore({ idb })
-    const mobxStore = MobxStore({ history }).create(initialMobxStore)
 
     ReactDOM.render(
       <IdbProvider value={idbContext}>
