@@ -7,14 +7,12 @@
  * if user klicks it, toggle store > editingTaxonomies
  * edit prop: see https://stackoverflow.com/a/35349699/712005
  */
-import React from 'react'
-import get from 'lodash/get'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { useQuery } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
 
 import PropertyList from './PropertyList'
 import NewProperty from '../../../../shared/NewProperty'
+import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const PropertiesTitleContainer = styled.div`
   display: flex;
@@ -43,12 +41,6 @@ const PropertiesTitleValue = styled.p`
   width: 100%;
 `
 
-const storeQuery = gql`
-  query editingTaxonomiesQuery {
-    editingTaxonomies @client
-  }
-`
-
 const Properties = ({
   id,
   properties,
@@ -60,16 +52,16 @@ const Properties = ({
   objectData: Object,
   stacked: Boolean,
 }) => {
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const mobxStore = useContext(mobxStoreContext)
+  const { editingTaxonomies } = mobxStore
 
-  const editing = get(storeData, 'editingTaxonomies', false)
   const propertiesArray = Object.entries(properties)
 
   return (
     <>
       {propertiesArray.length > 0 && (
         <PropertiesTitleContainer>
-          {editing ? (
+          {editingTaxonomies ? (
             <PropertiesTitleLabelEditing>
               Eigenschaften:
             </PropertiesTitleLabelEditing>
@@ -86,11 +78,11 @@ const Properties = ({
       <PropertyList
         propertiesArray={propertiesArray}
         properties={properties}
-        editing={editing}
+        editing={editingTaxonomies}
         stacked={stacked}
         id={id}
       />
-      {editing && (
+      {editingTaxonomies && (
         <NewProperty
           key={`${id}/newProperty`}
           id={id}
