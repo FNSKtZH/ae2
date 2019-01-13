@@ -1,5 +1,3 @@
-import updateAvailableMutation from './modules/updateAvailableMutation'
-
 // In production, we register a service worker to serve assets from local cache.
 
 // This lets the app load faster on subsequent visits in production, and gives
@@ -16,11 +14,11 @@ const isLocalhost = Boolean(
     window.location.hostname === '[::1]' ||
     // 127.0.0.1/8 is considered localhost for IPv4.
     window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/,
+    ),
 )
 
-export default function register(client) {
+export default function register({ client, mobxStore }) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location)
@@ -36,16 +34,16 @@ export default function register(client) {
 
       if (!isLocalhost) {
         // Is not local host. Just register service worker
-        registerValidSW(swUrl, client)
+        registerValidSW({ swUrl, client, mobxStore })
       } else {
         // This is running on localhost. Lets check if a service worker still exists or not.
-        checkValidServiceWorker(swUrl)
+        checkValidServiceWorker({ swUrl, mobxStore, client })
       }
     })
   }
 }
 
-function registerValidSW(swUrl, client) {
+function registerValidSW({ swUrl, client, mobxStore }) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
@@ -59,16 +57,9 @@ function registerValidSW(swUrl, client) {
               // It's the perfect time to display a "New content is
               // available; please refresh." message in your web app.
               console.log('New content is available; please refresh.')
-              client.mutate({
-                mutation: updateAvailableMutation,
-                variables: { value: true },
-              })
-              setTimeout(() => {
-                client.mutate({
-                  mutation: updateAvailableMutation,
-                  variables: { value: false },
-                })
-              }, 1000 * 30)
+              const { setUpdateAvailable } = mobxStore
+              setUpdateAvailable(true)
+              setTimeout(() => setUpdateAvailable(false), 1000 * 30)
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
@@ -84,7 +75,7 @@ function registerValidSW(swUrl, client) {
     })
 }
 
-function checkValidServiceWorker(swUrl) {
+function checkValidServiceWorker({ swUrl, mobxStore, client }) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
     .then(response => {
@@ -101,12 +92,12 @@ function checkValidServiceWorker(swUrl) {
         })
       } else {
         // Service worker found. Proceed as normal.
-        registerValidSW(swUrl)
+        registerValidSW({ swUrl, mobxStore, client })
       }
     })
     .catch(() => {
       console.log(
-        'No internet connection found. App is running in offline mode.'
+        'No internet connection found. App is running in offline mode.',
       )
     })
 }
