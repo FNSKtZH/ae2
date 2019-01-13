@@ -30,6 +30,9 @@ export default ({ history }) =>
       setEditingPCs(value) {
         self.editingPCs = value
       },
+      setUpdateAvailable(value) {
+        self.updateAvailable = value
+      },
       setActiveNodeArray(value) {
         self.activeNodeArray = value
         const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
