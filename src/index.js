@@ -79,7 +79,7 @@ const launchApp = async () => {
       document.getElementById('root'),
     )
 
-    registerServiceWorker(myClient)
+    registerServiceWorker({ client: myClient, mobxStore })
   } catch (error) {
     console.log('Error in index.js: ', error)
   }
