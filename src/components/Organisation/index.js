@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import Paper from '@material-ui/core/Paper'
@@ -7,6 +7,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import UserReadOnly from '../shared/UserReadOnly'
@@ -14,6 +15,7 @@ import OrgUsers from './OrgUsers'
 import TCs from './TCs'
 import PCs from './PCs'
 import ErrorBoundary from '../shared/ErrorBoundary'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div``
 const OrgContainer = styled.div`
@@ -23,11 +25,6 @@ const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
 `
 
-const storeQuery = gql`
-  query activeNodeArrayQuery {
-    activeNodeArray @client
-  }
-`
 const orgQuery = gql`
   query orgQuery($orgName: String!) {
     organizationByName(name: $orgName) {
@@ -71,15 +68,15 @@ const orgQuery = gql`
 `
 
 const Organization = () => {
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
+
   const { data: orgData, loading: orgLoading, error: orgError } = useQuery(
     orgQuery,
     {
       suspend: false,
       variables: {
-        orgName: get(storeData, 'activeNodeArray[1]'),
+        orgName: activeNodeArray[1],
       },
     },
   )
@@ -133,4 +130,4 @@ const Organization = () => {
   )
 }
 
-export default Organization
+export default observer(Organization)
