@@ -1,5 +1,11 @@
 // @flow
-import React, { useRef, useEffect, useCallback, useState } from 'react'
+import React, {
+  useRef,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
+} from 'react'
 // if observer is active, forceUpdate during rendering happens
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
@@ -9,6 +15,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import get from 'lodash/get'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import Row from './Row'
 import Filter from './Filter'
@@ -23,6 +30,7 @@ import CmType from './contextmenu/Type'
 import CmPCFolder from './contextmenu/PCFolder'
 import CmPC from './contextmenu/PC'
 import ErrorBoundary from '../shared/ErrorBoundary'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const singleRowHeight = 23
 const Container = styled.div`
@@ -70,12 +78,10 @@ const StyledSnackbar = styled(Snackbar)`
 
 const storeQuery = gql`
   query activeNodeArrayQuery {
-    activeNodeArray @client
     login @client {
       token
       username
     }
-    editingTaxonomies @client
   }
 `
 const orgUsersQuery = gql`
@@ -125,10 +131,11 @@ const Tree = ({
 }: {
   dimensions: Object,
 }) => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
   })
-  const activeNodeArray = get(storeData, 'activeNodeArray', [])
   const {
     data: treeDataFetched,
     loading: treeLoading,
@@ -180,7 +187,7 @@ const Tree = ({
     [activeNodeArray, nodes],
   )
 
-  const username = get(treeData, 'login.username', null)
+  const username = get(storeData, 'login.username', null)
   const organizationUsers = get(orgUsersData, 'allOrganizationUsers.nodes', [])
   const userRoles = organizationUsers
     .filter(oU => username === get(oU, 'userByUserId.name', ''))
@@ -241,4 +248,4 @@ const Tree = ({
   )
 }
 
-export default Tree
+export default observer(Tree)
