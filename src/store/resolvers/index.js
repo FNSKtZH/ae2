@@ -15,7 +15,6 @@ import exportAddFilterFields from './exportAddFilterFields'
 import exportRcoInOneRow from './exportRcoInOneRow'
 import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
 import historyAfterLogin from './historyAfterLogin'
-import updateAvailable from './updateAvailable'
 
 export default history =>
   merge(
@@ -33,5 +32,4 @@ export default history =>
     exportRcoInOneRow,
     exportOnlyRowsWithProperties,
     historyAfterLogin,
-    updateAvailable,
   )
