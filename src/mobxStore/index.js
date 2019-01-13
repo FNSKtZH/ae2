@@ -27,6 +27,9 @@ export default ({ history }) =>
       setEditingTaxonomies(value) {
         self.editingTaxonomies = value
       },
+      setEditingPCs(value) {
+        self.editingPCs = value
+      },
       setActiveNodeArray(value) {
         self.activeNodeArray = value
         const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
