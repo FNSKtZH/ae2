@@ -85,7 +85,7 @@ const launchApp = async () => {
     const historyContext = { history }
 
     const initialMobxStore = await createInitialMobxStore({ idb })
-    const mobxStore = MobxStore.create(initialMobxStore)
+    const mobxStore = MobxStore({ history }).create(initialMobxStore)
 
     ReactDOM.render(
       <IdbProvider value={idbContext}>
