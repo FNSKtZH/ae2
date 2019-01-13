@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import ImportPco from './Import'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
@@ -20,6 +21,7 @@ import exportCsv from '../../../modules/exportCsv'
 import treeDataQuery from '../../Tree/treeDataQuery'
 import treeDataVariables from '../../Tree/treeDataVariables'
 import deletePcoOfPcMutation from './deletePcoOfPcMutation'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
   height: 100%;
@@ -73,7 +75,6 @@ const styles = theme => ({
 
 const storeQuery = gql`
   query activeNodeArrayQuery {
-    activeNodeArray @client
     login @client {
       token
       username
@@ -116,7 +117,10 @@ const pcoQuery = gql`
   }
 `
 
-const enhance = compose(withStyles(styles))
+const enhance = compose(
+  withStyles(styles),
+  observer,
+)
 
 const PCO = ({
   dimensions,
@@ -126,10 +130,11 @@ const PCO = ({
   classes: Object,
 }) => {
   const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
   })
-  const activeNodeArray = get(storeData, 'activeNodeArray', [])
   const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
     suspend: false,
     variables: treeDataVariables({ activeNodeArray }),
