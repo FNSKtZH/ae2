@@ -23,7 +23,6 @@ export default async idb => {
     editingTaxonomies: false,
     editingPCs: false,
     updateAvailable: false,
-    activeNodeArray: [],
     treeFilter: {
       text: '',
       id: null,
