@@ -22,7 +22,7 @@ import InfoOutlineIcon from '@material-ui/icons/Info'
 import InfoIcon from '@material-ui/icons/Info'
 import get from 'lodash/get'
 import styled from 'styled-components'
-import { useApolloClient, useQuery } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
@@ -34,7 +34,6 @@ import LinkMenu from './LinkMenu'
 import Properties from './Properties'
 import getUrlForObject from '../../../../modules/getUrlForObject'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
-import editingTaxonomiesMutation from '../../../../modules/editingTaxonomiesMutation'
 import historyContext from '../../../../historyContext'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
@@ -84,7 +83,6 @@ const storeQuery = gql`
       token
       username
     }
-    editingTaxonomies @client
   }
 `
 const organizationUsersQuery = gql`
@@ -114,9 +112,9 @@ const TaxonomyObject = ({
   showLink: Boolean,
   stacked: Boolean,
 }) => {
-  const client = useApolloClient()
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
+  const { editingTaxonomies, setEditingTaxonomies } = mobxStore
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const {
@@ -134,7 +132,7 @@ const TaxonomyObject = ({
     'allOrganizationUsers.nodes',
     [],
   )
-  const editing = get(storeData, 'editingTaxonomies', false)
+  const editing = editingTaxonomies
   const userRoles = organizationUsers
     .filter(oU => username === get(oU, 'userByUserId.name', ''))
     .map(oU => oU.role)
@@ -168,31 +166,11 @@ const TaxonomyObject = ({
   )
   const onClickStopEditing = useCallback(e => {
     e.stopPropagation()
-    client.mutate({
-      mutation: editingTaxonomiesMutation,
-      variables: { value: false },
-      optimisticResponse: {
-        setEditingTaxonomies: {
-          editingTaxonomies: false,
-          __typename: 'EditingTaxonomies',
-        },
-        __typename: 'Mutation',
-      },
-    })
+    setEditingTaxonomies(false)
   })
   const onClickStartEditing = useCallback(e => {
     e.stopPropagation()
-    client.mutate({
-      mutation: editingTaxonomiesMutation,
-      variables: { value: true },
-      optimisticResponse: {
-        setEditingTaxonomies: {
-          editingTaxonomies: true,
-          __typename: 'EditingTaxonomies',
-        },
-        __typename: 'Mutation',
-      },
-    })
+    setEditingTaxonomies(true)
   })
   const onClickToggleTaxDescription = useCallback(
     e => {
