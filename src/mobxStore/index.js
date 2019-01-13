@@ -2,6 +2,7 @@ import { types } from 'mobx-state-tree'
 
 import Export, { defaultValue as defaultExport } from './Export'
 import TreeFilter, { defaultValue as defaultTreeFilter } from './TreeFilter'
+import Login, { defaultValue as defaultLogin } from './Login'
 
 const myTypes = types
   .model({
@@ -14,6 +15,8 @@ const myTypes = types
       [],
     ),
     treeFilter: types.optional(TreeFilter, defaultTreeFilter),
+    login: types.optional(Login, defaultLogin),
+    historyAfterLogin: types.optional(types.string, ''),
   })
   .volatile(() => ({}))
   .views(self => ({}))
