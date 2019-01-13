@@ -24,6 +24,7 @@ import get from 'lodash/get'
 import styled from 'styled-components'
 import { useApolloClient, useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import PropertyReadOnly from '../../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../../shared/PropertyReadOnlyStacked'
@@ -35,6 +36,7 @@ import getUrlForObject from '../../../../modules/getUrlForObject'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import editingTaxonomiesMutation from '../../../../modules/editingTaxonomiesMutation'
 import historyContext from '../../../../historyContext'
+import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`
   margin: 10px;
@@ -78,7 +80,6 @@ const StyledButton = styled(IconButton)`
 
 const storeQuery = gql`
   query storeQuery {
-    activeNodeArray @client
     login @client {
       token
       username
@@ -115,6 +116,7 @@ const TaxonomyObject = ({
 }) => {
   const client = useApolloClient()
   const { history } = useContext(historyContext)
+  const mobxStore = useContext(mobxStoreContext)
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const {
@@ -332,4 +334,4 @@ const TaxonomyObject = ({
   )
 }
 
-export default TaxonomyObject
+export default observer(TaxonomyObject)
