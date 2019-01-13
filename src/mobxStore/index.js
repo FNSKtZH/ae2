@@ -24,6 +24,9 @@ export default ({ history }) =>
     .volatile(() => ({}))
     .views(self => ({}))
     .actions(self => ({
+      setEditingTaxonomies(value) {
+        self.editingTaxonomies = value
+      },
       setActiveNodeArray(value) {
         self.activeNodeArray = value
         const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
