@@ -19,11 +19,13 @@ import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
 import LazyImportFallback from '../shared/LazyImportFallback'
 import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
 import historyContext from '../../historyContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const MoreMenu = lazy(() => import('./MoreMenu'))
 
@@ -74,7 +76,6 @@ const storeQuery = gql`
       token
       username
     }
-    activeNodeArray @client
   }
 `
 const query = gql`
@@ -103,11 +104,12 @@ const query = gql`
 
 const MyAppBar = () => {
   const { history } = useContext(historyContext)
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
 
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
   })
-  const activeNodeArray = get(storeData, 'activeNodeArray', [])
   const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   let pCId = '99999999-9999-9999-9999-999999999999'
   if (activeNodeArray[0] === 'Eigenschaften-Sammlungen' && activeNodeArray[1]) {
@@ -287,4 +289,4 @@ const MyAppBar = () => {
   )
 }
 
-export default MyAppBar
+export default observer(MyAppBar)
