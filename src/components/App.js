@@ -1,5 +1,12 @@
 // @flow
-import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react'
+import React, {
+  lazy,
+  Suspense,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+} from 'react'
 import styled from 'styled-components'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
@@ -8,10 +15,12 @@ import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import AppBar from './AppBar'
 import ErrorBoundary from './shared/ErrorBoundary'
 import LazyImportFallback from './shared/LazyImportFallback'
+import mobxStoreContext from '../mobxStoreContext'
 
 const Container = styled.div`
   height: 100%;
@@ -28,16 +37,16 @@ const GraphIql = lazy(() => import('./GraphIql'))
 
 const storeQuery = gql`
   query activeNodeArrayQuery {
-    activeNodeArray @client
     updateAvailable @client
   }
 `
 
 const App = () => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
   })
-  const activeNodeArray = get(storeData, 'activeNodeArray', [])
 
   const [stacked, setStacked] = useState(false)
 
@@ -130,4 +139,4 @@ const App = () => {
   )
 }
 
-export default App
+export default observer(App)
