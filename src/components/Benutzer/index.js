@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
@@ -10,9 +10,9 @@ import Tab from '@material-ui/core/Tab'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { observer } from 'mobx-react-lite'
 
 import query from './query'
-import storeQuery from './storeQuery'
 import treeDataQuery from '../Tree/treeDataQuery'
 import getTreeDataVariables from '../Tree/treeDataVariables'
 import Roles from './Roles'
@@ -21,6 +21,7 @@ import TCs from './TCs'
 import updateUserMutation from './updateUserMutation'
 import updateUserMutationWithPass from './updateUserMutationWithPass'
 import ErrorBoundary from '../shared/ErrorBoundary'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div``
 const LEContainer = styled.div`
@@ -39,10 +40,9 @@ const StyledPaper = styled(Paper)`
 
 const User = () => {
   const client = useApolloClient()
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
-  const activeNodeArray = get(storeData, 'activeNodeArray', [])
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
+
   const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
     suspend: false,
     variables: getTreeDataVariables({ activeNodeArray }),
@@ -222,4 +222,4 @@ const User = () => {
   )
 }
 
-export default User
+export default observer(User)
