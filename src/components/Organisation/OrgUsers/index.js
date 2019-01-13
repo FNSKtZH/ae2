@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
@@ -8,10 +8,12 @@ import Icon from '@material-ui/core/Icon'
 import AddIcon from '@material-ui/icons/Add'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import createOrgUserMutation from './createOrgUserMutation'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import OrgUsersList from './OrgUsersList'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
   display: flex;
@@ -27,11 +29,6 @@ const AddNewButton = styled(IconButton)`
   }
 `
 
-const storeQuery = gql`
-  query activeNodeArrayQuery {
-    activeNodeArray @client
-  }
-`
 const orgUsersQuery = gql`
   query orgUsersQuery($name: String!) {
     organizationByName(name: $name) {
@@ -63,9 +60,9 @@ const orgUsersQuery = gql`
 
 const OrgUsers = () => {
   const client = useApolloClient()
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
+  const name = activeNodeArray.length > 1 ? activeNodeArray[1] : 'none'
   const {
     data: orgUsersData,
     loading: orgUsersLoading,
@@ -73,7 +70,7 @@ const OrgUsers = () => {
   } = useQuery(orgUsersQuery, {
     suspend: false,
     variables: {
-      name: get(storeData, 'activeNodeArray', ['none', 'none'])[1],
+      name,
     },
   })
 
@@ -137,4 +134,4 @@ const OrgUsers = () => {
   )
 }
 
-export default OrgUsers
+export default observer(OrgUsers)
