@@ -17,6 +17,7 @@ import get from 'lodash/get'
 import format from 'date-fns/format'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import Property from './Property'
 import onBlur from './onBlur'
@@ -24,6 +25,7 @@ import editingPCsMutation from '../../modules/editingPCsMutation'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import historyContext from '../../historyContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 10px;
@@ -119,6 +121,12 @@ const pcQuery = gql`
 const PropertyCollection = () => {
   const client = useApolloClient()
   const { history } = useContext(historyContext)
+  const mobxStore = useContext(mobxStoreContext)
+  const { activeNodeArray } = mobxStore
+  const pCId =
+    activeNodeArray.length > 0
+      ? activeNodeArray[1]
+      : '99999999-9999-9999-9999-999999999999'
 
   const { data: storeData } = useQuery(storeQuery, {
     suspend: false,
@@ -135,11 +143,7 @@ const PropertyCollection = () => {
     {
       suspend: false,
       variables: {
-        pCId: get(
-          storeData,
-          'activeNodeArray[1]',
-          '99999999-9999-9999-9999-999999999999',
-        ),
+        pCId,
       },
     },
   )
@@ -542,4 +546,4 @@ const PropertyCollection = () => {
   )
 }
 
-export default PropertyCollection
+export default observer(PropertyCollection)
