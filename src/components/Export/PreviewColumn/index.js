@@ -1,13 +1,12 @@
 // @flow
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import get from 'lodash/get'
-import { useQuery } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import OptionsChoosen from './OptionsChoosen'
 import Preview from './Preview'
 import ErrorBoundary from '../../shared/ErrorBoundary'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 5px 0;
@@ -16,15 +15,9 @@ const HowToDiv = styled.div`
   padding: 15px 10px 0 10px;
 `
 
-const storeQuery = gql`
-  query storeQuery {
-    exportTaxonomies @client
-  }
-`
-
 const Filter = () => {
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxonomies: exportTaxonomies } = mobxStore.export
 
   return (
     <ErrorBoundary>
@@ -41,4 +34,4 @@ const Filter = () => {
   )
 }
 
-export default Filter
+export default observer(Filter)
