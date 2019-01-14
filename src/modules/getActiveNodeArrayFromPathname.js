@@ -15,6 +15,5 @@ export default (): Array<number | string> => {
       pathElements[index] = +e
     }
   })
-  console.log('getActiveNodeArrayFromPathname, pathElements:', pathElements)
   return pathElements
 }
