@@ -124,7 +124,8 @@ const Tree = ({
   dimensions: Object,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray, login } = mobxStore
+  const { login } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
   const {
     data: treeDataFetched,
     loading: treeLoading,
