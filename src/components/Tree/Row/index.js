@@ -85,14 +85,6 @@ function collect(props) {
   return props
 }
 
-const storeQuery = gql`
-  query activeNodeArrayQuery {
-    login @client {
-      token
-      username
-    }
-  }
-`
 const userQuery = gql`
   query rowQuery($username: String!) {
     userByName(name: $username) {
@@ -115,11 +107,9 @@ const Row = ({
   const client = useApolloClient()
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray, editingTaxonomies } = mobxStore
+  const { editingTaxonomies, login } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
   const { refetch: treeRefetch } = useQuery(treeDataQuery, {
     suspend: false,
     variables: treeDataVariables({ activeNodeArray }),
@@ -127,7 +117,7 @@ const Row = ({
   const { data: userData } = useQuery(userQuery, {
     suspend: false,
     variables: {
-      username: get(storeData, 'login.username', null),
+      username: login.username,
     },
   })
 
@@ -183,13 +173,11 @@ const Row = ({
     (e, data, target) => {
       onClickContextMenuDo({
         e,
-        activeNodeArray,
         data,
         target,
         client,
         treeRefetch,
         userId,
-        editingTaxonomies,
         history,
         mobxStore,
       })
