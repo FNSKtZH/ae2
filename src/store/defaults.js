@@ -7,7 +7,6 @@ export default {
   exportTaxFilters: [],
   exportPcoFilters: [],
   exportRcoFilters: [],
-  exportWithSynonymData: true,
   exportTooManyProperties: false,
   exportAddFilterFields: true,
   exportRcoInOneRow: true,

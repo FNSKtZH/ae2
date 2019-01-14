@@ -37,6 +37,9 @@ export default types
     setOnlyRowsWithProperties(value) {
       self.onlyRowsWithProperties = value
     },
+    setWithSynonymData(value) {
+      self.withSynonymData = value
+    },
   }))
 
 export const defaultValue = {}

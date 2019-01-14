@@ -210,7 +210,6 @@ const storeQuery = gql`
       comparator
       value
     }
-    exportWithSynonymData @client
     exportRcoInOneRow @client
   }
 `
@@ -219,6 +218,7 @@ const Preview = () => {
   const mobxStore = useContext(mobxStoreContext)
   const {
     onlyRowsWithProperties: exportOnlyRowsWithProperties,
+    withSynonymData,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
   const exportIds = mobxStore.export.ids.toJSON()
@@ -306,7 +306,6 @@ const Preview = () => {
     [message],
   )
 
-  const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
   const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
@@ -321,7 +320,7 @@ const Preview = () => {
   let { rows, pvColumns } = rowsFromObjects({
     objects,
     exportTaxProperties,
-    exportWithSynonymData,
+    withSynonymData,
     exportRcoInOneRow,
     exportPcoProperties,
     pco,

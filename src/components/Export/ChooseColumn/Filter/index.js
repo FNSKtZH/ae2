@@ -15,7 +15,6 @@ import Id from './Id'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../mobxStoreContext'
@@ -38,7 +37,6 @@ const Label = styled(FormControlLabel)`
 
 const storeQuery = gql`
   query exportTaxonomiesQuery {
-    exportWithSynonymData @client
     exportAddFilterFields @client
   }
 `
@@ -76,6 +74,8 @@ const Filter = () => {
   const {
     onlyRowsWithProperties: exportOnlyRowsWithProperties,
     setOnlyRowsWithProperties,
+    setWithSynonymData,
+    withSynonymData,
   } = mobxStore.export
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
@@ -144,7 +144,6 @@ const Filter = () => {
     [rcoExpanded],
   )
 
-  const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
   const exportAddFilterFields = get(storeData, 'exportAddFilterFields', true)
   const pcoProperties = get(
     propsByTaxData,
@@ -175,13 +174,8 @@ const Filter = () => {
             control={
               <Checkbox
                 color="primary"
-                checked={exportWithSynonymData}
-                onChange={(event, checked) => {
-                  client.mutate({
-                    mutation: exportWithSynonymDataMutation,
-                    variables: { value: checked },
-                  })
-                }}
+                checked={withSynonymData}
+                onChange={(event, checked) => setWithSynonymData(checked)}
               />
             }
             label="Informationen von Synonymen mit exportieren"

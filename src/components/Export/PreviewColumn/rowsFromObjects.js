@@ -15,7 +15,7 @@ import rowsFromObjectsRcoMultipleRows from './rowsFromObjectsRcoMultipleRows'
 export default ({
   objects,
   exportTaxProperties,
-  exportWithSynonymData,
+  withSynonymData,
   exportPcoProperties,
   pco,
   rco,
@@ -28,7 +28,7 @@ export default ({
 }: {
   objects: Array<Object>,
   exportTaxProperties: Array<Object>,
-  exportWithSynonymData: Boolean,
+  withSynonymData: Boolean,
   exportPcoProperties: Array<Object>,
   pco: Array<Object>,
   rco: Array<Object>,
@@ -69,7 +69,7 @@ export default ({
       // all declared synonyms
       // but only if synonyms data is wanted
       ...synonyms
-        .filter(s => exportWithSynonymData && s.objectId === o.id)
+        .filter(s => withSynonymData && s.objectId === o.id)
         .map(s => s.objectIdSynonym),
     ]
     // 2. pco

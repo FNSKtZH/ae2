@@ -15,7 +15,6 @@ import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMuta
 import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
 import exportPcoFiltersResetMutation from '../../exportPcoFiltersResetMutation'
 import exportRcoFiltersResetMutation from '../../exportRcoFiltersResetMutation'
-import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import TaxFilterItems from './TaxFilterItems'
 import PcoFilterItems from './PcoFilterItems'
 import RcoFilterItems from './RcoFilterItems'
@@ -89,7 +88,6 @@ const storeQuery = gql`
       value
     }
     exportRcoInOneRow @client
-    exportWithSynonymData @client
   }
 `
 
@@ -107,12 +105,13 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     setTaxonomies,
     onlyRowsWithProperties: exportOnlyRowsWithProperties,
     setOnlyRowsWithProperties,
+    withSynonymData,
+    setWithSynonymData,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
-  const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportTaxFilters = get(storeData, 'exportTaxFilters', [])
   const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
@@ -153,10 +152,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
       mutation: exportRcoFiltersResetMutation,
     })
     setOnlyRowsWithProperties(true)
-    client.mutate({
-      mutation: exportWithSynonymDataMutation,
-      variables: { value: true },
-    })
+    setWithSynonymData(true)
   })
   const onClickResetType = useCallback(() => {
     setType([])
@@ -166,10 +162,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     setTaxonomies([])
   })
   const onClickResetExportWithSynonymData = useCallback(() => {
-    client.mutate({
-      mutation: exportWithSynonymDataMutation,
-      variables: { value: true },
-    })
+    setWithSynonymData(true)
   })
   const onClickResetExportOnlyRowsWithProperties = useCallback(() => {
     setOnlyRowsWithProperties(true)
@@ -199,11 +192,11 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
         </li>
         <li>
           {`${
-            exportWithSynonymData
+            withSynonymData
               ? 'Informationen von Synonymen mit exportieren'
               : 'Ohne Informationen von Synonymen'
           }`}
-          {!exportWithSynonymData && (
+          {!withSynonymData && (
             <ResetSpan onClick={onClickResetExportWithSynonymData}>
               zurücksetzen
             </ResetSpan>
