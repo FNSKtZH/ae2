@@ -3,7 +3,6 @@ import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 
 import loginDbMutation from './loginDbMutation'
-import loginStoreMutation from '../../modules/loginMutation'
 
 export default async ({
   client,
@@ -34,7 +33,7 @@ export default async ({
   history: Object,
   mobxStore: Object,
 }) => {
-  const { historyAfterLogin, setHistoryAfterLogin } = mobxStore
+  const { historyAfterLogin, setHistoryAfterLogin, setLogin, login } = mobxStore
   // when bluring fields need to pass event value
   // on the other hand when clicking on Anmelden button,
   // need to grab props
@@ -48,25 +47,13 @@ export default async ({
   }
   // reset existing token
   await idb.users.clear()
-  client.mutate({
-    mutation: loginStoreMutation,
-    variables: {
-      username: '',
-      token: '',
-    },
-    optimisticResponse: {
-      setLoginInStore: {
-        username: '',
-        token: '',
-        __typename: 'Login',
-      },
-      __typename: 'Mutation',
-    },
+  setLogin({
+    username: '',
+    token: '',
   })
   // now aquire new token
-  let result
   try {
-    result = await client.mutate({
+    await client.mutate({
       mutation: loginDbMutation,
       variables: {
         username: name,
@@ -85,7 +72,7 @@ export default async ({
     }
     return console.log(error)
   }
-  const jwtToken = get(result, 'data.login.jwtToken')
+  const jwtToken = login.jwtToken
   if (jwtToken) {
     const tokenDecoded = jwtDecode(jwtToken)
     const { username } = tokenDecoded
@@ -96,20 +83,9 @@ export default async ({
       token: jwtToken,
     })
     try {
-      client.mutate({
-        mutation: loginStoreMutation,
-        variables: {
-          username,
-          token: jwtToken,
-        },
-        optimisticResponse: {
-          setLoginInStore: {
-            username,
-            token: jwtToken,
-            __typename: 'Login',
-          },
-          __typename: 'Mutation',
-        },
+      setLogin({
+        username,
+        token: jwtToken,
       })
     } catch (error) {
       console.log(('Error during mutation': error))
