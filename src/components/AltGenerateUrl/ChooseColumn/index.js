@@ -1,8 +1,9 @@
 // @flow
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
@@ -10,8 +11,8 @@ import PCOs from './PCOs'
 import RCOs from './RCOs'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import Snackbar from '@material-ui/core/Snackbar'
-import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
 import constants from '../../../modules/constants'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 0 5px;
@@ -59,7 +60,8 @@ const propsByTaxQuery = gql`
 `
 
 const Properties = () => {
-  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { setTaxonomies } = mobxStore.export
 
   const { loading } = useQuery(propsByTaxQuery, {
     suspend: false,
@@ -69,10 +71,7 @@ const Properties = () => {
   })
 
   useEffect(() => {
-    client.mutate({
-      mutation: exportTaxonomiesMutation,
-      variables: { value: constants.altTaxonomies },
-    })
+    setTaxonomies(constants.altTaxonomies)
   }, [])
 
   const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(false)
@@ -137,4 +136,4 @@ const Properties = () => {
   )
 }
 
-export default Properties
+export default observer(Properties)
