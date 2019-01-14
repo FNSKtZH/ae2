@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
@@ -7,8 +7,8 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import exportTypeMutation from '../../exportTypeMutation'
 import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportPcoPropertiesResetMutation from '../../exportPcoPropertiesResetMutation'
 import exportRcoPropertiesResetMutation from '../../exportRcoPropertiesResetMutation'
@@ -24,6 +24,7 @@ import RcoFilterItems from './RcoFilterItems'
 import TaxPropertiesItems from './TaxPropertiesItems'
 import PcoPropertiesItems from './PcoPropertiesItems'
 import RcoPropertiesItems from './RcoPropertiesItems'
+import mobxStoreContext from '../../../../mobxStoreContext'
 
 const styles = theme => ({
   button: {
@@ -62,7 +63,6 @@ const StyledButton = styled(Button)`
 const storeQuery = gql`
   query exportTypeQuery {
     exportTaxonomies @client
-    exportType @client
     exportTaxProperties @client {
       taxname
       pname
@@ -97,10 +97,15 @@ const storeQuery = gql`
   }
 `
 
-const enhance = compose(withStyles(styles))
+const enhance = compose(
+  withStyles(styles),
+  observer,
+)
 
 const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { setType, type: exportType } = mobxStore.export
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
@@ -110,7 +115,6 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     'exportOnlyRowsWithProperties',
     true,
   )
-  const exportType = get(storeData, 'exportType', null)
   const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportTaxFilters = get(storeData, 'exportTaxFilters', [])
@@ -131,10 +135,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
 
   const onClickResetAll = useCallback(() => {
-    client.mutate({
-      mutation: exportTypeMutation,
-      variables: { value: [] },
-    })
+    setType([])
     client.mutate({
       mutation: exportTaxonomiesMutation,
       variables: { value: [] },
@@ -167,10 +168,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     })
   })
   const onClickResetType = useCallback(() => {
-    client.mutate({
-      mutation: exportTypeMutation,
-      variables: { value: [] },
-    })
+    setType([])
     client.mutate({
       mutation: exportTaxonomiesMutation,
       variables: { value: [] },

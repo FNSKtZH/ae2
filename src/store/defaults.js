@@ -1,7 +1,6 @@
 // @flow
 
 export default {
-  exportType: null,
   exportTaxonomies: [],
   exportIds: [],
   exportTaxProperties: [],

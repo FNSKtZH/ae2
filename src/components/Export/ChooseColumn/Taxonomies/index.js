@@ -1,15 +1,17 @@
 // @flow
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 import get from 'lodash/get'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import HowTo from './HowTo'
 import ExportTypes from './ExportTypes'
 
 import ErrorBoundary from '../../../shared/ErrorBoundary'
+import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 0 5px;
@@ -32,7 +34,6 @@ const StyledPaper = styled(Paper)`
 const storeQuery = gql`
   query exportTaxonomiesQuery {
     exportTaxonomies @client
-    exportType @client
   }
 `
 const propsByTaxQuery = gql`
@@ -72,6 +73,9 @@ const propsByTaxQuery = gql`
 `
 
 const Taxonomies = () => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { type: exportType } = mobxStore.export
+
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
@@ -85,7 +89,6 @@ const Taxonomies = () => {
     },
   )
 
-  const exportType = get(storeData, 'exportType', null)
   let paperBackgroundColor = '#1565C0'
   let textProperties = 'Wählen Sie eine oder mehrere Taxonomien.'
   if (!exportType) {
@@ -116,4 +119,4 @@ const Taxonomies = () => {
   )
 }
 
-export default Taxonomies
+export default observer(Taxonomies)

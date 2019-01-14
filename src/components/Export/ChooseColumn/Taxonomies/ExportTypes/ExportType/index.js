@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -7,11 +7,12 @@ import Checkbox from '@material-ui/core/Checkbox'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import exportTypeMutation from '../../../../exportTypeMutation'
 import exportTaxonomiesMutation from '../../../../exportTaxonomiesMutation'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import Taxonomies from './Taxonomies'
+import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const exportTypes = ['Arten', 'Lebensräume']
 const exportTypeTAXToReadable = {
@@ -40,7 +41,6 @@ const TypeLabel = styled(FormControlLabel)`
 const storeQuery = gql`
   query exportTaxonomiesQuery {
     exportTaxonomies @client
-    exportType @client
   }
 `
 
@@ -52,6 +52,9 @@ const ExportTypes = ({
   taxonomies: Array<Object>,
 }) => {
   const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { type: exportType, setType } = mobxStore.export
+
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
 
@@ -59,10 +62,7 @@ const ExportTypes = ({
     async (event, isChecked) => {
       const { name } = event.target
       if (isChecked) {
-        await client.mutate({
-          mutation: exportTypeMutation,
-          variables: { value: name },
-        })
+        setType(name)
         // check if only one Taxonomy exists
         // if so, check it
         if (taxonomies.length === 1) {
@@ -84,10 +84,7 @@ const ExportTypes = ({
           })
         }
       } else {
-        await client.mutate({
-          mutation: exportTypeMutation,
-          variables: { value: exportTypes.find(t => t !== name) },
-        })
+        setType(exportTypes.find(t => t !== name))
         // uncheck all taxonomies of this type
         const taxonomiesToUncheck = taxonomies.map(t => t.taxonomyName)
         const remainingTaxonomies = exportTaxonomies.filter(
@@ -101,8 +98,6 @@ const ExportTypes = ({
     },
     [taxonomies, exportTaxonomies],
   )
-
-  const exportType = get(storeData, 'exportType', null)
 
   return (
     <ErrorBoundary>
@@ -133,4 +128,4 @@ const ExportTypes = ({
   )
 }
 
-export default ExportTypes
+export default observer(ExportTypes)

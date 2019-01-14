@@ -1,14 +1,15 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import exportTypeMutation from '../../../../exportTypeMutation'
 import exportTaxonomiesMutation from '../../../../exportTaxonomiesMutation'
+import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const TaxonomyLabel = styled(FormControlLabel)`
   height: 33px;
@@ -28,6 +29,9 @@ const storeQuery = gql`
 
 const Taxonomies = ({ taxonomies }: { taxonomies: Array<Object> }) => {
   const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { setType } = mobxStore.export
+
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
 
@@ -55,10 +59,7 @@ const Taxonomies = ({ taxonomies }: { taxonomies: Array<Object> }) => {
           // this was the only taxonomy in this type
           // it makes sense to also uncheck the type
           const value = thisTaxonomy.type === 'ART' ? 'Arten' : 'Lebensräume'
-          await client.mutate({
-            mutation: exportTypeMutation,
-            variables: { value },
-          })
+          setType(value)
         }
       }
     },
@@ -81,4 +82,4 @@ const Taxonomies = ({ taxonomies }: { taxonomies: Array<Object> }) => {
   ))
 }
 
-export default Taxonomies
+export default observer(Taxonomies)
