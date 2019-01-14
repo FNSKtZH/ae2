@@ -48,7 +48,7 @@ const pcsQuery = gql`
 
 const PCs = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
   const name = activeNodeArray.length > 1 ? activeNodeArray[1] : 'none'
 
   const { data: pcsData, loading: pcsLoading, error: pcsError } = useQuery(
