@@ -2,7 +2,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
-import get from 'lodash/get'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
@@ -31,11 +30,6 @@ const StyledPaper = styled(Paper)`
   margin-top: 10px;
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportTaxonomies @client
-  }
-`
 const propsByTaxQuery = gql`
   query propsByTaxDataQuery(
     $queryExportTaxonomies: Boolean!
@@ -74,10 +68,8 @@ const propsByTaxQuery = gql`
 
 const Taxonomies = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { type: exportType } = mobxStore.export
+  const { type: exportType, taxonomies: exportTaxonomies } = mobxStore.export
 
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
