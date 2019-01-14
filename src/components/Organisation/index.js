@@ -69,7 +69,7 @@ const orgQuery = gql`
 
 const Organization = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
   const { data: orgData, loading: orgLoading, error: orgError } = useQuery(
     orgQuery,

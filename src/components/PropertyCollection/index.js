@@ -111,7 +111,8 @@ const PropertyCollection = () => {
   const client = useApolloClient()
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray, editingPCs, setEditingPCs, login } = mobxStore
+  const { editingPCs, setEditingPCs, login } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
   const pCId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]
