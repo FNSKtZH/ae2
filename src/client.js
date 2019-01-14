@@ -57,11 +57,10 @@ export default async ({ idb, history, mobxStore }) => {
   })
 
   const cache = new InMemoryCache()
-  const myDefaults = await defaults(idb)
   const stateLink = withClientState({
     resolvers: resolvers(history),
     cache,
-    defaults: myDefaults,
+    defaults,
   })
   // use httpLink _instead_ of batchHttpLink in order not to batch
   /*

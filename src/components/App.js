@@ -34,7 +34,8 @@ const GraphIql = lazy(() => import('./GraphIql'))
 
 const App = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray, updateAvailable } = mobxStore
+  const { updateAvailable } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
   const [stacked, setStacked] = useState(false)
 
