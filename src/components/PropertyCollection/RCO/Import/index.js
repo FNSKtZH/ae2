@@ -200,7 +200,7 @@ const importRcoQuery = gql`
 const ImportPco = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
   const pCId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]

@@ -134,7 +134,7 @@ export default ({
         break
       }
       case 'Organisationen': {
-        nodes = [...nodes, ...level2Organization({ treeData })]
+        nodes = [...nodes, ...level2Organization({ treeData, mobxStore })]
         break
       }
       default:
