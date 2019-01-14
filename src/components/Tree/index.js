@@ -76,14 +76,6 @@ const StyledSnackbar = styled(Snackbar)`
 `
 //const listContainerStyle = { padding: '5px' }
 
-const storeQuery = gql`
-  query activeNodeArrayQuery {
-    login @client {
-      token
-      username
-    }
-  }
-`
 const orgUsersQuery = gql`
   query AllOrganizationUsersQuery {
     allOrganizationUsers {
@@ -132,10 +124,7 @@ const Tree = ({
   dimensions: Object,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const { activeNodeArray, login } = mobxStore
   const {
     data: treeDataFetched,
     loading: treeLoading,
@@ -177,6 +166,7 @@ const Tree = ({
     treeData,
     activeNodeArray,
     treeDataLoading,
+    mobxStore,
   })
 
   useEffect(
@@ -187,7 +177,7 @@ const Tree = ({
     [activeNodeArray, nodes],
   )
 
-  const username = get(storeData, 'login.username', null)
+  const { username } = login
   const organizationUsers = get(orgUsersData, 'allOrganizationUsers.nodes', [])
   const userRoles = organizationUsers
     .filter(oU => username === get(oU, 'userByUserId.name', ''))
