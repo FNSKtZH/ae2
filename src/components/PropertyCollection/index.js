@@ -54,14 +54,6 @@ const StyledA = styled.a`
   color: rgba(0, 0, 0, 0.54);
 `
 
-const storeQuery = gql`
-  query activeNodeArrayQuery {
-    login @client {
-      token
-      username
-    }
-  }
-`
 const allUsersQuery = gql`
   query AllUsersQuery {
     allUsers {
@@ -119,15 +111,12 @@ const PropertyCollection = () => {
   const client = useApolloClient()
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray, editingPCs, setEditingPCs } = mobxStore
+  const { activeNodeArray, editingPCs, setEditingPCs, login } = mobxStore
   const pCId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]
       : '99999999-9999-9999-9999-999999999999'
 
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
   const {
     data: allUsersData,
     loading: allUsersLoading,
@@ -147,7 +136,7 @@ const PropertyCollection = () => {
 
   const pC = get(pcData, 'propertyCollectionById', {})
   const org = get(pC, 'organizationByOrganizationId.name', '')
-  const username = get(storeData, 'login.username', null)
+  const { username } = login
   const allUsers = get(allUsersData, 'allUsers.nodes', [])
   const user = allUsers.find(u => u.name === username)
   const orgsUserIsPCWriter = get(user, 'organizationUsersByUserId.nodes', [])
