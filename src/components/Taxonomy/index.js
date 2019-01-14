@@ -41,14 +41,6 @@ const StyledFormControl = styled(FormControl)`
   margin: 10px 0 5px 0 !important;
 `
 
-const storeQuery = gql`
-  query storeQuery {
-    login @client {
-      token
-      username
-    }
-  }
-`
 const allUsersQuery = gql`
   query AllUsersQuery {
     allUsers {
@@ -114,15 +106,17 @@ const taxQuery = gql`
 const Taxonomy = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray, editingTaxonomies, setEditingTaxonomies } = mobxStore
+  const {
+    activeNodeArray,
+    editingTaxonomies,
+    setEditingTaxonomies,
+    login,
+  } = mobxStore
   const taxId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]
       : '99999999-9999-9999-9999-999999999999'
 
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
   const {
     data: allUsersData,
     loading: allUsersLoading,
@@ -146,7 +140,7 @@ const Taxonomy = () => {
   const editing = editingTaxonomies
   const editingArten = editing && tax.type === 'ART'
   const editingLr = editing && tax.type === 'LEBENSRAUM'
-  const username = get(storeData, 'login.username', null)
+  const { username } = login
   const allUsers = get(allUsersData, 'allUsers.nodes', [])
   const user = allUsers.find(u => u.name === username)
   const orgsUserIsTaxWriter = get(user, 'organizationUsersByUserId.nodes', [])
