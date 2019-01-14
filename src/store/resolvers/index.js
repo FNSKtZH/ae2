@@ -5,7 +5,6 @@ import exportTaxProperties from './exportTaxProperties'
 import exportPcoProperties from './exportPcoProperties'
 import exportRcoProperties from './exportRcoProperties'
 import exportTooManyProperties from './exportTooManyProperties'
-import exportRcoInOneRow from './exportRcoInOneRow'
 
 export default history =>
   merge(
@@ -13,5 +12,4 @@ export default history =>
     exportPcoProperties,
     exportRcoProperties,
     exportTooManyProperties,
-    exportRcoInOneRow,
   )

@@ -1,4 +1,5 @@
 import { types } from 'mobx-state-tree'
+import uniq from 'lodash/uniq'
 
 import TaxProperty, { defaultValue as defaultTaxProperty } from './TaxProperty'
 import PcoProperty, { defaultValue as defaultPcoProperty } from './PcoProperty'
@@ -47,7 +48,15 @@ export default types
       self.addFilterFields = value
     },
     setRcoInOneRow(value) {
-      self.rcoInOneRow = value
+      const exportRcoProperties = self.rcoProperties
+      const rcoPCTypes = uniq(
+        exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`),
+      )
+      if (rcoPCTypes.length < 2) {
+        self.rcoInOneRow = value
+      } else {
+        self.rcoInOneRow = true
+      }
     },
   }))
 

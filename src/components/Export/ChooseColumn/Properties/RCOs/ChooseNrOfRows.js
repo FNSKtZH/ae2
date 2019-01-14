@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
@@ -8,10 +8,11 @@ import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import uniq from 'lodash/uniq'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import exportRcoInOneRowMutation from '../../../exportRcoInOneRowMutation'
+import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const StyledFormLabel = styled(FormLabel)`
   color: rgba(0, 0, 0, 0.87) !important;
@@ -39,7 +40,6 @@ const StyledUl = styled.ul`
 
 const storeQuery = gql`
   {
-    exportRcoInOneRow @client
     exportRcoProperties @client {
       pcname
       relationtype
@@ -48,21 +48,18 @@ const storeQuery = gql`
 `
 
 const ChooseNrOfRows = () => {
-  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { setRcoInOneRow, rcoInOneRow } = mobxStore.export
+
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
   const multipleRowsDisabled =
     uniq(
       storeData.exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`),
     ).length > 1
-  const onChange = useCallback(
-    () =>
-      client.mutate({
-        mutation: exportRcoInOneRowMutation,
-        variables: { value: !storeData.exportRcoInOneRow },
-      }),
-    [storeData.exportRcoInOneRow],
-  )
+  const onChange = useCallback(() => setRcoInOneRow(!rcoInOneRow), [
+    rcoInOneRow,
+  ])
 
   if (storeData.loading) return 'Lade Daten...'
   if (storeData.error) return `Fehler: ${storeData.error.message}`
@@ -72,7 +69,7 @@ const ChooseNrOfRows = () => {
       <StyledFormLabel>Wie wollen Sie Beziehungen exportieren?</StyledFormLabel>
       <StyledRadioGroup
         aria-label="Wie wollen Sie Beziehungen exportieren?"
-        value={storeData.exportRcoInOneRow.toString()}
+        value={rcoInOneRow.toString()}
         onChange={onChange}
       >
         <StyledFormControlLabel
@@ -148,4 +145,4 @@ const ChooseNrOfRows = () => {
   )
 }
 
-export default ChooseNrOfRows
+export default observer(ChooseNrOfRows)
