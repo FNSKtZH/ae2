@@ -12,12 +12,10 @@ import IconButton from '@material-ui/core/IconButton'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import styled from 'styled-components'
-import get from 'lodash/get'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { useApolloClient } from 'react-apollo-hooks'
+import { observer } from 'mobx-react-lite'
 
 import fetchLoginModule from './fetchLogin'
-import setLoginMutation from '../../modules/loginMutation'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import idbContext from '../../idbContext'
 import historyContext from '../../historyContext'
@@ -37,25 +35,13 @@ const StyledSnackbar = styled(Snackbar)`
   }
 `
 
-const storeQuery = gql`
-  query storeQuery {
-    login @client {
-      token
-      username
-    }
-  }
-`
-
 const Login = () => {
   const client = useApolloClient()
   const { idb } = useContext(idbContext)
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { historyAfterLogin } = mobxStore
-
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-
-  const token = get(storeData, 'login.token')
+  const { historyAfterLogin, setLogin, login } = mobxStore
+  const { token } = login
 
   const [name, changeName] = useState('')
   const [pass, changePass] = useState('')
@@ -81,24 +67,13 @@ const Login = () => {
         history,
         mobxStore,
       }),
-    [name, pass, historyAfterLogin],
+    [name, pass, historyAfterLogin, login.jwtToken],
   )
   const onLogout = useCallback(() => {
     idb.users.clear()
-    client.mutate({
-      mutation: setLoginMutation,
-      variables: {
-        username: '',
-        token: '',
-      },
-      optimisticResponse: {
-        setLoginInStore: {
-          username: '',
-          token: '',
-          __typename: 'Login',
-        },
-        __typename: 'Mutation',
-      },
+    setLogin({
+      username: '',
+      token: '',
     })
   })
   const onBlurName = useCallback(
@@ -202,4 +177,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default observer(Login)
