@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -11,10 +11,12 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import Properties from './Properties'
 import constants from '../../../../../../modules/constants'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
+import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const ErrorContainer = styled.div`
   padding: 5px;
@@ -52,11 +54,6 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportTaxonomies @client
-  }
-`
 const propsByTaxQuery = gql`
   query propsByTaxDataQuery(
     $queryExportTaxonomies: Boolean!
@@ -75,10 +72,11 @@ const propsByTaxQuery = gql`
 `
 
 const PcoCard = ({ pc }: { pc: Object }) => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxonomies: exportTaxonomies } = mobxStore.export
+
   const [expanded, setExpanded] = useState(false)
 
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
     propsByTaxQuery,
     {
@@ -142,4 +140,4 @@ const PcoCard = ({ pc }: { pc: Object }) => {
   )
 }
 
-export default PcoCard
+export default observer(PcoCard)
