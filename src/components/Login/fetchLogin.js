@@ -1,5 +1,4 @@
 // @flow
-import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 
 import loginDbMutation from './loginDbMutation'

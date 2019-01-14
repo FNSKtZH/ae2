@@ -128,7 +128,8 @@ const RCO = ({
 }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray, login } = mobxStore
+  const { login } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
   const pCId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]
