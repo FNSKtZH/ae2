@@ -4,7 +4,6 @@ import jwtDecode from 'jwt-decode'
 
 import loginDbMutation from './loginDbMutation'
 import loginStoreMutation from '../../modules/loginMutation'
-import historyAfterLoginMutation from '../../modules/historyAfterLoginMutation'
 
 export default async ({
   client,
@@ -15,11 +14,11 @@ export default async ({
   pass: propsPass,
   changePass,
   changeLoginSuccessfull,
-  historyAfterLogin,
   namePassed,
   passPassed,
   idb,
   history,
+  mobxStore,
 }: {
   client: Object,
   changeNameErrorText: () => void,
@@ -29,12 +28,13 @@ export default async ({
   pass: string,
   changePass: () => void,
   changeLoginSuccessfull: () => void,
-  historyAfterLogin: String,
   namePassed: String,
   passPassed: String,
   idb: Object,
   history: Object,
+  mobxStore: Object,
 }) => {
+  const { historyAfterLogin, setHistoryAfterLogin } = mobxStore
   // when bluring fields need to pass event value
   // on the other hand when clicking on Anmelden button,
   // need to grab props
@@ -123,19 +123,7 @@ export default async ({
       changeLoginSuccessfull(false)
       if (!!historyAfterLogin) {
         history.push(historyAfterLogin)
-        client.mutate({
-          mutation: historyAfterLoginMutation,
-          variables: {
-            value: '',
-          },
-          optimisticResponse: {
-            setHistoryAfterLogin: {
-              historyAfterLogin,
-              __typename: 'HistoryAfterLogin',
-            },
-            __typename: 'Mutation',
-          },
-        })
+        setHistoryAfterLogin('')
       } else {
         history.push('/')
       }

@@ -14,7 +14,6 @@ import exportWithSynonymData from './exportWithSynonymData'
 import exportAddFilterFields from './exportAddFilterFields'
 import exportRcoInOneRow from './exportRcoInOneRow'
 import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
-import historyAfterLogin from './historyAfterLogin'
 
 export default history =>
   merge(
@@ -31,5 +30,4 @@ export default history =>
     exportAddFilterFields,
     exportRcoInOneRow,
     exportOnlyRowsWithProperties,
-    historyAfterLogin,
   )

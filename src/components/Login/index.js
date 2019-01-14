@@ -21,6 +21,7 @@ import setLoginMutation from '../../modules/loginMutation'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import idbContext from '../../idbContext'
 import historyContext from '../../historyContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 10px;
@@ -38,7 +39,6 @@ const StyledSnackbar = styled(Snackbar)`
 
 const storeQuery = gql`
   query storeQuery {
-    historyAfterLogin @client
     login @client {
       token
       username
@@ -50,11 +50,12 @@ const Login = () => {
   const client = useApolloClient()
   const { idb } = useContext(idbContext)
   const { history } = useContext(historyContext)
+  const mobxStore = useContext(mobxStoreContext)
+  const { historyAfterLogin } = mobxStore
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
   const token = get(storeData, 'login.token')
-  const historyAfterLogin = get(storeData, 'historyAfterLogin')
 
   const [name, changeName] = useState('')
   const [pass, changePass] = useState('')
@@ -74,11 +75,11 @@ const Login = () => {
         pass,
         changePass,
         changeLoginSuccessfull,
-        historyAfterLogin,
         namePassed,
         passPassed,
         idb,
         history,
+        mobxStore,
       }),
     [name, pass, historyAfterLogin],
   )

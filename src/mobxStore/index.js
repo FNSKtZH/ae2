@@ -40,4 +40,7 @@ export default ({ history }) =>
           history.push(`/${value.join('/')}`)
         }
       },
+      setHistoryAfterLogin(value){
+        self.historyAfterLogin = value
+      }
     }))

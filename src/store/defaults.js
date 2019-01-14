@@ -30,7 +30,6 @@ export default async idb => {
       username: get(user, '[0].username', ''),
       __typename: 'Login',
     },
-    historyAfterLogin: '',
   }
 
   return defaults
