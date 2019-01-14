@@ -94,7 +94,7 @@ const orgUsersQuery = gql`
 const OrgUser = ({ orgUser }: { orgUser: Object }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
   const name = activeNodeArray.length > 1 ? activeNodeArray[1] : 'none'
 
   const {
