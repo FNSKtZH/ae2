@@ -106,12 +106,8 @@ const taxQuery = gql`
 const Taxonomy = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const {
-    activeNodeArray,
-    editingTaxonomies,
-    setEditingTaxonomies,
-    login,
-  } = mobxStore
+  const { editingTaxonomies, setEditingTaxonomies, login } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
   const taxId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]

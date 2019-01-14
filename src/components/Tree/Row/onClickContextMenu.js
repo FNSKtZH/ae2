@@ -21,8 +21,6 @@ export default async ({
   client,
   treeRefetch,
   userData,
-  editingTaxonomies,
-  activeNodeArray,
   history,
   mobxStore,
 }: {
@@ -32,12 +30,11 @@ export default async ({
   client: Object,
   treeRefetch: () => void,
   userData: Object,
-  editingTaxonomies: Object,
-  activeNodeArray: Object,
   history: Object,
   mobxStore: Object,
 }) => {
-  const { setEditingTaxonomies, setEditingPCs } = mobxStore
+  const { setEditingTaxonomies, setEditingPCs, editingTaxonomies } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
   const userId = get(userData, 'userByName.id', null)
   if (!data) return console.log('no data passed with click')
   if (!target) {
