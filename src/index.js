@@ -50,9 +50,9 @@ const launchApp = async () => {
     const { setActiveNodeArray } = mobxStore
 
     // make ui follow when user uses browser back and forward buttons
-    history.listen(location =>
-      setActiveNodeArray(getActiveNodeArrayFromPathname()),
-    )
+    history.listen(location => {
+      setActiveNodeArray(getActiveNodeArrayFromPathname())
+    })
 
     setLoginFromIdb({ client: myClient, idb, mobxStore })
 
