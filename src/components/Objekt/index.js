@@ -40,7 +40,7 @@ const SynonymTitle = styled(Title)`
 
 const Objekt = ({ stacked = false }: { stacked: Boolean }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
   const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const {

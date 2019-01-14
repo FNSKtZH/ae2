@@ -48,7 +48,7 @@ const tcsQuery = gql`
 
 const TCs = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
   const name = activeNodeArray.length > 1 ? activeNodeArray[1] : 'none'
 
   const { data: tcsData, loading: tcsLoading, error: tcsError } = useQuery(
