@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
@@ -7,8 +7,8 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import exportTaxonomiesMutation from '../exportTaxonomiesMutation'
 import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
 import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
@@ -16,6 +16,7 @@ import constants from '../../../modules/constants'
 import TaxProperties from './TaxProperties'
 import PcoProperties from './PcoProperties'
 import RcoProperties from './RcoProperties'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 const styles = theme => ({
   button: {
@@ -46,7 +47,6 @@ const StyledButton = styled(Button)`
 
 const storeQuery = gql`
   query exportTaxonomiesQuery {
-    exportTaxonomies @client
     exportTaxProperties @client {
       taxname
       pname
@@ -63,18 +63,20 @@ const storeQuery = gql`
   }
 `
 
-const enhance = compose(withStyles(styles))
+const enhance = compose(
+  withStyles(styles),
+  observer,
+)
 
 const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxonomies: exportTaxonomies, setTaxonomies } = mobxStore.export
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
   const onClickResetAll = useCallback(() => {
-    client.mutate({
-      mutation: exportTaxonomiesMutation,
-      variables: { value: [] },
-    })
+    setTaxonomies([])
     client.mutate({
       mutation: exportPcoPropertiesResetMutation,
       variables: { value: [] },
@@ -89,7 +91,6 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     })
   })
 
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
   const exportRcoProperties = get(storeData, 'exportRcoProperties', [])

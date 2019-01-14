@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import HowTo from './HowTo'
 import Tipps from './Tipps'
@@ -18,6 +19,7 @@ import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
 import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
+import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 0 5px;
@@ -37,7 +39,6 @@ const Label = styled(FormControlLabel)`
 
 const storeQuery = gql`
   query exportTaxonomiesQuery {
-    exportTaxonomies @client
     exportWithSynonymData @client
     exportAddFilterFields @client
     exportOnlyRowsWithProperties @client
@@ -72,8 +73,10 @@ const propsByTaxQuery = gql`
 
 const Filter = () => {
   const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxonomies: exportTaxonomies } = mobxStore.export
+
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
     propsByTaxQuery,
     {
@@ -235,4 +238,4 @@ const Filter = () => {
   )
 }
 
-export default Filter
+export default observer(Filter)
