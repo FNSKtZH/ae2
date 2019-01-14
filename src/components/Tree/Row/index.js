@@ -94,12 +94,10 @@ const userQuery = gql`
 `
 
 const Row = ({
-  key,
   index,
   style,
   node,
 }: {
-  key?: number,
   index: number,
   style: Object,
   node: Object,
@@ -186,7 +184,7 @@ const Row = ({
   )
 
   return (
-    <div key={key} style={style}>
+    <div key={index} style={style}>
       <ErrorBoundary>
         <ContextMenuTrigger
           id={node.menuType}
