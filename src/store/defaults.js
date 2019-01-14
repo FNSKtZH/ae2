@@ -8,6 +8,5 @@ export default {
   exportPcoFilters: [],
   exportRcoFilters: [],
   exportTooManyProperties: false,
-  exportAddFilterFields: true,
   exportRcoInOneRow: true,
 }

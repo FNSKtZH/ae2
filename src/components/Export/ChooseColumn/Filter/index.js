@@ -5,7 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
@@ -15,7 +15,6 @@ import Id from './Id'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
@@ -35,11 +34,6 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportAddFilterFields @client
-  }
-`
 const propsByTaxQuery = gql`
   query propsByTaxDataQuery(
     $queryExportTaxonomies: Boolean!
@@ -68,7 +62,6 @@ const propsByTaxQuery = gql`
 `
 
 const Filter = () => {
-  const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
   const {
@@ -76,9 +69,10 @@ const Filter = () => {
     setOnlyRowsWithProperties,
     setWithSynonymData,
     withSynonymData,
+    addFilterFields,
+    setAddFilterFields,
   } = mobxStore.export
 
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
     propsByTaxQuery,
     {
@@ -144,7 +138,6 @@ const Filter = () => {
     [rcoExpanded],
   )
 
-  const exportAddFilterFields = get(storeData, 'exportAddFilterFields', true)
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
@@ -196,13 +189,8 @@ const Filter = () => {
             control={
               <Checkbox
                 color="primary"
-                checked={exportAddFilterFields}
-                onChange={(event, checked) => {
-                  client.mutate({
-                    mutation: exportAddFilterFieldsMutation,
-                    variables: { value: checked },
-                  })
-                }}
+                checked={addFilterFields}
+                onChange={(event, checked) => setAddFilterFields(checked)}
               />
             }
             label="Gefilterte Felder immer exportieren"

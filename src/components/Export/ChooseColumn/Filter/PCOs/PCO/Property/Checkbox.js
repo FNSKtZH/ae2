@@ -1,5 +1,5 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormLabel from '@material-ui/core/FormLabel'
@@ -9,9 +9,11 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import exportPcoFiltersMutation from '../../../../../exportPcoFiltersMutation'
 import addExportPcoPropertyMutation from '../../../../../addExportPcoPropertyMutation'
+import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   width: 100%;
@@ -36,12 +38,6 @@ const StyledRadio = styled(Radio)`
   height: 26px !important;
 `
 
-const storeQuery = gql`
-  query exportAddFilterFieldsQuery {
-    exportAddFilterFields @client
-  }
-`
-
 const PcoCheckbox = ({
   pname,
   pcname,
@@ -52,9 +48,9 @@ const PcoCheckbox = ({
   value: string,
 }) => {
   const client = useApolloClient()
-  const { data } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const mobxStore = useContext(mobxStoreContext)
+  const { addFilterFields } = mobxStore.export
+
   const onChange = useCallback(
     (e, val) => {
       let comparator = '='
@@ -68,15 +64,14 @@ const PcoCheckbox = ({
         variables: { pcname, pname, comparator, value },
       })
       // if value and not choosen, choose
-      const exportAddFilterFields = get(data, 'exportAddFilterFields', true)
-      if (exportAddFilterFields) {
+      if (addFilterFields) {
         client.mutate({
           mutation: addExportPcoPropertyMutation,
           variables: { pcname, pname },
         })
       }
     },
-    [pcname, pname, data],
+    [pcname, pname, value, addFilterFields],
   )
 
   return (
@@ -110,4 +105,4 @@ const PcoCheckbox = ({
   )
 }
 
-export default PcoCheckbox
+export default observer(PcoCheckbox)

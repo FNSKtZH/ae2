@@ -20,7 +20,7 @@ export default types
     rcoFilters: types.optional(RcoFilter, defaultRcoFilter),
     onlyRowsWithProperties: types.optional(types.boolean, true),
     withSynonymData: types.optional(types.boolean, true),
-    tooManyProperties: types.optional(types.boolean, false),
+    tooManyProperties: types.optional(types.boolean, false), // TODO
     addFilterFields: types.optional(types.boolean, true),
     rcoInOneRow: types.optional(types.boolean, true),
   })
@@ -39,6 +39,15 @@ export default types
     },
     setWithSynonymData(value) {
       self.withSynonymData = value
+    },
+    setTooManyProperties(value) {
+      self.tooManyProperties = value
+    },
+    setAddFilterFields(value) {
+      self.addFilterFields = value
+    },
+    setRcoInOneRow(value) {
+      self.rcoInOneRow = value
     },
   }))
 

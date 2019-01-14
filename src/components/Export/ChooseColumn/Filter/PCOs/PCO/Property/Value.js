@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useContext } from 'react'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
@@ -12,10 +12,12 @@ import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
 import gql from 'graphql-tag'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { observer } from 'mobx-react-lite'
 
 import exportPcoFiltersMutation from '../../../../../exportPcoFiltersMutation'
 import readableType from '../../../../../../../modules/readableType'
 import addExportPcoPropertyMutation from '../../../../../addExportPcoPropertyMutation'
+import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;
@@ -97,11 +99,6 @@ const styles = theme => ({
   },
 })
 
-const storeQuery = gql`
-  query exportAddFilterFieldsQuery {
-    exportAddFilterFields @client
-  }
-`
 const pcoFieldPropQuery = gql`
   query propDataQuery(
     $tableName: String!
@@ -125,7 +122,10 @@ const pcoFieldPropQuery = gql`
   }
 `
 
-const enhance = compose(withStyles(styles))
+const enhance = compose(
+  withStyles(styles),
+  observer,
+)
 
 const IntegrationAutosuggest = ({
   pcname,
@@ -143,6 +143,8 @@ const IntegrationAutosuggest = ({
   classes: Object,
 }) => {
   const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { addFilterFields } = mobxStore.export
 
   const [suggestions, setSuggestions] = useState([])
   const [propValues, setPropValues] = useState([])
@@ -150,9 +152,6 @@ const IntegrationAutosuggest = ({
   const [fetchData, setFetchData] = useState(false)
   const [dataFetched, setDataFetched] = useState(false)
 
-  const { data: exportAddFilterFieldsData } = useQuery(storeQuery, {
-    suspend: false,
-  })
   const { data: propData, error: propDataError } = useQuery(pcoFieldPropQuery, {
     suspend: false,
     variables: {
@@ -230,19 +229,14 @@ const IntegrationAutosuggest = ({
         },
       })
       // 2. if value and field is not choosen, choose it
-      const exportAddFilterFields = get(
-        exportAddFilterFieldsData,
-        'exportAddFilterFields',
-        true,
-      )
-      if (exportAddFilterFields && value) {
+      if (addFilterFields && value) {
         client.mutate({
           mutation: addExportPcoPropertyMutation,
           variables: { pcname, pname },
         })
       }
     },
-    [pcname, pname, comparator, exportAddFilterFieldsData, value],
+    [pcname, pname, comparator, addFilterFields, value],
   )
 
   const renderInput = useCallback(

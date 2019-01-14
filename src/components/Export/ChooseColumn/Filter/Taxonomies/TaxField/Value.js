@@ -1,5 +1,11 @@
 //@flow
-import React, { useEffect, useCallback, useState, useMemo } from 'react'
+import React, {
+  useEffect,
+  useCallback,
+  useState,
+  useMemo,
+  useContext,
+} from 'react'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
@@ -13,10 +19,12 @@ import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
 import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
 import readableType from '../../../../../../modules/readableType'
+import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const StyledPaper = styled(Paper)`
   z-index: 1;
@@ -91,11 +99,6 @@ const styles = theme => ({
   },
 })
 
-const storeQuery = gql`
-  query exportAddFilterFieldsQuery {
-    exportAddFilterFields @client
-  }
-`
 const taxFieldPropQuery = gql`
   query propDataQuery(
     $tableName: String!
@@ -119,7 +122,10 @@ const taxFieldPropQuery = gql`
   }
 `
 
-const enhance = compose(withStyles(styles))
+const enhance = compose(
+  withStyles(styles),
+  observer,
+)
 
 const IntegrationAutosuggest = ({
   taxname,
@@ -138,14 +144,16 @@ const IntegrationAutosuggest = ({
   classes: Object,
   width: Number,
 }) => {
+  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { addFilterFields } = mobxStore.export
+
   const [fetchData, setFetchData] = useState(false)
   const [dataFetched, setDataFetched] = useState(false)
   const [suggestions, setSuggestions] = useState([])
   const [propValues, setPropValues] = useState([])
   const [value, setValue] = useState(propsValue || '')
 
-  const client = useApolloClient()
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const { data: propData, error: propDataError } = useQuery(taxFieldPropQuery, {
     suspend: false,
     variables: {
@@ -221,19 +229,14 @@ const IntegrationAutosuggest = ({
         },
       })
       // 2. if value and field not choosen, choose it
-      const exportAddFilterFields = get(
-        storeData,
-        'exportAddFilterFields',
-        true,
-      )
-      if (exportAddFilterFields && value) {
+      if (addFilterFields && value) {
         client.mutate({
           mutation: addExportTaxPropertyMutation,
           variables: { taxname, pname },
         })
       }
     },
-    [taxname, pname, comparator, storeData, value],
+    [taxname, pname, comparator, addFilterFields, value],
   )
 
   const renderInput = useCallback(

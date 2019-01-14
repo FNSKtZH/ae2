@@ -5,7 +5,6 @@ import exportTaxProperties from './exportTaxProperties'
 import exportPcoProperties from './exportPcoProperties'
 import exportRcoProperties from './exportRcoProperties'
 import exportTooManyProperties from './exportTooManyProperties'
-import exportAddFilterFields from './exportAddFilterFields'
 import exportRcoInOneRow from './exportRcoInOneRow'
 
 export default history =>
@@ -14,6 +13,5 @@ export default history =>
     exportPcoProperties,
     exportRcoProperties,
     exportTooManyProperties,
-    exportAddFilterFields,
     exportRcoInOneRow,
   )
