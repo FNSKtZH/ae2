@@ -3,12 +3,8 @@ import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import get from 'lodash/get'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import exportTaxonomiesMutation from '../../../../exportTaxonomiesMutation'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const TaxonomyLabel = styled(FormControlLabel)`
@@ -21,19 +17,13 @@ const TaxonomyLabel = styled(FormControlLabel)`
   }
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportTaxonomies @client
-  }
-`
-
 const Taxonomies = ({ taxonomies }: { taxonomies: Array<Object> }) => {
-  const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { setType } = mobxStore.export
-
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const {
+    setType,
+    taxonomies: exportTaxonomies,
+    setTaxonomies,
+  } = mobxStore.export
 
   const onCheckTaxonomy = useCallback(
     async (event, isChecked) => {
@@ -41,16 +31,10 @@ const Taxonomies = ({ taxonomies }: { taxonomies: Array<Object> }) => {
       let taxonomies
       if (isChecked) {
         taxonomies = [...exportTaxonomies, name]
-        await client.mutate({
-          mutation: exportTaxonomiesMutation,
-          variables: { value: taxonomies },
-        })
+        setTaxonomies(taxonomies)
       } else {
         taxonomies = exportTaxonomies.filter(c => c !== name)
-        await client.mutate({
-          mutation: exportTaxonomiesMutation,
-          variables: { value: taxonomies },
-        })
+        setTaxonomies(taxonomies)
         // check if sole type is left
         // and this was only taxonomy
         // if so: uncheck type too

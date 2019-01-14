@@ -9,7 +9,6 @@ import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import exportTaxonomiesMutation from '../../exportTaxonomiesMutation'
 import exportPcoPropertiesResetMutation from '../../exportPcoPropertiesResetMutation'
 import exportRcoPropertiesResetMutation from '../../exportRcoPropertiesResetMutation'
 import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMutation'
@@ -62,7 +61,6 @@ const StyledButton = styled(Button)`
 
 const storeQuery = gql`
   query exportTypeQuery {
-    exportTaxonomies @client
     exportTaxProperties @client {
       taxname
       pname
@@ -105,7 +103,12 @@ const enhance = compose(
 const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { setType, type: exportType } = mobxStore.export
+  const {
+    setType,
+    type: exportType,
+    taxonomies: exportTaxonomies,
+    setTaxonomies,
+  } = mobxStore.export
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
@@ -115,7 +118,6 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     'exportOnlyRowsWithProperties',
     true,
   )
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportTaxFilters = get(storeData, 'exportTaxFilters', [])
   const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
@@ -136,10 +138,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
 
   const onClickResetAll = useCallback(() => {
     setType([])
-    client.mutate({
-      mutation: exportTaxonomiesMutation,
-      variables: { value: [] },
-    })
+    setTaxonomies([])
     client.mutate({
       mutation: exportPcoPropertiesResetMutation,
     })
@@ -169,16 +168,10 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
   })
   const onClickResetType = useCallback(() => {
     setType([])
-    client.mutate({
-      mutation: exportTaxonomiesMutation,
-      variables: { value: [] },
-    })
+    setTaxonomies([])
   })
   const onClickResetTaxonomies = useCallback(() => {
-    client.mutate({
-      mutation: exportTaxonomiesMutation,
-      variables: { value: [] },
-    })
+    setTaxonomies([])
   })
   const onClickResetExportWithSynonymData = useCallback(() => {
     client.mutate({

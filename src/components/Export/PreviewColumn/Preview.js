@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -9,11 +9,13 @@ import omit from 'lodash/omit'
 import orderBy from 'lodash/orderBy'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import rowsFromObjects from './rowsFromObjects'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
   padding-top: 5px;
@@ -177,7 +179,6 @@ const synonymQuery = gql`
 `
 const storeQuery = gql`
   query storeQuery {
-    exportTaxonomies @client
     exportTaxProperties @client {
       taxname
       pname
@@ -217,8 +218,12 @@ const storeQuery = gql`
 `
 
 const Preview = () => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxonomies: exportTaxonomies } = mobxStore.export
+
+  console.log('Preview', { exportTaxonomies })
+
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
@@ -430,4 +435,4 @@ const Preview = () => {
   )
 }
 
-export default Preview
+export default observer(Preview)
