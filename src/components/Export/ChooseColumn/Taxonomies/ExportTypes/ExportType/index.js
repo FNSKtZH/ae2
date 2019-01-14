@@ -4,12 +4,8 @@ import styled from 'styled-components'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import get from 'lodash/get'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import exportTaxonomiesMutation from '../../../../exportTaxonomiesMutation'
 import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import Taxonomies from './Taxonomies'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
@@ -38,12 +34,6 @@ const TypeLabel = styled(FormControlLabel)`
   }
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportTaxonomies @client
-  }
-`
-
 const ExportTypes = ({
   type,
   taxonomies,
@@ -51,12 +41,13 @@ const ExportTypes = ({
   type: string,
   taxonomies: Array<Object>,
 }) => {
-  const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { type: exportType, setType } = mobxStore.export
-
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const {
+    type: exportType,
+    setType,
+    taxonomies: exportTaxonomies,
+    setTaxonomies,
+  } = mobxStore.export
 
   const onCheckType = useCallback(
     async (event, isChecked) => {
@@ -67,10 +58,7 @@ const ExportTypes = ({
         // if so, check it
         if (taxonomies.length === 1) {
           const taxonomyName = taxonomies[0].taxonomyName
-          await client.mutate({
-            mutation: exportTaxonomiesMutation,
-            variables: { value: [...exportTaxonomies, taxonomyName] },
-          })
+          setTaxonomies([...exportTaxonomies, taxonomyName])
         }
         // check if taxonomy(s) of other type was choosen
         // if so: uncheck
@@ -78,10 +66,7 @@ const ExportTypes = ({
           t => exportTypeTAXToReadable[t.type] === name,
         )
         if (exportTaxonomiesWithoutOtherType.length < exportTaxonomies.length) {
-          await client.mutate({
-            mutation: exportTaxonomiesMutation,
-            variables: { value: exportTaxonomiesWithoutOtherType },
-          })
+          setTaxonomies(exportTaxonomiesWithoutOtherType)
         }
       } else {
         setType(exportTypes.find(t => t !== name))
@@ -90,10 +75,7 @@ const ExportTypes = ({
         const remainingTaxonomies = exportTaxonomies.filter(
           t => !taxonomiesToUncheck.includes(t),
         )
-        await client.mutate({
-          mutation: exportTaxonomiesMutation,
-          variables: { value: remainingTaxonomies },
-        })
+        setTaxonomies(remainingTaxonomies)
       }
     },
     [taxonomies, exportTaxonomies],

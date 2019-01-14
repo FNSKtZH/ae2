@@ -1,26 +1,23 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
+import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 0 5px;
   overflow: auto !important;
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportTaxonomies @client
-  }
-`
 const propsByTaxQuery = gql`
   query propsByTaxDataQuery(
     $queryExportTaxonomies: Boolean!
@@ -49,8 +46,9 @@ const propsByTaxQuery = gql`
 `
 
 const Properties = () => {
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxonomies: exportTaxonomies } = mobxStore.export
+
   const { data: propsByTaxData, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
@@ -138,4 +136,4 @@ const Properties = () => {
   )
 }
 
-export default Properties
+export default observer(Properties)
