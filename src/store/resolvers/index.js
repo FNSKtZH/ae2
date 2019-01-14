@@ -2,7 +2,6 @@
 import merge from 'lodash/merge'
 
 import treeFilter from './treeFilter'
-import login from './login'
 import exportType from './exportType'
 import exportIds from './exportIds'
 import exportTaxonomies from './exportTaxonomies'
@@ -18,7 +17,6 @@ import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
 export default history =>
   merge(
     treeFilter,
-    login,
     exportType,
     exportIds,
     exportTaxonomies,
