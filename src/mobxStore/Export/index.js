@@ -28,6 +28,9 @@ export default types
     setType(value) {
       self.type = value
     },
+    setTaxonomies(value) {
+      self.taxonomies = value
+    },
   }))
 
 export const defaultValue = {}
