@@ -70,14 +70,6 @@ const StyledMoreVertIcon = styled(ShareIcon)`
 `
 const getInitials = name => name.match(/\b(\w)/g).join('')
 
-const storeQuery = gql`
-  query appBarStoreQuery {
-    login @client {
-      token
-      username
-    }
-  }
-`
 const query = gql`
   query ObjectQuery(
     $objectId: UUID!
@@ -105,11 +97,8 @@ const query = gql`
 const MyAppBar = () => {
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const { activeNodeArray, login } = mobxStore
 
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
   const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   let pCId = '99999999-9999-9999-9999-999999999999'
   if (activeNodeArray[0] === 'Eigenschaften-Sammlungen' && activeNodeArray[1]) {
@@ -157,7 +146,7 @@ const MyAppBar = () => {
   const shareC = useRef(null)
 
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
-  const username = get(storeData, 'login.username')
+  const { username } = login
   const loginLabel = username
     ? wideLayout
       ? username
