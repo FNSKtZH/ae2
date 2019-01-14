@@ -11,12 +11,11 @@ import jwtDecode from 'jwt-decode'
 
 import './index.css'
 import 'react-reflex/styles.css'
-import setLoginMutation from './modules/loginMutation'
 import graphQlUri from './modules/graphQlUri'
 import defaults from './store/defaults'
 import resolvers from './store/resolvers'
 
-export default async ({ idb, history }) => {
+export default async ({ idb, history, mobxStore }) => {
   /**
    * On the next line Firefox 45.3.0 errors out with:
    * Unhandled Rejection (OpenFailedError): UnknownError The operation failed
@@ -37,39 +36,18 @@ export default async ({ idb, history }) => {
           },
         }
       } else {
+        const { setLogin } = mobxStore
         // token is not valid any more > remove it
         idb.users.clear()
-        client.mutate({
-          mutation: setLoginMutation,
-          variables: {
-            username: 'Login abgelaufen',
-            token: '',
-          },
-          optimisticResponse: {
-            setLoginInStore: {
-              username: 'Login abgelaufen',
-              token: '',
-              __typename: 'Login',
-            },
-            __typename: 'Mutation',
-          },
+        setLogin({
+          username: 'Login abgelaufen',
+          token: '',
         })
         setTimeout(
           () =>
-            client.mutate({
-              mutation: setLoginMutation,
-              variables: {
-                username: '',
-                token: '',
-              },
-              optimisticResponse: {
-                setLoginInStore: {
-                  username: '',
-                  token: '',
-                  __typename: 'Login',
-                },
-                __typename: 'Mutation',
-              },
+            setLogin({
+              username: '',
+              token: '',
             }),
           10000,
         )
