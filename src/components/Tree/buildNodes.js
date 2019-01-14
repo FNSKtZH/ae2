@@ -25,10 +25,12 @@ export default ({
   treeData,
   activeNodeArray,
   treeDataLoading,
+  mobxStore,
 }: {
   treeData: Object,
   activeNodeArray: Object,
-  treeDataLoading: boolean,
+  treeDataLoading: Boolean,
+  mobxStore: Object,
 }): Array<Object> => {
   const activeLevel2TaxonomyNodes = activeNodeArray[0]
     ? get(treeData, 'allTaxonomies.nodes', []).filter(n => {
@@ -116,6 +118,7 @@ export default ({
     treeData,
     activeNodeArray,
     treeDataLoading,
+    mobxStore,
   })
   if (activeNodeArray.length > 0) {
     switch (activeNodeArray[0]) {
@@ -124,7 +127,7 @@ export default ({
         break
       }
       case 'Benutzer': {
-        const token = get(treeData, 'login.token')
+        const { token } = mobxStore.login
         if (!!token) {
           nodes = [...nodes, ...level2Benutzer({ treeData })]
         }
