@@ -7,10 +7,12 @@ export default ({
   treeData,
   activeNodeArray,
   treeDataLoading,
+  mobxStore,
 }: {
   treeData: Object,
   activeNodeArray: Array<String>,
-  treeDataLoading: boolean,
+  treeDataLoading: Boolean,
+  mobxStore: Object,
 }): Array<Object> => {
   if (!treeData) return []
   const loading = treeDataLoading
@@ -60,7 +62,7 @@ export default ({
       menuType: 'CmPCFolder',
     },
   ]
-  const token = get(treeData, 'login.token')
+  const { token } = mobxStore.login
   const userCount = get(treeData, 'allUsers.totalCount', 0)
   const userInfo = loading && userCount === 0 ? '(...)' : `(${userCount})`
   if (!!token) {
