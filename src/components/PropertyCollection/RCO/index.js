@@ -73,14 +73,6 @@ const styles = theme => ({
   },
 })
 
-const storeQuery = gql`
-  query activeNodeArrayQuery {
-    login @client {
-      token
-      username
-    }
-  }
-`
 const rcoQuery = gql`
   query rCOQuery($pCId: UUID!) {
     propertyCollectionById(id: $pCId) {
@@ -136,14 +128,11 @@ const RCO = ({
 }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const { activeNodeArray, login } = mobxStore
   const pCId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]
       : '99999999-9999-9999-9999-999999999999'
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
   const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
     suspend: false,
     variables: treeDataVariables({ activeNodeArray }),
@@ -216,7 +205,7 @@ const RCO = ({
     [],
   ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
   const writerNames = union(rCOWriters.map(w => w.userByUserId.name))
-  const username = get(storeData, 'login.username')
+  const { username } = login
   const userIsWriter = !!username && writerNames.includes(username)
   const showImportRco = rCO.length === 0 && userIsWriter
 
