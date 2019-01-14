@@ -132,7 +132,6 @@ export default ({
     return row
   })
   rows = [...rows, ...aditionalRows]
-  console.log('rowsFromObjects, exportIds', exportIds)
   if (exportIds.length > 0) {
     rows = rows.filter(r => exportIds.includes(r.id))
   }

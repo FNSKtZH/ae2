@@ -34,6 +34,9 @@ export default types
     setIds(value) {
       self.ids = value
     },
+    setOnlyRowsWithProperties(value) {
+      self.onlyRowsWithProperties = value
+    },
   }))
 
 export const defaultValue = {}

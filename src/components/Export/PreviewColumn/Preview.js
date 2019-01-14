@@ -212,12 +212,14 @@ const storeQuery = gql`
     }
     exportWithSynonymData @client
     exportRcoInOneRow @client
-    exportOnlyRowsWithProperties @client
   }
 `
 
 const Preview = () => {
   const mobxStore = useContext(mobxStoreContext)
+  const {
+    onlyRowsWithProperties: exportOnlyRowsWithProperties,
+  } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
   const exportIds = mobxStore.export.ids.toJSON()
 
@@ -306,11 +308,6 @@ const Preview = () => {
 
   const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
   const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
-  const exportOnlyRowsWithProperties = get(
-    storeData,
-    'exportOnlyRowsWithProperties',
-    true,
-  )
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
   const exportRcoProperties = get(storeData, 'exportRcoProperties', [])

@@ -17,7 +17,6 @@ import PCOs from './PCOs'
 import RCOs from './RCOs'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import exportAddFilterFieldsMutation from '../../exportAddFilterFieldsMutation'
-import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
@@ -41,7 +40,6 @@ const storeQuery = gql`
   query exportTaxonomiesQuery {
     exportWithSynonymData @client
     exportAddFilterFields @client
-    exportOnlyRowsWithProperties @client
   }
 `
 const propsByTaxQuery = gql`
@@ -75,6 +73,10 @@ const Filter = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
+  const {
+    onlyRowsWithProperties: exportOnlyRowsWithProperties,
+    setOnlyRowsWithProperties,
+  } = mobxStore.export
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
@@ -144,11 +146,6 @@ const Filter = () => {
 
   const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
   const exportAddFilterFields = get(storeData, 'exportAddFilterFields', true)
-  const exportOnlyRowsWithProperties = get(
-    storeData,
-    'exportOnlyRowsWithProperties',
-    true,
-  )
   const pcoProperties = get(
     propsByTaxData,
     'pcoPropertiesByTaxonomiesFunction.nodes',
@@ -194,12 +191,9 @@ const Filter = () => {
               <Checkbox
                 color="primary"
                 checked={exportOnlyRowsWithProperties}
-                onChange={(event, checked) => {
-                  client.mutate({
-                    mutation: exportOnlyRowsWithPropertiesMutation,
-                    variables: { value: checked },
-                  })
-                }}
+                onChange={(event, checked) =>
+                  setOnlyRowsWithProperties(checked)
+                }
               />
             }
             label="Nur Datensätze mit Eigenschaften exportieren"

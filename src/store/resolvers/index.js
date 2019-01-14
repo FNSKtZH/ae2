@@ -8,7 +8,6 @@ import exportTooManyProperties from './exportTooManyProperties'
 import exportWithSynonymData from './exportWithSynonymData'
 import exportAddFilterFields from './exportAddFilterFields'
 import exportRcoInOneRow from './exportRcoInOneRow'
-import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
 
 export default history =>
   merge(
@@ -19,5 +18,4 @@ export default history =>
     exportWithSynonymData,
     exportAddFilterFields,
     exportRcoInOneRow,
-    exportOnlyRowsWithProperties,
   )

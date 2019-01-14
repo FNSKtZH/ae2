@@ -15,7 +15,6 @@ import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMuta
 import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
 import exportPcoFiltersResetMutation from '../../exportPcoFiltersResetMutation'
 import exportRcoFiltersResetMutation from '../../exportRcoFiltersResetMutation'
-import exportOnlyRowsWithPropertiesMutation from '../../exportOnlyRowsWithPropertiesMutation'
 import exportWithSynonymDataMutation from '../../exportWithSynonymDataMutation'
 import TaxFilterItems from './TaxFilterItems'
 import PcoFilterItems from './PcoFilterItems'
@@ -89,7 +88,6 @@ const storeQuery = gql`
       comparator
       value
     }
-    exportOnlyRowsWithProperties @client
     exportRcoInOneRow @client
     exportWithSynonymData @client
   }
@@ -103,17 +101,18 @@ const enhance = compose(
 const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { setType, type: exportType, setTaxonomies } = mobxStore.export
+  const {
+    setType,
+    type: exportType,
+    setTaxonomies,
+    onlyRowsWithProperties: exportOnlyRowsWithProperties,
+    setOnlyRowsWithProperties,
+  } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
   const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
-  const exportOnlyRowsWithProperties = get(
-    storeData,
-    'exportOnlyRowsWithProperties',
-    true,
-  )
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportTaxFilters = get(storeData, 'exportTaxFilters', [])
   const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
@@ -153,10 +152,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     client.mutate({
       mutation: exportRcoFiltersResetMutation,
     })
-    client.mutate({
-      mutation: exportOnlyRowsWithPropertiesMutation,
-      variables: { value: true },
-    })
+    setOnlyRowsWithProperties(true)
     client.mutate({
       mutation: exportWithSynonymDataMutation,
       variables: { value: true },
@@ -176,10 +172,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     })
   })
   const onClickResetExportOnlyRowsWithProperties = useCallback(() => {
-    client.mutate({
-      mutation: exportOnlyRowsWithPropertiesMutation,
-      variables: { value: true },
-    })
+    setOnlyRowsWithProperties(true)
   })
 
   if (noDataChoosen) return null
