@@ -24,10 +24,6 @@ export default gql`
     $pCId: UUID!
     $existsPCId: Boolean!
   ) {
-    login @client {
-      token
-      username
-    }
     taxonomyWithLevel1Count {
       nodes {
         taxonomyId

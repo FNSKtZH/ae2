@@ -97,7 +97,8 @@ const query = gql`
 const MyAppBar = () => {
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray, login } = mobxStore
+  const { login } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
   const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   let pCId = '99999999-9999-9999-9999-999999999999'
