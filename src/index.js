@@ -42,10 +42,10 @@ const launchApp = async () => {
     // configure history
     const history = createHistory()
 
-    const myClient = await client({ idb, history })
-
     const initialMobxStore = await createInitialMobxStore({ idb })
     const mobxStore = MobxStore({ history }).create(initialMobxStore)
+
+    const myClient = await client({ idb, history, mobxStore })
 
     const { setActiveNodeArray } = mobxStore
 
@@ -54,7 +54,7 @@ const launchApp = async () => {
       setActiveNodeArray(getActiveNodeArrayFromPathname()),
     )
 
-    setLoginFromIdb({ client: myClient, idb })
+    setLoginFromIdb({ client: myClient, idb, mobxStore })
 
     // initiate activeNodeArray
     setActiveNodeArray(getActiveNodeArrayFromPathname())
