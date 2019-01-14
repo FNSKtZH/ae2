@@ -73,14 +73,6 @@ const styles = theme => ({
   },
 })
 
-const storeQuery = gql`
-  query activeNodeArrayQuery {
-    login @client {
-      token
-      username
-    }
-  }
-`
 const pcoQuery = gql`
   query pCOQuery($pCId: UUID!) {
     propertyCollectionById(id: $pCId) {
@@ -131,10 +123,11 @@ const PCO = ({
 }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const { activeNodeArray, login } = mobxStore
+  const pCId =
+    activeNodeArray.length > 0
+      ? activeNodeArray[1]
+      : '99999999-9999-9999-9999-999999999999'
   const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
     suspend: false,
     variables: treeDataVariables({ activeNodeArray }),
@@ -147,11 +140,7 @@ const PCO = ({
   } = useQuery(pcoQuery, {
     suspend: false,
     variables: {
-      pCId: get(
-        storeData,
-        'activeNodeArray[1]',
-        '99999999-9999-9999-9999-999999999999',
-      ),
+      pCId,
     },
   })
 
@@ -201,14 +190,9 @@ const PCO = ({
     [],
   ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
   const writerNames = union(pCOWriters.map(w => w.userByUserId.name))
-  const username = get(storeData, 'login.username')
+  const { username } = login
   const userIsWriter = !!username && writerNames.includes(username)
   const showImportPco = pCO.length === 0 && userIsWriter
-  const pcId = get(
-    storeData,
-    'activeNodeArray[1]',
-    '99999999-9999-9999-9999-999999999999',
-  )
 
   const onGridSort = useCallback((column, direction) => {
     setSortField(column)
@@ -228,12 +212,12 @@ const PCO = ({
     async () => {
       await client.mutate({
         mutation: deletePcoOfPcMutation,
-        variables: { pcId },
+        variables: { pcId: pCId },
       })
       pcoRefetch()
       treeDataRefetch()
     },
-    [pcId],
+    [pCId],
   )
 
   if (pcoLoading) {
