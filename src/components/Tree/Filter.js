@@ -5,13 +5,14 @@ import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
 import get from 'lodash/get'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import treeFilterMutation from './treeFilterMutation'
-import getUrlForObject from '../../../modules/getUrlForObject'
-import ErrorBoundary from '../../shared/ErrorBoundary'
-import historyContext from '../../../historyContext'
+import getUrlForObject from '../../modules/getUrlForObject'
+import ErrorBoundary from '../shared/ErrorBoundary'
+import historyContext from '../../historyContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 5px 16px 0 13px;
@@ -75,14 +76,6 @@ const Container = styled.div`
   }
 `
 
-const storeQuery = gql`
-  query storeQuery {
-    treeFilter @client {
-      text
-      id
-    }
-  }
-`
 const filterSuggestionsQuery = gql`
   query filterSuggestionsQuery($treeFilterText: String!) {
     propertyCollectionByPropertyName(propertyName: $treeFilterText) {
@@ -134,23 +127,20 @@ const objectUrlQuery = gql`
 `
 
 const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
-  const client = useApolloClient()
   const { history } = useContext(historyContext)
+  const mobxStore = useContext(mobxStoreContext)
+  const { treeFilter } = mobxStore
+  const treeFilterText = treeFilter.text
+  const { setTreeFilter } = treeFilter
 
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
-  // need the extra || because if key exists and value is null, null is returned
-  const treeFilterId =
-    get(storeData, 'treeFilter.id', '99999999-9999-9999-9999-999999999999') ||
-    '99999999-9999-9999-9999-999999999999'
+  const treeFilterId = treeFilter.id || '99999999-9999-9999-9999-999999999999'
   const {
     data: filterSuggestionsData,
     error: filterSuggestionsError,
   } = useQuery(filterSuggestionsQuery, {
     suspend: false,
     variables: {
-      treeFilterText: get(storeData, 'treeFilter.text') || 'ZZZZ',
+      treeFilterText: treeFilter.text || 'ZZZZ',
     },
   })
   const { data: objectUrlData, error: objectUrlError } = useQuery(
@@ -164,14 +154,10 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
   )
 
   const urlObject = get(objectUrlData, 'objectById', {})
-  const treeFilterText = get(storeData, 'treeFilter.text', '')
 
   const onChange = useCallback(
     (event, { newValue }) => {
-      client.mutate({
-        mutation: treeFilterMutation,
-        variables: { text: newValue, id: treeFilterId },
-      })
+      setTreeFilter({ text: newValue, id: treeFilterId })
     },
     [treeFilterId],
   )
@@ -192,10 +178,7 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
            * passes it to getUrlForObject
            * mutates history
            */
-          client.mutate({
-            mutation: treeFilterMutation,
-            variables: { id: suggestion.id, text: treeFilterText },
-          })
+          setTreeFilter({ id: suggestion.id, text: treeFilterText })
         }
       }
     },
@@ -246,10 +229,7 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
       ) {
         const url = getUrlForObject(urlObject)
         history.push(`/${url.join('/')}`)
-        client.mutate({
-          mutation: treeFilterMutation,
-          variables: { id: null, text: '' },
-        })
+        setTreeFilter({ id: null, text: '' })
       }
     },
     [urlObject, treeFilterId],
@@ -372,4 +352,4 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
   )
 }
 
-export default TreeFilter
+export default observer(TreeFilter)

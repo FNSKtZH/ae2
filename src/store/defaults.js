@@ -15,9 +15,4 @@ export default {
   exportTooManyProperties: false,
   exportAddFilterFields: true,
   exportRcoInOneRow: true,
-  treeFilter: {
-    text: '',
-    id: null,
-    __typename: 'TreeFilter',
-  },
 }
