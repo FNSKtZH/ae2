@@ -77,14 +77,6 @@ const StyledButton = styled(IconButton)`
   }
 `
 
-const storeQuery = gql`
-  query storeQuery {
-    login @client {
-      token
-      username
-    }
-  }
-`
 const organizationUsersQuery = gql`
   query AllOrganizationUsersQuery {
     allOrganizationUsers {
@@ -114,9 +106,8 @@ const TaxonomyObject = ({
 }) => {
   const { history } = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { editingTaxonomies, setEditingTaxonomies } = mobxStore
+  const { editingTaxonomies, setEditingTaxonomies, login } = mobxStore
 
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const {
     data: organizationUsersData,
     loading: organizationUsersLoading,
@@ -126,7 +117,7 @@ const TaxonomyObject = ({
   const [expanded, setExpanded] = useState(showLink ? false : true)
   const [taxExpanded, setTaxExpanded] = useState(false)
 
-  const username = get(storeData, 'login.username', null)
+  const { username } = login
   const organizationUsers = get(
     organizationUsersData,
     'allOrganizationUsers.nodes',
