@@ -41,7 +41,7 @@ const StyledPaper = styled(Paper)`
 const User = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const { activeNodeArray, login } = mobxStore
 
   const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
     suspend: false,
@@ -68,7 +68,6 @@ const User = () => {
   const [tab, setTab] = useState(0)
 
   const { id } = user
-  const loginUsername = get(data, 'login.username')
   const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
   const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
   const tcs = get(user, 'taxonomiesByImportedBy.nodes', [])
@@ -78,7 +77,7 @@ const User = () => {
       ((!!name && !!data && !!user && name !== user.name) ||
         (!!email && !!data && !!user && email !== user.email)))
   const userIsLoggedIn =
-    !!user && !!loginUsername && user.name === loginUsername
+    !!user && !!login.username && user.name === login.username
 
   useEffect(
     () => {
