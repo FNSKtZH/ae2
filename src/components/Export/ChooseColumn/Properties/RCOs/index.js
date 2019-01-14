@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -11,10 +11,12 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import RcList from './RcList'
 import ChooseNrOfRows from './ChooseNrOfRows'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
+import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -42,11 +44,6 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportTaxonomies @client
-  }
-`
 const rcoCountByTaxonomyRelationTypeQuery = gql`
   query dataQuery {
     rcoCountByTaxonomyRelationTypeFunction {
@@ -83,8 +80,9 @@ const RCOs = ({
   rcoExpanded: Boolean,
   onToggleRco: () => {},
 }) => {
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxonomies: exportTaxonomies } = mobxStore.export
+
   const { data, error: dataError } = useQuery(
     rcoCountByTaxonomyRelationTypeQuery,
     {
@@ -199,4 +197,4 @@ const RCOs = ({
   )
 }
 
-export default RCOs
+export default observer(RCOs)
