@@ -41,7 +41,8 @@ const StyledPaper = styled(Paper)`
 const User = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray, login } = mobxStore
+  const { login } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
   const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
     suspend: false,

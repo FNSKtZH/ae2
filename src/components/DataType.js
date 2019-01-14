@@ -21,7 +21,7 @@ const DataType = ({
   stacked: Boolean,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
   const showObjekt =
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&
