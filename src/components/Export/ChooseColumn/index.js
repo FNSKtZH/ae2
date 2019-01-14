@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -12,11 +12,13 @@ import get from 'lodash/get'
 import omit from 'lodash/omit'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import Taxonomies from './Taxonomies'
 import Properties from './Properties'
 import Filter from './Filter'
 import ErrorBoundary from '../../shared/ErrorBoundary'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 const StyledSnackbar = styled(Snackbar)`
   div {
@@ -173,8 +175,10 @@ const synonymQuery = gql`
 `
 
 const Export = () => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxonomies: exportTaxonomies } = mobxStore.export
+
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
-  const exportTaxonomies = get(storeData, 'exportTaxonomies', [])
   // need to remove __typename because apollo passes it along ?!
   const taxFilters = get(storeData, 'exportTaxFilters', []).map(d =>
     omit(d, ['__typename']),
@@ -364,4 +368,4 @@ const Export = () => {
   )
 }
 
-export default Export
+export default observer(Export)
