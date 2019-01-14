@@ -3,10 +3,6 @@ import gql from 'graphql-tag'
 
 export default gql`
   query userQuery($id: UUID!) {
-    login @client {
-      token
-      username
-    }
     userById(id: $id) {
       id
       name
