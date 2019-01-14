@@ -211,7 +211,6 @@ const storeQuery = gql`
       value
     }
     exportWithSynonymData @client
-    exportIds @client
     exportRcoInOneRow @client
     exportOnlyRowsWithProperties @client
   }
@@ -219,9 +218,8 @@ const storeQuery = gql`
 
 const Preview = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { taxonomies: exportTaxonomies } = mobxStore.export
-
-  console.log('Preview', { exportTaxonomies })
+  const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
+  const exportIds = mobxStore.export.ids.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
@@ -306,7 +304,6 @@ const Preview = () => {
     [message],
   )
 
-  const exportIds = get(storeData, 'exportIds', [])
   const exportWithSynonymData = get(storeData, 'exportWithSynonymData', true)
   const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
   const exportOnlyRowsWithProperties = get(

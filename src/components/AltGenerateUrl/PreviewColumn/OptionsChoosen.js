@@ -71,7 +71,8 @@ const enhance = compose(
 const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { taxonomies: exportTaxonomies, setTaxonomies } = mobxStore.export
+  const { setTaxonomies } = mobxStore.export
+  const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 

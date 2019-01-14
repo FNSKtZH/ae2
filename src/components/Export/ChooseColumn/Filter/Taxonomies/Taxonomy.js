@@ -80,7 +80,7 @@ const TaxonomyCard = ({
   initiallyExpanded: boolean,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { taxonomies: exportTaxonomies } = mobxStore.export
+  const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
     propsByTaxQuery,

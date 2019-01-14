@@ -73,7 +73,7 @@ const propsByTaxQuery = gql`
 
 const PcoCard = ({ pc }: { pc: Object }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { taxonomies: exportTaxonomies } = mobxStore.export
+  const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const [expanded, setExpanded] = useState(false)
 

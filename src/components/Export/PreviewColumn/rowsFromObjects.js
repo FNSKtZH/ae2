@@ -42,8 +42,7 @@ export default ({
   // need taxFields to filter only data with properties
   const taxFields = [
     'id',
-    ...exportTaxProperties
-      .map(p => `${conv(p.taxname)}__${conv(p.pname)}`)
+    ...exportTaxProperties.map(p => `${conv(p.taxname)}__${conv(p.pname)}`),
   ]
   const aditionalRows = []
   //console.log('rowsFromObjects 1:',{exportRcoInOneRow,exportRcoProperties,exportOnlyRowsWithProperties})
@@ -71,11 +70,13 @@ export default ({
       // but only if synonyms data is wanted
       ...synonyms
         .filter(s => exportWithSynonymData && s.objectId === o.id)
-        .map(s => s.objectIdSynonym)
+        .map(s => s.objectIdSynonym),
     ]
     // 2. pco
     if (exportPcoProperties.length > 0) {
-      const thisObjectsPco = pco.filter(p => thisObjectsSynonyms.includes(p.objectId))
+      const thisObjectsPco = pco.filter(p =>
+        thisObjectsSynonyms.includes(p.objectId),
+      )
       thisObjectsPco.forEach(pco => {
         const pcoProperties = JSON.parse(pco.properties)
         if (pcoProperties) {
@@ -100,7 +101,9 @@ export default ({
     }
     // 3. rco
     if (exportRcoProperties.length > 0) {
-      const thisObjectsRco = rco.filter(p => thisObjectsSynonyms.includes(p.objectId))
+      const thisObjectsRco = rco.filter(p =>
+        thisObjectsSynonyms.includes(p.objectId),
+      )
       //console.log('rowsFromObjects:',{thisObjectsRco,row})
 
       /**
@@ -129,6 +132,7 @@ export default ({
     return row
   })
   rows = [...rows, ...aditionalRows]
+  console.log('rowsFromObjects, exportIds', exportIds)
   if (exportIds.length > 0) {
     rows = rows.filter(r => exportIds.includes(r.id))
   }

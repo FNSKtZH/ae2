@@ -1,7 +1,6 @@
 // @flow
 
 export default {
-  exportIds: [],
   exportTaxProperties: [],
   exportPcoProperties: [],
   exportRcoProperties: [],

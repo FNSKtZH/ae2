@@ -81,7 +81,7 @@ const RCOs = ({
   onToggleRco: () => {},
 }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { taxonomies: exportTaxonomies } = mobxStore.export
+  const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data, error: dataError } = useQuery(
     rcoCountByTaxonomyRelationTypeQuery,

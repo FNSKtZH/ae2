@@ -57,7 +57,6 @@ const ErrorContainer = styled.div`
 
 const storeQuery = gql`
   query exportTaxonomiesQuery {
-    exportTaxonomies @client
     exportTaxFilters @client {
       taxname
       pname
@@ -176,7 +175,7 @@ const synonymQuery = gql`
 
 const Export = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { taxonomies: exportTaxonomies } = mobxStore.export
+  const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   // need to remove __typename because apollo passes it along ?!

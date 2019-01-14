@@ -74,7 +74,7 @@ const propsByTaxQuery = gql`
 const Filter = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { taxonomies: exportTaxonomies } = mobxStore.export
+  const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(

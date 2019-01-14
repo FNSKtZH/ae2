@@ -1,7 +1,6 @@
 // @flow
 import merge from 'lodash/merge'
 
-import exportIds from './exportIds'
 import exportTaxProperties from './exportTaxProperties'
 import exportPcoProperties from './exportPcoProperties'
 import exportRcoProperties from './exportRcoProperties'
@@ -13,7 +12,6 @@ import exportOnlyRowsWithProperties from './exportOnlyRowsWithProperties'
 
 export default history =>
   merge(
-    exportIds,
     exportTaxProperties,
     exportPcoProperties,
     exportRcoProperties,

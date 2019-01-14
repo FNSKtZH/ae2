@@ -42,12 +42,8 @@ const ExportTypes = ({
   taxonomies: Array<Object>,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const {
-    type: exportType,
-    setType,
-    taxonomies: exportTaxonomies,
-    setTaxonomies,
-  } = mobxStore.export
+  const { type: exportType, setType, setTaxonomies } = mobxStore.export
+  const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const onCheckType = useCallback(
     async (event, isChecked) => {

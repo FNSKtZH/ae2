@@ -79,7 +79,7 @@ const PCO = ({
   pc: Object,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { taxonomies: exportTaxonomies } = mobxStore.export
+  const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: propsData, error: propsDataError } = useQuery(propsByTaxQuery, {
     suspend: false,

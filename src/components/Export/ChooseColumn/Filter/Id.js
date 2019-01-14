@@ -1,28 +1,24 @@
 //@flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import debounce from 'lodash/debounce'
-import { useApolloClient } from 'react-apollo-hooks'
 
-import exportIdsMutation from '../../exportIdsMutation'
+import mobxStoreContext from '../../../../mobxStoreContext'
 
 const IdField = styled(TextField)`
   margin-top: 2px !important;
 `
 
 const IdFilterField = () => {
-  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { setIds } = mobxStore.export
+
   const [value, setValue] = useState('')
 
   const change = useCallback(
     debounce(value => {
-      client.mutate({
-        mutation: exportIdsMutation,
-        variables: {
-          value,
-        },
-      })
+      setIds(value)
     }, 200),
   )
 
@@ -30,7 +26,10 @@ const IdFilterField = () => {
     const { value } = event.target
     setValue(value)
     // convert values into an array of values, separated by commas
-    const valueForStore = value ? JSON.parse(`"[${event.target.value}]"`) : []
+    //const valueForStore = value ? JSON.parse(`"[${event.target.value}]"`) : []
+    const valueForStore = value
+      ? event.target.value.replace(/\s/g, '').split(',')
+      : []
     change(valueForStore)
   })
 
