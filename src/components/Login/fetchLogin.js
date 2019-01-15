@@ -1,5 +1,6 @@
 // @flow
 import jwtDecode from 'jwt-decode'
+import get from 'lodash/get'
 
 import loginDbMutation from './loginDbMutation'
 
@@ -32,7 +33,8 @@ export default async ({
   history: Object,
   mobxStore: Object,
 }) => {
-  const { historyAfterLogin, setHistoryAfterLogin, setLogin, login } = mobxStore
+  const { historyAfterLogin, setHistoryAfterLogin, login } = mobxStore
+  const { setLogin } = login
   // when bluring fields need to pass event value
   // on the other hand when clicking on Anmelden button,
   // need to grab props
@@ -51,8 +53,9 @@ export default async ({
     token: '',
   })
   // now aquire new token
+  let result
   try {
-    await client.mutate({
+    result = await client.mutate({
       mutation: loginDbMutation,
       variables: {
         username: name,
@@ -71,7 +74,7 @@ export default async ({
     }
     return console.log(error)
   }
-  const jwtToken = login.jwtToken
+  const jwtToken = get(result, 'data.login.jwtToken')
   if (jwtToken) {
     const tokenDecoded = jwtDecode(jwtToken)
     const { username } = tokenDecoded

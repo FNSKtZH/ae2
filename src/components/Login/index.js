@@ -40,8 +40,8 @@ const Login = () => {
   const idb = useContext(idbContext)
   const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { historyAfterLogin, setLogin, login } = mobxStore
-  const { token } = login
+  const { historyAfterLogin, login } = mobxStore
+  const { token, setLogin } = login
 
   const [name, changeName] = useState('')
   const [pass, changePass] = useState('')
@@ -67,7 +67,7 @@ const Login = () => {
         history,
         mobxStore,
       }),
-    [name, pass, historyAfterLogin, login.jwtToken],
+    [name, pass, historyAfterLogin, token],
   )
   const onLogout = useCallback(() => {
     idb.users.clear()
