@@ -272,6 +272,9 @@ export default types
     resetTaxProperties() {
       self.taxProperties = []
     },
+    resetTaxFilters() {
+      self.taxFilters = []
+    },
   }))
 
 export const defaultValue = {}

@@ -71,13 +71,5 @@ export default {
       }
       return null
     },
-    resetExportTaxFilters: (_, values, { cache }) => {
-      cache.writeData({
-        data: {
-          exportTaxFilters: [],
-        },
-      })
-      return null
-    },
   },
 }

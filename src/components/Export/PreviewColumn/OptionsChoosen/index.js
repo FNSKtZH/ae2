@@ -5,11 +5,10 @@ import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
 import TaxFilterItems from './TaxFilterItems'
 import PcoFilterItems from './PcoFilterItems'
 import RcoFilterItems from './RcoFilterItems'
@@ -77,7 +76,6 @@ const enhance = compose(
 )
 
 const OptionsChoosen = ({ classes }: { classes: Object }) => {
-  const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const {
     setType,
@@ -90,6 +88,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     pcoFilters,
     resetPcoFilters,
     resetRcoFilters,
+    resetTaxFilters,
     resetRcoProperties,
     rcoProperties,
     resetPcoProperties,
@@ -121,9 +120,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     resetPcoProperties()
     resetRcoProperties()
     resetTaxProperties()
-    client.mutate({
-      mutation: exportTaxFiltersResetMutation,
-    })
+    resetTaxFilters()
     resetPcoFilters()
     resetRcoFilters()
     setOnlyRowsWithProperties(true)
