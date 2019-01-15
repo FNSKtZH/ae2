@@ -1,10 +1,9 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import { useApolloClient } from 'react-apollo-hooks'
 
-import exportTaxFiltersMutation from '../../../exportTaxFiltersMutation'
 import booleanToJaNein from '../../../../../modules/booleanToJaNein'
+import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const FilterValueSpan = styled.span`
   background-color: #dadada;
@@ -21,18 +20,17 @@ const ResetSpan = styled.span`
 `
 
 const ExportTaxFilterListItem = ({ filter }: { filter: Object }) => {
-  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { setTaxFilters } = mobxStore.export
+
   const { taxname, pname, comparator, value } = filter
   const onClick = useCallback(
     () =>
-      client.mutate({
-        mutation: exportTaxFiltersMutation,
-        variables: {
-          taxname,
-          pname,
-          comparator: '',
-          value: '',
-        },
+      setTaxFilters({
+        taxname,
+        pname,
+        comparator: '',
+        value: '',
       }),
     [filter],
   )
