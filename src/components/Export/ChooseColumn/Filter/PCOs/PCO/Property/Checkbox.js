@@ -6,10 +6,8 @@ import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import styled from 'styled-components'
-import { useApolloClient } from 'react-apollo-hooks'
 import { observer } from 'mobx-react-lite'
 
-import addExportPcoPropertyMutation from '../../../../../addExportPcoPropertyMutation'
 import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -44,9 +42,8 @@ const PcoCheckbox = ({
   pcname: string,
   value: string,
 }) => {
-  const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { addFilterFields, setPcoFilter } = mobxStore.export
+  const { addFilterFields, setPcoFilter, addPcoProperty } = mobxStore.export
 
   const onChange = useCallback(
     (e, val) => {
@@ -59,13 +56,10 @@ const PcoCheckbox = ({
       setPcoFilter({ pcname, pname, comparator, value })
       // if value and not choosen, choose
       if (addFilterFields) {
-        client.mutate({
-          mutation: addExportPcoPropertyMutation,
-          variables: { pcname, pname },
-        })
+        addPcoProperty({ pcname, pname })
       }
     },
-    [pcname, pname, value, addFilterFields],
+    [pcname, pname, addFilterFields],
   )
 
   return (
