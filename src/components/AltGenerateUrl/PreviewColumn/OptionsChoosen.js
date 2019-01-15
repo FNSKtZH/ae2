@@ -4,13 +4,8 @@ import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
-import get from 'lodash/get'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
-import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
 import constants from '../../../modules/constants'
 import TaxProperties from './TaxProperties'
 import PcoProperties from './PcoProperties'
@@ -44,54 +39,34 @@ const StyledButton = styled(Button)`
   margin-top: 0 !important;
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportTaxProperties @client {
-      taxname
-      pname
-    }
-  }
-`
-
 const enhance = compose(
   withStyles(styles),
   observer,
 )
 
 const OptionsChoosen = ({ classes }: { classes: Object }) => {
-  const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const {
     setTaxonomies,
     resetRcoProperties,
     rcoProperties,
     pcoProperties,
+    resetPcoProperties,
+    taxProperties,
+    resetTaxProperties,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-
   const onClickResetAll = useCallback(() => {
     setTaxonomies([])
-    client.mutate({
-      mutation: exportPcoPropertiesResetMutation,
-      variables: { value: [] },
-    })
+    resetPcoProperties()
     resetRcoProperties()
-    client.mutate({
-      mutation: exportTaxPropertiesResetMutation,
-      variables: { value: [] },
-    })
+    resetTaxProperties()
   })
 
-  const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const noDataChoosen =
-    [
-      ...exportTaxonomies,
-      ...exportTaxProperties,
-      ...pcoProperties,
-      ...rcoProperties,
-    ].length === 0
+    [...exportTaxonomies, ...taxProperties, ...pcoProperties, ...rcoProperties]
+      .length === 0
 
   if (noDataChoosen) return null
 
@@ -107,13 +82,12 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
         )}
         <li>
           {`Eigenschaften:${
-            [...exportTaxProperties, ...pcoProperties, ...rcoProperties]
-              .length === 0
+            [...taxProperties, ...pcoProperties, ...rcoProperties].length === 0
               ? ' keine'
               : ''
           }`}
           <ul>
-            <TaxProperties properties={exportTaxProperties} />
+            <TaxProperties properties={taxProperties} />
             <PcoProperties properties={pcoProperties} />
             <RcoProperties properties={rcoProperties} />
           </ul>

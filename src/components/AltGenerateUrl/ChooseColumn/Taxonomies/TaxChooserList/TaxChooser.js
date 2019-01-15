@@ -1,13 +1,11 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import addExportTaxPropertyMutation from '../../../addExportTaxPropertyMutation'
-import removeExportTaxPropertyMutation from '../../../removeExportTaxPropertyMutation'
+import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const Container = styled.div``
 const Count = styled.span`
@@ -22,15 +20,6 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const storeQuery = gql`
-  query storeQuery {
-    exportTaxProperties @client {
-      taxname
-      pname
-    }
-  }
-`
-
 const TaxChooser = ({
   taxname,
   pname,
@@ -42,26 +31,19 @@ const TaxChooser = ({
   jsontype: string,
   count: number,
 }) => {
-  const client = useApolloClient()
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxProperties, addTaxProperty, removeTaxProperty } = mobxStore.export
 
-  const exportTaxProperties = storeData.exportTaxProperties || []
   const checked =
-    exportTaxProperties.filter(
-      x => /*x.taxname === taxname && */ x.pname === pname,
-    ).length > 0
+    taxProperties.filter(x => /*x.taxname === taxname && */ x.pname === pname)
+      .length > 0
 
   const onCheck = useCallback(
     (event, isChecked) => {
-      const mutation = isChecked
-        ? addExportTaxPropertyMutation
-        : removeExportTaxPropertyMutation
-      client.mutate({
-        mutation,
-        variables: { taxname, pname },
-      })
+      if (isChecked) {
+        return addTaxProperty({ taxname, pname })
+      }
+      removeTaxProperty({ taxname, pname })
     },
     [taxname, pname],
   )
@@ -82,4 +64,4 @@ const TaxChooser = ({
   )
 }
 
-export default TaxChooser
+export default observer(TaxChooser)
