@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
+import { observer } from 'mobx-react-lite'
 
 import booleanToJaNein from '../../../../../modules/booleanToJaNein'
 import mobxStoreContext from '../../../../../mobxStoreContext'
@@ -46,4 +47,4 @@ const ExportTaxFilterListItem = ({ filter }: { filter: Object }) => {
   )
 }
 
-export default ExportTaxFilterListItem
+export default observer(ExportTaxFilterListItem)

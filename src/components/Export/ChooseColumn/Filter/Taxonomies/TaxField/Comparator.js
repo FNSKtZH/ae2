@@ -5,6 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
+import { observer } from 'mobx-react-lite'
 
 import ComparatorSelect from '../../ComparatorSelect'
 import mobxStoreContext from './../../../../../../mobxStoreContext'
@@ -35,7 +36,10 @@ const styles = theme => ({
   },
 })
 
-const enhance = compose(withStyles(styles))
+const enhance = compose(
+  withStyles(styles),
+  observer,
+)
 
 const Comparator = ({
   comparator,

@@ -3,6 +3,7 @@ import React, { useCallback, useState, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import debounce from 'lodash/debounce'
+import { observer } from 'mobx-react-lite'
 
 import mobxStoreContext from '../../../../mobxStoreContext'
 
@@ -52,4 +53,4 @@ const IdFilterField = () => {
   )
 }
 
-export default IdFilterField
+export default observer(IdFilterField)

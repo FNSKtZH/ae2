@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
+import { observer } from 'mobx-react-lite'
 
 import mobxStoreContext from '../../../../mobxStoreContext'
 
@@ -40,4 +41,4 @@ const RcoProperty = ({
   )
 }
 
-export default RcoProperty
+export default observer(RcoProperty)

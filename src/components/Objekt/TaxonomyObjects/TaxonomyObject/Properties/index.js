@@ -9,6 +9,7 @@
  */
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { observer } from 'mobx-react-lite'
 
 import PropertyList from './PropertyList'
 import NewProperty from '../../../../shared/NewProperty'
@@ -93,4 +94,4 @@ const Properties = ({
   )
 }
 
-export default Properties
+export default observer(Properties)

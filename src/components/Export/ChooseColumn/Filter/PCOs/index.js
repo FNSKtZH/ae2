@@ -11,6 +11,7 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import PCO from './PCO'
 import ErrorBoundary from '../../../../shared/ErrorBoundary'
@@ -139,4 +140,4 @@ const PcosCard = ({
   )
 }
 
-export default PcosCard
+export default observer(PcosCard)

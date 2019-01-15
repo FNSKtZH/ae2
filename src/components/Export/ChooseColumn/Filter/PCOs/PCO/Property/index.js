@@ -1,6 +1,7 @@
 //@flow
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { observer } from 'mobx-react-lite'
 
 import Comparator from './Comparator'
 import Value from './Value'
@@ -39,6 +40,14 @@ const PcoProperty = ({
     return <Checkbox pcname={pcname} pname={pname} value={value} />
   }
 
+  console.log('Filter > Property', {
+    pcname,
+    pname,
+    value,
+    pcoFilter,
+    pcoFilters,
+  })
+
   return (
     <Container>
       <Value
@@ -61,4 +70,4 @@ const PcoProperty = ({
   )
 }
 
-export default PcoProperty
+export default observer(PcoProperty)
