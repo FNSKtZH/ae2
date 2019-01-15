@@ -193,22 +193,10 @@ const storeQuery = gql`
       pcname
       pname
     }
-    exportPcoFilters @client {
-      pcname
-      pname
-      comparator
-      value
-    }
     exportRcoProperties @client {
       pcname
       relationtype
       pname
-    }
-    exportPcoFilters @client {
-      pcname
-      pname
-      comparator
-      value
     }
     exportRcoInOneRow @client
   }
@@ -219,6 +207,7 @@ const Preview = () => {
   const {
     onlyRowsWithProperties: exportOnlyRowsWithProperties,
     withSynonymData,
+    pcoFilters,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
   const exportIds = mobxStore.export.ids.toJSON()
@@ -255,9 +244,6 @@ const Preview = () => {
     loading: synonymLoading,
     error: synonymError,
   } = useQuery(synonymQuery, { suspend: false })
-  const pcoFilters = get(storeData, 'exportPcoFilters', []).map(d =>
-    omit(d, ['__typename']),
-  )
   const pcoProperties = get(storeData, 'exportPcoProperties', []).map(d =>
     omit(d, ['__typename']),
   )

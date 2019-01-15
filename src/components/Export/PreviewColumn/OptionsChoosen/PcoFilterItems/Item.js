@@ -1,10 +1,10 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import { useApolloClient } from 'react-apollo-hooks'
+import { observer } from 'mobx-react-lite'
 
-import exportPcoFiltersMutation from '../../../exportPcoFiltersMutation'
 import booleanToJaNein from '../../../../../modules/booleanToJaNein'
+import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const FilterValueSpan = styled.span`
   background-color: #dadada;
@@ -21,21 +21,20 @@ const ResetSpan = styled.span`
 `
 
 const ExportPcoFilterListItem = ({ filter }: { filter: Object }) => {
-  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { setPcoFilter } = mobxStore.export
 
   const { pcname, pname, comparator, value } = filter
 
   const onClick = useCallback(
-    () =>
-      client.mutate({
-        mutation: exportPcoFiltersMutation,
-        variables: {
-          pcname,
-          pname,
-          comparator: '',
-          value: '',
-        },
-      }),
+    () => {
+      setPcoFilter({
+        pcname,
+        pname,
+        comparator: '',
+        value: '',
+      })
+    },
     [pcname, pname],
   )
 
@@ -50,4 +49,4 @@ const ExportPcoFilterListItem = ({ filter }: { filter: Object }) => {
   )
 }
 
-export default ExportPcoFilterListItem
+export default observer(ExportPcoFilterListItem)

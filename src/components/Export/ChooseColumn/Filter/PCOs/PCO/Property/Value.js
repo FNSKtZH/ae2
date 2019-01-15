@@ -14,7 +14,6 @@ import gql from 'graphql-tag'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import { observer } from 'mobx-react-lite'
 
-import exportPcoFiltersMutation from '../../../../../exportPcoFiltersMutation'
 import readableType from '../../../../../../../modules/readableType'
 import addExportPcoPropertyMutation from '../../../../../addExportPcoPropertyMutation'
 import mobxStoreContext from '../../../../../../../mobxStoreContext'
@@ -144,7 +143,7 @@ const IntegrationAutosuggest = ({
 }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { addFilterFields } = mobxStore.export
+  const { addFilterFields, setPcoFilter } = mobxStore.export
 
   const [suggestions, setSuggestions] = useState([])
   const [propValues, setPropValues] = useState([])
@@ -219,14 +218,11 @@ const IntegrationAutosuggest = ({
       let comparatorValue = comparator
       if (!comparator && value) comparatorValue = 'ILIKE'
       if (!value) comparatorValue = null
-      client.mutate({
-        mutation: exportPcoFiltersMutation,
-        variables: {
-          pcname,
-          pname,
-          comparator: comparatorValue,
-          value,
-        },
+      setPcoFilter({
+        pcname,
+        pname,
+        comparator: comparatorValue,
+        value,
       })
       // 2. if value and field is not choosen, choose it
       if (addFilterFields && value) {

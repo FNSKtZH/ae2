@@ -1,12 +1,11 @@
 //@flow
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { useQuery } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
 
 import Comparator from './Comparator'
 import Value from './Value'
 import Checkbox from './Checkbox'
+import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   display: flex;
@@ -14,16 +13,6 @@ const Container = styled.div`
   padding: 4px 16px;
   > div {
     height: auto;
-  }
-`
-const exportPcoFiltersQuery = gql`
-  query exportPcoFiltersQuery {
-    exportPcoFilters @client {
-      pcname
-      pname
-      comparator
-      value
-    }
   }
 `
 
@@ -38,14 +27,13 @@ const PcoProperty = ({
   jsontype: string,
   count: number,
 }) => {
-  const { data } = useQuery(exportPcoFiltersQuery, {
-    suspend: false,
-  })
-  const { exportPcoFilters } = data
-  const exportPcoFilter = exportPcoFilters.find(
+  const mobxStore = useContext(mobxStoreContext)
+  const { pcoFilters } = mobxStore.export
+
+  const pcoFilter = pcoFilters.find(
     x => x.pcname === pcname && x.pname === pname,
   ) || { comparator: null, value: null }
-  const { comparator, value } = exportPcoFilter
+  const { comparator, value } = pcoFilter
 
   if (jsontype === 'Boolean') {
     return <Checkbox pcname={pcname} pname={pname} value={value} />

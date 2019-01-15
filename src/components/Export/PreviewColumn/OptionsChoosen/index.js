@@ -13,7 +13,6 @@ import exportPcoPropertiesResetMutation from '../../exportPcoPropertiesResetMuta
 import exportRcoPropertiesResetMutation from '../../exportRcoPropertiesResetMutation'
 import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMutation'
 import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
-import exportPcoFiltersResetMutation from '../../exportPcoFiltersResetMutation'
 import exportRcoFiltersResetMutation from '../../exportRcoFiltersResetMutation'
 import TaxFilterItems from './TaxFilterItems'
 import PcoFilterItems from './PcoFilterItems'
@@ -69,12 +68,6 @@ const storeQuery = gql`
       comparator
       value
     }
-    exportPcoFilters @client {
-      pcname
-      pname
-      comparator
-      value
-    }
     exportRcoProperties @client {
       pcname
       relationtype
@@ -107,6 +100,8 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     setOnlyRowsWithProperties,
     withSynonymData,
     setWithSynonymData,
+    pcoFilters,
+    resetPcoFilters,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
@@ -115,7 +110,6 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportTaxFilters = get(storeData, 'exportTaxFilters', [])
   const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
-  const exportPcoFilters = get(storeData, 'exportPcoFilters', [])
   const exportRcoProperties = get(storeData, 'exportRcoProperties', [])
   const exportRcoFilters = get(storeData, 'exportRcoFilters', [])
   const noDataChoosen =
@@ -125,7 +119,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
       ...exportPcoProperties,
       ...exportRcoProperties,
       ...exportTaxFilters,
-      ...exportPcoFilters,
+      ...pcoFilters,
       ...exportRcoFilters,
     ].length === 0
   const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
@@ -145,9 +139,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     client.mutate({
       mutation: exportTaxFiltersResetMutation,
     })
-    client.mutate({
-      mutation: exportPcoFiltersResetMutation,
-    })
+    resetPcoFilters()
     client.mutate({
       mutation: exportRcoFiltersResetMutation,
     })
@@ -222,14 +214,14 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
         )}
         <li>
           {`Filter:${
-            [...exportTaxFilters, ...exportPcoFilters, ...exportRcoFilters]
-              .length === 0
+            [...exportTaxFilters, ...pcoFilters, ...exportRcoFilters].length ===
+            0
               ? ' keine'
               : ''
           }`}
           <ul>
             <TaxFilterItems exportTaxFilters={exportTaxFilters} />
-            <PcoFilterItems exportPcoFilters={exportPcoFilters} />
+            <PcoFilterItems pcoFilters={pcoFilters} />
             <RcoFilterItems exportRcoFilters={exportRcoFilters} />
           </ul>
         </li>

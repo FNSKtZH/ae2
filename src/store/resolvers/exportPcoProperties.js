@@ -19,16 +19,6 @@ const exportPcoPropertiesGql = gql`
     }
   }
 `
-const exportPcoFiltersGql = gql`
-  query exportPcoFiltersQuery {
-    exportPcoFilters @client {
-      pcname
-      pname
-      comparator
-      value
-    }
-  }
-`
 const exportRcoPropertiesGql = gql`
   query exportRcoPropertiesQuery {
     exportRcoProperties @client {
@@ -98,75 +88,10 @@ export default {
       })
       return null
     },
-    setExportPcoFilters: (
-      _,
-      { pcname, pname, comparator, value },
-      { cache },
-    ) => {
-      const { exportPcoFilters } = cache.readQuery({
-        query: exportPcoFiltersGql,
-      })
-      const exportPcoFilter = exportPcoFilters.find(
-        x => x.pcname === pcname && x.pname === pname,
-      )
-      if (!comparator && !value && value !== 0) {
-        // remove
-        cache.writeData({
-          data: {
-            exportPcoFilters: exportPcoFilters.filter(
-              x => !(x.pcname === pcname && x.pname === pname),
-            ),
-          },
-        })
-      } else if (!exportPcoFilter) {
-        // add new one
-        cache.writeData({
-          data: {
-            exportPcoFilters: [
-              ...exportPcoFilters,
-              {
-                pcname,
-                pname,
-                comparator,
-                value,
-                __typename: 'ExportPcoFilter',
-              },
-            ],
-          },
-        })
-      } else {
-        // edit = add new one instead of existing
-        cache.writeData({
-          data: {
-            exportPcoFilters: [
-              ...exportPcoFilters.filter(
-                x => !(x.pcname === pcname && x.pname === pname),
-              ),
-              {
-                pcname,
-                pname,
-                comparator,
-                value,
-                __typename: 'ExportPcoFilter',
-              },
-            ],
-          },
-        })
-      }
-      return null
-    },
     resetExportPcoProperties: (_, values, { cache }) => {
       cache.writeData({
         data: {
           exportPcoProperties: [],
-        },
-      })
-      return null
-    },
-    resetExportPcoFilters: (_, values, { cache }) => {
-      cache.writeData({
-        data: {
-          exportPcoFilters: [],
         },
       })
       return null

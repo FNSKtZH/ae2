@@ -16,9 +16,18 @@ export default types
     taxProperties: types.optional(TaxProperty, defaultTaxProperty),
     pcoProperties: types.optional(PcoProperty, defaultPcoProperty),
     rcoProperties: types.optional(RcoProperty, defaultRcoProperty),
-    taxFilters: types.optional(TaxFilter, defaultTaxFilter),
-    pcoFilters: types.optional(PcoFilter, defaultPcoFilter),
-    rcoFilters: types.optional(RcoFilter, defaultRcoFilter),
+    taxFilters: types.optional(
+      types.array(types.optional(TaxFilter, defaultTaxFilter)),
+      [],
+    ),
+    pcoFilters: types.optional(
+      types.array(types.optional(PcoFilter, defaultPcoFilter)),
+      [],
+    ),
+    rcoFilters: types.optional(
+      types.array(types.optional(RcoFilter, defaultRcoFilter)),
+      [],
+    ),
     onlyRowsWithProperties: types.optional(types.boolean, true),
     withSynonymData: types.optional(types.boolean, true),
     tooManyProperties: types.optional(types.boolean, false), // TODO
@@ -56,6 +65,44 @@ export default types
         self.rcoInOneRow = value
       } else {
         self.rcoInOneRow = true
+      }
+    },
+    resetPcoFilters() {
+      self.pcoFilters = []
+    },
+    setPcoFilter({ pcname, pname, comparator, value }) {
+      const pcoFilter = self.pcoFilters.find(
+        x => x.pcname === pcname && x.pname === pname,
+      )
+      if (!comparator && !value && value !== 0) {
+        // remove
+        self.pcoFilters = self.pcoFilters.filter(
+          x => !(x.pcname === pcname && x.pname === pname),
+        )
+      } else if (!pcoFilter) {
+        // add new one
+        self.pcoFilters = [
+          ...self.pcoFilters,
+          {
+            pcname,
+            pname,
+            comparator,
+            value,
+          },
+        ]
+      } else {
+        // edit = add new one instead of existing
+        self.pcoFilters = [
+          ...self.pcoFilters.filter(
+            x => !(x.pcname === pcname && x.pname === pname),
+          ),
+          {
+            pcname,
+            pname,
+            comparator,
+            value,
+          },
+        ]
       }
     },
   }))

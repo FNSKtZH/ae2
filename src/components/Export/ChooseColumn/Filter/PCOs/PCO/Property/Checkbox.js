@@ -6,12 +6,9 @@ import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import styled from 'styled-components'
-import get from 'lodash/get'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { useApolloClient } from 'react-apollo-hooks'
 import { observer } from 'mobx-react-lite'
 
-import exportPcoFiltersMutation from '../../../../../exportPcoFiltersMutation'
 import addExportPcoPropertyMutation from '../../../../../addExportPcoPropertyMutation'
 import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
@@ -49,7 +46,7 @@ const PcoCheckbox = ({
 }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { addFilterFields } = mobxStore.export
+  const { addFilterFields, setPcoFilter } = mobxStore.export
 
   const onChange = useCallback(
     (e, val) => {
@@ -59,10 +56,7 @@ const PcoCheckbox = ({
         comparator = null
         value = null
       }
-      client.mutate({
-        mutation: exportPcoFiltersMutation,
-        variables: { pcname, pname, comparator, value },
-      })
+      setPcoFilter({ pcname, pname, comparator, value })
       // if value and not choosen, choose
       if (addFilterFields) {
         client.mutate({

@@ -5,7 +5,6 @@ export default {
   exportPcoProperties: [],
   exportRcoProperties: [],
   exportTaxFilters: [],
-  exportPcoFilters: [],
   exportRcoFilters: [],
   exportTooManyProperties: false,
   exportRcoInOneRow: true,
