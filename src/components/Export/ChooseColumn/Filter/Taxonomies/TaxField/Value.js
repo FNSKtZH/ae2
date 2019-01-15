@@ -17,11 +17,10 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
 import readableType from '../../../../../../modules/readableType'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
 
@@ -143,9 +142,8 @@ const IntegrationAutosuggest = ({
   classes: Object,
   width: Number,
 }) => {
-  const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { addFilterFields, addTaxProperty } = mobxStore.export
+  const { addFilterFields, addTaxProperty, setTaxFilters } = mobxStore.export
 
   const [fetchData, setFetchData] = useState(false)
   const [dataFetched, setDataFetched] = useState(false)
@@ -218,14 +216,11 @@ const IntegrationAutosuggest = ({
       let comparatorValue = comparator
       if (!comparator && value) comparatorValue = 'ILIKE'
       if (!value) comparatorValue = null
-      client.mutate({
-        mutation: exportTaxFiltersMutation,
-        variables: {
-          taxname,
-          pname,
-          comparator: comparatorValue,
-          value,
-        },
+      setTaxFilters({
+        taxname,
+        pname,
+        comparator: comparatorValue,
+        value,
       })
       // 2. if value and field not choosen, choose it
       if (addFilterFields && value) {

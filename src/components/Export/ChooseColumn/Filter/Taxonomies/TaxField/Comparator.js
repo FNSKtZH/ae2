@@ -1,14 +1,13 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import { useApolloClient } from 'react-apollo-hooks'
 
-import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
 import ComparatorSelect from '../../ComparatorSelect'
+import mobxStoreContext from './../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   flex-basis: 150px;
@@ -51,17 +50,16 @@ const Comparator = ({
   pname: string,
   value: string,
 }) => {
-  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { setTaxFilters } = mobxStore.export
+
   const onChange = useCallback(
     event =>
-      client.mutate({
-        mutation: exportTaxFiltersMutation,
-        variables: {
-          taxname,
-          pname,
-          comparator: event.target.value || 'ILIKE',
-          value,
-        },
+      setTaxFilters({
+        taxname,
+        pname,
+        comparator: event.target.value || 'ILIKE',
+        value,
       }),
     [taxname, pname, value],
   )

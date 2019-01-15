@@ -275,6 +275,41 @@ export default types
     resetTaxFilters() {
       self.taxFilters = []
     },
+    setTaxFilters({ taxname, pname, comparator, value }) {
+      const taxFilter = self.taxFilters.find(
+        x => x.taxname === taxname && x.pname === pname,
+      )
+      if (!comparator && !value && value !== 0) {
+        // remove
+        self.taxFilters = self.taxFilters.filter(
+          x => !(x.taxname === taxname && x.pname === pname),
+        )
+      } else if (!taxFilter) {
+        // add new one
+        self.taxFilters = [
+          ...self.taxFilters,
+          {
+            taxname,
+            pname,
+            comparator,
+            value,
+          },
+        ]
+      } else {
+        // edit = add new one instead of existing
+        self.taxFilters = [
+          ...self.taxFilters.filter(
+            x => !(x.taxname === taxname && x.pname === pname),
+          ),
+          {
+            taxname,
+            pname,
+            comparator,
+            value,
+          },
+        ]
+      }
+    },
   }))
 
 export const defaultValue = {}
