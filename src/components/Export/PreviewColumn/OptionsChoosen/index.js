@@ -9,8 +9,6 @@ import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import exportPcoPropertiesResetMutation from '../../exportPcoPropertiesResetMutation'
-import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMutation'
 import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
 import TaxFilterItems from './TaxFilterItems'
 import PcoFilterItems from './PcoFilterItems'
@@ -56,10 +54,6 @@ const StyledButton = styled(Button)`
 
 const storeQuery = gql`
   query exportTypeQuery {
-    exportTaxProperties @client {
-      taxname
-      pname
-    }
     exportTaxFilters @client {
       taxname
       pname
@@ -98,19 +92,21 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     resetRcoFilters,
     resetRcoProperties,
     rcoProperties,
+    resetPcoProperties,
     pcoProperties,
+    resetTaxProperties,
+    taxProperties,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
 
-  const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportTaxFilters = get(storeData, 'exportTaxFilters', [])
   const exportRcoFilters = get(storeData, 'exportRcoFilters', [])
   const noDataChoosen =
     [
       ...exportTaxonomies,
-      ...exportTaxProperties,
+      ...taxProperties,
       ...pcoProperties,
       ...rcoProperties,
       ...exportTaxFilters,
@@ -122,13 +118,9 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const onClickResetAll = useCallback(() => {
     setType([])
     setTaxonomies([])
-    client.mutate({
-      mutation: exportPcoPropertiesResetMutation,
-    })
+    resetPcoProperties()
     resetRcoProperties()
-    client.mutate({
-      mutation: exportTaxPropertiesResetMutation,
-    })
+    resetTaxProperties()
     client.mutate({
       mutation: exportTaxFiltersResetMutation,
     })
@@ -218,13 +210,12 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
         </li>
         <li>
           {`Eigenschaften:${
-            [...exportTaxProperties, ...pcoProperties, ...rcoProperties]
-              .length === 0
+            [...taxProperties, ...pcoProperties, ...rcoProperties].length === 0
               ? ' keine (die id kommt immer mit)'
               : ' (die id kommt immer mit)'
           }`}
           <ul>
-            <TaxPropertiesItems exportTaxProperties={exportTaxProperties} />
+            <TaxPropertiesItems taxProperties={taxProperties} />
             <PcoPropertiesItems pcoProperties={pcoProperties} />
             <RcoPropertiesItems rcoProperties={rcoProperties} />
           </ul>
