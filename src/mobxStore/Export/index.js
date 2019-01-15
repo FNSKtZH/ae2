@@ -7,6 +7,7 @@ import RcoProperty, { defaultValue as defaultRcoProperty } from './RcoProperty'
 import TaxFilter, { defaultValue as defaultTaxFilter } from './TaxFilter'
 import PcoFilter, { defaultValue as defaultPcoFilter } from './PcoFilter'
 import RcoFilter, { defaultValue as defaultRcoFilter } from './RcoFilter'
+import constants from '../../modules/constants'
 
 export default types
   .model('Export', {
@@ -113,6 +114,35 @@ export default types
           },
         ]
       }
+    },
+    addPcoProperty({ pcname, pname }) {
+      const nrOfPropertiesExported =
+        self.taxProperties.length +
+        self.rcoProperties.length +
+        self.pcoProperties.length
+      if (nrOfPropertiesExported > constants.export.maxFields) {
+        self.tooManyProperties = true
+      } else {
+        // only add if not yet done
+        if (
+          !self.pcoProperties.find(
+            t => t.pcname === pcname && t.pname === pname,
+          )
+        ) {
+          self.pcoProperties = [
+            ...self.pcoProperties,
+            {
+              pcname,
+              pname,
+            },
+          ]
+        }
+      }
+    },
+    removePcoProperty({ pcname, pname }) {
+      self.pcoProperties = self.pcoProperties.filter(
+        x => !(x.pcname === pcname && x.pname === pname),
+      )
     },
   }))
 

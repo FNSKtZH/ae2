@@ -1,13 +1,15 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
 import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import addExportPcoPropertyMutation from '../../../../addExportPcoPropertyMutation'
 import removeExportPcoPropertyMutation from '../../../../removeExportPcoPropertyMutation'
+import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -21,19 +23,10 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const storeQuery = gql`
-  query exportPcoPropertiesQuery {
-    exportPcoProperties @client {
-      pcname
-      pname
-    }
-  }
-`
-
 const AllPcoChooser = ({ properties }: { properties: Array<Object> }) => {
   const client = useApolloClient()
-
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const mobxStore = useContext(mobxStoreContext)
+  const { pcoProperties, addPcoProperty, removePcoProperty } = mobxStore.export
 
   const onCheck = useCallback(
     (event, isChecked) => {
@@ -52,10 +45,9 @@ const AllPcoChooser = ({ properties }: { properties: Array<Object> }) => {
     [properties],
   )
 
-  const exportPcoProperties = storeData.exportPcoProperties || []
   const checkedArray = properties.map(
     p =>
-      exportPcoProperties.filter(
+      pcoProperties.filter(
         x =>
           x.pcname === p.propertyCollectionName && x.pname === p.propertyName,
       ).length > 0,
@@ -74,4 +66,4 @@ const AllPcoChooser = ({ properties }: { properties: Array<Object> }) => {
   )
 }
 
-export default AllPcoChooser
+export default observer(AllPcoChooser)
