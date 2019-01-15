@@ -103,7 +103,7 @@ const Row = ({
   node: Object,
 }) => {
   const client = useApolloClient()
-  const { history } = useContext(historyContext)
+  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { editingTaxonomies, login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()

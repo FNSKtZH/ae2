@@ -37,8 +37,8 @@ const StyledSnackbar = styled(Snackbar)`
 
 const Login = () => {
   const client = useApolloClient()
-  const { idb } = useContext(idbContext)
-  const { history } = useContext(historyContext)
+  const idb = useContext(idbContext)
+  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { historyAfterLogin, setLogin, login } = mobxStore
   const { token } = login

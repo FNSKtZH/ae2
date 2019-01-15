@@ -104,7 +104,7 @@ const TaxonomyObject = ({
   showLink: Boolean,
   stacked: Boolean,
 }) => {
-  const { history } = useContext(historyContext)
+  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { editingTaxonomies, setEditingTaxonomies, login } = mobxStore
 

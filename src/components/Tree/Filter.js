@@ -127,7 +127,7 @@ const objectUrlQuery = gql`
 `
 
 const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
-  const { history } = useContext(historyContext)
+  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { treeFilter } = mobxStore
   const treeFilterText = treeFilter.text

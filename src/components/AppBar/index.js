@@ -95,7 +95,7 @@ const query = gql`
 `
 
 const MyAppBar = () => {
-  const { history } = useContext(historyContext)
+  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()

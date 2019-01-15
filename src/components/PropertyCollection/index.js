@@ -109,7 +109,7 @@ const pcQuery = gql`
 
 const PropertyCollection = () => {
   const client = useApolloClient()
-  const { history } = useContext(historyContext)
+  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { editingPCs, setEditingPCs, login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()

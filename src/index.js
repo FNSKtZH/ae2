@@ -59,13 +59,10 @@ const launchApp = async () => {
     // initiate activeNodeArray
     setActiveNodeArray(getActiveNodeArrayFromPathname())
 
-    const idbContext = { idb }
-    const historyContext = { history }
-
     ReactDOM.render(
-      <IdbProvider value={idbContext}>
+      <IdbProvider value={idb}>
         <MobxProvider value={mobxStore}>
-          <HistoryProvider value={historyContext}>
+          <HistoryProvider value={history}>
             <ApolloProvider client={myClient}>
               <ApolloHooksProvider client={myClient}>
                 <MuiThemeProvider theme={theme}>

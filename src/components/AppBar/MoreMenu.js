@@ -38,7 +38,7 @@ const paperProps = {
 
 const MoreMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const { history } = useContext(historyContext)
+  const history = useContext(historyContext)
 
   const onClickButton = useCallback(event => setAnchorEl(event.currentTarget))
   const onClose = useCallback(() => setAnchorEl(null))
