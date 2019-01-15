@@ -1,14 +1,11 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import get from 'lodash/get'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import addExportPcoPropertyMutation from '../../../../addExportPcoPropertyMutation'
-import removeExportPcoPropertyMutation from '../../../../removeExportPcoPropertyMutation'
+import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const Container = styled.div``
 const Count = styled.span`
@@ -23,15 +20,6 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const storeQuery = gql`
-  query exportPcoPropertiesQuery {
-    exportPcoProperties @client {
-      pcname
-      pname
-    }
-  }
-`
-
 const PcoChooser = ({
   pcname,
   pname,
@@ -43,26 +31,22 @@ const PcoChooser = ({
   jsontype: string,
   count: number,
 }) => {
-  const client = useApolloClient()
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const mobxStore = useContext(mobxStoreContext)
+  const { pcoProperties, addPcoProperty, removePcoProperty } = mobxStore.export
 
   const onCheck = useCallback(
     (event, isChecked) => {
-      const mutation = isChecked
-        ? addExportPcoPropertyMutation
-        : removeExportPcoPropertyMutation
-      client.mutate({
-        mutation,
-        variables: { pcname, pname },
-      })
+      if (isChecked) {
+        return addPcoProperty({ pcname, pname })
+      }
+      removePcoProperty({ pcname, pname })
     },
     [pcname, pname],
   )
 
-  const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
   const checked =
-    exportPcoProperties.filter(x => x.pcname === pcname && x.pname === pname)
-      .length > 0
+    pcoProperties.filter(x => x.pcname === pcname && x.pname === pname).length >
+    0
 
   return (
     <Container>
@@ -80,4 +64,4 @@ const PcoChooser = ({
   )
 }
 
-export default PcoChooser
+export default observer(PcoChooser)
