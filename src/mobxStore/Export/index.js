@@ -13,9 +13,18 @@ export default types
     type: types.optional(types.maybeNull(types.string), null),
     taxonomies: types.optional(types.array(types.string), []),
     ids: types.optional(types.array(types.string), []),
-    taxProperties: types.optional(TaxProperty, defaultTaxProperty),
-    pcoProperties: types.optional(PcoProperty, defaultPcoProperty),
-    rcoProperties: types.optional(RcoProperty, defaultRcoProperty),
+    taxProperties: types.optional(
+      types.array(types.optional(TaxProperty, defaultTaxProperty)),
+      [],
+    ),
+    pcoProperties: types.optional(
+      types.array(types.optional(PcoProperty, defaultPcoProperty)),
+      [],
+    ),
+    rcoProperties: types.optional(
+      types.array(types.optional(RcoProperty, defaultRcoProperty)),
+      [],
+    ),
     taxFilters: types.optional(
       types.array(types.optional(TaxFilter, defaultTaxFilter)),
       [],
