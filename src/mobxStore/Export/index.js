@@ -199,6 +199,9 @@ export default types
     resetRcoProperties() {
       self.rcoProperties = []
     },
+    resetPcoProperties() {
+      self.pcoProperties = []
+    },
     removeRcoProperty({ pcname, relationtype, pname }) {
       self.rcoProperties = self.rcoProperties.filter(
         x =>
@@ -243,6 +246,31 @@ export default types
           }
         }
       }
+    },
+    addTaxProperty({ taxname, pname }) {
+      const nrOfPropertiesExported =
+        self.taxProperties.length +
+        self.rcoProperties.length +
+        self.pcoProperties.length
+      if (nrOfPropertiesExported > constants.export.maxFields) {
+        self.tooManyProperties = true
+      } else {
+        // only add if not yet done
+        const taxProperty = self.taxProperties.find(
+          t => t.taxname === taxname && t.pname === pname,
+        )
+        if (!taxProperty) {
+          self.taxProperties = [...self.taxProperties, { taxname, pname }]
+        }
+      }
+    },
+    removeTaxProperty({ taxname, pname }) {
+      self.taxProperties = self.taxProperties.filter(
+        x => !(x.taxname === taxname && x.pname === pname),
+      )
+    },
+    resetTaxProperties() {
+      self.taxProperties = []
     },
   }))
 

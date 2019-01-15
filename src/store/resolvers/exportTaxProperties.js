@@ -1,16 +1,6 @@
 // @flow
 import gql from 'graphql-tag'
 
-import constants from '../../modules/constants'
-
-const exportTaxPropertiesGql = gql`
-  query exportTaxPropertiesQuery {
-    exportTaxProperties @client {
-      taxname
-      pname
-    }
-  }
-`
 const exportTaxFiltersGql = gql`
   query exportTaxFiltersQuery {
     exportTaxFilters @client {
@@ -21,69 +11,9 @@ const exportTaxFiltersGql = gql`
     }
   }
 `
-const exportPcoPropertiesGql = gql`
-  query exportPcoPropertiesQuery {
-    exportPcoProperties @client {
-      pcname
-      pname
-    }
-  }
-`
-const exportRcoPropertiesGql = gql`
-  query exportRcoPropertiesQuery {
-    exportRcoProperties @client {
-      pcname
-      relationtype
-      pname
-    }
-  }
-`
 
 export default {
   Mutation: {
-    addExportTaxProperty: (_, { taxname, pname }, { cache }) => {
-      const currentTax = cache.readQuery({ query: exportTaxPropertiesGql })
-      const currentRco = cache.readQuery({ query: exportRcoPropertiesGql })
-      const currentPco = cache.readQuery({ query: exportPcoPropertiesGql })
-      const nrOfPropertiesExported =
-        currentTax.exportTaxProperties.length +
-        currentRco.exportRcoProperties.length +
-        currentPco.exportPcoProperties.length
-      if (nrOfPropertiesExported > constants.export.maxFields) {
-        cache.writeData({
-          data: {
-            exportTooManyProperties: true,
-          },
-        })
-      } else {
-        // only add if not yet done
-        if (
-          !currentTax.exportTaxProperties.find(
-            t => t.taxname === taxname && t.pname === pname,
-          )
-        ) {
-          cache.writeData({
-            data: {
-              exportTaxProperties: [
-                ...currentTax.exportTaxProperties,
-                { taxname, pname, __typename: 'ExportTaxProperty' },
-              ],
-            },
-          })
-        }
-      }
-      return null
-    },
-    removeExportTaxProperty: (_, { taxname, pname }, { cache }) => {
-      const current = cache.readQuery({ query: exportTaxPropertiesGql })
-      const exportTaxProperties = current.exportTaxProperties.filter(
-        x => !(x.taxname === taxname && x.pname === pname),
-      )
-      cache.writeData({
-        data: { exportTaxProperties },
-      })
-      return null
-    },
     setExportTaxFilters: (
       _,
       { taxname, pname, comparator, value },
@@ -139,14 +69,6 @@ export default {
           },
         })
       }
-      return null
-    },
-    resetExportTaxProperties: (_, values, { cache }) => {
-      cache.writeData({
-        data: {
-          exportTaxProperties: [],
-        },
-      })
       return null
     },
     resetExportTaxFilters: (_, values, { cache }) => {
