@@ -10,10 +10,8 @@ import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
 import exportPcoPropertiesResetMutation from '../../exportPcoPropertiesResetMutation'
-import exportRcoPropertiesResetMutation from '../../exportRcoPropertiesResetMutation'
 import exportTaxPropertiesResetMutation from '../../exportTaxPropertiesResetMutation'
 import exportTaxFiltersResetMutation from '../../exportTaxFiltersResetMutation'
-import exportRcoFiltersResetMutation from '../../exportRcoFiltersResetMutation'
 import TaxFilterItems from './TaxFilterItems'
 import PcoFilterItems from './PcoFilterItems'
 import RcoFilterItems from './RcoFilterItems'
@@ -102,6 +100,8 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     setWithSynonymData,
     pcoFilters,
     resetPcoFilters,
+    resetRcoFilters,
+    resetRcoProperties,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
@@ -130,9 +130,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     client.mutate({
       mutation: exportPcoPropertiesResetMutation,
     })
-    client.mutate({
-      mutation: exportRcoPropertiesResetMutation,
-    })
+    resetRcoProperties()
     client.mutate({
       mutation: exportTaxPropertiesResetMutation,
     })
@@ -140,9 +138,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
       mutation: exportTaxFiltersResetMutation,
     })
     resetPcoFilters()
-    client.mutate({
-      mutation: exportRcoFiltersResetMutation,
-    })
+    resetRcoFilters()
     setOnlyRowsWithProperties(true)
     setWithSynonymData(true)
   })

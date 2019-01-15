@@ -144,6 +144,12 @@ export default types
         x => !(x.pcname === pcname && x.pname === pname),
       )
     },
+    resetRcoFilters() {
+      self.rcoFilters = []
+    },
+    resetRcoProperties() {
+      self.rcoProperties = []
+    },
   }))
 
 export const defaultValue = {}

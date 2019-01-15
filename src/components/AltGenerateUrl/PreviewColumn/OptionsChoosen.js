@@ -10,7 +10,6 @@ import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
 import exportPcoPropertiesResetMutation from '../exportPcoPropertiesResetMutation'
-import exportRcoPropertiesResetMutation from '../exportRcoPropertiesResetMutation'
 import exportTaxPropertiesResetMutation from '../exportTaxPropertiesResetMutation'
 import constants from '../../../modules/constants'
 import TaxProperties from './TaxProperties'
@@ -71,7 +70,7 @@ const enhance = compose(
 const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { setTaxonomies } = mobxStore.export
+  const { setTaxonomies, resetRcoProperties } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
@@ -82,10 +81,7 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
       mutation: exportPcoPropertiesResetMutation,
       variables: { value: [] },
     })
-    client.mutate({
-      mutation: exportRcoPropertiesResetMutation,
-      variables: { value: [] },
-    })
+    resetRcoProperties()
     client.mutate({
       mutation: exportTaxPropertiesResetMutation,
       variables: { value: [] },
