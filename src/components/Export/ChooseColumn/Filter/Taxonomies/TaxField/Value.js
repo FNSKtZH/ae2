@@ -22,7 +22,6 @@ import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
 import exportTaxFiltersMutation from '../../../../exportTaxFiltersMutation'
-import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
 import readableType from '../../../../../../modules/readableType'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
 
@@ -146,7 +145,7 @@ const IntegrationAutosuggest = ({
 }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { addFilterFields } = mobxStore.export
+  const { addFilterFields, addTaxProperty } = mobxStore.export
 
   const [fetchData, setFetchData] = useState(false)
   const [dataFetched, setDataFetched] = useState(false)
@@ -230,10 +229,7 @@ const IntegrationAutosuggest = ({
       })
       // 2. if value and field not choosen, choose it
       if (addFilterFields && value) {
-        client.mutate({
-          mutation: addExportTaxPropertyMutation,
-          variables: { taxname, pname },
-        })
+        addTaxProperty({ taxname, pname })
       }
     },
     [taxname, pname, comparator, addFilterFields, value],

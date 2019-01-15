@@ -14,7 +14,7 @@ import rowsFromObjectsRcoMultipleRows from './rowsFromObjectsRcoMultipleRows'
 
 export default ({
   objects,
-  exportTaxProperties,
+  taxProperties,
   withSynonymData,
   pcoProperties,
   pco,
@@ -27,7 +27,7 @@ export default ({
   exportRcoInOneRow,
 }: {
   objects: Array<Object>,
-  exportTaxProperties: Array<Object>,
+  taxProperties: Array<Object>,
   withSynonymData: Boolean,
   pcoProperties: Array<Object>,
   pco: Array<Object>,
@@ -42,7 +42,7 @@ export default ({
   // need taxFields to filter only data with properties
   const taxFields = [
     'id',
-    ...exportTaxProperties.map(p => `${conv(p.taxname)}__${conv(p.pname)}`),
+    ...taxProperties.map(p => `${conv(p.taxname)}__${conv(p.pname)}`),
   ]
   const aditionalRows = []
   //console.log('rowsFromObjects 1:',{exportRcoInOneRow,rcoProperties,exportOnlyRowsWithProperties})
@@ -51,7 +51,7 @@ export default ({
     const row = {}
     row.id = o.id
     const properties = o.properties ? JSON.parse(o.properties) : {}
-    exportTaxProperties.forEach(p => {
+    taxProperties.forEach(p => {
       let val = null
       if (properties && properties[p.pname] !== undefined) {
         if (typeof properties[p.pname] === 'boolean') {
