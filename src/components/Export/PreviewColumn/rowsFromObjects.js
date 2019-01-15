@@ -16,12 +16,12 @@ export default ({
   objects,
   exportTaxProperties,
   withSynonymData,
-  exportPcoProperties,
+  pcoProperties,
   pco,
   rco,
   synonyms,
   exportRcoPropertyNames,
-  exportRcoProperties,
+  rcoProperties,
   exportIds,
   exportOnlyRowsWithProperties,
   exportRcoInOneRow,
@@ -29,12 +29,12 @@ export default ({
   objects: Array<Object>,
   exportTaxProperties: Array<Object>,
   withSynonymData: Boolean,
-  exportPcoProperties: Array<Object>,
+  pcoProperties: Array<Object>,
   pco: Array<Object>,
   rco: Array<Object>,
   synonyms: Array<Object>,
   exportRcoPropertyNames: Boolean,
-  exportRcoProperties: Array<Object>,
+  rcoProperties: Array<Object>,
   exportIds: Array<String>,
   exportOnlyRowsWithProperties: Boolean,
   exportRcoInOneRow: Boolean,
@@ -45,7 +45,7 @@ export default ({
     ...exportTaxProperties.map(p => `${conv(p.taxname)}__${conv(p.pname)}`),
   ]
   const aditionalRows = []
-  //console.log('rowsFromObjects 1:',{exportRcoInOneRow,exportRcoProperties,exportOnlyRowsWithProperties})
+  //console.log('rowsFromObjects 1:',{exportRcoInOneRow,rcoProperties,exportOnlyRowsWithProperties})
   let rows = objects.map(o => {
     // 1. object
     const row = {}
@@ -73,16 +73,16 @@ export default ({
         .map(s => s.objectIdSynonym),
     ]
     // 2. pco
-    if (exportPcoProperties.length > 0) {
+    if (pcoProperties.length > 0) {
       const thisObjectsPco = pco.filter(p =>
         thisObjectsSynonyms.includes(p.objectId),
       )
       thisObjectsPco.forEach(pco => {
-        const pcoProperties = JSON.parse(pco.properties)
-        if (pcoProperties) {
-          exportPcoProperties.forEach(p => {
-            if (pcoProperties[p.pname] !== undefined) {
-              let val = pcoProperties[p.pname]
+        const properties = JSON.parse(pco.properties)
+        if (properties) {
+          pcoProperties.forEach(p => {
+            if (properties[p.pname] !== undefined) {
+              let val = properties[p.pname]
               if (typeof val === 'boolean') {
                 val = booleanToJaNein(val)
               }
@@ -92,7 +92,7 @@ export default ({
         }
       })
       // add every field if still missing
-      exportPcoProperties.forEach(p => {
+      pcoProperties.forEach(p => {
         const fieldName = `${conv(p.pcname)}__${conv(p.pname)}`
         if (row[fieldName] === undefined) {
           row[fieldName] = null
@@ -100,7 +100,7 @@ export default ({
       })
     }
     // 3. rco
-    if (exportRcoProperties.length > 0) {
+    if (rcoProperties.length > 0) {
       const thisObjectsRco = rco.filter(p =>
         thisObjectsSynonyms.includes(p.objectId),
       )
@@ -117,13 +117,13 @@ export default ({
       if (exportRcoInOneRow) {
         rowsFromObjectsRcoSingleRow({
           thisObjectsRco,
-          exportRcoProperties,
+          rcoProperties,
           row,
         })
       } else {
         rowsFromObjectsRcoMultipleRows({
           thisObjectsRco,
-          exportRcoProperties,
+          rcoProperties,
           row,
           aditionalRows,
         })

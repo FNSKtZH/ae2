@@ -66,11 +66,6 @@ const storeQuery = gql`
       comparator
       value
     }
-    exportRcoProperties @client {
-      pcname
-      relationtype
-      pname
-    }
     exportRcoFilters @client {
       pcname
       pname
@@ -102,6 +97,8 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     resetPcoFilters,
     resetRcoFilters,
     resetRcoProperties,
+    rcoProperties,
+    pcoProperties,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
@@ -109,15 +106,13 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
 
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportTaxFilters = get(storeData, 'exportTaxFilters', [])
-  const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
-  const exportRcoProperties = get(storeData, 'exportRcoProperties', [])
   const exportRcoFilters = get(storeData, 'exportRcoFilters', [])
   const noDataChoosen =
     [
       ...exportTaxonomies,
       ...exportTaxProperties,
-      ...exportPcoProperties,
-      ...exportRcoProperties,
+      ...pcoProperties,
+      ...rcoProperties,
       ...exportTaxFilters,
       ...pcoFilters,
       ...exportRcoFilters,
@@ -202,10 +197,10 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
             </ResetSpan>
           )}
         </li>
-        {exportRcoProperties.length > 0 && exportRcoInOneRow && (
+        {rcoProperties.length > 0 && exportRcoInOneRow && (
           <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
         )}
-        {exportRcoProperties.length > 0 && !exportRcoInOneRow && (
+        {rcoProperties.length > 0 && !exportRcoInOneRow && (
           <li>Für jede Beziehung wird eine Zeile erstellt</li>
         )}
         <li>
@@ -223,18 +218,15 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
         </li>
         <li>
           {`Eigenschaften:${
-            [
-              ...exportTaxProperties,
-              ...exportPcoProperties,
-              ...exportRcoProperties,
-            ].length === 0
+            [...exportTaxProperties, ...pcoProperties, ...rcoProperties]
+              .length === 0
               ? ' keine (die id kommt immer mit)'
               : ' (die id kommt immer mit)'
           }`}
           <ul>
             <TaxPropertiesItems exportTaxProperties={exportTaxProperties} />
-            <PcoPropertiesItems exportPcoProperties={exportPcoProperties} />
-            <RcoPropertiesItems exportRcoProperties={exportRcoProperties} />
+            <PcoPropertiesItems pcoProperties={pcoProperties} />
+            <RcoPropertiesItems rcoProperties={rcoProperties} />
           </ul>
         </li>
       </ul>

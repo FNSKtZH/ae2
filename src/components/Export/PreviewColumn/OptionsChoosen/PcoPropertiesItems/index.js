@@ -4,11 +4,11 @@ import React from 'react'
 import Item from './Item'
 
 const ExportPcoPropertiesListItems = ({
-  exportPcoProperties,
+  pcoProperties,
 }: {
-  exportPcoProperties: Array<Object>,
+  pcoProperties: Array<Object>,
 }) =>
-  exportPcoProperties.map(p => (
+  pcoProperties.map(p => (
     <Item key={`${p.pcname}: ${p.pname}`} properties={p} />
   ))
 

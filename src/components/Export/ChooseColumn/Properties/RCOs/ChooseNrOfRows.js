@@ -8,8 +8,6 @@ import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import uniq from 'lodash/uniq'
-import { useQuery } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
 import mobxStoreContext from '../../../../../mobxStoreContext'
@@ -38,31 +36,15 @@ const StyledUl = styled.ul`
   padding-left: 52px;
 `
 
-const storeQuery = gql`
-  {
-    exportRcoProperties @client {
-      pcname
-      relationtype
-    }
-  }
-`
-
 const ChooseNrOfRows = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { setRcoInOneRow, rcoInOneRow } = mobxStore.export
-
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const { setRcoInOneRow, rcoInOneRow, rcoProperties } = mobxStore.export
 
   const multipleRowsDisabled =
-    uniq(
-      storeData.exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`),
-    ).length > 1
+    uniq(rcoProperties.map(e => `${e.pcname}/${e.relationtype}`)).length > 1
   const onChange = useCallback(() => setRcoInOneRow(!rcoInOneRow), [
     rcoInOneRow,
   ])
-
-  if (storeData.loading) return 'Lade Daten...'
-  if (storeData.error) return `Fehler: ${storeData.error.message}`
 
   return (
     <StyledFormControl>

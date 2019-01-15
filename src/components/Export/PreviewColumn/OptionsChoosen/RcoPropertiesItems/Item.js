@@ -1,9 +1,8 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import { useApolloClient } from 'react-apollo-hooks'
 
-import removeExportRcoPropertyMutation from '../../../removeExportRcoPropertyMutation'
+import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const ResetSpan = styled.span`
   margin-left: 8px;
@@ -18,17 +17,16 @@ const ExportRcoPropertiesListItem = ({
 }: {
   properties: Object,
 }) => {
-  const client = useApolloClient()
   const { pcname, relationtype, pname } = properties
+  const mobxStore = useContext(mobxStoreContext)
+  const { removeRcoProperty } = mobxStore.export
+
   const onClick = useCallback(
     () =>
-      client.mutate({
-        mutation: removeExportRcoPropertyMutation,
-        variables: {
-          pcname,
-          relationtype,
-          pname,
-        },
+      removeRcoProperty({
+        pcname,
+        relationtype,
+        pname,
       }),
     [properties],
   )

@@ -70,11 +70,6 @@ const storeQuery = gql`
       comparator
       value
     }
-    exportRcoProperties @client {
-      pcname
-      relationtype
-      pname
-    }
   }
 `
 const propsByTaxQuery = gql`
@@ -175,6 +170,7 @@ const synonymQuery = gql`
 
 const Export = () => {
   const mobxStore = useContext(mobxStoreContext)
+  const { rcoProperties } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })

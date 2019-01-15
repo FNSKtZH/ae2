@@ -1,13 +1,15 @@
 // @flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import copy from 'copy-to-clipboard'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import ErrorBoundary from '../../shared/ErrorBoundary'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 5px;
@@ -31,37 +33,30 @@ const query = gql`
       taxname
       pname
     }
-    exportPcoProperties @client {
-      pcname
-      pname
-    }
-    exportRcoProperties @client {
-      pcname
-      relationtype
-      pname
-    }
   }
 `
 
 const Url = () => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { rcoProperties, pcoProperties } = mobxStore.export
+
   const [copyButtonText, setCopyButtonText] = useState('url kopieren')
 
   const { data, loading, error } = useQuery(query, { suspend: false })
-  const { exportTaxProperties, exportPcoProperties, exportRcoProperties } = data
+  const { exportTaxProperties } = data
   const fieldsChoosen =
-    [...exportTaxProperties, ...exportPcoProperties, ...exportRcoProperties]
-      .length > 0
+    [...exportTaxProperties, ...pcoProperties, ...rcoProperties].length > 0
   const taxProps = exportTaxProperties.map(p => ({
     t: 'tax',
     n: p.taxname,
     p: p.pname,
   }))
-  const pcoProps = exportPcoProperties.map(p => ({
+  const pcoProps = pcoProperties.map(p => ({
     t: 'pco',
     n: p.pcname,
     p: p.pname,
   }))
-  const rcoProps = exportRcoProperties.map(p => ({
+  const rcoProps = rcoProperties.map(p => ({
     t: 'rco',
     n: p.pcname,
     rt: p.relationtype,
@@ -111,4 +106,4 @@ const Url = () => {
   )
 }
 
-export default Url
+export default observer(Url)

@@ -11,12 +11,11 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
 import readableType from '../../../../../../../modules/readableType'
-import addExportRcoPropertyMutation from '../../../../../addExportRcoPropertyMutation'
 import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const StyledPaper = styled(Paper)`
@@ -144,9 +143,8 @@ const IntegrationAutosuggest = ({
   value: String,
   classes: Object,
 }) => {
-  const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { addFilterFields, setRcoFilters } = mobxStore.export
+  const { addFilterFields, setRcoFilters, addRcoProperty } = mobxStore.export
 
   const [suggestions, setSuggestions] = useState([])
   const [propValues, setPropValues] = useState([])
@@ -230,10 +228,7 @@ const IntegrationAutosuggest = ({
       })
       // 2. if value and field is not choosen, choose it
       if (addFilterFields && value) {
-        client.mutate({
-          mutation: addExportRcoPropertyMutation,
-          variables: { pcname, relationtype, pname },
-        })
+        addRcoProperty({ pcname, relationtype, pname })
       }
     },
     [pcname, relationtype, pname, comparator, addFilterFields, value],

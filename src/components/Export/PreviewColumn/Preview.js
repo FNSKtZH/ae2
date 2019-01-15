@@ -189,15 +189,6 @@ const storeQuery = gql`
       comparator
       value
     }
-    exportPcoProperties @client {
-      pcname
-      pname
-    }
-    exportRcoProperties @client {
-      pcname
-      relationtype
-      pname
-    }
     exportRcoInOneRow @client
   }
 `
@@ -208,6 +199,8 @@ const Preview = () => {
     onlyRowsWithProperties: exportOnlyRowsWithProperties,
     withSynonymData,
     pcoFilters,
+    rcoProperties,
+    pcoProperties,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
   const exportIds = mobxStore.export.ids.toJSON()
@@ -244,9 +237,6 @@ const Preview = () => {
     loading: synonymLoading,
     error: synonymError,
   } = useQuery(synonymQuery, { suspend: false })
-  const pcoProperties = get(storeData, 'exportPcoProperties', []).map(d =>
-    omit(d, ['__typename']),
-  )
   const {
     data: exportPcoData,
     loading: exportPcoLoading,
@@ -260,9 +250,6 @@ const Preview = () => {
     },
   })
   const rcoFilters = get(storeData, 'exportRcoFilters', []).map(d =>
-    omit(d, ['__typename']),
-  )
-  const rcoProperties = get(storeData, 'exportRcoProperties', []).map(d =>
     omit(d, ['__typename']),
   )
   const {
@@ -294,9 +281,7 @@ const Preview = () => {
 
   const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
-  const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
-  const exportRcoProperties = get(storeData, 'exportRcoProperties', [])
-  const exportRcoPropertyNames = exportRcoProperties.map(p => p.pname)
+  const exportRcoPropertyNames = rcoProperties.map(p => p.pname)
   const objects = get(exportObjectData, 'exportObject.nodes', [])
   const pco = get(exportPcoData, 'exportPco.nodes', [])
   const rco = get(exportRcoData, 'exportRco.nodes', [])
@@ -308,12 +293,12 @@ const Preview = () => {
     exportTaxProperties,
     withSynonymData,
     exportRcoInOneRow,
-    exportPcoProperties,
+    pcoProperties,
     pco,
     rco,
     synonyms,
     exportRcoPropertyNames,
-    exportRcoProperties,
+    rcoProperties,
     exportIds,
     exportOnlyRowsWithProperties,
   })

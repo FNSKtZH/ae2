@@ -50,15 +50,6 @@ const storeQuery = gql`
       taxname
       pname
     }
-    exportPcoProperties @client {
-      pcname
-      pname
-    }
-    exportRcoProperties @client {
-      pcname
-      relationtype
-      pname
-    }
   }
 `
 
@@ -70,7 +61,12 @@ const enhance = compose(
 const OptionsChoosen = ({ classes }: { classes: Object }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { setTaxonomies, resetRcoProperties } = mobxStore.export
+  const {
+    setTaxonomies,
+    resetRcoProperties,
+    rcoProperties,
+    pcoProperties,
+  } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
@@ -89,14 +85,12 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
   })
 
   const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
-  const exportPcoProperties = get(storeData, 'exportPcoProperties', [])
-  const exportRcoProperties = get(storeData, 'exportRcoProperties', [])
   const noDataChoosen =
     [
       ...exportTaxonomies,
       ...exportTaxProperties,
-      ...exportPcoProperties,
-      ...exportRcoProperties,
+      ...pcoProperties,
+      ...rcoProperties,
     ].length === 0
 
   if (noDataChoosen) return null
@@ -108,23 +102,20 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
         <li>{`Taxonomien (welche das Artenlistentool erwartet): ${constants.altTaxonomies.join(
           ', ',
         )}`}</li>
-        {exportRcoProperties.length > 0 && (
+        {rcoProperties.length > 0 && (
           <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
         )}
         <li>
           {`Eigenschaften:${
-            [
-              ...exportTaxProperties,
-              ...exportPcoProperties,
-              ...exportRcoProperties,
-            ].length === 0
+            [...exportTaxProperties, ...pcoProperties, ...rcoProperties]
+              .length === 0
               ? ' keine'
               : ''
           }`}
           <ul>
             <TaxProperties properties={exportTaxProperties} />
-            <PcoProperties properties={exportPcoProperties} />
-            <RcoProperties properties={exportRcoProperties} />
+            <PcoProperties properties={pcoProperties} />
+            <RcoProperties properties={rcoProperties} />
           </ul>
         </li>
       </ul>

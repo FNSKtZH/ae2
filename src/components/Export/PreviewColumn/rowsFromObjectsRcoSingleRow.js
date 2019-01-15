@@ -6,15 +6,15 @@ import conv from '../../../modules/convertExportFieldName'
 
 export default ({
   thisObjectsRco,
-  exportRcoProperties,
+  rcoProperties,
   row,
 }: {
   thisObjectsRco: Array<Object>,
-  exportRcoProperties: Array<Object>,
+  rcoProperties: Array<Object>,
   row: Object,
 }) => {
   // loop through all properties
-  exportRcoProperties.forEach(p => {
+  rcoProperties.forEach(p => {
     const rcos = thisObjectsRco.filter(
       r =>
         get(r, 'propertyCollectionByPropertyCollectionId.name') === p.pcname &&
@@ -41,8 +41,8 @@ export default ({
       const vals = rcos
         .map(r => {
           // catch case where properties is null
-          const rcoProperties = r.properties ? JSON.parse(r.properties) : {}
-          let val = rcoProperties[p.pname] || null
+          const properties = r.properties ? JSON.parse(r.properties) : {}
+          let val = properties[p.pname] || null
           if (typeof val === 'boolean') {
             val = booleanToJaNein(val)
           }
