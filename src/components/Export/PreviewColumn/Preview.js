@@ -179,10 +179,6 @@ const synonymQuery = gql`
 `
 const storeQuery = gql`
   query storeQuery {
-    exportTaxProperties @client {
-      taxname
-      pname
-    }
     exportTaxFilters @client {
       taxname
       pname
@@ -201,6 +197,7 @@ const Preview = () => {
     pcoFilters,
     rcoProperties,
     pcoProperties,
+    taxProperties,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
   const exportIds = mobxStore.export.ids.toJSON()
@@ -229,7 +226,7 @@ const Preview = () => {
     variables: {
       exportTaxonomies,
       taxFilters,
-      fetchTaxProperties: get(storeData, 'exportTaxProperties', []).length > 0,
+      fetchTaxProperties: taxProperties.length > 0,
     },
   })
   const {
@@ -280,7 +277,6 @@ const Preview = () => {
   )
 
   const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
-  const exportTaxProperties = get(storeData, 'exportTaxProperties', [])
   const exportRcoPropertyNames = rcoProperties.map(p => p.pname)
   const objects = get(exportObjectData, 'exportObject.nodes', [])
   const pco = get(exportPcoData, 'exportPco.nodes', [])
@@ -290,7 +286,7 @@ const Preview = () => {
   // need taxFields to filter only data with properties
   let { rows, pvColumns } = rowsFromObjects({
     objects,
-    exportTaxProperties,
+    taxProperties,
     withSynonymData,
     exportRcoInOneRow,
     pcoProperties,

@@ -4,11 +4,11 @@ import React from 'react'
 import Item from './Item'
 
 const ExportTaxPropertiesListItems = ({
-  exportTaxProperties,
+  taxProperties,
 }: {
-  exportTaxProperties: Array<Object>,
+  taxProperties: Array<Object>,
 }) => {
-  return exportTaxProperties.map(p => (
+  return taxProperties.map(p => (
     <Item key={`${p.taxname}: ${p.pname}`} properties={p} />
   ))
 }
