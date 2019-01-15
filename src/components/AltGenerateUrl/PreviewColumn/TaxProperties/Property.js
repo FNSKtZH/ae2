@@ -1,9 +1,8 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import { useApolloClient } from 'react-apollo-hooks'
 
-import removeExportTaxPropertyMutation from '../../removeExportTaxPropertyMutation'
+import mobxStoreContext from '../../../../mobxStoreContext'
 
 const ResetSpan = styled.span`
   margin-left: 8px;
@@ -20,14 +19,13 @@ const TaxProperties = ({
   taxname: string,
   pname: string,
 }) => {
-  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { removeTaxProperty } = mobxStore.export
+
   const onClick = useCallback(() =>
-    client.mutate({
-      mutation: removeExportTaxPropertyMutation,
-      variables: {
-        taxname,
-        pname,
-      },
+    removeTaxProperty({
+      taxname,
+      pname,
     }),
   )
 
