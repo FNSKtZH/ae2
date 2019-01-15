@@ -4,7 +4,6 @@ import { ApolloClient } from 'apollo-client'
 import { BatchHttpLink } from 'apollo-link-batch-http'
 import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import { withClientState } from 'apollo-link-state'
 import { ApolloLink } from 'apollo-link'
 import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
@@ -12,8 +11,6 @@ import jwtDecode from 'jwt-decode'
 import './index.css'
 import 'react-reflex/styles.css'
 import graphQlUri from './modules/graphQlUri'
-import defaults from './store/defaults'
-import resolvers from './store/resolvers'
 
 export default async ({ idb, history, mobxStore }) => {
   /**
@@ -57,11 +54,6 @@ export default async ({ idb, history, mobxStore }) => {
   })
 
   const cache = new InMemoryCache()
-  const stateLink = withClientState({
-    resolvers: resolvers(history),
-    cache,
-    defaults,
-  })
   // use httpLink _instead_ of batchHttpLink in order not to batch
   /*
   const httpLink = createHttpLink({
@@ -69,7 +61,7 @@ export default async ({ idb, history, mobxStore }) => {
   })*/
   const batchHttpLink = new BatchHttpLink({ uri: graphQlUri() })
   const client = new ApolloClient({
-    link: ApolloLink.from([stateLink, authMiddleware, batchHttpLink]),
+    link: ApolloLink.from([authMiddleware, batchHttpLink]),
     cache,
   })
   return client
