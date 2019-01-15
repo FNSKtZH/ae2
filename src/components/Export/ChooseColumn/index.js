@@ -8,8 +8,6 @@ import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Snackbar from '@material-ui/core/Snackbar'
 import styled from 'styled-components'
-import get from 'lodash/get'
-import omit from 'lodash/omit'
 import { useQuery } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
@@ -55,23 +53,6 @@ const ErrorContainer = styled.div`
   padding: 10px;
 `
 
-const storeQuery = gql`
-  query exportTaxonomiesQuery {
-    exportTaxFilters @client {
-      taxname
-      pname
-      comparator
-      value
-    }
-    exportRcoFilters @client {
-      pcname
-      pname
-      relationtype
-      comparator
-      value
-    }
-  }
-`
 const propsByTaxQuery = gql`
   query propsByTaxDataQuery(
     $queryExportTaxonomies: Boolean!
@@ -170,14 +151,10 @@ const synonymQuery = gql`
 
 const Export = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { taxProperties } = mobxStore.export
+  const { taxProperties, taxFilters } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
   // need to remove __typename because apollo passes it along ?!
-  const taxFilters = get(storeData, 'exportTaxFilters', []).map(d =>
-    omit(d, ['__typename']),
-  )
   const fetchTaxProperties = taxProperties.length > 0
   const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
     propsByTaxQuery,

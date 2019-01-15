@@ -4,9 +4,6 @@ import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
-import get from 'lodash/get'
-import { useQuery } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
 import TaxFilterItems from './TaxFilterItems'
@@ -51,25 +48,6 @@ const StyledButton = styled(Button)`
   margin-top: 0 !important;
 `
 
-const storeQuery = gql`
-  query exportTypeQuery {
-    exportTaxFilters @client {
-      taxname
-      pname
-      comparator
-      value
-    }
-    exportRcoFilters @client {
-      pcname
-      pname
-      relationtype
-      comparator
-      value
-    }
-    exportRcoInOneRow @client
-  }
-`
-
 const enhance = compose(
   withStyles(styles),
   observer,
@@ -81,11 +59,13 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     setType,
     type: exportType,
     setTaxonomies,
-    onlyRowsWithProperties: exportOnlyRowsWithProperties,
+    onlyRowsWithProperties,
     setOnlyRowsWithProperties,
     withSynonymData,
     setWithSynonymData,
     pcoFilters,
+    rcoFilters,
+    taxFilters,
     resetPcoFilters,
     resetRcoFilters,
     resetTaxFilters,
@@ -95,24 +75,20 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     pcoProperties,
     resetTaxProperties,
     taxProperties,
+    rcoInOneRow,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-
-  const exportTaxFilters = get(storeData, 'exportTaxFilters', [])
-  const exportRcoFilters = get(storeData, 'exportRcoFilters', [])
   const noDataChoosen =
     [
       ...exportTaxonomies,
       ...taxProperties,
       ...pcoProperties,
       ...rcoProperties,
-      ...exportTaxFilters,
+      ...taxFilters,
       ...pcoFilters,
-      ...exportRcoFilters,
+      ...rcoFilters,
     ].length === 0
-  const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
 
   const onClickResetAll = useCallback(() => {
     setType([])
@@ -176,33 +152,32 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
         </li>
         <li>
           {`${
-            exportOnlyRowsWithProperties
+            onlyRowsWithProperties
               ? 'Nur Datensätze mit Eigenschaften exportieren'
               : 'Auch Datensätze ohne Eigenschaften exportieren'
           }`}
-          {!exportOnlyRowsWithProperties && (
+          {!onlyRowsWithProperties && (
             <ResetSpan onClick={onClickResetExportOnlyRowsWithProperties}>
               zurücksetzen
             </ResetSpan>
           )}
         </li>
-        {rcoProperties.length > 0 && exportRcoInOneRow && (
+        {rcoProperties.length > 0 && rcoInOneRow && (
           <li>Eigenschaften von Beziehungen mit | getrennt in einer Zeile</li>
         )}
-        {rcoProperties.length > 0 && !exportRcoInOneRow && (
+        {rcoProperties.length > 0 && !rcoInOneRow && (
           <li>Für jede Beziehung wird eine Zeile erstellt</li>
         )}
         <li>
           {`Filter:${
-            [...exportTaxFilters, ...pcoFilters, ...exportRcoFilters].length ===
-            0
+            [...taxFilters, ...pcoFilters, ...rcoFilters].length === 0
               ? ' keine'
               : ''
           }`}
           <ul>
-            <TaxFilterItems exportTaxFilters={exportTaxFilters} />
+            <TaxFilterItems taxFilters={taxFilters} />
             <PcoFilterItems pcoFilters={pcoFilters} />
-            <RcoFilterItems exportRcoFilters={exportRcoFilters} />
+            <RcoFilterItems rcoFilters={rcoFilters} />
           </ul>
         </li>
         <li>

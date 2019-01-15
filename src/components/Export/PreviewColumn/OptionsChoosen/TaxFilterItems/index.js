@@ -4,12 +4,9 @@ import React from 'react'
 import Item from './Item'
 
 const ExportTaxFilterListItems = ({
-  exportTaxFilters,
+  taxFilters,
 }: {
-  exportTaxFilters: Array<Object>,
-}) =>
-  exportTaxFilters.map(f => (
-    <Item key={`${f.taxname}: ${f.pname}`} filter={f} />
-  ))
+  taxFilters: Array<Object>,
+}) => taxFilters.map(f => <Item key={`${f.taxname}: ${f.pname}`} filter={f} />)
 
 export default ExportTaxFilterListItems
