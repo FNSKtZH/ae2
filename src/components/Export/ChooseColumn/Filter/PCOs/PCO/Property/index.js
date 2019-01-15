@@ -40,14 +40,6 @@ const PcoProperty = ({
     return <Checkbox pcname={pcname} pname={pname} value={value} />
   }
 
-  console.log('Filter > Property', {
-    pcname,
-    pname,
-    value,
-    pcoFilter,
-    pcoFilters,
-  })
-
   return (
     <Container>
       <Value
