@@ -1,9 +1,9 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import { useApolloClient } from 'react-apollo-hooks'
+import { observer } from 'mobx-react-lite'
 
-import removeExportPcoPropertyMutation from '../../removeExportPcoPropertyMutation'
+import mobxStoreContext from '../../../../mobxStoreContext'
 
 const ResetSpan = styled.span`
   margin-left: 8px;
@@ -14,14 +14,13 @@ const ResetSpan = styled.span`
 `
 
 const Property = ({ pcname, pname }: { pcname: string, pname: string }) => {
-  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { removePcoProperty } = mobxStore.export
+
   const onClick = useCallback(() =>
-    client.mutate({
-      mutation: removeExportPcoPropertyMutation,
-      variables: {
-        pcname,
-        pname,
-      },
+    removePcoProperty({
+      pcname,
+      pname,
     }),
   )
 
@@ -33,4 +32,4 @@ const Property = ({ pcname, pname }: { pcname: string, pname: string }) => {
   )
 }
 
-export default Property
+export default observer(Property)
