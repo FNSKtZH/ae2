@@ -170,15 +170,12 @@ const synonymQuery = gql`
 
 const Export = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { rcoProperties } = mobxStore.export
+  const { taxProperties } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: storeData } = useQuery(storeQuery, { suspend: false })
   // need to remove __typename because apollo passes it along ?!
   const taxFilters = get(storeData, 'exportTaxFilters', []).map(d =>
-    omit(d, ['__typename']),
-  )
-  const taxProperties = get(storeData, 'exportTaxProperties', []).map(d =>
     omit(d, ['__typename']),
   )
   const fetchTaxProperties = taxProperties.length > 0

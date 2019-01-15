@@ -1,13 +1,11 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import addExportTaxPropertyMutation from '../../../../addExportTaxPropertyMutation'
-import removeExportTaxPropertyMutation from '../../../../removeExportTaxPropertyMutation'
+import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -21,42 +19,29 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const storeQuery = gql`
-  query exportTaxPropertiesQuery {
-    exportTaxProperties @client {
-      taxname
-      pname
-    }
-  }
-`
-
 const AllTaxChooser = ({ properties }: { properties: Array<Object> }) => {
-  const client = useApolloClient()
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxProperties, addTaxProperty, removeTaxProperty } = mobxStore.export
 
   const onCheck = useCallback(
     async (event, isChecked) => {
-      const mutation = isChecked
-        ? addExportTaxPropertyMutation
-        : removeExportTaxPropertyMutation
       for (let p of properties) {
-        client.mutate({
-          mutation,
-          variables: {
-            taxname: p.taxname ? p.taxname : p.taxonomyName,
-            pname: p.propertyName,
-          },
-        })
+        const taxname = p.taxname ? p.taxname : p.taxonomyName
+        const pname = p.propertyName
+        if (isChecked) {
+          addTaxProperty({ taxname, pname })
+        } else {
+          removeTaxProperty({ taxname, pname })
+        }
       }
     },
     [properties],
   )
 
-  const exportTaxProperties = storeData.exportTaxProperties || []
   const checkedArray = properties.map(p => {
     const taxname = p.taxname ? p.taxname : p.taxonomyName
     return (
-      exportTaxProperties.filter(
+      taxProperties.filter(
         x => x.taxname === taxname && x.pname === p.propertyName,
       ).length > 0
     )
@@ -75,4 +60,4 @@ const AllTaxChooser = ({ properties }: { properties: Array<Object> }) => {
   )
 }
 
-export default AllTaxChooser
+export default observer(AllTaxChooser)
