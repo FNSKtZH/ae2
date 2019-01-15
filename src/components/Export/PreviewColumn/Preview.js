@@ -177,17 +177,6 @@ const synonymQuery = gql`
     }
   }
 `
-const storeQuery = gql`
-  query storeQuery {
-    exportTaxFilters @client {
-      taxname
-      pname
-      comparator
-      value
-    }
-    exportRcoInOneRow @client
-  }
-`
 
 const Preview = () => {
   const mobxStore = useContext(mobxStoreContext)
@@ -195,14 +184,16 @@ const Preview = () => {
     onlyRowsWithProperties: exportOnlyRowsWithProperties,
     withSynonymData,
     pcoFilters,
+    rcoFilters,
+    taxFilters,
     rcoProperties,
     pcoProperties,
     taxProperties,
+    rcoInOneRow,
   } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
   const exportIds = mobxStore.export.ids.toJSON()
 
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
   const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
@@ -212,10 +203,6 @@ const Preview = () => {
         queryExportTaxonomies: exportTaxonomies.length > 0,
       },
     },
-  )
-  // need to remove __typename because apollo passes it along ?!
-  const taxFilters = get(storeData, 'exportTaxFilters', []).map(d =>
-    omit(d, ['__typename']),
   )
   const {
     data: exportObjectData,
@@ -246,9 +233,6 @@ const Preview = () => {
       fetchPcoProperties: pcoProperties.length > 0,
     },
   })
-  const rcoFilters = get(storeData, 'exportRcoFilters', []).map(d =>
-    omit(d, ['__typename']),
-  )
   const {
     data: exportRcoData,
     loading: exportRcoLoading,
@@ -276,7 +260,6 @@ const Preview = () => {
     [message],
   )
 
-  const exportRcoInOneRow = get(storeData, 'exportRcoInOneRow', true)
   const exportRcoPropertyNames = rcoProperties.map(p => p.pname)
   const objects = get(exportObjectData, 'exportObject.nodes', [])
   const pco = get(exportPcoData, 'exportPco.nodes', [])
@@ -288,7 +271,7 @@ const Preview = () => {
     objects,
     taxProperties,
     withSynonymData,
-    exportRcoInOneRow,
+    rcoInOneRow,
     pcoProperties,
     pco,
     rco,

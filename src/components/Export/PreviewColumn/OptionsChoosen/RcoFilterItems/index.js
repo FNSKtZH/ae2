@@ -4,11 +4,11 @@ import React from 'react'
 import Item from './Item'
 
 const ExportRcoFilterListItems = ({
-  exportRcoFilters,
+  rcoFilters,
 }: {
-  exportRcoFilters: Array<Object>,
+  rcoFilters: Array<Object>,
 }) =>
-  exportRcoFilters.map(f => (
+  rcoFilters.map(f => (
     <Item key={`${f.pcname}|${f.relationtype}|${f.pname}`} filter={f} />
   ))
 

@@ -24,7 +24,7 @@ export default ({
   rcoProperties,
   exportIds,
   exportOnlyRowsWithProperties,
-  exportRcoInOneRow,
+  rcoInOneRow,
 }: {
   objects: Array<Object>,
   taxProperties: Array<Object>,
@@ -37,7 +37,7 @@ export default ({
   rcoProperties: Array<Object>,
   exportIds: Array<String>,
   exportOnlyRowsWithProperties: Boolean,
-  exportRcoInOneRow: Boolean,
+  rcoInOneRow: Boolean,
 }) => {
   // need taxFields to filter only data with properties
   const taxFields = [
@@ -45,7 +45,7 @@ export default ({
     ...taxProperties.map(p => `${conv(p.taxname)}__${conv(p.pname)}`),
   ]
   const aditionalRows = []
-  //console.log('rowsFromObjects 1:',{exportRcoInOneRow,rcoProperties,exportOnlyRowsWithProperties})
+  //console.log('rowsFromObjects 1:',{rcoInOneRow,rcoProperties,exportOnlyRowsWithProperties})
   let rows = objects.map(o => {
     // 1. object
     const row = {}
@@ -114,7 +114,7 @@ export default ({
        * choose to add new row, depending on setting?
        * but then need to make shure only one relationCollection exists
        */
-      if (exportRcoInOneRow) {
+      if (rcoInOneRow) {
         rowsFromObjectsRcoSingleRow({
           thisObjectsRco,
           rcoProperties,
