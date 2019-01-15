@@ -1,13 +1,11 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import addExportRcoPropertyMutation from '../../../../addExportRcoPropertyMutation'
-import removeExportRcoPropertyMutation from '../../../../removeExportRcoPropertyMutation'
+import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   margin-bottom: 16px;
@@ -21,26 +19,13 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const storeQuery = gql`
-  query exportRcoPropertiesQuery {
-    exportRcoProperties @client {
-      pcname
-      relationtype
-      pname
-    }
-  }
-`
-
 const AllRcoChooser = ({ properties }: { properties: Array<Object> }) => {
-  const client = useApolloClient()
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const mobxStore = useContext(mobxStoreContext)
+  const { removeRcoProperty, addRcoProperty, rcoProperties } = mobxStore.export
 
-  const exportRcoProperties = storeData.exportRcoProperties || []
   const checkedArray = properties.map(
     p =>
-      exportRcoProperties.filter(
+      rcoProperties.filter(
         x =>
           x.pcname === p.propertyCollectionName &&
           x.relationtype === p.relationType &&
@@ -51,17 +36,19 @@ const AllRcoChooser = ({ properties }: { properties: Array<Object> }) => {
 
   const onCheck = useCallback(
     (event, isChecked) => {
-      const mutation = isChecked
-        ? addExportRcoPropertyMutation
-        : removeExportRcoPropertyMutation
+      if (isChecked) {
+        return properties.forEach(p => {
+          const pcname = p.propertyCollectionName
+          const relationtype = p.relationType
+          const pname = p.propertyName
+          addRcoProperty({ pcname, relationtype, pname })
+        })
+      }
       properties.forEach(p => {
         const pcname = p.propertyCollectionName
         const relationtype = p.relationType
         const pname = p.propertyName
-        client.mutate({
-          mutation,
-          variables: { pcname, relationtype, pname },
-        })
+        removeRcoProperty({ pcname, relationtype, pname })
       })
     },
     [properties],
@@ -79,4 +66,4 @@ const AllRcoChooser = ({ properties }: { properties: Array<Object> }) => {
   )
 }
 
-export default AllRcoChooser
+export default observer(AllRcoChooser)

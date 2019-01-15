@@ -1,13 +1,11 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
-import addExportRcoPropertyMutation from '../../../../../addExportRcoPropertyMutation'
-import removeExportRcoPropertyMutation from '../../../../../removeExportRcoPropertyMutation'
+import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const Container = styled.div``
 const Count = styled.span`
@@ -19,16 +17,6 @@ const Label = styled(FormControlLabel)`
   > span {
     font-weight: 500;
     line-height: 1em;
-  }
-`
-
-const storeQuery = gql`
-  query exportRcoPropertiesQuery {
-    exportRcoProperties @client {
-      pcname
-      relationtype
-      pname
-    }
   }
 `
 
@@ -45,14 +33,11 @@ const RcoChooser = ({
   jsontype: String,
   count: Number,
 }) => {
-  const client = useApolloClient()
-  const { data: storeData } = useQuery(storeQuery, {
-    suspend: false,
-  })
+  const mobxStore = useContext(mobxStoreContext)
+  const { rcoProperties, removeRcoProperty, addRcoProperty } = mobxStore.export
 
-  const exportRcoProperties = storeData.exportRcoProperties || []
   const checked =
-    exportRcoProperties.filter(
+    rcoProperties.filter(
       x =>
         x.pcname === pcname &&
         x.relationtype === relationtype &&
@@ -61,13 +46,10 @@ const RcoChooser = ({
 
   const onCheck = useCallback(
     (event, isChecked) => {
-      const mutation = isChecked
-        ? addExportRcoPropertyMutation
-        : removeExportRcoPropertyMutation
-      client.mutate({
-        mutation,
-        variables: { pcname, relationtype, pname },
-      })
+      if (isChecked) {
+        return addRcoProperty({ pcname, relationtype, pname })
+      }
+      removeRcoProperty({ pcname, relationtype, pname })
     },
     [pcname, relationtype, pname],
   )
@@ -88,4 +70,4 @@ const RcoChooser = ({
   )
 }
 
-export default RcoChooser
+export default observer(RcoChooser)

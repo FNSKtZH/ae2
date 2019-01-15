@@ -67,9 +67,8 @@ export default types
       self.addFilterFields = value
     },
     setRcoInOneRow(value) {
-      const exportRcoProperties = self.rcoProperties
       const rcoPCTypes = uniq(
-        exportRcoProperties.map(e => `${e.pcname}/${e.relationtype}`),
+        self.rcoProperties.map(e => `${e.pcname}/${e.relationtype}`),
       )
       if (rcoPCTypes.length < 2) {
         self.rcoInOneRow = value
@@ -147,8 +146,103 @@ export default types
     resetRcoFilters() {
       self.rcoFilters = []
     },
+    setRcoFilters({ pcname, relationtype, pname, comparator, value }) {
+      const rcoFilter = self.rcoFilters.find(
+        x =>
+          x.pcname === pcname &&
+          x.relationtype === relationtype &&
+          x.pname === pname,
+      )
+      if (!comparator && !value && value !== 0) {
+        // remove
+        self.rcoFilters = self.rcoFilters.filter(
+          x =>
+            !(
+              x.pcname === pcname &&
+              x.relationtype === relationtype &&
+              x.pname === pname
+            ),
+        )
+      } else if (!rcoFilter) {
+        // add new one
+        self.rcoFilters = [
+          ...self.rcoFilters,
+          {
+            pcname,
+            relationtype,
+            pname,
+            comparator,
+            value,
+          },
+        ]
+      } else {
+        // edit = add new one instead of existing
+        self.rcoFilters = [
+          ...self.rcoFilters.filter(
+            x =>
+              !(
+                x.pcname === pcname &&
+                x.relationtype === relationtype &&
+                x.pname === pname
+              ),
+          ),
+          {
+            pcname,
+            relationtype,
+            pname,
+            comparator,
+            value,
+          },
+        ]
+      }
+    },
     resetRcoProperties() {
       self.rcoProperties = []
+    },
+    removeRcoProperty({ pcname, relationtype, pname }) {
+      self.rcoProperties = self.rcoProperties.filter(
+        x =>
+          !(
+            x.pcname === pcname &&
+            x.relationtype === relationtype &&
+            x.pname === pname
+          ),
+      )
+    },
+    addRcoProperty({ pcname, relationtype, pname }) {
+      const nrOfPropertiesExported =
+        self.taxProperties.length +
+        self.rcoProperties.length +
+        self.pcoProperties.length
+      if (nrOfPropertiesExported > constants.export.maxFields) {
+        self.tooManyProperties = true
+      } else {
+        // only add if not yet done
+        const rcoProperty = self.rcoProperties.find(
+          t =>
+            t.pcname === pcname &&
+            t.relationtype === relationtype &&
+            t.pname === pname,
+        )
+        if (!rcoProperty) {
+          const rcoProperties = [
+            ...self.rcoProperties,
+            {
+              pcname,
+              relationtype,
+              pname,
+            },
+          ]
+          self.rcoProperties = rcoProperties
+          // set self.rcoInOneRow if more than one type of rco is choosen
+          const rcoPCTypes = uniq(
+            rcoProperties.map(e => `${e.pcname}/${e.relationtype}`),
+          )
+          if (rcoPCTypes.length > 1 && !self.rcoInOneRow) {
+            self.rcoInOneRow = true
+          }
+        }
+      }
     },
   }))
 

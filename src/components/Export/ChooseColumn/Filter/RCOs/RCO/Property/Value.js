@@ -15,7 +15,6 @@ import { useQuery, useApolloClient } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import exportRcoFiltersMutation from '../../../../../exportRcoFiltersMutation'
 import readableType from '../../../../../../../modules/readableType'
 import addExportRcoPropertyMutation from '../../../../../addExportRcoPropertyMutation'
 import mobxStoreContext from '../../../../../../../mobxStoreContext'
@@ -147,7 +146,7 @@ const IntegrationAutosuggest = ({
 }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { addFilterFields } = mobxStore.export
+  const { addFilterFields, setRcoFilters } = mobxStore.export
 
   const [suggestions, setSuggestions] = useState([])
   const [propValues, setPropValues] = useState([])
@@ -222,15 +221,12 @@ const IntegrationAutosuggest = ({
       let comparatorValue = comparator
       if (!comparator && value) comparatorValue = 'ILIKE'
       if (!value) comparatorValue = null
-      await client.mutate({
-        mutation: exportRcoFiltersMutation,
-        variables: {
-          pcname,
-          relationtype,
-          pname,
-          comparator: comparatorValue,
-          value,
-        },
+      setRcoFilters({
+        pcname,
+        relationtype,
+        pname,
+        comparator: comparatorValue,
+        value,
       })
       // 2. if value and field is not choosen, choose it
       if (addFilterFields && value) {

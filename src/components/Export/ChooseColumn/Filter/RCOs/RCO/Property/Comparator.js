@@ -1,14 +1,14 @@
 //@flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import compose from 'recompose/compose'
-import { useApolloClient } from 'react-apollo-hooks'
+import { observer } from 'mobx-react-lite'
 
-import exportRcoFiltersMutation from '../../../../../exportRcoFiltersMutation'
 import ComparatorSelect from '../../../ComparatorSelect'
+import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   flex-basis: 150px;
@@ -36,7 +36,10 @@ const styles = theme => ({
   },
 })
 
-const enhance = compose(withStyles(styles))
+const enhance = compose(
+  withStyles(styles),
+  observer,
+)
 
 const RcoComparator = ({
   pcname,
@@ -53,18 +56,17 @@ const RcoComparator = ({
   comparator: String,
   classes: Object,
 }) => {
-  const client = useApolloClient()
+  const mobxStore = useContext(mobxStoreContext)
+  const { setRcoFilters } = mobxStore.export
+
   const onChange = useCallback(
     event =>
-      client.mutate({
-        mutation: exportRcoFiltersMutation,
-        variables: {
-          pcname,
-          relationtype,
-          pname,
-          comparator: event.target.value,
-          value,
-        },
+      setRcoFilters({
+        pcname,
+        relationtype,
+        pname,
+        comparator: event.target.value,
+        value,
       }),
     [pcname, relationtype, pname, value],
   )
