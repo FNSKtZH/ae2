@@ -1,12 +1,12 @@
 //@flow
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import Measure from 'react-measure'
-import { useQuery } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { observer } from 'mobx-react-lite'
 
 import Comparator from './Comparator'
 import Value from './Value'
+import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   display: flex;
@@ -14,17 +14,6 @@ const Container = styled.div`
   padding: 4px 16px;
   > div {
     height: auto;
-  }
-`
-
-const storeQuery = gql`
-  query exportTaxFiltersQuery {
-    exportTaxFilters @client {
-      taxname
-      pname
-      comparator
-      value
-    }
   }
 `
 
@@ -37,12 +26,12 @@ const TaxField = ({
   pname: String,
   jsontype: String,
 }) => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { taxFilters } = mobxStore.export
+
   const [width, setWidth] = useState(0)
 
-  const { data: storeData } = useQuery(storeQuery, { suspend: false })
-
-  const { exportTaxFilters } = storeData
-  const exportTaxFilter = exportTaxFilters.find(
+  const exportTaxFilter = taxFilters.find(
     x => x.taxname === taxname && x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = exportTaxFilter
@@ -78,4 +67,4 @@ const TaxField = ({
   )
 }
 
-export default TaxField
+export default observer(TaxField)

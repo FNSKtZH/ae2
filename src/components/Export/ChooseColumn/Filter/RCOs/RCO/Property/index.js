@@ -1,11 +1,11 @@
 //@flow
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import gql from 'graphql-tag'
-import { useQuery } from 'react-apollo-hooks'
+import { observer } from 'mobx-react-lite'
 
 import Comparator from './Comparator'
 import Value from './Value'
+import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   display: flex;
@@ -13,18 +13,6 @@ const Container = styled.div`
   padding: 4px 16px;
   > div {
     height: auto;
-  }
-`
-
-const storeQuery = gql`
-  query exportRcoFiltersQuery {
-    exportRcoFilters @client {
-      pcname
-      pname
-      relationtype
-      comparator
-      value
-    }
   }
 `
 
@@ -41,11 +29,10 @@ const RcoField = ({
   jsontype: String,
   count: Number,
 }) => {
-  const { data: exportRcoFiltersData } = useQuery(storeQuery, {
-    suspend: false,
-  })
-  const { exportRcoFilters } = exportRcoFiltersData
-  const exportRcoFilter = exportRcoFilters.find(
+  const mobxStore = useContext(mobxStoreContext)
+  const { rcoFilters } = mobxStore.export
+
+  const exportRcoFilter = rcoFilters.find(
     x =>
       x.pcname === pcname &&
       x.relationtype === relationtype &&
@@ -76,4 +63,4 @@ const RcoField = ({
   )
 }
 
-export default RcoField
+export default observer(RcoField)
