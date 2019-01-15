@@ -3,12 +3,8 @@ import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import addExportPcoPropertyMutation from '../../../../addExportPcoPropertyMutation'
-import removeExportPcoPropertyMutation from '../../../../removeExportPcoPropertyMutation'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -24,22 +20,22 @@ const Label = styled(FormControlLabel)`
 `
 
 const AllPcoChooser = ({ properties }: { properties: Array<Object> }) => {
-  const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const { pcoProperties, addPcoProperty, removePcoProperty } = mobxStore.export
 
   const onCheck = useCallback(
     (event, isChecked) => {
-      const mutation = isChecked
-        ? addExportPcoPropertyMutation
-        : removeExportPcoPropertyMutation
+      if (isChecked) {
+        return properties.forEach(p => {
+          const pcname = p.propertyCollectionName
+          const pname = p.propertyName
+          addPcoProperty({ pcname, pname })
+        })
+      }
       properties.forEach(p => {
         const pcname = p.propertyCollectionName
         const pname = p.propertyName
-        client.mutate({
-          mutation,
-          variables: { pcname, pname },
-        })
+        removePcoProperty({ pcname, pname })
       })
     },
     [properties],
