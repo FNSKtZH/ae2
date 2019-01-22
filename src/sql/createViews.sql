@@ -249,3 +249,16 @@ where
   and ae.property_collection_object.properties->>'GIS-Layer' is not null
   and ae.property_collection_object.properties->>'Betrachtungsdistanz (m)' ~ E'^\\d+$'
   and (ae.property_collection_object.properties->>'Betrachtungsdistanz (m)')::integer < 2147483647;
+
+  
+
+-- view for vermehrung.apflora.ch
+DROP VIEW IF EXISTS ae.v_vermehrung_arten CASCADE;
+CREATE OR REPLACE VIEW ae.v_vermehrung_arten AS
+select
+  id,
+  name
+from ae.object
+where taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
+and properties is not null
+order by name;
