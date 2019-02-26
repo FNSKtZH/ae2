@@ -62,6 +62,10 @@ const Router = ({ history }: { history: Object }) => {
    */
   const altUrlGenParam = getUrlParamByName('exportieren_fuer_artenlistentool')
   if (altUrlGenParam) {
+    console.log(
+      'Router: redirecting to /artenlistentool/waehlen. objectId:',
+      objectId,
+    )
     history.push('/artenlistentool/waehlen')
   }
 
