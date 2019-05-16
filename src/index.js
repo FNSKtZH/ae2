@@ -4,7 +4,7 @@ import { ApolloProvider } from 'react-apollo'
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
 
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 
 import theme from './theme'
 import './index.css'
@@ -40,7 +40,7 @@ const launchApp = async () => {
   try {
     const idb = initializeIdb()
     // configure history
-    const history = createHistory()
+    const history = createBrowserHistory()
 
     const initialMobxStore = await createInitialMobxStore({ idb })
     const mobxStore = MobxStore({ history }).create(initialMobxStore)
