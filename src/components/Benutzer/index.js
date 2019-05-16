@@ -80,59 +80,50 @@ const User = () => {
   const userIsLoggedIn =
     !!user && !!login.username && user.name === login.username
 
-  useEffect(
-    () => {
-      setName(user.name)
-      setEmail(user.email)
-    },
-    [user],
-  )
-  const onChangeTab = useCallback((event, value) => {
-    setTab(value)
-  })
+  useEffect(() => {
+    setName(user.name)
+    setEmail(user.email)
+  }, [user])
+  const onChangeTab = useCallback((event, value) => setTab(value), [])
+  const onChangeName = useCallback(e => setName(e.target.value), [])
+  const onChangeEmail = useCallback(e => setEmail(e.target.value), [])
+  const onChangePassNew = useCallback(e => setPassNew(e.target.value), [])
 
-  const onChangeName = useCallback(e => setName(e.target.value))
-  const onChangeEmail = useCallback(e => setEmail(e.target.value))
-  const onChangePassNew = useCallback(e => setPassNew(e.target.value))
-
-  const onSave = useCallback(
-    async () => {
-      const variables = passNew
-        ? {
-            username: name,
-            email,
-            id,
-            pass: passNew,
-          }
-        : {
-            username: name,
-            email,
-            id,
-          }
-      const mutation = passNew ? updateUserMutationWithPass : updateUserMutation
-      try {
-        await client.mutate({
-          mutation,
-          variables,
-        })
-      } catch (error) {
-        const messages = error.graphQLErrors.map(x => x.message).toString()
-        const isProperEmailError = messages.includes('proper_email')
-        if (isProperEmailError) {
-          const message = 'Email ist nicht gültig'
-          return setEmailErrorText(message)
+  const onSave = useCallback(async () => {
+    const variables = passNew
+      ? {
+          username: name,
+          email,
+          id,
+          pass: passNew,
         }
-        return console.log(error)
+      : {
+          username: name,
+          email,
+          id,
+        }
+    const mutation = passNew ? updateUserMutationWithPass : updateUserMutation
+    try {
+      await client.mutate({
+        mutation,
+        variables,
+      })
+    } catch (error) {
+      const messages = error.graphQLErrors.map(x => x.message).toString()
+      const isProperEmailError = messages.includes('proper_email')
+      if (isProperEmailError) {
+        const message = 'Email ist nicht gültig'
+        return setEmailErrorText(message)
       }
-      // refetch to update
-      dataRefetch()
-      treeDataRefetch()
-      setNameErrorText('')
-      setEmailErrorText('')
-      setPassNew('')
-    },
-    [user, name, email, passNew],
-  )
+      return console.log(error)
+    }
+    // refetch to update
+    dataRefetch()
+    treeDataRefetch()
+    setNameErrorText('')
+    setEmailErrorText('')
+    setPassNew('')
+  }, [passNew, name, email, id, dataRefetch, treeDataRefetch, client])
 
   if (dataLoading) {
     return <LEContainer>Lade Daten...</LEContainer>
