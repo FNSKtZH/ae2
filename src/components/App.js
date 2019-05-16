@@ -79,16 +79,16 @@ const App = () => {
     const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
     const shouldBeStacked = windowWidth < 650
     setStacked(shouldBeStacked)
-  })
+  }, [])
 
-  useEffect(() => updateStacked(), [])
+  useEffect(() => updateStacked(), [updateStacked])
 
   useEffect(() => {
     window.addEventListener('resize', debounce(updateStacked, 100))
     return () => window.removeEventListener('resize', updateStacked)
-  }, [])
+  }, [updateStacked])
 
-  const onClickReload = useCallback(() => window.location.reload(false))
+  const onClickReload = useCallback(() => window.location.reload(false), [])
 
   return (
     <ErrorBoundary>
