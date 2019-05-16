@@ -25,7 +25,6 @@
     "exceljs": "1.11.0",
     "file-saver": "2.0.2",
     "graphiql": "0.13.0",
-    "graphql": "14.0.2",
     "graphql-tag": "2.10.1",
     "graphql-voyager": "1.0.0-rc.27",
     "history": "4.9.0",
@@ -76,9 +75,6 @@
   "license": "ISC",
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "resolutions": {
-    "graphql": "14.0.2"
   },
   "browserslist": [
     ">0.2%",
