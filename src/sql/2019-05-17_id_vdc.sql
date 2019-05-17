@@ -4,10 +4,10 @@ from ae.object
 where 
   properties ->> 'Klasse' = 'Aves'
   and properties ->> 'Taxon ID VDC' is null;
--- but all are added by FNS
+-- but all were added by FNS
 
 
--- do not include species added by FNS
+-- do not update species added by FNS
 select properties ->> 'Taxon ID VDC'
 from ae.object
 where 
