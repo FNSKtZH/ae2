@@ -12,7 +12,7 @@ import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import format from 'date-fns/format'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
+import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 

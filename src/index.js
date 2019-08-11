@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { ApolloProvider } from '@apollo/react-hooks'
-import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
 
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { createBrowserHistory } from 'history'
@@ -64,11 +63,9 @@ const launchApp = async () => {
         <MobxProvider value={mobxStore}>
           <HistoryProvider value={history}>
             <ApolloProvider client={myClient}>
-              <ApolloHooksProvider client={myClient}>
                 <MuiThemeProvider theme={theme}>
                   <Router history={history} />
                 </MuiThemeProvider>
-              </ApolloHooksProvider>
             </ApolloProvider>
           </HistoryProvider>
         </MobxProvider>
