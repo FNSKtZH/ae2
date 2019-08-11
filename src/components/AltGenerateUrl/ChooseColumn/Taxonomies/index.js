@@ -98,7 +98,7 @@ const Properties = ({
     <ErrorBoundary>
       <>
         <StyledCard>
-          <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
+          <StyledCardActions disableSpacing onClick={onToggleTaxonomies}>
             <CardActionTitle>
               Taxonomie
               {

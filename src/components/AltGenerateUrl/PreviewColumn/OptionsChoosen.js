@@ -14,7 +14,7 @@ import mobxStoreContext from '../../../mobxStoreContext'
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
 })
 const Container = styled.div`

@@ -182,7 +182,7 @@ const TaxonomyObject = ({
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onClickActions}>
+        <StyledCardActions disableSpacing onClick={onClickActions}>
           <CardActionTitle>{taxname}</CardActionTitle>
           <CardActionsButtons>
             <LinkMenu objekt={objekt} />

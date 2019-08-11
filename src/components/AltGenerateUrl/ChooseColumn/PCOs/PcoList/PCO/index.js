@@ -95,7 +95,7 @@ const PCO = ({
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onClickActions}>
+        <StyledCardActions disableSpacing onClick={onClickActions}>
           <CardActionTitle>
             {pc}
             <Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${

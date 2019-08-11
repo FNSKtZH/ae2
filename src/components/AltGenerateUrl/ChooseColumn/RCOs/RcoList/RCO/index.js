@@ -99,7 +99,7 @@ const RCO = ({ pc }: { pc: Object }) => {
     <ErrorBoundary>
       <StyledCard>
         <StyledCardActions
-          disableActionSpacing
+          disableSpacing
           onClick={() => setExpanded(!expanded)}
         >
           <CardActionTitle>

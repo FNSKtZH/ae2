@@ -111,7 +111,7 @@ const PcoCard = ({ pc }: { pc: Object }) => {
   return (
     <ErrorBoundary>
       <StyledCard key={pc}>
-        <StyledCardActions disableActionSpacing onClick={onClickAction}>
+        <StyledCardActions disableSpacing onClick={onClickAction}>
           <CardActionTitle>
             {pc}
             <Count>{`(${pcoPropertiesByPropertyCollection[pc].length} ${

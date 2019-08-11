@@ -28,7 +28,7 @@ const Property = ({
   const client = useApolloClient()
   const [value, setValue] = useState(taxonomy[field] || '')
 
-  const onChange = useCallback(event => setValue(event.target.value))
+  const onChange = useCallback(event => setValue(event.target.value), [])
   const onBlur = useCallback(
     event =>
       onBlurLr({
@@ -38,7 +38,7 @@ const Property = ({
         value: event.target.value,
         prevValue: taxonomy[field],
       }),
-    [field, taxonomy],
+    [field, taxonomy, client],
   )
 
   return (

@@ -69,7 +69,7 @@ const StyledButton = styled(Button)`
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
 })
 

@@ -40,7 +40,7 @@ const HowToProperties = () => {
   return (
     <StyledCard>
       <StyledCardActions
-        disableActionSpacing
+        disableSpacing
         onClick={() => setExpanded(!expanded)}
       >
         <CardActionTitle>So geht's</CardActionTitle>

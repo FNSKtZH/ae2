@@ -111,7 +111,7 @@ const RcosCard = ({
     <ErrorBoundary>
       <Container>
         <StyledCard>
-          <StyledCardActions disableActionSpacing onClick={onToggleRco}>
+          <StyledCardActions disableSpacing onClick={onToggleRco}>
             <CardActionTitle>
               Beziehungssammlungen
               {rCCount > 0 && (

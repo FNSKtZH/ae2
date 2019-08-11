@@ -85,7 +85,7 @@ const PCOs = ({
     <ErrorBoundary>
       <Container>
         <StyledCard>
-          <StyledCardActions disableActionSpacing onClick={onTogglePco}>
+          <StyledCardActions disableSpacing onClick={onTogglePco}>
             <CardActionTitle>
               Eigenschaftensammlungen
               {

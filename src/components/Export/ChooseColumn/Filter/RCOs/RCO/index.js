@@ -115,7 +115,7 @@ const RcoCard = ({ pc }: { pc: Object }) => {
   return (
     <ErrorBoundary>
       <StyledCard>
-        <StyledCardActions disableActionSpacing onClick={onClickActions}>
+        <StyledCardActions disableSpacing onClick={onClickActions}>
           <CardActionTitle>
             {pc}
             <Count>{`(${rcoPropertiesByPropertyCollection[pc].length} ${

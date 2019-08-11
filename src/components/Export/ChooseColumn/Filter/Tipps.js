@@ -40,7 +40,7 @@ const Tipps = () => {
   return (
     <StyledCard>
       <StyledCardActions
-        disableActionSpacing
+        disableSpacing
         onClick={() => setExpanded(!expanded)}
       >
         <CardActionTitle>Tipps und Tricks</CardActionTitle>

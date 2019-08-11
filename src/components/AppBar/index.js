@@ -221,7 +221,7 @@ const MyAppBar = () => {
         <StyledAppBar position="static">
           <div ref={toolbarC}>
             <StyledToolbar>
-              <StyledTypography variant="title" color="inherit">
+              <StyledTypography variant="h6" color="inherit">
                 {wideLayout ? 'Arteigenschaften' : ''}
               </StyledTypography>
               <div ref={datenC}>

@@ -99,7 +99,7 @@ const PCO = ({
     <ErrorBoundary>
       <Container>
         <StyledCard>
-          <StyledCardActions disableActionSpacing onClick={onClickActions}>
+          <StyledCardActions disableSpacing onClick={onClickActions}>
             <CardActionTitle>{pcname}</CardActionTitle>
             <CardActionsButtons>
               <IconButton

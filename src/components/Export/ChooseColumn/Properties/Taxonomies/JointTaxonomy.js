@@ -59,7 +59,7 @@ const JointTaxonomy = ({
   return (
     <ErrorBoundary>
       <StyledCard key="jointTax">
-        <StyledCardActions disableActionSpacing onClick={onClickActions}>
+        <StyledCardActions disableSpacing onClick={onClickActions}>
           <CardActionTitle>
             {`Gemeinsame Felder`}
             <Count>{`(${jointTaxProperties.length})`}</Count>

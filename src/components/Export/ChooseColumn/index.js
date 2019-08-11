@@ -281,7 +281,7 @@ const Export = () => {
     <ErrorBoundary>
       <Container>
         <StyledCard>
-          <StyledCardActions disableActionSpacing onClick={onToggleTaxonomies}>
+          <StyledCardActions disableSpacing onClick={onToggleTaxonomies}>
             <CardActionTitle>1. Taxonomie(n) wählen</CardActionTitle>
             <CardActionIconButton
               data-expanded={taxonomiesExpanded}
@@ -298,7 +298,7 @@ const Export = () => {
           </Collapse>
         </StyledCard>
         <StyledCard>
-          <StyledCardActions disableActionSpacing onClick={onToggleFilter}>
+          <StyledCardActions disableSpacing onClick={onToggleFilter}>
             <CardActionTitle>2. filtern</CardActionTitle>
             <CardActionIconButton
               data-expanded={filterExpanded}
@@ -315,7 +315,7 @@ const Export = () => {
           </Collapse>
         </StyledCard>
         <StyledCard>
-          <StyledCardActions disableActionSpacing onClick={onToggleProperties}>
+          <StyledCardActions disableSpacing onClick={onToggleProperties}>
             <CardActionTitle>3. Eigenschaften wählen</CardActionTitle>
             <CardActionIconButton
               data-expanded={propertiesExpanded}

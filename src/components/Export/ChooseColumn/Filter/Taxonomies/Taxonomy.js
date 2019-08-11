@@ -114,7 +114,7 @@ const TaxonomyCard = ({
     <ErrorBoundary>
       <StyledCard>
         <StyledCardActions
-          disableActionSpacing
+          disableSpacing
           onClick={() => setExpanded(!expanded)}
         >
           <CardActionTitle>

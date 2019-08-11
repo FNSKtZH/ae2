@@ -40,7 +40,7 @@ const HowToFilter = () => {
 
   return (
     <StyledCard>
-      <StyledCardActions disableActionSpacing onClick={onClickAction}>
+      <StyledCardActions disableSpacing onClick={onClickAction}>
         <CardActionTitle>So geht's</CardActionTitle>
         <CardActionIconButton
           data-expanded={expanded}
