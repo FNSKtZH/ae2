@@ -47,12 +47,12 @@
     "react-fns": "1.4.0",
     "react-linkify": "0.2.2",
     "react-measure": "2.3.0",
-    "react-reflex": "3.0.13",
+    "react-reflex": "3.0.16",
     "react-swipeable-views": "0.13.3",
-    "react-window": "1.8.1",
+    "react-window": "1.8.5",
     "recompose": "0.30.0",
-    "styled-components": "4.2.0",
-    "xlsx": "0.14.3"
+    "styled-components": "4.3.2",
+    "xlsx": "0.15.0"
   },
   "devDependencies": {
     "docsify-cli": "4.3.0",
