@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Query } from 'react-apollo'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import isUuid from 'is-uuid'
 
@@ -9,8 +9,8 @@ import getUrlForObject from '../modules/getUrlForObject'
 import getUrlParamByName from '../modules/getUrlParamByName'
 
 const objectQuery = gql`
-  query ObjectQuery($id: UUID!) {
-    objectById(id: $id) {
+  query ObjectQuery($id: UUID!, $hasObjectId: Boolean!) {
+    objectById(id: $id) @include(if: $hasObjectId) {
       id
       taxonomyByTaxonomyId {
         id
@@ -69,19 +69,18 @@ const Router = ({ history }: { history: Object }) => {
     history.push('/artenlistentool/waehlen')
   }
 
-  if (!!objectId) {
-    return (
-      <Query query={objectQuery} variables={{ id: objectId }}>
-        {({ loading, error, data: { objectById } }) => {
-          if (loading) return 'Loading...'
-          if (error) return `Fehler: ${error.message}`
-          // if idParam was passed, open object
-          const url = getUrlForObject(objectById)
-          history.push(`/${url.join('/')}`)
-          return <App />
-        }}
-      </Query>
-    )
+  const hasObjectId = !!objectId
+  const { loading, error, data } = useQuery(objectQuery, {
+    variables: { id: objectId, hasObjectId }
+  })
+
+  if (hasObjectId) {
+    if (loading) return 'Loading...'
+    if (error) return `Fehler: ${error.message}`
+    // if idParam was passed, open object
+    const url = getUrlForObject(data.objectById)
+    history.push(`/${url.join('/')}`)
+    return <App />
   }
   return <App />
 }
