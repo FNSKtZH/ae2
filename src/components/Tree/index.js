@@ -13,7 +13,7 @@ import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
 import Snackbar from '@material-ui/core/Snackbar'
 import get from 'lodash/get'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 

@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 

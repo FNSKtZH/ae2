@@ -6,7 +6,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider } from '@apollo/react-hooks'
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
 
 import { MuiThemeProvider } from '@material-ui/core/styles'

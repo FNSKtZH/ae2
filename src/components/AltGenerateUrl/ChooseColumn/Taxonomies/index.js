@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 import JointTaxonomy from './JointTaxonomy'

@@ -17,7 +17,7 @@ import styled from 'styled-components'
 import compose from 'recompose/compose'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 

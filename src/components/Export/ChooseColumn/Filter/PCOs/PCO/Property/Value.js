@@ -11,7 +11,7 @@ import compose from 'recompose/compose'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
 import gql from 'graphql-tag'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
 
 import readableType from '../../../../../../../modules/readableType'

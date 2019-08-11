@@ -22,7 +22,7 @@ import InfoOutlineIcon from '@material-ui/icons/Info'
 import InfoIcon from '@material-ui/icons/Info'
 import get from 'lodash/get'
 import styled from 'styled-components'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 

@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import uniqBy from 'lodash/uniqBy'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
 
 import TaxonomyObjects from './TaxonomyObjects'

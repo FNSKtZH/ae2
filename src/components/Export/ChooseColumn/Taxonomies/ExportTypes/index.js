@@ -2,7 +2,7 @@
 import React from 'react'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 import ExportType from './ExportType'

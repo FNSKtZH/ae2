@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Voyager } from 'graphql-voyager'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import 'graphql-voyager/dist/voyager.css'
 
 import query from './query'
