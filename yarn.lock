@@ -3158,15 +3158,15 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-codemirror-graphql@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/codemirror-graphql/-/codemirror-graphql-0.7.1.tgz#64b995643d511b9aa8f85eeeb2feac7aeb4b94d4"
-  integrity sha512-HtHXMJAn6iGJYpijkzi3IlqWIdGrB6V0RqJ607yffJTCKk/OgaNtdLOb8hZJyEtHfkw7PZDaKybMAVCi6ScWSQ==
+codemirror-graphql@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/codemirror-graphql/-/codemirror-graphql-0.8.3.tgz#8de806d418f72121ccfd9820594aa306ac0d3366"
+  integrity sha512-ZipSnPXFKDMThfvfTKTAt1dQmuGctVNann8hTZg6017+vwOcGpIqCuQIZLRDw/Y3zZfCyydRARHgbSydSCXpow==
   dependencies:
     graphql-language-service-interface "^1.3.2"
     graphql-language-service-parser "^1.2.2"
 
-codemirror@^5.26.0:
+codemirror@^5.47.0:
   version "5.48.2"
   resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.48.2.tgz#a9dd3d426dea4cd59efd59cd98e20a9152a30922"
   integrity sha512-i9VsmC8AfA5ji6EDIZ+aoSe4vt9FcwPLdHB1k1ItFbVyuOFRrcfvnoKqwZlC7EVA2UmTRiNEypE4Uo7YvzVY8Q==
@@ -3434,7 +3434,7 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-copy-to-clipboard@3.2.0:
+copy-to-clipboard@3.2.0, copy-to-clipboard@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/copy-to-clipboard/-/copy-to-clipboard-3.2.0.tgz#d2724a3ccbfed89706fac8a894872c979ac74467"
   integrity sha512-eOZERzvCmxS8HWzugj4Uxl8OJxa7T2k1Gi0X5qavwydHIfuSHq2dTD09LOg/XyGq4Zpb5IsR/2OJ5lbOegz78w==
@@ -4729,10 +4729,10 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-exceljs@1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.11.0.tgz#f9245f06deb0dbcbc15eae8ad222e4950cec6098"
-  integrity sha512-8pLFD7ahX+dnfcGbarWXWnuk57DvIf4PXaRrGEJ5wre8A9BSOcxfrivsyYdHapoBaOE2n9nTtiZ6/agJTcJ0Bg==
+exceljs@1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.14.0.tgz#a2644e80735fbac531fead78c76cb5d20f21fb5f"
+  integrity sha512-s2S8hDQ3GlRKww3IXxhNT8HwTYC+aj0Mh6avWeWfwm/jeRWSwQtdimNKFEvxKdDYEucl8kvn4NKlIDdooXAs4Q==
   dependencies:
     archiver "^3.0.0"
     fast-csv "^2.4.1"
@@ -4741,7 +4741,7 @@ exceljs@1.11.0:
     promish "^5.1.1"
     sax "^1.2.4"
     tmp "^0.1.0"
-    unzipper "^0.9.7"
+    unzipper "^0.9.12"
 
 exec-sh@^0.3.2:
   version "0.3.2"
@@ -5558,13 +5558,14 @@ graphile-build@4.4.4:
     pluralize "^7.0.0"
     semver "^6.0.0"
 
-graphiql@0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/graphiql/-/graphiql-0.13.0.tgz#8fcbfd25f73d84806ba6d3e8c96eac0a5bec8ab7"
-  integrity sha512-m2RBtSY1CQLz4XqCftQC0V9ZcbUXEx2Uwvuok3L/TJtsN5HOHUmPxGhOAZs7mESaAsg7Z8Tgy04BmYirDyfWug==
+graphiql@0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/graphiql/-/graphiql-0.13.2.tgz#cdd0f3eb656a82e9787531ae27433819ca455d58"
+  integrity sha512-4N2HmQQpUfApS1cxrTtoZ15tnR3EW88oUiqmza6GgNQYZZfDdBGphdQlBYsKcjAB/SnIOJort+RA1dB6kf4M7Q==
   dependencies:
-    codemirror "^5.26.0"
-    codemirror-graphql "^0.7.1"
+    codemirror "^5.47.0"
+    codemirror-graphql "^0.8.3"
+    copy-to-clipboard "^3.2.0"
     markdown-it "^8.4.0"
 
 graphql-config@2.0.1:
@@ -7051,10 +7052,10 @@ jest@24.8.0:
     import-local "^2.0.0"
     jest-cli "^24.8.0"
 
-js-file-download@0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/js-file-download/-/js-file-download-0.4.5.tgz#3cf7bf4bc2231fe2e45663b1a5f8ad3a1949fe0a"
-  integrity sha512-altzTt8noT8MCJmQCQ/y3LfGRz/i7k6Z6H59bDsNd6Mq4KGK2KCxaFVdenqVTCJb6fCH/Ra1f1YDmemieAKDAg==
+js-file-download@0.4.7:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/js-file-download/-/js-file-download-0.4.7.tgz#cafea2f7230b63fa1747e80efe1257649b59143e"
+  integrity sha512-9AQYwIpgTz3BqKQQ9kZldCXd0BekFmxvUguEVJwVlTe9cON1slRaT+hqctEbjoXbz9Aj+8Qgl3841zYWeCstuA==
 
 js-levenshtein@^1.1.3:
   version "1.1.6"
@@ -7190,10 +7191,10 @@ json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
-json2csv@4.5.1:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/json2csv/-/json2csv-4.5.1.tgz#d16d1fa7bea3a8cdddeb500a4eca5d7d2888ecc1"
-  integrity sha512-o90Xa1ziGk3i7AJEO79Jac4+7SEUk58/DxS5mDPW6GF7poX0y7Y0pm1FbWrkz9VzKE4MpUW9aKBOCpJ0U1Ua8A==
+json2csv@4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/json2csv/-/json2csv-4.5.2.tgz#75f0808cb89ed8ef7e338445a510a3cd3e385dfe"
+  integrity sha512-Te2Knce3VfLKyurH3AolM6Y781ZE+R3jQ+0YQ0HYLiubyicST/19vML24e1dpScaaEQb+1Q1t5IcGXr6esM9Lw==
   dependencies:
     commander "^2.15.1"
     jsonparse "^1.3.1"
@@ -8058,20 +8059,20 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
-mobx-react-lite@1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-1.3.2.tgz#4366048b5d283d12a82053367638b5d79281951f"
-  integrity sha512-D8VZEsxSxMNYDJmw2SgUXVAgpOlVYmp3hBCusoe+LuBDYUqyn2K3RPrMEF0rIzYJAvqpyv7YRrH8I3eBsPPx1A==
+mobx-react-lite@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-1.4.1.tgz#7307a45901f97f9a07ebed32b654235507644e1a"
+  integrity sha512-XmM+gzNv+GyXZYDLZMIGox3DufIiKULYgJsLhQj0U6Wlf+J5jv/h7limrL0aS1bEUtNilG62g9nwTeQ0KHzLFg==
 
 mobx-state-tree@3.14.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/mobx-state-tree/-/mobx-state-tree-3.14.1.tgz#0a523876b87817f5c8553a162e71b38044f0c9da"
   integrity sha512-cmwO1jvYPgaJTGJtqId0Qod4cDqcJEWWCwSu/Uns7jFT+kWKzLFhzb9jxPub8YM3HSXg7HPGpKiLe970he9FOw==
 
-mobx@5.9.4:
-  version "5.9.4"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.9.4.tgz#1dee92aba33f67b7baeeb679e3bd376a12e55812"
-  integrity sha512-L9JjTX2rtQUAhCIgnHokfntNOsF14uioT9LqStf6Mya+16j56ZBe21E8Y9V59tfr2aH2kLQPD10qtCJXBuTAxw==
+mobx@5.13.0:
+  version "5.13.0"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.13.0.tgz#0fd68f10aa5ff2d146a4ed9e145b53337cfbca59"
+  integrity sha512-eSAntMSMNj0PFL705rgv+aB/z1RjNqDnFEpBe18yQVreXTWiVgIrmBUXzjnJfuba+eo4eAk6zi+/gXQkSUea8A==
 
 moment@>=2.14.0, moment@^2.22.2:
   version "2.24.0"
@@ -12149,7 +12150,7 @@ unzip-response@^2.0.1:
   resolved "https://registry.yarnpkg.com/unzip-response/-/unzip-response-2.0.1.tgz#d2f0f737d16b0615e72a6935ed04214572d56f97"
   integrity sha1-0vD3N9FrBhXnKmk17QQhRXLVb5c=
 
-unzipper@^0.9.7:
+unzipper@^0.9.12:
   version "0.9.15"
   resolved "https://registry.yarnpkg.com/unzipper/-/unzipper-0.9.15.tgz#97d99203dad17698ee39882483c14e4845c7549c"
   integrity sha512-2aaUvO4RAeHDvOCuEtth7jrHFaCKTSXPqUkXwADaLBzGbgZGzUDccoEdJ5lW+3RmfpOZYNx0Rw6F6PUzM6caIA==
