@@ -112,6 +112,10 @@ const StyledInfoOutlineIcon = styled(InfoOutlineIcon)`
 const StyledButton = styled(Button)`
   border: 1px solid !important;
   margin: 8px 8px 16px 8px !important;
+  background-image: ${props =>
+    `linear-gradient(to right, green ${props.completed *
+      100}%, transparent ${props.completed * 100}% ${100 -
+      props.completed * 100}%)`} !important;
 `
 const TotalDiv = styled.div`
   font-size: small;
@@ -195,6 +199,7 @@ const ImportPco = () => {
 
   const [objectIds, setObjectIds] = useState([])
   const [pCOfOriginIds, setPCOfOriginIds] = useState([])
+  const [completed, setCompleted] = useState(0)
 
   const { refetch: pcoRefetch } = useQuery(pcoQuery, {
     suspend: false,
@@ -311,13 +316,13 @@ const ImportPco = () => {
     const file = acceptedFiles[0]
     if (!!file) {
       const reader = new FileReader()
-      reader.onload = () => {
+      reader.onload = async () => {
         const fileAsBinaryString = reader.result
         const workbook = XLSX.read(fileAsBinaryString, {
-            type: 'binary',
-          }),
-          sheetName = workbook.SheetNames[0],
-          worksheet = workbook.Sheets[sheetName]
+          type: 'binary',
+        })
+        const sheetName = workbook.SheetNames[0]
+        const worksheet = workbook.Sheets[sheetName]
         const data = XLSX.utils
           .sheet_to_json(worksheet)
           .map(d => omit(d, ['__rowNum__']))
@@ -390,38 +395,35 @@ const ImportPco = () => {
       reader.onerror = () => console.log('file reading has failed')
       reader.readAsBinaryString(file)
     }
-  })
-  const onClickImport = useCallback(
-    async () => {
-      setImporting(true)
-      // need a list of all fields
-      // loop all rows, build variables and create pco
-      importData.forEach(async (d, i) => {
-        const variables = {}
-        importDataFields.forEach(f => (variables[f] = d[f] || null))
-        variables.propertyCollectionId = pCId
-        const properties = omit(d, [
-          'id',
-          'objectId',
-          'propertyCollectionId',
-          'propertyCollectionOfOrigin',
-        ])
-        variables.properties = JSON.stringify(properties)
-        try {
-          await client.mutate({
-            mutation: createPCOMutation,
-            variables,
-          })
-        } catch (error) {
-          console.log(error)
-        }
-      })
-      await pcoRefetch()
-      // do not set false because an unmounted component is updated
-      //setImporting(false)
-    },
-    [importData],
-  )
+  }, [])
+  const onClickImport = useCallback(async () => {
+    setImporting(true)
+    // need a list of all fields
+    // loop all rows, build variables and create pco
+    for (const [i, d] of importData.entries()) {
+      const variables = {}
+      importDataFields.forEach(f => (variables[f] = d[f] || null))
+      variables.propertyCollectionId = pCId
+      const properties = omit(d, [
+        'id',
+        'objectId',
+        'propertyCollectionId',
+        'propertyCollectionOfOrigin',
+      ])
+      variables.properties = JSON.stringify(properties)
+      try {
+        await client.mutate({
+          mutation: createPCOMutation,
+          variables,
+        })
+      } catch (error) {
+        console.log(`Error importing ${JSON.stringify(d)}:`, error)
+      }
+      setCompleted(i / importData.length)
+    }
+    setImporting(false)
+    pcoRefetch()
+  }, [client, importData, importDataFields, pCId, pcoRefetch, setCompleted])
   const rowGetter = useCallback(i => importData[i], [importData])
 
   return (
@@ -887,15 +889,21 @@ const ImportPco = () => {
                 Oder hier klicken, um eine Datei auszuwählen.
                 <br />
                 <br />
-                Akzeptierte Formate: .xlsx, .xls, .csv, .ods, .dbf, .dif
+                Akzeptierte Formate: xlsx, xls, csv, ods, dbf, dif
               </DropzoneDiv>
             )
           }}
         </Dropzone>
       </DropzoneContainer>
       {showImportButton && (
-        <StyledButton onClick={onClickImport}>
-          {importing ? 'Daten werden importiert...' : 'importieren'}
+        <StyledButton
+          onClick={onClickImport}
+          disabled={importing}
+          completed={completed}
+        >
+          {importing
+            ? `${Math.round(completed * 100)}% importiert`
+            : 'importieren'}
         </StyledButton>
       )}
       {showPreview && (

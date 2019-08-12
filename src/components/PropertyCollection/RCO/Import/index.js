@@ -112,6 +112,10 @@ const StyledInfoOutlineIcon = styled(InfoOutlineIcon)`
 const StyledButton = styled(Button)`
   border: 1px solid !important;
   margin: 8px 8px 16px 8px !important;
+  background-image: ${props =>
+    `linear-gradient(to right, green ${props.completed *
+      100}%, transparent ${props.completed * 100}% ${100 -
+      props.completed * 100}%)`} !important;
 `
 const TotalDiv = styled.div`
   font-size: small;
@@ -209,6 +213,7 @@ const ImportPco = () => {
   const [objectIds, setObjectIds] = useState([])
   const [objectRelationIds, setObjectRelationIds] = useState([])
   const [pCOfOriginIds, setPCOfOriginIds] = useState([])
+  const [completed, setCompleted] = useState(0)
 
   const { refetch: rcoRefetch } = useQuery(rcoQuery, {
     suspend: false,
@@ -452,7 +457,7 @@ const ImportPco = () => {
     setImporting(true)
     // need a list of all fields
     // loop all rows, build variables and create pco
-    importData.forEach(async (d, i) => {
+    for (const [i, d] of importData.entries()) {
       const variables = {}
       importDataFields.forEach(f => (variables[f] = d[f] || null))
       variables.propertyCollectionId = pCId
@@ -472,11 +477,11 @@ const ImportPco = () => {
       } catch (error) {
         console.log(error)
       }
-    })
-    await rcoRefetch()
-    // do not set false because an unmounted component is updated
-    //setImporting(false)
-  }, [client, importData, importDataFields, pCId, rcoRefetch])
+      setCompleted(i / importData.length)
+    }
+    setImporting(false)
+    rcoRefetch()
+  }, [client, importData, importDataFields, pCId, rcoRefetch, setCompleted])
   const rowGetter = useCallback(i => importData[i], [importData])
 
   return (
@@ -1078,8 +1083,14 @@ const ImportPco = () => {
         </Dropzone>
       </DropzoneContainer>
       {showImportButton && (
-        <StyledButton onClick={onClickImport}>
-          {importing ? 'Daten werden importiert...' : 'importieren'}
+        <StyledButton
+          onClick={onClickImport}
+          completed={completed}
+          disabled={importing}
+        >
+          {importing
+            ? `${Math.round(completed * 100)}% importiert`
+            : 'importieren'}
         </StyledButton>
       )}
       {showPreview && (
