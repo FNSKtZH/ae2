@@ -113,7 +113,7 @@ const StyledButton = styled(Button)`
   border: 1px solid !important;
   margin: 8px 8px 16px 8px !important;
   background-image: ${props =>
-    `linear-gradient(to right, green ${props.completed *
+    `linear-gradient(to right, #4caf50 ${props.completed *
       100}%, transparent ${props.completed * 100}% ${100 -
       props.completed * 100}%)`} !important;
 `
@@ -857,44 +857,48 @@ const ImportPco = () => {
           </li>
         </ul>
       </HowToImportContainer>
-      <DropzoneContainer>
-        <Dropzone
-          onDrop={onDrop}
-          accept=".xlsx, .xls, .csv, .ods, .dbf, .dif"
-          multiple={false}
-        >
-          {({
-            getRootProps,
-            getInputProps,
-            isDragActive,
-            isDragReject,
-            acceptedFiles,
-            rejectedFiles,
-          }) => {
-            if (isDragActive)
+      {!importing && (
+        <DropzoneContainer>
+          <Dropzone
+            onDrop={onDrop}
+            accept=".xlsx, .xls, .csv, .ods, .dbf, .dif"
+            multiple={false}
+          >
+            {({
+              getRootProps,
+              getInputProps,
+              isDragActive,
+              isDragReject,
+              acceptedFiles,
+              rejectedFiles,
+            }) => {
+              if (isDragActive)
+                return (
+                  <DropzoneDivActive {...getRootProps()}>
+                    Hier fallen lassen
+                  </DropzoneDivActive>
+                )
+              if (isDragReject)
+                return (
+                  <DropzoneDivActive {...getRootProps()}>
+                    njet!
+                  </DropzoneDivActive>
+                )
               return (
-                <DropzoneDivActive {...getRootProps()}>
-                  Hier fallen lassen
-                </DropzoneDivActive>
+                <DropzoneDiv {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  Datei hierhin ziehen.
+                  <br />
+                  Oder hier klicken, um eine Datei auszuwählen.
+                  <br />
+                  <br />
+                  Akzeptierte Formate: xlsx, xls, csv, ods, dbf, dif
+                </DropzoneDiv>
               )
-            if (isDragReject)
-              return (
-                <DropzoneDivActive {...getRootProps()}>njet!</DropzoneDivActive>
-              )
-            return (
-              <DropzoneDiv {...getRootProps()}>
-                <input {...getInputProps()} />
-                Datei hierhin ziehen.
-                <br />
-                Oder hier klicken, um eine Datei auszuwählen.
-                <br />
-                <br />
-                Akzeptierte Formate: xlsx, xls, csv, ods, dbf, dif
-              </DropzoneDiv>
-            )
-          }}
-        </Dropzone>
-      </DropzoneContainer>
+            }}
+          </Dropzone>
+        </DropzoneContainer>
+      )}
       {showImportButton && (
         <StyledButton
           onClick={onClickImport}
