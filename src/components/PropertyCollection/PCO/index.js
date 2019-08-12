@@ -198,7 +198,7 @@ const PCO = ({
   const onGridSort = useCallback((column, direction) => {
     setSortField(column)
     setSortDirection(direction.toLowerCase())
-  })
+  }, [])
   const rowGetter = useCallback(i => pCO[i], [pCO])
   const onClickXlsx = useCallback(
     () =>
@@ -209,17 +209,14 @@ const PCO = ({
     [pCO],
   )
   const onClickCsv = useCallback(() => exportCsv(pCO), [pCO])
-  const onClickDelete = useCallback(
-    async () => {
-      await client.mutate({
-        mutation: deletePcoOfPcMutation,
-        variables: { pcId: pCId },
-      })
-      pcoRefetch()
-      treeDataRefetch()
-    },
-    [pCId],
-  )
+  const onClickDelete = useCallback(async () => {
+    await client.mutate({
+      mutation: deletePcoOfPcMutation,
+      variables: { pcId: pCId },
+    })
+    pcoRefetch()
+    treeDataRefetch()
+  }, [client, pCId, pcoRefetch, treeDataRefetch])
 
   if (pcoLoading) {
     return (
@@ -248,7 +245,7 @@ const PCO = ({
             columns={columns}
             rowGetter={rowGetter}
             rowsCount={pCO.length}
-            minHeight={height - 33 - 37}
+            minHeight={height - 26 - 54}
             minWidth={width}
           />
           <ButtonsContainer>
