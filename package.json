@@ -23,7 +23,7 @@
     "create-react-class": "15.6.3",
     "date-fns": "2.0.0-alpha.27",
     "dexie": "2.0.4",
-    "exceljs": "1.14.0",
+    "exceljs": "1.11.0",
     "file-saver": "2.0.2",
     "graphiql": "0.13.2",
     "graphql-tag": "2.10.1",
