@@ -447,40 +447,37 @@ const ImportPco = () => {
       reader.onerror = () => console.log('file reading has failed')
       reader.readAsBinaryString(file)
     }
-  })
-  const onClickImport = useCallback(
-    async () => {
-      setImporting(true)
-      // need a list of all fields
-      // loop all rows, build variables and create pco
-      importData.forEach(async (d, i) => {
-        const variables = {}
-        importDataFields.forEach(f => (variables[f] = d[f] || null))
-        variables.propertyCollectionId = pCId
-        const properties = omit(d, [
-          'id',
-          'objectId',
-          'propertyCollectionId',
-          'propertyCollectionOfOrigin',
-          'relationType',
-        ])
-        variables.properties = JSON.stringify(properties)
-        try {
-          await client.mutate({
-            mutation: createRCOMutation,
-            variables,
-          })
-        } catch (error) {
-          console.log(error)
-        }
-      })
-      await rcoRefetch()
-      // do not set false because an unmounted component is updated
-      //setImporting(false)
-    },
-    [importData],
-  )
-  const rowGetter = useCallback(i => importData[i])
+  }, [])
+  const onClickImport = useCallback(async () => {
+    setImporting(true)
+    // need a list of all fields
+    // loop all rows, build variables and create pco
+    importData.forEach(async (d, i) => {
+      const variables = {}
+      importDataFields.forEach(f => (variables[f] = d[f] || null))
+      variables.propertyCollectionId = pCId
+      const properties = omit(d, [
+        'id',
+        'objectId',
+        'propertyCollectionId',
+        'propertyCollectionOfOrigin',
+        'relationType',
+      ])
+      variables.properties = JSON.stringify(properties)
+      try {
+        await client.mutate({
+          mutation: createRCOMutation,
+          variables,
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    })
+    await rcoRefetch()
+    // do not set false because an unmounted component is updated
+    //setImporting(false)
+  }, [client, importData, importDataFields, pCId, rcoRefetch])
+  const rowGetter = useCallback(i => importData[i], [importData])
 
   return (
     <Container>
@@ -1074,7 +1071,7 @@ const ImportPco = () => {
                 Oder hier klicken, um eine Datei auszuwählen.
                 <br />
                 <br />
-                Akzeptierte Formate: .xlsx, .xls, .csv, .ods, .dbf, .dif
+                Akzeptierte Formate: xlsx, xls, csv, ods, dbf, dif
               </DropzoneDiv>
             )
           }}
