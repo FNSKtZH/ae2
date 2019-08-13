@@ -53,6 +53,9 @@
     "styled-components": "4.3.2",
     "xlsx": "0.15.0"
   },
+  "dependenciesComments": {
+    "exceljs": "Do not upgrade past 1.10.0, will break in production. See: https://github.com/exceljs/exceljs/issues/871"
+  },
   "devDependencies": {
     "docsify-cli": "4.3.0",
     "flow-bin": "0.105.1",
