@@ -62,7 +62,12 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     resetPcoProperties()
     resetRcoProperties()
     resetTaxProperties()
-  })
+  }, [
+    resetPcoProperties,
+    resetRcoProperties,
+    resetTaxProperties,
+    setTaxonomies,
+  ])
 
   const noDataChoosen =
     [...exportTaxonomies, ...taxProperties, ...pcoProperties, ...rcoProperties]

@@ -44,7 +44,7 @@ const Taxonomies = ({ taxonomies }: { taxonomies: Array<Object> }) => {
         }
       }
     },
-    [exportTaxonomies, taxonomies],
+    [exportTaxonomies, setTaxonomies, setType],
   )
 
   return taxonomies.map(tax => (

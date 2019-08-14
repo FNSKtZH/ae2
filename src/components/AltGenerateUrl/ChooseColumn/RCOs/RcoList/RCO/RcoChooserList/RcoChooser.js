@@ -51,7 +51,7 @@ const RcoChooser = ({
       }
       removeRcoProperty({ pcname, relationtype, pname })
     },
-    [pcname, relationtype, pname],
+    [removeRcoProperty, pcname, relationtype, pname, addRcoProperty],
   )
 
   return (

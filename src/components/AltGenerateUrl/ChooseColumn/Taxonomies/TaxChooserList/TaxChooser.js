@@ -45,7 +45,7 @@ const TaxChooser = ({
       }
       removeTaxProperty({ taxname, pname })
     },
-    [taxname, pname],
+    [removeTaxProperty, taxname, pname, addTaxProperty],
   )
 
   return (

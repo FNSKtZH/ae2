@@ -42,9 +42,9 @@ const ChooseNrOfRows = () => {
 
   const multipleRowsDisabled =
     uniq(rcoProperties.map(e => `${e.pcname}/${e.relationtype}`)).length > 1
-  const onChange = useCallback(() => setRcoInOneRow(!rcoInOneRow), [
-    rcoInOneRow,
-  ])
+  const onChange = useCallback(() => {
+    setRcoInOneRow(!rcoInOneRow)
+  }, [rcoInOneRow, setRcoInOneRow])
 
   return (
     <StyledFormControl>
