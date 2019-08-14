@@ -122,13 +122,10 @@ const PropertyCollection = () => {
     data: allUsersData,
     loading: allUsersLoading,
     error: allUsersError,
-  } = useQuery(allUsersQuery, {
-    suspend: false,
-  })
+  } = useQuery(allUsersQuery)
   const { data: pcData, loading: pcLoading, error: pcError } = useQuery(
     pcQuery,
     {
-      suspend: false,
       variables: {
         pCId,
       },

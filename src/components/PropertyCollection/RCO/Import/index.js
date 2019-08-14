@@ -216,7 +216,6 @@ const ImportPco = () => {
   const [completed, setCompleted] = useState(0)
 
   const { refetch: rcoRefetch } = useQuery(rcoQuery, {
-    suspend: false,
     variables: {
       pCId,
     },
@@ -226,7 +225,6 @@ const ImportPco = () => {
     loading: importRcoLoading,
     error: importRcoError,
   } = useQuery(importRcoQuery, {
-    suspend: false,
     variables: {
       getObjectIds: objectIds.length > 0,
       objectIds:

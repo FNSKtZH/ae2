@@ -53,7 +53,6 @@ const TCs = () => {
   const { data: tcsData, loading: tcsLoading, error: tcsError } = useQuery(
     tcsQuery,
     {
-      suspend: false,
       variables: {
         name,
       },

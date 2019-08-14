@@ -130,7 +130,6 @@ const PCO = ({
       ? activeNodeArray[1]
       : '99999999-9999-9999-9999-999999999999'
   const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
-    suspend: false,
     variables: treeDataVariables({ activeNodeArray }),
   })
   const {
@@ -139,7 +138,6 @@ const PCO = ({
     error: pcoError,
     refetch: pcoRefetch,
   } = useQuery(pcoQuery, {
-    suspend: false,
     variables: {
       pCId,
     },
