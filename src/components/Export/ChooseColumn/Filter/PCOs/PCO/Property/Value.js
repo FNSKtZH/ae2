@@ -150,7 +150,6 @@ const IntegrationAutosuggest = ({
   const [dataFetched, setDataFetched] = useState(false)
 
   const { data: propData, error: propDataError } = useQuery(pcoFieldPropQuery, {
-    suspend: false,
     variables: {
       tableName: 'property_collection_object',
       propName: pname,

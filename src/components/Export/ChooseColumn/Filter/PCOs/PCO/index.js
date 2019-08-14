@@ -80,7 +80,6 @@ const PcoCard = ({ pc }: { pc: Object }) => {
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
     propsByTaxQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies,
         queryExportTaxonomies: exportTaxonomies.length > 0,

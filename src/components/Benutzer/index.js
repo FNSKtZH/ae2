@@ -45,7 +45,6 @@ const User = () => {
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
   const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
-    suspend: false,
     variables: getTreeDataVariables({ activeNodeArray }),
   })
   const {
@@ -54,7 +53,6 @@ const User = () => {
     loading: dataLoading,
     refetch: dataRefetch,
   } = useQuery(query, {
-    suspend: false,
     variables: {
       id: activeNodeArray[1] || '99999999-9999-9999-9999-999999999999',
     },

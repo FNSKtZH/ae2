@@ -76,7 +76,6 @@ const Filter = () => {
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
     propsByTaxQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies,
         queryExportTaxonomies: exportTaxonomies.length > 0,
@@ -89,54 +88,42 @@ const Filter = () => {
   const [pcoExpanded, setFilterExpanded] = useState(false)
   const [rcoExpanded, setPropertiesExpanded] = useState(false)
 
-  const onToggleJointTaxonomies = useCallback(
-    () => {
-      setJointTaxonomiesExpanded(!jointTaxonomiesExpanded)
-      // close all others
-      setTaxonomiesExpanded(false)
-      setFilterExpanded(false)
-      setPropertiesExpanded(false)
-    },
-    [jointTaxonomiesExpanded],
-  )
-  const onToggleTaxonomies = useCallback(
-    () => {
-      setTaxonomiesExpanded(!taxonomiesExpanded)
+  const onToggleJointTaxonomies = useCallback(() => {
+    setJointTaxonomiesExpanded(!jointTaxonomiesExpanded)
+    // close all others
+    setTaxonomiesExpanded(false)
+    setFilterExpanded(false)
+    setPropertiesExpanded(false)
+  }, [jointTaxonomiesExpanded])
+  const onToggleTaxonomies = useCallback(() => {
+    setTaxonomiesExpanded(!taxonomiesExpanded)
+    // close all others
+    setJointTaxonomiesExpanded(false)
+    setFilterExpanded(false)
+    setPropertiesExpanded(false)
+  }, [taxonomiesExpanded])
+  const onTogglePco = useCallback(() => {
+    if (!pcoExpanded) {
+      setFilterExpanded(true)
       // close all others
       setJointTaxonomiesExpanded(false)
-      setFilterExpanded(false)
+      setTaxonomiesExpanded(false)
       setPropertiesExpanded(false)
-    },
-    [taxonomiesExpanded],
-  )
-  const onTogglePco = useCallback(
-    () => {
-      if (!pcoExpanded) {
-        setFilterExpanded(true)
-        // close all others
-        setJointTaxonomiesExpanded(false)
-        setTaxonomiesExpanded(false)
-        setPropertiesExpanded(false)
-      } else {
-        setFilterExpanded(false)
-      }
-    },
-    [pcoExpanded],
-  )
-  const onToggleRco = useCallback(
-    () => {
-      if (!rcoExpanded) {
-        setPropertiesExpanded(true)
-        // close all others
-        setJointTaxonomiesExpanded(false)
-        setTaxonomiesExpanded(false)
-        setFilterExpanded(false)
-      } else {
-        setPropertiesExpanded(false)
-      }
-    },
-    [rcoExpanded],
-  )
+    } else {
+      setFilterExpanded(false)
+    }
+  }, [pcoExpanded])
+  const onToggleRco = useCallback(() => {
+    if (!rcoExpanded) {
+      setPropertiesExpanded(true)
+      // close all others
+      setJointTaxonomiesExpanded(false)
+      setTaxonomiesExpanded(false)
+      setFilterExpanded(false)
+    } else {
+      setPropertiesExpanded(false)
+    }
+  }, [rcoExpanded])
 
   const pcoProperties = get(
     propsByTaxData,

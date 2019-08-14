@@ -13,9 +13,7 @@ import ErrorBoundary from '../shared/ErrorBoundary'
  */
 
 const DataGraph = () => {
-  const { data, error, loading } = useQuery(query, {
-    suspend: false,
-  })
+  const { data, error, loading } = useQuery(query)
   if (loading) return null
   if (error) return `Error loading data:${error.message}`
 

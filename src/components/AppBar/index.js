@@ -115,7 +115,6 @@ const MyAppBar = () => {
   }
   const existsTaxId = taxId !== '99999999-9999-9999-9999-999999999999'
   const { data, error: dataError } = useQuery(query, {
-    suspend: false,
     variables: {
       objectId: objectId || '99999999-9999-9999-9999-999999999999',
       existsObjectId: !!objectId,
