@@ -83,7 +83,9 @@ const Organization = () => {
 
   const [tab, setTab] = useState(0)
 
-  const onChangeTab = useCallback((event, value) => setTab(value))
+  const onChangeTab = useCallback((event, value) => {
+    setTab(value)
+  }, [])
 
   const org = get(orgData, 'organizationByName', {})
 

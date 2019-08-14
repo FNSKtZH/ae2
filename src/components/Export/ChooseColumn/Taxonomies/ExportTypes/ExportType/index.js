@@ -74,7 +74,7 @@ const ExportTypes = ({
         setTaxonomies(remainingTaxonomies)
       }
     },
-    [taxonomies, exportTaxonomies],
+    [setType, taxonomies, exportTaxonomies, setTaxonomies],
   )
 
   return (

@@ -101,20 +101,31 @@ const OptionsChoosen = ({ classes }: { classes: Object }) => {
     resetRcoFilters()
     setOnlyRowsWithProperties(true)
     setWithSynonymData(true)
-  })
+  }, [
+    resetPcoFilters,
+    resetPcoProperties,
+    resetRcoFilters,
+    resetRcoProperties,
+    resetTaxFilters,
+    resetTaxProperties,
+    setOnlyRowsWithProperties,
+    setTaxonomies,
+    setType,
+    setWithSynonymData,
+  ])
   const onClickResetType = useCallback(() => {
     setType([])
     setTaxonomies([])
-  })
+  }, [setTaxonomies, setType])
   const onClickResetTaxonomies = useCallback(() => {
     setTaxonomies([])
-  })
+  }, [setTaxonomies])
   const onClickResetExportWithSynonymData = useCallback(() => {
     setWithSynonymData(true)
-  })
+  }, [setWithSynonymData])
   const onClickResetExportOnlyRowsWithProperties = useCallback(() => {
     setOnlyRowsWithProperties(true)
-  })
+  }, [setOnlyRowsWithProperties])
 
   if (noDataChoosen) return null
 
