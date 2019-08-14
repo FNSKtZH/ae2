@@ -58,10 +58,10 @@
   },
   "devDependencies": {
     "docsify-cli": "4.3.0",
-    "flow-bin": "0.105.1",
+    "flow-bin": "0.105.2",
     "postgraphile": "4.4.3",
     "postgraphile-plugin-connection-filter": "1.1.2",
-    "react-scripts": "3.1.0",
+    "react-scripts": "3.1.1",
     "source-map-explorer": "2.0.1"
   },
   "scripts": {
