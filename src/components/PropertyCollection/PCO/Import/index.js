@@ -348,6 +348,11 @@ const ImportPco = () => {
             ? !_objectIds.map(d => isUuid.anyNonNil(d)).includes(false)
             : undefined,
         )
+        /*setObjectIdsAreUuid(
+          _objectIdsExist
+            ? !_objectIds.some(d => !isUuid.anyNonNil(d))
+            : undefined,
+        )*/
         setObjectIds(_objectIds)
 
         const _pCOfOriginIds = data
