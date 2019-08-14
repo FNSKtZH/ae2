@@ -196,7 +196,6 @@ const Preview = () => {
   const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies,
         queryExportTaxonomies: exportTaxonomies.length > 0,
@@ -208,7 +207,6 @@ const Preview = () => {
     loading: exportObjectLoading,
     error: exportObjectError,
   } = useQuery(exportObjectQuery, {
-    suspend: false,
     variables: {
       exportTaxonomies,
       taxFilters,
@@ -219,13 +217,12 @@ const Preview = () => {
     data: synonymData,
     loading: synonymLoading,
     error: synonymError,
-  } = useQuery(synonymQuery, { suspend: false })
+  } = useQuery(synonymQuery)
   const {
     data: exportPcoData,
     loading: exportPcoLoading,
     error: exportPcoError,
   } = useQuery(exportPcoQuery, {
-    suspend: false,
     variables: {
       pcoFilters,
       pcoProperties,
@@ -237,7 +234,6 @@ const Preview = () => {
     loading: exportRcoLoading,
     error: exportRcoError,
   } = useQuery(exportRcoQuery, {
-    suspend: false,
     variables: {
       rcoFilters,
       rcoProperties,

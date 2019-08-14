@@ -112,7 +112,7 @@ const TaxonomyObject = ({
     data: organizationUsersData,
     loading: organizationUsersLoading,
     error: organizationUsersError,
-  } = useQuery(organizationUsersQuery, { suspend: false })
+  } = useQuery(organizationUsersQuery)
 
   const [expanded, setExpanded] = useState(showLink ? false : true)
   const [taxExpanded, setTaxExpanded] = useState(false)

@@ -74,7 +74,6 @@ const Organization = () => {
   const { data: orgData, loading: orgLoading, error: orgError } = useQuery(
     orgQuery,
     {
-      suspend: false,
       variables: {
         orgName: activeNodeArray[1],
       },

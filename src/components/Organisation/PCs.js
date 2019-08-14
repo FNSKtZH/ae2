@@ -53,7 +53,6 @@ const PCs = () => {
   const { data: pcsData, loading: pcsLoading, error: pcsError } = useQuery(
     pcsQuery,
     {
-      suspend: false,
       variables: {
         name,
       },

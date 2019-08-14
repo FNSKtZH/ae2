@@ -48,7 +48,6 @@ const Objekt = ({ stacked = false }: { stacked: Boolean }) => {
     loading: objectLoading,
     error: objectError,
   } = useQuery(objectDataQuery, {
-    suspend: false,
     variables: {
       objectId,
     },

@@ -68,7 +68,6 @@ const OrgUsers = () => {
     loading: orgUsersLoading,
     error: orgUsersError,
   } = useQuery(orgUsersQuery, {
-    suspend: false,
     variables: {
       name,
     },

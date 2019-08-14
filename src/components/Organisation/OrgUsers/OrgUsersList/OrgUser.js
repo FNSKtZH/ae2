@@ -101,15 +101,12 @@ const OrgUser = ({ orgUser }: { orgUser: Object }) => {
     data: allUsersData,
     loading: allUsersLoading,
     error: allUsersError,
-  } = useQuery(allUsersQuery, {
-    suspend: false,
-  })
+  } = useQuery(allUsersQuery)
   const {
     data: orgUsersData,
     loading: orgUsersLoading,
     error: orgUsersError,
   } = useQuery(orgUsersQuery, {
-    suspend: false,
     variables: {
       name,
     },
