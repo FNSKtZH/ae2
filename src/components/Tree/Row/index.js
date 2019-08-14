@@ -180,7 +180,7 @@ const Row = ({
         mobxStore,
       })
     },
-    [activeNodeArray, userId, editingTaxonomies],
+    [client, treeRefetch, userId, history, mobxStore],
   )
 
   return (
