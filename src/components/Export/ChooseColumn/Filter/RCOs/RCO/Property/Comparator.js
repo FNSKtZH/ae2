@@ -68,7 +68,7 @@ const RcoComparator = ({
         comparator: event.target.value,
         value,
       }),
-    [pcname, relationtype, pname, value],
+    [setRcoFilters, pcname, relationtype, pname, value],
   )
 
   return (

@@ -61,7 +61,7 @@ const PcoComparator = ({
     event => {
       setPcoFilter({ pcname, pname, comparator: event.target.value, value })
     },
-    [pcname, pname, value],
+    [pcname, pname, setPcoFilter, value],
   )
 
   return (

@@ -72,52 +72,43 @@ const Properties = () => {
 
   useEffect(() => {
     setTaxonomies(constants.altTaxonomies)
-  }, [])
+  }, [setTaxonomies])
 
   const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(false)
   const [pcoExpanded, setPcoExpanded] = useState(false)
   const [rcoExpanded, setPropertiesExpanded] = useState(false)
   const message = loading ? 'Lade Daten. Das dauert eine Weile' : ''
 
-  const onToggleTaxonomies = useCallback(
-    () => {
-      setTaxonomiesExpanded(!taxonomiesExpanded)
-      // TODO (later)
-      // check if only one Taxonomy
-      // if so: open it
+  const onToggleTaxonomies = useCallback(() => {
+    setTaxonomiesExpanded(!taxonomiesExpanded)
+    // TODO (later)
+    // check if only one Taxonomy
+    // if so: open it
 
+    // close all others
+    setPcoExpanded(false)
+    setPropertiesExpanded(false)
+  }, [taxonomiesExpanded])
+  const onTogglePco = useCallback(() => {
+    if (!pcoExpanded) {
+      setPcoExpanded(true)
       // close all others
-      setPcoExpanded(false)
+      setTaxonomiesExpanded(false)
       setPropertiesExpanded(false)
-    },
-    [taxonomiesExpanded],
-  )
-  const onTogglePco = useCallback(
-    () => {
-      if (!pcoExpanded) {
-        setPcoExpanded(true)
-        // close all others
-        setTaxonomiesExpanded(false)
-        setPropertiesExpanded(false)
-      } else {
-        setPcoExpanded(false)
-      }
-    },
-    [pcoExpanded],
-  )
-  const onToggleRco = useCallback(
-    () => {
-      if (!rcoExpanded) {
-        setPropertiesExpanded(true)
-        // close all others
-        setTaxonomiesExpanded(false)
-        setPcoExpanded(false)
-      } else {
-        setPropertiesExpanded(false)
-      }
-    },
-    [rcoExpanded],
-  )
+    } else {
+      setPcoExpanded(false)
+    }
+  }, [pcoExpanded])
+  const onToggleRco = useCallback(() => {
+    if (!rcoExpanded) {
+      setPropertiesExpanded(true)
+      // close all others
+      setTaxonomiesExpanded(false)
+      setPcoExpanded(false)
+    } else {
+      setPropertiesExpanded(false)
+    }
+  }, [rcoExpanded])
 
   return (
     <ErrorBoundary>

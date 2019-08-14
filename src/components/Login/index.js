@@ -40,7 +40,7 @@ const Login = () => {
   const idb = useContext(idbContext)
   const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { historyAfterLogin, login } = mobxStore
+  const { login } = mobxStore
   const { token, setLogin } = login
 
   const [name, changeName] = useState('')
@@ -67,7 +67,7 @@ const Login = () => {
         history,
         mobxStore,
       }),
-    [name, pass, historyAfterLogin, token],
+    [client, name, pass, idb, history, mobxStore],
   )
   const onLogout = useCallback(() => {
     idb.users.clear()
@@ -75,7 +75,7 @@ const Login = () => {
       username: '',
       token: '',
     })
-  })
+  }, [idb.users, setLogin])
   const onBlurName = useCallback(
     e => {
       changeNameErrorText('')
@@ -87,7 +87,7 @@ const Login = () => {
         fetchLogin(name, pass)
       }
     },
-    [pass],
+    [fetchLogin, pass],
   )
   const onBlurPassword = useCallback(
     e => {
@@ -100,22 +100,30 @@ const Login = () => {
         fetchLogin(name, pass)
       }
     },
-    [name],
+    [fetchLogin, name],
   )
-  const onKeyPressName = useCallback(e => {
-    if (e.key === 'Enter') {
-      onBlurName(e)
-    }
-  })
-  const onKeyPressPass = useCallback(e => {
-    if (e.key === 'Enter') {
-      onBlurPassword(e)
-    }
-  })
+  const onKeyPressName = useCallback(
+    e => {
+      if (e.key === 'Enter') {
+        onBlurName(e)
+      }
+    },
+    [onBlurName],
+  )
+  const onKeyPressPass = useCallback(
+    e => {
+      if (e.key === 'Enter') {
+        onBlurPassword(e)
+      }
+    },
+    [onBlurPassword],
+  )
   const onClickTogglePass = useCallback(() => changeShowPass(!showPass), [
     showPass,
   ])
-  const onMouseDownTogglePass = useCallback(e => e.preventDefault())
+  const onMouseDownTogglePass = useCallback(e => {
+    e.preventDefault()
+  }, [])
 
   return (
     <ErrorBoundary>

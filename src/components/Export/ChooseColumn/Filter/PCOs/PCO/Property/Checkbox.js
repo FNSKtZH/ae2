@@ -59,7 +59,7 @@ const PcoCheckbox = ({
         addPcoProperty({ pcname, pname })
       }
     },
-    [pcname, pname, addFilterFields],
+    [setPcoFilter, pcname, pname, addFilterFields, addPcoProperty],
   )
 
   return (

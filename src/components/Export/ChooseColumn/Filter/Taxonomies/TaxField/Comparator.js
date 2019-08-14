@@ -65,7 +65,7 @@ const Comparator = ({
         comparator: event.target.value || 'ILIKE',
         value,
       }),
-    [taxname, pname, value],
+    [setTaxFilters, taxname, pname, value],
   )
 
   return (
