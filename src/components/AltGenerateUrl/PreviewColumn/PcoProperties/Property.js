@@ -17,11 +17,13 @@ const Property = ({ pcname, pname }: { pcname: string, pname: string }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { removePcoProperty } = mobxStore.export
 
-  const onClick = useCallback(() =>
-    removePcoProperty({
-      pcname,
-      pname,
-    }),
+  const onClick = useCallback(
+    () =>
+      removePcoProperty({
+        pcname,
+        pname,
+      }),
+    [pcname, pname, removePcoProperty],
   )
 
   return (
