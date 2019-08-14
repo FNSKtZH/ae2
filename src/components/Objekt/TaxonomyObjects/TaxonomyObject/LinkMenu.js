@@ -43,8 +43,10 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
   const onClickIcon = useCallback(e => {
     e.stopPropagation()
     setAnchorEl(e.currentTarget)
-  })
-  const handleClose = useCallback(() => setAnchorEl(null))
+  }, [])
+  const handleClose = useCallback(() => {
+    setAnchorEl(null)
+  }, [])
   const onClickGoogleImages = useCallback(
     e => {
       e.stopPropagation()
@@ -56,7 +58,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
       window.open(url)
       setAnchorEl(null)
     },
-    [objekt],
+    [einheit, nameDeutsch, objekt.name],
   )
   const onClickWikepedia = useCallback(
     e => {
@@ -71,7 +73,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
       window.open(url)
       setAnchorEl(null)
     },
-    [objekt],
+    [einheit, nameDeutsch, objekt.name],
   )
   const onClickGbif = useCallback(
     e => {
@@ -82,7 +84,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
       window.open(url)
       setAnchorEl(null)
     },
-    [objekt],
+    [art, gattung],
   )
   const onClickInfoflora = useCallback(
     e => {
@@ -91,7 +93,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
       window.open(url)
       setAnchorEl(null)
     },
-    [objekt],
+    [art, gattung],
   )
 
   return (

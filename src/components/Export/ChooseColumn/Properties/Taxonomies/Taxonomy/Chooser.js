@@ -41,7 +41,7 @@ const TaxChooser = ({
       }
       return removeTaxProperty({ taxname, pname })
     },
-    [taxname, pname],
+    [removeTaxProperty, taxname, pname, addTaxProperty],
   )
 
   const checked =

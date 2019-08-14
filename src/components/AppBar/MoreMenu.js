@@ -40,32 +40,36 @@ const MoreMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const history = useContext(historyContext)
 
-  const onClickButton = useCallback(event => setAnchorEl(event.currentTarget))
-  const onClose = useCallback(() => setAnchorEl(null))
+  const onClickButton = useCallback(event => {
+    setAnchorEl(event.currentTarget)
+  }, [])
+  const onClose = useCallback(() => {
+    setAnchorEl(null)
+  }, [])
   const onClickUeber = useCallback(() => {
     window.open('https://docs.arteigenschaften.ch')
     setAnchorEl(null)
-  })
+  }, [])
   const onClickStruktur = useCallback(() => {
     window.open(relations)
     setAnchorEl(null)
-  })
+  }, [])
   const onClickMelden = useCallback(() => {
     window.open('https://github.com/FNSKtZH/ae2/issues')
     setAnchorEl(null)
-  })
+  }, [])
   const onClickFelderAlt = useCallback(() => {
     history.push('/artenlistentool/waehlen')
     setAnchorEl(null)
-  })
+  }, [history])
   const onClickGqlStructure = useCallback(() => {
     history.push('/datagraph')
     setAnchorEl(null)
-  })
+  }, [history])
   const onClickGqlQuery = useCallback(() => {
     history.push('/graphiql')
     setAnchorEl(null)
-  })
+  }, [history])
 
   return (
     <div>

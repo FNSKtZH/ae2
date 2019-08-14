@@ -40,7 +40,7 @@ const AllRcoChooser = ({ properties }: { properties: Array<Object> }) => {
         removeRcoProperty({ pcname, relationtype, pname })
       })
     },
-    [properties],
+    [addRcoProperty, properties, removeRcoProperty],
   )
 
   const checkedArray = properties.map(

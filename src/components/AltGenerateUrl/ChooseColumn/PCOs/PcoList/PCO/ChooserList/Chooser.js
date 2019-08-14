@@ -41,7 +41,7 @@ const PcoChooser = ({
       }
       removePcoProperty({ pcname, pname })
     },
-    [pcname, pname],
+    [addPcoProperty, pcname, pname, removePcoProperty],
   )
 
   const checked =

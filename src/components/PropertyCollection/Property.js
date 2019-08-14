@@ -41,7 +41,9 @@ const Property = ({
   const [value, setValue] = useState(pC[field] || '')
   const [error, setError] = useState(null)
 
-  const onChange = useCallback(event => setValue(event.target.value))
+  const onChange = useCallback(event => {
+    setValue(event.target.value)
+  }, [])
   const onBlur = useCallback(
     event =>
       onBlurDo({
@@ -52,7 +54,7 @@ const Property = ({
         prevValue: pC[field],
         setError,
       }),
-    [field, pC, value],
+    [client, field, pC],
   )
 
   return (

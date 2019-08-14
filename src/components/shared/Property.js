@@ -39,7 +39,9 @@ const Property = ({
   const client = useApolloClient()
   const [value, setValue] = useState(propertiesPrevious[key] || '')
 
-  const onChange = useCallback(event => setValue(event.target.value))
+  const onChange = useCallback(event => {
+    setValue(event.target.value)
+  }, [])
   const onBlur = useCallback(
     event => {
       const { value } = event.target
@@ -66,7 +68,7 @@ const Property = ({
         })
       }
     },
-    [key, propertiesPrevious, id],
+    [propertiesPrevious, key, client, id],
   )
   const onDelete = useCallback(
     async event => {
@@ -76,7 +78,7 @@ const Property = ({
         variables: { properties: JSON.stringify(properties), id },
       })
     },
-    [key, propertiesPrevious, id],
+    [propertiesPrevious, key, client, id],
   )
 
   return (

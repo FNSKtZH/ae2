@@ -28,8 +28,12 @@ const Property = ({
   const [label, setLabel] = useState('')
   const [value, setValue] = useState('')
 
-  const onChangeLabel = useCallback(event => setLabel(event.target.value))
-  const onChangeValue = useCallback(event => setValue(event.target.value))
+  const onChangeLabel = useCallback(event => {
+    setLabel(event.target.value)
+  }, [])
+  const onChangeValue = useCallback(event => {
+    setValue(event.target.value)
+  }, [])
   const onBlurValue = useCallback(
     async event => {
       const { value } = event.target
@@ -46,7 +50,7 @@ const Property = ({
         setValue('')
       }
     },
-    [propertiesPrevious, id, label],
+    [label, propertiesPrevious, client, id],
   )
 
   return (

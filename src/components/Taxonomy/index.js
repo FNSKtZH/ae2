@@ -150,14 +150,20 @@ const Taxonomy = () => {
     !!orgsUserIsTaxWriter.find(o => o.id === tax.organizationId) ||
     (userIsTaxWriter && !tax.organizationId)
 
-  const onClickStopEditing = useCallback(event => {
-    event.stopPropagation()
-    setEditingTaxonomies(false)
-  })
-  const onClickStartEditing = useCallback(event => {
-    event.stopPropagation()
-    setEditingTaxonomies(true)
-  })
+  const onClickStopEditing = useCallback(
+    event => {
+      event.stopPropagation()
+      setEditingTaxonomies(false)
+    },
+    [setEditingTaxonomies],
+  )
+  const onClickStartEditing = useCallback(
+    event => {
+      event.stopPropagation()
+      setEditingTaxonomies(true)
+    },
+    [setEditingTaxonomies],
+  )
   const onChangeImportedByArten = useCallback(
     event =>
       onBlurArten({
@@ -167,7 +173,7 @@ const Taxonomy = () => {
         value: event.target.value,
         prevValue: tax.importedBy,
       }),
-    [tax],
+    [client, tax],
   )
   const onChangeOrganizationArten = useCallback(
     event =>
@@ -178,7 +184,7 @@ const Taxonomy = () => {
         value: event.target.value,
         prevValue: tax.organizationId,
       }),
-    [tax],
+    [client, tax],
   )
   const onChangeImportedByLr = useCallback(
     event =>
@@ -189,7 +195,7 @@ const Taxonomy = () => {
         value: event.target.value,
         prevValue: tax.importedBy,
       }),
-    [tax],
+    [client, tax],
   )
   const onChangeOrganizationLr = useCallback(
     event =>
@@ -200,7 +206,7 @@ const Taxonomy = () => {
         value: event.target.value,
         prevValue: tax.organizationId,
       }),
-    [tax],
+    [client, tax],
   )
 
   if (taxLoading || allUsersLoading) {
