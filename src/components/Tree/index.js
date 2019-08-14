@@ -210,23 +210,18 @@ const Tree = ({
     loading: treeLoading,
     error: treeError,
   } = useQuery(treeDataQuery, {
-    suspend: false,
     variables: treeDataVariables({ activeNodeArray }),
   })
   const {
     data: orgUsersData,
     loading: orgUsersLoading,
     error: orgUsersError,
-  } = useQuery(orgUsersQuery, {
-    suspend: false,
-  })
+  } = useQuery(orgUsersQuery)
   const {
     data: usersData,
     loading: usersLoading,
     error: usersError,
-  } = useQuery(usersQuery, {
-    suspend: false,
-  })
+  } = useQuery(usersQuery)
 
   // prevent tree from rebuilding from the top
   // every time a new branch is clicked

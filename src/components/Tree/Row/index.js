@@ -109,11 +109,9 @@ const Row = ({
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
   const { refetch: treeRefetch } = useQuery(treeDataQuery, {
-    suspend: false,
     variables: treeDataVariables({ activeNodeArray }),
   })
   const { data: userData } = useQuery(userQuery, {
-    suspend: false,
     variables: {
       username: login.username,
     },

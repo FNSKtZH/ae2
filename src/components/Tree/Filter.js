@@ -138,7 +138,6 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
     data: filterSuggestionsData,
     error: filterSuggestionsError,
   } = useQuery(filterSuggestionsQuery, {
-    suspend: false,
     variables: {
       treeFilterText: treeFilter.text || 'ZZZZ',
     },
@@ -146,7 +145,6 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
   const { data: objectUrlData, error: objectUrlError } = useQuery(
     objectUrlQuery,
     {
-      suspend: false,
       variables: {
         treeFilterId,
       },

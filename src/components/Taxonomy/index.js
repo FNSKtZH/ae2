@@ -117,13 +117,10 @@ const Taxonomy = () => {
     data: allUsersData,
     loading: allUsersLoading,
     error: allUsersError,
-  } = useQuery(allUsersQuery, {
-    suspend: false,
-  })
+  } = useQuery(allUsersQuery)
   const { data: taxData, loading: taxLoading, error: taxError } = useQuery(
     taxQuery,
     {
-      suspend: false,
       variables: {
         taxId,
       },
