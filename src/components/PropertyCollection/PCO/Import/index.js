@@ -243,6 +243,7 @@ const ImportPco = () => {
     setPCOfOriginIdsAreRealNotTested, // eslint-disable-line no-unused-vars
   ] = useState(undefined)
   const [objectIdsAreUuid, setObjectIdsAreUuid] = useState(undefined)
+  const [objectsIdsAreNotUuid, setObjectsIdsAreNotUuid] = useState(undefined)
   const [pCOfOriginIdsAreUuid, setPCOfOriginIdsAreUuid] = useState(undefined)
   const [importData, setImportData] = useState([])
   const [importing, setImporting] = useState(false)
@@ -343,10 +344,12 @@ const ImportPco = () => {
           .filter(d => d !== undefined)
         const _objectIdsExist = _objectIds.length === data.length
         setObjectIdsExist(_objectIdsExist)
+        const _objectsIdsAreNotUuid = data.filter(
+          d => !isUuid.anyNonNil(d.objectId),
+        )
+        setObjectsIdsAreNotUuid(_objectsIdsAreNotUuid)
         setObjectIdsAreUuid(
-          _objectIdsExist
-            ? !_objectIds.map(d => isUuid.anyNonNil(d)).includes(false)
-            : undefined,
+          _objectIdsExist ? _objectsIdsAreNotUuid.length === 0 : undefined,
         )
         /*setObjectIdsAreUuid(
           _objectIdsExist
@@ -430,6 +433,8 @@ const ImportPco = () => {
     pcoRefetch()
   }, [client, importData, importDataFields, pCId, pcoRefetch, setCompleted])
   const rowGetter = useCallback(i => importData[i], [importData])
+
+  console.log('objectsIdsAreNotUuid:', objectsIdsAreNotUuid)
 
   return (
     <Container>
