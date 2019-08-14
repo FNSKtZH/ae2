@@ -25,7 +25,6 @@ const List = styled.div`
 `
 const StyledA = styled.a`
   color: inherit;
-  font-weight: 100;
   cursor: pointer;
   text-decoration-color: rgba(0, 0, 0, 0.3);
   text-decoration-style: dotted;
@@ -88,7 +87,6 @@ const PCs = () => {
                 </StyledA>
               </li>
             ))}
-            )}
           </ul>
         </List>
       </Container>
