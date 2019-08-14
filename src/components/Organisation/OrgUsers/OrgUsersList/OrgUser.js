@@ -163,7 +163,7 @@ const OrgUser = ({ orgUser }: { orgUser: Object }) => {
         setUserId(user.id)
       }
     },
-    [users, orgUser, role],
+    [users, orgUser.nodeId, orgUser.organizationId, orgUser.id, role, client],
   )
   const onChangeRole = useCallback(
     async event => {
@@ -199,50 +199,47 @@ const OrgUser = ({ orgUser }: { orgUser: Object }) => {
       }
       setRole(newRole)
     },
-    [orgUser, userId],
+    [client, orgUser.id, orgUser.nodeId, orgUser.organizationId, userId],
   )
-  const onClickDelete = useCallback(
-    async () => {
-      client.mutate({
-        mutation: deleteOrgUserMutation,
-        variables: {
-          id: orgUser.id,
-        },
-        optimisticResponse: {
-          deleteOrganizationUserById: {
-            organizationUser: {
-              id: orgUser.id,
-              __typename: 'OrganizationUser',
-            },
-            __typename: 'Mutation',
+  const onClickDelete = useCallback(async () => {
+    client.mutate({
+      mutation: deleteOrgUserMutation,
+      variables: {
+        id: orgUser.id,
+      },
+      optimisticResponse: {
+        deleteOrganizationUserById: {
+          organizationUser: {
+            id: orgUser.id,
+            __typename: 'OrganizationUser',
           },
+          __typename: 'Mutation',
         },
-        update: (proxy, { data: { deleteOrgUserMutation } }) => {
-          const data = proxy.readQuery({
-            query: orgUsersQuery,
-            variables: { name: orgName },
-          })
-          const orgUsers = get(
-            data,
-            'organizationByName.organizationUsersByOrganizationId.nodes',
-            [],
-          )
-          const newOrgUsers = orgUsers.filter(u => u.id !== orgUser.id)
-          set(
-            data,
-            'organizationByName.organizationUsersByOrganizationId.nodes',
-            newOrgUsers,
-          )
-          proxy.writeQuery({
-            query: orgUsersQuery,
-            variables: { name: orgName },
-            data,
-          })
-        },
-      })
-    },
-    [orgUser],
-  )
+      },
+      update: (proxy, { data: { deleteOrgUserMutation } }) => {
+        const data = proxy.readQuery({
+          query: orgUsersQuery,
+          variables: { name: orgName },
+        })
+        const orgUsers = get(
+          data,
+          'organizationByName.organizationUsersByOrganizationId.nodes',
+          [],
+        )
+        const newOrgUsers = orgUsers.filter(u => u.id !== orgUser.id)
+        set(
+          data,
+          'organizationByName.organizationUsersByOrganizationId.nodes',
+          newOrgUsers,
+        )
+        proxy.writeQuery({
+          query: orgUsersQuery,
+          variables: { name: orgName },
+          data,
+        })
+      },
+    })
+  }, [client, orgName, orgUser.id])
 
   if (orgUsersLoading || allUsersLoading) {
     return <OrgUserDiv>Lade Daten...</OrgUserDiv>

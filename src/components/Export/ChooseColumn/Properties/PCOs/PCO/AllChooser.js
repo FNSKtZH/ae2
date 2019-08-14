@@ -38,7 +38,7 @@ const AllPcoChooser = ({ properties }: { properties: Array<Object> }) => {
         removePcoProperty({ pcname, pname })
       })
     },
-    [properties],
+    [addPcoProperty, properties, removePcoProperty],
   )
 
   const checkedArray = properties.map(

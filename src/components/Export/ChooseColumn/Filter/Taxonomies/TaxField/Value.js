@@ -163,21 +163,18 @@ const IntegrationAutosuggest = ({
     },
   })
 
-  useEffect(
-    () => {
-      if (fetchData && !dataFetched) {
-        const propValues = get(propData, 'propValuesFunction.nodes', [])
-          .filter(v => v !== null && v !== undefined)
-          .map(v => v.value)
-        if (propValues.length > 0) {
-          setPropValues(propValues)
-          setFetchData(false)
-          setDataFetched(true)
-        }
+  useEffect(() => {
+    if (fetchData && !dataFetched) {
+      const propValues = get(propData, 'propValuesFunction.nodes', [])
+        .filter(v => v !== null && v !== undefined)
+        .map(v => v.value)
+      if (propValues.length > 0) {
+        setPropValues(propValues)
+        setFetchData(false)
+        setDataFetched(true)
       }
-    },
-    [fetchData, dataFetched, propData],
-  )
+    }
+  }, [fetchData, dataFetched, propData])
 
   const getSuggestions = useCallback(
     value => {
@@ -190,11 +187,16 @@ const IntegrationAutosuggest = ({
     [propValues],
   )
 
-  const handleSuggestionsFetchRequested = useCallback(({ value }) =>
-    setSuggestions(getSuggestions(value)),
+  const handleSuggestionsFetchRequested = useCallback(
+    ({ value }) => {
+      setSuggestions(getSuggestions(value))
+    },
+    [getSuggestions],
   )
 
-  const handleSuggestionsClearRequested = useCallback(() => setSuggestions([]))
+  const handleSuggestionsClearRequested = useCallback(() => {
+    setSuggestions([])
+  }, [])
 
   const onFocus = useCallback(
     event => {
@@ -204,31 +206,36 @@ const IntegrationAutosuggest = ({
     [dataFetched],
   )
 
-  const handleChange = useCallback((event, { newValue }) =>
+  const handleChange = useCallback((event, { newValue }) => {
     // trim the start to enable entering space
     // at start to open list
-    setValue(trimStart(newValue)),
-  )
+    setValue(trimStart(newValue))
+  }, [])
 
-  const handleBlur = useCallback(
-    () => {
-      // 1. change filter value
-      let comparatorValue = comparator
-      if (!comparator && value) comparatorValue = 'ILIKE'
-      if (!value) comparatorValue = null
-      setTaxFilters({
-        taxname,
-        pname,
-        comparator: comparatorValue,
-        value,
-      })
-      // 2. if value and field not choosen, choose it
-      if (addFilterFields && value) {
-        addTaxProperty({ taxname, pname })
-      }
-    },
-    [taxname, pname, comparator, addFilterFields, value],
-  )
+  const handleBlur = useCallback(() => {
+    // 1. change filter value
+    let comparatorValue = comparator
+    if (!comparator && value) comparatorValue = 'ILIKE'
+    if (!value) comparatorValue = null
+    setTaxFilters({
+      taxname,
+      pname,
+      comparator: comparatorValue,
+      value,
+    })
+    // 2. if value and field not choosen, choose it
+    if (addFilterFields && value) {
+      addTaxProperty({ taxname, pname })
+    }
+  }, [
+    comparator,
+    value,
+    setTaxFilters,
+    taxname,
+    pname,
+    addFilterFields,
+    addTaxProperty,
+  ])
 
   const renderInput = useCallback(
     inputProps => {
@@ -250,7 +257,7 @@ const IntegrationAutosuggest = ({
         />
       )
     },
-    [pname, jsontype],
+    [pname, jsontype, value, classes.input],
   )
   const inputProps = useMemo(
     () => ({
@@ -261,7 +268,7 @@ const IntegrationAutosuggest = ({
       onBlur: handleBlur,
       onFocus: onFocus,
     }),
-    [value],
+    [handleBlur, handleChange, onFocus, value],
   )
   const { container, suggestionsList, suggestion } = classes
   const theme = useMemo(
@@ -279,7 +286,7 @@ const IntegrationAutosuggest = ({
       suggestionsList: suggestionsList,
       suggestion: suggestion,
     }),
-    [width],
+    [container, suggestion, suggestionsList, width],
   )
 
   if (propDataError) {

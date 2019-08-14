@@ -25,13 +25,13 @@ const RcoProperty = ({
   const mobxStore = useContext(mobxStoreContext)
   const { removeRcoProperty } = mobxStore.export
 
-  const onClick = useCallback(() =>
+  const onClick = useCallback(() => {
     removeRcoProperty({
       pcname,
       relationtype,
       pname,
-    }),
-  )
+    })
+  }, [pcname, pname, relationtype, removeRcoProperty])
 
   return (
     <li>

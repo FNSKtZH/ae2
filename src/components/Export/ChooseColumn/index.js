@@ -208,58 +208,50 @@ const Export = () => {
     if (!!message) {
       setTimeout(() => setMessage(''), 5000)
     }
-  })
-  const onToggleTaxonomies = useCallback(
-    () => {
-      setTaxonomiesExpanded(!taxonomiesExpanded)
+  }, [])
+  const onToggleTaxonomies = useCallback(() => {
+    setTaxonomiesExpanded(!taxonomiesExpanded)
+    // close all others
+    setFilterExpanded(false)
+    setPropertiesExpanded(false)
+  }, [taxonomiesExpanded])
+  const onToggleFilter = useCallback(() => {
+    const loading = propsByTaxLoading
+    if (!filterExpanded && exportTaxonomies.length > 0 && !loading) {
+      setFilterExpanded(true)
       // close all others
-      setFilterExpanded(false)
+      setTaxonomiesExpanded(false)
       setPropertiesExpanded(false)
-    },
-    [taxonomiesExpanded],
-  )
-  const onToggleFilter = useCallback(
-    () => {
-      const loading = propsByTaxLoading
-      if (!filterExpanded && exportTaxonomies.length > 0 && !loading) {
-        setFilterExpanded(true)
-        // close all others
-        setTaxonomiesExpanded(false)
-        setPropertiesExpanded(false)
-      } else if (!loading) {
-        setFilterExpanded(false)
-        onSetMessage('Bitte wählen Sie mindestens eine Taxonomie')
-      } else {
-        setFilterExpanded(false)
-        onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
-      }
-    },
-    [exportTaxonomies, propsByTaxLoading, filterExpanded],
-  )
-  const onToggleProperties = useCallback(
-    () => {
-      const loading = propsByTaxLoading || exportObjectLoading || synonymLoading
-      if (!propertiesExpanded && exportTaxonomies.length > 0 && !loading) {
-        setPropertiesExpanded(true)
-        // close all others
-        setTaxonomiesExpanded(false)
-        setFilterExpanded(false)
-      } else if (!loading) {
-        setPropertiesExpanded(false)
-        onSetMessage('Bitte wählen Sie mindestens eine Gruppe')
-      } else {
-        setPropertiesExpanded(false)
-        onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
-      }
-    },
-    [
-      propertiesExpanded,
-      exportTaxonomies.length,
-      propsByTaxLoading,
-      exportObjectLoading,
-      synonymLoading,
-    ],
-  )
+    } else if (!loading) {
+      setFilterExpanded(false)
+      onSetMessage('Bitte wählen Sie mindestens eine Taxonomie')
+    } else {
+      setFilterExpanded(false)
+      onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
+    }
+  }, [propsByTaxLoading, filterExpanded, exportTaxonomies.length, onSetMessage])
+  const onToggleProperties = useCallback(() => {
+    const loading = propsByTaxLoading || exportObjectLoading || synonymLoading
+    if (!propertiesExpanded && exportTaxonomies.length > 0 && !loading) {
+      setPropertiesExpanded(true)
+      // close all others
+      setTaxonomiesExpanded(false)
+      setFilterExpanded(false)
+    } else if (!loading) {
+      setPropertiesExpanded(false)
+      onSetMessage('Bitte wählen Sie mindestens eine Gruppe')
+    } else {
+      setPropertiesExpanded(false)
+      onSetMessage('Bitte warten Sie, bis die Daten geladen sind')
+    }
+  }, [
+    propsByTaxLoading,
+    exportObjectLoading,
+    synonymLoading,
+    propertiesExpanded,
+    exportTaxonomies.length,
+    onSetMessage,
+  ])
 
   if (propsByTaxError) {
     return (

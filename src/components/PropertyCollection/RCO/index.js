@@ -213,7 +213,7 @@ const RCO = ({
   const onGridSort = useCallback((column, direction) => {
     setSortField(column)
     setSortDirection(direction.toLowerCase())
-  })
+  }, [])
   const rowGetter = useCallback(i => rCO[i], [rCO])
   const onClickXlsx = useCallback(
     () =>
@@ -224,17 +224,14 @@ const RCO = ({
     [rCO],
   )
   const onClickCsv = useCallback(() => exportCsv(rCO), [rCO])
-  const onClickDelete = useCallback(
-    async () => {
-      await client.mutate({
-        mutation: deleteRcoOfPcMutation,
-        variables: { pcId: pCId },
-      })
-      rcoRefetch()
-      treeDataRefetch()
-    },
-    [pCId],
-  )
+  const onClickDelete = useCallback(async () => {
+    await client.mutate({
+      mutation: deleteRcoOfPcMutation,
+      variables: { pcId: pCId },
+    })
+    rcoRefetch()
+    treeDataRefetch()
+  }, [client, pCId, rcoRefetch, treeDataRefetch])
 
   if (rcoLoading) {
     return (

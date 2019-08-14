@@ -159,7 +159,7 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
     (event, { newValue }) => {
       setTreeFilter({ text: newValue, id: treeFilterId })
     },
-    [treeFilterId],
+    [setTreeFilter, treeFilterId],
   )
   const onSuggestionSelected = useCallback(
     (event, { suggestion }) => {
@@ -182,7 +182,7 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
         }
       }
     },
-    [treeFilterText],
+    [history, setTreeFilter, treeFilterText],
   )
   const renderSuggestion = useCallback(
     (suggestion, { query, isHighlighted }) => {
@@ -210,30 +210,28 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
         </div>
       )
     },
+    [],
   )
 
-  useEffect(
-    () => {
-      /**
-       * check if treeFilterId and urlObject exist
-       * if true:
-       * pass query result for objectUrlData to getUrlForObject()
-       * then update history with that result
-       * and reset treeFilter, id and text
-       */
-      if (
-        treeFilterId &&
-        treeFilterId !== '99999999-9999-9999-9999-999999999999' &&
-        urlObject &&
-        urlObject.id
-      ) {
-        const url = getUrlForObject(urlObject)
-        history.push(`/${url.join('/')}`)
-        setTreeFilter({ id: null, text: '' })
-      }
-    },
-    [urlObject, treeFilterId],
-  )
+  useEffect(() => {
+    /**
+     * check if treeFilterId and urlObject exist
+     * if true:
+     * pass query result for objectUrlData to getUrlForObject()
+     * then update history with that result
+     * and reset treeFilter, id and text
+     */
+    if (
+      treeFilterId &&
+      treeFilterId !== '99999999-9999-9999-9999-999999999999' &&
+      urlObject &&
+      urlObject.id
+    ) {
+      const url = getUrlForObject(urlObject)
+      history.push(`/${url.join('/')}`)
+      setTreeFilter({ id: null, text: '' })
+    }
+  }, [urlObject, treeFilterId, history, setTreeFilter])
 
   const objectByObjectName = get(
     filterSuggestionsData,
@@ -310,12 +308,17 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
 
   const getSuggestionValue = useCallback(
     suggestion => suggestion && suggestion.name,
+    [],
   )
-  const shouldRenderSuggestions = useCallback(value => value.trim().length > 2)
-  const renderSectionTitle = useCallback(section => (
-    <strong>{section.title}</strong>
-  ))
-  const getSectionSuggestions = useCallback(section => section.suggestions)
+  const shouldRenderSuggestions = useCallback(
+    value => value.trim().length > 2,
+    [],
+  )
+  const renderSectionTitle = useCallback(
+    section => <strong>{section.title}</strong>,
+    [],
+  )
+  const getSectionSuggestions = useCallback(section => section.suggestions, [])
 
   if (filterSuggestionsError) {
     return `Error fetching data: ${filterSuggestionsError.message}`

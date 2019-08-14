@@ -34,7 +34,7 @@ const ExportRcoFilterListItem = ({ filter }: { filter: Object }) => {
         comparator: '',
         value: '',
       }),
-    [filter],
+    [pcname, pname, relationtype, setRcoFilters],
   )
 
   return (

@@ -28,7 +28,7 @@ const ExportTaxPropertiesListItem = ({
         taxname,
         pname,
       }),
-    [properties],
+    [pname, removeTaxProperty, taxname],
   )
 
   return (

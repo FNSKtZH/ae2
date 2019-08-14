@@ -25,7 +25,9 @@ const Property = ({
   const client = useApolloClient()
   const [value, setValue] = useState(objekt[field] || '')
 
-  const onChange = useCallback(event => setValue(event.target.value))
+  const onChange = useCallback(event => {
+    setValue(event.target.value)
+  }, [])
   const onBlur = useCallback(
     event => {
       const { value } = event.target
@@ -50,7 +52,7 @@ const Property = ({
         })
       }
     },
-    [field, objekt],
+    [client, objekt.id],
   )
 
   return (

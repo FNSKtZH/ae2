@@ -29,7 +29,7 @@ const ExportRcoPropertiesListItem = ({
         relationtype,
         pname,
       }),
-    [properties],
+    [pcname, pname, relationtype, removeRcoProperty],
   )
 
   return (

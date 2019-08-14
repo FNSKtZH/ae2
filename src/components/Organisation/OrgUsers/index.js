@@ -92,22 +92,19 @@ const OrgUsers = () => {
     '99999999-9999-9999-9999-999999999999',
   )
 
-  const onClickNew = useCallback(
-    async () => {
-      await client.mutate({
-        mutation: createOrgUserMutation,
-        variables: {
-          organizationId,
-        },
-        /**
-         * adding to cache seems to be darn hard
-         * so just refetch
-         */
-      })
-      orgUsersData.refetch()
-    },
-    [organizationId],
-  )
+  const onClickNew = useCallback(async () => {
+    await client.mutate({
+      mutation: createOrgUserMutation,
+      variables: {
+        organizationId,
+      },
+      /**
+       * adding to cache seems to be darn hard
+       * so just refetch
+       */
+    })
+    orgUsersData.refetch()
+  }, [client, orgUsersData, organizationId])
 
   if (orgUsersLoading) {
     return <Container>Lade Daten...</Container>

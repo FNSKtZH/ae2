@@ -249,15 +249,12 @@ const Preview = () => {
   const [sortDirection, setSortDirection] = useState('asc')
   const [message, setMessage] = useState('')
 
-  const onSetMessage = useCallback(
-    message => {
-      setMessage(message)
-      if (!!message) {
-        setTimeout(() => setMessage(''), 5000)
-      }
-    },
-    [message],
-  )
+  const onSetMessage = useCallback(message => {
+    setMessage(message)
+    if (!!message) {
+      setTimeout(() => setMessage(''), 5000)
+    }
+  }, [])
 
   const exportRcoPropertyNames = rcoProperties.map(p => p.pname)
   const objects = get(exportObjectData, 'exportObject.nodes', [])
@@ -292,10 +289,10 @@ const Preview = () => {
   const onGridSort = useCallback((column, direction) => {
     setSortField(column)
     setSortDirection(direction.toLowerCase())
-  })
+  }, [])
   const onClickXlsx = useCallback(() => exportXlsx({ rows, onSetMessage }), [
     rows,
-    message,
+    onSetMessage,
   ])
   const onClickCsv = useCallback(() => exportCsv(rows), [rows])
 

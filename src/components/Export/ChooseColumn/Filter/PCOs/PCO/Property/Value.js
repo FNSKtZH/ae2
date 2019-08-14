@@ -161,21 +161,18 @@ const IntegrationAutosuggest = ({
     },
   })
 
-  useEffect(
-    () => {
-      if (fetchData && !dataFetched) {
-        const propValues = get(propData, 'propValuesFunction.nodes', [])
-          .filter(v => v !== null && v !== undefined)
-          .map(v => v.value)
-        if (propValues.length > 0) {
-          setPropValues(propValues)
-          setFetchData(false)
-          setDataFetched(true)
-        }
+  useEffect(() => {
+    if (fetchData && !dataFetched) {
+      const propValues = get(propData, 'propValuesFunction.nodes', [])
+        .filter(v => v !== null && v !== undefined)
+        .map(v => v.value)
+      if (propValues.length > 0) {
+        setPropValues(propValues)
+        setFetchData(false)
+        setDataFetched(true)
       }
-    },
-    [propData, dataFetched],
-  )
+    }
+  }, [propData, dataFetched, fetchData])
 
   const getSuggestions = useCallback(
     value => {
@@ -188,13 +185,16 @@ const IntegrationAutosuggest = ({
     [propValues],
   )
 
-  const handleSuggestionsFetchRequested = useCallback(({ value }) => {
-    setSuggestions(getSuggestions(value))
-  })
+  const handleSuggestionsFetchRequested = useCallback(
+    ({ value }) => {
+      setSuggestions(getSuggestions(value))
+    },
+    [getSuggestions],
+  )
 
   const handleSuggestionsClearRequested = useCallback(() => {
     setSuggestions(getSuggestions(' '))
-  })
+  }, [getSuggestions])
 
   const onFocus = useCallback(
     event => {
@@ -204,31 +204,36 @@ const IntegrationAutosuggest = ({
     [dataFetched],
   )
 
-  const handleChange = useCallback((event, { newValue }) =>
+  const handleChange = useCallback((event, { newValue }) => {
     // trim the start to enable entering space
     // at start to open list
-    setValue(trimStart(newValue)),
-  )
+    setValue(trimStart(newValue))
+  }, [])
 
-  const handleBlur = useCallback(
-    () => {
-      // 1. change filter value
-      let comparatorValue = comparator
-      if (!comparator && value) comparatorValue = 'ILIKE'
-      if (!value) comparatorValue = null
-      setPcoFilter({
-        pcname,
-        pname,
-        comparator: comparatorValue,
-        value,
-      })
-      // 2. if value and field is not choosen, choose it
-      if (addFilterFields && value) {
-        addPcoProperty({ pcname, pname })
-      }
-    },
-    [pcname, pname, comparator, addFilterFields, value],
-  )
+  const handleBlur = useCallback(() => {
+    // 1. change filter value
+    let comparatorValue = comparator
+    if (!comparator && value) comparatorValue = 'ILIKE'
+    if (!value) comparatorValue = null
+    setPcoFilter({
+      pcname,
+      pname,
+      comparator: comparatorValue,
+      value,
+    })
+    // 2. if value and field is not choosen, choose it
+    if (addFilterFields && value) {
+      addPcoProperty({ pcname, pname })
+    }
+  }, [
+    comparator,
+    value,
+    setPcoFilter,
+    pcname,
+    pname,
+    addFilterFields,
+    addPcoProperty,
+  ])
 
   const renderInput = useCallback(
     inputProps => {
@@ -250,7 +255,7 @@ const IntegrationAutosuggest = ({
         />
       )
     },
-    [pname, jsontype, value],
+    [pname, jsontype, value, classes.input],
   )
 
   if (propDataError) return `Error loading data: ${propDataError.message}`

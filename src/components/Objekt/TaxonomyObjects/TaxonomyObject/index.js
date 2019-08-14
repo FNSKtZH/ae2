@@ -153,16 +153,22 @@ const TaxonomyObject = ({
       e.stopPropagation()
       history.push(linkUrl)
     },
-    [linkUrl],
+    [history, linkUrl],
   )
-  const onClickStopEditing = useCallback(e => {
-    e.stopPropagation()
-    setEditingTaxonomies(false)
-  })
-  const onClickStartEditing = useCallback(e => {
-    e.stopPropagation()
-    setEditingTaxonomies(true)
-  })
+  const onClickStopEditing = useCallback(
+    e => {
+      e.stopPropagation()
+      setEditingTaxonomies(false)
+    },
+    [setEditingTaxonomies],
+  )
+  const onClickStartEditing = useCallback(
+    e => {
+      e.stopPropagation()
+      setEditingTaxonomies(true)
+    },
+    [setEditingTaxonomies],
+  )
   const onClickToggleTaxDescription = useCallback(
     e => {
       e.stopPropagation()

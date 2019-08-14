@@ -33,7 +33,7 @@ const ExportTaxFilterListItem = ({ filter }: { filter: Object }) => {
         comparator: '',
         value: '',
       }),
-    [filter],
+    [pname, setTaxFilters, taxname],
   )
 
   return (

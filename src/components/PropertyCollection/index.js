@@ -163,14 +163,20 @@ const PropertyCollection = () => {
   const importedBy = pC.importedBy
   const importedByUser = allUsers.find(u => u.id === importedBy)
 
-  const onClickStopEditing = useCallback(event => {
-    event.stopPropagation()
-    setEditingPCs(false)
-  })
-  const onClickStartEditing = useCallback(event => {
-    event.stopPropagation()
-    setEditingPCs(true)
-  })
+  const onClickStopEditing = useCallback(
+    event => {
+      event.stopPropagation()
+      setEditingPCs(false)
+    },
+    [setEditingPCs],
+  )
+  const onClickStartEditing = useCallback(
+    event => {
+      event.stopPropagation()
+      setEditingPCs(true)
+    },
+    [setEditingPCs],
+  )
   const onChangeCombining = useCallback(
     (event, isChecked) =>
       onBlur({
@@ -181,7 +187,7 @@ const PropertyCollection = () => {
         prevValue: pC.combining,
         history,
       }),
-    [pC],
+    [client, history, pC],
   )
   const onChangeOrganization = useCallback(
     event =>
@@ -193,7 +199,7 @@ const PropertyCollection = () => {
         prevValue: pC.organizationId,
         history,
       }),
-    [pC],
+    [client, history, pC],
   )
   const onChangeImportedBy = useCallback(
     event =>
@@ -205,7 +211,7 @@ const PropertyCollection = () => {
         prevValue: pC.importedBy,
         history,
       }),
-    [pC],
+    [client, history, pC],
   )
 
   if (pcLoading || allUsersLoading) {

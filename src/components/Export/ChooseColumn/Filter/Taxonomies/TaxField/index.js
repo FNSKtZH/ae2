@@ -36,9 +36,9 @@ const TaxField = ({
   ) || { comparator: null, value: null }
   const { comparator, value } = exportTaxFilter
 
-  const onResize = useCallback(contentRect =>
-    setWidth(contentRect.bounds.width),
-  )
+  const onResize = useCallback(contentRect => {
+    setWidth(contentRect.bounds.width)
+  }, [])
 
   return (
     <Measure bounds onResize={onResize}>

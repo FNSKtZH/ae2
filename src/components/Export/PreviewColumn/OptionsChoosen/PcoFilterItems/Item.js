@@ -26,17 +26,14 @@ const ExportPcoFilterListItem = ({ filter }: { filter: Object }) => {
 
   const { pcname, pname, comparator, value } = filter
 
-  const onClick = useCallback(
-    () => {
-      setPcoFilter({
-        pcname,
-        pname,
-        comparator: '',
-        value: '',
-      })
-    },
-    [pcname, pname],
-  )
+  const onClick = useCallback(() => {
+    setPcoFilter({
+      pcname,
+      pname,
+      comparator: '',
+      value: '',
+    })
+  }, [pcname, pname, setPcoFilter])
 
   return (
     <li>

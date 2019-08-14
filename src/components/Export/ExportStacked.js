@@ -22,7 +22,9 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 const ExportStacked = () => {
   const [tab, setTab] = useState(0)
 
-  const onChangeTab = useCallback((event, value) => setTab(value))
+  const onChangeTab = useCallback((event, value) => {
+    setTab(value)
+  }, [])
 
   const w = window
   const d = document

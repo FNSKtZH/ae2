@@ -23,16 +23,19 @@ const IdFilterField = () => {
     }, 200),
   )
 
-  const handleChange = useCallback(event => {
-    const { value } = event.target
-    setValue(value)
-    // convert values into an array of values, separated by commas
-    //const valueForStore = value ? JSON.parse(`"[${event.target.value}]"`) : []
-    const valueForStore = value
-      ? event.target.value.replace(/\s/g, '').split(',')
-      : []
-    change(valueForStore)
-  })
+  const handleChange = useCallback(
+    event => {
+      const { value } = event.target
+      setValue(value)
+      // convert values into an array of values, separated by commas
+      //const valueForStore = value ? JSON.parse(`"[${event.target.value}]"`) : []
+      const valueForStore = value
+        ? event.target.value.replace(/\s/g, '').split(',')
+        : []
+      change(valueForStore)
+    },
+    [change],
+  )
 
   return (
     <IdField

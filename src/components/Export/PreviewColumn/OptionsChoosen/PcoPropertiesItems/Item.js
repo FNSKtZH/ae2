@@ -28,7 +28,7 @@ const ExportPcoPropertiesListItem = ({
         pcname,
         pname,
       }),
-    [pcname, pname],
+    [pcname, pname, removePcoProperty],
   )
 
   return (

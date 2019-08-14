@@ -160,52 +160,52 @@ const MyAppBar = () => {
   const pCName = get(data, 'propertyCollectionById.name')
   const taxName = get(data, 'taxonomyById.name')
 
-  const onClickColumnButtonData = useCallback(() => history.push('/'))
-  const onClickColumnButtonExport = useCallback(() => history.push('/Export'))
-  const onClickColumnButtonLogin = useCallback(() => history.push('/Login'))
-  const onClickShare = useCallback(
-    () => {
-      const name = pCName
-        ? pCName
-        : objektName
-        ? `${taxName}: ${objektName}`
-        : taxName
-        ? taxName
-        : url0
-        ? url0
-        : ''
-      const title = `arteigenschaften.ch${!!name ? ': ' : ''}${name}`
-      navigator.share({
-        title,
-        url: window.location.href,
-      })
-    },
-    [pCName, objektName, taxName, url0],
-  )
+  const onClickColumnButtonData = useCallback(() => {
+    history.push('/')
+  }, [history])
+  const onClickColumnButtonExport = useCallback(() => {
+    history.push('/Export')
+  }, [history])
+  const onClickColumnButtonLogin = useCallback(() => {
+    history.push('/Login')
+  }, [history])
+  const onClickShare = useCallback(() => {
+    const name = pCName
+      ? pCName
+      : objektName
+      ? `${taxName}: ${objektName}`
+      : taxName
+      ? taxName
+      : url0
+      ? url0
+      : ''
+    const title = `arteigenschaften.ch${!!name ? ': ' : ''}${name}`
+    navigator.share({
+      title,
+      url: window.location.href,
+    })
+  }, [pCName, objektName, taxName, url0])
 
-  const setLayout = useCallback(
-    () => {
-      // should do this by comparing scrollWidth with clientWidth
-      // if clientWidth < scrollWidth then div is overflowing
-      // BUT: every second measurement gives clientWidth === scrollWidth,
-      // even when absolutely wrong
-      const toolbarCWidth = toolbarC.current ? toolbarC.current.clientWidth : 0
-      const datenCWidth = datenC.current ? datenC.current.offsetWidth : 0
-      const exportCWidth = exportC.current ? exportC.current.offsetWidth : 0
-      const loginCWidth = loginC.current ? loginC.current.offsetWidth : 0
-      const moreCWidth = moreC.current ? moreC.current.offsetWidth : 0
-      const shareCWidth = shareC.current ? shareC.current.offsetWidth : 0
-      const totalWidth =
-        datenCWidth + exportCWidth + loginCWidth + moreCWidth + shareCWidth
-      let shouldLayoutWide = toolbarCWidth - totalWidth > 260
-      // need to set narrow to wide later to prevent jumping between
-      if (!wideLayout) shouldLayoutWide = toolbarCWidth - totalWidth > 400
-      if (shouldLayoutWide !== wideLayout) {
-        setWideLayout(shouldLayoutWide)
-      }
-    },
-    [wideLayout, toolbarC, datenC, exportC, loginC, moreC, shareC],
-  )
+  const setLayout = useCallback(() => {
+    // should do this by comparing scrollWidth with clientWidth
+    // if clientWidth < scrollWidth then div is overflowing
+    // BUT: every second measurement gives clientWidth === scrollWidth,
+    // even when absolutely wrong
+    const toolbarCWidth = toolbarC.current ? toolbarC.current.clientWidth : 0
+    const datenCWidth = datenC.current ? datenC.current.offsetWidth : 0
+    const exportCWidth = exportC.current ? exportC.current.offsetWidth : 0
+    const loginCWidth = loginC.current ? loginC.current.offsetWidth : 0
+    const moreCWidth = moreC.current ? moreC.current.offsetWidth : 0
+    const shareCWidth = shareC.current ? shareC.current.offsetWidth : 0
+    const totalWidth =
+      datenCWidth + exportCWidth + loginCWidth + moreCWidth + shareCWidth
+    let shouldLayoutWide = toolbarCWidth - totalWidth > 260
+    // need to set narrow to wide later to prevent jumping between
+    if (!wideLayout) shouldLayoutWide = toolbarCWidth - totalWidth > 400
+    if (shouldLayoutWide !== wideLayout) {
+      setWideLayout(shouldLayoutWide)
+    }
+  }, [wideLayout, toolbarC, datenC, exportC, loginC, moreC, shareC])
 
   useEffect(() => {
     window.addEventListener('resize', debounce(setLayout, 200))

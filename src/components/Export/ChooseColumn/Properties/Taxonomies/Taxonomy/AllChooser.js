@@ -35,7 +35,7 @@ const AllTaxChooser = ({ properties }: { properties: Array<Object> }) => {
         }
       }
     },
-    [properties],
+    [addTaxProperty, properties, removeTaxProperty],
   )
 
   const checkedArray = properties.map(p => {

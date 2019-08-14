@@ -22,12 +22,12 @@ const TaxProperties = ({
   const mobxStore = useContext(mobxStoreContext)
   const { removeTaxProperty } = mobxStore.export
 
-  const onClick = useCallback(() =>
+  const onClick = useCallback(() => {
     removeTaxProperty({
       taxname,
       pname,
-    }),
-  )
+    })
+  }, [pname, removeTaxProperty, taxname])
 
   return (
     <li>
