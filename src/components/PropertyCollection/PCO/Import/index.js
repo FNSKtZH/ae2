@@ -202,7 +202,6 @@ const ImportPco = () => {
   const [completed, setCompleted] = useState(0)
 
   const { refetch: pcoRefetch } = useQuery(pcoQuery, {
-    suspend: false,
     variables: {
       pCId,
     },
@@ -212,7 +211,6 @@ const ImportPco = () => {
     loading: importPcoLoading,
     error: importPcoError,
   } = useQuery(importPcoQuery, {
-    suspend: false,
     variables: {
       getObjectIds: objectIds.length > 0,
       objectIds:
@@ -342,6 +340,8 @@ const ImportPco = () => {
         const _objectIds = data
           .map(d => d.objectId)
           .filter(d => d !== undefined)
+
+        //const _objectsIdsDoNotExist = data.filter()
         const _objectIdsExist = _objectIds.length === data.length
         setObjectIdsExist(_objectIdsExist)
         const _objectsIdsAreNotUuid = data.filter(
@@ -434,7 +434,12 @@ const ImportPco = () => {
   }, [client, importData, importDataFields, pCId, pcoRefetch, setCompleted])
   const rowGetter = useCallback(i => importData[i], [importData])
 
-  console.log('objectsIdsAreNotUuid:', objectsIdsAreNotUuid)
+  console.log('PCO, Import:', {
+    objectsIdsAreNotUuid,
+    importPcoData,
+    objectsCheckData,
+    objectIds,
+  })
 
   return (
     <Container>

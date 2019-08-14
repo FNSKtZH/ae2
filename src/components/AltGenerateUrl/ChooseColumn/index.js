@@ -64,7 +64,6 @@ const Properties = () => {
   const { setTaxonomies } = mobxStore.export
 
   const { loading } = useQuery(propsByTaxQuery, {
-    suspend: false,
     variables: {
       exportTaxonomies: constants.altTaxonomies,
     },

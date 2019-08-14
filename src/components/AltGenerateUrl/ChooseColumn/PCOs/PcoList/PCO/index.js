@@ -73,7 +73,6 @@ const PCO = ({
   pc: Object,
 }) => {
   const { data: propsByTaxData } = useQuery(propsByTaxQuery, {
-    suspend: false,
     variables: {
       exportTaxonomies: constants.altTaxonomies,
     },

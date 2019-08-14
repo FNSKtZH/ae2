@@ -71,7 +71,6 @@ const RCO = ({ pc }: { pc: Object }) => {
   const { data: propsByTaxData, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies: constants.altTaxonomies,
       },

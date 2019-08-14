@@ -62,7 +62,6 @@ const PCOs = ({
   onTogglePco: () => {},
 }) => {
   const { data: propsByTaxData } = useQuery(propsByTaxQuery, {
-    suspend: false,
     variables: {
       exportTaxonomies: constants.altTaxonomies,
     },
