@@ -105,7 +105,7 @@ const Row = ({
   const client = useApolloClient()
   const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
-  const { editingTaxonomies, login } = mobxStore
+  const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
   const { refetch: treeRefetch } = useQuery(treeDataQuery, {
@@ -150,7 +150,7 @@ const Row = ({
         history.push(`/${url.join('/')}`)
       }
     },
-    [url, loadingNode, activeNodeArray],
+    [loadingNode, url, activeNodeArray, history],
   )
   const onClickExpandMore = useCallback(
     event => {
@@ -165,7 +165,7 @@ const Row = ({
         event.preventDefault()
       }
     },
-    [url, loadingNode, activeNodeArray],
+    [loadingNode, url, activeNodeArray, history],
   )
   const onClickContextMenu = useCallback(
     (e, data, target) => {
