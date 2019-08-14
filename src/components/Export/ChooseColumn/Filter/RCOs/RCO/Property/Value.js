@@ -153,7 +153,6 @@ const IntegrationAutosuggest = ({
   const [dataFetched, setDataFetched] = useState(false)
 
   const { data: propData, error: propDataError } = useQuery(rcoFieldPropQuery, {
-    suspend: false,
     variables: {
       tableName: 'relation',
       propName: pname,

@@ -159,7 +159,6 @@ const Export = () => {
   const { loading: propsByTaxLoading, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies,
         queryExportTaxonomies: exportTaxonomies.length > 0,
@@ -169,7 +168,6 @@ const Export = () => {
   const { loading: exportObjectLoading, error: exportObjectError } = useQuery(
     exportObjectQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies,
         taxFilters,
@@ -188,7 +186,6 @@ const Export = () => {
   const { loading: exportRcoLoading, error: exportRcoError } = useQuery(
     exportRcoQuery,
     {
-      suspend: false,
       variables: {
         rcoFilters,
         rcoProperties,
@@ -196,7 +193,7 @@ const Export = () => {
       },
     },
   )*/
-  const { loading: synonymLoading } = useQuery(synonymQuery, { suspend: false })
+  const { loading: synonymLoading } = useQuery(synonymQuery)
 
   const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(true)
   const [filterExpanded, setFilterExpanded] = useState(false)

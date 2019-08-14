@@ -152,7 +152,6 @@ const IntegrationAutosuggest = ({
   const [value, setValue] = useState(propsValue || '')
 
   const { data: propData, error: propDataError } = useQuery(taxFieldPropQuery, {
-    suspend: false,
     variables: {
       tableName: 'object',
       propName: pname,

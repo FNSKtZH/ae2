@@ -52,7 +52,6 @@ const Properties = () => {
   const { data: propsByTaxData, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies,
         queryExportTaxonomies: exportTaxonomies.length > 0,
@@ -64,45 +63,36 @@ const Properties = () => {
   const [pcoExpanded, setFilterExpanded] = useState(false)
   const [rcoExpanded, setPropertiesExpanded] = useState(false)
 
-  const onToggleTaxonomies = useCallback(
-    () => {
-      setTaxonomiesExpanded(!taxonomiesExpanded)
-      // TODO (later)
-      // check if only one Taxonomy
-      // if so: open it
+  const onToggleTaxonomies = useCallback(() => {
+    setTaxonomiesExpanded(!taxonomiesExpanded)
+    // TODO (later)
+    // check if only one Taxonomy
+    // if so: open it
 
+    // close all others
+    setFilterExpanded(false)
+    setPropertiesExpanded(false)
+  }, [taxonomiesExpanded])
+  const onTogglePco = useCallback(() => {
+    if (!pcoExpanded) {
+      setFilterExpanded(true)
       // close all others
-      setFilterExpanded(false)
+      setTaxonomiesExpanded(false)
       setPropertiesExpanded(false)
-    },
-    [taxonomiesExpanded],
-  )
-  const onTogglePco = useCallback(
-    () => {
-      if (!pcoExpanded) {
-        setFilterExpanded(true)
-        // close all others
-        setTaxonomiesExpanded(false)
-        setPropertiesExpanded(false)
-      } else {
-        setFilterExpanded(false)
-      }
-    },
-    [pcoExpanded],
-  )
-  const onToggleRco = useCallback(
-    () => {
-      if (!rcoExpanded) {
-        setPropertiesExpanded(true)
-        // close all others
-        setTaxonomiesExpanded(false)
-        setFilterExpanded(false)
-      } else {
-        setPropertiesExpanded(false)
-      }
-    },
-    [rcoExpanded],
-  )
+    } else {
+      setFilterExpanded(false)
+    }
+  }, [pcoExpanded])
+  const onToggleRco = useCallback(() => {
+    if (!rcoExpanded) {
+      setPropertiesExpanded(true)
+      // close all others
+      setTaxonomiesExpanded(false)
+      setFilterExpanded(false)
+    } else {
+      setPropertiesExpanded(false)
+    }
+  }, [rcoExpanded])
 
   const pcoProperties = get(
     propsByTaxData,
