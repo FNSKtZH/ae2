@@ -86,7 +86,6 @@ const Taxonomy = ({
   const { data: propsByTaxData, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies,
         queryExportTaxonomies: exportTaxonomies.length > 0,

@@ -24,9 +24,6 @@ const taxonomiesQuery = gql`
 const ExportTypes = () => {
   const { data: taxonomiesData, error: taxonomiesError } = useQuery(
     taxonomiesQuery,
-    {
-      suspend: false,
-    },
   )
 
   const allTaxonomies = sortBy(

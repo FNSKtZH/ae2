@@ -85,14 +85,10 @@ const RCOs = ({
 
   const { data, error: dataError } = useQuery(
     rcoCountByTaxonomyRelationTypeQuery,
-    {
-      suspend: false,
-    },
   )
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
     propsByTaxQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies,
         queryExportTaxonomies: exportTaxonomies.length > 0,

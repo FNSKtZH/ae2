@@ -91,16 +91,13 @@ const RCO = ({ pc }: { pc: Object }) => {
   const { data: propsByTaxData, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
-      suspend: false,
       variables: {
         exportTaxonomies,
         queryExportTaxonomies: exportTaxonomies.length > 0,
       },
     },
   )
-  const { data, error } = useQuery(rcoCountByTaxonomyRelationTypeQuery, {
-    suspend: false,
-  })
+  const { data, error } = useQuery(rcoCountByTaxonomyRelationTypeQuery)
 
   const [expanded, setExpanded] = useState(false)
 

@@ -82,7 +82,6 @@ const PCO = ({
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const { data: propsData, error: propsDataError } = useQuery(propsByTaxQuery, {
-    suspend: false,
     variables: {
       exportTaxonomies,
       queryExportTaxonomies: exportTaxonomies.length > 0,
