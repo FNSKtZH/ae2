@@ -198,7 +198,7 @@ const ImportPco = () => {
 
   const [objectIds, setObjectIds] = useState([])
   const [pCOfOriginIds, setPCOfOriginIds] = useState([])
-  const [completed, setCompleted] = useState(0)
+  const [imported, setImported] = useState(0)
 
   const { refetch: pcoRefetch } = useQuery(pcoQuery, {
     variables: {
@@ -461,11 +461,11 @@ const ImportPco = () => {
       } catch (error) {
         console.log(`Error importing ${JSON.stringify(d)}:`, error)
       }
-      setCompleted(i / importData.length)
+      setImported(i)
     }
     setImporting(false)
     pcoRefetch()
-  }, [client, importData, importDataFields, pCId, pcoRefetch, setCompleted])
+  }, [client, importData, importDataFields, pCId, pcoRefetch])
   const rowGetter = useCallback(i => importData[i], [importData])
 
   return (
@@ -945,11 +945,9 @@ const ImportPco = () => {
         <StyledButton
           onClick={onClickImport}
           disabled={importing}
-          completed={completed}
+          completed={imported / importData.length}
         >
-          {importing
-            ? `${Math.round(completed * 100)}% importiert`
-            : 'importieren'}
+          {importing ? `${imported} importiert` : 'importieren'}
         </StyledButton>
       )}
       {showPreview && (
