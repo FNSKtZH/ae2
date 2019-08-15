@@ -7,4 +7,5 @@
 export default [
   'c9cfe3e0-e298-7a36-9c88-7c2acf143bab',
   'c9cfe3e0-e298-7a36-9c88-7c2acf144eec',
+  'c9cfe3e0-e298-7a36-9c88-7c2acf1448b2',
 ]
