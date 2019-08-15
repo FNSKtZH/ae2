@@ -264,62 +264,80 @@ const ImportPco = () => {
       setObjectIdsAreRealNotTested(true)
     }
   }
-  const objectsCheckData = get(importPcoData, 'allObjects.nodes', []).map(
-    o => o.id,
-  )
-  const objectIdsUnreal = useMemo(
-    () => objectIds.filter(i => !objectsCheckData.includes(i)),
-    [objectIds, objectsCheckData],
-  )
+  const objectIdsUnreal = useMemo(() => {
+    const realObjectIds = get(importPcoData, 'allObjects.nodes', []).map(
+      o => o.id,
+    )
+    return objectIds.filter(i => !realObjectIds.includes(i))
+  }, [importPcoData, objectIds])
   const objectIdsAreReal =
     !importPcoLoading && objectIds.length > 0
       ? objectIdsUnreal.length === 0
       : undefined
-  /*console.log('Pco, Import', {
-    objectIdsAreReal,
-    objectIds,
-    objectsCheckData,
-    importPcoData,
-    pCOfOriginIds,
-    invalidUuids,
-    objectIdsUnreal,
-  })*/
   const pCOfOriginsCheckData = get(
     importPcoData,
     'allPropertyCollections.nodes',
     [],
   )
-  const pCOfOriginIdsAreReal =
-    !importPcoLoading && pCOfOriginIds.length > 0
-      ? pCOfOriginIds.length === pCOfOriginsCheckData.length
-      : undefined
-  const showImportButton =
-    importData.length > 0 &&
-    existsNoDataWithoutKey &&
-    (idsExist ? idsAreUnique && idsAreUuids : true) &&
-    // turned off because of inexplicable problem
-    // somehow graphql could exceed some limit
-    // which made this value block importing
-    // although this value was true ?????!!!!
-    /*(objectIdsExist
+  const pCOfOriginIdsAreReal = useMemo(
+    () =>
+      !importPcoLoading && pCOfOriginIds.length > 0
+        ? pCOfOriginIds.length === pCOfOriginsCheckData.length
+        : undefined,
+    [importPcoLoading, pCOfOriginIds.length, pCOfOriginsCheckData.length],
+  )
+  const showImportButton = useMemo(
+    () =>
+      importData.length > 0 &&
+      existsNoDataWithoutKey &&
+      (idsExist ? idsAreUnique && idsAreUuids : true) &&
+      // turned off because of inexplicable problem
+      // somehow graphql could exceed some limit
+      // which made this value block importing
+      // although this value was true ?????!!!!
+      /*(objectIdsExist
       ? objectIdsAreUuid && (objectIdsAreReal || objectIdsAreRealNotTested)
       : false) &&*/
-    (pCOfOriginIdsExist
-      ? pCOfOriginIdsAreUuid &&
-        (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
-      : true) &&
-    existsPropertyKey &&
-    propertyKeysDontContainApostroph &&
-    propertyKeysDontContainBackslash &&
-    propertyValuesDontContainApostroph &&
-    propertyValuesDontContainBackslash
+      (pCOfOriginIdsExist
+        ? pCOfOriginIdsAreUuid &&
+          (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
+        : true) &&
+      existsPropertyKey &&
+      propertyKeysDontContainApostroph &&
+      propertyKeysDontContainBackslash &&
+      propertyValuesDontContainApostroph &&
+      propertyValuesDontContainBackslash,
+    [
+      existsNoDataWithoutKey,
+      existsPropertyKey,
+      idsAreUnique,
+      idsAreUuids,
+      idsExist,
+      importData.length,
+      pCOfOriginIdsAreReal,
+      pCOfOriginIdsAreRealNotTested,
+      pCOfOriginIdsAreUuid,
+      pCOfOriginIdsExist,
+      propertyKeysDontContainApostroph,
+      propertyKeysDontContainBackslash,
+      propertyValuesDontContainApostroph,
+      propertyValuesDontContainBackslash,
+    ],
+  )
   const showPreview = importData.length > 0
-  let importDataFields = []
-  importData.forEach(d => {
-    importDataFields = union([...importDataFields, ...Object.keys(d)])
-  })
-  const propertyFields = importDataFields.filter(
-    f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
+  const importDataFields = useMemo(() => {
+    let fields = []
+    importData.forEach(d => {
+      fields = union([...fields, ...Object.keys(d)])
+    })
+    return fields
+  }, [importData])
+  const propertyFields = useMemo(
+    () =>
+      importDataFields.filter(
+        f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
+      ),
+    [importDataFields],
   )
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
@@ -358,6 +376,7 @@ const ImportPco = () => {
         setObjectIdsAreUuid(
           _objectIdsExist ? _objectsIdsAreNotUuid.length === 0 : undefined,
         )
+        //console.log({ _objectsIdsAreNotUuid })
         /*setObjectIdsAreUuid(
           _objectIdsExist
             ? !_objectIds.some(d => !isUuid(d))
@@ -411,6 +430,14 @@ const ImportPco = () => {
       reader.readAsBinaryString(file)
     }
   }, [])
+  /*console.log('Pco, Import', {
+    objectIdsAreReal,
+    objectIds,
+    objectIdsAreUuid,
+    importPcoData,
+    objectIdsUnreal,
+  })*/
+  console.log('Pco, Import rendering')
   const onClickImport = useCallback(async () => {
     setImporting(true)
     // need a list of all fields
