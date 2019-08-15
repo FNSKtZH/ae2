@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext, useMemo } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -170,11 +170,10 @@ const pcoQuery = gql`
 const importPcoQuery = gql`
   query pCOQuery(
     $getObjectIds: Boolean!
-    $objectIds: [UUID!]
     $getPCOfOriginIds: Boolean!
     $pCOfOriginIds: [UUID!]
   ) {
-    allObjects(filter: { id: { in: $objectIds } }) @include(if: $getObjectIds) {
+    allObjects @include(if: $getObjectIds) {
       nodes {
         id
       }
@@ -206,6 +205,7 @@ const ImportPco = () => {
       pCId,
     },
   })
+
   const {
     data: importPcoData,
     loading: importPcoLoading,
@@ -213,10 +213,6 @@ const ImportPco = () => {
   } = useQuery(importPcoQuery, {
     variables: {
       getObjectIds: objectIds.length > 0,
-      objectIds:
-        objectIds.length > 0
-          ? objectIds
-          : ['99999999-9999-9999-9999-999999999999'],
       getPCOfOriginIds: pCOfOriginIds.length > 0,
       pCOfOriginIds:
         pCOfOriginIds.length > 0
@@ -268,11 +264,26 @@ const ImportPco = () => {
       setObjectIdsAreRealNotTested(true)
     }
   }
-  const objectsCheckData = get(importPcoData, 'allObjects.nodes', [])
+  const objectsCheckData = get(importPcoData, 'allObjects.nodes', []).map(
+    o => o.id,
+  )
+  const objectIdsUnreal = useMemo(
+    () => objectIds.filter(i => !objectsCheckData.includes(i)),
+    [objectIds, objectsCheckData],
+  )
   const objectIdsAreReal =
     !importPcoLoading && objectIds.length > 0
-      ? objectIds.length === objectsCheckData.length
+      ? objectIdsUnreal.length === 0
       : undefined
+  /*console.log('Pco, Import', {
+    objectIdsAreReal,
+    objectIds,
+    objectsCheckData,
+    importPcoData,
+    pCOfOriginIds,
+    invalidUuids,
+    objectIdsUnreal,
+  })*/
   const pCOfOriginsCheckData = get(
     importPcoData,
     'allPropertyCollections.nodes',
@@ -429,22 +440,6 @@ const ImportPco = () => {
     pcoRefetch()
   }, [client, importData, importDataFields, pCId, pcoRefetch, setCompleted])
   const rowGetter = useCallback(i => importData[i], [importData])
-
-  const isUuidc9cfe3e0e2987a369c887c2acf143bab = isUuid(
-    'c9cfe3e0-e298-7a36-9c88-7c2acf143bab',
-  )
-  const isUuidc9cfe3e0e2987a369c887c2acf144eec = isUuid(
-    'c9cfe3e0-e298-7a36-9c88-7c2acf144eec',
-  )
-
-  console.log('PCO, Import:', {
-    objectsIdsAreNotUuid,
-    importPcoData,
-    objectsCheckData,
-    objectIds,
-    isUuidc9cfe3e0e2987a369c887c2acf143bab,
-    isUuidc9cfe3e0e2987a369c887c2acf144eec,
-  })
 
   return (
     <Container>
