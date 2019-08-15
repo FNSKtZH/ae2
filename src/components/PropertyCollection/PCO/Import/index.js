@@ -15,7 +15,6 @@ import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import Dropzone from 'react-dropzone'
 import XLSX from 'xlsx'
-import isUuid from 'is-uuid'
 import ReactDataGrid from 'react-data-grid'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
@@ -23,6 +22,7 @@ import { observer } from 'mobx-react-lite'
 
 import createPCOMutation from './createPCOMutation'
 import mobxStoreContext from '../../../../mobxStoreContext'
+import isUuid from '../../../../modules/isUuid'
 
 const Container = styled.div`
   height: 100%;
@@ -332,9 +332,7 @@ const ImportPco = () => {
         const _idsExist = ids.length > 0
         setIdsExist(_idsExist)
         setIdsAreUuid(
-          _idsExist
-            ? !ids.map(d => isUuid.anyNonNil(d)).includes(false)
-            : undefined,
+          _idsExist ? !ids.map(d => isUuid(d)).includes(false) : undefined,
         )
         setIdsAreUnique(_idsExist ? ids.length === uniq(ids).length : undefined)
         const _objectIds = data
@@ -344,16 +342,14 @@ const ImportPco = () => {
         //const _objectsIdsDoNotExist = data.filter()
         const _objectIdsExist = _objectIds.length === data.length
         setObjectIdsExist(_objectIdsExist)
-        const _objectsIdsAreNotUuid = data.filter(
-          d => !isUuid.anyNonNil(d.objectId),
-        )
+        const _objectsIdsAreNotUuid = data.filter(d => !isUuid(d.objectId))
         setObjectsIdsAreNotUuid(_objectsIdsAreNotUuid)
         setObjectIdsAreUuid(
           _objectIdsExist ? _objectsIdsAreNotUuid.length === 0 : undefined,
         )
         /*setObjectIdsAreUuid(
           _objectIdsExist
-            ? !_objectIds.some(d => !isUuid.anyNonNil(d))
+            ? !_objectIds.some(d => !isUuid(d))
             : undefined,
         )*/
         setObjectIds(_objectIds)
@@ -365,7 +361,7 @@ const ImportPco = () => {
         setPCOfOriginIdsExist(_pCOfOriginIdsExist)
         setPCOfOriginIdsAreUuid(
           _pCOfOriginIdsExist
-            ? !_pCOfOriginIds.map(d => isUuid.anyNonNil(d)).includes(false)
+            ? !_pCOfOriginIds.map(d => isUuid(d)).includes(false)
             : undefined,
         )
         setPCOfOriginIds(_pCOfOriginIds)
@@ -434,11 +430,20 @@ const ImportPco = () => {
   }, [client, importData, importDataFields, pCId, pcoRefetch, setCompleted])
   const rowGetter = useCallback(i => importData[i], [importData])
 
+  const isUuidc9cfe3e0e2987a369c887c2acf143bab = isUuid(
+    'c9cfe3e0-e298-7a36-9c88-7c2acf143bab',
+  )
+  const isUuidc9cfe3e0e2987a369c887c2acf144eec = isUuid(
+    'c9cfe3e0-e298-7a36-9c88-7c2acf144eec',
+  )
+
   console.log('PCO, Import:', {
     objectsIdsAreNotUuid,
     importPcoData,
     objectsCheckData,
     objectIds,
+    isUuidc9cfe3e0e2987a369c887c2acf143bab,
+    isUuidc9cfe3e0e2987a369c887c2acf144eec,
   })
 
   return (
