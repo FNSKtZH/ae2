@@ -113,7 +113,7 @@ const MoreMenu = () => {
           <br />
           inkl. Schnittstellen-Dokumentation
         </TwoLineMenuItem>
-        <Version>Version: 1.1.4 vom 14.08.2019</Version>
+        <Version>Version: 1.1.5 vom 15.08.2019</Version>
       </Menu>
     </div>
   )
