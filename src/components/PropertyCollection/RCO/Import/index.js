@@ -21,7 +21,7 @@ import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import createRCOMutation from './createRCOMutation'
+import upsertRCOMutation from './upsertRCOMutation'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -201,7 +201,7 @@ const importRcoQuery = gql`
   }
 `
 
-const ImportPco = () => {
+const ImportPco = ({ setImport, pCO }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
@@ -456,20 +456,29 @@ const ImportPco = () => {
     // need a list of all fields
     // loop all rows, build variables and create pco
     for (const [i, d] of importData.entries()) {
-      const variables = {}
-      importDataFields.forEach(f => (variables[f] = d[f] || null))
-      variables.propertyCollectionId = pCId
-      const properties = omit(d, [
-        'id',
-        'objectId',
-        'propertyCollectionId',
-        'propertyCollectionOfOrigin',
-        'relationType',
-      ])
-      variables.properties = JSON.stringify(properties)
+      const pco = pCO.find(o => o.objectId === d.objectId)
+      const id = pco && pco.id ? pco.id : null
+      const variables = {
+        id,
+        objectId: d.objectId || null,
+        objectIdRelation: d.objectIdRelation || null,
+        propertyCollectionId: pCId,
+        propertyCollectionOfOrigin: d.propertyCollectionOfOrigin || null,
+        relationType: d.relationType || null,
+        properties: JSON.stringify(
+          omit(d, [
+            'id',
+            'objectId',
+            'objectIdRelation',
+            'propertyCollectionId',
+            'propertyCollectionOfOrigin',
+            'relationType',
+          ]),
+        ),
+      }
       try {
         await client.mutate({
-          mutation: createRCOMutation,
+          mutation: upsertRCOMutation,
           variables,
         })
       } catch (error) {
@@ -477,9 +486,10 @@ const ImportPco = () => {
       }
       setCompleted(i / importData.length)
     }
+    setImport(false)
     setImporting(false)
     rcoRefetch()
-  }, [client, importData, importDataFields, pCId, rcoRefetch, setCompleted])
+  }, [client, importData, pCId, pCO, rcoRefetch, setImport])
   const rowGetter = useCallback(i => importData[i], [importData])
 
   return (
@@ -1039,6 +1049,18 @@ const ImportPco = () => {
                 </LiContainer>
               </li>
             </ul>
+          </li>
+        </ul>
+        <StyledH3>Wirkung des Imports auf bereits vorhandene Daten</StyledH3>
+        <ul>
+          <li>
+            Enthält die Eigenschaften-Sammlung bereits einen Datensatz für ein
+            Objekt (Art oder Lebensraum), wird dieser mit dem importierten
+            Datensatz ersetzt.
+          </li>
+          <li>
+            Enthält die Eigenschaften-Sammlung für ein Objekt noch keinen
+            Datensatz, wird er neu importiert.
           </li>
         </ul>
       </HowToImportContainer>

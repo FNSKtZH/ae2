@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation createRCO(
+  mutation upsertRCO(
     $id: UUID
     $objectId: UUID!
     $objectIdRelation: UUID!
@@ -11,7 +11,7 @@ export default gql`
     $relationType: String!
     $properties: JSON
   ) {
-    createRelation(
+    upsertRelation(
       input: {
         relation: {
           id: $id

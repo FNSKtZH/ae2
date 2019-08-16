@@ -20,7 +20,7 @@ import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import createPCOMutation from './createPCOMutation'
+import upsertPCOMutation from './upsertPCOMutation'
 import mobxStoreContext from '../../../../mobxStoreContext'
 import isUuid from '../../../../modules/isUuid'
 
@@ -457,16 +457,15 @@ const ImportPco = ({ setImport, pCO }) => {
       }
       try {
         await client.mutate({
-          mutation: createPCOMutation,
+          mutation: upsertPCOMutation,
           variables,
         })
       } catch (error) {
         console.log(`Error importing ${JSON.stringify(d)}:`, error)
-        setImport(false)
       }
-      setImport(false)
       setImported(i)
     }
+    setImport(false)
     setImporting(false)
     pcoRefetch()
   }, [client, importData, pCId, pCO, pcoRefetch, setImport])
