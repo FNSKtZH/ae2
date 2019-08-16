@@ -57,10 +57,12 @@
     "exceljs": "Do not upgrade past 1.10.0, will break in production. See: https://github.com/exceljs/exceljs/issues/871"
   },
   "devDependencies": {
+    "@graphile-contrib/pg-order-by-related": "1.0.0-beta.6",
     "docsify-cli": "4.3.0",
     "flow-bin": "0.105.2",
     "postgraphile": "4.4.3",
     "postgraphile-plugin-connection-filter": "1.1.2",
+    "postgraphile-upsert-plugin": "1.0.5",
     "react-scripts": "3.1.1",
     "source-map-explorer": "2.0.1"
   },
