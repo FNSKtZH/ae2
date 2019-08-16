@@ -145,6 +145,7 @@ const PCO = ({
 
   const [sortField, setSortField] = useState('Objekt Name')
   const [sortDirection, setSortDirection] = useState('asc')
+  const [importing, setImport] = useState(false)
 
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
@@ -191,7 +192,7 @@ const PCO = ({
   const writerNames = union(pCOWriters.map(w => w.userByUserId.name))
   const { username } = login
   const userIsWriter = !!username && writerNames.includes(username)
-  const showImportPco = pCO.length === 0 && userIsWriter
+  const showImportPco = (pCO.length === 0 && userIsWriter) || importing
 
   const onGridSort = useCallback((column, direction) => {
     setSortField(column)
@@ -215,6 +216,9 @@ const PCO = ({
     pcoRefetch()
     treeDataRefetch()
   }, [client, pCId, pcoRefetch, treeDataRefetch])
+  const onClickImport = useCallback(() => {
+    setImport(true)
+  }, [])
 
   if (pcoLoading) {
     return (
@@ -236,7 +240,7 @@ const PCO = ({
           pCO.length > 0 ? ':' : ''
         }`}</TotalDiv>
       )}
-      {pCO.length > 0 && (
+      {!importing && pCO.length > 0 && (
         <>
           <ReactDataGrid
             onGridSort={onGridSort}
@@ -258,6 +262,12 @@ const PCO = ({
             {userIsWriter && (
               <MutationButtons>
                 <StyledButton
+                  onClick={onClickImport}
+                  className={classes.button}
+                >
+                  importieren
+                </StyledButton>
+                <StyledButton
                   onClick={onClickDelete}
                   className={classes.button}
                 >
@@ -268,7 +278,7 @@ const PCO = ({
           </ButtonsContainer>
         </>
       )}
-      {showImportPco && <ImportPco />}
+      {showImportPco && <ImportPco setImport={setImport} pCO={pCORaw} />}
     </Container>
   )
 }

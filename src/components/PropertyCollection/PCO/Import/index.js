@@ -187,7 +187,7 @@ const importPcoQuery = gql`
   }
 `
 
-const ImportPco = () => {
+const ImportPco = ({ setImport, pCO }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
@@ -431,28 +431,30 @@ const ImportPco = () => {
     }
   }, [])
   /*console.log('Pco, Import', {
-    objectIdsAreReal,
-    objectIds,
-    objectIdsAreUuid,
-    importPcoData,
-    objectIdsUnreal,
+    importData,
+    pCO,
   })*/
-  console.log('Pco, Import rendering')
   const onClickImport = useCallback(async () => {
     setImporting(true)
     // need a list of all fields
     // loop all rows, build variables and create pco
     for (const [i, d] of importData.entries()) {
-      const variables = {}
-      importDataFields.forEach(f => (variables[f] = d[f] || null))
-      variables.propertyCollectionId = pCId
-      const properties = omit(d, [
-        'id',
-        'objectId',
-        'propertyCollectionId',
-        'propertyCollectionOfOrigin',
-      ])
-      variables.properties = JSON.stringify(properties)
+      const pco = pCO.find(o => o.objectId === d.objectId)
+      const id = pco && pco.id ? pco.id : null
+      const variables = {
+        id,
+        objectId: d.objectId || null,
+        propertyCollectionId: pCId,
+        propertyCollectionOfOrigin: d.propertyCollectionOfOrigin || null,
+        properties: JSON.stringify(
+          omit(d, [
+            'id',
+            'objectId',
+            'propertyCollectionId',
+            'propertyCollectionOfOrigin',
+          ]),
+        ),
+      }
       try {
         await client.mutate({
           mutation: createPCOMutation,
@@ -460,12 +462,14 @@ const ImportPco = () => {
         })
       } catch (error) {
         console.log(`Error importing ${JSON.stringify(d)}:`, error)
+        setImport(false)
       }
+      setImport(false)
       setImported(i)
     }
     setImporting(false)
     pcoRefetch()
-  }, [client, importData, importDataFields, pCId, pcoRefetch])
+  }, [client, importData, pCId, pCO, pcoRefetch, setImport])
   const rowGetter = useCallback(i => importData[i], [importData])
 
   return (
