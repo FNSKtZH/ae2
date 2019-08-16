@@ -902,6 +902,18 @@ const ImportPco = ({ setImport, pCO }) => {
             </ul>
           </li>
         </ul>
+        <StyledH3>Wirkung des Imports auf bereits vorhandene Daten</StyledH3>
+        <ul>
+          <li>
+            Enthält die Eigenschaften-Sammlung bereits einen Datensatz für ein
+            Objekt (Art oder Lebensraum), wird dieser mit dem importierten
+            Datensatz ersetzt.
+          </li>
+          <li>
+            Enthält die Eigenschaften-Sammlung für ein Objekt noch keinen
+            Datensatz, wird er neu importiert.
+          </li>
+        </ul>
       </HowToImportContainer>
       {!importing && (
         <DropzoneContainer>
