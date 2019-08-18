@@ -1,4 +1,3 @@
-// @flow
 import get from 'lodash/get'
 
 export default ({
@@ -8,14 +7,7 @@ export default ({
   activeLevel3ObjectId,
   activeLevel4ObjectName,
   activeLevel4ObjectId,
-}: {
-  treeData: Object,
-  activeLevel2TaxonomyName: ?String,
-  activeLevel3ObjectName: ?String,
-  activeLevel3ObjectId: ?String,
-  activeLevel4ObjectName: ?String,
-  activeLevel4ObjectId: ?String,
-}): Array<Object> => {
+}) => {
   if (!treeData) return []
   const nodes = get(treeData, 'level5Object.objectsByParentId.nodes', [])
 

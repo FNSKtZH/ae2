@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -13,15 +12,7 @@ const ResetSpan = styled.span`
   text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
 
-const RcoProperty = ({
-  pcname,
-  relationtype,
-  pname,
-}: {
-  pcname: string,
-  relationtype: string,
-  pname: string,
-}) => {
+const RcoProperty = ({ pcname, relationtype, pname }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { removeRcoProperty } = mobxStore.export
 

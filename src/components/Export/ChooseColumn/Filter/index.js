@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'

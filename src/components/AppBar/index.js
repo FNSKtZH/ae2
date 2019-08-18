@@ -1,4 +1,3 @@
-// @flow
 import React, {
   lazy,
   Suspense,
@@ -259,15 +258,16 @@ const MyAppBar = () => {
                   {loginLabel}
                 </LoginButton>
               </div>
-              {typeof navigator !== 'undefined'&&navigator.share !== undefined && (
-                <div ref={shareC}>
-                  <ShareButton aria-label="teilen" onClick={onClickShare}>
-                    <Icon>
-                      <StyledMoreVertIcon />
-                    </Icon>
-                  </ShareButton>
-                </div>
-              )}
+              {typeof navigator !== 'undefined' &&
+                navigator.share !== undefined && (
+                  <div ref={shareC}>
+                    <ShareButton aria-label="teilen" onClick={onClickShare}>
+                      <Icon>
+                        <StyledMoreVertIcon />
+                      </Icon>
+                    </ShareButton>
+                  </div>
+                )}
               <Suspense fallback={<LazyImportFallback />}>
                 <div ref={moreC}>
                   <MoreMenu />

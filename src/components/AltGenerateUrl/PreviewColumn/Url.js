@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField'
@@ -54,14 +53,11 @@ const Url = () => {
     props,
   )}`
 
-  const onClickButton = useCallback(
-    () => {
-      setCopyButtonText('kopiert')
-      setTimeout(() => setCopyButtonText('url kopieren'), 3000)
-      copy(url)
-    },
-    [url],
-  )
+  const onClickButton = useCallback(() => {
+    setCopyButtonText('kopiert')
+    setTimeout(() => setCopyButtonText('url kopieren'), 3000)
+    copy(url)
+  }, [url])
 
   if (!fieldsChoosen) {
     return (

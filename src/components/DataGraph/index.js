@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import { Voyager } from 'graphql-voyager'
 import { useQuery } from '@apollo/react-hooks'
