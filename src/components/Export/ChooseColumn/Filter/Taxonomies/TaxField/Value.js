@@ -1,4 +1,3 @@
-//@flow
 import React, {
   useEffect,
   useCallback,
@@ -133,14 +132,6 @@ const IntegrationAutosuggest = ({
   value: propsValue,
   classes,
   width,
-}: {
-  taxname: string,
-  pname: string,
-  jsontype: string,
-  comparator: string,
-  value: string,
-  classes: Object,
-  width: Number,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { addFilterFields, addTaxProperty, setTaxFilters } = mobxStore.export

@@ -1,4 +1,3 @@
-//@flow
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -16,19 +15,7 @@ const Container = styled.div`
   }
 `
 
-const RcoField = ({
-  pcname,
-  relationtype,
-  pname,
-  jsontype,
-  count,
-}: {
-  pcname: String,
-  relationtype: String,
-  pname: String,
-  jsontype: String,
-  count: Number,
-}) => {
+const RcoField = ({ pcname, relationtype, pname, jsontype, count }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { rcoFilters } = mobxStore.export
 

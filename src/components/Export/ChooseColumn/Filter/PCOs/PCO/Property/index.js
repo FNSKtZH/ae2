@@ -1,4 +1,3 @@
-//@flow
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -17,17 +16,7 @@ const Container = styled.div`
   }
 `
 
-const PcoProperty = ({
-  pcname,
-  pname,
-  jsontype,
-  count,
-}: {
-  pcname: string,
-  pname: string,
-  jsontype: string,
-  count: number,
-}) => {
+const PcoProperty = ({ pcname, pname, jsontype, count }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { pcoFilters } = mobxStore.export
 

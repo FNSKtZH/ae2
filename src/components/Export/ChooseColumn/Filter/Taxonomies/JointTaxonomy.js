@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -44,11 +43,7 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const JointTaxonomiesCard = ({
-  jointTaxProperties,
-}: {
-  jointTaxProperties: Array<Object>,
-}) => {
+const JointTaxonomiesCard = ({ jointTaxProperties }) => {
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
   const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500

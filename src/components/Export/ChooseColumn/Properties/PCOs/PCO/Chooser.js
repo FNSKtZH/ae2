@@ -1,4 +1,3 @@
-//@flow
 import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -20,17 +19,7 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const PcoChooser = ({
-  pcname,
-  pname,
-  jsontype,
-  count,
-}: {
-  pcname: string,
-  pname: string,
-  jsontype: string,
-  count: number,
-}) => {
+const PcoChooser = ({ pcname, pname, jsontype, count }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { pcoProperties, addPcoProperty, removePcoProperty } = mobxStore.export
 

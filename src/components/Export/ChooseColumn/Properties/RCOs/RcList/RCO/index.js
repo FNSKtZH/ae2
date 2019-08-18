@@ -84,7 +84,7 @@ const rcoCountByTaxonomyRelationTypeQuery = gql`
   }
 `
 
-const RCO = ({ pc }: { pc: Object }) => {
+const RCO = ({ pc }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 

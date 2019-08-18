@@ -1,4 +1,3 @@
-//@flow
 import React, { useEffect, useState, useCallback, useContext } from 'react'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
@@ -134,14 +133,6 @@ const IntegrationAutosuggest = ({
   comparator,
   value: propValue,
   classes,
-}: {
-  relationtype: String,
-  pcname: string,
-  pname: Sstring,
-  jsontype: String,
-  comparator: String,
-  value: String,
-  classes: Object,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { addFilterFields, setRcoFilters, addRcoProperty } = mobxStore.export
