@@ -178,10 +178,11 @@ const MyAppBar = () => {
       ? url0
       : ''
     const title = `arteigenschaften.ch${!!name ? ': ' : ''}${name}`
-    navigator.share({
-      title,
-      url: window.location.href,
-    })
+    typeof window !== 'undefined' &&
+      navigator.share({
+        title,
+        url: window.location.href,
+      })
   }, [pCName, objektName, taxName, url0])
 
   const setLayout = useCallback(() => {
@@ -206,9 +207,12 @@ const MyAppBar = () => {
   }, [wideLayout, toolbarC, datenC, exportC, loginC, moreC, shareC])
 
   useEffect(() => {
-    window.addEventListener('resize', debounce(setLayout, 200))
+    typeof window !== 'undefined' &&
+      window.addEventListener('resize', debounce(setLayout, 200))
     setTimeout(() => setLayout(), 100)
-    return () => window.removeEventListener('resize', debounce(setLayout, 200))
+    return () =>
+      typeof window !== 'undefined' &&
+      window.removeEventListener('resize', debounce(setLayout, 200))
   })
 
   if (dataError) return `Error fetching data: ${dataError.message}`
@@ -255,7 +259,7 @@ const MyAppBar = () => {
                   {loginLabel}
                 </LoginButton>
               </div>
-              {navigator.share !== undefined && (
+              {typeof navigator !== 'undefined'&&navigator.share !== undefined && (
                 <div ref={shareC}>
                   <ShareButton aria-label="teilen" onClick={onClickShare}>
                     <Icon>

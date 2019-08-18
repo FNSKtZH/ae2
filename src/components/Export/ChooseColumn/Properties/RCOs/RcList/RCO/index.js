@@ -155,6 +155,7 @@ const RCO = ({ pc }: { pc: Object }) => {
   })
 
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
   if (error) return `Error fetching data: ${error.message}`
@@ -186,7 +187,7 @@ const RCO = ({ pc }: { pc: Object }) => {
             {rcoPropertiesByPropertyCollection[pc].length > 1 && (
               <AllChooser properties={rcoPropertiesByPropertyCollection[pc]} />
             )}
-            <PropertiesContainer data-width={window.innerWidth - 84}>
+            <PropertiesContainer data-width={width}>
               <Properties properties={rcoPropertiesByPropertyCollection[pc]} />
             </PropertiesContainer>
           </>

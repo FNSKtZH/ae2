@@ -100,6 +100,7 @@ const TaxonomyCard = ({
   const [expanded, setExpanded] = useState(initiallyExpanded)
 
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   if (propsByTaxDataError) {
     return (
@@ -133,7 +134,7 @@ const TaxonomyCard = ({
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-width={window.innerWidth - 84}>
+          <PropertiesContainer data-width={width}>
             <Properties properties={taxPropertiesByTaxonomy[pc]} />
           </PropertiesContainer>
         </Collapse>

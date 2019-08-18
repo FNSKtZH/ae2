@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'apflora',
+    title: 'arteigenschaften',
   },
   plugins: [
     {
@@ -17,32 +17,9 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-create-client-paths',
       options: {
-        prefixes: [`/Daten/*`],
+        prefixes: [`/*`],
       },
     },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'images',
-        path: `${__dirname}/src/images/`,
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        path: `${__dirname}/src/technischeDoku`,
-        name: 'technischeDoku-pages',
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        path: `${__dirname}/src/benutzerDoku`,
-        name: 'benutzerDoku-pages',
-      },
-    },
-    'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
     {
       resolve: 'gatsby-plugin-web-font-loader',
       options: {
@@ -66,10 +43,10 @@ module.exports = {
         name: 'arteigenschaften.ch',
         short_name: 'arteigenschaften',
         start_url: '/',
-        background_color: '#2e7d32',
-        theme_color: '#2e7d32',
+        background_color: '#ffffff',
+        theme_color: '#000000',
         display: 'standalone',
-        icon: 'src/images/ophr.png',
+        icon: 'src/images/favicon.ico',
         include_favicon: true,
       },
     },

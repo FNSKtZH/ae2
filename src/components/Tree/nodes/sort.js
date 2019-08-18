@@ -15,7 +15,8 @@
  * if both array elements at this index are same,
  * compare values at next index
  */
-const collator = new window.Intl.Collator('de-CH')
+const collator =
+  typeof window !== 'undefined' ? new window.Intl.Collator('de-CH') : {}
 const exists = value => !!value || value === 0
 const compare = (a, b) => {
   // without this user without name is sorted above users node

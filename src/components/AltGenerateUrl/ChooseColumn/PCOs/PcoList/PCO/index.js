@@ -90,6 +90,7 @@ const PCO = ({
 
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (
     <ErrorBoundary>
@@ -118,7 +119,7 @@ const PCO = ({
             {pcoPropertiesByPropertyCollection[pc].length > 1 && (
               <AllChooser properties={pcoPropertiesByPropertyCollection[pc]} />
             )}
-            <PropertiesContainer data-width={window.innerWidth - 84}>
+            <PropertiesContainer data-width={width}>
               <ChooserList properties={pcoPropertiesByPropertyCollection[pc]} />
             </PropertiesContainer>
           </>

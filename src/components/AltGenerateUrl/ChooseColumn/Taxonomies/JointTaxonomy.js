@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
 
@@ -21,17 +20,19 @@ const PropertiesContainer = styled.div`
 
 const JointTaxonomy = ({
   jointTaxProperties,
-}: {
-  jointTaxProperties: Array<Object>,
-}) => (
-  <ErrorBoundary>
-    <Container>
-      <AllTaxChooser properties={jointTaxProperties} />
-      <PropertiesContainer data-width={window.innerWidth - 84}>
-        <TaxChooserList properties={jointTaxProperties} />
-      </PropertiesContainer>
-    </Container>
-  </ErrorBoundary>
-)
+}) => {
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+
+  return (
+    <ErrorBoundary>
+      <Container>
+        <AllTaxChooser properties={jointTaxProperties} />
+        <PropertiesContainer data-width={width}>
+          <TaxChooserList properties={jointTaxProperties} />
+        </PropertiesContainer>
+      </Container>
+    </ErrorBoundary>
+  )
+}
 
 export default JointTaxonomy

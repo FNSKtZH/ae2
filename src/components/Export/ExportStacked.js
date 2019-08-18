@@ -26,11 +26,15 @@ const ExportStacked = () => {
     setTab(value)
   }, [])
 
-  const w = window
-  const d = document
-  const e = d.documentElement
-  const g = d.getElementsByTagName('body')[0]
-  const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+  const w = typeof window !== 'undefined' ? window : {}
+  const d = typeof window !== 'undefined' ? document : {}
+  const e = typeof window !== 'undefined' ? d.documentElement : {}
+  const g =
+    typeof window !== 'undefined' ? d.getElementsByTagName('body')[0] : {}
+  const windowWidth =
+    typeof window !== 'undefined'
+      ? w.innerWidth || e.clientWidth || g.clientWidth
+      : 500
 
   return (
     <>

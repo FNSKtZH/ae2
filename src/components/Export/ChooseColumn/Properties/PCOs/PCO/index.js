@@ -101,6 +101,7 @@ const PCO = ({
     'propertyCollectionName',
   )
   const properties = pcoPropertiesByPropertyCollection[pc]
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   if (propsDataError) return `Error fetching data: ${propsDataError.message}`
 
@@ -127,7 +128,7 @@ const PCO = ({
         <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
           <>
             {properties.length > 1 && <AllChooser properties={properties} />}
-            <PropertiesContainer data-width={window.innerWidth - 84}>
+            <PropertiesContainer data-width={width}>
               <Properties properties={properties} />
             </PropertiesContainer>
           </>

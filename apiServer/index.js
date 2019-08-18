@@ -8,9 +8,9 @@ const Hapi = require('hapi')
 const pgp = require(`pg-promise`)()
 const app = require(`ampersand-app`)
 
-const config = require(`./apiServer/config.js`)
-const alt = require('./apiServer/handlers/alt.js')
-const evabArten = require('./apiServer/handlers/evabArten.js')
+const config = require(`./config.js`)
+const alt = require('./handlers/alt.js')
+const evabArten = require('./handlers/evabArten.js')
 
 /*
 const serverOptionsDevelopment = {

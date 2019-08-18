@@ -51,6 +51,7 @@ const JointTaxonomiesCard = ({
 }) => {
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (
     <ErrorBoundary>
@@ -71,7 +72,7 @@ const JointTaxonomiesCard = ({
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-width={window.innerWidth - 84}>
+          <PropertiesContainer data-width={width}>
             <Properties properties={jointTaxProperties} />
           </PropertiesContainer>
         </Collapse>

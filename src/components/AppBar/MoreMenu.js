@@ -46,15 +46,17 @@ const MoreMenu = () => {
     setAnchorEl(null)
   }, [])
   const onClickUeber = useCallback(() => {
-    window.open('https://docs.arteigenschaften.ch')
+    typeof window !== 'undefined' &&
+      window.open('https://docs.arteigenschaften.ch')
     setAnchorEl(null)
   }, [])
   const onClickStruktur = useCallback(() => {
-    window.open(relations)
+    typeof window !== 'undefined' && window.open(relations)
     setAnchorEl(null)
   }, [])
   const onClickMelden = useCallback(() => {
-    window.open('https://github.com/FNSKtZH/ae2/issues')
+    typeof window !== 'undefined' &&
+      window.open('https://github.com/FNSKtZH/ae2/issues')
     setAnchorEl(null)
   }, [])
   const onClickFelderAlt = useCallback(() => {

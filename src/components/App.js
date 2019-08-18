@@ -71,24 +71,34 @@ const App = () => {
   const showDataGraph = url0 === 'datagraph'
   const showGraphIql = url0 === 'graphiql'
 
-  const updateStacked = useCallback(() => {
-    const w = window
-    const d = document
-    const e = d.documentElement
-    const g = d.getElementsByTagName('body')[0]
-    const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
-    const shouldBeStacked = windowWidth < 650
-    setStacked(shouldBeStacked)
-  }, [])
+  const updateStacked =
+    typeof window !== 'undefined'
+      ? useCallback(() => {
+          const w = window
+          const d = document
+          const e = d.documentElement
+          const g = d.getElementsByTagName('body')[0]
+          const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+          const shouldBeStacked = windowWidth < 650
+          setStacked(shouldBeStacked)
+        }, [])
+      : () => {}
 
   useEffect(() => updateStacked(), [updateStacked])
 
   useEffect(() => {
-    window.addEventListener('resize', debounce(updateStacked, 100))
-    return () => window.removeEventListener('resize', updateStacked)
+    typeof window !== 'undefined' &&
+      window.addEventListener('resize', debounce(updateStacked, 100))
+    return () => {
+      typeof window !== 'undefined' &&
+        window.removeEventListener('resize', updateStacked)
+    }
   }, [updateStacked])
 
-  const onClickReload = useCallback(() => window.location.reload(false), [])
+  const onClickReload = useCallback(
+    () => typeof window !== 'undefined' && window.location.reload(false),
+    [],
+  )
 
   return (
     <ErrorBoundary>

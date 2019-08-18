@@ -102,6 +102,7 @@ const RcoCard = ({ pc }: { pc: Object }) => {
     }
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   if (propsByTaxDataError) {
     return (
@@ -134,7 +135,7 @@ const RcoCard = ({ pc }: { pc: Object }) => {
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-width={window.innerWidth - 84}>
+          <PropertiesContainer data-width={width}>
             <Properties properties={rcoPropertiesByPropertyCollection[pc]} />
           </PropertiesContainer>
         </Collapse>

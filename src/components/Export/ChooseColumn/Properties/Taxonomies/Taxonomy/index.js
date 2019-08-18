@@ -106,6 +106,7 @@ const Taxonomy = ({
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
   const properties = taxPropertiesByTaxonomy[tax]
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (
     <ErrorBoundary>
@@ -131,7 +132,7 @@ const Taxonomy = ({
           <StyledCardContent>
             <>
               {properties.length > 1 && <AllChooser properties={properties} />}
-              <PropertiesContainer data-width={window.innerWidth - 84}>
+              <PropertiesContainer data-width={width}>
                 <Properties properties={properties} />
               </PropertiesContainer>
             </>

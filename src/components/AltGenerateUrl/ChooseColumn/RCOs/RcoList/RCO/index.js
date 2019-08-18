@@ -92,6 +92,8 @@ const RCO = ({ pc }: { pc: Object }) => {
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
 
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
   return (
@@ -126,7 +128,7 @@ const RCO = ({ pc }: { pc: Object }) => {
                 properties={rcoPropertiesByPropertyCollection[pc]}
               />
             )}
-            <PropertiesContainer data-width={window.innerWidth - 84}>
+            <PropertiesContainer data-width={width}>
               <RcoChooserList
                 properties={rcoPropertiesByPropertyCollection[pc]}
               />

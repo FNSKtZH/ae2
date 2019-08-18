@@ -55,6 +55,7 @@ const JointTaxonomy = ({
 }) => {
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (
     <ErrorBoundary>
@@ -78,7 +79,7 @@ const JointTaxonomy = ({
           {jointTaxProperties.length > 1 && (
             <AllChooser properties={jointTaxProperties} />
           )}
-          <PropertiesContainer data-width={window.innerWidth - 84}>
+          <PropertiesContainer data-width={width}>
             <Properties properties={jointTaxProperties} />
           </PropertiesContainer>
         </StyledCollapse>

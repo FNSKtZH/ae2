@@ -26,14 +26,20 @@ const DataStacked = () => {
   const { activeNodeArray } = mobxStore
 
   const [tab, setTab] = useState(0)
-  const onChangeTab = useCallback((event, value) => setTab(value),[])
+  const onChangeTab = useCallback((event, value) => setTab(value), [])
 
-  const w = window
-  const d = document
-  const e = d.documentElement
+  const w = typeof window !== 'undefined' ? window : {}
+  const d = typeof window !== 'undefined' ? document : {}
+  const e = typeof window !== 'undefined' ? d.documentElement : {}
   const g = d.getElementsByTagName('body')[0]
-  const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
-  const windowHeight = w.innerHeight || e.clientHeight || g.clientHeight
+  const windowWidth =
+    typeof window !== 'undefined'
+      ? w.innerWidth || e.clientWidth || g.clientWidth
+      : 500
+  const windowHeight =
+    typeof window !== 'undefined'
+      ? w.innerHeight || e.clientHeight || g.clientHeight
+      : 500
   const disableDataType = activeNodeArray.length < 2
 
   return (

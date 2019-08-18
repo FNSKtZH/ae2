@@ -55,7 +55,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
         : `https://www.google.ch/search?tbm=isch&q="${objekt.name}"${
             nameDeutsch ? `+OR+"${nameDeutsch}"` : ''
           }`
-      window.open(url)
+      typeof window !== 'undefined' && window.open(url)
       setAnchorEl(null)
     },
     [einheit, nameDeutsch, objekt.name],
@@ -70,7 +70,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
             objekt.name
           }" site:wikipedia.org`
         : `https://www.google.ch/search?q="${objekt.name}" site:wikipedia.org`
-      window.open(url)
+      typeof window !== 'undefined' && window.open(url)
       setAnchorEl(null)
     },
     [einheit, nameDeutsch, objekt.name],
@@ -81,7 +81,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
       const url = `https://www.gbif.org/species/search?q=${encodeURIComponent(
         `${gattung} ${art}`,
       )}`
-      window.open(url)
+      typeof window !== 'undefined' && window.open(url)
       setAnchorEl(null)
     },
     [art, gattung],
@@ -90,7 +90,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
     e => {
       e.stopPropagation()
       const url = `https://www.infoflora.ch/de/flora/${`${gattung.toLowerCase()}-${art.toLowerCase()}.html`}`
-      window.open(url)
+      typeof window !== 'undefined' && window.open(url)
       setAnchorEl(null)
     },
     [art, gattung],

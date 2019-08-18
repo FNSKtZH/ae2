@@ -19,9 +19,10 @@ import setUserFromIdb from './modules/setUserFromIdb'
 
 const App = ({ element }) => {
   const ieVersion = detectIE()
-  if (!!ieVersion && ieVersion < 12)
+  if (!!ieVersion && ieVersion < 12 && typeof window !== 'undefined') {
     return window.alert(`Sorry: Internet Explorer wird nicht unterstützt.
     Wir empfehlen eine aktuelle Version von Chrome oder Firefox`)
+  }
 
   const idb = initializeIdb()
 
