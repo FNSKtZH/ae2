@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import FormHelperText from '@material-ui/core/FormHelperText'

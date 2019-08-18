@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -54,15 +53,7 @@ const CardText = styled.div`
   column-width: 500px;
 `
 
-const PCO = ({
-  pCO,
-  relations,
-  stacked,
-}: {
-  pCO: Object,
-  relations: Array<Object>,
-  stacked: Boolean,
-}) => {
+const PCO = ({ pCO, relations, stacked }) => {
   const [expanded, setExpanded] = useState(false)
   const [pCDescriptionExpanded, setPCDescriptionExpanded] = useState(false)
 

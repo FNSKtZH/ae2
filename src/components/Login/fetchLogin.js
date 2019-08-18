@@ -1,4 +1,3 @@
-// @flow
 import { navigate } from 'gatsby'
 
 import jwtDecode from 'jwt-decode'
@@ -19,19 +18,6 @@ export default async ({
   passPassed,
   idb,
   mobxStore,
-}: {
-  client: Object,
-  changeNameErrorText: () => void,
-  changePassErrorText: () => void,
-  name: string,
-  changeName: () => void,
-  pass: string,
-  changePass: () => void,
-  changeLoginSuccessfull: () => void,
-  namePassed: String,
-  passPassed: String,
-  idb: Object,
-  mobxStore: Object,
 }) => {
   const { historyAfterLogin, setHistoryAfterLogin, login } = mobxStore
   const { setLogin } = login

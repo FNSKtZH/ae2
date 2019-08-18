@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import GraphiQL from 'graphiql'
 import get from 'lodash/get'
@@ -20,7 +19,7 @@ function graphQLFetcher(graphQLParams) {
   }).then(response => response.json())
 }
 
-const DataGraph = ({ dataGraphData }: { dataGraphData: Object }) => {
+const DataGraph = ({ dataGraphData }) => {
   const loading = get(dataGraphData, 'loading', false)
 
   if (loading) return <Container>Lade Daten...</Container>
