@@ -1,4 +1,3 @@
-// @flow
 /**
  * There is no equivalent for getDerivedStateFromError
  * in hooks yet, but it will be added soon

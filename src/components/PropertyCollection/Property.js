@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
@@ -28,13 +27,6 @@ const Property = ({
   helperText,
   type = 'text',
   disabled,
-}: {
-  field: String,
-  label: String,
-  pC: Object,
-  disabled: Boolean,
-  helperText: Element,
-  type: String,
 }) => {
   const client = useApolloClient()
 

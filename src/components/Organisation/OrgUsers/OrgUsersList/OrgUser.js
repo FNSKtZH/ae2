@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -91,7 +90,7 @@ const orgUsersQuery = gql`
   }
 `
 
-const OrgUser = ({ orgUser }: { orgUser: Object }) => {
+const OrgUser = ({ orgUser }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const activeNodeArray = mobxStore.activeNodeArray.toJS()

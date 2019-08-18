@@ -1,4 +1,3 @@
-// @flow
 import React, { useContext } from 'react'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'

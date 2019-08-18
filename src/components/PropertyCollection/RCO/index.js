@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
@@ -119,13 +118,7 @@ const enhance = compose(
   observer,
 )
 
-const RCO = ({
-  dimensions,
-  classes,
-}: {
-  dimensions: Object,
-  classes: Object,
-}) => {
+const RCO = ({ dimensions, classes }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
