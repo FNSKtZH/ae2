@@ -19,7 +19,7 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const AllPcoChooser = ({ properties }: { properties: Array<Object> }) => {
+const AllPcoChooser = ({ properties }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { pcoProperties, addPcoProperty, removePcoProperty } = mobxStore.export
 

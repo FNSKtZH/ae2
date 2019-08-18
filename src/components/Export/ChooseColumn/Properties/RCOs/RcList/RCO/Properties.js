@@ -3,7 +3,7 @@ import React from 'react'
 
 import Chooser from './Chooser'
 
-const RcoProperties = ({ properties }: { properties: Array<Object> }) =>
+const RcoProperties = ({ properties }) =>
   properties.map(p => (
     <Chooser
       key={`${p.propertyName}${p.jsontype}`}

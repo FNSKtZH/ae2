@@ -1,4 +1,3 @@
-// @flow
 import { ApolloClient } from 'apollo-client'
 //import { createHttpLink } from 'apollo-link-http'
 import { BatchHttpLink } from 'apollo-link-batch-http'

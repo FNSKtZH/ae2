@@ -19,7 +19,7 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const AllTaxChooser = ({ properties }: { properties: Array<Object> }) => {
+const AllTaxChooser = ({ properties }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { taxProperties, addTaxProperty, removeTaxProperty } = mobxStore.export
 

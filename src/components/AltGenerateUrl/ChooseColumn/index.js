@@ -1,4 +1,3 @@
-// @flow
 import React, { useEffect, useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'

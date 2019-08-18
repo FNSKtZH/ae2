@@ -3,7 +3,7 @@ import React from 'react'
 
 import TaxField from './TaxField'
 
-const TaxProperties = ({ properties }: { properties: Array<Object> }) =>
+const TaxProperties = ({ properties }) =>
   properties.map(p => (
     <TaxField
       key={`${p.propertyName}${p.jsontype}`}

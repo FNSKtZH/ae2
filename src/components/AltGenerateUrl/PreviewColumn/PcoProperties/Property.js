@@ -13,7 +13,7 @@ const ResetSpan = styled.span`
   text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
 
-const Property = ({ pcname, pname }: { pcname: string, pname: string }) => {
+const Property = ({ pcname, pname }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { removePcoProperty } = mobxStore.export
 

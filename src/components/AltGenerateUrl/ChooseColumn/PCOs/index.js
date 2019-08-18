@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -54,13 +53,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const PCOs = ({
-  pcoExpanded,
-  onTogglePco,
-}: {
-  pcoExpanded: Boolean,
-  onTogglePco: () => {},
-}) => {
+const PCOs = ({ pcoExpanded, onTogglePco }) => {
   const { data: propsByTaxData } = useQuery(propsByTaxQuery, {
     variables: {
       exportTaxonomies: constants.altTaxonomies,

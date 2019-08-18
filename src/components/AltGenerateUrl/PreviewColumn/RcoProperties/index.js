@@ -3,7 +3,7 @@ import React from 'react'
 
 import Property from './Property'
 
-const RcoProperties = ({ properties }: { properties: Array<Object> }) =>
+const RcoProperties = ({ properties }) =>
   properties.map(({ pcname, relationtype, pname }, i) => (
     <Property
       key={`${pcname}|${relationtype}|${pname}`}

@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment, useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -67,7 +66,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const RCO = ({ pc }: { pc: Object }) => {
+const RCO = ({ pc }) => {
   const { data: propsByTaxData, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
