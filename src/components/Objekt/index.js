@@ -38,7 +38,7 @@ const SynonymTitle = styled(Title)`
   margin-bottom: 5px;
 `
 
-const Objekt = ({ stacked = false }: { stacked: Boolean }) => {
+const Objekt = ({ stacked = false }) => {
   const mobxStore = useContext(mobxStoreContext)
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 

@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
@@ -53,7 +52,7 @@ const enhance = compose(
   observer,
 )
 
-const OptionsChoosen = ({ classes }: { classes: Object }) => {
+const OptionsChoosen = ({ classes }) => {
   const mobxStore = useContext(mobxStoreContext)
   const {
     setType,

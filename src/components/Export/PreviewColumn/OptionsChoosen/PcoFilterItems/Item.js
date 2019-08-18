@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -20,7 +19,7 @@ const ResetSpan = styled.span`
   text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
 
-const ExportPcoFilterListItem = ({ filter }: { filter: Object }) => {
+const ExportPcoFilterListItem = ({ filter }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { setPcoFilter } = mobxStore.export
 

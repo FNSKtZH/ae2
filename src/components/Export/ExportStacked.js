@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
