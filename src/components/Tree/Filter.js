@@ -1,4 +1,3 @@
-// @flow
 import React, { useEffect, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import Autosuggest from 'react-autosuggest'
@@ -126,7 +125,7 @@ const objectUrlQuery = gql`
   }
 `
 
-const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
+const TreeFilter = ({ dimensions }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { treeFilter } = mobxStore
   const treeFilterText = treeFilter.text

@@ -1,13 +1,6 @@
-// @flow
 import get from 'lodash/get'
 
-export default ({
-  treeData,
-  activeNodeArray,
-}: {
-  treeData: Object,
-  activeNodeArray: Object,
-}) => {
+export default ({ treeData, activeNodeArray }) => {
   if (!treeData) {
     console.log('no tree data for level2Taxonomy')
     return []

@@ -1,4 +1,3 @@
-// @flow
 import get from 'lodash/get'
 
 export default ({
@@ -18,23 +17,6 @@ export default ({
   activeLevel8ObjectId,
   activeLevel9ObjectName,
   activeLevel9ObjectId,
-}: {
-  treeData: Object,
-  activeLevel2TaxonomyName: ?String,
-  activeLevel3ObjectName: ?String,
-  activeLevel3ObjectId: ?String,
-  activeLevel4ObjectName: ?String,
-  activeLevel4ObjectId: ?String,
-  activeLevel5ObjectName: ?String,
-  activeLevel5ObjectId: ?String,
-  activeLevel6ObjectName: ?String,
-  activeLevel6ObjectId: ?String,
-  activeLevel7ObjectName: ?String,
-  activeLevel7ObjectId: ?String,
-  activeLevel8ObjectName: ?String,
-  activeLevel8ObjectId: ?String,
-  activeLevel9ObjectName: ?String,
-  activeLevel9ObjectId: ?String,
 }) => {
   if (!treeData) return []
   const nodes = get(treeData, 'level10Object.objectsByParentId.nodes', [])

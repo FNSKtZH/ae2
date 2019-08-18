@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
@@ -12,19 +11,7 @@ const Container = styled.div`
   margin: 5px 0;
 `
 
-const Property = ({
-  taxonomy,
-  field,
-  label,
-  type = 'text',
-  disabled,
-}: {
-  taxonomy: Object,
-  field: String,
-  label: String,
-  disabled: Boolean,
-  type: String,
-}) => {
+const Property = ({ taxonomy, field, label, type = 'text', disabled }) => {
   const client = useApolloClient()
   const [value, setValue] = useState(taxonomy[field] || '')
 

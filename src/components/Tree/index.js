@@ -1,4 +1,3 @@
-// @flow
 import React, {
   useRef,
   useEffect,
@@ -196,12 +195,7 @@ const usersQuery = gql`
   }
 `
 
-const Tree = ({
-  // dimensions is passed down from ReflexElement
-  dimensions,
-}: {
-  dimensions: Object,
-}) => {
+const Tree = ({ dimensions }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
