@@ -262,7 +262,7 @@ const RCO = ({
             columns={columns}
             rowGetter={rowGetter}
             rowsCount={rCO.length}
-            minHeight={height - 33 - 37}
+            minHeight={height - 26 - 54}
             minWidth={width}
           />
           <ButtonsContainer>
