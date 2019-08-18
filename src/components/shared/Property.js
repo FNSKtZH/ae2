@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton'
@@ -27,15 +26,7 @@ const DeleteButton = styled(IconButton)`
   }
 `
 
-const Property = ({
-  id,
-  properties: propertiesPrevious,
-  field: key,
-}: {
-  id: string,
-  properties: Object,
-  key: string,
-}) => {
+const Property = ({ id, properties: propertiesPrevious, field: key }) => {
   const client = useApolloClient()
   const [value, setValue] = useState(propertiesPrevious[key] || '')
 

@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -27,7 +26,7 @@ const linkifyProperties = {
   },
 }
 
-const TaxonomyDescription = ({ taxonomy }: { taxonomy: Object }) => {
+const TaxonomyDescription = ({ taxonomy }) => {
   const organizationName = get(taxonomy, 'organizationByOrganizationId.name')
 
   return (
@@ -43,10 +42,9 @@ const TaxonomyDescription = ({ taxonomy }: { taxonomy: Object }) => {
           {taxonomy.lastUpdated && (
             <PropertyReadOnly label="Stand" value={taxonomy.lastUpdated} />
           )}
-          {taxonomy.links &&
-            taxonomy.links.length > 0 && (
-              <PropertyReadOnly label="Link" value={taxonomy.links} />
-            )}
+          {taxonomy.links && taxonomy.links.length > 0 && (
+            <PropertyReadOnly label="Link" value={taxonomy.links} />
+          )}
           {organizationName && (
             <PropertyReadOnly
               label="Organisation mit Schreibrecht"

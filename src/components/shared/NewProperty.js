@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -16,13 +15,7 @@ const FieldContainer = styled.div`
   display: flex;
 `
 
-const Property = ({
-  id,
-  properties: propertiesPrevious,
-}: {
-  id: string,
-  properties: object,
-}) => {
+const Property = ({ id, properties: propertiesPrevious }) => {
   const client = useApolloClient()
 
   const [label, setLabel] = useState('')

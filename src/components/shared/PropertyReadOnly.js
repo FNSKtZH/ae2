@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
 import Linkify from 'react-linkify'
@@ -34,13 +33,7 @@ const linkifyProperties = {
   },
 }
 
-const PropertyReadOnly = ({
-  label,
-  value,
-}: {
-  label: string,
-  value: string | number | Boolean,
-}) => {
+const PropertyReadOnly = ({ label, value }) => {
   let val = value
   if (val === true) val = 'ja'
   if (val === false) val = 'nein'

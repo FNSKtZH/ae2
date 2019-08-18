@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import Linkify from 'react-linkify'
@@ -26,13 +25,7 @@ const Container = styled.div`
   }
 `
 
-const PropertyReadOnly = ({
-  label,
-  value,
-}: {
-  label: string,
-  value: string | number | Boolean,
-}) => {
+const PropertyReadOnly = ({ label, value }) => {
   let val = value
   if (val === true) val = 'ja'
   if (val === false) val = 'nein'

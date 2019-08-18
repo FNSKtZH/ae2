@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -25,7 +24,7 @@ const linkifyProperties = {
   },
 }
 
-const PCDescription = ({ pC }: { pC: Object }) => {
+const PCDescription = ({ pC }) => {
   const userImportedByName = get(pC, 'userByImportedBy.name')
   const userImportedByEmail = get(pC, 'userByImportedBy.email')
   const organizationName = get(pC, 'organizationByOrganizationId.name')
@@ -46,10 +45,9 @@ const PCDescription = ({ pC }: { pC: Object }) => {
           {pC.lastUpdated && (
             <PropertyReadOnly label="Stand" value={pC.lastUpdated} />
           )}
-          {pC.links &&
-            pC.links.length > 0 && (
-              <PropertyReadOnly label="Link" value={pC.links} />
-            )}
+          {pC.links && pC.links.length > 0 && (
+            <PropertyReadOnly label="Link" value={pC.links} />
+          )}
           {pC.termsOfUse && (
             <PropertyReadOnly
               label="Nutzungsbedingungen"

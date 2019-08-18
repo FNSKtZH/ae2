@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
 import Linkify from 'react-linkify'
@@ -40,7 +39,7 @@ const linkifyProperties = {
   },
 }
 
-const UserReadOnly = ({ label, user }: { label: string, user: Object }) => {
+const UserReadOnly = ({ label, user }) => {
   const name = user ? user.name || '' : ''
   const email = user ? user.email || '' : ''
   const link = `${appBaseUrl}/Benutzer/${user.id}`
