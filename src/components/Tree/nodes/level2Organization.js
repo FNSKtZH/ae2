@@ -9,7 +9,7 @@ export default ({
 }: {
   treeData: Object,
   mobxStore: Object,
-}): Array<Object> => {
+}) => {
   if (!treeData) return []
   const { token } = mobxStore.login
   if (!token) return []

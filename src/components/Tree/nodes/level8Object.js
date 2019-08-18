@@ -27,7 +27,7 @@ export default ({
   activeLevel6ObjectId: ?String,
   activeLevel7ObjectName: ?String,
   activeLevel7ObjectId: ?String,
-}): Array<Object> => {
+}) => {
   if (!treeData) return []
   if (!treeData.level8Object) return []
   const nodes = get(treeData, 'level8Object.objectsByParentId.nodes', [])

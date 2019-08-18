@@ -7,7 +7,7 @@ export default ({
 }: {
   treeData: Object,
   activeNodeArray: Object,
-}): Array<Object> => {
+}) => {
   if (!treeData) {
     console.log('no tree data for level2Taxonomy')
     return []
@@ -21,15 +21,15 @@ export default ({
   const taxonomiesWithLevel1Counts = get(
     treeData,
     'taxonomyWithLevel1Count.nodes',
-    []
+    [],
   )
 
   return nodes.map(node => {
     const taxonomy = get(treeData, 'allTaxonomies.nodes', []).find(
-      n => n.id === node.id
+      n => n.id === node.id,
     )
     const level1 = taxonomiesWithLevel1Counts.find(
-      c => c.taxonomyId === node.id
+      c => c.taxonomyId === node.id,
     )
     const level1Count = level1 && level1.count ? level1.count : 0
     const allObjectsCount = get(taxonomy, 'objectsByTaxonomyId.totalCount', 0)

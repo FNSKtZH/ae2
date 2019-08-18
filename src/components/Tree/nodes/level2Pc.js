@@ -1,7 +1,6 @@
-// @flow
 import get from 'lodash/get'
 
-export default ({ treeData }: { treeData: Object }): Array<Object> => {
+export default ({ treeData }) => {
   if (!treeData) return []
   const nodes = get(treeData, 'allPropertyCollections.nodes', [])
 
@@ -9,7 +8,7 @@ export default ({ treeData }: { treeData: Object }): Array<Object> => {
     const pCCount = get(
       node,
       'propertyCollectionObjectsByPropertyCollectionId.totalCount',
-      0
+      0,
     )
     const rCCount = get(node, 'relationsByPropertyCollectionId.totalCount', 0)
     const count = pCCount + rCCount

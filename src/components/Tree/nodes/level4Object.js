@@ -11,7 +11,7 @@ export default ({
   activeLevel2TaxonomyName: ?String,
   activeLevel3ObjectName: ?String,
   activeLevel3ObjectId: ?String,
-}): Array<Object> => {
+}) => {
   if (!treeData) return []
   const nodes = get(treeData, 'level4Object.objectsByParentId.nodes', [])
 

@@ -7,7 +7,7 @@ export default ({
 }: {
   treeData: Object,
   activeLevel2TaxonomyName: ?String,
-}): Array<Object> => {
+}) => {
   if (!treeData) return []
   const nodes = get(treeData, 'taxonomyObjectLevel1.nodes', [])
 

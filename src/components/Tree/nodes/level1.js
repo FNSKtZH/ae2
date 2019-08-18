@@ -13,7 +13,7 @@ export default ({
   activeNodeArray: Array<String>,
   treeDataLoading: Boolean,
   mobxStore: Object,
-}): Array<Object> => {
+}) => {
   if (!treeData) return []
   const loading = treeDataLoading
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)

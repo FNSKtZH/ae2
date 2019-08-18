@@ -31,7 +31,7 @@ export default ({
   activeLevel7ObjectId: ?String,
   activeLevel8ObjectName: ?String,
   activeLevel8ObjectId: ?String,
-}): Array<Object> => {
+}) => {
   if (!treeData) return []
   const nodes = get(treeData, 'level9Object.objectsByParentId.nodes', [])
   const taxonomy = get(treeData, 'allTaxonomies.nodes', []).find(

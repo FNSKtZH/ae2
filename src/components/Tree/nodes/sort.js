@@ -32,7 +32,7 @@ const compare = (a, b) => {
   return a - b
 }
 
-export default (nodes: Array<Object>): Array<Object> =>
+export default (nodes: Array<Object>) =>
   nodes.sort(
     (a, b) =>
       compare(a.sort[0], b.sort[0]) ||

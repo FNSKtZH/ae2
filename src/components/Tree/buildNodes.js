@@ -31,7 +31,7 @@ export default ({
   activeNodeArray: Object,
   treeDataLoading: Boolean,
   mobxStore: Object,
-}): Array<Object> => {
+}) => {
   const activeLevel2TaxonomyNodes = activeNodeArray[0]
     ? get(treeData, 'allTaxonomies.nodes', []).filter(n => {
         if (activeNodeArray[0] === 'Arten') return n.type === 'ART'
