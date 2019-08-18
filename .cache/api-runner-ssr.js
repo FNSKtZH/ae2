@@ -9,7 +9,7 @@ var plugins = [{
       options: {"plugins":[]},
     },{
       plugin: require('C:/Users/alexa/ae2/node_modules/gatsby-plugin-manifest/gatsby-ssr'),
-      options: {"plugins":[],"scope":"/","name":"arteigenschaften.ch","short_name":"arteigenschaften","start_url":"/","background_color":"#ffffff","theme_color":"#000000","display":"standalone","icon":"src/images/favicon.ico","include_favicon":true},
+      options: {"plugins":[],"scope":"/","name":"arteigenschaften.ch","short_name":"arteigenschaften","start_url":"/","background_color":"#ffffff","theme_color":"#000000","display":"standalone","icon":"src/images/favicon256.png","include_favicon":true},
     },{
       plugin: require('C:/Users/alexa/ae2/node_modules/gatsby-plugin-offline/gatsby-ssr'),
       options: {"plugins":[]},
