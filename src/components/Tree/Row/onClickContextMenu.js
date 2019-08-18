@@ -1,4 +1,3 @@
-// @flow
 import get from 'lodash/get'
 import set from 'lodash/set'
 import { navigate } from 'gatsby'
@@ -23,14 +22,6 @@ export default async ({
   treeRefetch,
   userId,
   mobxStore,
-}: {
-  e: Object,
-  data: Object,
-  target: Object,
-  client: Object,
-  treeRefetch: () => void,
-  userId: String,
-  mobxStore: Object,
 }) => {
   const { setEditingTaxonomies, setEditingPCs, editingTaxonomies } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()

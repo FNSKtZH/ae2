@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import { ContextMenuTrigger } from 'react-contextmenu'
@@ -93,15 +92,7 @@ const userQuery = gql`
   }
 `
 
-const Row = ({
-  index,
-  style,
-  node,
-}: {
-  index: number,
-  style: Object,
-  node: Object,
-}) => {
+const Row = ({ index, style, node }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore

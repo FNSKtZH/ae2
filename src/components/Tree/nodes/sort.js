@@ -1,4 +1,3 @@
-// @flow
 /**
  * As all nodes are now in one flat list,
  * we need to sort them
@@ -32,7 +31,7 @@ const compare = (a, b) => {
   return a - b
 }
 
-export default (nodes: Array<Object>) =>
+export default nodes =>
   nodes.sort(
     (a, b) =>
       compare(a.sort[0], b.sort[0]) ||
