@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext, useMemo } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -175,13 +175,12 @@ const rcoQuery = gql`
 const importRcoQuery = gql`
   query rCOQuery(
     $getObjectIds: Boolean!
-    $objectIds: [UUID!]
     $getObjectRelationIds: Boolean!
     $objectRelationIds: [UUID!]
     $getPCOfOriginIds: Boolean!
     $pCOfOriginIds: [UUID!]
   ) {
-    allObjects(filter: { id: { in: $objectIds } }) @include(if: $getObjectIds) {
+    allObjects @include(if: $getObjectIds) {
       nodes {
         id
       }
@@ -227,10 +226,6 @@ const ImportPco = ({ setImport, pCO }) => {
   } = useQuery(importRcoQuery, {
     variables: {
       getObjectIds: objectIds.length > 0,
-      objectIds:
-        objectIds.length > 0
-          ? objectIds
-          : ['99999999-9999-9999-9999-999999999999'],
       getObjectRelationIds: objectRelationIds.length > 0,
       objectRelationIds:
         objectRelationIds.length > 0
@@ -297,20 +292,31 @@ const ImportPco = ({ setImport, pCO }) => {
       setObjectIdsAreRealNotTested(true)
     }
   }
-  const objectsCheckData = get(importRcoData, 'allObjects.nodes', [])
-  const objectIdsAreReal =
-    !importRcoLoading && objectIds.length > 0
-      ? objectIds.length === objectsCheckData.length
-      : undefined
-  const objectRelationsCheckData = get(
-    importRcoData,
-    'allObjectRelations.nodes',
-    [],
+
+  const objectIdsUnreal = useMemo(() => {
+    const realObjectIds = get(importRcoData, 'allObjects.nodes', []).map(
+      o => o.id,
+    )
+    return objectIds.filter(i => !realObjectIds.includes(i))
+  }, [importRcoData, objectIds])
+  const objectIdsAreReal = useMemo(
+    () =>
+      !importRcoLoading && objectIds.length > 0
+        ? objectIdsUnreal.length === 0
+        : undefined,
+    [importRcoLoading, objectIds.length, objectIdsUnreal.length],
   )
-  const objectRelationIdsAreReal =
-    !importRcoLoading && objectRelationIds.length > 0
-      ? uniq(objectRelationIds).length === objectRelationsCheckData.length
-      : undefined
+  const objectRelationsCheckData = useMemo(
+    () => get(importRcoData, 'allObjectRelations.nodes', []),
+    [importRcoData],
+  )
+  const objectRelationIdsAreReal = useMemo(
+    () =>
+      !importRcoLoading && objectRelationIds.length > 0
+        ? uniq(objectRelationIds).length === objectRelationsCheckData.length
+        : undefined,
+    [importRcoLoading, objectRelationIds, objectRelationsCheckData.length],
+  )
   const pCOfOriginsCheckData = get(
     importRcoData,
     'allPropertyCollections.nodes',
@@ -320,31 +326,55 @@ const ImportPco = ({ setImport, pCO }) => {
     !importRcoLoading && pCOfOriginIds.length > 0
       ? pCOfOriginIds.length === pCOfOriginsCheckData.length
       : undefined
-  const showImportButton =
-    importData.length > 0 &&
-    existsNoDataWithoutKey &&
-    (idsExist ? idsAreUnique && idsAreUuids : true) &&
-    // turned off because of inexplicable problem
-    // somehow graphql could exceed some limit
-    // which made this value block importing
-    // although this value was true ?????!!!!
-    /*(objectIdsExist
+
+  const showImportButton = useMemo(
+    () =>
+      importData.length > 0 &&
+      existsNoDataWithoutKey &&
+      (idsExist ? idsAreUnique && idsAreUuids : true) &&
+      // turned off because of inexplicable problem
+      // somehow graphql could exceed some limit
+      // which made this value block importing
+      // although this value was true ?????!!!!
+      /*(objectIdsExist
       ? objectIdsAreUuid && (objectIdsAreReal || objectIdsAreRealNotTested)
       : false) &&*/
-    (objectRelationIdsExist
-      ? objectRelationIdsAreUuid &&
-        (objectRelationIdsAreReal || objectRelationIdsAreRealNotTested)
-      : false) &&
-    relationTypeExist &&
-    (pCOfOriginIdsExist
-      ? pCOfOriginIdsAreUuid &&
-        (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
-      : true) &&
-    existsPropertyKey &&
-    propertyKeysDontContainApostroph &&
-    propertyKeysDontContainBackslash &&
-    propertyValuesDontContainApostroph &&
-    propertyValuesDontContainBackslash
+      (objectRelationIdsExist
+        ? objectRelationIdsAreUuid &&
+          (objectRelationIdsAreReal || objectRelationIdsAreRealNotTested)
+        : false) &&
+      relationTypeExist &&
+      (pCOfOriginIdsExist
+        ? pCOfOriginIdsAreUuid &&
+          (pCOfOriginIdsAreReal || pCOfOriginIdsAreRealNotTested)
+        : true) &&
+      existsPropertyKey &&
+      propertyKeysDontContainApostroph &&
+      propertyKeysDontContainBackslash &&
+      propertyValuesDontContainApostroph &&
+      propertyValuesDontContainBackslash,
+    [
+      existsNoDataWithoutKey,
+      existsPropertyKey,
+      idsAreUnique,
+      idsAreUuids,
+      idsExist,
+      importData.length,
+      objectRelationIdsAreReal,
+      objectRelationIdsAreRealNotTested,
+      objectRelationIdsAreUuid,
+      objectRelationIdsExist,
+      pCOfOriginIdsAreReal,
+      pCOfOriginIdsAreRealNotTested,
+      pCOfOriginIdsAreUuid,
+      pCOfOriginIdsExist,
+      propertyKeysDontContainApostroph,
+      propertyKeysDontContainBackslash,
+      propertyValuesDontContainApostroph,
+      propertyValuesDontContainBackslash,
+      relationTypeExist,
+    ],
+  )
   const showPreview = importData.length > 0
   let importDataFields = []
   importData.forEach(d => {
@@ -457,7 +487,7 @@ const ImportPco = ({ setImport, pCO }) => {
     // loop all rows, build variables and create pco
     for (const [i, d] of importData.entries()) {
       const pco = pCO.find(o => o.objectId === d.objectId)
-      const id = pco && pco.id ? pco.id : null
+      const id = pco && pco.id ? pco.id : undefined
       const variables = {
         id,
         objectId: d.objectId || null,

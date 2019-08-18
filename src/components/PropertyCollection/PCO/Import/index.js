@@ -270,10 +270,13 @@ const ImportPco = ({ setImport, pCO }) => {
     )
     return objectIds.filter(i => !realObjectIds.includes(i))
   }, [importPcoData, objectIds])
-  const objectIdsAreReal =
-    !importPcoLoading && objectIds.length > 0
-      ? objectIdsUnreal.length === 0
-      : undefined
+  const objectIdsAreReal = useMemo(
+    () =>
+      !importPcoLoading && objectIds.length > 0
+        ? objectIdsUnreal.length === 0
+        : undefined,
+    [importPcoLoading, objectIds.length, objectIdsUnreal.length],
+  )
   const pCOfOriginsCheckData = get(
     importPcoData,
     'allPropertyCollections.nodes',
@@ -440,7 +443,7 @@ const ImportPco = ({ setImport, pCO }) => {
     // loop all rows, build variables and create pco
     for (const [i, d] of importData.entries()) {
       const pco = pCO.find(o => o.objectId === d.objectId)
-      const id = pco && pco.id ? pco.id : null
+      const id = pco && pco.id ? pco.id : undefined
       const variables = {
         id,
         objectId: d.objectId || null,
