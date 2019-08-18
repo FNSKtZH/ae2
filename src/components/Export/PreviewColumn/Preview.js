@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
