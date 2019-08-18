@@ -1,4 +1,3 @@
-// @flow
 /**
  * TODO editing
  * if user is logged in and is orgAdmin or orgTaxonomyWriter
@@ -42,17 +41,7 @@ const PropertiesTitleValue = styled.p`
   width: 100%;
 `
 
-const Properties = ({
-  id,
-  properties,
-  objectData,
-  stacked,
-}: {
-  id: string,
-  properties: Object,
-  objectData: Object,
-  stacked: Boolean,
-}) => {
+const Properties = ({ id, properties, objectData, stacked }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { editingTaxonomies } = mobxStore
 

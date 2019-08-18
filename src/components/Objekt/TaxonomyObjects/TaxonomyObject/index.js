@@ -1,4 +1,3 @@
-// @flow
 /**
  * TODO editing
  * if user is logged in and is orgAdmin or orgTaxonomyWriter
@@ -95,15 +94,7 @@ const organizationUsersQuery = gql`
   }
 `
 
-const TaxonomyObject = ({
-  objekt,
-  showLink,
-  stacked,
-}: {
-  objekt: Object,
-  showLink: Boolean,
-  stacked: Boolean,
-}) => {
+const TaxonomyObject = ({ objekt, showLink, stacked }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { editingTaxonomies, setEditingTaxonomies, login } = mobxStore
 

@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
@@ -11,17 +10,7 @@ const Container = styled.div`
   margin: 12px 8px 12px 0;
 `
 
-const Property = ({
-  field,
-  label,
-  objekt,
-  disabled,
-}: {
-  field: String,
-  label: String,
-  objekt: Object,
-  disabled: Boolean,
-}) => {
+const Property = ({ field, label, objekt, disabled }) => {
   const client = useApolloClient()
   const [value, setValue] = useState(objekt[field] || '')
 
