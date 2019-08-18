@@ -1,6 +1,4 @@
-// @flow
-
-export default (val: Boolean) =>
+export default val =>
   val
     .toString()
     .replace('true', 'ja')

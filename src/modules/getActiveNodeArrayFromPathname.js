@@ -1,5 +1,4 @@
-// @flow
-export default (): Array<number | string> => {
+export default () => {
   const pathName =
     typeof window !== 'undefined'
       ? window.location.pathname.replace('/', '')

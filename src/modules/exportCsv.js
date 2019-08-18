@@ -1,9 +1,8 @@
-// @flow
 import { parse } from 'json2csv'
 import fileDownload from 'js-file-download'
 import format from 'date-fns/format'
 
-export default (jsonData: Array<Object>) => {
+export default (jsonData) => {
   const csvData = parse(jsonData)
   fileDownload(
     csvData,
