@@ -433,10 +433,6 @@ const ImportPco = ({ setImport, pCO }) => {
       reader.readAsBinaryString(file)
     }
   }, [])
-  /*console.log('Pco, Import', {
-    importData,
-    pCO,
-  })*/
   const onClickImport = useCallback(async () => {
     setImporting(true)
     // need a list of all fields

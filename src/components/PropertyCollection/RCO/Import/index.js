@@ -212,7 +212,7 @@ const ImportPco = ({ setImport, pCO }) => {
   const [objectIds, setObjectIds] = useState([])
   const [objectRelationIds, setObjectRelationIds] = useState([])
   const [pCOfOriginIds, setPCOfOriginIds] = useState([])
-  const [completed, setCompleted] = useState(0)
+  const [imported, setImported] = useState(0)
 
   const { refetch: rcoRefetch } = useQuery(rcoQuery, {
     variables: {
@@ -294,10 +294,8 @@ const ImportPco = ({ setImport, pCO }) => {
   }
 
   const objectIdsUnreal = useMemo(() => {
-    const realObjectIds = get(importRcoData, 'allObjects.nodes', []).map(
-      o => o.id,
-    )
-    return objectIds.filter(i => !realObjectIds.includes(i))
+    const realIds = get(importRcoData, 'allObjects.nodes', []).map(o => o.id)
+    return objectIds.filter(i => !realIds.includes(i))
   }, [importRcoData, objectIds])
   const objectIdsAreReal = useMemo(
     () =>
@@ -306,26 +304,36 @@ const ImportPco = ({ setImport, pCO }) => {
         : undefined,
     [importRcoLoading, objectIds.length, objectIdsUnreal.length],
   )
-  const objectRelationsCheckData = useMemo(
-    () => get(importRcoData, 'allObjectRelations.nodes', []),
-    [importRcoData],
-  )
+  const objectRelationIdsUnreal = useMemo(() => {
+    const realIds = get(importRcoData, 'allObjectRelations.nodes', []).map(
+      o => o.id,
+    )
+    return objectIds.filter(i => !realIds.includes(i))
+  }, [importRcoData, objectIds])
   const objectRelationIdsAreReal = useMemo(
     () =>
       !importRcoLoading && objectRelationIds.length > 0
-        ? uniq(objectRelationIds).length === objectRelationsCheckData.length
+        ? objectRelationIdsUnreal.length === 0
         : undefined,
-    [importRcoLoading, objectRelationIds, objectRelationsCheckData.length],
+    [
+      importRcoLoading,
+      objectRelationIds.length,
+      objectRelationIdsUnreal.length,
+    ],
   )
-  const pCOfOriginsCheckData = get(
-    importRcoData,
-    'allPropertyCollections.nodes',
-    [],
+  const pCOfOriginIdsUnreal = useMemo(() => {
+    const realIds = get(importRcoData, 'allPropertyCollections.nodes', []).map(
+      o => o.id,
+    )
+    return pCOfOriginIds.filter(i => !realIds.includes(i))
+  }, [importRcoData, pCOfOriginIds])
+  const pCOfOriginIdsAreReal = useMemo(
+    () =>
+      !importRcoLoading && pCOfOriginIds.length > 0
+        ? pCOfOriginIdsUnreal.length === 0
+        : undefined,
+    [importRcoLoading, pCOfOriginIds.length, pCOfOriginIdsUnreal.length],
   )
-  const pCOfOriginIdsAreReal =
-    !importRcoLoading && pCOfOriginIds.length > 0
-      ? pCOfOriginIds.length === pCOfOriginsCheckData.length
-      : undefined
 
   const showImportButton = useMemo(
     () =>
@@ -376,12 +384,20 @@ const ImportPco = ({ setImport, pCO }) => {
     ],
   )
   const showPreview = importData.length > 0
-  let importDataFields = []
-  importData.forEach(d => {
-    importDataFields = union([...importDataFields, ...Object.keys(d)])
-  })
-  const propertyFields = importDataFields.filter(
-    f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
+
+  const importDataFields = useMemo(() => {
+    let fields = []
+    importData.forEach(d => {
+      fields = union([...fields, ...Object.keys(d)])
+    })
+    return fields
+  }, [importData])
+  const propertyFields = useMemo(
+    () =>
+      importDataFields.filter(
+        f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
+      ),
+    [importDataFields],
   )
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
@@ -514,7 +530,7 @@ const ImportPco = ({ setImport, pCO }) => {
       } catch (error) {
         console.log(error)
       }
-      setCompleted(i / importData.length)
+      setImported(i)
     }
     setImport(false)
     setImporting(false)
@@ -1084,12 +1100,12 @@ const ImportPco = ({ setImport, pCO }) => {
         <StyledH3>Wirkung des Imports auf bereits vorhandene Daten</StyledH3>
         <ul>
           <li>
-            Enthält die Eigenschaften-Sammlung bereits einen Datensatz für ein
+            Enthält die Beziehungs-Sammlung bereits einen Datensatz für ein
             Objekt (Art oder Lebensraum), wird dieser mit dem importierten
             Datensatz ersetzt.
           </li>
           <li>
-            Enthält die Eigenschaften-Sammlung für ein Objekt noch keinen
+            Enthält die Beziehungs-Sammlung für ein Objekt noch keinen
             Datensatz, wird er neu importiert.
           </li>
         </ul>
@@ -1139,12 +1155,10 @@ const ImportPco = ({ setImport, pCO }) => {
       {showImportButton && (
         <StyledButton
           onClick={onClickImport}
-          completed={completed}
+          completed={imported / importData.length}
           disabled={importing}
         >
-          {importing
-            ? `${Math.round(completed * 100)}% importiert`
-            : 'importieren'}
+          {importing ? `${imported} importiert` : 'importieren'}
         </StyledButton>
       )}
       {showPreview && (

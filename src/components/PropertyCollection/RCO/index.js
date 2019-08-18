@@ -235,8 +235,6 @@ const RCO = ({
     setImport(true)
   }, [])
 
-  console.log('RCO:', { rCORaw, rcoData })
-
   if (rcoLoading) {
     return (
       <Container>
