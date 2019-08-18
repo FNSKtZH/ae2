@@ -1,4 +1,3 @@
-// @flow
 /**
  * if no fields were passed: return standard fields
  * else: return passed fields added to standard fields
