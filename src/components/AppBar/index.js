@@ -20,11 +20,11 @@ import debounce from 'lodash/debounce'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import { navigate } from 'gatsby'
 
 import ErrorBoundary from '../shared/ErrorBoundary'
 import LazyImportFallback from '../shared/LazyImportFallback'
 import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
-import historyContext from '../../historyContext'
 import mobxStoreContext from '../../mobxStoreContext'
 
 const MoreMenu = lazy(() => import('./MoreMenu'))
@@ -95,7 +95,6 @@ const query = gql`
 `
 
 const MyAppBar = () => {
-  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
@@ -160,14 +159,14 @@ const MyAppBar = () => {
   const taxName = get(data, 'taxonomyById.name')
 
   const onClickColumnButtonData = useCallback(() => {
-    history.push('/')
-  }, [history])
+    navigate('/')
+  }, [])
   const onClickColumnButtonExport = useCallback(() => {
-    history.push('/Export')
-  }, [history])
+    navigate('/Export')
+  }, [])
   const onClickColumnButtonLogin = useCallback(() => {
-    history.push('/Login')
-  }, [history])
+    navigate('/Login')
+  }, [])
   const onClickShare = useCallback(() => {
     const name = pCName
       ? pCName

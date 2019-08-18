@@ -1,7 +1,7 @@
 import { types } from 'mobx-state-tree'
 
 export default types
-  .model('TreeFilter', {
+  .model('Login', {
     token: types.optional(types.maybeNull(types.string), null),
     username: types.optional(types.maybeNull(types.string), null),
   })

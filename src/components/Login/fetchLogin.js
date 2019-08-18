@@ -1,4 +1,6 @@
 // @flow
+import { navigate } from 'gatsby'
+
 import jwtDecode from 'jwt-decode'
 import get from 'lodash/get'
 
@@ -16,7 +18,6 @@ export default async ({
   namePassed,
   passPassed,
   idb,
-  history,
   mobxStore,
 }: {
   client: Object,
@@ -30,7 +31,6 @@ export default async ({
   namePassed: String,
   passPassed: String,
   idb: Object,
-  history: Object,
   mobxStore: Object,
 }) => {
   const { historyAfterLogin, setHistoryAfterLogin, login } = mobxStore
@@ -100,10 +100,10 @@ export default async ({
       changePass('')
       changeLoginSuccessfull(false)
       if (!!historyAfterLogin) {
-        history.push(historyAfterLogin)
+        navigate(historyAfterLogin)
         setHistoryAfterLogin('')
       } else {
-        history.push('/')
+        navigate('/')
       }
     }, 2000)
   }

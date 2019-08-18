@@ -1,15 +1,9 @@
 // #flow
+import { navigate } from 'gatsby'
+
 import updatePCMutation from './updatePCMutation'
 
-export default async ({
-  client,
-  field,
-  pC,
-  value,
-  prevValue,
-  setError,
-  history,
-}) => {
+export default async ({ client, field, pC, value, prevValue, setError }) => {
   //setError(null)
   if (value !== prevValue) {
     const variables = {
@@ -56,7 +50,7 @@ export default async ({
     }
     // if id was updated, need to update url
     if (field === 'id') {
-      history.push(`/Eigenschaften-Sammlungen/${value}`)
+      navigate(`/Eigenschaften-Sammlungen/${value}`)
     }
   }
 }

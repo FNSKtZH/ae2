@@ -8,10 +8,10 @@ import get from 'lodash/get'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import { navigate } from 'gatsby'
 
 import getUrlForObject from '../../modules/getUrlForObject'
 import ErrorBoundary from '../shared/ErrorBoundary'
-import historyContext from '../../historyContext'
 import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
@@ -127,7 +127,6 @@ const objectUrlQuery = gql`
 `
 
 const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
-  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { treeFilter } = mobxStore
   const treeFilterText = treeFilter.text
@@ -163,7 +162,7 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
     (event, { suggestion }) => {
       switch (suggestion.type) {
         case 'pC':
-          history.push(`/Eigenschaften-Sammlungen/${suggestion.id}`)
+          navigate(`/Eigenschaften-Sammlungen/${suggestion.id}`)
           break
         case 'art':
         case 'lr':
@@ -180,7 +179,7 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
         }
       }
     },
-    [history, setTreeFilter, treeFilterText],
+    [setTreeFilter, treeFilterText],
   )
   const renderSuggestion = useCallback(
     (suggestion, { query, isHighlighted }) => {
@@ -226,10 +225,10 @@ const TreeFilter = ({ dimensions }: { dimensions: Object }) => {
       urlObject.id
     ) {
       const url = getUrlForObject(urlObject)
-      history.push(`/${url.join('/')}`)
+      navigate(`/${url.join('/')}`)
       setTreeFilter({ id: null, text: '' })
     }
-  }, [urlObject, treeFilterId, history, setTreeFilter])
+  }, [urlObject, treeFilterId, setTreeFilter])
 
   const objectByObjectName = get(
     filterSuggestionsData,

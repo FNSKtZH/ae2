@@ -5,9 +5,9 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import styled from 'styled-components'
+import { navigate } from 'gatsby'
 
 import relations from '../../modules/relations.png'
-import historyContext from '../../historyContext'
 
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
@@ -38,7 +38,6 @@ const paperProps = {
 
 const MoreMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const history = useContext(historyContext)
 
   const onClickButton = useCallback(event => {
     setAnchorEl(event.currentTarget)
@@ -59,17 +58,17 @@ const MoreMenu = () => {
     setAnchorEl(null)
   }, [])
   const onClickFelderAlt = useCallback(() => {
-    history.push('/artenlistentool/waehlen')
+    navigate('/artenlistentool/waehlen')
     setAnchorEl(null)
-  }, [history])
+  }, [])
   const onClickGqlStructure = useCallback(() => {
-    history.push('/datagraph')
+    navigate('/datagraph')
     setAnchorEl(null)
-  }, [history])
+  }, [])
   const onClickGqlQuery = useCallback(() => {
-    history.push('/graphiql')
+    navigate('/graphiql')
     setAnchorEl(null)
-  }, [history])
+  }, [])
 
   return (
     <div>

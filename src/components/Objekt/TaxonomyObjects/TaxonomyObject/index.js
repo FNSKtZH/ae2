@@ -25,6 +25,7 @@ import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import { navigate } from 'gatsby'
 
 import PropertyReadOnly from '../../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../../shared/PropertyReadOnlyStacked'
@@ -34,7 +35,6 @@ import LinkMenu from './LinkMenu'
 import Properties from './Properties'
 import getUrlForObject from '../../../../modules/getUrlForObject'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
-import historyContext from '../../../../historyContext'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -104,7 +104,6 @@ const TaxonomyObject = ({
   showLink: Boolean,
   stacked: Boolean,
 }) => {
-  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { editingTaxonomies, setEditingTaxonomies, login } = mobxStore
 
@@ -151,9 +150,9 @@ const TaxonomyObject = ({
   const onClickLink = useCallback(
     e => {
       e.stopPropagation()
-      history.push(linkUrl)
+      navigate(linkUrl)
     },
-    [history, linkUrl],
+    [linkUrl],
   )
   const onClickStopEditing = useCallback(
     e => {

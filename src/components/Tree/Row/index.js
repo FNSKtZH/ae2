@@ -11,13 +11,13 @@ import get from 'lodash/get'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import { navigate } from 'gatsby'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenuDo from './onClickContextMenu'
 import treeDataQuery from '../treeDataQuery'
 import treeDataVariables from '../treeDataVariables'
 import ErrorBoundary from '../../shared/ErrorBoundary'
-import historyContext from '../../../historyContext'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const singleRowHeight = 23
@@ -103,7 +103,6 @@ const Row = ({
   node: Object,
 }) => {
   const client = useApolloClient()
-  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
@@ -145,10 +144,10 @@ const Row = ({
       if (loadingNode) return
       // or if node is already active
       if (!isEqual(url, activeNodeArray)) {
-        history.push(`/${url.join('/')}`)
+        navigate(`/${url.join('/')}`)
       }
     },
-    [loadingNode, url, activeNodeArray, history],
+    [loadingNode, url, activeNodeArray],
   )
   const onClickExpandMore = useCallback(
     event => {
@@ -158,12 +157,12 @@ const Row = ({
         // close node if its expand mor symbol was clicked
         const newUrl = [...url]
         newUrl.pop()
-        history.push(`/${newUrl.join('/')}`)
+        navigate(`/${newUrl.join('/')}`)
         // prevent onClick on node
         event.preventDefault()
       }
     },
-    [loadingNode, url, activeNodeArray, history],
+    [loadingNode, url, activeNodeArray],
   )
   const onClickContextMenu = useCallback(
     (e, data, target) => {
@@ -174,11 +173,10 @@ const Row = ({
         client,
         treeRefetch,
         userId,
-        history,
         mobxStore,
       })
     },
-    [client, treeRefetch, userId, history, mobxStore],
+    [client, treeRefetch, userId, mobxStore],
   )
 
   return (

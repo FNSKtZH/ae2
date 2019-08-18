@@ -3,10 +3,11 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import isUuid from 'is-uuid'
+import { navigate } from 'gatsby'
 
-import App from './App'
-import getUrlForObject from '../modules/getUrlForObject'
-import getUrlParamByName from '../modules/getUrlParamByName'
+import App from '../src/components/App'
+import getUrlForObject from '../src/modules/getUrlForObject'
+import getUrlParamByName from '../src/modules/getUrlParamByName'
 
 const objectQuery = gql`
   query ObjectQuery($id: UUID!, $hasObjectId: Boolean!) {
@@ -47,7 +48,7 @@ const objectQuery = gql`
   }
 `
 
-const Router = ({ history }: { history: Object }) => {
+const Router = () => {
   /**
    * check if old url was passed that contains objectId-Param
    * for instance: from artenlistentool like this:
@@ -66,12 +67,12 @@ const Router = ({ history }: { history: Object }) => {
       'Router: redirecting to /artenlistentool/waehlen. objectId:',
       objectId,
     )
-    history.push('/artenlistentool/waehlen')
+    navigate('/artenlistentool/waehlen')
   }
 
   const hasObjectId = !!objectId
   const { loading, error, data } = useQuery(objectQuery, {
-    variables: { id: objectId, hasObjectId }
+    variables: { id: objectId, hasObjectId },
   })
 
   if (hasObjectId) {
@@ -79,7 +80,7 @@ const Router = ({ history }: { history: Object }) => {
     if (error) return `Fehler: ${error.message}`
     // if idParam was passed, open object
     const url = getUrlForObject(data.objectById)
-    history.push(`/${url.join('/')}`)
+    navigate(`/${url.join('/')}`)
     return <App />
   }
   return <App />
