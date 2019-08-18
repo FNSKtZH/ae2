@@ -1,6 +1,6 @@
 var plugins = [{
       plugin: require('C:/Users/alexa/ae2/node_modules/gatsby-plugin-typography/gatsby-ssr'),
-      options: {"plugins":[],"pathToConfigModule":"./src/utils/typography.js"},
+      options: {"plugins":[],"pathToConfigModule":"./src/modules/typography.js"},
     },{
       plugin: require('C:/Users/alexa/ae2/node_modules/gatsby-plugin-react-helmet/gatsby-ssr'),
       options: {"plugins":[]},
