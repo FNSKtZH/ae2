@@ -1,7 +1,6 @@
-// @flow
 import get from 'lodash/get'
 
-export default (tO: Object) => {
+export default tO => {
   let url = []
   const type = get(tO, 'taxonomyByTaxonomyId.type', '')
     .replace('ART', 'Arten')

@@ -1,4 +1,3 @@
-// @flow
 export default () => {
   const hostnameWithoutWww =
     typeof window !== 'undefined'

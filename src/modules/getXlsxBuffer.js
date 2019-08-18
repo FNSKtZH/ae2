@@ -2,7 +2,6 @@
  * writes a dataArray to an Excel workbook
  */
 // see: https://github.com/guyonroche/exceljs/issues/313
-// @flow
 import * as ExcelJs from 'exceljs/dist/exceljs.min.js'
 import keys from 'lodash/keys'
 import flatten from 'lodash/flatten'
@@ -11,7 +10,7 @@ import toPairs from 'lodash/toPairs'
 import sortBy from 'lodash/sortBy'
 import findIndex from 'lodash/findIndex'
 
-export default async (jsonArray: Array<Object>) => {
+export default async jsonArray => {
   const columns = uniq(flatten(jsonArray.map(object => keys(object))))
   // add missing columns to each object
   jsonArray.forEach(o => {
@@ -23,8 +22,8 @@ export default async (jsonArray: Array<Object>) => {
   })
   const values = jsonArray.map(object =>
     sortBy(toPairs(object), p => findIndex(columns, c => c === p[0])).map(
-      a => a[1]
-    )
+      a => a[1],
+    ),
   )
   const dataArray = [columns, ...values]
   const workbook = new ExcelJs.Workbook()

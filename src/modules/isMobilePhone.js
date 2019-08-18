@@ -1,4 +1,3 @@
-// @flow
 // from: https://stackoverflow.com/a/11381730/712005
 /* eslint-disable */
 export default () => {
