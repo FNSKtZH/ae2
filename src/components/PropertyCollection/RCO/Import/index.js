@@ -23,6 +23,7 @@ import { observer } from 'mobx-react-lite'
 
 import upsertRCOMutation from './upsertRCOMutation'
 import mobxStoreContext from '../../../../mobxStoreContext'
+//import importWorker from './import.worker.js'
 
 const Container = styled.div`
   height: 100%;
@@ -499,6 +500,28 @@ const ImportPco = ({ setImport, pCO }) => {
   }, [])
   const onClickImport = useCallback(async () => {
     setImporting(true)
+    /**
+     * this is how web worker would be implemented
+     * but cra does not enable it yet, see:
+     * https://github.com/facebook/create-react-app/pull/5886
+     */
+    /*
+    const worker = new importWorker()
+    worker.postMessage({
+      importData,
+      pCO,
+      pCId,
+      client,
+    })
+    worker.addEventListener('message', event => {
+      setImported(event.data)
+      if (event.data === importData.length - 1) {
+        setImport(false)
+        setImporting(false)
+        rcoRefetch()
+      }
+    })
+    */
     // need a list of all fields
     // loop all rows, build variables and create pco
     for (const [i, d] of importData.entries()) {
