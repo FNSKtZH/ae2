@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import Radio from '@material-ui/core/Radio'

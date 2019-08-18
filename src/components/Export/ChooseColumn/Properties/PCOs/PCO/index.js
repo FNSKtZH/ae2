@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -69,15 +68,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const PCO = ({
-  pcoExpanded,
-  onTogglePco,
-  pc,
-}: {
-  pcoExpanded: Boolean,
-  onTogglePco: () => {},
-  pc: Object,
-}) => {
+const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
