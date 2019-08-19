@@ -436,6 +436,7 @@ const ImportPco = ({ setImport, pCO }) => {
     setImporting(true)
     // need a list of all fields
     // loop all rows, build variables and create pco
+    // eslint-disable-next-line no-unused-vars
     for (const [i, d] of importData.entries()) {
       const pco = pCO.find(o => o.objectId === d.objectId)
       const id = pco && pco.id ? pco.id : undefined

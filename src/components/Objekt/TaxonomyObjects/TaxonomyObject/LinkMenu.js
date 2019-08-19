@@ -23,7 +23,7 @@ const StyledLinkIcon = styled(LinkIcon)`
 
 const ITEM_HEIGHT = 48
 
-const LinkMenu = ({ objekt }: { objekt: Object }) => {
+const LinkMenu = ({ objekt }) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const props = JSON.parse(get(objekt, 'properties', {})) || {}

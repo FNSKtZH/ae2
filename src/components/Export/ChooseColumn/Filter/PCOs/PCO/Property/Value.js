@@ -132,13 +132,6 @@ const IntegrationAutosuggest = ({
   comparator,
   value: propsValue,
   classes,
-}: {
-  pcname: string,
-  pname: string,
-  jsontype: string,
-  comparator: string,
-  value: string,
-  classes: Object,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { addFilterFields, setPcoFilter, addPcoProperty } = mobxStore.export

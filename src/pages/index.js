@@ -5,9 +5,9 @@ import isUuid from 'is-uuid'
 import { navigate } from 'gatsby'
 import { observer } from 'mobx-react-lite'
 
-import App from '../src/components/App'
-import getUrlForObject from '../src/modules/getUrlForObject'
-import getUrlParamByName from '../src/modules/getUrlParamByName'
+import App from '../components/App'
+import getUrlForObject from '../modules/getUrlForObject'
+import getUrlParamByName from '../modules/getUrlParamByName'
 
 const objectQuery = gql`
   query ObjectQuery($id: UUID!, $hasObjectId: Boolean!) {

@@ -76,7 +76,7 @@ export default async ({
         token: jwtToken,
       })
     } catch (error) {
-      console.log(('Error during mutation': error))
+      console.log(('Error during mutation', error))
     }
     changeNameErrorText(null)
     changePassErrorText(null)

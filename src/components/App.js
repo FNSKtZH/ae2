@@ -70,18 +70,16 @@ const App = () => {
   const showDataGraph = url0 === 'datagraph'
   const showGraphIql = url0 === 'graphiql'
 
-  const updateStacked =
-    typeof window !== 'undefined'
-      ? useCallback(() => {
-          const w = window
-          const d = document
-          const e = d.documentElement
-          const g = d.getElementsByTagName('body')[0]
-          const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
-          const shouldBeStacked = windowWidth < 650
-          setStacked(shouldBeStacked)
-        }, [])
-      : () => {}
+  const updateStacked = useCallback(() => {
+    if (typeof window === 'undefined') return
+    const w = window
+    const d = document
+    const e = d.documentElement
+    const g = d.getElementsByTagName('body')[0]
+    const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+    const shouldBeStacked = windowWidth < 650
+    setStacked(shouldBeStacked)
+  }, [])
 
   useEffect(() => updateStacked(), [updateStacked])
 
