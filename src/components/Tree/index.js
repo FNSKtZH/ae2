@@ -237,7 +237,9 @@ const Tree = ({ dimensions }) => {
 
   useEffect(() => {
     const index = findIndex(nodes, node => isEqual(node.url, activeNodeArray))
-    listRef.current.scrollToItem(index)
+    listRef.current &&
+      listRef.current.scrollToItem &&
+      listRef.current.scrollToItem(index)
   }, [activeNodeArray, nodes])
 
   const { username } = login
