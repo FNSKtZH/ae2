@@ -88,6 +88,7 @@
     "postgraphile-plugin-connection-filter": "1.1.2",
     "postgraphile-upsert-plugin": "1.0.5",
     "react-scripts": "3.1.1",
+    "remove-flow-types-loader": "^1.1.0",
     "source-map-explorer": "2.0.1"
   },
   "scripts": {
