@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import isUuid from 'is-uuid'
 import { navigate } from 'gatsby'
+import { observer } from 'mobx-react-lite'
 
 import App from '../src/components/App'
 import getUrlForObject from '../src/modules/getUrlForObject'
@@ -53,6 +54,8 @@ const Router = () => {
    * for instance: from artenlistentool like this:
    * /index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
    */
+  console.log('Router')
+  //return <div>hello</div>
   const idParam = getUrlParamByName('id')
   const objectId =
     idParam && isUuid.anyNonNil(idParam) ? idParam.toLowerCase() : null
@@ -85,4 +88,4 @@ const Router = () => {
   return <App />
 }
 
-export default Router
+export default observer(Router)

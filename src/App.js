@@ -43,6 +43,8 @@ const App = ({ element }) => {
   // initiate activeNodeArray
   setActiveNodeArray(getActiveNodeArrayFromPathname())
 
+  console.log('App', { element })
+
   return (
     <IdbProvider value={idb}>
       <MobxProvider value={mobxStore}>
