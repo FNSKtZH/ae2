@@ -23,6 +23,14 @@ import { observer } from 'mobx-react-lite'
 import readableType from '../../../../../../modules/readableType'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
 
+const StyledAutosuggest = styled(Autosuggest)`
+  .react-autosuggest__suggestion {
+    cursor: pointer;
+    padding: 5px 20px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+`
 const StyledPaper = styled(Paper)`
   z-index: 1;
   /* need this so text is visible when overflowing */
@@ -284,7 +292,7 @@ const IntegrationAutosuggest = ({
   }
 
   return (
-    <Autosuggest
+    <StyledAutosuggest
       theme={theme}
       renderInputComponent={renderInput}
       suggestions={suggestions}
