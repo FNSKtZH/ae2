@@ -22,10 +22,10 @@ const Container = styled.div`
   margin: 0;
   padding: 8px 8px 0 8px;
   ul {
-    margin-left: -20px !important;
+    margin-bottom: 5px;
   }
   li {
-    padding-bottom: 4px;
+    margin-bottom: 4px;
   }
   ul > li:first-child {
     padding-top: 4px;
@@ -90,7 +90,7 @@ const OptionsChoosen = ({ classes }) => {
     ].length === 0
 
   const onClickResetAll = useCallback(() => {
-    setType([])
+    setType(null)
     setTaxonomies([])
     resetPcoProperties()
     resetRcoProperties()
@@ -113,7 +113,7 @@ const OptionsChoosen = ({ classes }) => {
     setWithSynonymData,
   ])
   const onClickResetType = useCallback(() => {
-    setType([])
+    setType()
     setTaxonomies([])
   }, [setTaxonomies, setType])
   const onClickResetTaxonomies = useCallback(() => {
