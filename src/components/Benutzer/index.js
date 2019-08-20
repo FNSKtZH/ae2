@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import query from './query'
 import treeDataQuery from '../Tree/treeDataQuery'
@@ -19,7 +20,6 @@ import PCs from './PCs'
 import TCs from './TCs'
 import updateUserMutation from './updateUserMutation'
 import updateUserMutationWithPass from './updateUserMutationWithPass'
-import ErrorBoundary from '../shared/ErrorBoundary'
 import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div``

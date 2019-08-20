@@ -2,9 +2,9 @@ import React from 'react'
 import { Voyager } from 'graphql-voyager'
 import { useQuery } from '@apollo/react-hooks'
 import 'graphql-voyager/dist/voyager.css'
+import ErrorBoundary from 'react-error-boundary'
 
 import query from './query'
-import ErrorBoundary from '../shared/ErrorBoundary'
 
 /**
  * need to copy worker file to public folder, see here:

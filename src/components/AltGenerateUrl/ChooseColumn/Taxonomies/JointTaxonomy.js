@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import AllTaxChooser from './AllTaxChooser'
 import TaxChooserList from './TaxChooserList'
 import constants from '../../../../modules/constants'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;
@@ -18,9 +18,7 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const JointTaxonomy = ({
-  jointTaxProperties,
-}) => {
+const JointTaxonomy = ({ jointTaxProperties }) => {
   const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (
