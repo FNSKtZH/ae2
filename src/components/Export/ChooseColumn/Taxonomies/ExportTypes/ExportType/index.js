@@ -4,8 +4,8 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import Taxonomies from './Taxonomies'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
 

@@ -3,8 +3,8 @@ import GraphiQL from 'graphiql'
 import get from 'lodash/get'
 import 'graphiql/graphiql.css'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
 import graphQlUri from '../../modules/graphQlUri'
 
 const Container = styled.div`

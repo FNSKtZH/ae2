@@ -8,10 +8,10 @@ import orderBy from 'lodash/orderBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
-import ErrorBoundary from '../../shared/ErrorBoundary'
 import rowsFromObjects from './rowsFromObjects'
 import mobxStoreContext from '../../../mobxStoreContext'
 

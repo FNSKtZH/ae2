@@ -11,11 +11,11 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import AllChooser from './AllChooser'
 import Properties from './Properties'
 import constants from '../../../../../../../modules/constants'
-import ErrorBoundary from '../../../../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const PropertiesContainer = styled.div`
