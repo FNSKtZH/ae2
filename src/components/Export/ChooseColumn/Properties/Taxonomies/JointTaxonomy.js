@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -7,11 +6,11 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import AllChooser from './Taxonomy/AllChooser'
 import Properties from './Properties'
 import constants from '../../../../../modules/constants'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
@@ -48,13 +47,10 @@ const Count = styled.span`
   padding-left: 5px;
 `
 
-const JointTaxonomy = ({
-  jointTaxProperties,
-}: {
-  jointTaxProperties: Array<Object>,
-}) => {
+const JointTaxonomy = ({ jointTaxProperties }) => {
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (
     <ErrorBoundary>
@@ -78,7 +74,7 @@ const JointTaxonomy = ({
           {jointTaxProperties.length > 1 && (
             <AllChooser properties={jointTaxProperties} />
           )}
-          <PropertiesContainer data-width={window.innerWidth - 84}>
+          <PropertiesContainer data-width={width}>
             <Properties properties={jointTaxProperties} />
           </PropertiesContainer>
         </StyledCollapse>

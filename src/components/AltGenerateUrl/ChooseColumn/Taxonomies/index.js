@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -12,9 +11,9 @@ import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import ErrorBoundary from 'react-error-boundary'
 
 import JointTaxonomy from './JointTaxonomy'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 import constants from '../../../../modules/constants'
 
 const StyledCard = styled(Card)`
@@ -53,13 +52,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const Properties = ({
-  taxonomiesExpanded,
-  onToggleTaxonomies,
-}: {
-  taxonomiesExpanded: Boolean,
-  onToggleTaxonomies: () => {},
-}) => {
+const Properties = ({ taxonomiesExpanded, onToggleTaxonomies }) => {
   const { data: propsByTaxData, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {

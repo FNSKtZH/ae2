@@ -1,9 +1,8 @@
-// @flow
 import React from 'react'
 
 import Chooser from './Taxonomy/Chooser'
 
-const TaxProperties = ({ properties }: { properties: Array<Object> }) =>
+const TaxProperties = ({ properties }) =>
   properties.map(p => (
     <Chooser
       key={`${p.propertyName}${p.jsontype}`}

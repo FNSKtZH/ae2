@@ -1,4 +1,3 @@
-//@flow
 import React, { useCallback, useContext } from 'react'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
@@ -33,15 +32,7 @@ const StyledRadio = styled(Radio)`
   height: 26px !important;
 `
 
-const PcoCheckbox = ({
-  pname,
-  pcname,
-  value,
-}: {
-  pname: string,
-  pcname: string,
-  value: string,
-}) => {
+const PcoCheckbox = ({ pname, pcname, value }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { addFilterFields, setPcoFilter, addPcoProperty } = mobxStore.export
 

@@ -1,4 +1,3 @@
-//@flow
 import React, { useCallback, useContext } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -48,13 +47,6 @@ const RcoComparator = ({
   value,
   comparator,
   classes,
-}: {
-  pcname: string,
-  relationtype: string,
-  pname: string,
-  value: string,
-  comparator: String,
-  classes: Object,
 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { setRcoFilters } = mobxStore.export

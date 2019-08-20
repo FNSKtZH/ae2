@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -11,9 +10,9 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import ErrorBoundary from 'react-error-boundary'
 
 import PcoList from './PcoList'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 import constants from '../../../../modules/constants'
 
 const Container = styled.div`
@@ -54,13 +53,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const PCOs = ({
-  pcoExpanded,
-  onTogglePco,
-}: {
-  pcoExpanded: Boolean,
-  onTogglePco: () => {},
-}) => {
+const PCOs = ({ pcoExpanded, onTogglePco }) => {
   const { data: propsByTaxData } = useQuery(propsByTaxQuery, {
     variables: {
       exportTaxonomies: constants.altTaxonomies,

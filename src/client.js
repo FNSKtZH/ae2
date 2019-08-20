@@ -1,26 +1,23 @@
-// @flow
 import { ApolloClient } from 'apollo-client'
 //import { createHttpLink } from 'apollo-link-http'
 import { BatchHttpLink } from 'apollo-link-batch-http'
 import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloLink } from 'apollo-link'
-import get from 'lodash/get'
 import jwtDecode from 'jwt-decode'
 
 import './index.css'
 import 'react-reflex/styles.css'
 import graphQlUri from './modules/graphQlUri'
 
-export default async ({ idb, history, mobxStore }) => {
+export default ({ idb, mobxStore }) => {
   /**
    * On the next line Firefox 45.3.0 errors out with:
    * Unhandled Rejection (OpenFailedError): UnknownError The operation failed
    * for reasons unrelated to the database itself and not covered by any other error code
    */
-  const authMiddleware = setContext(async () => {
-    const user = await idb.users.toArray()
-    const token = get(user, '[0].token')
+  const authLink = setContext(async () => {
+    const { token } = mobxStore.login
     if (token) {
       const tokenDecoded = jwtDecode(token)
       // for unknown reason, date.now returns three more after comma
@@ -61,7 +58,7 @@ export default async ({ idb, history, mobxStore }) => {
   })*/
   const batchHttpLink = new BatchHttpLink({ uri: graphQlUri() })
   const client = new ApolloClient({
-    link: ApolloLink.from([authMiddleware, batchHttpLink]),
+    link: ApolloLink.from([authLink, batchHttpLink]),
     cache,
   })
   return client

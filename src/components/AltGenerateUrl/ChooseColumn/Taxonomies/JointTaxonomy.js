@@ -1,11 +1,10 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import AllTaxChooser from './AllTaxChooser'
 import TaxChooserList from './TaxChooserList'
 import constants from '../../../../modules/constants'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;
@@ -19,19 +18,19 @@ const PropertiesContainer = styled.div`
       : 'auto'};
 `
 
-const JointTaxonomy = ({
-  jointTaxProperties,
-}: {
-  jointTaxProperties: Array<Object>,
-}) => (
-  <ErrorBoundary>
-    <Container>
-      <AllTaxChooser properties={jointTaxProperties} />
-      <PropertiesContainer data-width={window.innerWidth - 84}>
-        <TaxChooserList properties={jointTaxProperties} />
-      </PropertiesContainer>
-    </Container>
-  </ErrorBoundary>
-)
+const JointTaxonomy = ({ jointTaxProperties }) => {
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+
+  return (
+    <ErrorBoundary>
+      <Container>
+        <AllTaxChooser properties={jointTaxProperties} />
+        <PropertiesContainer data-width={width}>
+          <TaxChooserList properties={jointTaxProperties} />
+        </PropertiesContainer>
+      </Container>
+    </ErrorBoundary>
+  )
+}
 
 export default JointTaxonomy

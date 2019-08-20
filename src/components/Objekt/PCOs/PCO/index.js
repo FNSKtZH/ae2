@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -13,11 +12,11 @@ import InfoIcon from '@material-ui/icons/Info'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import PCDescription from '../../../shared/PCDescription'
 import RelationList from './RelationList'
 import PropertyList from './PropertyList'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -54,15 +53,7 @@ const CardText = styled.div`
   column-width: 500px;
 `
 
-const PCO = ({
-  pCO,
-  relations,
-  stacked,
-}: {
-  pCO: Object,
-  relations: Array<Object>,
-  stacked: Boolean,
-}) => {
+const PCO = ({ pCO, relations, stacked }) => {
   const [expanded, setExpanded] = useState(false)
   const [pCDescriptionExpanded, setPCDescriptionExpanded] = useState(false)
 

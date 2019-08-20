@@ -1,4 +1,3 @@
-//@flow
 import React, { useCallback, useState, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'

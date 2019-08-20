@@ -1,20 +1,17 @@
-/* eslint no-restricted-globals:0 */
-
 /**
- * this is how web worker would be implemented
- * but cra does not enable it yet, see:
- * https://github.com/facebook/create-react-app/pull/5886
+ * tried but failed to get this work
+ * see: https://github.com/gatsbyjs/gatsby/issues/12095#issuecomment-505443230
+ * and uncommented code in gatsby-node.js
  */
-
 import omit from 'lodash/omit'
 
 import upsertRCOMutation from './upsertRCOMutation'
 
-self.addEventListener('message', async event => {
-  const { importData, pCO, pCId, client } = event.data
-
+const importPco = async ({ importData = [], pCO, pCId, client }) => {
+  console.log('importWorker',{ importData = [], pCO, pCId, client })
   // need a list of all fields
   // loop all rows, build variables and create pco
+  // eslint-disable-next-line no-unused-vars
   for (const [i, d] of importData.entries()) {
     const pco = pCO.find(o => o.objectId === d.objectId)
     const id = pco && pco.id ? pco.id : undefined
@@ -46,4 +43,7 @@ self.addEventListener('message', async event => {
     }
     this.postMessage(i)
   }
-})
+  return
+}
+
+export importPco

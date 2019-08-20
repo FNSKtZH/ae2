@@ -1,4 +1,3 @@
-//@flow
 import React from 'react'
 import Input from '@material-ui/core/Input'
 import Select from '@material-ui/core/Select'
@@ -21,15 +20,7 @@ const Comment = styled.span`
   font-size: 0.7em;
 `
 
-const ComparatorSelect = ({
-  comparator,
-  onChange,
-  classes,
-}: {
-  comparator: String,
-  onChange: () => {},
-  classes: Object,
-}) => (
+const ComparatorSelect = ({ comparator, onChange, classes }) => (
   <StyledSelect
     value={comparator}
     onChange={onChange}

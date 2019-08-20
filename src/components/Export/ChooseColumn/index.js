@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useState, useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -11,11 +10,11 @@ import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import Taxonomies from './Taxonomies'
 import Properties from './Properties'
 import Filter from './Filter'
-import ErrorBoundary from '../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const StyledSnackbar = styled(Snackbar)`

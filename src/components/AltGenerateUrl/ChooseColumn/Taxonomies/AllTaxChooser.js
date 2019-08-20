@@ -1,4 +1,3 @@
-//@flow
 import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -19,7 +18,7 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const AllTaxChooser = ({ properties }: { properties: Array<Object> }) => {
+const AllTaxChooser = ({ properties }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { taxProperties, addTaxProperty, removeTaxProperty } = mobxStore.export
 

@@ -1,9 +1,8 @@
-// @flow
 import React from 'react'
 
 import Relation from './Relation'
 
-const RelationList = ({ relations }: { relations: Array<Object> }) =>
+const RelationList = ({ relations }) =>
   relations.map((relation, index) => (
     <Relation
       key={relation.id}

@@ -1,4 +1,3 @@
-// @flow
 import React, {
   useRef,
   useEffect,
@@ -16,6 +15,7 @@ import get from 'lodash/get'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import Row from './Row'
 import Filter from './Filter'
@@ -29,7 +29,6 @@ import CmTaxonomy from './contextmenu/Taxonomy'
 import CmType from './contextmenu/Type'
 import CmPCFolder from './contextmenu/PCFolder'
 import CmPC from './contextmenu/PC'
-import ErrorBoundary from '../shared/ErrorBoundary'
 import mobxStoreContext from '../../mobxStoreContext'
 
 const singleRowHeight = 23
@@ -196,12 +195,7 @@ const usersQuery = gql`
   }
 `
 
-const Tree = ({
-  // dimensions is passed down from ReflexElement
-  dimensions,
-}: {
-  dimensions: Object,
-}) => {
+const Tree = ({ dimensions }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
@@ -243,8 +237,17 @@ const Tree = ({
 
   useEffect(() => {
     const index = findIndex(nodes, node => isEqual(node.url, activeNodeArray))
-    listRef.current.scrollToItem(index)
+    listRef.current &&
+      listRef.current.scrollToItem &&
+      listRef.current.scrollToItem(index)
   }, [activeNodeArray, nodes])
+
+  /*console.log('Tree', {
+    treeDataFetched,
+    treeError,
+    orgUsersData,
+    orgUsersError,
+  })*/
 
   const { username } = login
   const organizationUsers = get(orgUsersData, 'allOrganizationUsers.nodes', [])
@@ -254,7 +257,7 @@ const Tree = ({
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
 
-  const height = isNaN(dimensions.height) ? 250 : dimensions.height - 40
+  const height = isNaN(dimensions.height) ? 250 : dimensions.height - 44
   const width = isNaN(dimensions.width) ? 250 : dimensions.width
 
   const listRef = useRef(null)

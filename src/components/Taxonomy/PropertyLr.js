@@ -1,30 +1,17 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import format from 'date-fns/format'
 import { useApolloClient } from '@apollo/react-hooks'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
 import onBlurLr from './onBlurLr'
 
 const Container = styled.div`
   margin: 5px 0;
 `
 
-const Property = ({
-  taxonomy,
-  field,
-  label,
-  type = 'text',
-  disabled,
-}: {
-  taxonomy: Object,
-  field: String,
-  label: String,
-  disabled: Boolean,
-  type: String,
-}) => {
+const Property = ({ taxonomy, field, label, type = 'text', disabled }) => {
   const client = useApolloClient()
   const [value, setValue] = useState(taxonomy[field] || '')
 

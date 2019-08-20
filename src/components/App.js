@@ -1,4 +1,3 @@
-// @flow
 import React, {
   lazy,
   Suspense,
@@ -13,9 +12,9 @@ import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import debounce from 'lodash/debounce'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import AppBar from './AppBar'
-import ErrorBoundary from './shared/ErrorBoundary'
 import LazyImportFallback from './shared/LazyImportFallback'
 import mobxStoreContext from '../mobxStoreContext'
 
@@ -72,6 +71,7 @@ const App = () => {
   const showGraphIql = url0 === 'graphiql'
 
   const updateStacked = useCallback(() => {
+    if (typeof window === 'undefined') return
     const w = window
     const d = document
     const e = d.documentElement
@@ -84,11 +84,18 @@ const App = () => {
   useEffect(() => updateStacked(), [updateStacked])
 
   useEffect(() => {
-    window.addEventListener('resize', debounce(updateStacked, 100))
-    return () => window.removeEventListener('resize', updateStacked)
+    typeof window !== 'undefined' &&
+      window.addEventListener('resize', debounce(updateStacked, 100))
+    return () => {
+      typeof window !== 'undefined' &&
+        window.removeEventListener('resize', updateStacked)
+    }
   }, [updateStacked])
 
-  const onClickReload = useCallback(() => window.location.reload(false), [])
+  const onClickReload = useCallback(
+    () => typeof window !== 'undefined' && window.location.reload(false),
+    [],
+  )
 
   return (
     <ErrorBoundary>
@@ -123,6 +130,7 @@ const App = () => {
           />
         </Suspense>
       </Container>
+      )
     </ErrorBoundary>
   )
 }

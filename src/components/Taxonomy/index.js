@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
@@ -15,11 +14,11 @@ import format from 'date-fns/format'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import PropertyArten from './PropertyArten'
 import PropertyLr from './PropertyLr'
-import ErrorBoundary from '../shared/ErrorBoundary'
 import onBlurArten from './onBlurArten'
 import onBlurLr from './onBlurLr'
 import mobxStoreContext from '../../mobxStoreContext'

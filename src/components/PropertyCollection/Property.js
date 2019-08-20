@@ -1,12 +1,11 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import format from 'date-fns/format'
 import { useApolloClient } from '@apollo/react-hooks'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
 import onBlurDo from './onBlur'
 
 const Container = styled.div`
@@ -28,13 +27,6 @@ const Property = ({
   helperText,
   type = 'text',
   disabled,
-}: {
-  field: String,
-  label: String,
-  pC: Object,
-  disabled: Boolean,
-  helperText: Element,
-  type: String,
 }) => {
   const client = useApolloClient()
 

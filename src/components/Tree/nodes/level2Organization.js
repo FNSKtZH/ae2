@@ -1,15 +1,8 @@
-// @flow
 import get from 'lodash/get'
 import union from 'lodash/union'
 import jwtDecode from 'jwt-decode'
 
-export default ({
-  treeData,
-  mobxStore,
-}: {
-  treeData: Object,
-  mobxStore: Object,
-}): Array<Object> => {
+export default ({ treeData, mobxStore }) => {
   if (!treeData) return []
   const { token } = mobxStore.login
   if (!token) return []

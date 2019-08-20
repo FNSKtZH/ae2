@@ -1,9 +1,8 @@
-// @flow
 import React from 'react'
 
 import RcoChooser from './RcoChooser'
 
-const RcoChooserList = ({ properties }: { properties: Array<Object> }) =>
+const RcoChooserList = ({ properties }) =>
   properties.map(p => (
     <RcoChooser
       key={`${p.propertyName}${p.jsontype}`}

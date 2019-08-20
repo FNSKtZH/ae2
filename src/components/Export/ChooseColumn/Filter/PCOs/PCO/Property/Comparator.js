@@ -1,4 +1,3 @@
-//@flow
 import React, { useCallback, useContext } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -41,19 +40,7 @@ const enhance = compose(
   observer,
 )
 
-const PcoComparator = ({
-  pcname,
-  pname,
-  value,
-  comparator,
-  classes,
-}: {
-  pcname: string,
-  pname: string,
-  value: string,
-  comparator: String,
-  classes: Object,
-}) => {
+const PcoComparator = ({ pcname, pname, value, comparator, classes }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { setPcoFilter } = mobxStore.export
 

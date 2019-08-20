@@ -1,10 +1,9 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
 import Linkify from 'react-linkify'
+import ErrorBoundary from 'react-error-boundary'
 
 import appBaseUrl from '../../modules/appBaseUrl'
-import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;
@@ -40,7 +39,7 @@ const linkifyProperties = {
   },
 }
 
-const UserReadOnly = ({ label, user }: { label: string, user: Object }) => {
+const UserReadOnly = ({ label, user }) => {
   const name = user ? user.name || '' : ''
   const email = user ? user.email || '' : ''
   const link = `${appBaseUrl}/Benutzer/${user.id}`

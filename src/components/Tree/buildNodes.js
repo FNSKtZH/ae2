@@ -1,4 +1,3 @@
-// @flow
 /**
  * gets data from AppQuery
  * returns nodes
@@ -21,17 +20,7 @@ import level9Object from './nodes/level9Object'
 import level10Object from './nodes/level10Object'
 import sort from './nodes/sort'
 
-export default ({
-  treeData,
-  activeNodeArray,
-  treeDataLoading,
-  mobxStore,
-}: {
-  treeData: Object,
-  activeNodeArray: Object,
-  treeDataLoading: Boolean,
-  mobxStore: Object,
-}): Array<Object> => {
+export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   const activeLevel2TaxonomyNodes = activeNodeArray[0]
     ? get(treeData, 'allTaxonomies.nodes', []).filter(n => {
         if (activeNodeArray[0] === 'Arten') return n.type === 'ART'

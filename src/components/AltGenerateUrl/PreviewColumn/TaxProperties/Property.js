@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 
@@ -12,13 +11,7 @@ const ResetSpan = styled.span`
   text-decoration: underline dotted rgba(0, 0, 0, 0.3);
 `
 
-const TaxProperties = ({
-  taxname,
-  pname,
-}: {
-  taxname: string,
-  pname: string,
-}) => {
+const TaxProperties = ({ taxname, pname }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { removeTaxProperty } = mobxStore.export
 

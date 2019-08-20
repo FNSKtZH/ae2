@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import FormHelperText from '@material-ui/core/FormHelperText'
@@ -14,11 +13,10 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import styled from 'styled-components'
 import { useApolloClient } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import fetchLoginModule from './fetchLogin'
-import ErrorBoundary from '../shared/ErrorBoundary'
 import idbContext from '../../idbContext'
-import historyContext from '../../historyContext'
 import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
@@ -38,7 +36,6 @@ const StyledSnackbar = styled(Snackbar)`
 const Login = () => {
   const client = useApolloClient()
   const idb = useContext(idbContext)
-  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
   const { token, setLogin } = login
@@ -64,10 +61,9 @@ const Login = () => {
         namePassed,
         passPassed,
         idb,
-        history,
         mobxStore,
       }),
-    [client, name, pass, idb, history, mobxStore],
+    [client, name, pass, idb, mobxStore],
   )
   const onLogout = useCallback(() => {
     idb.users.clear()

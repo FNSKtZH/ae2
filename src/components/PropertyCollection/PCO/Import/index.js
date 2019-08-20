@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext, useMemo } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -48,8 +47,23 @@ const Container = styled.div`
     border: #ddd solid 1px !important;
   }
 `
+const StyledUl = styled.ul`
+  ul {
+    margin-top: 0;
+  }
+  li {
+    margin-bottom: 0;
+  }
+  li:last-of-type {
+    margin-bottom: 5px;
+  }
+`
 const StyledH3 = styled.h3`
   margin-left: 8px;
+  margin-bottom: 10px;
+`
+const FirstTitle = styled(StyledH3)`
+  padding-top: 10px;
 `
 const HowToImportContainer = styled.div`
   column-width: 500px;
@@ -59,16 +73,12 @@ const HowToImportContainer = styled.div`
   }
 `
 const StyledH4 = styled.h4`
-  margin: 0 0 -10px 0;
+  margin: 0;
 `
 const LiContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  min-height: 29px;
   break-inside: avoid;
-  > div {
-    min-height: 29px;
-  }
 `
 const EmSpan = styled.span`
   background-color: #8d8c8c40;
@@ -406,24 +416,30 @@ const ImportPco = ({ setImport, pCO }) => {
         setExistsPropertyKey(_existsPropertyKey)
         setPropertyKeysDontContainApostroph(
           _existsPropertyKey
-            ? !some(propertyKeys, k => k.includes('"'))
+            ? !some(propertyKeys, k => {
+                if (!k || !k.includes) return false
+                return k.includes('"')
+              })
             : undefined,
         )
         setPropertyKeysDontContainBackslash(
           _existsPropertyKey
-            ? !some(propertyKeys, k => k.includes('\\'))
+            ? !some(propertyKeys, k => {
+                if (!k || !k.includes) return false
+                return k.includes('\\')
+              })
             : undefined,
         )
         const propertyValues = union(flatten(data.map(d => Object.values(d))))
         setPropertyValuesDontContainApostroph(
           !some(propertyValues, k => {
-            if (!k.includes) return false
+            if (!k || !k.includes) return false
             return k.includes('"')
           }),
         )
         setPropertyValuesDontContainBackslash(
           !some(propertyValues, k => {
-            if (!k.includes) return false
+            if (!k || !k.includes) return false
             return k.includes('\\')
           }),
         )
@@ -437,6 +453,7 @@ const ImportPco = ({ setImport, pCO }) => {
     setImporting(true)
     // need a list of all fields
     // loop all rows, build variables and create pco
+    // eslint-disable-next-line no-unused-vars
     for (const [i, d] of importData.entries()) {
       const pco = pCO.find(o => o.objectId === d.objectId)
       const id = pco && pco.id ? pco.id : undefined
@@ -472,10 +489,10 @@ const ImportPco = ({ setImport, pCO }) => {
 
   return (
     <Container>
-      <StyledH3>Anforderungen an zu importierende Eigenschaften</StyledH3>
+      <FirstTitle>Anforderungen an zu importierende Eigenschaften</FirstTitle>
       <HowToImportContainer>
         <StyledH4>Autorenrechte</StyledH4>
-        <ul>
+        <StyledUl>
           <li>
             <LiContainer>
               <div>
@@ -488,9 +505,9 @@ const ImportPco = ({ setImport, pCO }) => {
               <div>Dafür verantwortlich ist, wer Daten importiert</div>
             </LiContainer>
           </li>
-        </ul>
+        </StyledUl>
         <StyledH4>Tabelle</StyledH4>
-        <ul>
+        <StyledUl>
           <li>
             <LiContainer>
               <div>Die erste Zeile enthält Feld-Namen (= Spalten-Titel)</div>
@@ -519,9 +536,9 @@ const ImportPco = ({ setImport, pCO }) => {
               )}
             </LiContainer>
           </li>
-        </ul>
+        </StyledUl>
         <StyledH4>Zuordnungs-Felder</StyledH4>
-        <ul>
+        <StyledUl>
           <li>
             <LiContainer>
               <div>
@@ -720,7 +737,6 @@ const ImportPco = ({ setImport, pCO }) => {
                   Mehr Infos
                 </a>
               </div>
-              <br />
             </LiContainer>
             <ul>
               <li>
@@ -790,10 +806,10 @@ const ImportPco = ({ setImport, pCO }) => {
               </li>
             </ul>
           </li>
-        </ul>
+        </StyledUl>
         <StyledP>Alle weiteren Felder sind Eigenschaften des Objekts:</StyledP>
         <StyledH4>Eigenschaften</StyledH4>
-        <ul>
+        <StyledUl>
           <li>
             <LiContainer>
               <div>Es gibt mindestens eine Eigenschaft</div>
@@ -899,7 +915,7 @@ const ImportPco = ({ setImport, pCO }) => {
               </li>
             </ul>
           </li>
-        </ul>
+        </StyledUl>
         <StyledH3>Wirkung des Imports auf bereits vorhandene Daten</StyledH3>
         <ul>
           <li>

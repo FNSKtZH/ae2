@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment, useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -11,11 +10,11 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import ErrorBoundary from 'react-error-boundary'
 
 import AllRcoChooser from './AllRcoChooser'
 import RcoChooserList from './RcoChooserList'
 import constants from '../../../../../../modules/constants'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const PropertiesContainer = styled.div`
   column-width: ${props =>
@@ -67,7 +66,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const RCO = ({ pc }: { pc: Object }) => {
+const RCO = ({ pc }) => {
   const { data: propsByTaxData, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
@@ -91,6 +90,8 @@ const RCO = ({ pc }: { pc: Object }) => {
     }
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
+
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
@@ -126,7 +127,7 @@ const RCO = ({ pc }: { pc: Object }) => {
                 properties={rcoPropertiesByPropertyCollection[pc]}
               />
             )}
-            <PropertiesContainer data-width={window.innerWidth - 84}>
+            <PropertiesContainer data-width={width}>
               <RcoChooserList
                 properties={rcoPropertiesByPropertyCollection[pc]}
               />

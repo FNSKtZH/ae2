@@ -1,4 +1,3 @@
-// @flow
 /**
  * TODO editing
  * if user is logged in and is orgAdmin or orgTaxonomyWriter
@@ -25,6 +24,8 @@ import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import { navigate } from 'gatsby'
+import ErrorBoundary from 'react-error-boundary'
 
 import PropertyReadOnly from '../../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../../shared/PropertyReadOnlyStacked'
@@ -33,8 +34,6 @@ import Property from './Property'
 import LinkMenu from './LinkMenu'
 import Properties from './Properties'
 import getUrlForObject from '../../../../modules/getUrlForObject'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
-import historyContext from '../../../../historyContext'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -95,16 +94,7 @@ const organizationUsersQuery = gql`
   }
 `
 
-const TaxonomyObject = ({
-  objekt,
-  showLink,
-  stacked,
-}: {
-  objekt: Object,
-  showLink: Boolean,
-  stacked: Boolean,
-}) => {
-  const history = useContext(historyContext)
+const TaxonomyObject = ({ objekt, showLink, stacked }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { editingTaxonomies, setEditingTaxonomies, login } = mobxStore
 
@@ -151,9 +141,9 @@ const TaxonomyObject = ({
   const onClickLink = useCallback(
     e => {
       e.stopPropagation()
-      history.push(linkUrl)
+      navigate(linkUrl)
     },
-    [history, linkUrl],
+    [linkUrl],
   )
   const onClickStopEditing = useCallback(
     e => {

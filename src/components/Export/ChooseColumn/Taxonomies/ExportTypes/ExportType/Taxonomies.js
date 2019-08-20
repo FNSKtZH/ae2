@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -17,7 +16,7 @@ const TaxonomyLabel = styled(FormControlLabel)`
   }
 `
 
-const Taxonomies = ({ taxonomies }: { taxonomies: Array<Object> }) => {
+const Taxonomies = ({ taxonomies }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { setType, setTaxonomies } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()

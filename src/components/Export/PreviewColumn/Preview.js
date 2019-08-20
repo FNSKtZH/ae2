@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
@@ -9,10 +8,11 @@ import orderBy from 'lodash/orderBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
+import { getSnapshot } from 'mobx-state-tree'
 
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
-import ErrorBoundary from '../../shared/ErrorBoundary'
 import rowsFromObjects from './rowsFromObjects'
 import mobxStoreContext from '../../../mobxStoreContext'
 
@@ -209,7 +209,9 @@ const Preview = () => {
   } = useQuery(exportObjectQuery, {
     variables: {
       exportTaxonomies,
-      taxFilters,
+      // 2019 08 20: No idea why suddenly need to getSnapshot
+      // because without changes of taxFilters are not detected????
+      taxFilters: getSnapshot(taxFilters),
       fetchTaxProperties: taxProperties.length > 0,
     },
   })
@@ -224,7 +226,7 @@ const Preview = () => {
     error: exportPcoError,
   } = useQuery(exportPcoQuery, {
     variables: {
-      pcoFilters,
+      pcoFilters: getSnapshot(pcoFilters),
       pcoProperties,
       fetchPcoProperties: pcoProperties.length > 0,
     },
@@ -235,7 +237,7 @@ const Preview = () => {
     error: exportRcoError,
   } = useQuery(exportRcoQuery, {
     variables: {
-      rcoFilters,
+      rcoFilters: getSnapshot(rcoFilters),
       rcoProperties,
       fetchRcoProperties: rcoProperties.length > 0,
     },

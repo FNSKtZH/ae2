@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import get from 'lodash/get'
 import styled from 'styled-components'
@@ -16,7 +15,7 @@ const List = styled.div`
   }
 `
 
-const Roles = ({ orgUsers }: { orgUsers: Array<Object> }) => (
+const Roles = ({ orgUsers }) => (
   <Container>
     <List>
       <ul>

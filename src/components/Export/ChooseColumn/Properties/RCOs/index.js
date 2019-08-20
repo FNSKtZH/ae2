@@ -1,4 +1,3 @@
-// @flow
 import React, { useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -12,10 +11,10 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import RcList from './RcList'
 import ChooseNrOfRows from './ChooseNrOfRows'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -73,13 +72,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const RCOs = ({
-  rcoExpanded,
-  onToggleRco,
-}: {
-  rcoExpanded: Boolean,
-  onToggleRco: () => {},
-}) => {
+const RCOs = ({ rcoExpanded, onToggleRco }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 

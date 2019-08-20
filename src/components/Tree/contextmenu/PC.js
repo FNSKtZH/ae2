@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import { ContextMenu, MenuItem, connectMenu } from 'react-contextmenu'
 

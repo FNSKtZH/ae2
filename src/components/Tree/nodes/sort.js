@@ -1,4 +1,3 @@
-// @flow
 /**
  * As all nodes are now in one flat list,
  * we need to sort them
@@ -15,7 +14,8 @@
  * if both array elements at this index are same,
  * compare values at next index
  */
-const collator = new window.Intl.Collator('de-CH')
+const collator =
+  typeof window !== 'undefined' ? new window.Intl.Collator('de-CH') : {}
 const exists = value => !!value || value === 0
 const compare = (a, b) => {
   // without this user without name is sorted above users node
@@ -31,7 +31,7 @@ const compare = (a, b) => {
   return a - b
 }
 
-export default (nodes: Array<Object>): Array<Object> =>
+export default nodes =>
   nodes.sort(
     (a, b) =>
       compare(a.sort[0], b.sort[0]) ||

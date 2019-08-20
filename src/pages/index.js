@@ -1,12 +1,15 @@
-// @flow
-import React from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import isUuid from 'is-uuid'
+import { navigate } from 'gatsby'
+import { observer } from 'mobx-react-lite'
 
-import App from './App'
+import App from '../components/App'
 import getUrlForObject from '../modules/getUrlForObject'
 import getUrlParamByName from '../modules/getUrlParamByName'
+import mobxStoreContext from '../mobxStoreContext'
+import getActiveNodeArrayFromPathname from '../modules/getActiveNodeArrayFromPathname'
 
 const objectQuery = gql`
   query ObjectQuery($id: UUID!, $hasObjectId: Boolean!) {
@@ -47,7 +50,13 @@ const objectQuery = gql`
   }
 `
 
-const Router = ({ history }: { history: Object }) => {
+const Router = ({ location }) => {
+  const mobxStore = useContext(mobxStoreContext)
+  // set activeNodeArray when pathname changes
+  const { setActiveNodeArray } = mobxStore
+  useEffect(() => {
+    setActiveNodeArray(getActiveNodeArrayFromPathname())
+  }, [location.pathname, setActiveNodeArray])
   /**
    * check if old url was passed that contains objectId-Param
    * for instance: from artenlistentool like this:
@@ -66,12 +75,12 @@ const Router = ({ history }: { history: Object }) => {
       'Router: redirecting to /artenlistentool/waehlen. objectId:',
       objectId,
     )
-    history.push('/artenlistentool/waehlen')
+    navigate('/artenlistentool/waehlen')
   }
 
   const hasObjectId = !!objectId
   const { loading, error, data } = useQuery(objectQuery, {
-    variables: { id: objectId, hasObjectId }
+    variables: { id: objectId, hasObjectId },
   })
 
   if (hasObjectId) {
@@ -79,10 +88,10 @@ const Router = ({ history }: { history: Object }) => {
     if (error) return `Fehler: ${error.message}`
     // if idParam was passed, open object
     const url = getUrlForObject(data.objectById)
-    history.push(`/${url.join('/')}`)
+    navigate(`/${url.join('/')}`)
     return <App />
   }
   return <App />
 }
 
-export default Router
+export default observer(Router)

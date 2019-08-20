@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useState, useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -12,10 +11,10 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import Properties from './Properties'
 import constants from '../../../../../../modules/constants'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
 
 const ErrorContainer = styled.div`
@@ -71,7 +70,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const PcoCard = ({ pc }: { pc: Object }) => {
+const PcoCard = ({ pc }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
@@ -98,6 +97,7 @@ const PcoCard = ({ pc }: { pc: Object }) => {
   )
 
   const onClickAction = useCallback(() => setExpanded(!expanded), [expanded])
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   if (propsByTaxDataError) {
     return (
@@ -130,7 +130,7 @@ const PcoCard = ({ pc }: { pc: Object }) => {
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-width={window.innerWidth - 84}>
+          <PropertiesContainer data-width={width}>
             <Properties properties={pcoPropertiesByPropertyCollection[pc]} />
           </PropertiesContainer>
         </Collapse>

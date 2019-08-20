@@ -1,4 +1,5 @@
-// @flow
+import { navigate } from 'gatsby'
+
 import jwtDecode from 'jwt-decode'
 import get from 'lodash/get'
 
@@ -16,22 +17,7 @@ export default async ({
   namePassed,
   passPassed,
   idb,
-  history,
   mobxStore,
-}: {
-  client: Object,
-  changeNameErrorText: () => void,
-  changePassErrorText: () => void,
-  name: string,
-  changeName: () => void,
-  pass: string,
-  changePass: () => void,
-  changeLoginSuccessfull: () => void,
-  namePassed: String,
-  passPassed: String,
-  idb: Object,
-  history: Object,
-  mobxStore: Object,
 }) => {
   const { historyAfterLogin, setHistoryAfterLogin, login } = mobxStore
   const { setLogin } = login
@@ -90,7 +76,7 @@ export default async ({
         token: jwtToken,
       })
     } catch (error) {
-      console.log(('Error during mutation': error))
+      console.log(('Error during mutation', error))
     }
     changeNameErrorText(null)
     changePassErrorText(null)
@@ -100,10 +86,10 @@ export default async ({
       changePass('')
       changeLoginSuccessfull(false)
       if (!!historyAfterLogin) {
-        history.push(historyAfterLogin)
+        navigate(historyAfterLogin)
         setHistoryAfterLogin('')
       } else {
-        history.push('/')
+        navigate('/')
       }
     }, 2000)
   }

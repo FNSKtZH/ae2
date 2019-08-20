@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -9,9 +8,9 @@ import AddIcon from '@material-ui/icons/Add'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import createOrgUserMutation from './createOrgUserMutation'
-import ErrorBoundary from '../../shared/ErrorBoundary'
 import OrgUsersList from './OrgUsersList'
 import mobxStoreContext from '../../../mobxStoreContext'
 

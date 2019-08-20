@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
@@ -18,12 +17,11 @@ import format from 'date-fns/format'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import Property from './Property'
 import onBlur from './onBlur'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
-import ErrorBoundary from '../shared/ErrorBoundary'
-import historyContext from '../../historyContext'
 import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
@@ -109,7 +107,6 @@ const pcQuery = gql`
 
 const PropertyCollection = () => {
   const client = useApolloClient()
-  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { editingPCs, setEditingPCs, login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
@@ -182,9 +179,8 @@ const PropertyCollection = () => {
         pC,
         value: isChecked,
         prevValue: pC.combining,
-        history,
       }),
-    [client, history, pC],
+    [client, pC],
   )
   const onChangeOrganization = useCallback(
     event =>
@@ -194,9 +190,8 @@ const PropertyCollection = () => {
         pC,
         value: event.target.value,
         prevValue: pC.organizationId,
-        history,
       }),
-    [client, history, pC],
+    [client, pC],
   )
   const onChangeImportedBy = useCallback(
     event =>
@@ -206,9 +201,8 @@ const PropertyCollection = () => {
         pC,
         value: event.target.value,
         prevValue: pC.importedBy,
-        history,
       }),
-    [client, history, pC],
+    [client, pC],
   )
 
   if (pcLoading || allUsersLoading) {

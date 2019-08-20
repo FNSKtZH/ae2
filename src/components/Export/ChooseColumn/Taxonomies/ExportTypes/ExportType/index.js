@@ -1,12 +1,11 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import Taxonomies from './Taxonomies'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
 
@@ -34,13 +33,7 @@ const TypeLabel = styled(FormControlLabel)`
   }
 `
 
-const ExportTypes = ({
-  type,
-  taxonomies,
-}: {
-  type: string,
-  taxonomies: Array<Object>,
-}) => {
+const ExportTypes = ({ type, taxonomies }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { type: exportType, setType, setTaxonomies } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()

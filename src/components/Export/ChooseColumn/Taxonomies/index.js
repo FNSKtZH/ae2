@@ -1,15 +1,13 @@
-// @flow
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import HowTo from './HowTo'
 import ExportTypes from './ExportTypes'
-
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`

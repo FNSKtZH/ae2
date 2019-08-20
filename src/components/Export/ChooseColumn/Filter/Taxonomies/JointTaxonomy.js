@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -7,10 +6,10 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import Properties from './Properties'
 import constants from '../../../../../modules/constants'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
@@ -38,19 +37,17 @@ const Count = styled.span`
 const PropertiesContainer = styled.div`
   margin: 8px 0;
   padding-bottom: 10px;
-  column-width: ${props =>
+  /*columns break autosuggest list*/
+  /*column-width: ${props =>
     props['data-width'] > 2 * constants.export.properties.columnWidth
       ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+      : 'auto'};*/
 `
 
-const JointTaxonomiesCard = ({
-  jointTaxProperties,
-}: {
-  jointTaxProperties: Array<Object>,
-}) => {
+const JointTaxonomiesCard = ({ jointTaxProperties }) => {
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (
     <ErrorBoundary>
@@ -71,7 +68,7 @@ const JointTaxonomiesCard = ({
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-width={window.innerWidth - 84}>
+          <PropertiesContainer data-width={width}>
             <Properties properties={jointTaxProperties} />
           </PropertiesContainer>
         </Collapse>

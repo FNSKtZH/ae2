@@ -1,12 +1,11 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import copy from 'copy-to-clipboard'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -54,14 +53,11 @@ const Url = () => {
     props,
   )}`
 
-  const onClickButton = useCallback(
-    () => {
-      setCopyButtonText('kopiert')
-      setTimeout(() => setCopyButtonText('url kopieren'), 3000)
-      copy(url)
-    },
-    [url],
-  )
+  const onClickButton = useCallback(() => {
+    setCopyButtonText('kopiert')
+    setTimeout(() => setCopyButtonText('url kopieren'), 3000)
+    copy(url)
+  }, [url])
 
   if (!fieldsChoosen) {
     return (

@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -11,11 +10,11 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import ErrorBoundary from 'react-error-boundary'
 
 import AllChooser from './AllChooser'
 import ChooserList from './ChooserList'
 import constants from '../../../../../../modules/constants'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
@@ -63,15 +62,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const PCO = ({
-  pcoExpanded,
-  onTogglePco,
-  pc,
-}: {
-  pcoExpanded: Boolean,
-  onTogglePco: () => {},
-  pc: Object,
-}) => {
+const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
   const { data: propsByTaxData } = useQuery(propsByTaxQuery, {
     variables: {
       exportTaxonomies: constants.altTaxonomies,
@@ -90,6 +81,7 @@ const PCO = ({
 
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (
     <ErrorBoundary>
@@ -118,7 +110,7 @@ const PCO = ({
             {pcoPropertiesByPropertyCollection[pc].length > 1 && (
               <AllChooser properties={pcoPropertiesByPropertyCollection[pc]} />
             )}
-            <PropertiesContainer data-width={window.innerWidth - 84}>
+            <PropertiesContainer data-width={width}>
               <ChooserList properties={pcoPropertiesByPropertyCollection[pc]} />
             </PropertiesContainer>
           </>

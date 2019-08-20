@@ -1,4 +1,3 @@
-// @flow
 // TODO!
 /**
  * Idea:
@@ -15,17 +14,7 @@ import clone from 'lodash/clone'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
 
-export default ({
-  thisObjectsRco,
-  rcoProperties,
-  row,
-  aditionalRows,
-}: {
-  thisObjectsRco: Array<Object>,
-  rcoProperties: Array<Object>,
-  row: Object,
-  aditionalRows: Array<Object>,
-}) => {
+export default ({ thisObjectsRco, rcoProperties, row, aditionalRows }) => {
   let rowToUse = row
   thisObjectsRco.forEach((rco, index) => {
     // 0. check if first property already exist

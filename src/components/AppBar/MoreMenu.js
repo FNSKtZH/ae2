@@ -1,13 +1,13 @@
-import React, { useCallback, useState, useContext } from 'react'
+import React, { useCallback, useState } from 'react'
 import Icon from '@material-ui/core/Icon'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import styled from 'styled-components'
+import { navigate } from 'gatsby'
 
 import relations from '../../modules/relations.png'
-import historyContext from '../../historyContext'
 
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;
@@ -15,8 +15,13 @@ const StyledMoreVertIcon = styled(MoreVertIcon)`
 const StyledButton = styled(Button)`
   min-width: 50px !important;
   margin-right: -8px !important;
+  min-height: 36px;
   :hover {
     background-color: rgba(0, 0, 0, 0.12);
+  }
+  /*2019 08 20: no idea why height suddenly is too small*/
+  span {
+    height: 36px;
   }
 `
 const Version = styled.div`
@@ -25,7 +30,7 @@ const Version = styled.div`
   user-select: none;
 `
 const TwoLineMenuItem = styled(MenuItem)`
-  height: 40px !important;
+  line-height: 1.3 !important;
 `
 
 const ITEM_HEIGHT = 48
@@ -38,7 +43,6 @@ const paperProps = {
 
 const MoreMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const history = useContext(historyContext)
 
   const onClickButton = useCallback(event => {
     setAnchorEl(event.currentTarget)
@@ -47,29 +51,31 @@ const MoreMenu = () => {
     setAnchorEl(null)
   }, [])
   const onClickUeber = useCallback(() => {
-    window.open('https://docs.arteigenschaften.ch')
+    typeof window !== 'undefined' &&
+      window.open('https://docs.arteigenschaften.ch')
     setAnchorEl(null)
   }, [])
   const onClickStruktur = useCallback(() => {
-    window.open(relations)
+    typeof window !== 'undefined' && window.open(relations)
     setAnchorEl(null)
   }, [])
   const onClickMelden = useCallback(() => {
-    window.open('https://github.com/FNSKtZH/ae2/issues')
+    typeof window !== 'undefined' &&
+      window.open('https://github.com/FNSKtZH/ae2/issues')
     setAnchorEl(null)
   }, [])
   const onClickFelderAlt = useCallback(() => {
-    history.push('/artenlistentool/waehlen')
+    navigate('/artenlistentool/waehlen')
     setAnchorEl(null)
-  }, [history])
+  }, [])
   const onClickGqlStructure = useCallback(() => {
-    history.push('/datagraph')
+    navigate('/datagraph')
     setAnchorEl(null)
-  }, [history])
+  }, [])
   const onClickGqlQuery = useCallback(() => {
-    history.push('/graphiql')
+    navigate('/graphiql')
     setAnchorEl(null)
-  }, [history])
+  }, [])
 
   return (
     <div>
@@ -113,7 +119,7 @@ const MoreMenu = () => {
           <br />
           inkl. Schnittstellen-Dokumentation
         </TwoLineMenuItem>
-        <Version>Version: 1.1.6 vom 18.08.2019</Version>
+        <Version>Version: 1.1.7 vom 19.08.2019</Version>
       </Menu>
     </div>
   )

@@ -1,11 +1,10 @@
-// @flow
 import React from 'react'
 import get from 'lodash/get'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import PropertyReadOnly from '../../../../../shared/PropertyReadOnly'
 import PropertyList from './PropertyList'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   border-bottom: ${props =>
@@ -19,13 +18,7 @@ const Container = styled.div`
   }
 `
 
-const Relation = ({
-  relation,
-  intermediateRelation,
-}: {
-  relation: Object,
-  intermediateRelation: boolean,
-}) => {
+const Relation = ({ relation, intermediateRelation }) => {
   // never pass null to Object.entries!!!
   const properties = JSON.parse(relation.properties) || {}
   const taxType = get(

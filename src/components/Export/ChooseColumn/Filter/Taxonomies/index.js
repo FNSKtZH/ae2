@@ -1,4 +1,3 @@
-// @flow
 import React, { useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -13,10 +12,10 @@ import sumBy from 'lodash/sumBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import Taxonomy from './Taxonomy'
 import JointTaxonomy from './JointTaxonomy'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -69,11 +68,6 @@ const TaxonomiesCard = ({
   jointTaxonomiesExpanded,
   onToggleTaxonomies,
   onToggleJointTaxonomies,
-}: {
-  taxonomiesExpanded: Boolean,
-  jointTaxonomiesExpanded: Boolean,
-  onToggleTaxonomies: () => {},
-  onToggleJointTaxonomies: () => {},
 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()

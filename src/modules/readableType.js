@@ -1,5 +1,3 @@
-// @flow
-
 const typeTranslator = {
   String: 'Text',
   Integer: 'Ganzzahl',
@@ -8,5 +6,4 @@ const typeTranslator = {
   Array: 'Liste von Werten',
 }
 
-export default (type: string) =>
-  typeTranslator[type] ? typeTranslator[type] : type
+export default type => (typeTranslator[type] ? typeTranslator[type] : type)

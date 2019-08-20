@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
 
@@ -23,7 +22,7 @@ const StyledA = styled.a`
   text-decoration-style: dotted;
 `
 
-const PCs = ({ pcs }: { pcs: Array<Object> }) => {
+const PCs = ({ pcs }) => {
   return (
     <Container>
       <List>

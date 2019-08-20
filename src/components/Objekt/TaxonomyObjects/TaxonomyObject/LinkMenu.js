@@ -16,6 +16,10 @@ const StyledButton = styled(Button)`
   :hover {
     background-color: rgba(0, 0, 0, 0.12);
   }
+  /*2019 08 20: no idea why suddenly svg is too low*/
+  > span {
+    margin-top: -10px;
+  }
 `
 const StyledLinkIcon = styled(LinkIcon)`
   color: rgba(0, 0, 0, 0.54);
@@ -23,7 +27,7 @@ const StyledLinkIcon = styled(LinkIcon)`
 
 const ITEM_HEIGHT = 48
 
-const LinkMenu = ({ objekt }: { objekt: Object }) => {
+const LinkMenu = ({ objekt }) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const props = JSON.parse(get(objekt, 'properties', {})) || {}
@@ -55,7 +59,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
         : `https://www.google.ch/search?tbm=isch&q="${objekt.name}"${
             nameDeutsch ? `+OR+"${nameDeutsch}"` : ''
           }`
-      window.open(url)
+      typeof window !== 'undefined' && window.open(url)
       setAnchorEl(null)
     },
     [einheit, nameDeutsch, objekt.name],
@@ -70,7 +74,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
             objekt.name
           }" site:wikipedia.org`
         : `https://www.google.ch/search?q="${objekt.name}" site:wikipedia.org`
-      window.open(url)
+      typeof window !== 'undefined' && window.open(url)
       setAnchorEl(null)
     },
     [einheit, nameDeutsch, objekt.name],
@@ -81,7 +85,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
       const url = `https://www.gbif.org/species/search?q=${encodeURIComponent(
         `${gattung} ${art}`,
       )}`
-      window.open(url)
+      typeof window !== 'undefined' && window.open(url)
       setAnchorEl(null)
     },
     [art, gattung],
@@ -90,7 +94,7 @@ const LinkMenu = ({ objekt }: { objekt: Object }) => {
     e => {
       e.stopPropagation()
       const url = `https://www.infoflora.ch/de/flora/${`${gattung.toLowerCase()}-${art.toLowerCase()}.html`}`
-      window.open(url)
+      typeof window !== 'undefined' && window.open(url)
       setAnchorEl(null)
     },
     [art, gattung],

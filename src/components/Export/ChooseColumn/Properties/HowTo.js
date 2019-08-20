@@ -1,4 +1,3 @@
-// @flow
 import React, { useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -39,10 +38,7 @@ const HowToProperties = () => {
 
   return (
     <StyledCard>
-      <StyledCardActions
-        disableSpacing
-        onClick={() => setExpanded(!expanded)}
-      >
+      <StyledCardActions disableSpacing onClick={() => setExpanded(!expanded)}>
         <CardActionTitle>So geht's</CardActionTitle>
         <CardActionIconButton
           data-expanded={expanded}

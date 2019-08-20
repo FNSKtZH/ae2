@@ -1,4 +1,3 @@
-// @flow
 import React, { lazy, Suspense, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 
@@ -13,13 +12,7 @@ const PropertyCollection = lazy(() => import('./PropertyCollection'))
 const Benutzer = lazy(() => import('./Benutzer'))
 const Organisation = lazy(() => import('./Organisation'))
 
-const DataType = ({
-  dimensions,
-  stacked = false,
-}: {
-  dimensions: Object,
-  stacked: Boolean,
-}) => {
+const DataType = ({ dimensions, stacked = false }) => {
   const mobxStore = useContext(mobxStoreContext)
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 

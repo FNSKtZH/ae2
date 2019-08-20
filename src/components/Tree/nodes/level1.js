@@ -1,19 +1,8 @@
-// @flow
 import get from 'lodash/get'
 import union from 'lodash/union'
 import jwtDecode from 'jwt-decode'
 
-export default ({
-  treeData,
-  activeNodeArray,
-  treeDataLoading,
-  mobxStore,
-}: {
-  treeData: Object,
-  activeNodeArray: Array<String>,
-  treeDataLoading: Boolean,
-  mobxStore: Object,
-}): Array<Object> => {
+export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   if (!treeData) return []
   const loading = treeDataLoading
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)

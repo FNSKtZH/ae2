@@ -1,14 +1,16 @@
-// @flow
 import React from 'react'
 import GraphiQL from 'graphiql'
 import get from 'lodash/get'
 import 'graphiql/graphiql.css'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
 import graphQlUri from '../../modules/graphQlUri'
 
 const Container = styled.div`
+  height: calc(100vh - 64px);
+`
+const LoadingContainer = styled.div`
   padding: 10px;
 `
 
@@ -20,14 +22,16 @@ function graphQLFetcher(graphQLParams) {
   }).then(response => response.json())
 }
 
-const DataGraph = ({ dataGraphData }: { dataGraphData: Object }) => {
+const DataGraph = ({ dataGraphData }) => {
   const loading = get(dataGraphData, 'loading', false)
 
-  if (loading) return <Container>Lade Daten...</Container>
+  if (loading) return <LoadingContainer>Lade Daten...</LoadingContainer>
 
   return (
     <ErrorBoundary>
-      <GraphiQL fetcher={graphQLFetcher} />
+      <Container>
+        <GraphiQL fetcher={graphQLFetcher} />
+      </Container>
     </ErrorBoundary>
   )
 }

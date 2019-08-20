@@ -1,13 +1,6 @@
-// @flow
 import get from 'lodash/get'
 
-export default ({
-  treeData,
-  activeLevel2TaxonomyName,
-}: {
-  treeData: Object,
-  activeLevel2TaxonomyName: ?String,
-}): Array<Object> => {
+export default ({ treeData, activeLevel2TaxonomyName }) => {
   if (!treeData) return []
   const nodes = get(treeData, 'taxonomyObjectLevel1.nodes', [])
 

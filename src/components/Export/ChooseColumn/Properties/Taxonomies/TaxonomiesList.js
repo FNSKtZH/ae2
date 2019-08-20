@@ -1,15 +1,8 @@
-// @flow
 import React from 'react'
 
 import Taxonomy from './Taxonomy'
 
-const Taxonomies = ({
-  taxonomies,
-  initiallyExpanded,
-}: {
-  taxonomies: Array<Object>,
-  initiallyExpanded: boolean,
-}) =>
+const Taxonomies = ({ taxonomies, initiallyExpanded }) =>
   taxonomies.map(tax => (
     <Taxonomy key={tax} tax={tax} initiallyExpanded={initiallyExpanded} />
   ))

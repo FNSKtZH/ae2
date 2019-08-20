@@ -1,4 +1,3 @@
-//@flow
 import React, { useCallback, useContext } from 'react'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -19,12 +18,13 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const AllTaxChooser = ({ properties }: { properties: Array<Object> }) => {
+const AllTaxChooser = ({ properties }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { taxProperties, addTaxProperty, removeTaxProperty } = mobxStore.export
 
   const onCheck = useCallback(
     async (event, isChecked) => {
+      // eslint-disable-next-line no-unused-vars
       for (let p of properties) {
         const taxname = p.taxname ? p.taxname : p.taxonomyName
         const pname = p.propertyName

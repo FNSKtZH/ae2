@@ -9,6 +9,13 @@
 # production
 /build
 
+# gatsby files
+.cache/
+public
+
+# dotenv environment variables file
+.env*
+
 # misc
 .DS_Store
 .env.local
@@ -19,10 +26,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# lock-files can cause catastrophic git sync problems
-# with great data losses
-# because of conflicts in the lock-files
-#*.lock
 
 ecosystem.config.js

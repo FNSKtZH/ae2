@@ -1,18 +1,9 @@
-// @flow
 import get from 'lodash/get'
 
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
 
-export default ({
-  thisObjectsRco,
-  rcoProperties,
-  row,
-}: {
-  thisObjectsRco: Array<Object>,
-  rcoProperties: Array<Object>,
-  row: Object,
-}) => {
+export default ({ thisObjectsRco, rcoProperties, row }) => {
   // loop through all properties
   rcoProperties.forEach(p => {
     const rcos = thisObjectsRco.filter(

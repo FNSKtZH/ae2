@@ -6,7 +6,7 @@ import TreeFilter, { defaultValue as defaultTreeFilter } from './TreeFilter'
 import Login, { defaultValue as defaultLogin } from './Login'
 import getActiveNodeArrayFromPathname from '../modules/getActiveNodeArrayFromPathname'
 
-export default ({ history }) =>
+export default ({ navigate }) =>
   types
     .model({
       export: types.optional(Export, defaultExport),
@@ -37,10 +37,10 @@ export default ({ history }) =>
         self.activeNodeArray = value
         const activeNodeArrayFromUrl = getActiveNodeArrayFromPathname()
         if (!isEqual(activeNodeArrayFromUrl, value)) {
-          history.push(`/${value.join('/')}`)
+          navigate(`/${value.join('/')}`)
         }
       },
-      setHistoryAfterLogin(value){
+      setHistoryAfterLogin(value) {
         self.historyAfterLogin = value
-      }
+      },
     }))

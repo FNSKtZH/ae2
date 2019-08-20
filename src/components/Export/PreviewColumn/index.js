@@ -1,11 +1,10 @@
-// @flow
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import OptionsChoosen from './OptionsChoosen'
 import Preview from './Preview'
-import ErrorBoundary from '../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`

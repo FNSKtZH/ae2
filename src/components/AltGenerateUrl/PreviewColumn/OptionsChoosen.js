@@ -1,4 +1,3 @@
-// @flow
 import React, { useCallback, useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
@@ -21,10 +20,13 @@ const Container = styled.div`
   margin: 0;
   padding: 8px 8px 0 8px;
   ul {
-    margin-left: -20px !important;
+    margin-bottom: 5px;
+  }
+  ul > li > ul {
+    margin-top: 0;
   }
   li {
-    padding-bottom: 4px;
+    margin-bottom: 4px;
   }
   ul > li:first-child {
     padding-top: 4px;
@@ -44,7 +46,7 @@ const enhance = compose(
   observer,
 )
 
-const OptionsChoosen = ({ classes }: { classes: Object }) => {
+const OptionsChoosen = ({ classes }) => {
   const mobxStore = useContext(mobxStoreContext)
   const {
     setTaxonomies,

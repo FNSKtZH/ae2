@@ -1,4 +1,3 @@
-// @flow
 import React, {
   lazy,
   Suspense,
@@ -20,11 +19,11 @@ import debounce from 'lodash/debounce'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import { navigate } from 'gatsby'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
 import LazyImportFallback from '../shared/LazyImportFallback'
 import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
-import historyContext from '../../historyContext'
 import mobxStoreContext from '../../mobxStoreContext'
 
 const MoreMenu = lazy(() => import('./MoreMenu'))
@@ -95,7 +94,6 @@ const query = gql`
 `
 
 const MyAppBar = () => {
-  const history = useContext(historyContext)
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
@@ -160,14 +158,14 @@ const MyAppBar = () => {
   const taxName = get(data, 'taxonomyById.name')
 
   const onClickColumnButtonData = useCallback(() => {
-    history.push('/')
-  }, [history])
+    navigate('/')
+  }, [])
   const onClickColumnButtonExport = useCallback(() => {
-    history.push('/Export')
-  }, [history])
+    navigate('/Export')
+  }, [])
   const onClickColumnButtonLogin = useCallback(() => {
-    history.push('/Login')
-  }, [history])
+    navigate('/Login')
+  }, [])
   const onClickShare = useCallback(() => {
     const name = pCName
       ? pCName
@@ -179,10 +177,11 @@ const MyAppBar = () => {
       ? url0
       : ''
     const title = `arteigenschaften.ch${!!name ? ': ' : ''}${name}`
-    navigator.share({
-      title,
-      url: window.location.href,
-    })
+    typeof window !== 'undefined' &&
+      navigator.share({
+        title,
+        url: window.location.href,
+      })
   }, [pCName, objektName, taxName, url0])
 
   const setLayout = useCallback(() => {
@@ -207,9 +206,12 @@ const MyAppBar = () => {
   }, [wideLayout, toolbarC, datenC, exportC, loginC, moreC, shareC])
 
   useEffect(() => {
-    window.addEventListener('resize', debounce(setLayout, 200))
+    typeof window !== 'undefined' &&
+      window.addEventListener('resize', debounce(setLayout, 200))
     setTimeout(() => setLayout(), 100)
-    return () => window.removeEventListener('resize', debounce(setLayout, 200))
+    return () =>
+      typeof window !== 'undefined' &&
+      window.removeEventListener('resize', debounce(setLayout, 200))
   })
 
   if (dataError) return `Error fetching data: ${dataError.message}`
@@ -256,15 +258,16 @@ const MyAppBar = () => {
                   {loginLabel}
                 </LoginButton>
               </div>
-              {navigator.share !== undefined && (
-                <div ref={shareC}>
-                  <ShareButton aria-label="teilen" onClick={onClickShare}>
-                    <Icon>
-                      <StyledMoreVertIcon />
-                    </Icon>
-                  </ShareButton>
-                </div>
-              )}
+              {typeof navigator !== 'undefined' &&
+                navigator.share !== undefined && (
+                  <div ref={shareC}>
+                    <ShareButton aria-label="teilen" onClick={onClickShare}>
+                      <Icon>
+                        <StyledMoreVertIcon />
+                      </Icon>
+                    </ShareButton>
+                  </div>
+                )}
               <Suspense fallback={<LazyImportFallback />}>
                 <div ref={moreC}>
                   <MoreMenu />

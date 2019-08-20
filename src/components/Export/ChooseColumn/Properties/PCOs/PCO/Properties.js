@@ -1,9 +1,8 @@
-// @flow
 import React from 'react'
 
 import Chooser from './Chooser'
 
-const PCO = ({ properties }: { properties: Array<Object> }) =>
+const PCO = ({ properties }) =>
   properties.map(p => (
     <Chooser
       key={`${p.propertyName}${p.jsontype}`}

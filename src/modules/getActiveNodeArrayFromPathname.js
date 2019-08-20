@@ -1,6 +1,8 @@
-// @flow
-export default (): Array<number | string> => {
-  const pathName = window.location.pathname.replace('/', '')
+export default () => {
+  const pathName =
+    typeof window !== 'undefined'
+      ? window.location.pathname.replace('/', '')
+      : ''
   let pathElements = pathName.split('/')
   if (pathElements[0] === '') {
     // get rid of empty element(s) at start

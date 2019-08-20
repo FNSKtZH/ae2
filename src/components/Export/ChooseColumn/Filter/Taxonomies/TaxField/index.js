@@ -1,4 +1,3 @@
-//@flow
 import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import Measure from 'react-measure'
@@ -17,15 +16,7 @@ const Container = styled.div`
   }
 `
 
-const TaxField = ({
-  taxname,
-  pname,
-  jsontype,
-}: {
-  taxname: String,
-  pname: String,
-  jsontype: String,
-}) => {
+const TaxField = ({ taxname, pname, jsontype }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { taxFilters } = mobxStore.export
 

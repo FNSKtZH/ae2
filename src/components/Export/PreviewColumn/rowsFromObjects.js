@@ -1,4 +1,3 @@
-// @flow
 /**
  * would be nice if this code could be moved
  * to a worker
@@ -25,19 +24,6 @@ export default ({
   exportIds,
   exportOnlyRowsWithProperties,
   rcoInOneRow,
-}: {
-  objects: Array<Object>,
-  taxProperties: Array<Object>,
-  withSynonymData: Boolean,
-  pcoProperties: Array<Object>,
-  pco: Array<Object>,
-  rco: Array<Object>,
-  synonyms: Array<Object>,
-  exportRcoPropertyNames: Boolean,
-  rcoProperties: Array<Object>,
-  exportIds: Array<String>,
-  exportOnlyRowsWithProperties: Boolean,
-  rcoInOneRow: Boolean,
 }) => {
   // need taxFields to filter only data with properties
   const taxFields = [

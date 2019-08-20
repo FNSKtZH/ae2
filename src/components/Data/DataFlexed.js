@@ -1,11 +1,10 @@
-// @flow
 import React from 'react'
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import Tree from '../Tree'
 import DataType from '../DataType'
-import ErrorBoundary from '../shared/ErrorBoundary'
 
 const DataElement = styled(ReflexElement)`
   overflow-x: hidden !important;

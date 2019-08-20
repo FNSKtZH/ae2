@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import { ReflexElement } from 'react-reflex'
 

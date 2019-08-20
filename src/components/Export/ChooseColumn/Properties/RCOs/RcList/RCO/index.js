@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useCallback, useContext } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -12,11 +11,11 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import AllChooser from './AllChooser'
 import Properties from './Properties'
 import constants from '../../../../../../../modules/constants'
-import ErrorBoundary from '../../../../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const PropertiesContainer = styled.div`
@@ -84,7 +83,7 @@ const rcoCountByTaxonomyRelationTypeQuery = gql`
   }
 `
 
-const RCO = ({ pc }: { pc: Object }) => {
+const RCO = ({ pc }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
@@ -155,6 +154,7 @@ const RCO = ({ pc }: { pc: Object }) => {
   })
 
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
+  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
   if (error) return `Error fetching data: ${error.message}`
@@ -186,7 +186,7 @@ const RCO = ({ pc }: { pc: Object }) => {
             {rcoPropertiesByPropertyCollection[pc].length > 1 && (
               <AllChooser properties={rcoPropertiesByPropertyCollection[pc]} />
             )}
-            <PropertiesContainer data-width={window.innerWidth - 84}>
+            <PropertiesContainer data-width={width}>
               <Properties properties={rcoPropertiesByPropertyCollection[pc]} />
             </PropertiesContainer>
           </>

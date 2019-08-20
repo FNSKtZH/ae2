@@ -1,17 +1,9 @@
-// @flow
-
 import FileSaver from 'file-saver'
 import format from 'date-fns/format'
 
 import getXlsxBuffer from './getXlsxBuffer'
 
-export default async ({
-  rows,
-  onSetMessage,
-}: {
-  rows: Array<Object>,
-  onSetMessage: () => void,
-}) => {
+export default async ({ rows, onSetMessage }) => {
   let buffer
   try {
     buffer = await getXlsxBuffer(rows)

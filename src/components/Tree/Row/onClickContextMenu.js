@@ -1,6 +1,6 @@
-// @flow
 import get from 'lodash/get'
 import set from 'lodash/set'
+import { navigate } from 'gatsby'
 
 import createUserMutation from '../../Benutzer/createUserMutation'
 import deleteUserMutation from '../../Benutzer/deleteUserMutation'
@@ -21,17 +21,7 @@ export default async ({
   client,
   treeRefetch,
   userId,
-  history,
   mobxStore,
-}: {
-  e: Object,
-  data: Object,
-  target: Object,
-  client: Object,
-  treeRefetch: () => void,
-  userId: String,
-  history: Object,
-  mobxStore: Object,
 }) => {
   const { setEditingTaxonomies, setEditingPCs, editingTaxonomies } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
@@ -55,7 +45,7 @@ export default async ({
         }
         const newUserId = get(newUser, 'data.createUser.user.id')
         treeRefetch()
-        !!newUserId && history.push(`/Benutzer/${newUserId}`)
+        !!newUserId && navigate(`/Benutzer/${newUserId}`)
       }
       if (table === 'object') {
         let newObjectData
@@ -73,7 +63,7 @@ export default async ({
           })
         }
         const newId = get(newObjectData, 'data.createObject.object.id', null)
-        history.push(`/${[...url, newId].join('/')}`)
+        navigate(`/${[...url, newId].join('/')}`)
         // if not editing, set editing true
         if (!editingTaxonomies) {
           setEditingTaxonomies(true)
@@ -98,7 +88,7 @@ export default async ({
           'data.createTaxonomy.taxonomy.id',
           null,
         )
-        history.push(`/${[...url, newId].join('/')}`)
+        navigate(`/${[...url, newId].join('/')}`)
         // if not editingTaxonomies, set editingTaxonomies true
         if (!editingTaxonomies) {
           setEditingTaxonomies(true)
@@ -115,7 +105,7 @@ export default async ({
           'data.createPropertyCollection.propertyCollection.id',
           null,
         )
-        history.push(`/${[...url, newId].join('/')}`)
+        navigate(`/${[...url, newId].join('/')}`)
         // if not editing, set editingTaxonomies true
         if (!editingTaxonomies) {
           setEditingPCs(true)
@@ -159,7 +149,7 @@ export default async ({
           console.log(error)
         }
         treeRefetch()
-        history.push('/Benutzer')
+        navigate('/Benutzer')
       }
       if (table === 'object') {
         await client.mutate({
@@ -195,7 +185,7 @@ export default async ({
         })
         if (url.includes(id)) {
           url.length = url.indexOf(id)
-          history.push(`/${url.join('/')}`)
+          navigate(`/${url.join('/')}`)
         }
       }
       if (table === 'taxonomy') {
@@ -230,7 +220,7 @@ export default async ({
         })
         if (url.includes(id)) {
           url.length = url.indexOf(id)
-          history.push(`/${url.join('/')}`)
+          navigate(`/${url.join('/')}`)
         }
       }
       if (table === 'pc') {
@@ -265,7 +255,7 @@ export default async ({
         })
         if (url.includes(id)) {
           url.length = url.indexOf(id)
-          history.push(`/${url.join('/')}`)
+          navigate(`/${url.join('/')}`)
         }
       }
     },
