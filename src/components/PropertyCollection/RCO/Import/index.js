@@ -523,30 +523,24 @@ const ImportRco = ({ setImport, pCO }) => {
   }, [])
   const onClickImport = useCallback(async () => {
     setImporting(true)
-    /**
-     * this is how web worker would be implemented
-     * but cra does not enable it yet, see:
-     * https://github.com/facebook/create-react-app/pull/5886
-     */
+    /*
+    if (typeof window === 'undefined') return
     const worker = new importWorker()
-    worker.postMessage({
-      importData,
-      pCO,
-      pCId,
-      client,
-    })
-    worker.addEventListener('message', event => {
-      setImported(event.data)
-      if (event.data === importData.length - 1) {
-        setImport(false)
-        setImporting(false)
-        rcoRefetch()
-      }
-    })
+    console.log('Import, worker:', worker)
+    worker
+      .importPco({
+        importData,
+        pCO,
+        pCId,
+        client,
+      })
+      .then(val => {
+        console.log('return value from worker:', val)
+      })
+      */
     // need a list of all fields
     // loop all rows, build variables and create pco
     // eslint-disable-next-line no-unused-vars
-    /*
     for (const [i, d] of importData.entries()) {
       const pco = pCO.find(o => o.objectId === d.objectId)
       const id = pco && pco.id ? pco.id : undefined
@@ -580,7 +574,7 @@ const ImportRco = ({ setImport, pCO }) => {
     }
     setImport(false)
     setImporting(false)
-    rcoRefetch()*/
+    rcoRefetch()
   }, [client, importData, pCId, pCO, rcoRefetch, setImport])
   const rowGetter = useCallback(i => importData[i], [importData])
 
