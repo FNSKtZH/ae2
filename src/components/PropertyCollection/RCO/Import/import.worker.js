@@ -1,3 +1,8 @@
+/**
+ * tried but failed to get this work
+ * see: https://github.com/gatsbyjs/gatsby/issues/12095#issuecomment-505443230
+ * and uncommented code in gatsby-node.js
+ */
 import omit from 'lodash/omit'
 
 import upsertRCOMutation from './upsertRCOMutation'
