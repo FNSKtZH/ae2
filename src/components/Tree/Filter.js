@@ -58,6 +58,8 @@ const Container = styled.div`
   .react-autosuggest__suggestion {
     cursor: pointer;
     padding: 5px 20px;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   .react-autosuggest__suggestion--highlighted {
     background-color: #ddd;

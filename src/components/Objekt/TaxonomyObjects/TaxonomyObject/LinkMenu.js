@@ -16,6 +16,10 @@ const StyledButton = styled(Button)`
   :hover {
     background-color: rgba(0, 0, 0, 0.12);
   }
+  /*2019 08 20: no idea why suddenly svg is too low*/
+  > span {
+    margin-top: -10px;
+  }
 `
 const StyledLinkIcon = styled(LinkIcon)`
   color: rgba(0, 0, 0, 0.54);
