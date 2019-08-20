@@ -10,11 +10,11 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import ErrorBoundary from 'react-error-boundary'
 
 import AllRcoChooser from './AllRcoChooser'
 import RcoChooserList from './RcoChooserList'
 import constants from '../../../../../../modules/constants'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const PropertiesContainer = styled.div`
   column-width: ${props =>

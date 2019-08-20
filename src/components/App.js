@@ -12,10 +12,10 @@ import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import debounce from 'lodash/debounce'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import AppBar from './AppBar'
 //import ErrorBoundary from './shared/ErrorBoundary'
-import ErrorBoundary from 'react-error-boundary'
 import LazyImportFallback from './shared/LazyImportFallback'
 import mobxStoreContext from '../mobxStoreContext'
 

@@ -10,11 +10,11 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import ErrorBoundary from 'react-error-boundary'
 
 import AllChooser from './AllChooser'
 import ChooserList from './ChooserList'
 import constants from '../../../../../../modules/constants'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;

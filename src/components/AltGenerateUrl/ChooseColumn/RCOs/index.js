@@ -10,9 +10,9 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import ErrorBoundary from 'react-error-boundary'
 
 import RcoList from './RcoList'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 import constants from '../../../../modules/constants'
 
 const Container = styled.div`

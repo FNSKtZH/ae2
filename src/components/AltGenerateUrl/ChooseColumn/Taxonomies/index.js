@@ -11,9 +11,9 @@ import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import ErrorBoundary from 'react-error-boundary'
 
 import JointTaxonomy from './JointTaxonomy'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 import constants from '../../../../modules/constants'
 
 const StyledCard = styled(Card)`
