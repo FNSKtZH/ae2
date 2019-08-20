@@ -4,8 +4,8 @@ import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import format from 'date-fns/format'
 import { useApolloClient } from '@apollo/react-hooks'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
 import onBlurDo from './onBlur'
 
 const Container = styled.div`

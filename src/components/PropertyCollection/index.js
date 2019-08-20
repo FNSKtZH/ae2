@@ -17,11 +17,11 @@ import format from 'date-fns/format'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import Property from './Property'
 import onBlur from './onBlur'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
-import ErrorBoundary from '../shared/ErrorBoundary'
 import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`

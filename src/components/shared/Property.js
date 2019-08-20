@@ -6,8 +6,8 @@ import ClearIcon from '@material-ui/icons/Clear'
 import styled from 'styled-components'
 import omit from 'lodash/omit'
 import { useApolloClient } from '@apollo/react-hooks'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
 import updatePropertyMutation from './updatePropertyMutation'
 
 const Container = styled.div`
