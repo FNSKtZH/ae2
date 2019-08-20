@@ -11,7 +11,7 @@ import omit from 'lodash/omit'
 import upsertRCOMutation from './upsertRCOMutation'
 
 self.addEventListener('message', async event => {
-  const { importData, pCO, pCId, client } = event.data
+  const { importData = [], pCO, pCId, client } = event.data
 
   // need a list of all fields
   // loop all rows, build variables and create pco

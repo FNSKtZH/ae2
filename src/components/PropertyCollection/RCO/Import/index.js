@@ -22,7 +22,7 @@ import { observer } from 'mobx-react-lite'
 
 import upsertRCOMutation from './upsertRCOMutation'
 import mobxStoreContext from '../../../../mobxStoreContext'
-//import importWorker from './import.worker.js'
+import importWorker from './import.worker.js'
 
 const Container = styled.div`
   height: 100%;
@@ -48,27 +48,38 @@ const Container = styled.div`
     border: #ddd solid 1px !important;
   }
 `
+const StyledUl = styled.ul`
+  ul {
+    margin-top: 0;
+  }
+  li {
+    margin-bottom: 0;
+  }
+  li:last-of-type {
+    margin-bottom: 5px;
+  }
+`
 const StyledH3 = styled.h3`
   margin-left: 8px;
+  margin-bottom: 10px;
+`
+const FirstTitle = styled(StyledH3)`
+  padding-top: 10px;
 `
 const HowToImportContainer = styled.div`
   column-width: 500px;
   padding: 0 8px 0 8px;
-  ul {
+  > ul {
     padding-left: 20px;
   }
 `
 const StyledH4 = styled.h4`
-  margin: 0 0 -10px 0;
+  margin: 0;
 `
 const LiContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  min-height: 29px;
   break-inside: avoid;
-  > div {
-    min-height: 29px;
-  }
 `
 const EmSpan = styled.span`
   background-color: #8d8c8c40;
@@ -123,7 +134,8 @@ const TotalDiv = styled.div`
   margin-top: 8px;
 `
 const StyledP = styled.p`
-  margin-top: -5px;
+  margin-top: 15px;
+  margin-bottom: 5px;
 `
 const StyledSnackbar = styled(Snackbar)`
   div {
@@ -200,7 +212,7 @@ const importRcoQuery = gql`
   }
 `
 
-const ImportPco = ({ setImport, pCO }) => {
+const ImportRco = ({ setImport, pCO }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
@@ -476,20 +488,32 @@ const ImportPco = ({ setImport, pCO }) => {
         setExistsPropertyKey(_existsPropertyKey)
         setPropertyKeysDontContainApostroph(
           _existsPropertyKey
-            ? !some(propertyKeys, k => k.includes('"'))
+            ? !some(propertyKeys, k => {
+                if (!k || !k.includes) return false
+                return k.includes('"')
+              })
             : undefined,
         )
         setPropertyKeysDontContainBackslash(
           _existsPropertyKey
-            ? !some(propertyKeys, k => k.includes('\\'))
+            ? !some(propertyKeys, k => {
+                if (!k || !k.includes) return false
+                return k.includes('\\')
+              })
             : undefined,
         )
         const propertyValues = union(flatten(data.map(d => Object.values(d))))
         setPropertyValuesDontContainApostroph(
-          !some(propertyValues, k => k.includes('"')),
+          !some(propertyValues, k => {
+            if (!k || !k.includes) return false
+            return k.includes('"')
+          }),
         )
         setPropertyValuesDontContainBackslash(
-          !some(propertyValues, k => k.includes('\\')),
+          !some(propertyValues, k => {
+            if (!k || !k.includes) return false
+            return k.includes('\\')
+          }),
         )
       }
       reader.onabort = () => console.log('file reading was aborted')
@@ -504,7 +528,6 @@ const ImportPco = ({ setImport, pCO }) => {
      * but cra does not enable it yet, see:
      * https://github.com/facebook/create-react-app/pull/5886
      */
-    /*
     const worker = new importWorker()
     worker.postMessage({
       importData,
@@ -520,10 +543,10 @@ const ImportPco = ({ setImport, pCO }) => {
         rcoRefetch()
       }
     })
-    */
     // need a list of all fields
     // loop all rows, build variables and create pco
     // eslint-disable-next-line no-unused-vars
+    /*
     for (const [i, d] of importData.entries()) {
       const pco = pCO.find(o => o.objectId === d.objectId)
       const id = pco && pco.id ? pco.id : undefined
@@ -557,16 +580,16 @@ const ImportPco = ({ setImport, pCO }) => {
     }
     setImport(false)
     setImporting(false)
-    rcoRefetch()
+    rcoRefetch()*/
   }, [client, importData, pCId, pCO, rcoRefetch, setImport])
   const rowGetter = useCallback(i => importData[i], [importData])
 
   return (
     <Container>
-      <StyledH3>Anforderungen an zu importierende Beziehungen</StyledH3>
+      <FirstTitle>Anforderungen an zu importierende Beziehungen</FirstTitle>
       <HowToImportContainer>
         <StyledH4>Autorenrechte</StyledH4>
-        <ul>
+        <StyledUl>
           <li>
             <LiContainer>
               <div>
@@ -579,9 +602,9 @@ const ImportPco = ({ setImport, pCO }) => {
               <div>Dafür verantwortlich ist, wer Daten importiert</div>
             </LiContainer>
           </li>
-        </ul>
+        </StyledUl>
         <StyledH4>Tabelle</StyledH4>
-        <ul>
+        <StyledUl>
           <li>
             <LiContainer>
               <div>Die erste Zeile enthält Feld-Namen (= Spalten-Titel)</div>
@@ -610,9 +633,9 @@ const ImportPco = ({ setImport, pCO }) => {
               )}
             </LiContainer>
           </li>
-        </ul>
+        </StyledUl>
         <StyledH4>Zuordnungs-Felder</StyledH4>
-        <ul>
+        <StyledUl>
           <li>
             <LiContainer>
               <div>
@@ -802,7 +825,7 @@ const ImportPco = ({ setImport, pCO }) => {
               )}
             </LiContainer>
             <LiContainer>
-              <div style={{ paddingBottom: '10px' }}>
+              <div>
                 Zweck: Der Datensatz beschreibt die Beziehung des Objekts mit id{' '}
                 <EmSpan>objectId</EmSpan> zum Objekt mit id{' '}
                 <EmSpan>objectIdRelation</EmSpan>
@@ -897,7 +920,7 @@ const ImportPco = ({ setImport, pCO }) => {
               )}
             </LiContainer>
             <LiContainer>
-              <div style={{ paddingBottom: '10px' }}>
+              <div>
                 Zweck: Beschreibt <em>die Art der Beziehung</em> des Objekts mit
                 id <EmSpan>objectId</EmSpan> zum Objekt mit id{' '}
                 <EmSpan>objectIdRelation</EmSpan>.<br />
@@ -938,7 +961,6 @@ const ImportPco = ({ setImport, pCO }) => {
                   Mehr Infos
                 </a>
               </div>
-              <br />
             </LiContainer>
             <ul>
               <li>
@@ -1008,12 +1030,12 @@ const ImportPco = ({ setImport, pCO }) => {
               </li>
             </ul>
           </li>
-        </ul>
+        </StyledUl>
         <StyledP>
           Alle weiteren Felder sind Eigenschaften der Beziehung:
         </StyledP>
         <StyledH4>Eigenschaften</StyledH4>
-        <ul>
+        <StyledUl>
           <li>
             <LiContainer>
               <div>Es gibt mindestens eine Eigenschaft</div>
@@ -1119,9 +1141,9 @@ const ImportPco = ({ setImport, pCO }) => {
               </li>
             </ul>
           </li>
-        </ul>
+        </StyledUl>
         <StyledH3>Wirkung des Imports auf bereits vorhandene Daten</StyledH3>
-        <ul>
+        <StyledUl>
           <li>
             Enthält die Beziehungs-Sammlung bereits einen Datensatz für ein
             Objekt (Art oder Lebensraum), wird dieser mit dem importierten
@@ -1131,7 +1153,7 @@ const ImportPco = ({ setImport, pCO }) => {
             Enthält die Beziehungs-Sammlung für ein Objekt noch keinen
             Datensatz, wird er neu importiert.
           </li>
-        </ul>
+        </StyledUl>
       </HowToImportContainer>
       {!importing && (
         <DropzoneContainer>
@@ -1207,4 +1229,4 @@ const ImportPco = ({ setImport, pCO }) => {
   )
 }
 
-export default observer(ImportPco)
+export default observer(ImportRco)
