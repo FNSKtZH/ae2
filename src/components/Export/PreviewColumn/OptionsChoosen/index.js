@@ -24,6 +24,9 @@ const Container = styled.div`
   ul {
     margin-bottom: 5px;
   }
+  ul > li > ul {
+    margin-top: 0;
+  }
   li {
     margin-bottom: 4px;
   }
