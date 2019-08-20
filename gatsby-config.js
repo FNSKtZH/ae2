@@ -14,12 +14,12 @@ module.exports = {
         },
       },
     },
-    /*{
+    {
       resolve: 'gatsby-plugin-create-client-paths',
       options: {
-        prefixes: [`*`],
+        prefixes: [`/*`],
       },
-    },*/
+    },
     {
       resolve: 'gatsby-plugin-web-font-loader',
       options: {
