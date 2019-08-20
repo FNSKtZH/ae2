@@ -11,12 +11,12 @@ import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import { navigate } from 'gatsby'
+import ErrorBoundary from 'react-error-boundary'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenuDo from './onClickContextMenu'
 import treeDataQuery from '../treeDataQuery'
 import treeDataVariables from '../treeDataVariables'
-import ErrorBoundary from '../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const singleRowHeight = 23

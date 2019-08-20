@@ -15,7 +15,6 @@ import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
 
 import AppBar from './AppBar'
-//import ErrorBoundary from './shared/ErrorBoundary'
 import LazyImportFallback from './shared/LazyImportFallback'
 import mobxStoreContext from '../mobxStoreContext'
 

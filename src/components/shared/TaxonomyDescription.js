@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import Linkify from 'react-linkify'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from './ErrorBoundary'
 import PropertyReadOnly from './PropertyReadOnly'
 
 const Container = styled.div`
