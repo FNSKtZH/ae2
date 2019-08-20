@@ -17,7 +17,11 @@ export default ({ idb, mobxStore }) => {
    * for reasons unrelated to the database itself and not covered by any other error code
    */
   const authLink = setContext(async () => {
-    const { token } = mobxStore.user
+    console.log('client, authLink', {
+      mobxStoreUser: mobxStore.login,
+      mobxStore,
+    })
+    const { token } = mobxStore.login
     if (token) {
       const tokenDecoded = jwtDecode(token)
       // for unknown reason, date.now returns three more after comma
