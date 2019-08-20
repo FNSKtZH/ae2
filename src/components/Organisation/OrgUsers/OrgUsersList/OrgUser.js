@@ -13,10 +13,10 @@ import set from 'lodash/set'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import updateOrgUserMutation from './updateOrgUserMutation'
 import deleteOrgUserMutation from './deleteOrgUserMutation'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
 const OrgUserDiv = styled.div`

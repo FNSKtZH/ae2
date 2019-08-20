@@ -1,10 +1,10 @@
 import React from 'react'
 import get from 'lodash/get'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import PropertyReadOnly from '../../../../../shared/PropertyReadOnly'
 import PropertyList from './PropertyList'
-import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   border-bottom: ${props =>

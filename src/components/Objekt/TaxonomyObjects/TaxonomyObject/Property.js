@@ -2,8 +2,8 @@ import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import { useApolloClient } from '@apollo/react-hooks'
+import ErrorBoundary from 'react-error-boundary'
 
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 import updateObjectMutation from '../../updateObjectMutation'
 
 const Container = styled.div`

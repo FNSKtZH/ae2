@@ -25,6 +25,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import { navigate } from 'gatsby'
+import ErrorBoundary from 'react-error-boundary'
 
 import PropertyReadOnly from '../../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../../shared/PropertyReadOnlyStacked'
@@ -33,7 +34,6 @@ import Property from './Property'
 import LinkMenu from './LinkMenu'
 import Properties from './Properties'
 import getUrlForObject from '../../../../modules/getUrlForObject'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
 const Container = styled.div`

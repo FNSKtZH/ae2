@@ -13,9 +13,9 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import styled from 'styled-components'
 import { useApolloClient } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import fetchLoginModule from './fetchLogin'
-import ErrorBoundary from '../shared/ErrorBoundary'
 import idbContext from '../../idbContext'
 import mobxStoreContext from '../../mobxStoreContext'
 

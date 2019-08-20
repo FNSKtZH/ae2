@@ -12,11 +12,11 @@ import InfoIcon from '@material-ui/icons/Info'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import PCDescription from '../../../shared/PCDescription'
 import RelationList from './RelationList'
 import PropertyList from './PropertyList'
-import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
