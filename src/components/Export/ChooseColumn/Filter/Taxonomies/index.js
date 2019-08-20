@@ -12,10 +12,10 @@ import sumBy from 'lodash/sumBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import Taxonomy from './Taxonomy'
 import JointTaxonomy from './JointTaxonomy'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const Container = styled.div`

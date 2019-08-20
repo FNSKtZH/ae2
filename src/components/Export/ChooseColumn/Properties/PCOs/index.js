@@ -11,9 +11,9 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import PCOs from './PCOs'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../../../mobxStoreContext'
 
 const Container = styled.div`

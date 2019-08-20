@@ -6,10 +6,10 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import Properties from './Properties'
 import constants from '../../../../../modules/constants'
-import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const StyledCard = styled(Card)`
   margin: 0;
