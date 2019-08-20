@@ -15,8 +15,13 @@ const StyledMoreVertIcon = styled(MoreVertIcon)`
 const StyledButton = styled(Button)`
   min-width: 50px !important;
   margin-right: -8px !important;
+  min-height: 36px;
   :hover {
     background-color: rgba(0, 0, 0, 0.12);
+  }
+  /*2019 08 20: no idea why height suddenly is too small*/
+  span {
+    height: 36px;
   }
 `
 const Version = styled.div`
