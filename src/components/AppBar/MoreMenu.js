@@ -30,7 +30,7 @@ const Version = styled.div`
   user-select: none;
 `
 const TwoLineMenuItem = styled(MenuItem)`
-  height: 40px !important;
+  line-height: 1.3 !important;
 `
 
 const ITEM_HEIGHT = 48
