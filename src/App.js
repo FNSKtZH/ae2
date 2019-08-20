@@ -33,17 +33,10 @@ const App = ({ element }) => {
 
   const { setActiveNodeArray } = mobxStore
 
-  // TODO: make ui follow when user uses browser back and forward buttons
-  /*history.listen(location => {
-    setActiveNodeArray(getActiveNodeArrayFromPathname())
-  })*/
-
   setLoginFromIdb({ client: myClient, idb, mobxStore })
 
   // initiate activeNodeArray
   setActiveNodeArray(getActiveNodeArrayFromPathname())
-
-  console.log('App', { element })
 
   return (
     <IdbProvider value={idb}>

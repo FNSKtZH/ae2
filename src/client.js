@@ -17,10 +17,6 @@ export default ({ idb, mobxStore }) => {
    * for reasons unrelated to the database itself and not covered by any other error code
    */
   const authLink = setContext(async () => {
-    /*console.log('client, authLink', {
-      mobxStoreUser: mobxStore.login,
-      mobxStore,
-    })*/
     const { token } = mobxStore.login
     if (token) {
       const tokenDecoded = jwtDecode(token)

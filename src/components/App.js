@@ -97,8 +97,6 @@ const App = () => {
     [],
   )
 
-  console.log('App', { mobxStore, showData, stacked })
-
   return (
     <ErrorBoundary>
       <Container data-stacked={stacked}>
