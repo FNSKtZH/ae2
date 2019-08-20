@@ -6,4 +6,5 @@ export default async ({ idb, mobxStore }) => {
   const token = get(users, '[0].token', null)
 
   mobxStore.login.setLogin({ username, token })
+  //console.log('setUserFromIdb', { username, token })
 }
