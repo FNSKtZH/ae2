@@ -22,7 +22,7 @@ import { observer } from 'mobx-react-lite'
 
 import upsertRCOMutation from './upsertRCOMutation'
 import mobxStoreContext from '../../../../mobxStoreContext'
-import importWorker from './import.worker.js'
+//import importWorker from './import.worker.js'
 
 const Container = styled.div`
   height: 100%;
