@@ -53,6 +53,7 @@
     "react-data-grid": "6.1.0",
     "react-dom": "16.9.0",
     "react-dropzone": "10.1.7",
+    "react-error-boundary": "1.2.5",
     "react-fns": "1.4.0",
     "react-helmet": "5.2.1",
     "react-linkify": "0.2.2",

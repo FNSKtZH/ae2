@@ -14,7 +14,8 @@ import debounce from 'lodash/debounce'
 import { observer } from 'mobx-react-lite'
 
 import AppBar from './AppBar'
-import ErrorBoundary from './shared/ErrorBoundary'
+//import ErrorBoundary from './shared/ErrorBoundary'
+import ErrorBoundary from 'react-error-boundary'
 import LazyImportFallback from './shared/LazyImportFallback'
 import mobxStoreContext from '../mobxStoreContext'
 
@@ -97,6 +98,8 @@ const App = () => {
     [],
   )
 
+  console.log('App', { mobxStore, showData, stacked })
+
   return (
     <ErrorBoundary>
       <Container data-stacked={stacked}>
@@ -130,6 +133,7 @@ const App = () => {
           />
         </Suspense>
       </Container>
+      )
     </ErrorBoundary>
   )
 }

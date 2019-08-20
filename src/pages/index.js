@@ -48,13 +48,13 @@ const objectQuery = gql`
   }
 `
 
-const Router = () => {
+const Router = ({ location }) => {
   /**
    * check if old url was passed that contains objectId-Param
    * for instance: from artenlistentool like this:
    * /index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
    */
-  console.log('Router')
+  console.log('index.js, location:', location)
   //return <div>hello</div>
   const idParam = getUrlParamByName('id')
   const objectId =
