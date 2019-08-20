@@ -14,7 +14,7 @@ import constants from '../../../modules/constants'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
-  padding: 0 5px;
+  padding: 10px;
   overflow: auto !important;
   height: 100%;
 `
