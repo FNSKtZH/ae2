@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "name": "artdaten",
+  "alias": [
+    "artdaten.ch",
+    "www.artdaten.ch"
+  ],
+  "routes": [
+    {
+      "src": "/index.html",
+      "dest": "/"
+    },
+    {
+      "src": "/Export/.*",
+      "dest": "/Export"
+    },
+    {
+      "src": "/graphiql/.*",
+      "dest": "/graphiql"
+    },
+    {
+      "src": "/artenlistentool/waehlen",
+      "dest": "/artenlistentool/waehlen"
+    },
+    {
+      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
+      "dest": "https://207.154.212.35/api/alt"
+    }
+  ]
+}
