@@ -1,6 +1,7 @@
 import Dexie from 'dexie'
 
 export default () => {
+  if (typeof window === 'undefined') return {}
   // create table to save user login in
   // this helps in that user can open new tab and remain logged in!
   // seems that this creates error in old versions of firefox (before 55)
