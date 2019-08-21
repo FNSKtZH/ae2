@@ -27,7 +27,7 @@ const App = ({ element }) => {
   const idb = initializeIdb()
 
   const mobxStore = MobxStore({ navigate }).create()
-  setUserFromIdb({ idb, mobxStore })
+  typeof window !== 'undefined' && setUserFromIdb({ idb, mobxStore })
 
   const myClient = client({ idb, mobxStore })
 
