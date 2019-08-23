@@ -40,6 +40,7 @@
     "graphql-tag": "2.10.1",
     "graphql-voyager": "1.0.0-rc.27",
     "is-uuid": "1.0.2",
+    "isomorphic-fetch": "^2.2.1",
     "js-file-download": "0.4.8",
     "json2csv": "4.5.2",
     "jwt-decode": "2.2.0",
@@ -64,8 +65,8 @@
     "react-window": "1.8.5",
     "recompose": "0.30.0",
     "styled-components": "4.3.2",
-    "typeface-roboto": "0.0.75",
     "ts-invariant": "apollographql/invariant-packages/tree/master/packages/ts-invariant",
+    "typeface-roboto": "0.0.75",
     "typography": "0.16.19",
     "workerize-loader": "1.1.0",
     "xlsx": "0.15.1"

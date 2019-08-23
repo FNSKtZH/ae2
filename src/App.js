@@ -1,7 +1,10 @@
 import React from 'react'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { navigate } from 'gatsby'
-
+// importing isomorphic-fetch is essential
+// otherwise apollo errors during the build
+// see: https://github.com/gatsbyjs/gatsby/issues/11225#issuecomment-457211628
+import 'isomorphic-fetch'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 
 import theme from './theme'
@@ -33,7 +36,8 @@ const App = ({ element }) => {
 
   const { setActiveNodeArray } = mobxStore
 
-  setLoginFromIdb({ client: myClient, idb, mobxStore })
+  typeof window !== 'undefined' &&
+    setLoginFromIdb({ client: myClient, idb, mobxStore })
 
   // initiate activeNodeArray
   setActiveNodeArray(getActiveNodeArrayFromPathname())
