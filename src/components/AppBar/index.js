@@ -216,6 +216,7 @@ const MyAppBar = () => {
 
   if (dataError) return `Error fetching data: ${dataError.message}`
 
+  // TODO: ReactDOMServer does not yet support Suspense
   return (
     <ErrorBoundary>
       <Container>

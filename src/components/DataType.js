@@ -42,6 +42,7 @@ const DataType = ({ dimensions, stacked = false }) => {
     activeNodeArray[0] === 'Organisationen' && activeNodeArray.length === 2
 
   if (showTaxonomy)
+    // TODO: ReactDOMServer does not yet support Suspense
     return (
       <Suspense fallback={<LazyImportFallback />}>
         <Taxonomy />

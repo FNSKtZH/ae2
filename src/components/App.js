@@ -97,6 +97,7 @@ const App = () => {
     [],
   )
 
+  // TODO: ReactDOMServer does not yet support Suspense
   return (
     <ErrorBoundary>
       <Container data-stacked={stacked}>
