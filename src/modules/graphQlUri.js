@@ -4,9 +4,10 @@ export default () => {
       ? window.location.hostname.replace('www.', '')
       : ''
   const isLocalhost = hostnameWithoutWww === 'localhost'
-  return isLocalhost
-    ? 'http://localhost:5000/graphql'
-    : `https://${
-        typeof window !== 'undefined' ? window.location.hostname : ''
-      }/graphql`
+  if (isLocalhost) return 'http://localhost:5000/graphql'
+
+  const isArteigenschaften = hostnameWithoutWww.includes('arteigenschaften')
+  return isArteigenschaften
+    ? 'https://api.arteigenschaften.ch/graphql'
+    : 'https://api.artdaten.ch/graphql'
 }
