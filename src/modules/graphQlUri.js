@@ -8,6 +8,6 @@ export default () => {
 
   const isArteigenschaften = hostnameWithoutWww.includes('arteigenschaften')
   return isArteigenschaften
-    ? 'https://api.arteigenschaften.ch/graphql'
+    ? 'https://arteigenschaften.ch/graphql'
     : 'https://api.artdaten.ch/graphql'
 }
