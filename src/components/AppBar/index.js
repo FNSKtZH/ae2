@@ -1,6 +1,4 @@
 import React, {
-  lazy,
-  Suspense,
   useRef,
   useState,
   useCallback,
@@ -21,12 +19,15 @@ import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import { navigate } from 'gatsby'
 import ErrorBoundary from 'react-error-boundary'
+import loadable from '@loadable/component'
 
-import LazyImportFallback from '../shared/LazyImportFallback'
+//import LazyImportFallback from '../shared/LazyImportFallback'
 import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
 import mobxStoreContext from '../../mobxStoreContext'
 
-const MoreMenu = lazy(() => import('./MoreMenu'))
+// ReactDOMServer does not yet support Suspense
+//const MoreMenu = lazy(() => import('./MoreMenu'))
+const MoreMenu = loadable(() => import('./MoreMenu'))
 
 /**
  * For unknown reason appbar does not follow display flex when
@@ -216,7 +217,6 @@ const MyAppBar = () => {
 
   if (dataError) return `Error fetching data: ${dataError.message}`
 
-  // TODO: ReactDOMServer does not yet support Suspense
   return (
     <ErrorBoundary>
       <Container>
@@ -269,11 +269,9 @@ const MyAppBar = () => {
                     </ShareButton>
                   </div>
                 )}
-              <Suspense fallback={<LazyImportFallback />}>
-                <div ref={moreC}>
-                  <MoreMenu />
-                </div>
-              </Suspense>
+              <div ref={moreC}>
+                <MoreMenu />
+              </div>
             </StyledToolbar>
           </div>
         </StyledAppBar>

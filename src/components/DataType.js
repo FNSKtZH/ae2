@@ -1,16 +1,24 @@
-import React, { lazy, Suspense, useContext } from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
+import loadable from '@loadable/component'
 
-import LazyImportFallback from './shared/LazyImportFallback'
+//import LazyImportFallback from './shared/LazyImportFallback'
 import mobxStoreContext from '../mobxStoreContext'
 
-const Pco = lazy(() => import('./PropertyCollection/PCO'))
-const Rco = lazy(() => import('./PropertyCollection/RCO'))
-const Objekt = lazy(() => import('./Objekt'))
-const Taxonomy = lazy(() => import('./Taxonomy'))
-const PropertyCollection = lazy(() => import('./PropertyCollection'))
-const Benutzer = lazy(() => import('./Benutzer'))
-const Organisation = lazy(() => import('./Organisation'))
+//const Pco = lazy(() => import('./PropertyCollection/PCO'))
+const Pco = loadable(() => import('./PropertyCollection/PCO'))
+//const Rco = lazy(() => import('./PropertyCollection/RCO'))
+const Rco = loadable(() => import('./PropertyCollection/RCO'))
+//const Objekt = lazy(() => import('./Objekt'))
+const Objekt = loadable(() => import('./Objekt'))
+//const Taxonomy = lazy(() => import('./Taxonomy'))
+const Taxonomy = loadable(() => import('./Taxonomy'))
+//const PropertyCollection = lazy(() => import('./PropertyCollection'))
+const PropertyCollection = loadable(() => import('./PropertyCollection'))
+//const Benutzer = lazy(() => import('./Benutzer'))
+const Benutzer = loadable(() => import('./Benutzer'))
+//const Organisation = lazy(() => import('./Organisation'))
+const Organisation = loadable(() => import('./Organisation'))
 
 const DataType = ({ dimensions, stacked = false }) => {
   const mobxStore = useContext(mobxStoreContext)
@@ -41,49 +49,14 @@ const DataType = ({ dimensions, stacked = false }) => {
   const showOrganization =
     activeNodeArray[0] === 'Organisationen' && activeNodeArray.length === 2
 
-  if (showTaxonomy)
-    // TODO: ReactDOMServer does not yet support Suspense
-    return (
-      <Suspense fallback={<LazyImportFallback />}>
-        <Taxonomy />
-      </Suspense>
-    )
-  if (showObjekt)
-    return (
-      <Suspense fallback={<LazyImportFallback />}>
-        <Objekt stacked={stacked} />
-      </Suspense>
-    )
-  if (showPC)
-    return (
-      <Suspense fallback={<LazyImportFallback />}>
-        <PropertyCollection />
-      </Suspense>
-    )
-  if (showPCO)
-    return (
-      <Suspense fallback={<LazyImportFallback />}>
-        <Pco dimensions={dimensions} />
-      </Suspense>
-    )
-  if (showRCO)
-    return (
-      <Suspense fallback={<LazyImportFallback />}>
-        <Rco dimensions={dimensions} />
-      </Suspense>
-    )
-  if (showBenutzer)
-    return (
-      <Suspense fallback={<LazyImportFallback />}>
-        <Benutzer />
-      </Suspense>
-    )
-  if (showOrganization)
-    return (
-      <Suspense fallback={<LazyImportFallback />}>
-        <Organisation />
-      </Suspense>
-    )
+  // TODO: ReactDOMServer does not yet support Suspense
+  if (showTaxonomy) return <Taxonomy />
+  if (showObjekt) return <Objekt stacked={stacked} />
+  if (showPC) return <PropertyCollection />
+  if (showPCO) return <Pco dimensions={dimensions} />
+  if (showRCO) return <Rco dimensions={dimensions} />
+  if (showBenutzer) return <Benutzer />
+  if (showOrganization) return <Organisation />
   return null
 }
 

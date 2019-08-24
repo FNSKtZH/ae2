@@ -1,11 +1,4 @@
-import React, {
-  lazy,
-  Suspense,
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-} from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
@@ -13,9 +6,10 @@ import Snackbar from '@material-ui/core/Snackbar'
 import debounce from 'lodash/debounce'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
+import loadable from '@loadable/component'
 
 import AppBar from './AppBar'
-import LazyImportFallback from './shared/LazyImportFallback'
+//import LazyImportFallback from './shared/LazyImportFallback'
 import mobxStoreContext from '../mobxStoreContext'
 
 const Container = styled.div`
@@ -23,13 +17,22 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Export = lazy(() => import('./Export'))
-const AltGenerateUrl = lazy(() => import('./AltGenerateUrl'))
-const Login = lazy(() => import('./Login'))
-const Data = lazy(() => import('./Data'))
-const FourOhFour = lazy(() => import('./FourOhFour'))
-const DataGraph = lazy(() => import('./DataGraph'))
-const GraphIql = lazy(() => import('./GraphIql'))
+
+// ReactDOMServer does not yet support Suspense
+//const Export = lazy(() => import('./Export'))
+const Export = loadable(() => import('./Export'))
+//const AltGenerateUrl = lazy(() => import('./AltGenerateUrl'))
+const AltGenerateUrl = loadable(() => import('./AltGenerateUrl'))
+//const Login = lazy(() => import('./Login'))
+const Login = loadable(() => import('./Login'))
+//const Data = lazy(() => import('./Data'))
+const Data = loadable(() => import('./Data'))
+//const FourOhFour = lazy(() => import('./FourOhFour'))
+const FourOhFour = loadable(() => import('./FourOhFour'))
+//const DataGraph = lazy(() => import('./DataGraph'))
+const DataGraph = loadable(() => import('./DataGraph'))
+//const GraphIql = lazy(() => import('./GraphIql'))
+const GraphIql = loadable(() => import('./GraphIql'))
 
 const App = () => {
   const mobxStore = useContext(mobxStoreContext)
@@ -97,39 +100,36 @@ const App = () => {
     [],
   )
 
-  // TODO: ReactDOMServer does not yet support Suspense
   return (
     <ErrorBoundary>
       <Container data-stacked={stacked}>
-        <Suspense fallback={<LazyImportFallback />}>
-          <CssBaseline />
-          <AppBar />
-          {showData && <Data stacked={stacked} />}
-          {showExport && <Export stacked={stacked} />}
-          {showLogin && <Login />}
-          {show404 && <FourOhFour />}
-          {showDataGraph && <DataGraph />}
-          {showGraphIql && <GraphIql />}
-          {showAltGenerateUrl && <AltGenerateUrl />}
-          <Snackbar
-            open={updateAvailable}
-            message={
-              <span id="message-id">
-                Für arteigenschaften.ch ist ein Update verfügbar
-              </span>
-            }
-            action={
-              <Button
-                key="undo"
-                color="primary"
-                size="small"
-                onClick={onClickReload}
-              >
-                neu laden
-              </Button>
-            }
-          />
-        </Suspense>
+        <CssBaseline />
+        <AppBar />
+        {showData && <Data stacked={stacked} />}
+        {showExport && <Export stacked={stacked} />}
+        {showLogin && <Login />}
+        {show404 && <FourOhFour />}
+        {showDataGraph && <DataGraph />}
+        {showGraphIql && <GraphIql />}
+        {showAltGenerateUrl && <AltGenerateUrl />}
+        <Snackbar
+          open={updateAvailable}
+          message={
+            <span id="message-id">
+              Für arteigenschaften.ch ist ein Update verfügbar
+            </span>
+          }
+          action={
+            <Button
+              key="undo"
+              color="primary"
+              size="small"
+              onClick={onClickReload}
+            >
+              neu laden
+            </Button>
+          }
+        />
       </Container>
       )
     </ErrorBoundary>
