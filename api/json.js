@@ -8,7 +8,6 @@ const Hapi = require('hapi')
 const pgp = require(`pg-promise`)()
 const app = require(`ampersand-app`)
 
-const config = require(`./config.js`)
 const alt = require('./handlers/alt.js')
 const evabArten = require('./handlers/evabArten.js')
 
@@ -28,7 +27,7 @@ const server = new Hapi.Server({
 async function start() {
   app.extend({
     init() {
-      this.db = pgp(config.connectionString)
+      this.db = pgp(`postgres://${process.env.DBUSER}:${process.env.DBPASS}@localhost:5432/ae`)
     },
   })
   app.init()

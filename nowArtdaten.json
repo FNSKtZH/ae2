@@ -35,12 +35,12 @@
       "dest": "/graphiql"
     },
     {
-      "src": "/api/test",
-      "dest": "test/index"
+      "src": "/api/*",
+      "dest": "/json.js"
     },
     {
-      "src": "/api/*",
-      "dest": "json/index"
+      "src": "/artendb/*",
+      "dest": "/json.js"
     },
     {
       "src": "/graphql",
