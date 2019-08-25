@@ -12,7 +12,6 @@
     "@loadable/component": "5.10.2",
     "@material-ui/core": "4.3.3",
     "@material-ui/icons": "4.2.1",
-    "ampersand-app": "2.0.0",
     "apollo-cache-inmemory": "1.6.3",
     "apollo-client": "2.6.4",
     "apollo-link": "1.2.12",
@@ -98,8 +97,8 @@
     "source-map-explorer": "2.0.1"
   },
   "scripts": {
-    "build": "gatsby clean && gatsby build && copyfiles now.json public",
-    "buildArtdaten": "gatsby clean && gatsby build && shx cp nowArtdaten.json public/now.json",
+    "build": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles api/**/* public/api",
+    "buildArtdaten": "gatsby clean && gatsby build && shx cp nowArtdaten.json public/now.json && copyfiles api/**/* public/api",
     "clean": "gatsby clean",
     "dev": "gatsby develop",
     "start": "npm run develop",
