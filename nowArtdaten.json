@@ -35,16 +35,20 @@
       "dest": "/graphiql"
     },
     {
-      "src": "/api/*",
-      "dest": "/json.js"
+      "src": "/graphql",
+      "dest": "https://api.artdaten.ch/graphql"
     },
     {
       "src": "/artendb/*",
-      "dest": "/json.js"
+      "dest": "api/json.js"
     },
     {
-      "src": "/graphql",
-      "dest": "https://api.artdaten.ch/graphql"
+      "src": "/api/evab/*",
+      "dest": "api/json.js"
+    },
+    {
+      "src": "/api/alt/*",
+      "dest": "api/json.js"
     }
   ]
 }
