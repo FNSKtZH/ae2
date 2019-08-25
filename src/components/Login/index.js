@@ -98,20 +98,11 @@ const Login = () => {
     },
     [fetchLogin, name],
   )
-  const onKeyPressName = useCallback(
-    e => {
-      if (e.key === 'Enter') {
-        onBlurName(e)
-      }
-    },
-    [onBlurName],
-  )
+  const onKeyPressName = useCallback(e => e.key === 'Enter' && onBlurName(e), [
+    onBlurName,
+  ])
   const onKeyPressPass = useCallback(
-    e => {
-      if (e.key === 'Enter') {
-        onBlurPassword(e)
-      }
-    },
+    e => e.key === 'Enter' && onBlurPassword(e),
     [onBlurPassword],
   )
   const onClickTogglePass = useCallback(() => changeShowPass(!showPass), [

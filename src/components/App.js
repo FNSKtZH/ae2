@@ -130,7 +130,6 @@ const App = () => {
           />
         </Layout>
       </Container>
-      )
     </ErrorBoundary>
   )
 }

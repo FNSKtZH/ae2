@@ -247,6 +247,7 @@ const ImportPco = ({ setImport, pCO }) => {
     setPCOfOriginIdsAreRealNotTested, // eslint-disable-line no-unused-vars
   ] = useState(undefined)
   const [objectIdsAreUuid, setObjectIdsAreUuid] = useState(undefined)
+  // eslint-disable-next-line no-unused-vars
   const [objectsIdsAreNotUuid, setObjectsIdsAreNotUuid] = useState(undefined)
   const [pCOfOriginIdsAreUuid, setPCOfOriginIdsAreUuid] = useState(undefined)
   const [importData, setImportData] = useState([])
