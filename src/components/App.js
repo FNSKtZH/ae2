@@ -102,7 +102,7 @@ const App = () => {
 
   return (
     <ErrorBoundary>
-      <Container data-stacked={stacked}>
+      <Container>
         <CssBaseline />
         <AppBar />
         {showData && <Data stacked={stacked} />}
