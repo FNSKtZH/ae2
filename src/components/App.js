@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import debounce from 'lodash/debounce'
@@ -103,7 +102,6 @@ const App = () => {
   return (
     <ErrorBoundary>
       <Container>
-        <CssBaseline />
         <AppBar />
         {showData && <Data stacked={stacked} />}
         {showExport && <Export stacked={stacked} />}
