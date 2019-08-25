@@ -39,15 +39,19 @@
       "dest": "https://api.artdaten.ch/graphql"
     },
     {
+      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
+      "dest": "api/json.js"
+    },
+    {
       "src": "/artendb/*",
       "dest": "api/json.js"
     },
     {
-      "src": "/api/evab/*",
+      "src": "/api/evab/arten",
       "dest": "api/json.js"
     },
     {
-      "src": "/api/alt/*",
+      "src": "/api/alt",
       "dest": "api/json.js"
     }
   ]
