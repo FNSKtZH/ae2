@@ -1,5 +1,5 @@
 {
-  "name": "ae2",
+  "name": "artdaten",
   "version": "1.1.7",
   "author": {
     "name": "Alexander Gabriel",
@@ -97,7 +97,7 @@
     "source-map-explorer": "2.0.1"
   },
   "scripts": {
-    "build": "gatsby clean && gatsby build",
+    "build": "gatsby build",
     "build2": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles api/**/* public/api",
     "buildArtdaten": "gatsby clean && gatsby build && shx cp nowArtdaten.json public/now.json && copyfiles api/**/* public/api",
     "clean": "gatsby clean",
