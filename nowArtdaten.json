@@ -5,6 +5,10 @@
     "artdaten.ch",
     "www.artdaten.ch"
   ],
+  "env": {
+    "DBUSER": "@DBUSER",
+    "DBPASS": "@DBPASS"
+  },
   "routes": [
     {
       "src": "/index.html",

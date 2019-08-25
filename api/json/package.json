@@ -1,0 +1,17 @@
+{
+  "name": "ae_json_api",
+  "version": "1.0.0",
+  "description": "json api for arteigenschaften.ch",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Alexander Gabriel",
+  "license": "ISC",
+  "dependencies": {
+    "ampersand-app": "2.0.0",
+    "hapi": "18.1.0",
+    "pg-promise": "9.1.0",
+    "sql-tagged-template-literal": "1.0.2"
+  }
+}
