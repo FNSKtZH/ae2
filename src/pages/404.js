@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import ErrorBoundary from 'react-error-boundary'
 
-import AppBar from '../components/AppBar'
+import Layout from '../components/Layout'
 
 const Container = styled.div`
   height: 100%;
@@ -42,22 +42,23 @@ const FourOFour = () => {
   return (
     <ErrorBoundary>
       <Container>
-        <AppBar />
-        <TextContainer>
-          <PageTitle align="center" variant="h6">
-            Oh je
-          </PageTitle>
-        </TextContainer>
-        <TextContainer>
-          <Text align="center" variant="h6">
-            Diese Seite ist nicht verfügbar.
-          </Text>
-        </TextContainer>
-        <TextContainer>
-          <StyledButton variant="outlined" onClick={onClickBack}>
-            Zurück zur Startseite
-          </StyledButton>
-        </TextContainer>
+        <Layout>
+          <TextContainer>
+            <PageTitle align="center" variant="h6">
+              Oh je
+            </PageTitle>
+          </TextContainer>
+          <TextContainer>
+            <Text align="center" variant="h6">
+              Diese Seite ist nicht verfügbar.
+            </Text>
+          </TextContainer>
+          <TextContainer>
+            <StyledButton variant="outlined" onClick={onClickBack}>
+              Zurück zur Startseite
+            </StyledButton>
+          </TextContainer>
+        </Layout>
       </Container>
     </ErrorBoundary>
   )

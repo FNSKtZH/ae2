@@ -21,9 +21,9 @@ import { navigate } from 'gatsby'
 import ErrorBoundary from 'react-error-boundary'
 import loadable from '@loadable/component'
 
-//import LazyImportFallback from '../shared/LazyImportFallback'
-import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
-import mobxStoreContext from '../../mobxStoreContext'
+//import LazyImportFallback from '../../shared/LazyImportFallback'
+import getActiveObjectIdFromNodeArray from '../../../modules/getActiveObjectIdFromNodeArray'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 // ReactDOMServer does not yet support Suspense
 //const MoreMenu = lazy(() => import('./MoreMenu'))

@@ -7,7 +7,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import styled from 'styled-components'
 import { navigate } from 'gatsby'
 
-import relations from '../../modules/relations.png'
+import relations from '../../../modules/relations.png'
 
 const StyledMoreVertIcon = styled(MoreVertIcon)`
   color: white !important;

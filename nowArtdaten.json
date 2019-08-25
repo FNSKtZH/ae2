@@ -11,6 +11,10 @@
       "dest": "/"
     },
     {
+      "src": "/Arten/.*",
+      "dest": "/Arten"
+    },
+    {
       "src": "/Export",
       "dest": "/Export"
     },

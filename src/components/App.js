@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
 import loadable from '@loadable/component'
 
-import AppBar from './AppBar'
+import Layout from './Layout'
 //import LazyImportFallback from './shared/LazyImportFallback'
 import mobxStoreContext from '../mobxStoreContext'
 
@@ -102,32 +102,33 @@ const App = () => {
   return (
     <ErrorBoundary>
       <Container>
-        <AppBar />
-        {showData && <Data stacked={stacked} />}
-        {showExport && <Export stacked={stacked} />}
-        {showLogin && <Login />}
-        {show404 && <FourOhFour />}
-        {showDataGraph && <DataGraph />}
-        {showGraphIql && <GraphIql />}
-        {showAltGenerateUrl && <AltGenerateUrl />}
-        <Snackbar
-          open={updateAvailable}
-          message={
-            <span id="message-id">
-              Für arteigenschaften.ch ist ein Update verfügbar
-            </span>
-          }
-          action={
-            <Button
-              key="undo"
-              color="primary"
-              size="small"
-              onClick={onClickReload}
-            >
-              neu laden
-            </Button>
-          }
-        />
+        <Layout>
+          {showData && <Data stacked={stacked} />}
+          {showExport && <Export stacked={stacked} />}
+          {showLogin && <Login />}
+          {show404 && <FourOhFour />}
+          {showDataGraph && <DataGraph />}
+          {showGraphIql && <GraphIql />}
+          {showAltGenerateUrl && <AltGenerateUrl />}
+          <Snackbar
+            open={updateAvailable}
+            message={
+              <span id="message-id">
+                Für arteigenschaften.ch ist ein Update verfügbar
+              </span>
+            }
+            action={
+              <Button
+                key="undo"
+                color="primary"
+                size="small"
+                onClick={onClickReload}
+              >
+                neu laden
+              </Button>
+            }
+          />
+        </Layout>
       </Container>
       )
     </ErrorBoundary>
