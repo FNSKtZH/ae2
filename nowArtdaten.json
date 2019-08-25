@@ -6,8 +6,8 @@
     "www.artdaten.ch"
   ],
   "env": {
-    "DBUSER": "@DBUSER",
-    "DBPASS": "@DBPASS"
+    "DBUSER": "@dbuser",
+    "DBPASS": "@dbpass"
   },
   "routes": [
     {
