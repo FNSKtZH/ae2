@@ -43,15 +43,11 @@
       "dest": "api/json.js"
     },
     {
-      "src": "/artendb/*",
+      "src": "/artendb/(.*)",
       "dest": "api/json.js"
     },
     {
       "src": "/api/evab/arten",
-      "dest": "api/json.js"
-    },
-    {
-      "src": "/api/alt",
       "dest": "api/json.js"
     }
   ]

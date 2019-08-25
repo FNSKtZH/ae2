@@ -97,7 +97,8 @@
     "source-map-explorer": "2.0.1"
   },
   "scripts": {
-    "build": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles api/**/* public/api",
+    "build": "gatsby clean && gatsby build",
+    "build2": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles api/**/* public/api",
     "buildArtdaten": "gatsby clean && gatsby build && shx cp nowArtdaten.json public/now.json && copyfiles api/**/* public/api",
     "clean": "gatsby clean",
     "dev": "gatsby develop",

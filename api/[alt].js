@@ -27,35 +27,8 @@ async function start() {
 
   server.route({
     method: 'GET',
-    path:
-      '/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen',
+    path: '/{path*}',
     handler: alt,
-  })
-
-  server.route({
-    method: 'GET',
-    // do not redirect because query is lost!
-    path:
-      '/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen',
-    handler: alt,
-  })
-
-  server.route({
-    method: 'GET',
-    path: '/api/alt',
-    handler: alt,
-  })
-
-  server.route({
-    method: 'GET',
-    path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
-    handler: (request, h) => h.redirect('/api/evab/arten'),
-  })
-
-  server.route({
-    method: 'GET',
-    path: '/api/evab/arten',
-    handler: async () => await app.db.any('select * from ae.evab_arten'),
   })
 
   await server.start()
