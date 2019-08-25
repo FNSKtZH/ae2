@@ -39,8 +39,12 @@
       "dest": "https://api.artdaten.ch/api/alt"
     },
     {
-      "src": "api.artdaten.ch",
-      "dest": "https://api.artdaten.ch"
+      "src": "/artendb/*",
+      "dest": "https://api.artdaten.ch/artendb"
+    },
+    {
+      "src": "/api/*",
+      "dest": "https://api.artdaten.ch/api"
     },
     {
       "src": "/graphql",
