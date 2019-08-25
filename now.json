@@ -1,9 +1,9 @@
 {
   "version": 2,
-  "name": "artdaten",
+  "name": "arteigenschaften",
   "alias": [
-    "artdaten.ch",
-    "www.artdaten.ch"
+    "arteigenschaften.ch",
+    "www.arteigenschaften.ch"
   ],
   "routes": [
     {

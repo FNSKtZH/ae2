@@ -31,20 +31,12 @@
       "dest": "/graphiql"
     },
     {
-      "src": "/artenlistentool/waehlen",
-      "dest": "/artenlistentool/waehlen"
-    },
-    {
-      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
-      "dest": "https://api.artdaten.ch/api/alt"
-    },
-    {
-      "src": "/artendb/*",
-      "dest": "https://api.artdaten.ch/artendb"
+      "src": "/api/test",
+      "dest": "test/index"
     },
     {
       "src": "/api/*",
-      "dest": "https://api.artdaten.ch/api"
+      "dest": "json/index"
     },
     {
       "src": "/graphql",
