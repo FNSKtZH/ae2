@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
   if (fields === undefined) {
     // No fields passed - returning standard fields
     const result = await db.any('select * from ae.alt_standard')
-    res.send(result)
+    res.json(result)
   }
   const parsedFields = JSON.parse(fields)
   // separate fields
@@ -319,5 +319,5 @@ module.exports = async (req, res) => {
   }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
 
   const result = await db.any(mySql)
-  res.send(result)
+  res.json(result)
 }

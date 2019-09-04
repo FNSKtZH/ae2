@@ -5,5 +5,5 @@ const db = pgp(
 
 module.exports = async (req, res) => {
   const result = await db.any('select * from ae.evab_arten')
-  res.send(result)
+  res.json(result)
 }
