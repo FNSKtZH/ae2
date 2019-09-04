@@ -9,12 +9,7 @@
   "author": "Alexander Gabriel",
   "license": "ISC",
   "dependencies": {
-    "ampersand-app": "2.0.0",
-    "hapi": "18.1.0",
-    "pg-promise": "9.1.0",
-    "sql-tagged-template-literal": "1.0.2"
-  },
-  "engines": {
-    "node": ">=10.0.0"
+    "pg-promise": "9.x",
+    "sql-tagged-template-literal": "1.x"
   }
 }
