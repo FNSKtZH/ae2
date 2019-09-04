@@ -19,9 +19,8 @@ module.exports = (req, res) => {
   const { fields } = req.query
   if (fields === undefined) {
     // No fields passed - returning standard fields
-    db.any('select * from ae.alt_standard').then(result => {
-      res.send(result)
-    })
+    const result = db.any('select * from ae.alt_standard')
+    res.send(result)
   }
   const parsedFields = JSON.parse(fields)
   // separate fields
@@ -319,7 +318,6 @@ module.exports = (req, res) => {
     sqlPco.length ? `,${sqlPco.join()}` : ''
   }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
 
-  db.any(mySql).then(result => {
-    res.send(result)
-  })
+  const result = db.any(mySql)
+  res.send(result)
 }
