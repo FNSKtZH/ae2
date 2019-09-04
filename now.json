@@ -36,19 +36,11 @@
     },
     {
       "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
-      "dest": "https://api.artdaten.ch"
+      "dest": "alt"
     },
     {
-      "src": "/artendb/(.*)",
-      "dest": "https://api.artdaten.ch"
-    },
-    {
-      "src": "/api/evab/arten",
-      "dest": "https://api.artdaten.ch"
-    },
-    {
-      "src": "/api/alt",
-      "dest": "https://api.artdaten.ch"
+      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
+      "dest": "alt"
     }
   ]
 }
