@@ -5,6 +5,6 @@ const db = pgp(
 
 module.exports = (req, res) => {
   db.any('select * from ae.evab_arten').then(result => {
-    res.json(result)
+    res.send(result)
   })
 }
