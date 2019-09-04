@@ -7,14 +7,19 @@
  * http://vitaly-t.github.io/pg-promise/ParameterizedQuery.html
  * Uups: that is really hard because of the objects!
  */
-const app = require('ampersand-app')
+
+const pgp = require(`pg-promise`)()
 const sql = require('sql-tagged-template-literal')
+
+const db = pgp(
+  `postgres://${process.env.DBUSER}:${process.env.DBPASS}@api.artdaten.ch:5432/ae`,
+)
 
 module.exports = async (request, h) => {
   const { fields } = request.query
   if (fields === undefined) {
     // No fields passed - returning standard fields
-    return await app.db.any('select * from ae.alt_standard')
+    return await db.any('select * from ae.alt_standard')
   }
   const parsedFields = JSON.parse(fields)
   // separate fields
@@ -28,7 +33,7 @@ module.exports = async (request, h) => {
       f.n !== null &&
       f.p &&
       f.p !== undefined &&
-      f.p !== null
+      f.p !== null,
   )
   const pcoFields = parsedFields.filter(
     f =>
@@ -39,7 +44,7 @@ module.exports = async (request, h) => {
       f.n !== null &&
       f.p &&
       f.p !== undefined &&
-      f.p !== null
+      f.p !== null,
   )
   const rcoFields = parsedFields.filter(
     f =>
@@ -53,7 +58,7 @@ module.exports = async (request, h) => {
       f.p !== null &&
       f.rt &&
       f.rt !== undefined &&
-      f.rt
+      f.rt,
   )
   const sql1 = `select
                   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
@@ -174,9 +179,7 @@ module.exports = async (request, h) => {
     return `CASE
               WHEN EXISTS(
                 SELECT
-                  substring(ae.property_collection_object.properties->>${sql`${
-                    f.p
-                  }`}, 1, 255)
+                  substring(ae.property_collection_object.properties->>${sql`${f.p}`}, 1, 255)
                 FROM
                   ae.property_collection_object
                   inner join ae.property_collection
@@ -186,9 +189,7 @@ module.exports = async (request, h) => {
                   and ae.property_collection.name = ${sql`${f.n}`}
               ) THEN (
                 SELECT
-                  substring(ae.property_collection_object.properties->>${sql`${
-                    f.p
-                  }`}, 1, 255)
+                  substring(ae.property_collection_object.properties->>${sql`${f.p}`}, 1, 255)
                 FROM
                   ae.property_collection_object
                   inner join ae.property_collection
@@ -200,9 +201,7 @@ module.exports = async (request, h) => {
               )
               WHEN EXISTS(
                 SELECT
-                  substring(ae.property_collection_object.properties->>${sql`${
-                    f.p
-                  }`}, 1, 255)
+                  substring(ae.property_collection_object.properties->>${sql`${f.p}`}, 1, 255)
                 FROM
                   ae.property_collection_object
                   inner join ae.property_collection
@@ -210,14 +209,10 @@ module.exports = async (request, h) => {
                 WHERE
                   ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
                   and ae.property_collection.name = ${sql`${f.n}`}
-                  and ae.property_collection_object.properties->>${sql`${
-                    f.p
-                  }`} is not null
+                  and ae.property_collection_object.properties->>${sql`${f.p}`} is not null
               ) THEN (
                 SELECT
-                  substring(ae.property_collection_object.properties->>${sql`${
-                    f.p
-                  }`}, 1, 255)
+                  substring(ae.property_collection_object.properties->>${sql`${f.p}`}, 1, 255)
                 FROM
                   ae.property_collection_object
                   inner join ae.property_collection
@@ -225,9 +220,7 @@ module.exports = async (request, h) => {
                 WHERE
                   ae.property_collection_object.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
                   and ae.property_collection.name = ${sql`${f.n}`}
-                  and ae.property_collection_object.properties->>${sql`${
-                    f.p
-                  }`} is not null
+                  and ae.property_collection_object.properties->>${sql`${f.p}`} is not null
                 LIMIT 1
               )
               ELSE null
@@ -240,15 +233,13 @@ module.exports = async (request, h) => {
       const fLength = Math.floor((63 - f.p.length - 11) / 2)
       fieldName = `${f.n.substr(0, fLength)} ${f.rt.substr(
         0,
-        fLength
+        fLength,
       )}: Art/LR: ${f.p}`
     }
     return `CASE
               WHEN EXISTS(
                 SELECT
-                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${
-                    f.p
-                  }`}), ' | '), 1, 255)
+                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${f.p}`}), ' | '), 1, 255)
                 FROM
                   ae.relation
                   inner join ae.property_collection
@@ -261,9 +252,7 @@ module.exports = async (request, h) => {
                   ae.object.id
               ) THEN (
                 SELECT
-                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${
-                    f.p
-                  }`}), ' | '), 1, 255)
+                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${f.p}`}), ' | '), 1, 255)
                 FROM
                   ae.relation
                   inner join ae.property_collection
@@ -277,9 +266,7 @@ module.exports = async (request, h) => {
               )
               WHEN EXISTS(
                 SELECT
-                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${
-                    f.p
-                  }`}), ' | '), 1, 255)
+                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${f.p}`}), ' | '), 1, 255)
                 FROM
                   ae.relation
                   inner join ae.property_collection
@@ -293,9 +280,7 @@ module.exports = async (request, h) => {
                   ae.object.id
               ) THEN (
                 SELECT
-                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${
-                    f.p
-                  }`}), ' | '), 1, 255)
+                  substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${f.p}`}), ' | '), 1, 255)
                 FROM
                   ae.relation
                   inner join ae.property_collection
@@ -333,5 +318,5 @@ module.exports = async (request, h) => {
   }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
   //console.log('sql:', sql)
 
-  return await app.db.any(mySql)
+  return await db.any(mySql)
 }
