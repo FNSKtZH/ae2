@@ -15,11 +15,13 @@ const db = pgp(
   `postgres://${process.env.DBUSER}:${process.env.DBPASS}@api.artdaten.ch:5432/ae`,
 )
 
-const alt = async (req, res) => {
+module.exports = (req, res) => {
   const { fields } = req.query
   if (fields === undefined) {
     // No fields passed - returning standard fields
-    return await db.any('select * from ae.alt_standard')
+    db.any('select * from ae.alt_standard').then(result => {
+      res.json(result)
+    })
   }
   const parsedFields = JSON.parse(fields)
   // separate fields
@@ -317,10 +319,7 @@ const alt = async (req, res) => {
     sqlPco.length ? `,${sqlPco.join()}` : ''
   }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
 
-  return await db.any(mySql)
-}
-
-module.exports = async (req, res) => {
-  const result = await alt(req, res)
-  res.json(result)
+  db.any(mySql).then(result => {
+    res.json(result)
+  })
 }
