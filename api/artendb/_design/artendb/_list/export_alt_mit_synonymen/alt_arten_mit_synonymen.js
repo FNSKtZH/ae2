@@ -15,11 +15,11 @@ const db = pgp(
   `postgres://${process.env.DBUSER}:${process.env.DBPASS}@api.artdaten.ch:5432/ae`,
 )
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   const { fields } = req.query
   if (fields === undefined) {
     // No fields passed - returning standard fields
-    const result = db.any('select * from ae.alt_standard')
+    const result = await db.any('select * from ae.alt_standard')
     res.send(result)
   }
   const parsedFields = JSON.parse(fields)
@@ -318,6 +318,6 @@ module.exports = (req, res) => {
     sqlPco.length ? `,${sqlPco.join()}` : ''
   }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
 
-  const result = db.any(mySql)
+  const result = await db.any(mySql)
   res.send(result)
 }

@@ -36,7 +36,7 @@
     },
     {
       "src": "/artendb/.*",
-      "dest": "alt"
+      "dest": "alt/index"
     }
   ]
 }

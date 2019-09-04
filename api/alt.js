@@ -17,17 +17,12 @@ const db = pgp(
 
 module.exports = async (req, res) => {
   const { fields } = req.query
-  console.log('alt, query:', JSON.stringify(req.query))
-  console.log('alt, fields:', fields)
   if (fields === undefined) {
-    console.log('alt, fields is undefined')
     // No fields passed - returning standard fields
-    const result = db.any('select * from ae.alt_standard')
-    console.log('alt, result:', result)
+    const result = await db.any('select * from ae.alt_standard')
     res.send(result)
   }
   const parsedFields = JSON.parse(fields)
-  console.log('alt, parsedFields:', parsedFields)
   // separate fields
   // and make sure they all have the required values
   const taxFields = parsedFields.filter(
@@ -41,7 +36,6 @@ module.exports = async (req, res) => {
       f.p !== undefined &&
       f.p !== null,
   )
-  console.log('alt, taxFields:', taxFields)
   const pcoFields = parsedFields.filter(
     f =>
       f.t &&
@@ -53,7 +47,6 @@ module.exports = async (req, res) => {
       f.p !== undefined &&
       f.p !== null,
   )
-  console.log('alt, pcoFields:', pcoFields)
   const rcoFields = parsedFields.filter(
     f =>
       f.t &&
@@ -68,7 +61,6 @@ module.exports = async (req, res) => {
       f.rt !== undefined &&
       f.rt,
   )
-  console.log('alt, rcoFields:', rcoFields)
   const sql1 = `select
                   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
                   (ae.object.properties->>'Taxonomie ID')::integer as "ref",
@@ -325,9 +317,7 @@ module.exports = async (req, res) => {
   const mySql = `${sql1}${sqlTax.length ? `,${sqlTax.join()}` : ''}${
     sqlPco.length ? `,${sqlPco.join()}` : ''
   }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
-  console.log('alt, mySql:', mySql)
 
-  const result = db.any(mySql)
-  console.log('alt, result:', result)
+  const result = await db.any(mySql)
   res.send(result)
 }
