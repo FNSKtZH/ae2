@@ -35,11 +35,7 @@
       "dest": "https://api.artdaten.ch/graphql"
     },
     {
-      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
-      "dest": "alt"
-    },
-    {
-      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
+      "src": "/artendb/.*",
       "dest": "alt"
     }
   ]
