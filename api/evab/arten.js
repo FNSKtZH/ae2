@@ -14,6 +14,4 @@ module.exports = async (req, res) => {
   console.log('print:', print)
   res.status(200)
   res.json(result)
-  res.send(result)
-  res.end(result)
 }

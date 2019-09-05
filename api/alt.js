@@ -16,12 +16,13 @@ const db = pgp(
 )
 
 module.exports = async (req, res) => {
-  //console.log('result res.send:', res.send)
   const { fields, felder } = req.query
-  const hasFields =
-    !(!fields || fields === 'undefined') || !(!felder || felder === 'undefined')
+  //console.log('alt, req.query.fields:', fields)
+  //console.log('typeof fields:', typeof fields)
+  //console.log('alt, req.query.felder:', felder)
+  //console.log('typeof felder:', typeof felder)
+  const hasFields = !!fields || !!felder
   if (!hasFields) {
-    console.log('alt, no fields')
     // No fields passed - returning standard fields
     let result
     try {
@@ -35,8 +36,13 @@ module.exports = async (req, res) => {
     res.send(result)
     return
   }
-  console.log('result, fields:', fields)
-  const parsedFields = JSON.parse(fields)
+  let parsedFields
+  if (!!fields) parsedFields = JSON.parse(fields)
+  if (!!felder) {
+    const object = JSON.parse(felder)
+    parsedFields = object.felder
+  }
+  console.log('parsedFields:', parsedFields)
   // separate fields
   // and make sure they all have the required values
   const taxFields = parsedFields.filter(
@@ -338,6 +344,6 @@ module.exports = async (req, res) => {
     return res.status(500).json(error)
   }
   const print = result && result.length && result[0] ? result[0] : 'oops'
-  console.log('result, print:', print)
+  console.log('result with fields, print:', print)
   res.status(200).json(result)
 }
