@@ -24,13 +24,13 @@
     "create-react-class": "15.6.3",
     "date-fns": "2.0.1",
     "dexie": "2.0.4",
-    "exceljs": "1.10.x",
+    "exceljs": "2.0.0",
     "file-saver": "2.0.2",
-    "gatsby": "2.15.6",
+    "gatsby": "2.15.7",
     "gatsby-plugin-create-client-paths": "2.1.6",
     "gatsby-plugin-eslint": "2.0.5",
-    "gatsby-plugin-manifest": "2.2.13",
-    "gatsby-plugin-offline": "3.0.2",
+    "gatsby-plugin-manifest": "2.2.14",
+    "gatsby-plugin-offline": "3.0.3",
     "gatsby-plugin-react-helmet": "3.1.6",
     "gatsby-plugin-styled-components": "3.1.4",
     "gatsby-plugin-typography": "2.3.6",
@@ -71,6 +71,7 @@
     "xlsx": "0.15.1"
   },
   "dependenciesComments": {
+    "is-nan": "imported to solve a problem in exceljs: https://github.com/exceljs/exceljs/issues/871#issuecomment-512662102",
     "exceljs": "Do not upgrade past 1.10.0, will break in production. See: https://github.com/exceljs/exceljs/issues/871",
     "remove-flow-types-loader": "needed because graphiql causes warnings: https://github.com/graphql/graphiql/issues/617#issuecomment-398237987"
   },
