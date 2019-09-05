@@ -17,10 +17,6 @@ const db = pgp(
 
 module.exports = async (req, res) => {
   const { fields, felder } = req.query
-  //console.log('alt, req.query.fields:', fields)
-  //console.log('typeof fields:', typeof fields)
-  //console.log('alt, req.query.felder:', felder)
-  //console.log('typeof felder:', typeof felder)
   const hasFields = !!fields || !!felder
   if (!hasFields) {
     // No fields passed - returning standard fields
@@ -37,12 +33,12 @@ module.exports = async (req, res) => {
     return
   }
   let parsedFields
-  if (!!fields) parsedFields = JSON.parse(fields)
-  if (!!felder) {
+  if (!!fields) {
+    parsedFields = JSON.parse(fields)
+  } else {
     const object = JSON.parse(felder)
     parsedFields = object.felder
   }
-  console.log('parsedFields:', parsedFields)
   // separate fields
   // and make sure they all have the required values
   const taxFields = parsedFields.filter(
