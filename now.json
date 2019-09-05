@@ -35,22 +35,16 @@
       "dest": "https://api.artdaten.ch/graphql"
     },
     {
-      "src": "/artendb/(.*)",
-      "dest": "/alt.js"
-    }
-  ],
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@now/node"
+      "src": "/artendb/_design/artendb/_list/export_evab/evab_arten",
+      "dest": "/api/alt.js"
     },
     {
-      "src": "artendb/**/*.js",
-      "use": "@now/node"
+      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
+      "dest": "/api/alt?fields=$felder"
     },
     {
-      "src": "package.json",
-      "use": "@now/static-build"
+      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
+      "dest": "/api/alt.js"
     }
   ]
 }
