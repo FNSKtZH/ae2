@@ -4,6 +4,13 @@ const db = pgp(
 )
 
 module.exports = async (req, res) => {
-  const result = await db.any('select * from ae.evab_arten')
-  res.send(result)
+  let result
+  try {
+    result = await db.any('select * from ae.evab_arten')
+  } catch (error) {
+    return res.status(500).json(error)
+  }
+  const print = result && result.length && result[0] ? result[0] : 'oops'
+  console.log('print:', print)
+  return res.status(200).json(result)
 }

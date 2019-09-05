@@ -16,60 +16,63 @@ const db = pgp(
 )
 
 module.exports = async (req, res) => {
-  console.log('result req:', req)
+  //console.log('result res.send:', res.send)
   const { fields } = req.query
   if (!fields || fields === 'undefined') {
     console.log('result 2 (no fields)')
     // No fields passed - returning standard fields
-    const result = await db.any('select * from ae.alt_standard')
-    console.log('result without fields:', result)
-    res.send(result)
-  } else {
-    console.log('result 2 (with fields)')
-    const parsedFields = JSON.parse(fields)
-    console.log('result 3')
-    // separate fields
-    // and make sure they all have the required values
-    const taxFields = parsedFields.filter(
-      f =>
-        f.t &&
-        f.t === 'tax' &&
-        f.n &&
-        f.n !== undefined &&
-        f.n !== null &&
-        f.p &&
-        f.p !== undefined &&
-        f.p !== null,
-    )
-    console.log('result 4')
-    const pcoFields = parsedFields.filter(
-      f =>
-        f.t &&
-        f.t === 'pco' &&
-        f.n &&
-        f.n !== undefined &&
-        f.n !== null &&
-        f.p &&
-        f.p !== undefined &&
-        f.p !== null,
-    )
-    console.log('result 5')
-    const rcoFields = parsedFields.filter(
-      f =>
-        f.t &&
-        f.t === 'rco' &&
-        f.n &&
-        f.n !== undefined &&
-        f.n !== null &&
-        f.p &&
-        f.p !== undefined &&
-        f.p !== null &&
-        f.rt &&
-        f.rt !== undefined &&
-        f.rt,
-    )
-    console.log('result 6')
-    const sql1 = `select
+    let result
+    try {
+      result = await db.any('select * from ae.alt_standard')
+    } catch (error) {
+      return res.status(500).json(error)
+    }
+    const print = result && result.length && result[0] ? result[0] : 'oops'
+    console.log('result without fields:', print)
+    res.status(200).send(result)
+    return
+  }
+  console.log('result 2 (with fields)')
+  const parsedFields = JSON.parse(fields)
+  // separate fields
+  // and make sure they all have the required values
+  const taxFields = parsedFields.filter(
+    f =>
+      f.t &&
+      f.t === 'tax' &&
+      f.n &&
+      f.n !== undefined &&
+      f.n !== null &&
+      f.p &&
+      f.p !== undefined &&
+      f.p !== null,
+  )
+  const pcoFields = parsedFields.filter(
+    f =>
+      f.t &&
+      f.t === 'pco' &&
+      f.n &&
+      f.n !== undefined &&
+      f.n !== null &&
+      f.p &&
+      f.p !== undefined &&
+      f.p !== null,
+  )
+  const rcoFields = parsedFields.filter(
+    f =>
+      f.t &&
+      f.t === 'rco' &&
+      f.n &&
+      f.n !== undefined &&
+      f.n !== null &&
+      f.p &&
+      f.p !== undefined &&
+      f.p !== null &&
+      f.rt &&
+      f.rt !== undefined &&
+      f.rt,
+  )
+  const sql1 = `select
                   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
                   (ae.object.properties->>'Taxonomie ID')::integer as "ref",
                   substring(ae.property_collection_object.properties->>'GIS-Layer', 1, 50) as "gisLayer",
@@ -133,15 +136,14 @@ module.exports = async (req, res) => {
                     )
                     ELSE 0
                   END AS "artwert"`
-    console.log('result 7')
-    const sqlTax = taxFields.map(f => {
-      let fieldName = `${f.n}: ${f.p}`
-      if (fieldName.length > 63) {
-        // postgre cuts off at 64
-        const nLength = 63 - f.p.length - 2
-        fieldName = `${f.n.substr(0, nLength)}: ${f.p}`
-      }
-      return `CASE
+  const sqlTax = taxFields.map(f => {
+    let fieldName = `${f.n}: ${f.p}`
+    if (fieldName.length > 63) {
+      // postgre cuts off at 64
+      const nLength = 63 - f.p.length - 2
+      fieldName = `${f.n.substr(0, nLength)}: ${f.p}`
+    }
+    return `CASE
               WHEN EXISTS(
                 SELECT
                   substring(ae.object.properties->>${sql`${f.p}`}, 1, 255)
@@ -178,16 +180,15 @@ module.exports = async (req, res) => {
               )
               ELSE null
             END AS "${fieldName}"`
-    })
-    console.log('result 8')
-    const sqlPco = pcoFields.map(f => {
-      let fieldName = `${f.n}: ${f.p}`
-      if (fieldName.length > 63) {
-        // postgre cuts off at 64
-        const nLength = 63 - f.p.length - 2
-        fieldName = `${f.n.substr(0, nLength)}: ${f.p}`
-      }
-      return `CASE
+  })
+  const sqlPco = pcoFields.map(f => {
+    let fieldName = `${f.n}: ${f.p}`
+    if (fieldName.length > 63) {
+      // postgre cuts off at 64
+      const nLength = 63 - f.p.length - 2
+      fieldName = `${f.n.substr(0, nLength)}: ${f.p}`
+    }
+    return `CASE
               WHEN EXISTS(
                 SELECT
                   substring(ae.property_collection_object.properties->>${sql`${f.p}`}, 1, 255)
@@ -236,19 +237,18 @@ module.exports = async (req, res) => {
               )
               ELSE null
             END AS "${fieldName}"`
-    })
-    console.log('result 9')
-    const sqlRco = rcoFields.map(f => {
-      let fieldName = `${f.n} ${f.rt}: Art/LR id: ${f.p}`
-      if (fieldName.length > 63) {
-        // postgre cuts off at 64
-        const fLength = Math.floor((63 - f.p.length - 11) / 2)
-        fieldName = `${f.n.substr(0, fLength)} ${f.rt.substr(
-          0,
-          fLength,
-        )}: Art/LR: ${f.p}`
-      }
-      return `CASE
+  })
+  const sqlRco = rcoFields.map(f => {
+    let fieldName = `${f.n} ${f.rt}: Art/LR id: ${f.p}`
+    if (fieldName.length > 63) {
+      // postgre cuts off at 64
+      const fLength = Math.floor((63 - f.p.length - 11) / 2)
+      fieldName = `${f.n.substr(0, fLength)} ${f.rt.substr(
+        0,
+        fLength,
+      )}: Art/LR: ${f.p}`
+    }
+    return `CASE
               WHEN EXISTS(
                 SELECT
                   substring(string_agg(concat(ae.relation.object_id_relation, ': ', ae.relation.properties->>${sql`${f.p}`}), ' | '), 1, 255)
@@ -307,9 +307,8 @@ module.exports = async (req, res) => {
               )
               ELSE null
             END AS "${fieldName}"`
-    })
-    console.log('result 11')
-    const sqlEnd = `from
+  })
+  const sqlEnd = `from
                     ae.object
                     inner join ae.taxonomy
                     on ae.object.taxonomy_id = ae.taxonomy.id
@@ -326,14 +325,16 @@ module.exports = async (req, res) => {
                     and ae.property_collection_object.properties->>'GIS-Layer' is not null
                     and ae.property_collection_object.properties->>'Betrachtungsdistanz (m)' ~ E'^\\\\\d+$'
                     and (ae.property_collection_object.properties->>'Betrachtungsdistanz (m)')::integer < 2147483647;`
-    console.log('result 12')
-    const mySql = `${sql1}${sqlTax.length ? `,${sqlTax.join()}` : ''}${
-      sqlPco.length ? `,${sqlPco.join()}` : ''
-    }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
-    console.log('result 13')
-
-    const result = await db.any(mySql)
-    console.log('result 14, result:', result)
-    res.send(result)
+  const mySql = `${sql1}${sqlTax.length ? `,${sqlTax.join()}` : ''}${
+    sqlPco.length ? `,${sqlPco.join()}` : ''
+  }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
+  let result
+  try {
+    result = await db.any(mySql)
+  } catch (error) {
+    return res.status(500).json(error)
   }
+  const print = result && result.length && result[0] ? result[0] : 'oops'
+  console.log('result, print:', print)
+  res.status(200).json(result)
 }
