@@ -28,8 +28,7 @@ module.exports = async (req, res) => {
     }
     const print = result && result.length && result[0] ? result[0] : 'oops'
     console.log('result no fields:', print)
-    res.status(200)
-    res.send(result)
+    res.status(200).json(result)
     return
   }
   let parsedFields
