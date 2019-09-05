@@ -11,7 +11,7 @@
       "dest": "/"
     },
     {
-      "src": "/Arten/.*",
+      "src": "/Arten/(.*)",
       "dest": "/Arten"
     },
     {
@@ -19,7 +19,7 @@
       "dest": "/Export"
     },
     {
-      "src": "/Export/.*",
+      "src": "/Export/(.*)",
       "dest": "/Export"
     },
     {
@@ -27,7 +27,7 @@
       "dest": "/graphiql"
     },
     {
-      "src": "/graphiql/.*",
+      "src": "/graphiql/(.*)",
       "dest": "/graphiql"
     },
     {
@@ -35,8 +35,22 @@
       "dest": "https://api.artdaten.ch/graphql"
     },
     {
-      "src": "/artendb/.*",
-      "dest": "alt/index"
+      "src": "/artendb/(.*)",
+      "dest": "/alt.js"
+    }
+  ],
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@now/node"
+    },
+    {
+      "src": "artendb/**/*.js",
+      "use": "@now/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@now/static-build"
     }
   ]
 }

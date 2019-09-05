@@ -17,10 +17,10 @@ const db = pgp(
 
 module.exports = async (req, res) => {
   const { fields } = req.query
-  if (fields === undefined) {
+  if (!fields || fields === 'undefined') {
     // No fields passed - returning standard fields
     const result = await db.any('select * from ae.alt_standard')
-    res.json(result)
+    return res.send(result)
   }
   const parsedFields = JSON.parse(fields)
   // separate fields
@@ -319,5 +319,5 @@ module.exports = async (req, res) => {
   }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
 
   const result = await db.any(mySql)
-  res.json(result)
+  res.send(result)
 }
