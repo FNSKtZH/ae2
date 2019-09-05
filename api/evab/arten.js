@@ -12,5 +12,8 @@ module.exports = async (req, res) => {
   }
   const print = result && result.length && result[0] ? result[0] : 'oops'
   console.log('print:', print)
-  return res.status(200).json(result)
+  res.status(200)
+  res.json(result)
+  res.send(result)
+  res.end(result)
 }
