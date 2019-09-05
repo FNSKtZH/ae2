@@ -36,11 +36,11 @@
     },
     {
       "src": "/artendb/_design/artendb/_list/export_evab/evab_arten",
-      "dest": "/api/alt.js"
+      "dest": "/api/evab/arten.js"
     },
     {
       "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
-      "dest": "/api/alt?fields=$felder"
+      "dest": "/api/alt.js"
     },
     {
       "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",

@@ -17,9 +17,11 @@ const db = pgp(
 
 module.exports = async (req, res) => {
   //console.log('result res.send:', res.send)
-  const { fields } = req.query
-  if (!fields || fields === 'undefined') {
-    console.log('result 2 (no fields)')
+  const { fields, felder } = req.query
+  const hasFields =
+    !(!fields || fields === 'undefined') || !(!felder || felder === 'undefined')
+  if (!hasFields) {
+    console.log('alt, no fields')
     // No fields passed - returning standard fields
     let result
     try {
@@ -28,12 +30,12 @@ module.exports = async (req, res) => {
       return res.status(500).json(error)
     }
     const print = result && result.length && result[0] ? result[0] : 'oops'
-    console.log('result without fields:', print)
+    console.log('result no fields:', print)
     res.status(200)
     res.send(result)
     return
   }
-  console.log('result 2 (with fields)')
+  console.log('result, fields:', fields)
   const parsedFields = JSON.parse(fields)
   // separate fields
   // and make sure they all have the required values
