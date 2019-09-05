@@ -29,7 +29,8 @@ module.exports = async (req, res) => {
     }
     const print = result && result.length && result[0] ? result[0] : 'oops'
     console.log('result without fields:', print)
-    res.status(200).send(result)
+    res.status(200)
+    res.send(result)
     return
   }
   console.log('result 2 (with fields)')
