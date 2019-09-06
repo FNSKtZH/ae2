@@ -12,5 +12,6 @@ module.exports = async (req, res) => {
   }
   const print = result && result.length && result[0] ? result[0] : 'oops'
   console.log('print:', print)
-  res.status(200).json(result)
+  const resultTest = [{ row: 0 }, { row: 1 }, { row: 2 }]
+  res.send(resultTest)
 }
