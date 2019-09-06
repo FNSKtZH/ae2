@@ -26,10 +26,8 @@ module.exports = async (req, res) => {
     } catch (error) {
       return res.status(500).json(error)
     }
-    const print = result && result.length && result[0] ? result[0] : 'oops'
-    console.log('result no fields:', print)
-    //res.status(200).send([{ test: 'test' }])
-    res.status(200).json({ result })
+    result.length = 28000
+    res.json(result)
     return
   }
   let parsedFields
@@ -339,12 +337,6 @@ module.exports = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error)
   }
-  const print = result && result.length && result[0] ? result[0] : 'oops'
-  console.log('result with fields, print:', print)
-  //res.status(200).send(result)
-  res.status(200)
-  //res.setHeader('Content-Type', ['application/json', 'charset=utf-8'])
-  //res.setHeader('Access-Control-Allow-Origin', '*')
-  //res.json({ result })
-  res.end(JSON.stringify(result))
+  result.length = 27000
+  res.json(result)
 }

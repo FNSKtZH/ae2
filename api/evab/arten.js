@@ -10,8 +10,6 @@ module.exports = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error)
   }
-  const print = result && result.length && result[0] ? result[0] : 'oops'
-  console.log('print:', print)
-  const resultTest = [{ row: 0 }, { row: 1 }, { row: 2 }]
-  res.send(resultTest)
+  result.length = 26000
+  res.json(result)
 }
