@@ -10,6 +10,6 @@ module.exports = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error)
   }
-  result.length = 26000
+  result.length = 25000
   res.json(result)
 }
