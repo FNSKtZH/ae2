@@ -8,26 +8,26 @@
  * Uups: that is really hard because of the objects!
  */
 
-const pgp = require(`pg-promise`)()
 const sql = require('sql-tagged-template-literal')
-
-const db = pgp(
-  `postgres://${process.env.DBUSER}:${process.env.DBPASS}@api.artdaten.ch:5432/ae`,
-)
+const { Pool } = require('pg')
+const pool = new Pool()
 
 module.exports = async (req, res) => {
+  const client = await pool.connect()
   const { fields, felder } = req.query
   const hasFields = !!fields || !!felder
   if (!hasFields) {
     // No fields passed - returning standard fields
     let result
     try {
-      result = await db.any('select * from ae.alt_standard')
+      result = await client.query('select * from ae.alt_standard')
     } catch (error) {
       return res.status(500).json(error)
+    } finally {
+      client.release()
     }
-    result.length = 27000
-    res.json(result)
+    result.rows.length = 27000
+    res.json(result.rows)
     return
   }
   let parsedFields
@@ -333,10 +333,12 @@ module.exports = async (req, res) => {
   }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
   let result
   try {
-    result = await db.any(mySql)
+    result = await client.query(mySql)
   } catch (error) {
     return res.status(500).json(error)
+  } finally {
+    client.release()
   }
-  result.length = 28000
-  res.json(result)
+  result.rows.length = 28000
+  res.json(result.rows)
 }

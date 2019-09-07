@@ -3,7 +3,12 @@
   "name": "ae2",
   "env": {
     "DBUSER": "@dbuser",
-    "DBPASS": "@dbpass"
+    "DBPASS": "@dbpass",
+    "PGUSER": "@pguser",
+    "PGHOST": "@pghost",
+    "PGPASSWORD": "@pgpassword",
+    "PGDATABASE": "@pgdatabase",
+    "PGPORT": "@pgport"
   },
   "routes": [
     {

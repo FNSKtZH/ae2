@@ -9,7 +9,7 @@
   "author": "Alexander Gabriel",
   "license": "ISC",
   "dependencies": {
-    "pg-promise": "9.x",
+    "pg": "7.x",
     "sql-tagged-template-literal": "1.x"
   },
   "engines": {

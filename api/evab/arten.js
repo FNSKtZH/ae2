@@ -1,15 +1,17 @@
-const pgp = require(`pg-promise`)()
-const db = pgp(
-  `postgres://${process.env.DBUSER}:${process.env.DBPASS}@api.artdaten.ch:5432/ae`,
-)
+const { Pool } = require('pg')
+
+const pool = new Pool()
 
 module.exports = async (req, res) => {
+  const client = await pool.connect()
   let result
   try {
-    result = await db.any('select * from ae.evab_arten')
+    result = await client.query('select * from ae.evab_arten')
   } catch (error) {
     return res.status(500).json(error)
+  } finally {
+    client.release()
   }
-  result.length = 25000
-  res.json(result)
+  result.rows.length = 25000
+  res.json(result.rows)
 }
