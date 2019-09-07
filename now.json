@@ -2,8 +2,6 @@
   "version": 2,
   "name": "ae2",
   "env": {
-    "DBUSER": "@dbuser",
-    "DBPASS": "@dbpass",
     "PGUSER": "@pguser",
     "PGHOST": "@pghost",
     "PGPASSWORD": "@pgpassword",
