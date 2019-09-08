@@ -83,7 +83,9 @@ const App = () => {
     setStacked(shouldBeStacked)
   }, [])
 
-  useEffect(() => updateStacked(), [updateStacked])
+  useEffect(() => {
+    updateStacked()
+  }, [updateStacked])
 
   useEffect(() => {
     typeof window !== 'undefined' &&
