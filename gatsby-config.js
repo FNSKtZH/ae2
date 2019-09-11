@@ -38,6 +38,7 @@ module.exports = {
       resolve: 'gatsby-plugin-typography',
       options: {
         pathToConfigModule: './src/modules/typography.js',
+        omitGoogleFont: true,
       },
     },
     'gatsby-plugin-react-helmet',
