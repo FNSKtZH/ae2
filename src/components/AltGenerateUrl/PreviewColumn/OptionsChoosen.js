@@ -5,11 +5,12 @@ import compose from 'recompose/compose'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import constants from '../../../modules/constants'
 import TaxProperties from './TaxProperties'
 import PcoProperties from './PcoProperties'
 import RcoProperties from './RcoProperties'
 import mobxStoreContext from '../../../mobxStoreContext'
+import getConstants from '../../../modules/constants'
+const constants = getConstants()
 
 const styles = theme => ({
   button: {

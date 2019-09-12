@@ -4,7 +4,8 @@ import ErrorBoundary from 'react-error-boundary'
 
 import AllTaxChooser from './AllTaxChooser'
 import TaxChooserList from './TaxChooserList'
-import constants from '../../../../modules/constants'
+import getConstants from '../../../../modules/constants'
+const constants = getConstants()
 
 const Container = styled.div`
   display: flex;
