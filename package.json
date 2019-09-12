@@ -119,7 +119,7 @@
     "not op_mini all"
   ],
   "resolutions": {
-    "dom-helpers": "5.0.1"
+    "dom-helpers": "3.4.0"
   },
   "resolutionsComments": {
     "dom-helpers": "there exist conflicting version in dependencies"
