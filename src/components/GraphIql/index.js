@@ -22,7 +22,7 @@ function graphQLFetcher(graphQLParams) {
   }).then(response => response.json())
 }
 
-const DataGraph = ({ dataGraphData }) => {
+const GraphIql = ({ dataGraphData }) => {
   const loading = get(dataGraphData, 'loading', false)
 
   if (loading) return <LoadingContainer>Lade Daten...</LoadingContainer>
@@ -36,4 +36,4 @@ const DataGraph = ({ dataGraphData }) => {
   )
 }
 
-export default DataGraph
+export default GraphIql
