@@ -73,6 +73,7 @@
     "xlsx": "0.15.1"
   },
   "dependenciesComments": {
+    "dom-helpers": "needed by docz-gatsby-theme",
     "exceljs": "Do not upgrade past 1.10.0, will break in production. See: https://github.com/exceljs/exceljs/issues/871, https://github.com/exceljs/exceljs/issues/948",
     "remove-flow-types-loader": "needed because graphiql causes warnings: https://github.com/graphql/graphiql/issues/617#issuecomment-398237987"
   },
@@ -118,5 +119,11 @@
     "not dead",
     "not ie > 0",
     "not op_mini all"
-  ]
+  ],
+  "peerDependencies": {
+    "dom-helpers": "3.4.0"
+  },
+  "resolutions": {
+    "dom-helpers": "3.4.0"
+  }
 }
