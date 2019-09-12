@@ -24,10 +24,10 @@
     "create-react-class": "15.6.3",
     "date-fns": "2.1.0",
     "dexie": "2.0.4",
-    "docz": "^2.0.0-rc.39",
+    "docz": "2.0.0-rc.39",
     "exceljs": "2.0.1",
     "file-saver": "2.0.2",
-    "gatsby": "^2.15.14",
+    "gatsby": "2.15.14",
     "gatsby-plugin-create-client-paths": "2.1.7",
     "gatsby-plugin-eslint": "2.0.5",
     "gatsby-plugin-manifest": "2.2.16",
@@ -37,7 +37,7 @@
     "gatsby-plugin-typography": "2.3.7",
     "gatsby-plugin-web-font-loader": "1.0.4",
     "gatsby-source-filesystem": "2.1.22",
-    "gatsby-theme-docz": "^2.0.0-rc.39",
+    "gatsby-theme-docz": "2.0.0-rc.39",
     "graphiql": "0.14.2",
     "graphql-tag": "2.10.1",
     "is-uuid": "1.0.2",
@@ -117,5 +117,11 @@
     "not dead",
     "not ie > 0",
     "not op_mini all"
-  ]
+  ],
+  "resolutions": {
+    "dom-helpers": "5.0.1"
+  },
+  "resolutionsComments": {
+    "dom-helpers": "there exist conflicting version in dependencies"
+  }
 }
