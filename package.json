@@ -117,11 +117,5 @@
     "not dead",
     "not ie > 0",
     "not op_mini all"
-  ],
-  "resolutions": {
-    "dom-helpers": "3.4.0"
-  },
-  "resolutionsComments": {
-    "dom-helpers": "there exist conflicting version in dependencies"
-  }
+  ]
 }
