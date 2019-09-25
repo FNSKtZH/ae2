@@ -257,8 +257,8 @@ DROP VIEW IF EXISTS ae.v_vermehrung_arten CASCADE;
 CREATE OR REPLACE VIEW ae.v_vermehrung_arten AS
 select
   id,
-  name
+  properties->>'Artname' as name
 from ae.object
 where taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
-and properties is not null
+and properties->>'Artname' is not null
 order by name;
