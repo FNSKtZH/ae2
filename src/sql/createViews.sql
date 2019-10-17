@@ -268,3 +268,45 @@ where
   taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
   and properties->>'Artname' is not null
 order by name;
+
+-- view for apflora.ch
+drop view if exist ae.v_apflora_lr_delarze cascade;
+create or replace view ae.v_apflora_lr_delarze as
+select 
+  id,
+  properties->>'Label' as label,
+  properties->>'Einheit' as einheit,
+  name from ae.object
+where
+  taxonomy_id = '69d34753-445b-4c55-b3b7-e570f7dc1819'
+order by
+  label;
+
+drop view if exists ae.v_apflora_sisf2 cascade;
+create or replace view ae.v_apflora_sisf2 as
+with objkef as (
+	select * from ae.property_collection_object
+	where property_collection_id = 'bdf4dd9a-7b0e-11e8-b9a5-bd4f79edbcc4'
+), objartwert as (
+	select * from ae.property_collection_object
+	where property_collection_id = 'bdf89414-7b0e-11e8-a170-ab93aeea0aac'
+)
+select distinct
+	ae.object.id, 
+	cast(ae.object.properties->>'Taxonomie ID' as INTEGER) as taxid,
+	ae.object.properties->>'Familie' as familie,
+	ae.object.name as artname,
+	ae.object.properties->>'Status' as status,
+	cast(objartwert.properties->>'Artwert' as INTEGER) as artwert,
+	cast(objkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN) as kefart,
+	cast(objkef.properties->>'Erstes Kontrolljahr' as INTEGER) as kefkontrolljahr
+from ae.object
+  left join objkef on objkef.object_id = ae.object.id
+  left join objartwert on objartwert.object_id = ae.object.id
+where
+  -- sisf index 2
+  taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
+  -- only lowest hierarchy, not pure structural objects
+  and ae.object.properties->>'Taxonomie ID' is not null
+order by
+  ae.object.name;
