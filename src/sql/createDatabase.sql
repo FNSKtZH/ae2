@@ -7,7 +7,7 @@ create extension if not exists "postgres_fdw";
 create user fdw_user with encrypted password 'secret';
 grant select on table ae.v_vermehrung_arten to fdw_user;
 grant select on table ae.v_apflora_lr_delarze to fdw_user;
-grant select on table ae.v_apflora_sisf2 to fdw_user;
+grant select on table ae.v_apflora_taxonomies to fdw_user;
 create extension if not exists pgcrypto;
 create role anon;
 create role authenticator with login password 'secret' noinherit;
