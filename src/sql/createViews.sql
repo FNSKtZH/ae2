@@ -292,19 +292,28 @@ with objkef as (
 	where property_collection_id = 'bdf89414-7b0e-11e8-a170-ab93aeea0aac'
 )
 select distinct
-  tax.name as taxonomie,
+  tax.id as taxonomie_id,
+  tax.name as taxonomie_name,
 	ae.object.id, 
 	cast(ae.object.properties->>'Taxonomie ID' as INTEGER) as taxid,
 	ae.object.properties->>'Familie' as familie,
 	ae.object.name as artname,
 	ae.object.properties->>'Status' as status,
 	cast(objartwert.properties->>'Artwert' as INTEGER) as artwert,
-	cast(objkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN) as kefart,
+  case
+    when objkef.properties->>'Art ist KEF-Kontrollindikator' is not null
+    then cast(objkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN)
+  else
+    cast(synobjkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN)
+  end as kefart,
 	cast(objkef.properties->>'Erstes Kontrolljahr' as INTEGER) as kefkontrolljahr
 from ae.object
   inner join ae.taxonomy tax on tax.id = ae.object.taxonomy_id
-  left join objkef on objkef.object_id = ae.object.id
-  left join objartwert on objartwert.object_id = ae.object.id
+  left join objkef on objkef.object_id = ae.object.id-- or objkef.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
+  left join ae.synonym synkef 
+    inner join objkef synobjkef on synobjkef.object_id = synkef.object_id_synonym
+  on ae.object.id = synkef.object_id
+  left join objartwert on objartwert.object_id = ae.object.id-- or objartwert.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
 where
   -- sisf index 2
   taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
