@@ -306,7 +306,12 @@ select distinct
   else
     cast(synobjkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN)
   end as kefart,
-	cast(objkef.properties->>'Erstes Kontrolljahr' as INTEGER) as kefkontrolljahr
+  case
+    when objkef.properties->>'Erstes Kontrolljahr' is not null
+    then cast(objkef.properties->>'Erstes Kontrolljahr' as INTEGER)
+  else
+    cast(synobjkef.properties->>'Erstes Kontrolljahr' as INTEGER)
+  end as kefkontrolljahr
 from ae.object
   inner join ae.taxonomy tax on tax.id = ae.object.taxonomy_id
   left join objkef on objkef.object_id = ae.object.id-- or objkef.object_id in (select object_id_synonym from ae.synonym where object_id = ae.object.id)
