@@ -292,6 +292,7 @@ with objkef as (
 	where property_collection_id = 'bdf89414-7b0e-11e8-a170-ab93aeea0aac'
 )
 select distinct
+  tax.name as taxonomie,
 	ae.object.id, 
 	cast(ae.object.properties->>'Taxonomie ID' as INTEGER) as taxid,
 	ae.object.properties->>'Familie' as familie,
@@ -301,6 +302,7 @@ select distinct
 	cast(objkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN) as kefart,
 	cast(objkef.properties->>'Erstes Kontrolljahr' as INTEGER) as kefkontrolljahr
 from ae.object
+  inner join ae.taxonomy tax on tax.id = ae.object.taxonomy_id
   left join objkef on objkef.object_id = ae.object.id
   left join objartwert on objartwert.object_id = ae.object.id
 where
@@ -309,4 +311,5 @@ where
   -- only lowest hierarchy, not pure structural objects
   and ae.object.properties->>'Taxonomie ID' is not null
 order by
+  tax.name,
   ae.object.name;
