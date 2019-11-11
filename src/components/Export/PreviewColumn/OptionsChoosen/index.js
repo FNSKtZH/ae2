@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import { getSnapshot } from 'mobx-state-tree'
 
 import TaxFilterItems from './TaxFilterItems'
 import PcoFilterItems from './PcoFilterItems'
@@ -65,20 +66,26 @@ const OptionsChoosen = ({ classes }) => {
     setOnlyRowsWithProperties,
     withSynonymData,
     setWithSynonymData,
-    pcoFilters,
-    rcoFilters,
-    taxFilters,
+    pcoFilters: pcoFiltersPassed,
+    rcoFilters: rcoFiltersPassed,
+    taxFilters: taxFiltersPassed,
     resetPcoFilters,
     resetRcoFilters,
     resetTaxFilters,
     resetRcoProperties,
-    rcoProperties,
+    rcoProperties: rcoPropertiesPassed,
     resetPcoProperties,
-    pcoProperties,
+    pcoProperties: pcoPropertiesPassed,
     resetTaxProperties,
-    taxProperties,
+    taxProperties: taxPropertiesPassed,
     rcoInOneRow,
   } = mobxStore.export
+  const pcoFilters = getSnapshot(pcoFiltersPassed)
+  const rcoFilters = getSnapshot(rcoFiltersPassed)
+  const taxFilters = getSnapshot(taxFiltersPassed)
+  const rcoProperties = getSnapshot(rcoPropertiesPassed)
+  const pcoProperties = getSnapshot(pcoPropertiesPassed)
+  const taxProperties = getSnapshot(taxPropertiesPassed)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const noDataChoosen =

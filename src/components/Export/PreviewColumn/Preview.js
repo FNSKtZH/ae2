@@ -182,14 +182,22 @@ const Preview = () => {
   const {
     onlyRowsWithProperties: exportOnlyRowsWithProperties,
     withSynonymData,
-    pcoFilters,
-    rcoFilters,
-    taxFilters,
-    rcoProperties,
-    pcoProperties,
-    taxProperties,
+    pcoFilters: pcoFiltersPassed,
+    rcoFilters: rcoFiltersPassed,
+    taxFilters: taxFiltersPassed,
+    rcoProperties: rcoPropertiesPassed,
+    pcoProperties: pcoPropertiesPassed,
+    taxProperties: taxPropertiesPassed,
     rcoInOneRow,
   } = mobxStore.export
+  // 2019 08 20: No idea why suddenly need to getSnapshot
+  // because without changes are not detected????
+  const pcoFilters = getSnapshot(pcoFiltersPassed)
+  const rcoFilters = getSnapshot(rcoFiltersPassed)
+  const taxFilters = getSnapshot(taxFiltersPassed)
+  const rcoProperties = getSnapshot(rcoPropertiesPassed)
+  const pcoProperties = getSnapshot(pcoPropertiesPassed)
+  const taxProperties = getSnapshot(taxPropertiesPassed)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
   const exportIds = mobxStore.export.ids.toJSON()
 
@@ -209,9 +217,7 @@ const Preview = () => {
   } = useQuery(exportObjectQuery, {
     variables: {
       exportTaxonomies,
-      // 2019 08 20: No idea why suddenly need to getSnapshot
-      // because without changes of taxFilters are not detected????
-      taxFilters: getSnapshot(taxFilters),
+      taxFilters,
       fetchTaxProperties: taxProperties.length > 0,
     },
   })
@@ -226,7 +232,7 @@ const Preview = () => {
     error: exportPcoError,
   } = useQuery(exportPcoQuery, {
     variables: {
-      pcoFilters: getSnapshot(pcoFilters),
+      pcoFilters,
       pcoProperties,
       fetchPcoProperties: pcoProperties.length > 0,
     },
@@ -237,7 +243,7 @@ const Preview = () => {
     error: exportRcoError,
   } = useQuery(exportRcoQuery, {
     variables: {
-      rcoFilters: getSnapshot(rcoFilters),
+      rcoFilters,
       rcoProperties,
       fetchRcoProperties: rcoProperties.length > 0,
     },

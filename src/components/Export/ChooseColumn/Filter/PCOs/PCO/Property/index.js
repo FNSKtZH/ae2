@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import { getSnapshot } from 'mobx-state-tree'
 
 import Comparator from './Comparator'
 import Value from './Value'
@@ -18,7 +19,8 @@ const Container = styled.div`
 
 const PcoProperty = ({ pcname, pname, jsontype, count }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { pcoFilters } = mobxStore.export
+  const { pcoFilters: pcoFiltersPassed } = mobxStore.export
+  const pcoFilters = getSnapshot(pcoFiltersPassed)
 
   const pcoFilter = pcoFilters.find(
     x => x.pcname === pcname && x.pname === pname,
