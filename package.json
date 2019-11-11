@@ -70,7 +70,6 @@
     "xlsx": "0.15.1"
   },
   "dependenciesComments": {
-    "exceljs": "Do not upgrade past 1.10.0, will break in production. See: https://github.com/exceljs/exceljs/issues/871, https://github.com/exceljs/exceljs/issues/948",
     "remove-flow-types-loader": "needed because graphiql causes warnings: https://github.com/graphql/graphiql/issues/617#issuecomment-398237987"
   },
   "devDependencies": {
