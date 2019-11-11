@@ -3,7 +3,6 @@ module.exports = {
     title: 'arteigenschaften',
   },
   plugins: [
-    'gatsby-theme-docz',
     {
       resolve: 'gatsby-plugin-eslint',
       options: {
