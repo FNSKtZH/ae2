@@ -10,7 +10,7 @@ import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
 import Snackbar from '@material-ui/core/Snackbar'
-import constants from '../../../modules/constants'
+import getConstants from '../../../modules/constants'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -61,6 +61,7 @@ const propsByTaxQuery = gql`
 const Properties = () => {
   const mobxStore = useContext(mobxStoreContext)
   const { setTaxonomies } = mobxStore.export
+  const constants = getConstants()
 
   const { loading } = useQuery(propsByTaxQuery, {
     variables: {
@@ -70,7 +71,7 @@ const Properties = () => {
 
   useEffect(() => {
     setTaxonomies(constants.altTaxonomies)
-  }, [setTaxonomies])
+  }, [constants.altTaxonomies, setTaxonomies])
 
   const [taxonomiesExpanded, setTaxonomiesExpanded] = useState(false)
   const [pcoExpanded, setPcoExpanded] = useState(false)

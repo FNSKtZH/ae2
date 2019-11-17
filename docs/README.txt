@@ -1,8 +1,14 @@
+---
+name: Projektbeschreibung
+route: /docs
+---
+
 # Was ist arteigenschaften.ch?
 
 ## Ziele
 
 ### Ausgangspunkt
+
 ...sind Erfahrungen, welche in der Fachstelle Naturschutz gemacht wurden:
 
 - Bezieht man Daten aus anderen Quellen, ist es schwierig, sie vollständig, fehlerfrei und aktuell zu (er-)halten
@@ -10,6 +16,7 @@
 - Eigenschaften von Arten und Lebensräumen interessieren nicht nur die Fachstelle Naturschutz des Kantons Zürich. Ideal wäre eine von allen in diesem Bereich tätigen Stellen gemeinsam nachgeführte Datenbank. Oder realistischer: Ein Ort, an dem frei zugängliche Daten mit wenig Aufwand vereint werden können
 
 ### Was zeichnet arteigenschaften.ch aus?
+
 Die wichtigsten Merkmale dürften sein:
 
 - Die verwendeten Begriffe und Datenstrukturen sind auf Eigenschaften von Arten und Lebensräumen zugeschnitten
@@ -18,12 +25,15 @@ Die wichtigsten Merkmale dürften sein:
 - Daten können beim Export für anschliessende Auswertungen einfach und rasch kombiniert werden
 
 ### Wozu wird arteigenschaften.ch benutzt?
+
 ##### Nachschlagen
+
 Man kann arteigenschaften.ch benutzen, um Informationen nachzuschlagen. Das dürfte sogar der häufigste Anwendungszweck sein. Die Darstellung ist aber eingeschränkt, da die Benutzeroberfläche dynamisch aus flexiblen Datenstrukturen generiert wird und arteigenschaften.ch keine Bilder enthält. Anwendungen mit statischer Datenstruktur können Informationen benutzerfreundlicher darstellen.
 
 Hilfreich könnte allerdings sein, wenn der einfache Import (wie erhofft) dazu führen sollte, dass arteigenschaften.ch besonders umfassende und aktuelle Informationen enthält.
 
 ##### Auswerten
+
 arteigenschaften.ch wurde entwickelt, um mit Hilfe der darin enthaltenen Daten Auswertungen durchzuführen. Meist in Kombination mit Artbeobachtungen oder Lebensraumkartierungen. Beispiele:
 
 - In einer Liste von Artbeobachtungen die wertvollsten Arten identifizieren, z.B. mithilfe des Artwerts, der nationalen Priorität oder des Rote-Liste-Status
@@ -36,9 +46,11 @@ arteigenschaften.ch wurde entwickelt, um mit Hilfe der darin enthaltenen Daten A
 Besonders geeignet ist arteigenschaften.ch, wenn in einem Projekt eigene Art- oder Lebensraumeigenschaften erhoben und mit anderen für die Auswertung kombiniert werden sollen.
 
 ##### Daten für andere Anwendung bereitstellen
+
 Andere Anwendungen können Daten aus arteigenschaften.ch direkt abholen und nutzen. Mehr Infos [hier](#diese-technologien-werden-verwendet).
 
 ##### Nutzungsbedingungen
+
 arteigenschaften.ch ist ein Werkzeug der Fachstelle Naturschutz des Kantons Zürich (FNS). Die Daten stehen frei zur Verfügung. Möchten Sie Daten importieren, wenden Sie sich bitte an [Andreas Lienhard](mailto:andreas.lienhard@bd.zh.ch). Die FNS behält sich vor, die optimale Integration von Daten in arteigenschaften.ch zu besprechen und allenfalls Einfluss darauf zu nehmen.
 
 Es können nur Daten akzeptiert werden, deren Eigner mit der Veröffentlichung einverstanden sind. Arteigenschaften der FNS sind open data.
@@ -46,6 +58,7 @@ Es können nur Daten akzeptiert werden, deren Eigner mit der Veröffentlichung e
 Die Anwendung arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, sie zu kopieren und selber zu betreiben, ohne allfälligen Einfluss der FNS oder mit Daten, die man nicht veröffentlichen will. Oder besser: gemeinsam weiter zu entwickeln.
 
 ### Das Zielpublikum
+
 ...befasst sich mit Arten und Lebensräumen. Es arbeitet primär in den Sachbereichen Naturschutz, Jagd und Fischerei, Gewässer, Wald, Landwirtschaft und Problemarten. Angesprochen sein dürften Fachstellen bei Bund, Kantonen, Gemeinden, Forschungseinrichtungen und freischaffende Fachleute bzw. Ökobüros.
 
 ### Ziele für die Benutzerin
@@ -69,6 +82,7 @@ Die Anwendung arteigenschaften.ch ist [open source](#open-source). Es steht alle
 ## Fachliches Konzept
 
 ### Der Grundgedanke
+
 Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich diese [Grundstrukturen der Datenbank](#aktueller-stand) ab:
 
 - Taxonomien mit Objekten und Synonymen
@@ -77,6 +91,7 @@ Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich diese
 Ja, das ist alles :-)
 
 ### Taxonomien
+
 [Taxonomien](http://de.wikipedia.org/wiki/Taxonomie) klassifizieren <a href="http://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> (z.B. Arten) mit einer [Hierarchie](http://de.wikipedia.org/wiki/Hierarchie). Die Entwicklung von Taxonomien und der Umgang mit unterschiedlichen und sich laufend verändernden Taxonomien sind höchst anspruchsvoll.
 
 Andere geläufige Begriffe: Nomenklatur, Index, Flora, Kartierschlüssel, Lebensraumschlüssel.
@@ -86,9 +101,11 @@ Beispiele: Indizes der nationalen Artdatenzentren, "Flora der Schweiz (Ausgabe 2
 Im Idealfall enthielte die aktuell vom nationalen Zentrum verwendete Taxonomie nur "offizielle" Arten und z.B. keine Synonyme. Stattdessen würden Beziehungen zwischen offiziellen Arten und Arten anderer Taxonomien beschrieben. Da die Daten von den nationalen Zentren unseres Wissens (noch?) nicht so erhältlich sind, ist das in arteigenschaften.ch nicht realisiert aber im Design vorgesehen und bei Vorliegen entsprechender Daten direkt umsetzbar.
 
 ### Objekte
+
 <a href="https://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Aber nicht nur die Arten selbst, sondern jede Stufe der Hierarchie darüber und darunter, z.B. Familie, Gattung, Unterart.
 
 ### Eigenschaften-Sammlungen
+
 Systematische Informationen über Arten kommen in Sammlungen, z.B. „Flora Indicativa 2010“. Solche Sammlungen haben gemeinsame Eigenschaften wie z.B.:
 
 - Dieselbe Herkunft (Autoren, Publikation, Publikationsdatum)
@@ -112,14 +129,15 @@ arteigenschaften.ch kann auch Eigenschaften und Beziehungen von synonymen Objekt
 In fast allen Fällen ist es sinnvoll, Eigenschaften und Beziehungen pro Eigenschaften-Sammlung darzustellen. Z.B. bei der Anzeige in der Anwendung oder wenn Daten für Exporte ausgewählt werden.
 
 ### Zusammenfassende Eigenschaften-Sammlungen
+
 Für bestimmte Zwecke ist zusätzlich das Gegenteil interessant: Daten aus verschiedenen Eigenschaften-Sammlungen zusammenfassen. Z.B. wenn man über alle Artengruppen den aktuellsten Rote-Liste-Status darstellen will. Er steckt in diversen Eigenschaften-Sammlungen, da er häufig pro Artengruppe separat publiziert wird.
 
 Das geht so:
 
 - Eine zusätzliche Eigenschaften-Sammlung mit Eigenschaft "zusammenfassend" schaffen
 - Die entsprechenden Daten werden zwei mal importiert:
- - Ein mal in die Ursprungs-Eigenschaften-Sammlung
- - Ein mal in die zusammenfassende
+- Ein mal in die Ursprungs-Eigenschaften-Sammlung
+- Ein mal in die zusammenfassende
 - Die zusammenfassende Eigenschaften-Sammlung kann genau gleich wie alle anderen Eigenschaften-Sammlungen in der Anwendung angezeigt, exportiert oder über eine Schnittstelle angezapft werden
 
 Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
@@ -130,6 +148,7 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 - Falls einige 1985 beschriebene Arten 2012 nicht mehr beschrieben wurden, bleibt der Rote-Liste-Status von 1985 erhalten. Um dies kenntlich zu machen, soll in der zusammenfassenden Eigenschaften-Sammlung in einem zusätzlichen Feld immer der Name der Ursprungs-Eigenschaften-Sammlung mitgeliefert werden
 
 ### Eigenschaften
+
 [Eigenschaften](http://de.wikipedia.org/wiki/Eigenschaft) beschreiben einzelne Objekte. Beispiele:
 
 - Artwert
@@ -137,6 +156,7 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 - nationale Priorität
 
 ### Beziehungen
+
 [Beziehungen](https://de.wikipedia.org/wiki/Relation) beschreiben das Verhältnis zwischen zwei oder mehr Objekten. Beispiele:
 
 - Bindung von Arten an Biotope
@@ -146,9 +166,11 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 - aber auch taxonomische Beziehungen wie "synonym"
 
 ### Daten decodieren
+
 Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in einer früheren Version von arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind (nur) codierte Informationen zu vermeiden oder um uncodierte zu ergänzen.
 
 ### Eigenschaften-Sammlungen aktualisieren
+
 Wie soll eine bestehende Eigenschaften-Sammlung aktualisiert werden? Zu bedenken sind u.a.:
 
 - Müssen frühere Auswertungen nachvollzogen bzw. wiederholt werden können? Wenn ja, sollten ältere Versionen unverändert erhalten bleiben
@@ -160,6 +182,7 @@ Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgender
 - Für die Auswertung unter Einbezug aller Artwerte eine zusammenfassende Eigenschaften-Sammlung schaffen, z.B. "ZH Artwert (aktuell)"
 
 **Ideen für die Zukunft**
+
 - Benutzer können eigene Listen von Objekten (z.B. Art-Beobachtungen, Lebensräume) mit Eigenschaften verknüpfen:
   - Benutzerin lädt eine Tabelle mit ihren Beobachtungen oder Lebensräumen (wie bei Importen)
   - Sie wählt, mit welcher ID diese Daten mit Eigenschaften verknüpft werden sollen (wie bei Importen)
@@ -167,7 +190,8 @@ Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgender
   - Benutzer wählt Eigenschaften (wie bei Exporten)
   - Benutzer lädt Ergebnis herunter (wie bei Exporten)
 
-### Open source 
+### Open source
+
 [![js-standard-style](https://img.shields.io/badge/license-ISC-brightgreen.svg)](https://github.com/barbalex/ae2/blob/master/license.md)
 
 Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/master/license.md) ist sehr freizügig. Auch die von der FNS stammenden Daten sind open data. Eine Weiterverbreitung der in der Anwendung enthaltenen und nicht von der FNS stammenden Daten ist aber nur mit Einverständnis der Autoren zulässig.
@@ -175,23 +199,25 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 ## Neu-Aufbau 2017/2018
 
 ### Grundlage
+
 ...sind folgende Erkenntnisse:
 
--	Die Anwendung ist nützlich und es gibt bisher keine echte Alternative. Es ist daher davon auszugehen, dass sie noch ein paar Jahre benutzt wird
--	Es gibt einige aktuelle Erweiterungs-Wünsche. Das dürften nicht die letzten sein
--	Anpassungen an der aktuellen Anwendung sind anspruchsvoll und Nebenwirkungen schwierig zu vermeiden
--	Web- und Datenbanktechnologie entwickeln sich rasant weiter. Daher stehen heute viel [besser geeignete Mittel](#diese-technologien-werden-verwendet) zur Verfügung, um eine solche Anwendung aufzubauen
+- Die Anwendung ist nützlich und es gibt bisher keine echte Alternative. Es ist daher davon auszugehen, dass sie noch ein paar Jahre benutzt wird
+- Es gibt einige aktuelle Erweiterungs-Wünsche. Das dürften nicht die letzten sein
+- Anpassungen an der aktuellen Anwendung sind anspruchsvoll und Nebenwirkungen schwierig zu vermeiden
+- Web- und Datenbanktechnologie entwickeln sich rasant weiter. Daher stehen heute viel [besser geeignete Mittel](#diese-technologien-werden-verwendet) zur Verfügung, um eine solche Anwendung aufzubauen
 
 ### Projektziele
--	Hauptziel: Unterhaltbarkeit verbessern und künftige Erweiterungen ermöglichen
--	Abhängigkeit von wenig verbreiteten Technologien verringern
--	Aufwand für und Risiken bei künftigem Unterhalt und Erweiterungen verringern
--	Verwaltung der Daten vereinfachen
--	Datenintegrität besser gewährleisten
+
+- Hauptziel: Unterhaltbarkeit verbessern und künftige Erweiterungen ermöglichen
+- Abhängigkeit von wenig verbreiteten Technologien verringern
+- Aufwand für und Risiken bei künftigem Unterhalt und Erweiterungen verringern
+- Verwaltung der Daten vereinfachen
+- Datenintegrität besser gewährleisten
 
 ### Funktionale Ziele
 
-1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaften-Sammlungen beschrieben werden kann. Das ermöglicht: 
+1. Jedes Objekt (Art oder Lebensraum) kann von beliebig vielen Taxonomien beschrieben werden. Ähnlich wie bisher schon jedes Objekt von beliebig vielen Eigenschaften-Sammlungen beschrieben werden kann. Das ermöglicht:
    - Neue Versionen einer Taxonomie werden importiert, ohne die alte zu ersetzten.<br/>Wie bisher Eigenschaften-Sammlungen
    - Alle Taxonomien bleiben langfristig erhalten
    - Der Benutzer kann wählen, nach welcher Taxonomie der Strukturbaum aufgebaut wird
@@ -240,79 +266,79 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 
 ### Ein paar Eindrücke
 
-- [x] Datenstruktur:<br/>![Datenstruktur](./_media/structure_relational.png "Datenstruktur")
-- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](./_media/import.png "Import")
+- [x] Datenstruktur:<br/>![Datenstruktur](./_media/structure_relational.png 'Datenstruktur')
+- [x] [Projekt](https://github.com/barbalex/ae_import), um die Daten aus der bisherigen CouchDB in die neue PostgreSQL zu importieren<br/>![Import](./_media/import.png 'Import')
 - [x] Anwendungs-API-Server ([PostGraphile](https://github.com/graphile/postgraphile))<br/>
-  ![API-Server](./_media/postgraphql.png "API-Server")
+      ![API-Server](./_media/postgraphql.png 'API-Server')
 - [x] [API-Server für abhängige Anwendungen, welche nicht über GraphQL zugreifen](/docs/schnittstellen.md)
-- [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](./_media/dev.png "Entwicklungsumgebung")
+- [x] Entwicklungsumgebung<br/>![Entwicklungsumgebung](./_media/dev.png 'Entwicklungsumgebung')
 - [x] Layout und Navigation
   - neu kann die Grenze zwischen Strukturbaum und Objekt stufenlos verschoben werden
-  ![Layout & Navigation](./_media/layout.png "Layout & Navigation")
+    ![Layout & Navigation](./_media/layout.png 'Layout & Navigation')
 - [x] Struktur- und Navigationsbaum
   - neu inklusive Taxonomien, Eigenschaften-Sammlungen, Benutzer und Organisationen
-  ![Strukturbaum](./_media/strukturbaum.png "Strukturbaum")
+    ![Strukturbaum](./_media/strukturbaum.png 'Strukturbaum')
 - [x] Suche:
   - neu nach allen Taxonomien gleichzeitig
   - neu nach allen Hierarchiestufen (z.B. Ordnungen, Familien)
   - neu und gleichzeitig nach Eigenschaften-Sammlungen
-  ![Datenstruktur](./_media/suche.png "Suche")
-- [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](./_media/grasfrosch.png "Datenstruktur")
-  - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaften-Sammlung](./_media/eigenschaftensammlung.png "Eigenschaften-Sammlung")
+    ![Datenstruktur](./_media/suche.png 'Suche')
+- [x] Arten und Lebensräume anzeigen:<br/>![Datenstruktur](./_media/grasfrosch.png 'Datenstruktur')
+  - [x] inklusive Eigenschaften-Sammlungen und Beziehungen<br/>![Eigenschaften-Sammlung](./_media/eigenschaftensammlung.png 'Eigenschaften-Sammlung')
   - [x] inklusive Synonymen<br/>
   - [x] inklusive Eigenschaften und Beziehungen von Synonymen<br/>
-    ![Synonym](./_media/synonym.png "Synonym")
+        ![Synonym](./_media/synonym.png 'Synonym')
 - [x] Neu: Alle Hierarchiestufen des Taxonomie-Baums anzeigen:<br/>
-  Taxonomie:<br/>
-  ![Strukturbaum: Taxonomie](./_media/taxonomie.png "Strukturbaum: Taxonomie")<br/>
-  Z.B. Klasse:<br/>
-  ![Strukturbaum: Klasse](./_media/klasse.png "Strukturbaum: Klasse")<br/>
-  Z.B. Ordnung:<br/>
-  ![Strukturbaum: Ordnung](./_media/ordnung.png "Strukturbaum: Ordnung")<br/>
-  Z.B. Familie:<br/>
-  ![Strukturbaum: Familie](./_media/familie.png "Strukturbaum: Familie")<br/>
-  Diese Hierarchiestufen haben ihre eigene id und können gleich verwendet werden, wie Arten bzw. Lebensräume.
+      Taxonomie:<br/>
+      ![Strukturbaum: Taxonomie](./_media/taxonomie.png 'Strukturbaum: Taxonomie')<br/>
+      Z.B. Klasse:<br/>
+      ![Strukturbaum: Klasse](./_media/klasse.png 'Strukturbaum: Klasse')<br/>
+      Z.B. Ordnung:<br/>
+      ![Strukturbaum: Ordnung](./_media/ordnung.png 'Strukturbaum: Ordnung')<br/>
+      Z.B. Familie:<br/>
+      ![Strukturbaum: Familie](./_media/familie.png 'Strukturbaum: Familie')<br/>
+      Diese Hierarchiestufen haben ihre eigene id und können gleich verwendet werden, wie Arten bzw. Lebensräume.
 - [x] Neu: Eigenschaften-Sammlungen anzeigen:<br/>
-  Die Liste aller:<br/>
-  ![Eigenschaften-Sammlungen: Liste](./_media/pcs_list.png "Eigenschaften-Sammlungen: Liste")<br/>
-  Die Daten der Eigenschaften-Sammlung selbst:<br/>
-  ![Eigenschaften-Sammlung: Daten](./_media/pcs_form.png "Eigenschaften-Sammlung: Daten")<br/>
-  Ihre Eigenschaften:<br/>
-  ![Eigenschaften-Sammlung: Eigenschaften](./_media/pcs_p.png "Eigenschaften-Sammlung: Eigenschaften")<br/>
-  Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
-  Die Beziehungen der Eigenschaften-Sammlung:<br/>
-  ![Eigenschaften-Sammlung: Beziehungen](./_media/pcs_p.png "Eigenschaften-Sammlung: Beziehungen")<br/>
-  Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
+      Die Liste aller:<br/>
+      ![Eigenschaften-Sammlungen: Liste](./_media/pcs_list.png 'Eigenschaften-Sammlungen: Liste')<br/>
+      Die Daten der Eigenschaften-Sammlung selbst:<br/>
+      ![Eigenschaften-Sammlung: Daten](./_media/pcs_form.png 'Eigenschaften-Sammlung: Daten')<br/>
+      Ihre Eigenschaften:<br/>
+      ![Eigenschaften-Sammlung: Eigenschaften](./_media/pcs_p.png 'Eigenschaften-Sammlung: Eigenschaften')<br/>
+      Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
+      Die Beziehungen der Eigenschaften-Sammlung:<br/>
+      ![Eigenschaften-Sammlung: Beziehungen](./_media/pcs_p.png 'Eigenschaften-Sammlung: Beziehungen')<br/>
+      Diese Daten können exportiert werden. Benutzer mit entsprechenden Rechten können sie löschen und neu importieren.
 - [x] Daten exportieren<br/>
-  ![exportieren](./_media/export.png "exportieren")
+      ![exportieren](./_media/export.png 'exportieren')
   - [x] Neu: Während Filter gesetzt und Felder gewählt werden, werden die resultierenden Daten direkt angezeigt
   - [x] Neu: Gewählte Optionen können einzeln oder als Ganzes zurückgesetzt werden
   - [x] Neu: Erfasst man in einem Feld einen Filter-Wert, werden die Werte aufgelistet, welche in diesem Feld vorkommen
 - [x] Neu: Anmeldung<br/>
-  Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen und exportieren.<br/>
-  ![anmelden](./_media/anmeldung.png "anmelden")<br/>
-  Angemeldete Benutzer können Daten gemäss den ihnen von Organisationen erteilten Rollen verändern.
+      Nicht angemeldete Besucher können alle Taxonomien, Objekte, Eigenschaften-Sammlungen und Eigenschaften anzeigen und exportieren.<br/>
+      ![anmelden](./_media/anmeldung.png 'anmelden')<br/>
+      Angemeldete Benutzer können Daten gemäss den ihnen von Organisationen erteilten Rollen verändern.
 - [x] Neu: Benutzer<br/>
-  Benutzer können Name, Email und Passwort verändern.<br/>
-  Sie sehen die ihnen erteilten Rollen:<br/>
-  ![Benutzer-Rollen](./_media/user_rollen.png "Benutzer-Rollen")
-  ... die von ihnen importierten Taxonomien:<br/>
-  ![Benutzer-Taxonomien](./_media/user_tax.png "Benutzer-Taxonomien")
-  ... und die von ihnen importierten Eigenschaften-Sammlungen:<br/>
-  ![Benutzer-Eigenschaften-Sammlungen](./_media/user_pcs.png "Benutzer-Eigenschaften-Sammlungen")
-  Organisations-Administratoren können neue Benutzer erstellen:<br/>
-  ![Neuen Benutzer erstellen](./_media/user_create_new.png "Neuen Benutzer erstellen")<br/>
-  ... bestehende löschen:<br/>
-  ![Benutzer löschen](./_media/user_delete.png "Benutzer löschen")<br/>
-  ... und bei bestehenden Namen und Email ändern, nicht aber das Passwort:<br/>
-  ![Benutzer ändern](./_media/user_from_admin.png "Benutzer ändern")
+      Benutzer können Name, Email und Passwort verändern.<br/>
+      Sie sehen die ihnen erteilten Rollen:<br/>
+      ![Benutzer-Rollen](./_media/user_rollen.png 'Benutzer-Rollen')
+      ... die von ihnen importierten Taxonomien:<br/>
+      ![Benutzer-Taxonomien](./_media/user_tax.png 'Benutzer-Taxonomien')
+      ... und die von ihnen importierten Eigenschaften-Sammlungen:<br/>
+      ![Benutzer-Eigenschaften-Sammlungen](./_media/user_pcs.png 'Benutzer-Eigenschaften-Sammlungen')
+      Organisations-Administratoren können neue Benutzer erstellen:<br/>
+      ![Neuen Benutzer erstellen](./_media/user_create_new.png 'Neuen Benutzer erstellen')<br/>
+      ... bestehende löschen:<br/>
+      ![Benutzer löschen](./_media/user_delete.png 'Benutzer löschen')<br/>
+      ... und bei bestehenden Namen und Email ändern, nicht aber das Passwort:<br/>
+      ![Benutzer ändern](./_media/user_from_admin.png 'Benutzer ändern')
 - [x] Neu: Organisationen<br/>
-  Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen:
-  ![Rollen verwalten](./_media/org_rollen.png "Rollen verwalten")
-  ...sehen, für welche Taxonomien sie zuständig sind: 
-  ![Taxonomien](./_media/org_tax.png "Taxonomien")
-  ...sehen, für welche Eigenschaften-Sammlungen sie zuständig sind:
-  ![Eigenschaften-Sammlungen](./_media/org_pcs.png "Eigenschaften-Sammlungen")
+      Organisationen geben Benutzern für ihre Taxonomien und Eigenschaften-Sammlungen Rollen:
+      ![Rollen verwalten](./_media/org_rollen.png 'Rollen verwalten')
+      ...sehen, für welche Taxonomien sie zuständig sind:
+      ![Taxonomien](./_media/org_tax.png 'Taxonomien')
+      ...sehen, für welche Eigenschaften-Sammlungen sie zuständig sind:
+      ![Eigenschaften-Sammlungen](./_media/org_pcs.png 'Eigenschaften-Sammlungen')
 - [x] Import von Eigenschaften- und Beziehungs-Sammlungen
 - [x] Neu: Taxonomien und Objekte bearbeiten
 - [x] Links zu: Google Bilder, Wikipedia Suche. Neu: GBIF, Info Flora

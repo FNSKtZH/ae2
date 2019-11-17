@@ -3,7 +3,8 @@ import orange from '@material-ui/core/colors/orange'
 import green from '@material-ui/core/colors/green'
 import red from '@material-ui/core/colors/red'
 
-import constants from './modules/constants'
+import getConstants from './modules/constants'
+const constants = getConstants()
 
 // All the following keys are optional.
 // We try our best to provide a great default value.

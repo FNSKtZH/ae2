@@ -257,8 +257,81 @@ DROP VIEW IF EXISTS ae.v_vermehrung_arten CASCADE;
 CREATE OR REPLACE VIEW ae.v_vermehrung_arten AS
 select
   id,
-  name
+  name,
+  properties->>'Artname' as name_latein,
+  case
+    when properties->>'Name Deutsch' is not null then properties->>'Name Deutsch'
+    else properties->>'Artname'
+  end as name_deutsch
 from ae.object
-where taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
-and properties is not null
+where
+  taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
+  and properties->>'Artname' is not null
 order by name;
+
+-- view for apflora.ch
+drop view if exist ae.v_apflora_lr_delarze cascade;
+create or replace view ae.v_apflora_lr_delarze as
+select 
+  id,
+  properties->>'Label' as label,
+  properties->>'Einheit' as einheit,
+  name from ae.object
+where
+  taxonomy_id = '69d34753-445b-4c55-b3b7-e570f7dc1819'
+order by
+  label;
+
+drop view if exists ae.v_apflora_taxonomies cascade;
+create or replace view ae.v_apflora_taxonomies as
+with objkef as (
+	select * from ae.property_collection_object
+	where property_collection_id = 'bdf4dd9a-7b0e-11e8-b9a5-bd4f79edbcc4'
+), objartwert as (
+	select * from ae.property_collection_object
+	where property_collection_id = 'bdf89414-7b0e-11e8-a170-ab93aeea0aac'
+)
+select distinct
+  tax.id as taxonomie_id,
+  tax.name as taxonomie_name,
+	ae.object.id, 
+	cast(ae.object.properties->>'Taxonomie ID' as INTEGER) as taxid,
+	ae.object.properties->>'Familie' as familie,
+	ae.object.name as artname,
+	ae.object.properties->>'Status' as status,
+  coalesce(
+    cast(objartwert.properties->>'Artwert' as INTEGER),
+    cast(synobjartwert.properties->>'Artwert' as INTEGER),
+    cast(synobjartwert2.properties->>'Artwert' as INTEGER)
+  ) as artwert,
+  coalesce(
+    cast(objkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN),
+    cast(synobjkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN),
+    cast(synobjkef2.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN)
+  ) as kefart,
+  coalesce(
+    cast(objkef.properties->>'Erstes Kontrolljahr' as INTEGER),
+    cast(synobjkef.properties->>'Erstes Kontrolljahr' as INTEGER),
+    cast(synobjkef2.properties->>'Erstes Kontrolljahr' as INTEGER)
+  ) as kefkontrolljahr
+from ae.object
+  inner join ae.taxonomy tax on tax.id = ae.object.taxonomy_id
+  left join objkef on objkef.object_id = ae.object.id
+  left join ae.synonym synonym 
+    inner join objkef synobjkef on synobjkef.object_id = synonym.object_id_synonym
+    inner join objartwert synobjartwert on synobjartwert.object_id = synonym.object_id_synonym
+  on ae.object.id = synonym.object_id
+  -- account for both ways an object can be defined as synonym
+  left join ae.synonym synonym2 
+    inner join objkef synobjkef2 on synobjkef2.object_id = synonym2.object_id_synonym
+    inner join objartwert synobjartwert2 on synobjartwert2.object_id = synonym2.object_id_synonym
+  on ae.object.id = synonym2.object_id_synonym
+  left join objartwert on objartwert.object_id = ae.object.id
+where
+  -- sisf index 2
+  taxonomy_id in ('aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4')
+  -- only lowest hierarchy, not pure structural objects
+  and ae.object.properties->>'Taxonomie ID' is not null
+order by
+  tax.name,
+  ae.object.name;

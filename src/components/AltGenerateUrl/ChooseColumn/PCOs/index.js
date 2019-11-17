@@ -13,7 +13,8 @@ import gql from 'graphql-tag'
 import ErrorBoundary from 'react-error-boundary'
 
 import PcoList from './PcoList'
-import constants from '../../../../modules/constants'
+import getConstants from '../../../../modules/constants'
+const constants = getConstants()
 
 const Container = styled.div`
   margin: 10px 0;

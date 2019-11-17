@@ -28,8 +28,6 @@ const Login = loadable(() => import('./Login'))
 const Data = loadable(() => import('./Data'))
 //const FourOhFour = lazy(() => import('./FourOhFour'))
 const FourOhFour = loadable(() => import('./FourOhFour'))
-//const DataGraph = lazy(() => import('./DataGraph'))
-const DataGraph = loadable(() => import('./DataGraph'))
 //const GraphIql = lazy(() => import('./GraphIql'))
 const GraphIql = loadable(() => import('./GraphIql'))
 
@@ -69,7 +67,6 @@ const App = () => {
   const showAltGenerateUrl =
     url0 === 'artenlistentool' && activeNodeArray[1] === 'waehlen'
   const showLogin = url0 === 'login'
-  const showDataGraph = url0 === 'datagraph'
   const showGraphIql = url0 === 'graphiql'
 
   const updateStacked = useCallback(() => {
@@ -109,7 +106,6 @@ const App = () => {
           {showExport && <Export stacked={stacked} />}
           {showLogin && <Login />}
           {show404 && <FourOhFour />}
-          {showDataGraph && <DataGraph />}
           {showGraphIql && <GraphIql />}
           {showAltGenerateUrl && <AltGenerateUrl />}
           <Snackbar
