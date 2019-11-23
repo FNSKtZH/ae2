@@ -1,6 +1,8 @@
 ---
-name: Projektbeschreibung
-route: /docs
+path: "/Dokumentation/Projektbeschreibung"
+date: "2019-09-29"
+title: "Projektbeschreibung"
+sort1: 1
 ---
 
 # Was ist arteigenschaften.ch?

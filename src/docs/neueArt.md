@@ -1,6 +1,8 @@
 ---
-name: Neue Art erfassen
-route: /docs/Neue-Art-erfassen
+path: "/Dokumentation/Neue-Art-erfassen"
+date: "2019-09-29"
+title: "Neue Art erfassen"
+sort1: 4
 ---
 # Neue Art erfassen
 

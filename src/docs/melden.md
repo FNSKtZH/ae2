@@ -1,6 +1,8 @@
 ---
-name: Fehler, Ideen, Vorschläge melden
-route: /docs/Fehler-melden
+path: "/Dokumentation/Fehler-melden"
+date: "2019-09-29"
+title: "Fehler, Ideen, Vorschläge melden"
+sort1: 3
 ---
 
 # Fehler, Ideen, Vorschläge melden

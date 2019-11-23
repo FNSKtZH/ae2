@@ -1,6 +1,8 @@
 ---
-name: Technische Voraussetzungen
-route: /docs/Technische-Voraussetzungen
+path: "/Dokumentation/Technische-Voraussetzungen"
+date: "2019-09-29"
+title: "Technische Voraussetzungen"
+sort1: 2
 ---
 
 # Technische Voraussetzungen

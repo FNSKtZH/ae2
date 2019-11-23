@@ -1,6 +1,8 @@
 ---
-name: Schnittstellen
-route: /docs/Schnittstellen
+path: "/Dokumentation/Schnittstellen"
+date: "2019-09-29"
+title: "Schnittstellen"
+sort1: 5
 ---
 
 # Schnittstellen
