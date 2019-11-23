@@ -69,6 +69,7 @@
     "react-linkify": "0.x",
     "react-measure": "2.3.0",
     "react-reflex": "3.0.20",
+    "react-resize-detector": "^4.2.1",
     "react-swipeable-views": "0.13.3",
     "react-typography": "0.16.19",
     "react-window": "1.8.5",

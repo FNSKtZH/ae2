@@ -20,10 +20,14 @@ export default ({ navigate }) =>
       treeFilter: types.optional(TreeFilter, defaultTreeFilter),
       login: types.optional(Login, defaultLogin),
       historyAfterLogin: types.optional(types.string, ''),
+      sidebarWidth: types.maybeNull(types.number, null),
     })
     .volatile(() => ({}))
     .views(self => ({}))
     .actions(self => ({
+      setSidebarWidth(val) {
+        self.sidebarWidth = val
+      },
       setEditingTaxonomies(value) {
         self.editingTaxonomies = value
       },
