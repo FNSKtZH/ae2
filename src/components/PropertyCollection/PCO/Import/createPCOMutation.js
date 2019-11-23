@@ -1,35 +1,29 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation upsertRCO(
+  mutation createPCO(
     $id: UUID
-    $objectId: UUID!
-    $objectIdRelation: UUID!
-    $propertyCollectionId: UUID!
+    $objectId: UUID
+    $propertyCollectionId: UUID
     $propertyCollectionOfOrigin: UUID
-    $relationType: String!
     $properties: JSON
   ) {
-    upsertRelation(
+    createPropertyCollectionObject(
       input: {
-        relation: {
+        propertyCollectionObject: {
           id: $id
           objectId: $objectId
-          objectIdRelation: $objectIdRelation
           propertyCollectionId: $propertyCollectionId
           propertyCollectionOfOrigin: $propertyCollectionOfOrigin
-          relationType: $relationType
           properties: $properties
         }
       }
     ) {
-      relation {
+      propertyCollectionObject {
         id
         objectId
-        objectIdRelation
         propertyCollectionId
         propertyCollectionOfOrigin
-        relationType
         properties
       }
     }

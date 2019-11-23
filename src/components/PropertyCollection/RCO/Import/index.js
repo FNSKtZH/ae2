@@ -20,7 +20,8 @@ import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import upsertRCOMutation from './upsertRCOMutation'
+import createRCOMutation from './createRCOMutation'
+import updateRCOMutation from './updateRCOMutation'
 import mobxStoreContext from '../../../../mobxStoreContext'
 //import importWorker from './import.worker.js'
 
@@ -545,7 +546,6 @@ const ImportRco = ({ setImport, pCO }) => {
       const pco = pCO.find(o => o.objectId === d.objectId)
       const id = pco && pco.id ? pco.id : undefined
       const variables = {
-        id,
         objectId: d.objectId || null,
         objectIdRelation: d.objectIdRelation || null,
         propertyCollectionId: pCId,
@@ -562,13 +562,24 @@ const ImportRco = ({ setImport, pCO }) => {
           ]),
         ),
       }
-      try {
-        await client.mutate({
-          mutation: upsertRCOMutation,
-          variables,
-        })
-      } catch (error) {
-        console.log(error)
+      if (id) {
+        try {
+          await client.mutate({
+            mutation: updateRCOMutation,
+            variables: { id, ...variables },
+          })
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        try {
+          await client.mutate({
+            mutation: createRCOMutation,
+            variables,
+          })
+        } catch (error) {
+          console.log(error)
+        }
       }
       setImported(i)
     }

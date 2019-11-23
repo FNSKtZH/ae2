@@ -19,7 +19,8 @@ import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import upsertPCOMutation from './upsertPCOMutation'
+import createPCOMutation from './createPCOMutation'
+import updatePCOMutation from './updatePCOMutation'
 import mobxStoreContext from '../../../../mobxStoreContext'
 import isUuid from '../../../../modules/isUuid'
 
@@ -459,7 +460,6 @@ const ImportPco = ({ setImport, pCO }) => {
       const pco = pCO.find(o => o.objectId === d.objectId)
       const id = pco && pco.id ? pco.id : undefined
       const variables = {
-        id,
         objectId: d.objectId || null,
         propertyCollectionId: pCId,
         propertyCollectionOfOrigin: d.propertyCollectionOfOrigin || null,
@@ -472,19 +472,36 @@ const ImportPco = ({ setImport, pCO }) => {
           ]),
         ),
       }
-      try {
-        await client.mutate({
-          mutation: upsertPCOMutation,
-          variables,
-        })
-      } catch (error) {
-        console.log(`Error importing ${JSON.stringify(d)}:`, error)
+      // if id: update, else insert
+      if (id) {
+        try {
+          await client.mutate({
+            mutation: updatePCOMutation,
+            variables: { id, ...variables },
+          })
+        } catch (error) {
+          console.log(`Error importing ${JSON.stringify(d)}:`, error)
+        }
+      } else {
+        try {
+          await client.mutate({
+            mutation: createPCOMutation,
+            variables,
+          })
+        } catch (error) {
+          console.log(`Error importing ${JSON.stringify(d)}:`, error)
+        }
       }
+
       setImported(i)
     }
     setImport(false)
     setImporting(false)
-    pcoRefetch()
+    try {
+      pcoRefetch()
+    } catch (error) {
+      console.log('Error refetching pco:', error)
+    }
   }, [client, importData, pCId, pCO, pcoRefetch, setImport])
   const rowGetter = useCallback(i => importData[i], [importData])
 

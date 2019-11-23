@@ -1,17 +1,17 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  mutation upsertPCO(
-    $id: UUID
+  mutation updatePCO(
+    $id: UUID!
     $objectId: UUID
     $propertyCollectionId: UUID
     $propertyCollectionOfOrigin: UUID
     $properties: JSON
   ) {
-    upsertPropertyCollectionObject(
+    updatePropertyCollectionObjectById(
       input: {
-        propertyCollectionObject: {
-          id: $id
+        id: $id
+        propertyCollectionObjectPatch: {
           objectId: $objectId
           propertyCollectionId: $propertyCollectionId
           propertyCollectionOfOrigin: $propertyCollectionOfOrigin
