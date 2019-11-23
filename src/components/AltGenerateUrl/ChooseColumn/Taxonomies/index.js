@@ -14,7 +14,8 @@ import gql from 'graphql-tag'
 import ErrorBoundary from 'react-error-boundary'
 
 import JointTaxonomy from './JointTaxonomy'
-import constants from '../../../../modules/constants'
+import getConstants from '../../../../modules/constants'
+const constants = getConstants()
 
 const StyledCard = styled(Card)`
   margin: 10px 0;

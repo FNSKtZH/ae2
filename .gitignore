@@ -31,4 +31,4 @@ yarn-error.log*
 
 ecosystem.config.js
 
-*.toml
+netlify.toml

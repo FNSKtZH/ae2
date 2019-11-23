@@ -14,7 +14,8 @@ import ErrorBoundary from 'react-error-boundary'
 
 import AllRcoChooser from './AllRcoChooser'
 import RcoChooserList from './RcoChooserList'
-import constants from '../../../../../../modules/constants'
+import getConstants from '../../../../../../modules/constants'
+const constants = getConstants()
 
 const PropertiesContainer = styled.div`
   column-width: ${props =>

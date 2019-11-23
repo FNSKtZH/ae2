@@ -14,8 +14,9 @@ import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
 
 import Properties from './Properties'
-import constants from '../../../../../modules/constants'
 import mobxStoreContext from '../../../../../mobxStoreContext'
+import getConstants from '../../../../../modules/constants'
+const constants = getConstants()
 
 const StyledCard = styled(Card)`
   margin: 0;

@@ -14,7 +14,8 @@ import ErrorBoundary from 'react-error-boundary'
 
 import AllChooser from './AllChooser'
 import ChooserList from './ChooserList'
-import constants from '../../../../../../modules/constants'
+import getConstants from '../../../../../../modules/constants'
+const constants = getConstants()
 
 const StyledCard = styled(Card)`
   margin: 0;

@@ -224,6 +224,7 @@ CREATE OR REPLACE FUNCTION ae.export_pco(pco_filters pco_filter[], pco_propertie
     DECLARE
       pcop pco_property;
       pcof pco_filter;
+      -- TODO: change select to only extract properties wanted instead of entire json?
       sql text := 'SELECT
                     ae.property_collection_object.*
                   FROM ae.object
