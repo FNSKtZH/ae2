@@ -10,6 +10,7 @@ import SwipeableViews from 'react-swipeable-views'
 
 import Layout from '../components/Layout'
 import Sidebar from '../templates/Sidebar'
+import useLocation from '../modules/useLocation'
 
 const Container = styled.div`
   height: calc(100vh - 64px);
@@ -49,6 +50,8 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 const Dokumentation = ({ data }) => {
   const { allMarkdownRemark } = data
   const { edges } = allMarkdownRemark
+  const { pathname } = useLocation()
+  const pathElements = pathname.split('/').filter(p => !!p)
 
   const [tab, setTab] = useState(0)
   const onChangeTab = useCallback((event, value) => setTab(value), [])
@@ -64,11 +67,9 @@ const Dokumentation = ({ data }) => {
     const shouldBeStacked = windowWidth < 650
     setStacked(shouldBeStacked)
   }, [])
-
   useEffect(() => {
     updateStacked()
   }, [updateStacked])
-
   useEffect(() => {
     typeof window !== 'undefined' &&
       window.addEventListener('resize', debounce(updateStacked, 100))
@@ -77,6 +78,10 @@ const Dokumentation = ({ data }) => {
         window.removeEventListener('resize', updateStacked)
     }
   }, [updateStacked])
+  useEffect(() => {
+    if (pathElements.length > 1 && tab === 0) setTab(1)
+    if (pathElements.length === 1 && tab === 1) setTab(0)
+  }, [pathElements, tab])
 
   if (stacked) {
     return (
@@ -90,19 +95,23 @@ const Dokumentation = ({ data }) => {
               indicatorColor="primary"
             >
               <Tab label="Navigation" />
-              <Tab label="Formular" disabled={disableDataType} />
+              <Tab label="Formular" />
             </Tabs>
           </StyledPaper>
           <StyledSwipeableViews
             axis="x"
             index={tab}
             onChangeIndex={i => setTab(i)}
-            disabled={disableDataType}
           >
-            <Tree
-              dimensions={{ width: windowWidth, height: windowHeight - 103 }}
+            <Sidebar
+              title="Dokumentation"
+              titleLink="/Dokumentation/"
+              edges={edges}
+              stacked={true}
             />
-            <DataType stacked={true} dimensions={{ width: windowWidth }} />
+            <Doku>
+              <p>Hoffentlich nützliche Infos für Sie</p>
+            </Doku>
           </StyledSwipeableViews>
         </Layout>
       </ErrorBoundary>

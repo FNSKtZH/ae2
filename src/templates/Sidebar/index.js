@@ -12,7 +12,8 @@ import getConstants from '../../modules/constants'
 const constants = getConstants()
 
 const Menu = styled.div`
-  width: ${constants.sidebar.width}px;
+  width: ${props =>
+    props['data-stacked'] ? '100%' : `${constants.sidebar.width}px`};
   min-width: ${constants.sidebar.width}px;
   height: calc(100vh - 64px);
   overflow-y: auto;
@@ -32,7 +33,7 @@ const MenuTitleLink = styled(Link)`
   }
 `
 
-const Sidebar = ({ title, titleLink, edges }) => {
+const Sidebar = ({ title, titleLink, edges, stacked }) => {
   const store = useContext(storeContext)
   const { docFilter, sidebarWidth } = store
 
@@ -48,7 +49,7 @@ const Sidebar = ({ title, titleLink, edges }) => {
 
   if (sidebarWidth === 0) return null
   return (
-    <Menu>
+    <Menu data-stacked={stacked}>
       <MenuTitle>
         <MenuTitleLink to={titleLink}>{title}</MenuTitleLink>
         <Filter />
