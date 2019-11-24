@@ -44,17 +44,20 @@ const StyledAppBar = styled(AppBar)`
   }
 `
 const StyledToolbar = styled(Toolbar)`
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 `
 const StyledTypography = styled(Typography)`
   flex: 1;
   color: white !important;
   margin-right: 12px !important;
+  hyphens: manual;
 `
 const StyledButton = styled(Button)`
   color: rgb(255, 255, 255) !important;
   border: ${props => (props['data-active'] ? '1px solid !important' : 'none')};
   margin: 8px;
+  hyphens: manual;
+  white-space: nowrap;
 `
 const LoginButton = styled(StyledButton)`
   min-width: ${props =>
@@ -218,6 +221,24 @@ const Header = () => {
     }
   }, [wideLayout, toolbarC, docsC, datenC, exportC, loginC, moreC, shareC])
 
+  const toolbarCWidth = toolbarC.current ? toolbarC.current.clientWidth : 0
+  const docsCWidth = docsC.current ? docsC.current.offsetWidth : 0
+  const datenCWidth = datenC.current ? datenC.current.offsetWidth : 0
+  const exportCWidth = exportC.current ? exportC.current.offsetWidth : 0
+  const loginCWidth = loginC.current ? loginC.current.offsetWidth : 0
+  const moreCWidth = moreC.current ? moreC.current.offsetWidth : 0
+  const shareCWidth = shareC.current ? shareC.current.offsetWidth : 0
+  const totalWidth =
+    docsCWidth +
+    datenCWidth +
+    exportCWidth +
+    loginCWidth +
+    moreCWidth +
+    shareCWidth
+  let shouldLayoutWide = toolbarCWidth - totalWidth > 260
+  // need to set narrow to wide later to prevent jumping between
+  if (!wideLayout) shouldLayoutWide = toolbarCWidth - totalWidth > 400
+
   useEffect(() => {
     typeof window !== 'undefined' &&
       window.addEventListener('resize', debounce(setLayout, 200))
@@ -227,7 +248,7 @@ const Header = () => {
       window.removeEventListener('resize', debounce(setLayout, 200))
   })
 
-  console.log('AppBar', { wideLayout })
+  console.log('AppBar', { wideLayout, shouldLayoutWide })
 
   return (
     <Location>
@@ -242,9 +263,13 @@ const Header = () => {
               <StyledAppBar position="static">
                 <div ref={toolbarC}>
                   <StyledToolbar>
-                    <StyledTypography variant="h6" color="inherit">
-                      {wideLayout ? 'Arteigenschaften' : ''}
-                    </StyledTypography>
+                    {shouldLayoutWide ? (
+                      <StyledTypography variant="h6" color="inherit">
+                        Arteigenschaften
+                      </StyledTypography>
+                    ) : (
+                      <div />
+                    )}
                     <div ref={docsC}>
                       <StyledButton
                         data-active={pathname === '/Dokumentation'}
