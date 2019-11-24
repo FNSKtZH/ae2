@@ -23,6 +23,8 @@ module.exports = {
           `/Eigenschaften-Sammlungen/*`,
           `/Export/*`,
           `/artenlistentool/*`,
+          `/Benutzer/*`,
+          `/Organisationen/*`,
         ],
       },
     },

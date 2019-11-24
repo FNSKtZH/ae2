@@ -51,7 +51,6 @@ const App = () => {
     'export',
     'login',
     'benutzer',
-    'datagraph',
     'graphiql',
     'artenlistentool',
   ].includes(url0)

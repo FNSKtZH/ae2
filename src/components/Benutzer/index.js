@@ -70,10 +70,10 @@ const User = () => {
   const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
   const tcs = get(user, 'taxonomiesByImportedBy.nodes', [])
   const saveEnabled =
-    !data.loading &&
+    !dataLoading &&
     (passNew ||
-      ((!!name && !!data && !!user && name !== user.name) ||
-        (!!email && !!data && !!user && email !== user.email)))
+      (!!name && !!data && !!user && name !== user.name) ||
+        (!!email && !!data && !!user && email !== user.email))
   const userIsLoggedIn =
     !!user && !!login.username && user.name === login.username
 

@@ -67,10 +67,6 @@ const MoreMenu = () => {
     navigate('/artenlistentool/waehlen')
     setAnchorEl(null)
   }, [])
-  const onClickGqlStructure = useCallback(() => {
-    navigate('/datagraph')
-    setAnchorEl(null)
-  }, [])
   const onClickGqlQuery = useCallback(() => {
     navigate('/graphiql')
     setAnchorEl(null)
@@ -108,11 +104,6 @@ const MoreMenu = () => {
         <MenuItem key="alt" onClick={onClickFelderAlt}>
           Felder für das Artenlistentool wählen
         </MenuItem>
-        {false && (
-          <MenuItem key="datagraph" onClick={onClickGqlStructure}>
-            GrahpQL-Struktur anzeigen
-          </MenuItem>
-        )}
         <TwoLineMenuItem key="graphiql" onClick={onClickGqlQuery}>
           GrahpQL-Abfragetool
           <br />
