@@ -131,11 +131,6 @@ const Header = () => {
    * need to set divs around Toolbar and Buttons
    * because measure ref needs to be on a real element
    */
-  /**
-   * need to set wideLayout using state in an effect
-   * because setting it needs to be debounced
-   */
-  const [wideLayout, setWideLayout] = useState(true)
 
   const toolbarC = useRef(null)
   const docsC = useRef(null)
@@ -144,6 +139,13 @@ const Header = () => {
   const loginC = useRef(null)
   const moreC = useRef(null)
   const shareC = useRef(null)
+  /**
+   * need to set wideLayout using state in an effect
+   * because setting it needs to be debounced
+   */
+  const [wideLayout, setWideLayout] = useState(
+    toolbarC.current ? toolbarC.current.clientWidth > 400 : false,
+  )
 
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const { username } = login
@@ -224,6 +226,8 @@ const Header = () => {
       typeof window !== 'undefined' &&
       window.removeEventListener('resize', debounce(setLayout, 200))
   })
+
+  console.log('AppBar', { wideLayout })
 
   return (
     <Location>
