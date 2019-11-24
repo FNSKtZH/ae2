@@ -13,7 +13,7 @@ export const wrapRootElement = ({ element }) => <App element={element} />
 export const onServiceWorkerUpdateReady = () => {
   if (
     window.confirm(
-      'vermehrung neu laden, um die neuste Version zu installieren?',
+      'arteigenschaften.ch neu laden, um die neuste Version zu installieren?',
     )
   ) {
     window.location.reload(true)
