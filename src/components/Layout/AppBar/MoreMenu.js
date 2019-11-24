@@ -51,8 +51,7 @@ const MoreMenu = () => {
     setAnchorEl(null)
   }, [])
   const onClickUeber = useCallback(() => {
-    typeof window !== 'undefined' &&
-      window.open('https://docs.arteigenschaften.ch')
+    navigate('/Dokumentation/Projektbeschreibung')
     setAnchorEl(null)
   }, [])
   const onClickStruktur = useCallback(() => {
