@@ -21,12 +21,14 @@ export default ({ navigate }) =>
       login: types.optional(Login, defaultLogin),
       historyAfterLogin: types.optional(types.string, ''),
       sidebarWidth: types.maybeNull(types.number, null),
+      docFilter: types.optional(types.union(types.string, types.number), ''),
     })
-    .volatile(() => ({}))
-    .views(self => ({}))
     .actions(self => ({
       setSidebarWidth(val) {
         self.sidebarWidth = val
+      },
+      setDocFilter(val) {
+        self.docFilter = val
       },
       setEditingTaxonomies(value) {
         self.editingTaxonomies = value
