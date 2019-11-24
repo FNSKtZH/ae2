@@ -1,7 +1,6 @@
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
-import ReactResizeDetector from 'react-resize-detector'
 
 import AllTaxChooser from './AllTaxChooser'
 import TaxChooserList from './TaxChooserList'
@@ -21,18 +20,6 @@ const PropertiesContainer = styled.div`
 `
 
 const JointTaxonomy = ({ jointTaxProperties }) => {
-  const [wide, setWide] = useState(false)
-  const onResize = useCallback(
-    width => {
-      if (width > 700 && !wide) {
-        setWide(true)
-      }
-      if (width < 700 && wide) {
-        setWide(false)
-      }
-    },
-    [wide],
-  )
   const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (

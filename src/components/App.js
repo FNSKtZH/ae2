@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
+import debounce from 'lodash/debounce'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
 import loadable from '@loadable/component'
-import ReactResizeDetector from 'react-resize-detector'
 
 import Layout from './Layout'
 //import LazyImportFallback from './shared/LazyImportFallback'
@@ -35,6 +35,8 @@ const App = () => {
   const mobxStore = useContext(mobxStoreContext)
   const { updateAvailable } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
+
+  const [stacked, setStacked] = useState(false)
 
   const url0 =
     activeNodeArray[0] && activeNodeArray[0].toLowerCase()
@@ -67,18 +69,29 @@ const App = () => {
   const showLogin = url0 === 'login'
   const showGraphIql = url0 === 'graphiql'
 
-  const [wide, setWide] = useState(false)
-  const onResize = useCallback(
-    width => {
-      if (width > 700 && !wide) {
-        setWide(true)
-      }
-      if (width < 700 && wide) {
-        setWide(false)
-      }
-    },
-    [wide],
-  )
+  const updateStacked = useCallback(() => {
+    if (typeof window === 'undefined') return
+    const w = window
+    const d = document
+    const e = d.documentElement
+    const g = d.getElementsByTagName('body')[0]
+    const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+    const shouldBeStacked = windowWidth < 700
+    setStacked(shouldBeStacked)
+  }, [])
+
+  useEffect(() => {
+    updateStacked()
+  }, [updateStacked])
+
+  useEffect(() => {
+    typeof window !== 'undefined' &&
+      window.addEventListener('resize', debounce(updateStacked, 100))
+    return () => {
+      typeof window !== 'undefined' &&
+        window.removeEventListener('resize', updateStacked)
+    }
+  }, [updateStacked])
 
   const onClickReload = useCallback(
     () => typeof window !== 'undefined' && window.location.reload(false),
@@ -88,10 +101,9 @@ const App = () => {
   return (
     <ErrorBoundary>
       <Container>
-        <ReactResizeDetector handleWidth onResize={onResize} />
         <Layout>
-          {showData && <Data stacked={!wide} />}
-          {showExport && <Export stacked={!wide} />}
+          {showData && <Data stacked={stacked} />}
+          {showExport && <Export stacked={stacked} />}
           {showLogin && <Login />}
           {show404 && <FourOhFour />}
           {showGraphIql && <GraphIql />}

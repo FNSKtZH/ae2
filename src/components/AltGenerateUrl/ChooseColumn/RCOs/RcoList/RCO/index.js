@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from 'react'
+import React, { Fragment, useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
@@ -11,7 +11,6 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import ErrorBoundary from 'react-error-boundary'
-import ReactResizeDetector from 'react-resize-detector'
 
 import AllRcoChooser from './AllRcoChooser'
 import RcoChooserList from './RcoChooserList'
@@ -93,18 +92,6 @@ const RCO = ({ pc }) => {
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
 
-  const [wide, setWide] = useState(false)
-  const onResize = useCallback(
-    width => {
-      if (width > 700 && !wide) {
-        setWide(true)
-      }
-      if (width < 700 && wide) {
-        setWide(false)
-      }
-    },
-    [wide],
-  )
   const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`

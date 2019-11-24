@@ -12,7 +12,6 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
-import ReactResizeDetector from 'react-resize-detector'
 
 import Properties from './Properties'
 import mobxStoreContext from '../../../../../mobxStoreContext'

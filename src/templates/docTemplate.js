@@ -2,11 +2,11 @@ import React, { useEffect, useCallback, useState } from 'react'
 import { graphql, navigate } from 'gatsby'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
+import debounce from 'lodash/debounce'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import SwipeableViews from 'react-swipeable-views'
-import ReactResizeDetector from 'react-resize-detector'
 
 import Layout from '../components/Layout'
 import Sidebar from './Sidebar'
@@ -73,29 +73,37 @@ const DocTemplate = ({ data }) => {
     [pathElements],
   )
 
-  const [wide, setWide] = useState(false)
-  const onResize = useCallback(
-    width => {
-      if (width > 700 && !wide) {
-        setWide(true)
-      }
-      if (width < 700 && wide) {
-        setWide(false)
-      }
-    },
-    [wide],
-  )
-
+  const [stacked, setStacked] = useState(false)
+  const updateStacked = useCallback(() => {
+    if (typeof window === 'undefined') return
+    const w = window
+    const d = document
+    const e = d.documentElement
+    const g = d.getElementsByTagName('body')[0]
+    const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+    const shouldBeStacked = windowWidth < 700
+    setStacked(shouldBeStacked)
+  }, [])
+  useEffect(() => {
+    updateStacked()
+  }, [updateStacked])
+  useEffect(() => {
+    typeof window !== 'undefined' &&
+      window.addEventListener('resize', debounce(updateStacked, 100))
+    return () => {
+      typeof window !== 'undefined' &&
+        window.removeEventListener('resize', updateStacked)
+    }
+  }, [updateStacked])
   useEffect(() => {
     pathElements.length > 1 && tab === 0 && setTab(1)
     pathElements.length === 1 && tab === 1 && setTab(0)
   }, [pathElements, tab])
 
-  if (!wide) {
+  if (stacked) {
     return (
       <ErrorBoundary>
         <Layout>
-          <ReactResizeDetector handleWidth onResize={onResize} />
           <StyledPaper>
             <Tabs
               variant="fullWidth"
