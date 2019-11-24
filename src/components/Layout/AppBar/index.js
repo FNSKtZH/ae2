@@ -126,35 +126,27 @@ const Header = () => {
       existsTaxId,
     },
   })
-  /**
-   * need to measure all buttons width
-   * to change them when view is too narrow
-   */
-  /**
-   * need to set divs around Toolbar and Buttons
-   * because measure ref needs to be on a real element
-   */
 
-  const [narrow, setNarrow] = useState(false)
+  const [wide, setWide] = useState(false)
   const onResize = useCallback(
     width => {
-      if (width < 700 && !narrow) {
-        setNarrow(true)
+      if (width > 700 && !wide) {
+        setWide(true)
       }
-      if (width > 700 && narrow) {
-        setNarrow(false)
+      if (width < 700 && wide) {
+        setWide(false)
       }
     },
-    [narrow],
+    [wide],
   )
 
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const { username } = login
   const loginLabel = username
-    ? !narrow
+    ? wide
       ? username
       : getInitials(username)
-    : !narrow
+    : wide
     ? 'nicht angemeldet'
     : 'n.a.'
   const loginTitle = username ? 'abmelden' : 'anmelden'
@@ -206,7 +198,7 @@ const Header = () => {
               <StyledAppBar position="static">
                 <div>
                   <StyledToolbar>
-                    {!narrow ? (
+                    {wide ? (
                       <StyledTypography variant="h6" color="inherit">
                         Arteigenschaften
                       </StyledTypography>
@@ -248,7 +240,7 @@ const Header = () => {
                       <div>
                         <LoginButton
                           data-active={pathname === '/Login'}
-                          data-widelayout={!narrow}
+                          data-widelayout={wide}
                           onClick={onClickColumnButtonLogin}
                           title={loginTitle}
                         >
