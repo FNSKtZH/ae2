@@ -26,6 +26,22 @@
       "dest": "/Export"
     },
     {
+      "src": "/Benutzer",
+      "dest": "/Benutzer"
+    },
+    {
+      "src": "/Benutzer/(.*)",
+      "dest": "/Benutzer"
+    },
+    {
+      "src": "/Organisationen",
+      "dest": "/Organisationen"
+    },
+    {
+      "src": "/Organisationen/(.*)",
+      "dest": "/Organisationen"
+    },
+    {
       "src": "/graphiql",
       "dest": "/graphiql"
     },
