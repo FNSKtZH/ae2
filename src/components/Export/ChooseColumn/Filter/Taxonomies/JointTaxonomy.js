@@ -7,6 +7,7 @@ import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
+import ReactResizeDetector from 'react-resize-detector'
 
 import Properties from './Properties'
 import getConstants from '../../../../../modules/constants'

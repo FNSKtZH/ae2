@@ -9,7 +9,6 @@ import { useStaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 
 import AppBar from './AppBar'
-//import Fallback from '../shared/Fallback'
 
 const Container = styled.div`
   @media print {

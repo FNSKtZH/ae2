@@ -4,6 +4,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import styled from 'styled-components'
 import SwipeableViews from 'react-swipeable-views'
+import ReactResizeDetector from 'react-resize-detector'
 
 import ChooseColumn from './ChooseColumn'
 import PreviewColumn from './PreviewColumn'
