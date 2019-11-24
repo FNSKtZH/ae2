@@ -208,7 +208,7 @@ const Header = () => {
                     <Buttons>
                       <div>
                         <StyledButton
-                          data-active={pathname === '/Dokumentation'}
+                          data-active={pathname.includes('/Dokumentation')}
                           onClick={onClickColumnButtonDocs}
                         >
                           Dokumentation
