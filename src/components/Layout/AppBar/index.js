@@ -147,7 +147,7 @@ const Header = () => {
       ? username
       : getInitials(username)
     : wide
-    ? 'nicht angemeldet'
+    ? 'Login'
     : 'n.a.'
   const loginTitle = username ? 'abmelden' : 'anmelden'
   const objektName = get(data, 'objectById.name')
