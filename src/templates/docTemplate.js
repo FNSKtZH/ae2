@@ -81,7 +81,7 @@ const DocTemplate = ({ data }) => {
     const e = d.documentElement
     const g = d.getElementsByTagName('body')[0]
     const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
-    const shouldBeStacked = windowWidth < 650
+    const shouldBeStacked = windowWidth < 700
     setStacked(shouldBeStacked)
   }, [])
   useEffect(() => {

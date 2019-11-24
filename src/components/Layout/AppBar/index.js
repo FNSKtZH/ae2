@@ -1,10 +1,4 @@
-import React, {
-  useRef,
-  useState,
-  useCallback,
-  useEffect,
-  useContext,
-} from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Icon from '@material-ui/core/Icon'
@@ -13,7 +7,6 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import debounce from 'lodash/debounce'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
@@ -21,6 +14,7 @@ import { navigate } from 'gatsby'
 import ErrorBoundary from 'react-error-boundary'
 import loadable from '@loadable/component'
 import { Location } from '@reach/router'
+import ReactResizeDetector from 'react-resize-detector'
 
 import getActiveObjectIdFromNodeArray from '../../../modules/getActiveObjectIdFromNodeArray'
 import mobxStoreContext from '../../../mobxStoreContext'
@@ -46,8 +40,14 @@ const StyledAppBar = styled(AppBar)`
 const StyledToolbar = styled(Toolbar)`
   flex-wrap: nowrap;
 `
+const Buttons = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+`
 const StyledTypography = styled(Typography)`
   flex: 1;
+  width: 200px;
   color: white !important;
   margin-right: 12px !important;
   hyphens: manual;
@@ -135,28 +135,26 @@ const Header = () => {
    * because measure ref needs to be on a real element
    */
 
-  const toolbarC = useRef(null)
-  const docsC = useRef(null)
-  const datenC = useRef(null)
-  const exportC = useRef(null)
-  const loginC = useRef(null)
-  const moreC = useRef(null)
-  const shareC = useRef(null)
-  /**
-   * need to set wideLayout using state in an effect
-   * because setting it needs to be debounced
-   */
-  const [wideLayout, setWideLayout] = useState(
-    toolbarC.current ? toolbarC.current.clientWidth > 400 : false,
+  const [narrow, setNarrow] = useState(false)
+  const onResize = useCallback(
+    width => {
+      if (width < 700 && !narrow) {
+        setNarrow(true)
+      }
+      if (width > 700 && narrow) {
+        setNarrow(false)
+      }
+    },
+    [narrow],
   )
 
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const { username } = login
   const loginLabel = username
-    ? wideLayout
+    ? !narrow
       ? username
       : getInitials(username)
-    : wideLayout
+    : !narrow
     ? 'nicht angemeldet'
     : 'n.a.'
   const loginTitle = username ? 'abmelden' : 'anmelden'
@@ -194,62 +192,6 @@ const Header = () => {
       })
   }, [pCName, objektName, taxName, url0])
 
-  const setLayout = useCallback(() => {
-    // should do this by comparing scrollWidth with clientWidth
-    // if clientWidth < scrollWidth then div is overflowing
-    // BUT: every second measurement gives clientWidth === scrollWidth,
-    // even when absolutely wrong
-    const toolbarCWidth = toolbarC.current ? toolbarC.current.clientWidth : 0
-    const docsCWidth = docsC.current ? docsC.current.offsetWidth : 0
-    const datenCWidth = datenC.current ? datenC.current.offsetWidth : 0
-    const exportCWidth = exportC.current ? exportC.current.offsetWidth : 0
-    const loginCWidth = loginC.current ? loginC.current.offsetWidth : 0
-    const moreCWidth = moreC.current ? moreC.current.offsetWidth : 0
-    const shareCWidth = shareC.current ? shareC.current.offsetWidth : 0
-    const totalWidth =
-      docsCWidth +
-      datenCWidth +
-      exportCWidth +
-      loginCWidth +
-      moreCWidth +
-      shareCWidth
-    let shouldLayoutWide = toolbarCWidth - totalWidth > 260
-    // need to set narrow to wide later to prevent jumping between
-    if (!wideLayout) shouldLayoutWide = toolbarCWidth - totalWidth > 400
-    if (shouldLayoutWide !== wideLayout) {
-      setWideLayout(shouldLayoutWide)
-    }
-  }, [wideLayout, toolbarC, docsC, datenC, exportC, loginC, moreC, shareC])
-
-  const toolbarCWidth = toolbarC.current ? toolbarC.current.clientWidth : 0
-  const docsCWidth = docsC.current ? docsC.current.offsetWidth : 0
-  const datenCWidth = datenC.current ? datenC.current.offsetWidth : 0
-  const exportCWidth = exportC.current ? exportC.current.offsetWidth : 0
-  const loginCWidth = loginC.current ? loginC.current.offsetWidth : 0
-  const moreCWidth = moreC.current ? moreC.current.offsetWidth : 0
-  const shareCWidth = shareC.current ? shareC.current.offsetWidth : 0
-  const totalWidth =
-    docsCWidth +
-    datenCWidth +
-    exportCWidth +
-    loginCWidth +
-    moreCWidth +
-    shareCWidth
-  let shouldLayoutWide = toolbarCWidth - totalWidth > 260
-  // need to set narrow to wide later to prevent jumping between
-  if (!wideLayout) shouldLayoutWide = toolbarCWidth - totalWidth > 400
-
-  useEffect(() => {
-    typeof window !== 'undefined' &&
-      window.addEventListener('resize', debounce(setLayout, 200))
-    setTimeout(() => setLayout(), 100)
-    return () =>
-      typeof window !== 'undefined' &&
-      window.removeEventListener('resize', debounce(setLayout, 200))
-  })
-
-  console.log('AppBar', { wideLayout, shouldLayoutWide })
-
   return (
     <Location>
       {({ location }) => {
@@ -260,73 +202,76 @@ const Header = () => {
         return (
           <ErrorBoundary>
             <Container>
+              <ReactResizeDetector handleWidth onResize={onResize} />
               <StyledAppBar position="static">
-                <div ref={toolbarC}>
+                <div>
                   <StyledToolbar>
-                    {shouldLayoutWide ? (
+                    {!narrow ? (
                       <StyledTypography variant="h6" color="inherit">
                         Arteigenschaften
                       </StyledTypography>
                     ) : (
                       <div />
                     )}
-                    <div ref={docsC}>
-                      <StyledButton
-                        data-active={pathname === '/Dokumentation'}
-                        onClick={onClickColumnButtonDocs}
-                      >
-                        Dokumentation
-                      </StyledButton>
-                    </div>
-                    <div ref={datenC}>
-                      <StyledButton
-                        data-active={[
-                          '/',
-                          '/Arten',
-                          '/Lebensräume',
-                          '/Eigenschaften-Sammlungen',
-                          '/Benutzer',
-                          '/Organisationen',
-                        ].includes(pathname)}
-                        onClick={onClickColumnButtonData}
-                      >
-                        Daten
-                      </StyledButton>
-                    </div>
-                    <div ref={exportC}>
-                      <StyledButton
-                        data-active={pathname === '/Export'}
-                        onClick={onClickColumnButtonExport}
-                      >
-                        Export
-                      </StyledButton>
-                    </div>
-                    <div ref={loginC}>
-                      <LoginButton
-                        data-active={pathname === '/Login'}
-                        data-widelayout={wideLayout}
-                        onClick={onClickColumnButtonLogin}
-                        title={loginTitle}
-                      >
-                        {loginLabel}
-                      </LoginButton>
-                    </div>
-                    {typeof navigator !== 'undefined' &&
-                      navigator.share !== undefined && (
-                        <div ref={shareC}>
-                          <ShareButton
-                            aria-label="teilen"
-                            onClick={onClickShare}
-                          >
-                            <Icon>
-                              <StyledMoreVertIcon />
-                            </Icon>
-                          </ShareButton>
-                        </div>
-                      )}
-                    <div ref={moreC}>
-                      <MoreMenu />
-                    </div>
+                    <Buttons>
+                      <div>
+                        <StyledButton
+                          data-active={pathname === '/Dokumentation'}
+                          onClick={onClickColumnButtonDocs}
+                        >
+                          Dokumentation
+                        </StyledButton>
+                      </div>
+                      <div>
+                        <StyledButton
+                          data-active={[
+                            '/',
+                            '/Arten',
+                            '/Lebensräume',
+                            '/Eigenschaften-Sammlungen',
+                            '/Benutzer',
+                            '/Organisationen',
+                          ].includes(pathname)}
+                          onClick={onClickColumnButtonData}
+                        >
+                          Daten
+                        </StyledButton>
+                      </div>
+                      <div>
+                        <StyledButton
+                          data-active={pathname === '/Export'}
+                          onClick={onClickColumnButtonExport}
+                        >
+                          Export
+                        </StyledButton>
+                      </div>
+                      <div>
+                        <LoginButton
+                          data-active={pathname === '/Login'}
+                          data-widelayout={!narrow}
+                          onClick={onClickColumnButtonLogin}
+                          title={loginTitle}
+                        >
+                          {loginLabel}
+                        </LoginButton>
+                      </div>
+                      {typeof navigator !== 'undefined' &&
+                        navigator.share !== undefined && (
+                          <div>
+                            <ShareButton
+                              aria-label="teilen"
+                              onClick={onClickShare}
+                            >
+                              <Icon>
+                                <StyledMoreVertIcon />
+                              </Icon>
+                            </ShareButton>
+                          </div>
+                        )}
+                      <div>
+                        <MoreMenu />
+                      </div>
+                    </Buttons>
                   </StyledToolbar>
                 </div>
               </StyledAppBar>
