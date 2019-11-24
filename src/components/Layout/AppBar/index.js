@@ -266,7 +266,7 @@ const Header = () => {
                     </div>
                     <div ref={exportC}>
                       <StyledButton
-                        data-active={url0 === 'export'}
+                        data-active={pathname === '/Export'}
                         onClick={onClickColumnButtonExport}
                       >
                         Export
@@ -274,7 +274,7 @@ const Header = () => {
                     </div>
                     <div ref={loginC}>
                       <LoginButton
-                        data-active={url0 === 'login'}
+                        data-active={pathname === '/Login'}
                         data-widelayout={wideLayout}
                         onClick={onClickColumnButtonLogin}
                         title={loginTitle}

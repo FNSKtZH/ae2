@@ -50,7 +50,7 @@ const DataStacked = () => {
           onChange={onChangeTab}
           indicatorColor="primary"
         >
-          <Tab label="Strukturbaum" />
+          <Tab label="Navigation" />
           <Tab label="Formular" disabled={disableDataType} />
         </Tabs>
       </StyledPaper>
