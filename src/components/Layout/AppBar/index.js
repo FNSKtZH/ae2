@@ -220,6 +220,7 @@ const Header = () => {
                             '/',
                             '/Arten',
                             '/Lebensräume',
+                            'Lebensr%C3%A4ume',
                             '/Eigenschaften-Sammlungen',
                             '/Benutzer',
                             '/Organisationen',
