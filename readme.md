@@ -1,1 +1,1 @@
-Informationen über das Projekt finden Sie auf [docs.arteigenschaften.ch](https://docs.arteigenschaften.ch)
+Informationen über das Projekt finden Sie [hier](https://artdaten.ch/Dokumentation/Projektbeschreibung/)
