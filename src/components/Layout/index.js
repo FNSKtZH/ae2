@@ -50,10 +50,8 @@ const Layout = ({ children }) => {
       >
         <html lang="de" />
       </Helmet>
-      {/*<Suspense fallback={<Fallback />}>*/}
       <AppBar />
       {children}
-      {/*</Suspense>*/}
     </Container>
   )
 }

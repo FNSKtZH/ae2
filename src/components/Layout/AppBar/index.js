@@ -229,7 +229,6 @@ const Header = () => {
     <Location>
       {({ location }) => {
         const { pathname } = location
-        console.log({ url0, pathname })
 
         if (dataError) return `Error fetching data: ${dataError.message}`
 
