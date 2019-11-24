@@ -188,6 +188,7 @@ const Header = () => {
     <Location>
       {({ location }) => {
         const { pathname } = location
+        const pathArray = pathname.split('/').filter(a => !!a)
 
         if (dataError) return `Error fetching data: ${dataError.message}`
 
@@ -216,15 +217,16 @@ const Header = () => {
                       </div>
                       <div>
                         <StyledButton
-                          data-active={[
-                            '/',
-                            '/Arten',
-                            '/Lebensräume',
-                            'Lebensr%C3%A4ume',
-                            '/Eigenschaften-Sammlungen',
-                            '/Benutzer',
-                            '/Organisationen',
-                          ].includes(pathname)}
+                          data-active={
+                            [
+                              'Arten',
+                              'Lebensräume',
+                              'Lebensr%C3%A4ume',
+                              'Eigenschaften-Sammlungen',
+                              'Benutzer',
+                              'Organisationen',
+                            ].includes(pathArray[0]) || pathArray.length === 0
+                          }
                           onClick={onClickColumnButtonData}
                         >
                           Daten
