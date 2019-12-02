@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useEffect } from 'react'
 import GraphiQL from 'graphiql'
 import get from 'lodash/get'
 import 'graphiql/graphiql.css'
@@ -32,6 +32,10 @@ const GraphIql = ({ dataGraphData }) => {
       }),
     [],
   )
+
+  // useEffect(() => {
+  //   setTimeout(() => myGraphiQL.current.refresh(), 500)
+  // }, [])
 
   if (loading) return <LoadingContainer>Lade Daten...</LoadingContainer>
 
