@@ -59,11 +59,11 @@
     },
     {
       "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
-      "dest": "207.154.212.35/api/alt"
+      "dest": "207.154.212.35/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen"
     },
     {
       "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
-      "dest": "207.154.212.35/api/alt"
+      "dest": "207.154.212.35/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen"
     }
   ]
 }
