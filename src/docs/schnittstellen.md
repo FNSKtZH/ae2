@@ -1,6 +1,6 @@
 ---
 path: "/Dokumentation/Schnittstellen"
-date: "2019-09-29"
+date: "2019-12-02"
 title: "Schnittstellen"
 sort1: 5
 ---
@@ -16,7 +16,7 @@ sort1: 5
 - neu: https://arteigenschaften.ch/?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
 
 Jede url mit "id=uuid" als Parameter wird an das Objekt weitergeleitet.<br/>
-Es ist unerheblich ob uuid gross oder klein geschrieben wird.
+Es ist unerheblich ob uuid gross oder klein geschrieben wird.<br/><br/>
 
 ### 1.2 Standard-Art-Eigenschaften abholen
 
@@ -32,7 +32,7 @@ Es ist unerheblich ob uuid gross oder klein geschrieben wird.
 ### 1.4 Gewählte Art-Eigenschaften abholen
 
 Bisher:
-http://arteigenschaften.ch:/artendb/\_design/artendb/\_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname vollständig"},{"DsTyp":"Datensammlung","DsName":"CH Prioritäten (2011)","Feldname":"Priorität"},{"DsTyp":"Beziehung","DsName":"ZH AP FM (2010): Art ist an Lebensraum gebunden","Feldname":"Biotopbindung"}]}
+http://arteigenschaften.ch:/artendb/\_design/artendb/\_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname vollständig"},{"DsTyp":"Datensammlung","DsName":"CH Prioritäten (2011)","Feldname":"Priorität"},{"DsTyp":"Beziehung","DsName":"ZH AP FM (2010): Art ist an Lebensraum gebunden","Feldname":"Biotopbindung"}]}<br/>
 
 Diese URL wird von der Anwendung generiert. Ist also egal, wie sie aussieht. Neu ist es ein Array von solchen Objekten:
 
@@ -51,7 +51,7 @@ Die Feldnamen sind bewusst kurz gehalten, um den Netzwerkverkehr zu minimieren. 
 - p: **p**roperty
 - rt: **r**elation-**t**ype (nur für Beziehungen)
 
-Es werden nur die manuell gewählten Felder übermittelt.
+Es werden nur die manuell gewählten Felder übermittelt.<br/><br/>
 
 Beispiele:
 
@@ -69,6 +69,6 @@ Beispiele:
 
 ## 3 GraphQL
 
-Unter https://arteigenschaften.ch/graphql befindet sich eine GraphQL-Daten-Schnittstelle. Benutzer-Oberfläche und Dokumentation sind in der Anwendung über das Mehr-Menü oben rechts erreichbar.
+Unter https://arteigenschaften.ch/graphql befindet sich eine GraphQL-Daten-Schnittstelle. Benutzer-Oberfläche und Dokumentation sind in der Anwendung über das Mehr-Menü oben rechts erreichbar oder auf [https://arteigenschaften.ch/graphiql](/graphiql).
 
 Diese GraphQL-Schnittstelle wird auch von arteigenschaften.ch selber benutzt. Es gibt daher kaum eine Funktionalität, welche damit nicht möglich ist, solange man sich mit ausreichenden Benutzerrechten anmeldet.
