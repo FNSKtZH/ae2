@@ -55,15 +55,15 @@
     },
     {
       "src": "/artendb/_design/artendb/_list/export_evab/evab_arten",
-      "dest": "/api/evab/arten.js"
+      "dest": "207.154.212.35/evab/arten"
     },
     {
       "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
-      "dest": "/api/alt.js"
+      "dest": "207.154.212.35/api/alt"
     },
     {
       "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
-      "dest": "/api/alt.js"
+      "dest": "207.154.212.35/api/alt"
     }
   ]
 }
