@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import GraphiQL from 'graphiql'
 import get from 'lodash/get'
 import 'graphiql/graphiql.css'
@@ -13,36 +13,28 @@ const Container = styled.div`
 const LoadingContainer = styled.div`
   padding: 10px;
 `
-
+// need to use ref to refresh GraphiQL after fetching params
+// for grahpiQL to work in dev mode: https://github.com/graphql/graphiql/issues/770#issuecomment-560447339
+// but id DOES work in production
 const GraphIql = ({ dataGraphData }) => {
   const loading = get(dataGraphData, 'loading', false)
 
-  const myGraphiQL = useRef(null)
   const graphQLFetcher = useCallback(
     graphQLParams =>
       fetch(graphQlUri(), {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(graphQLParams),
-      }).then(response => {
-        // need to refresh due to issue in graphiql/it's dependencies
-        // see: https://github.com/graphql/graphiql/issues/770#issuecomment-507943042
-        myGraphiQL.current.refresh()
-        return response.json()
-      }),
+      }).then(response => response.json()),
     [],
   )
-
-  // useEffect(() => {
-  //   setTimeout(() => myGraphiQL.current.refresh(), 500)
-  // }, [])
 
   if (loading) return <LoadingContainer>Lade Daten...</LoadingContainer>
 
   return (
     <ErrorBoundary>
       <Container>
-        <GraphiQL ref={myGraphiQL} fetcher={graphQLFetcher} />
+        <GraphiQL fetcher={graphQLFetcher} />
       </Container>
     </ErrorBoundary>
   )
