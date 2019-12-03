@@ -66,6 +66,9 @@ exports.onCreateWebpackConfig = ({
   actions.replaceWebpackConfig(config)
   */
   actions.setWebpackConfig({
+    node: {
+      fs: 'empty',
+    },
     module: {
       rules: [
         {
