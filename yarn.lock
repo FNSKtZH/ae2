@@ -1954,9 +1954,9 @@
   integrity sha1-fyrX7FX5FEgvybHsS7GuYCjUYGY=
 
 "@types/node@*", "@types/node@>=6", "@types/node@^12.0.2":
-  version "12.12.15"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.15.tgz#8dfb6ce22fedd469128137640a3aa8f17415422f"
-  integrity sha512-Pv+vWicyFd07Hw/SmNnTUguqrHgDfMtjabvD9sQyxeqbpCEg8CmViLBaVPHtNsoBgZECrRf5/pgV6FJIBrGSjw==
+  version "12.12.16"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.16.tgz#3ebcbd7bf978fa4c5120fee8be57083271a8b3ac"
+  integrity sha512-vRuMyoOr5yfNf8QWxXegOjeyjpWJxFePzHzmBOIzDIzo+rSqF94RW0PkS6y4T2+VjAWLXHWrfbIJY3E3aS7lUw==
 
 "@types/node@^7.0.11":
   version "7.10.9"
@@ -4211,7 +4211,7 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-codemirror-graphql@^0.11.3:
+codemirror-graphql@^0.11.6:
   version "0.11.6"
   resolved "https://registry.yarnpkg.com/codemirror-graphql/-/codemirror-graphql-0.11.6.tgz#885e34afb5b7aacf0e328d4d5949e73ad21d5a4e"
   integrity sha512-/zVKgOVS2/hfjAY0yoBkLz9ESHnWKBWpBNXQSoFF4Hl5q5AS2DmM22coonWKJcCvNry6TLak2F+QkzPeKVv3Eg==
@@ -8038,14 +8038,15 @@ graphile-utils@^4.5.2:
     debug "^4.1.1"
     graphql ">=0.9 <0.14 || ^14.0.2"
 
-graphiql@0.17.0:
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/graphiql/-/graphiql-0.17.0.tgz#38cd961b5b6fb3aacd3405a0a00681087e2d716e"
-  integrity sha512-8xx5hsyIoEcQj/Lcs5BwlZb1poP7h5xa6p/CvpbRLa3wW9rvhd0udJDja9mSvZw+I0u9qdvKVLEYDdXBO0vt5w==
+graphiql@0.17.5:
+  version "0.17.5"
+  resolved "https://registry.yarnpkg.com/graphiql/-/graphiql-0.17.5.tgz#76c553fc0d8936f77e33114ac3374f1807a718ff"
+  integrity sha512-ogNsrg9qM1py9PzcIUn+C29JukOADbjIfB6zwtfui4BrpOEpDb5UZ6TjAmSL/F/8tCt4TbgwKtkSrBeLNNUrqA==
   dependencies:
     codemirror "^5.47.0"
-    codemirror-graphql "^0.11.3"
+    codemirror-graphql "^0.11.6"
     copy-to-clipboard "^3.2.0"
+    entities "^2.0.0"
     markdown-it "^10.0.0"
     regenerator-runtime "^0.13.3"
 
