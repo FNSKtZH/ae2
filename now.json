@@ -8,7 +8,7 @@
     "PGDATABASE": "@pgdatabase",
     "PGPORT": "@pgport"
   },
-  "routes": [
+  "redirects": [
     {
       "src": "/index.html",
       "dest": "/"
