@@ -1,5 +1,6 @@
 -- 1. prepare data to import
 --    combining data from both files from info flora
+-- 2. create new taxonomy
 CREATE TABLE ae.tmp_object (
   taxonomy_id UUID NOT NULL REFERENCES ae.taxonomy (id) ON DELETE CASCADE ON UPDATE CASCADE,
   name text default null,
@@ -14,11 +15,11 @@ CREATE TABLE ae.tmp_object (
   grenzgebiet text default null,
   ist_teil_von integer default null
 );
--- 2. import data
--- 3. add fields
+-- 3. import data (importdata.csv)
+-- 4. add extra fields
 alter table ae.tmp_object add column id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc();
 alter table ae.tmp_object add column properties jsonb DEFAULT NULL;
--- 4. set properties
+-- 5. set properties
 update ae.tmp_object set properties = json_build_object(
   'Taxonomie ID intern', tax_id_intern,
   'Taxonomie ID', tax_id,
@@ -33,7 +34,7 @@ update ae.tmp_object set properties = json_build_object(
   'Grenzgebiet', grenzgebiet,
   'Ist Teil von: Taxonomie ID', ist_teil_von
 );
--- 5. in sert date from tmp table into objects
+-- 6. insert data from tmp table into objects
 insert into ae.object (id,taxonomy_id,name,properties)
 select id,taxonomy_id,name,properties from ae.tmp_object;
 
