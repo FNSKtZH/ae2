@@ -339,6 +339,6 @@ module.exports = async (req, res) => {
   } finally {
     client.release()
   }
-  result.rows.length = 28000
+  //result.rows.length = 28000
   res.json(result.rows)
 }
