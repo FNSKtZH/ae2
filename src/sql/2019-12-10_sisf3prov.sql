@@ -125,8 +125,7 @@ from
   inner join ae.object o_index_3
   on (o_index_3.properties->>'Taxonomie ID intern')::int = s.tax_id_intern and o_index_3.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6';
 
--- TODO: add synonyms for all synonyms of the same object in sisf2
--- do not forget: both ways
+-- 8.4 add synonyms for all synonyms of the same object in sisf2
 insert into ae.synonym(object_id, object_id_synonym)
 select * from (
   with sisf2_synonyms as (
@@ -165,7 +164,7 @@ select * from (
     on sisf_2_3_synonyms.sisf_2_object_id = sisf2_synonyms.sisf_2_object_id_synonym;
 )
 
--- TODO: add ZH GIS property_collection for all objects
+-- 9. add ZH GIS property_collection for all objects
 insert into ae.property_collection_object (object_id,property_collection_id,properties)
 select
   id as object_id, 
@@ -176,6 +175,7 @@ select
       "Kriterien für Bestimmung der Betrachtungsdistanz": "500m als Minimalwert zugeteilt"
   }' as properties
 from ae.object where taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6';
+
 -- alter EvAB api:
 --   deliver all from sisf3 with status a
 --   deliver those from sisf3 with same taxonomie id in sisf2 with guid of sisf2 object
