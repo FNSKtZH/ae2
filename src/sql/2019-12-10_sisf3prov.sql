@@ -127,23 +127,55 @@ from
 
 -- TODO: add synonyms for all synonyms of the same object in sisf2
 -- do not forget: both ways
-with sisf2_synonyms as (
+insert into ae.synonym(object_id, object_id_synonym)
+select * from (
+  with sisf2_synonyms as (
+    select
+      o1.id as sisf_2_object_id,
+      o2.id as sisf_2_object_id_synonym
+    from
+      ae.synonym
+      inner join ae.object o1
+      on ae.synonym.object_id = o1.id
+      inner join ae.object o2
+      on ae.synonym.object_id_synonym = o2.id
+    where
+      o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+      and o2.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+  ), sisf_2_3_synonyms as (
+    select
+      o1.id as sisf_2_object_id,
+      o2.id as sisf_3_object_id_synonym
+    from
+      ae.synonym
+      inner join ae.object o1
+      on ae.synonym.object_id = o1.id
+      inner join ae.object o2
+      on ae.synonym.object_id_synonym = o2.id
+    where
+      o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+      and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
+  )
   select
-    o1.id as o1_id,
-    o2.id as o2_id
+    sisf2_synonyms.sisf_2_object_id as object_id,
+    sisf_2_3_synonyms.sisf_3_object_id_synonym as object_id_synonym
   from
-    ae.synonym
-    inner join ae.object o1
-    on ae.synonym.object_id = o1.id
-    inner join ae.object o2
-    on ae.synonym.object_id_synonym = o2.id
-  where
-    o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
-    and o2.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+    sisf2_synonyms
+    inner join sisf_2_3_synonyms
+    on sisf_2_3_synonyms.sisf_2_object_id = sisf2_synonyms.sisf_2_object_id_synonym;
 )
-select * from sisf2_synonyms
--- TODO: add synonyms for all sisf2 fns-objects that are genus
--- TODO: add ZH GIS property_collection
+
+-- TODO: add ZH GIS property_collection for all objects
+insert into ae.property_collection_object (object_id,property_collection_id,properties)
+select
+  id as object_id, 
+  'bdf7a9fa-7b0e-11e8-a16c-efe328566112' as property_collection_id,
+  '{
+      "GIS-Layer": "Flora",
+      "Betrachtungsdistanz (m)": 500,
+      "Kriterien für Bestimmung der Betrachtungsdistanz": "500m als Minimalwert zugeteilt"
+  }' as properties
+from ae.object where taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6'
 -- TODO: drop ae.tmp_object
 -- TODO: drop ae.tmp_synonym
 -- alter EvAB api:
