@@ -95,10 +95,53 @@ insert into ae.object (id,taxonomy_id,name,properties,parent_id)
 select id,taxonomy_id,name,properties,parent_id from ae.tmp_object;
 
 -- 8. TODO: add synonyms for all sisf2 objects according to SISF2_vs_Checklist2017
--- 8.1 import the data into tmp_synonym
-
+-- 8.1 create tmp_synonym
+CREATE TABLE ae.tmp_synonym (
+  sisf2_nr integer default null,
+  tax_id_intern integer default null
+);
+-- 8.2 import the data into tmp_synonym
+-- 8.3 add synonyms both ways
+-- aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4: index2,
+-- c87f19f2-1b77-11ea-8282-bbc40e20aff6: index3
+insert into ae.synonym(object_id, object_id_synonym)
+select
+  o_index_2.id as object_id,
+  o_index_3.id as object_id_synonym
+from
+  ae.tmp_synonym s
+  inner join ae.object o_index_2
+  on (o_index_2.properties->>'Taxonomie ID')::int = s.sisf2_nr and o_index_2.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
+  inner join ae.object o_index_3
+  on (o_index_3.properties->>'Taxonomie ID intern')::int = s.tax_id_intern and o_index_3.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6'
+union all
+select
+  o_index_3.id as object_id,
+  o_index_2.id as object_id_synonym
+from
+  ae.tmp_synonym s
+  inner join ae.object o_index_2
+  on (o_index_2.properties->>'Taxonomie ID')::int = s.sisf2_nr and o_index_2.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
+  inner join ae.object o_index_3
+  on (o_index_3.properties->>'Taxonomie ID intern')::int = s.tax_id_intern and o_index_3.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6';
 
 -- TODO: add synonyms for all synonyms of the same object in sisf2
+-- do not forget: both ways
+with sisf2_synonyms as (
+  select
+    o1.id as o1_id,
+    o2.id as o2_id
+  from
+    ae.synonym
+    inner join ae.object o1
+    on ae.synonym.object_id = o1.id
+    inner join ae.object o2
+    on ae.synonym.object_id_synonym = o2.id
+  where
+    o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+    and o2.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+)
+select * from sisf2_synonyms
 -- TODO: add synonyms for all sisf2 fns-objects that are genus
 -- TODO: add ZH GIS property_collection
 -- TODO: drop ae.tmp_object
