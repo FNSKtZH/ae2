@@ -143,7 +143,7 @@ from
   left join ae.evab_flora_status
   on ae.object.properties->>'Status' = ae.evab_flora_status.decoded
 where
-  ae.taxonomy.name = 'SISF Index 2 (2005)'
+  ae.taxonomy.id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
   and ae.object.properties is not null
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
@@ -238,7 +238,7 @@ from
       inner join ae.property_collection
       on ae.property_collection_object.property_collection_id = ae.property_collection.id
 where
-  ae.taxonomy.name in('CSCF (2009)', 'SISF Index 2 (2005)')
+  ae.taxonomy.id in('aed47d40-7b0e-11e8-b9a5-bd4f79edbcc4', 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4')
   -- removes all structural nodes not included in sisf2
   and ae.object.properties is not null
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'

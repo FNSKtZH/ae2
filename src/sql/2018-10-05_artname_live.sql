@@ -36,7 +36,7 @@ with evab_arten as (
     left join ae.evab_flora_status
     on ae.object.properties->>'Status' = ae.evab_flora_status.decoded
   where
-    ae.taxonomy.name = 'SISF Index 2 (2005)'
+    ae.taxonomy.id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
     and ae.object.properties is not null
     and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
     and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647

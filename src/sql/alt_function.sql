@@ -139,7 +139,7 @@ CREATE OR REPLACE FUNCTION ae.alt_fields(fields collection_property[])
                           inner join ae.property_collection
                           on ae.property_collection_object.property_collection_id = ae.property_collection.id
                     where
-                      ae.taxonomy.name in(''CSCF (2009)'', ''SISF Index 2 (2005)'')
+                      ae.taxonomy.id in(''aed47d40-7b0e-11e8-b9a5-bd4f79edbcc4'', ''aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'')
                       and ae.object.properties is not null
                       and ae.object.properties->>''Taxonomie ID'' ~ E''^\\d+$''
                       and (ae.object.properties->>''Taxonomie ID'')::integer < 2147483647

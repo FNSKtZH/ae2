@@ -16,18 +16,13 @@ const db = pgp(
 )
 
 module.exports = async (req, res) => {
-  console.log('result req:', req)
   const { fields } = req.query
   if (!fields || fields === 'undefined') {
-    console.log('result 2 (no fields)')
     // No fields passed - returning standard fields
     const result = await db.any('select * from ae.alt_standard')
-    console.log('result without fields:', result)
     return res.send(result)
   }
-  console.log('result 2 (with fields)')
   const parsedFields = JSON.parse(fields)
-  console.log('result 3')
   // separate fields
   // and make sure they all have the required values
   const taxFields = parsedFields.filter(
@@ -41,7 +36,6 @@ module.exports = async (req, res) => {
       f.p !== undefined &&
       f.p !== null,
   )
-  console.log('result 4')
   const pcoFields = parsedFields.filter(
     f =>
       f.t &&
@@ -53,7 +47,6 @@ module.exports = async (req, res) => {
       f.p !== undefined &&
       f.p !== null,
   )
-  console.log('result 5')
   const rcoFields = parsedFields.filter(
     f =>
       f.t &&
@@ -68,7 +61,6 @@ module.exports = async (req, res) => {
       f.rt !== undefined &&
       f.rt,
   )
-  console.log('result 6')
   const sql1 = `select
                   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
                   (ae.object.properties->>'Taxonomie ID')::integer as "ref",
@@ -178,7 +170,6 @@ module.exports = async (req, res) => {
               ELSE null
             END AS "${fieldName}"`
   })
-  console.log('result 7')
   const sqlPco = pcoFields.map(f => {
     let fieldName = `${f.n}: ${f.p}`
     if (fieldName.length > 63) {
@@ -236,7 +227,6 @@ module.exports = async (req, res) => {
               ELSE null
             END AS "${fieldName}"`
   })
-  console.log('result 8')
   const sqlRco = rcoFields.map(f => {
     let fieldName = `${f.n} ${f.rt}: Art/LR id: ${f.p}`
     if (fieldName.length > 63) {
@@ -307,7 +297,6 @@ module.exports = async (req, res) => {
               ELSE null
             END AS "${fieldName}"`
   })
-  console.log('result 9')
   const sqlEnd = `from
                     ae.object
                     inner join ae.taxonomy
@@ -317,7 +306,7 @@ module.exports = async (req, res) => {
                         inner join ae.property_collection
                         on ae.property_collection_object.property_collection_id = ae.property_collection.id
                   where
-                    ae.taxonomy.name in('CSCF (2009)', 'SISF Index 2 (2005)')
+                    ae.taxonomy.name in('CSCF (2009)', 'SISF (2005)')
                     and ae.object.properties is not null
                     and ae.object.properties->>'Taxonomie ID' ~ E'^\\\\d+$'
                     and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
@@ -328,9 +317,7 @@ module.exports = async (req, res) => {
   const mySql = `${sql1}${sqlTax.length ? `,${sqlTax.join()}` : ''}${
     sqlPco.length ? `,${sqlPco.join()}` : ''
   }${sqlRco.length ? `,${sqlRco.join()}` : ''} ${sqlEnd}`
-  console.log('result 10')
 
   const result = await db.any(mySql)
-  console.log('result 11 with fields:', result)
   res.send(result)
 }
