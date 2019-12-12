@@ -4,19 +4,18 @@ date: "2019-09-29"
 title: "Neue Art erfassen"
 sort1: 4
 ---
-# Neue Art erfassen
 
-Grundsätzlich sind die Autoren einer Taxonomie für deren Nachführung zuständig. Publizieren sie eine neue oder aktualisierte Version, wird sie in arteigenschaften.ch als neue Taxonomie aufgenommen. Die vorige bleibt unverändert erhalten.
+Grundsätzlich sind die Autoren einer Taxonomie für deren Nachführung zuständig. Publizieren sie eine neue oder aktualisierte Version, wird sie in arteigenschaften.ch als neue Taxonomie aufgenommen. Die vorige bleibt unverändert erhalten.<br/><br/>
 
-Die FNS ergänzt sporadisch die aktuelle Taxonomie der nationalen Zentren um Arten, zum Beispiel wenn fehlende Arten in EvAB benutzt werden sollen.
+Die FNS ergänzt sporadisch die aktuelle Taxonomie der nationalen Zentren um Arten, zum Beispiel wenn fehlende Arten in EvAB benutzt werden sollen.<br/><br/>
 
-Das Ergänzen von Arten ist daher keine Kern-Funktionalität von arteigenschaften.ch. Man kann aber taxonomische Einheiten erfassen. Das wurde schon immer ermöglicht, um Lebensräume zu erfassen. Denn diese sind hierarchisch aufgebaut sind und es ist schwierig, hierarchische Systeme logisch schlüssig in flachen Tabellen aufzubauen. 
+Das Ergänzen von Arten ist daher keine Kern-Funktionalität von arteigenschaften.ch. Man kann aber taxonomische Einheiten erfassen. Das wurde schon immer ermöglicht, um Lebensräume zu erfassen. Denn diese sind hierarchisch aufgebaut sind und es ist schwierig, hierarchische Systeme logisch schlüssig in flachen Tabellen aufzubauen. <br/><br/>
 
-Diese Funktionalität kann auch genutzt werden, um Arten zu ergänzen. Sollen diese Arten aber vom [Artenlistentool](https://aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content) oder [EvAB](https://aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) genutzt werden, müssen gewisse Bedingungen erfüllt sein.
+Diese Funktionalität kann auch genutzt werden, um Arten zu ergänzen. Sollen diese Arten aber vom [Artenlistentool](https://aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content) oder [EvAB](https://aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) genutzt werden, müssen gewisse Bedingungen erfüllt sein.<br/><br/>
 
-Sollte etwas völlig misslingen, können die Daten von arteigenschaften.ch im schlimmsten Fall aus der täglichen Sicherung wiederhergestellt werden.
+Sollte etwas völlig misslingen, können die Daten von arteigenschaften.ch im schlimmsten Fall aus der täglichen Sicherung wiederhergestellt werden.<br/><br/>
 
-Wer den Vorgang zuerst testen will, kann das auf https://artdaten.ch machen.
+Wer den Vorgang zuerst testen will, kann das auf https://artdaten.ch machen.<br/><br/>
 
 ### Taxonomische Eigenschaften erfassen
 
@@ -29,7 +28,7 @@ Vorgehen:
 5. Rechts im Formular: Namen der Art erfassen<br/>
    Der Name wird im Strukturbaum erst später aktualisiert. Um das zu provozieren, kann man die F5-Taste drücken
 6. Bei `Neues Feld` weitere benötigte Felder erfassen (siehe unten)
-7. In der gleichen Art könnten zuvor Familie und Gattung erfasst werden, falls sie noch nicht existierten
+7. In der gleichen Art könnten zuvor Familie und Gattung erfasst werden, falls sie noch nicht existierten<br/><br/>
 
 ### Art für das Artenlistentool vorbereiten
 
