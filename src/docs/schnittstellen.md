@@ -32,7 +32,8 @@ Es ist unerheblich ob uuid gross oder klein geschrieben wird.<br/><br/>
 ### 1.4 Gewählte Art-Eigenschaften abholen
 
 Bisher:
-http://arteigenschaften.ch:/artendb/\_design/artendb/\_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname vollständig"},{"DsTyp":"Datensammlung","DsName":"CH Prioritäten (2011)","Feldname":"Priorität"},{"DsTyp":"Beziehung","DsName":"ZH AP FM (2010): Art ist an Lebensraum gebunden","Feldname":"Biotopbindung"}]}<br/>
+<a href="http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder=%7B%22felder%22:%5B%7B%22DsTyp%22:%22Taxonomie%22,%22DsName%22:%22Taxonomie(n)%22,%22Feldname%22:%22Artname vollständig%22%7D,%7B%22DsTyp%22:%22Datensammlung%22,%22DsName%22:%22CH Prioritäten (2011)%22,%22Feldname%22:%22Priorität%22%7D,%7B%22DsTyp%22:%22Beziehung%22,%22DsName%22:%22ZH AP FM (2010): Art ist an Lebensraum gebunden%22,%22Feldname%22:%22Biotopbindung%22%7D%5D%7D">http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname vollständig"},{"DsTyp":"Datensammlung","DsName":"CH Prioritäten (2011)","Feldname":"Priorität"},{"DsTyp":"Beziehung","DsName":"ZH AP FM (2010): Art ist an Lebensraum gebunden","Feldname":"Biotopbindung"}]}</a>
+<br/><br/>
 
 Diese URL wird von der Anwendung generiert. Ist also egal, wie sie aussieht. Neu ist es ein Array von solchen Objekten:
 
@@ -55,9 +56,9 @@ Es werden nur die manuell gewählten Felder übermittelt.<br/><br/>
 
 Beispiele:
 
-- https://arteigenschaften.ch/api/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
-- https://arteigenschaften.ch/api/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]https://arteigenschaften.ch/api/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]
-- https://arteigenschaften.ch/api/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"},{"t":"rco","n":"ZH AP FM (2010)","p":"Biotopbindung", "rt":"Art ist an Lebensraum gebunden"}]
+- <a href="https://arteigenschaften.ch/api/alt?fields=%5B%7B%22t%22:%22pco%22,%22n%22:%22CH Prioritäten (2011)%22,%22p%22:%22Priorität%22%7D%5D">https://arteigenschaften.ch/api/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
+- <a href="https://arteigenschaften.ch/api/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22SISF (2005)%22,%22p%22:%22Artname vollständig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH Prioritäten (2011)%22,%22p%22:%22Priorität%22%7D%5Dhttps://arteigenschaften.ch/api/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22SISF (2005)%22,%22p%22:%22Artname vollständig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH Prioritäten (2011)%22,%22p%22:%22Priorität%22%7D%5D">https://arteigenschaften.ch/api/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]https://arteigenschaften.ch/api/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
+- <a href="https://arteigenschaften.ch/api/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22SISF (2005)%22,%22p%22:%22Artname vollständig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH Prioritäten (2011)%22,%22p%22:%22Priorität%22%7D,%7B%22t%22:%22rco%22,%22n%22:%22ZH AP FM (2010)%22,%22p%22:%22Biotopbindung%22, %22rt%22:%22Art ist an Lebensraum gebunden%22%7D%5D">https://arteigenschaften.ch/api/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"},{"t":"rco","n":"ZH AP FM (2010)","p":"Biotopbindung", "rt":"Art ist an Lebensraum gebunden"}]</a>
   <br/><br/><br/>
 
 ## 2 EvAB
