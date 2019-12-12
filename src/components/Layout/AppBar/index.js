@@ -209,14 +209,6 @@ const Header = () => {
                     <Buttons>
                       <div>
                         <StyledButton
-                          data-active={pathname.includes('/Dokumentation')}
-                          onClick={onClickColumnButtonDocs}
-                        >
-                          Dokumentation
-                        </StyledButton>
-                      </div>
-                      <div>
-                        <StyledButton
                           data-active={
                             [
                               'Arten',
@@ -263,6 +255,14 @@ const Header = () => {
                             </ShareButton>
                           </div>
                         )}
+                      <div>
+                        <StyledButton
+                          data-active={pathname.includes('/Dokumentation')}
+                          onClick={onClickColumnButtonDocs}
+                        >
+                          Dokumentation
+                        </StyledButton>
+                      </div>
                       <div>
                         <MoreMenu />
                       </div>
