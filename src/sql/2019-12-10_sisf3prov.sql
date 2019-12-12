@@ -161,8 +161,8 @@ select * from (
   from
     sisf2_synonyms
     inner join sisf_2_3_synonyms
-    on sisf_2_3_synonyms.sisf_2_object_id = sisf2_synonyms.sisf_2_object_id_synonym;
-)
+    on sisf_2_3_synonyms.sisf_2_object_id = sisf2_synonyms.sisf_2_object_id_synonym
+) as data;
 
 -- 9. add ZH GIS property_collection for all objects
 insert into ae.property_collection_object (object_id,property_collection_id,properties)
