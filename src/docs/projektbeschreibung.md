@@ -28,13 +28,12 @@ Die wichtigsten Merkmale dürften sein:
 
 ### Wozu wird arteigenschaften.ch benutzt?
 
-##### Nachschlagen
-
+#### Nachschlagen
 Man kann arteigenschaften.ch benutzen, um Informationen nachzuschlagen. Das dürfte sogar der häufigste Anwendungszweck sein. Die Darstellung ist aber eingeschränkt, da die Benutzeroberfläche dynamisch aus flexiblen Datenstrukturen generiert wird und arteigenschaften.ch keine Bilder enthält. Anwendungen mit statischer Datenstruktur können Informationen benutzerfreundlicher darstellen.
 
-Hilfreich könnte allerdings sein, wenn der einfache Import (wie erhofft) dazu führen sollte, dass arteigenschaften.ch besonders umfassende und aktuelle Informationen enthält.
+Hilfreich könnte allerdings sein, wenn der einfache Import (wie erhofft) dazu führen sollte, dass arteigenschaften.ch besonders umfassende und aktuelle Informationen enthält.<br/><br/>
 
-##### Auswerten
+#### Auswerten
 
 arteigenschaften.ch wurde entwickelt, um mit Hilfe der darin enthaltenen Daten Auswertungen durchzuführen. Meist in Kombination mit Artbeobachtungen oder Lebensraumkartierungen. Beispiele:
 
@@ -45,23 +44,23 @@ arteigenschaften.ch wurde entwickelt, um mit Hilfe der darin enthaltenen Daten A
 - Aus Kartierungen und/oder physikalischen Modellen für bestimmte Arten/Förderprogramme prioritäre Flächen identifizieren
 - Modellieren, z.B. den Einfluss der Klimaerwärmung auf Arten und Schutzprioritäten
 
-Besonders geeignet ist arteigenschaften.ch, wenn in einem Projekt eigene Art- oder Lebensraumeigenschaften erhoben und mit anderen für die Auswertung kombiniert werden sollen.
+Besonders geeignet ist arteigenschaften.ch, wenn in einem Projekt eigene Art- oder Lebensraumeigenschaften erhoben und mit anderen für die Auswertung kombiniert werden sollen.<br/><br/>
 
-##### Daten für andere Anwendung bereitstellen
+#### Daten für andere Anwendung bereitstellen
 
-Andere Anwendungen können Daten aus arteigenschaften.ch direkt abholen und nutzen. Mehr Infos [hier](#diese-technologien-werden-verwendet).
+Andere Anwendungen können Daten aus arteigenschaften.ch direkt abholen und nutzen. Mehr Infos [hier](#diese-technologien-werden-verwendet).<br/><br/>
 
-##### Nutzungsbedingungen
+#### Nutzungsbedingungen
 
 arteigenschaften.ch ist ein Werkzeug der Fachstelle Naturschutz des Kantons Zürich (FNS). Die Daten stehen frei zur Verfügung. Möchten Sie Daten importieren, wenden Sie sich bitte an [Andreas Lienhard](mailto:andreas.lienhard@bd.zh.ch). Die FNS behält sich vor, die optimale Integration von Daten in arteigenschaften.ch zu besprechen und allenfalls Einfluss darauf zu nehmen.
 
 Es können nur Daten akzeptiert werden, deren Eigner mit der Veröffentlichung einverstanden sind. Arteigenschaften der FNS sind open data.
 
-Die Anwendung arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, sie zu kopieren und selber zu betreiben, ohne allfälligen Einfluss der FNS oder mit Daten, die man nicht veröffentlichen will. Oder besser: gemeinsam weiter zu entwickeln.
+Die Anwendung arteigenschaften.ch ist [open source](#open-source). Es steht allen frei, sie zu kopieren und selber zu betreiben, ohne allfälligen Einfluss der FNS oder mit Daten, die man nicht veröffentlichen will. Oder besser: gemeinsam weiter zu entwickeln.<br/><br/>
 
 ### Das Zielpublikum
 
-...befasst sich mit Arten und Lebensräumen. Es arbeitet primär in den Sachbereichen Naturschutz, Jagd und Fischerei, Gewässer, Wald, Landwirtschaft und Problemarten. Angesprochen sein dürften Fachstellen bei Bund, Kantonen, Gemeinden, Forschungseinrichtungen und freischaffende Fachleute bzw. Ökobüros.
+...befasst sich mit Arten und Lebensräumen. Es arbeitet primär in den Sachbereichen Naturschutz, Jagd und Fischerei, Gewässer, Wald, Landwirtschaft und Problemarten. Angesprochen sein dürften Fachstellen bei Bund, Kantonen, Gemeinden, Forschungseinrichtungen und freischaffende Fachleute bzw. Ökobüros.<br/><br/>
 
 ### Ziele für die Benutzerin
 
@@ -71,13 +70,13 @@ Die Anwendung arteigenschaften.ch ist [open source](#open-source). Es steht alle
 - gut verfügbar:
   - von jedem Gerät im Internet
   - als Export in den Formaten <a href="http://de.wikipedia.org/wiki/CSV_(Dateiformat)">csv</a> und Excel
-  - über die API für GIS, [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content), [EvAB mobile](https://github.com/barbalex/EvabMobile) und beliebige weitere Applikationen<br>
+  - über die API für GIS, [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content), [EvAB mobile](https://github.com/barbalex/EvabMobile) und beliebige weitere Applikationen<br/>
     (da die API mit [GraphQL](https://github.com/facebook/graphql) aufgebaut ist, kann jede Applikation ohne Rückfrage mit der FNS flexibel auf die Daten zugreifen. Rückfragen bzw. entsprechende Benutzer-Rechte sind nur nötig, um Daten von externen Applikationen aus zu verändern)
 - Daten können über alle Artengruppen hinweg exportiert werden
 
 ### Ziele für Datenpfleger und Systemverantwortliche
 
-- Daten können in wenigen Minuten importiert werden.<br>Es werden keine besonderen technischen Fähigkeiten vorausgesetzt
+- Daten können in wenigen Minuten importiert werden.<br/>Es werden keine besonderen technischen Fähigkeiten vorausgesetzt
 - Die Datenstruktur ist via die API klar definiert
 - Der Code ist offen und dokumentiert. Nutzer können eigene Erweiterungen entwickeln (lassen) und/oder arteigenschaften.ch gemeinsam weiter entwickeln. Oder eine eigene Anwendung entwickeln, welche die Daten via die API bezieht oder gar bearbeitet
 
@@ -90,21 +89,21 @@ Es gibt ein paar (nachfolgend erklärte) Grundbegriffe. Daraus leiten sich diese
 - Taxonomien mit Objekten und Synonymen
 - Eigenschaften-Sammlungen mit Eigenschaften und Beziehungen
 
-Ja, das ist alles :-)
+Ja, das ist alles :-)<br/><br/>
 
 ### Taxonomien
 
-[Taxonomien](http://de.wikipedia.org/wiki/Taxonomie) klassifizieren <a href="http://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> (z.B. Arten) mit einer [Hierarchie](http://de.wikipedia.org/wiki/Hierarchie). Die Entwicklung von Taxonomien und der Umgang mit unterschiedlichen und sich laufend verändernden Taxonomien sind höchst anspruchsvoll.
+[Taxonomien](http://de.wikipedia.org/wiki/Taxonomie) klassifizieren <a href="http://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> (z.B. Arten) mit einer [Hierarchie](http://de.wikipedia.org/wiki/Hierarchie). Die Entwicklung von Taxonomien und der Umgang mit unterschiedlichen und sich laufend verändernden Taxonomien sind höchst anspruchsvoll.<br/>
 
 Andere geläufige Begriffe: Nomenklatur, Index, Flora, Kartierschlüssel, Lebensraumschlüssel.
 
 Beispiele: Indizes der nationalen Artdatenzentren, "Flora der Schweiz (Ausgabe 2012)", "Lebensraumkartierung Neeracher Riet 2009", "Flora Europaea (Ellenberg, 1991)".
 
-Im Idealfall enthielte die aktuell vom nationalen Zentrum verwendete Taxonomie nur "offizielle" Arten und z.B. keine Synonyme. Stattdessen würden Beziehungen zwischen offiziellen Arten und Arten anderer Taxonomien beschrieben. Da die Daten von den nationalen Zentren unseres Wissens (noch?) nicht so erhältlich sind, ist das in arteigenschaften.ch nicht realisiert aber im Design vorgesehen und bei Vorliegen entsprechender Daten direkt umsetzbar.
+Im Idealfall enthielte die aktuell vom nationalen Zentrum verwendete Taxonomie nur "offizielle" Arten und z.B. keine Synonyme. Stattdessen würden Beziehungen zwischen offiziellen Arten und Arten anderer Taxonomien beschrieben. Da die Daten von den nationalen Zentren unseres Wissens (noch?) nicht so erhältlich sind, ist das in arteigenschaften.ch nicht realisiert aber im Design vorgesehen und bei Vorliegen entsprechender Daten direkt umsetzbar. Nachtrag vom 12.12.2019: Offenbar ist das in der Checklist 2017 so umgesetzt.<br/><br/>
 
 ### Objekte
 
-<a href="https://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Aber nicht nur die Arten selbst, sondern jede Stufe der Hierarchie darüber und darunter, z.B. Familie, Gattung, Unterart.
+<a href="https://de.wikipedia.org/wiki/Objekt_(Philosophie)">Objekte</a> bilden die Grundeinheit der Taxonomie. In arteigenschaften.ch sind das Arten oder Lebensräume. Aber nicht nur die Arten selbst, sondern jede Stufe der Hierarchie darüber und darunter, z.B. Familie, Gattung, Unterart.<br/><br/>
 
 ### Eigenschaften-Sammlungen
 
@@ -128,11 +127,11 @@ Um Arten- und Lebensraumeigenschaften verstehen und verwalten zu können, ist es
 
 arteigenschaften.ch kann auch Eigenschaften und Beziehungen von synonymen Objekten anzeigen und exportieren.
 
-In fast allen Fällen ist es sinnvoll, Eigenschaften und Beziehungen pro Eigenschaften-Sammlung darzustellen. Z.B. bei der Anzeige in der Anwendung oder wenn Daten für Exporte ausgewählt werden.
+In fast allen Fällen ist es sinnvoll, Eigenschaften und Beziehungen pro Eigenschaften-Sammlung darzustellen. Z.B. bei der Anzeige in der Anwendung oder wenn Daten für Exporte ausgewählt werden.<br/><br/>
 
 ### Zusammenfassende Eigenschaften-Sammlungen
 
-Für bestimmte Zwecke ist zusätzlich das Gegenteil interessant: Daten aus verschiedenen Eigenschaften-Sammlungen zusammenfassen. Z.B. wenn man über alle Artengruppen den aktuellsten Rote-Liste-Status darstellen will. Er steckt in diversen Eigenschaften-Sammlungen, da er häufig pro Artengruppe separat publiziert wird.
+Für bestimmte Zwecke ist zusätzlich das Gegenteil interessant: Daten aus verschiedenen Eigenschaften-Sammlungen zusammenfassen. Z.B. wenn man über alle Artengruppen den aktuellsten Rote-Liste-Status darstellen will. Er steckt in diversen Eigenschaften-Sammlungen, da er häufig pro Artengruppe separat publiziert wird.<br/><br/>
 
 Das geht so:
 
@@ -169,7 +168,7 @@ Beispiel: Für Heuschrecken wird eine neue Rote Liste publiziert:
 
 ### Daten decodieren
 
-Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in einer früheren Version von arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind (nur) codierte Informationen zu vermeiden oder um uncodierte zu ergänzen.
+Traditionell werden Daten häufig codiert erfasst. Bis 2012 waren auch viele Daten in einer früheren Version von arteigenschaften.ch codiert. Die entsprechenden Felder enthielten für Menschen unverständliche Codes. Sie wurden in einer Codierungstabelle aufgelöst. Damit die Daten verständlich dargestellt werden konnten, mussten sie für Darstellung und Export decodiert werden. Dieses System ist kompliziert und leistungshungrig. Die Rohdaten sind für Menschen nicht mehr lesbar. Deshalb sind (nur) codierte Informationen zu vermeiden oder um uncodierte zu ergänzen.<br/><br/>
 
 ### Eigenschaften-Sammlungen aktualisieren
 
@@ -196,7 +195,7 @@ Wenn eine von beiden obigen Fragen mit ja beantwortet wurde, kann z.B. folgender
 
 [![js-standard-style](https://img.shields.io/badge/license-ISC-brightgreen.svg)](https://github.com/barbalex/ae2/blob/master/license.md)
 
-Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/master/license.md) ist sehr freizügig. Auch die von der FNS stammenden Daten sind open data. Eine Weiterverbreitung der in der Anwendung enthaltenen und nicht von der FNS stammenden Daten ist aber nur mit Einverständnis der Autoren zulässig.
+Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/master/license.md) ist sehr freizügig. Auch die von der FNS stammenden Daten sind open data. Eine Weiterverbreitung der in der Anwendung enthaltenen und nicht von der FNS stammenden Daten ist aber nur mit Einverständnis der Autoren zulässig.<br/><br/>
 
 ## Neu-Aufbau 2017/2018
 
@@ -250,17 +249,10 @@ Die für die Anwendung verwendete [Lizenz](https://github.com/barbalex/ae2/blob/
 - [GraphQL](https://github.com/facebook/graphql) in Form von [PostGraphile](https://github.com/graphile/postgraphile)
   - API-Server mit einer Zeile bauen und konfigurieren. Das sind _tausende_ weniger als bisher!
   - Daten-Logik und Rechte-Verwaltung obliegen der Datenbank - wie es sein sollte<br/>
-  - GraphQL ist die kommende API-Technologie. Verglichen mit REST ist GraphQL einfach zu verstehen, extrem leistungsfähig und flexibel. Somit steht ein aussergewöhnlich benutzerfreundlicher API-Server zur Verfügung, mit dem jede(r) ganz nach eigenen Bedürfnissen alle öffentlichen Daten aus arteigenschaften.ch abfragen und - im Rahmen der Benutzer-Rechte - bearbeiten kann
-- [hapi.js](http://hapijs.com) liefert (zumindest vorläufig noch) die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content), [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) und [apflora.ch](https://github.com/FNSKtZH/apflora)
+  - GraphQL ist die kommende API-Technologie. Verglichen mit REST ist GraphQL extrem flexibel. Somit steht ein aussergewöhnlich benutzerfreundlicher API-Server zur Verfügung, mit dem jede(r) ganz nach eigenen Bedürfnissen alle öffentlichen Daten aus arteigenschaften.ch abfragen und - im Rahmen der Benutzer-Rechte - bearbeiten kann
+- [hapi.js](http://hapijs.com) liefert die Schnittstellen für [Artenlistentool](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/artenlistentool.html#a-content) und [EVAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content)
 - [Apollo](https://www.apollodata.com). Komponenten definieren, welche Daten sie brauchen. GraphQL und Apollo kümmern sich um die Bereitstellung. React (siehe unten), GraphQL und Apollo haben die Entwicklung von Anwendungen revolutioniert
 - Software-Abhängigkeiten werden mit [npm](https://www.npmjs.com) verwaltet
-- Für die Konfiguration von Anwendung und Entwicklungsumgebung wird [create-react-app](https://github.com/facebookincubator/create-react-app) verwendet
-  - Erzeugt für den produktiven App-Server statische Dateien, womit der App-Server einfacher aufzubauen und zu aktualisieren ist
-  - Rasche Installation und einfache Aktualisierung der Enwicklungsumgebung und eines grossen Teils der für die Entwicklung benötigten Fremd-Software
-  - [webpack](http://webpack.github.io) aktualisiert während der Entwicklung laufend die App im Browser - jede Änderung ist direkt sichtbar
-- [ES6](http://www.ecma-international.org/ecma-262/6.0), [ES2016](https://www.ecma-international.org/ecma-262/7.0), [ES2017](http://2ality.com/2016/02/ecmascript-2017.html) und [ES2018](http://2ality.com/2017/02/ecmascript-2018.html), die neuen Versionen von [JavaScript](http://en.wikipedia.org/wiki/JavaScript), fördern lesbaren, kurzen Code
-- [flow](https://flow.org) deckt Fehler auf, bevor der Code ausgeführt wird
-- [prettier](https://github.com/prettier/prettier) formatiert den Code. Der Entwickler kann sich auf die Funktionalität konzentrieren
 - [React](https://facebook.github.io/react/index.html)
   - Die Benutzeroberfläche ist eine Funktion der anwendungsseitigen Daten,
   - viel einfacher zu steuern
