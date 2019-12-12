@@ -54,20 +54,16 @@
       "dest": "https://api.artdaten.ch/graphql"
     },
     {
-      "src": "/graphql2",
-      "dest": "https://165.227.140.107/graphql"
-    },
-    {
       "src": "/artendb/_design/artendb/_list/export_evab/evab_arten",
-      "dest": "https://api.arteigenschaften.ch/artendb/_design/artendb/_list/export_evab/evab_arten"
+      "dest": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_evab/evab_arten"
     },
     {
       "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
-      "dest": "https://api.arteigenschaften.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen"
+      "dest": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen"
     },
     {
       "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
-      "dest": "https://api.arteigenschaften.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen"
+      "dest": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen"
     }
   ]
 }
