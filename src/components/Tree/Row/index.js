@@ -77,7 +77,7 @@ const TextSpan = styled.span`
 const InfoSpan = styled.span`
   margin-left: 5px;
   font-size: 12px !important;
-  line-height: 20px;
+  line-height: 23px;
 `
 
 function collect(props) {
