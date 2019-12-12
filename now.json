@@ -10,68 +10,68 @@
   },
   "redirects": [
     {
-      "src": "/index.html",
-      "dest": "/"
+      "source": "/index.html",
+      "destination": "/"
     },
     {
-      "src": "/Arten/(.*)",
-      "dest": "/Arten"
+      "source": "/Arten/(.*)",
+      "destination": "/Arten"
     },
     {
-      "src": "/Export",
-      "dest": "/Export"
+      "source": "/Export",
+      "destination": "/Export"
     },
     {
-      "src": "/Export/(.*)",
-      "dest": "/Export"
+      "source": "/Export/(.*)",
+      "destination": "/Export"
     },
     {
-      "src": "/Benutzer",
-      "dest": "/Benutzer"
+      "source": "/Benutzer",
+      "destination": "/Benutzer"
     },
     {
-      "src": "/Benutzer/(.*)",
-      "dest": "/Benutzer"
+      "source": "/Benutzer/(.*)",
+      "destination": "/Benutzer"
     },
     {
-      "src": "/Organisationen",
-      "dest": "/Organisationen"
+      "source": "/Organisationen",
+      "destination": "/Organisationen"
     },
     {
-      "src": "/Organisationen/(.*)",
-      "dest": "/Organisationen"
+      "source": "/Organisationen/(.*)",
+      "destination": "/Organisationen"
     },
     {
-      "src": "/graphiql",
-      "dest": "/graphiql"
+      "source": "/graphiql",
+      "destination": "/graphiql"
     },
     {
-      "src": "/graphiql/(.*)",
-      "dest": "/graphiql"
+      "source": "/graphiql/(.*)",
+      "destination": "/graphiql"
     },
     {
-      "src": "/graphql",
-      "dest": "https://api.artdaten.ch/graphql"
+      "source": "/graphql",
+      "destination": "https://api.artdaten.ch/graphql"
     },
     {
-      "src": "/artendb/_design/artendb/_list/export_evab/evab_arten",
-      "dest": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_evab/evab_arten"
+      "source": "/artendb/_design/artendb/_list/export_evab/evab_arten",
+      "destination": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_evab/evab_arten"
     },
     {
-      "src": "/api/evab/arten",
-      "dest": "https://api.artdaten.ch/api/evab/arten"
+      "source": "/api/evab/arten",
+      "destination": "https://api.artdaten.ch/api/evab/arten"
     },
     {
-      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
-      "dest": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen"
+      "source": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
+      "destination": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen"
     },
     {
-      "src": "/api/alt",
-      "dest": "https://api.artdaten.ch/api/alt"
+      "source": "/api/alt",
+      "destination": "https://api.artdaten.ch/api/alt"
     },
     {
-      "src": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
-      "dest": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen"
+      "source": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
+      "destination": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen"
     }
   ]
 }
