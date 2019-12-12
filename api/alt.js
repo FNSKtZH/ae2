@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
     } finally {
       client.release()
     }
-    result.rows.length = 27000
+    //result.rows.length = 27000
     res.json(result.rows)
     return
   }
@@ -320,7 +320,7 @@ module.exports = async (req, res) => {
                         inner join ae.property_collection
                         on ae.property_collection_object.property_collection_id = ae.property_collection.id
                   where
-                    ae.taxonomy.name in('CSCF (2009)', 'SISF (2005)')
+                    ae.taxonomy.name in('CSCF (2009)', 'SISF (2005)', 'SISF (2018)')
                     and ae.object.properties is not null
                     and ae.object.properties->>'Taxonomie ID' ~ E'^\\\\d+$'
                     and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647

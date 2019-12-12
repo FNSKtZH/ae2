@@ -180,7 +180,7 @@ from ae.object where taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6';
 --   deliver all from sisf3 with status a
 --   deliver those from sisf3 with same taxonomie id in sisf2 with guid of sisf2 object
 --   add all objects from sisf2 that do not have sisf3 with same taxonomie_id with other status
--- similar with alt api
+-- alt api: add new taxonomy
 -- get apis to work using zeit
 -- TODO: drop ae.tmp_object
 -- TODO: drop ae.tmp_synonym
