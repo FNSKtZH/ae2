@@ -90,7 +90,6 @@
     "@typescript-eslint/parser": "2.x",
     "babel-eslint": "10.x",
     "copyfiles": "2.1.1",
-    "docsify-cli": "4.4.0",
     "eslint": "6.x",
     "eslint-config-react-app": "5.1.0",
     "eslint-loader": "3.0.3",
@@ -107,15 +106,13 @@
     "source-map-explorer": "2.1.2"
   },
   "scripts": {
-    "build": "gatsby build",
-    "build2": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles api/**/* public/api",
-    "buildArtdaten": "gatsby clean && gatsby build && shx cp nowArtdaten.json public/now.json && copyfiles api/**/* public/api",
+    "build2": "gatsby build",
+    "build": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles _redirect public && copyfiles api/**/* public/api && copyfiles artendb/**/* public/api",
     "clean": "gatsby clean",
     "dev": "gatsby develop",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "analyze": "npx source-map-explorer build/static/js/main.*",
-    "startDocs": "yarn docsify serve ./docs --port 8000"
+    "analyze": "npx source-map-explorer build/static/js/main.*"
   },
   "license": "ISC",
   "eslintConfig": {
