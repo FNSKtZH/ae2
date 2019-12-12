@@ -92,6 +92,7 @@ const filterSuggestionsQuery = gql`
         taxonomyByTaxonomyId {
           id
           type
+          name
         }
       }
     }
@@ -122,6 +123,7 @@ const objectUrlQuery = gql`
       taxonomyByTaxonomyId {
         id
         type
+        name
       }
     }
   }
@@ -257,14 +259,14 @@ const TreeFilter = ({ dimensions }) => {
     .filter(n => get(n, 'taxonomyByTaxonomyId.type') === 'ART')
     .map(o => ({
       id: o.id,
-      name: o.name,
+      name: `${get(o, 'taxonomyByTaxonomyId.name', '')}: ${o.name}`,
       type: 'art',
     }))
   const suggestionsLr = objectByObjectName
     .filter(n => get(n, 'taxonomyByTaxonomyId.type') === 'LEBENSRAUM')
     .map(o => ({
       id: o.id,
-      name: o.name,
+      name: `${get(o, 'taxonomyByTaxonomyId.name', '')}: ${o.name}`,
       type: 'lr',
     }))
   const suggestionsPC = pCByPropertyName.map(s => ({
