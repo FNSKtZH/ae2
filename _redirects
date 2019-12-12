@@ -1,7 +1,0 @@
-/*                                                                                              /index.html
-/graphql                                                                                        https://api.artdaten.ch/graphql
-/artendb/_design/artendb/_list/export_evab/evab_arten                                           https://api.artdaten.ch/artendb/_design/artendb/_list/export_evab/evab_arten
-/api/evab/arten                                                                                 https://api.artdaten.ch/api/evab/arten
-/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen                 https://api.artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen
-/api/alt                                                                                        https://api.artdaten.ch/api/alt
-/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen  https://api.artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen

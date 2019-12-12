@@ -106,8 +106,8 @@
     "source-map-explorer": "2.1.2"
   },
   "scripts": {
-    "build2": "gatsby build",
-    "build": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles _redirect public && copyfiles api/**/* public/api && copyfiles artendb/**/* public/api",
+    "build": "gatsby build && copyfiles now.json public",
+    "build_with_serverless_api": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles _redirect public && copyfiles api/**/* public/api && copyfiles artendb/**/* public/api",
     "clean": "gatsby clean",
     "dev": "gatsby develop",
     "start": "npm run develop",
