@@ -1,6 +1,6 @@
 {
   "name": "artdaten",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "author": {
     "name": "Alexander Gabriel",
     "email": "alex@gabriel-software.ch",
@@ -24,7 +24,7 @@
     "create-react-class": "15.6.3",
     "date-fns": "2.8.1",
     "dexie": "2.0.4",
-    "exceljs": "3.4.0",
+    "exceljs": "3.5.0",
     "file-saver": "2.0.2",
     "gatsby": "2.18.11",
     "gatsby-plugin-create-client-paths": "2.1.20",
