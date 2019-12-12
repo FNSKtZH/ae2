@@ -31,5 +31,5 @@ yarn-error.log*
 
 ecosystem.config.js
 
-netlify.toml
+#netlify.toml
 dbPass.json
