@@ -193,6 +193,8 @@ CREATE INDEX ON ae.organization_user USING btree (user_id);
 CREATE INDEX ON ae.organization_user USING btree (role);
 
 -- this table is needed for evab api
+-- 2019 12: not any more
+-- TODO: drop after the change
 DROP TABLE IF EXISTS ae.evab_flora_status;
 CREATE TABLE ae.evab_flora_status (
   decoded text PRIMARY KEY DEFAULT null,

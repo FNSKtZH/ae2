@@ -108,6 +108,32 @@ create or replace view ae.evab_arten as
 --   - Fauna: ZhGis.properties['GIS-Layer'].substring(0, 50)
 --   - Flora: 'Flora'
 --   - Moose: 'Moose'
+with sisf2_with_sisf3_synonym as (
+  select distinct
+    o1.id
+  from
+    ae.synonym
+    inner join ae.object o1
+    on ae.synonym.object_id = o1.id
+    inner join ae.object o2
+    on ae.synonym.object_id_synonym = o2.id
+  where
+    o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+    and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
+), sisf_2_3_synonyms as (
+  select
+    o1.id as sisf2_id,
+    o2.id as sisf3_id
+  from
+    ae.synonym
+    inner join ae.object o1
+    on ae.synonym.object_id = o1.id
+    inner join ae.object o2
+    on ae.synonym.object_id_synonym = o2.id
+  where
+    o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+    and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
+)
 select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
@@ -129,19 +155,45 @@ where
   and ae.property_collection.name = 'ZH GIS'
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
+  -- 1. get sisf (2018)
+  --    but use guid of sisf (2005) if exists
+UNION select
+  case
+    -- use guid of sisf (2005) if exists
+    when sisf_2_3_synonyms.sisf2_id is not null then concat('{', upper(sisf_2_3_synonyms.sisf2_id::TEXT), '}')
+    else concat('{', upper(ae.object.id::TEXT), '}')
+  end as "idArt",
+  (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
+  substring(ae.object.name, 1, 255) as "wissenschArtname",
+  substring(ae.object.properties->>'Name Deutsch', 1, 255) as "deutscherArtname",
+  'A' as status,
+  'Flora'::text as "klasse"
+from
+  ae.object
+  left join sisf_2_3_synonyms
+  on sisf_2_3_synonyms.sisf3_id = ae.object.id
+  inner join ae.taxonomy
+  on ae.object.taxonomy_id = ae.taxonomy.id
+where
+  ae.taxonomy.id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6'
+  and ae.object.properties is not null
+  and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
+  and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
+-- union sisf (2005) that have no synonym in sisf (2018)  
 UNION select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
   substring(ae.object.name, 1, 255) as "wissenschArtname",
   substring(ae.object.properties->>'Name Deutsch', 1, 255) as "deutscherArtname",
-  ae.evab_flora_status.encoded as status,
+  '?' as status,
   'Flora'::text as "klasse"
 from
   ae.object
+  -- only sisf (2005) that have no synonym in sisf (2018)
+  inner join sisf2_with_sisf3_synonym
+  on ae.object.id = sisf2_with_sisf3_synonym.id
   inner join ae.taxonomy
   on ae.object.taxonomy_id = ae.taxonomy.id
-  left join ae.evab_flora_status
-  on ae.object.properties->>'Status' = ae.evab_flora_status.decoded
 where
   ae.taxonomy.id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
   and ae.object.properties is not null
