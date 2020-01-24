@@ -26,7 +26,7 @@ services:
     networks:
       - network
     ports:
-      - 5433:5433
+      - 5000:5000
     depends_on:
       - db
     env_file:
@@ -36,12 +36,11 @@ services:
         '--connection',
         '${DATABASE_URL}',
         '--port',
-        '5433',
+        '5000',
         '--schema',
         'ae',
         '--append-plugins',
-        'postgraphile-plugin-connection-filter',
-        '@graphile-contrib/pg-order-by-related',
+        'postgraphile-plugin-connection-filter,@graphile-contrib/pg-order-by-related',
         '--jwt-token-identifier',
         'auth.jwt_token',
         '--default-role',
@@ -51,21 +50,25 @@ services:
         '--cors',
         '--disable-query-log',
         '--enable-query-batching',
+        '--retry-on-init-fail',
+        '--enhance-graphiql',
+        '--host',
+        '0.0.0.0',
       ]
-  caddy:
-    image: abiosoft/caddy:0.11.0
-    container_name: caddy
-    depends_on:
-      - graphql
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./Caddyfile:/etc/Caddyfile
-      - caddy_certs:/root/.caddy
+  #caddy:
+  #  image: abiosoft/caddy:0.11.0-no-stats
+  #  container_name: caddy
+  #  depends_on:
+  #    - graphql
+  #  restart: always
+  #  ports:
+  #    - 80:80
+  #    - 443:443
+  #  volumes:
+  #    - ./caddy/Caddyfile:/etc/Caddyfile
+  #    - caddy_certs:/root/.caddy
 volumes:
   db_data:
-  caddy_certs:
+  #caddy_certs:
 networks:
   network:
