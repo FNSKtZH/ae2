@@ -33,6 +33,7 @@ async function start() {
   })
   app.init()
 
+  // TODO: sunset this api
   server.route({
     method: 'GET',
     path:
@@ -40,6 +41,7 @@ async function start() {
     handler: alt,
   })
 
+  // TODO: sunset this api
   server.route({
     method: 'GET',
     // do not redirect because query is lost!
@@ -48,6 +50,7 @@ async function start() {
     handler: alt,
   })
 
+  // TODO: sunset this api
   server.route({
     method: 'GET',
     path: '/api/alt',
@@ -56,13 +59,27 @@ async function start() {
 
   server.route({
     method: 'GET',
+    path: '/alt',
+    handler: alt,
+  })
+
+  // TODO: sunset this api
+  server.route({
+    method: 'GET',
     path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
-    handler: (request, h) => h.redirect('/api/evab/arten'),
+    handler: evabArten,
+  })
+
+  // TODO: sunset this api
+  server.route({
+    method: 'GET',
+    path: '/api/evab/arten',
+    handler: evabArten,
   })
 
   server.route({
     method: 'GET',
-    path: '/api/evab/arten',
+    path: '/evab',
     handler: evabArten,
   })
 
