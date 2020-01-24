@@ -29,21 +29,38 @@ services:
       - 5433:5433
     depends_on:
       - db
-    environment:
-      # database url to connect
-      HASURA_GRAPHQL_DATABASE_URL: postgres://POSTGRES_USER:POSTGRES_PASSWORD@postgres:5432/postgres
+    env_file:
+      - ./.env
     command:
-      - graphql-engine
-      - serve
+      [
+        '--connection',
+        '${DATABASE_URL}',
+        '--port',
+        '5433',
+        '--schema',
+        'ae',
+        '--append-plugins',
+        'postgraphile-plugin-connection-filter',
+        '@graphile-contrib/pg-order-by-related',
+        '--jwt-token-identifier',
+        'auth.jwt_token',
+        '--default-role',
+        'anon',
+        '--jwt-secret',
+        '${JWT_SECRET}',
+        '--cors',
+        '--disable-query-log',
+        '--enable-query-batching',
+      ]
   caddy:
     image: abiosoft/caddy:0.11.0
-    container_name: 'caddy'
+    container_name: caddy
     depends_on:
       - graphql
     restart: always
     ports:
-      - '80:80'
-      - '443:443'
+      - 80:80
+      - 443:443
     volumes:
       - ./Caddyfile:/etc/Caddyfile
       - caddy_certs:/root/.caddy
