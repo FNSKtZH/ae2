@@ -51,7 +51,6 @@ services:
         '--disable-query-log',
         '--enable-query-batching',
         '--retry-on-init-fail',
-        '--enhance-graphiql',
         '--host',
         '0.0.0.0',
       ]
