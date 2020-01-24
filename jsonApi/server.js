@@ -4,7 +4,7 @@
  * in production
  */
 
-const Hapi = require('hapi')
+const Hapi = require('@hapi/hapi')
 const pgp = require(`pg-promise`)()
 const app = require(`ampersand-app`)
 
