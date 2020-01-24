@@ -3,6 +3,8 @@
 # dependencies
 /node_modules
 /api/node_modules
+/graphql/node_modules
+/json/node_modules
 
 # testing
 /coverage
@@ -28,8 +30,6 @@ public
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-ecosystem.config.js
 
 #netlify.toml
 dbPass.json

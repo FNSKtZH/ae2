@@ -1,0 +1,54 @@
+version: '3.7'
+services:
+  db:
+    # specify container name to make it easier to run commands.
+    # for example, you could run docker exec -i postgres psql -U postgres postgres < schema.sql to run an SQL file against the Postgres database
+    container_name: db
+    restart: always
+    image: db
+    build:
+      context: ./db
+    env_file:
+      - ./.env
+    networks:
+      - network
+    ports:
+      # make the Postgres database accessible from outside the Docker container on port 5432
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  graphql:
+    container_name: graphql
+    image: graphql
+    restart: always
+    build:
+      context: ./graphql
+    networks:
+      - network
+    ports:
+      - 5433:5433
+    depends_on:
+      - db
+    environment:
+      # database url to connect
+      HASURA_GRAPHQL_DATABASE_URL: postgres://POSTGRES_USER:POSTGRES_PASSWORD@postgres:5432/postgres
+    command:
+      - graphql-engine
+      - serve
+  caddy:
+    image: abiosoft/caddy:0.11.0
+    container_name: 'caddy'
+    depends_on:
+      - graphql
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+      - caddy_certs:/root/.caddy
+volumes:
+  db_data:
+  caddy_certs:
+networks:
+  network:
