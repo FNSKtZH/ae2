@@ -18,58 +18,59 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
       - sik_data:/sik_data
-  graphql:
-    container_name: graphql
-    image: graphql
-    restart: always
-    build:
-      context: ./graphql
-    networks:
-      - network
-    ports:
-      - 5000:5000
-    depends_on:
-      - db
-    env_file:
-      - ./.env
-    command:
-      [
-        '--connection',
-        '${DATABASE_URL}',
-        '--port',
-        '5000',
-        '--schema',
-        'ae',
-        '--append-plugins',
-        'postgraphile-plugin-connection-filter,@graphile-contrib/pg-order-by-related',
-        '--jwt-token-identifier',
-        'auth.jwt_token',
-        '--default-role',
-        'anon',
-        '--jwt-secret',
-        '${JWT_SECRET}',
-        '--cors',
-        '--disable-query-log',
-        '--enable-query-batching',
-        '--retry-on-init-fail',
-      ]
+  #  graphql:
+  #    container_name: graphql
+  #    image: graphql
+  #    restart: always
+  #    build:
+  #      context: ./graphql
+  #    networks:
+  #      - network
+  #    ports:
+  #      - 5000:5000
+  #    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; npm start'
+  #    depends_on:
+  #      - db
+  #    env_file:
+  #      - ./.env
+  #    command:
+  #      [
+  #        '--connection',
+  #        '${DATABASE_URL}',
+  #        '--port',
+  #        '5000',
+  #        '--schema',
+  #        'ae',
+  #        '--append-plugins',
+  #        'postgraphile-plugin-connection-filter,@graphile-contrib/pg-order-by-related',
+  #        '--jwt-token-identifier',
+  #        'auth.jwt_token',
+  #        '--default-role',
+  #        'anon',
+  #        '--jwt-secret',
+  #        '${JWT_SECRET}',
+  #        '--cors',
+  #        '--disable-query-log',
+  #        '--enable-query-batching',
+  #        '--retry-on-init-fail',
+  #      ]
   #'--host',
   #'0.0.0.0',
-  caddy:
-    image: abiosoft/caddy:0.11.0-no-stats
-    container_name: caddy
-    depends_on:
-      - graphql
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./caddy/Caddyfile:/etc/Caddyfile
-      - caddy_certs:/root/.caddy
+#  caddy:
+#    image: abiosoft/caddy:0.11.0-no-stats
+#    container_name: caddy
+#    depends_on:
+#      - graphql
+#    restart: always
+#    ports:
+#      - 80:80
+#      - 443:443
+#    volumes:
+#      - ./caddy/Caddyfile:/etc/Caddyfile
+#      - caddy_certs:/root/.caddy
 volumes:
   db_data:
   sik_data:
-  caddy_certs:
+#  caddy_certs:
 networks:
   network:
