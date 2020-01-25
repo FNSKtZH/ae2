@@ -10,8 +10,8 @@ services:
       context: ./db
     env_file:
       - ./.env
-    networks:
-      - network
+    #networks:
+    #  - network
     ports:
       # make the Postgres database accessible from outside the Docker container on port 5432
       - 5432:5432
@@ -38,8 +38,6 @@ services:
   #      [
   #        '--connection',
   #        '${DATABASE_URL}',
-  #        '--port',
-  #        '5000',
   #        '--schema',
   #        'ae',
   #        '--append-plugins',
@@ -73,5 +71,5 @@ volumes:
   db_data:
   sik_data:
 #  caddy_certs:
-networks:
-  network:
+#networks:
+#  network:
