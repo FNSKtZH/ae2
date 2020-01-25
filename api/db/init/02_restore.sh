@@ -1,12 +1,15 @@
 #!/bin/bash
 set -e
 
-until PGPASSWORD=$POSTGRES_PASSWORD psql -h db -U "postgres" -c '\q'; do
-  >&2 echo "Postgres is unavailable - sleeping"
-  sleep 1
+# need to wait until db is accessible
+# hm. why never?
+echo "connecting to database ${POSTGRES_DB} with username ${POSTGRES_USER}"
+until psql --host=db --port=5432 --username="${POSTGRES_USER}" --command='\q'; do
+  >&2 echo "Postgres is unavailable - waiting before restoring"
+  sleep 5
 done
 
 POSTGRES="psql --username ${POSTGRES_USER}"
 echo "restoring database"
-pg_restore --host db --port 5432 --username postgres --no-password --dbname ae --verbose "/sik_data/ae.backup"
+pg_restore --host db --port 5432 --username "${POSTGRES_USER}" --no-password --dbname "${POSTGRES_DB}" --verbose "/sik_data/ae.backup"
 echo "database was restored"
