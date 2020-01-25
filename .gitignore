@@ -19,6 +19,9 @@ public
 # dotenv environment variables file
 .env*
 
+# db backup files
+.backup
+
 # misc
 .DS_Store
 .env.local
