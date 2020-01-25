@@ -28,6 +28,7 @@ services:
   #      - network
   #    ports:
   #      - 5000:5000
+  #    TODO: need to find out when db is restored
   #    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; npm start'
   #    depends_on:
   #      - db
