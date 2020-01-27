@@ -12,6 +12,8 @@ services:
       - ./.env
     networks:
       - network
+    expose:
+      - 5432
     ports:
       # make the Postgres database accessible from outside the Docker container on port 5432
       - 5432:5432
@@ -20,12 +22,13 @@ services:
       - sik_data:/sik_data
   graphql:
     container_name: graphql
-    image: graphql
     restart: unless-stopped
     build:
       context: ./graphql
     networks:
       - network
+    expose:
+      - 5000
     ports:
       - 5000:5000
     depends_on:
