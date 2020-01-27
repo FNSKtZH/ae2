@@ -36,3 +36,5 @@ yarn-error.log*
 
 #netlify.toml
 dbPass.json
+#sql file to build db
+.sql
