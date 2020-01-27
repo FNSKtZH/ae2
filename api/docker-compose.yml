@@ -28,33 +28,29 @@ services:
       - network
     ports:
       - 5000:5000
-    #    TODO: need to find out when db is restored
-    command: bash -c 'do sleep 10 && --connection, ${DATABASE_URL}, --schema, ae, --append-plugins, postgraphile-plugin-connection-filter,@graphile-contrib/pg-order-by-related, --host, 0.0.0.0, --jwt-token-identifier, auth.jwt_token, --default-role, anon, --jwt-secret, ${JWT_SECRET}, --cors, --disable-query-log, --enable-query-batching, --retry-on-init-fail'
     depends_on:
       - db
     env_file:
       - ./.env
-  #  command:
-  #    [
-  #      '--connection',
-  #      '${DATABASE_URL}',
-  #      '--schema',
-  #      'ae',
-  #      '--append-plugins',
-  #      'postgraphile-plugin-connection-filter,@graphile-contrib/pg-order-by-related',
-  #      '--host',
-  #      '0.0.0.0',
-  #      '--jwt-token-identifier',
-  #      'auth.jwt_token',
-  #      '--default-role',
-  #      'anon',
-  #      '--jwt-secret',
-  #      '${JWT_SECRET}',
-  #      '--cors',
-  #      '--disable-query-log',
-  #      '--enable-query-batching',
-  #      '--retry-on-init-fail',
-  #    ]
+    command:
+      [
+        '--connection',
+        '${DATABASE_URL}',
+        '--schema',
+        'ae',
+        '--append-plugins',
+        'postgraphile-plugin-connection-filter,@graphile-contrib/pg-order-by-related',
+        '--jwt-token-identifier',
+        'auth.jwt_token',
+        '--default-role',
+        'anon',
+        '--jwt-secret',
+        '${JWT_SECRET}',
+        '--cors',
+        '--disable-query-log',
+        '--enable-query-batching',
+        '--retry-on-init-fail',
+      ]
   caddy:
     image: abiosoft/caddy:0.11.0-no-stats
     container_name: caddy
