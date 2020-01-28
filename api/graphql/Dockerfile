@@ -4,7 +4,6 @@ LABEL description="Instant high-performance GraphQL API for your PostgreSQL data
 RUN npm install -g postgraphile
 RUN npm install -g postgraphile-plugin-connection-filter
 RUN npm install -g @graphile-contrib/pg-order-by-related
-#RUN apk update && apk add bash
 
 COPY .postgraphilerc.js .postgraphilerc.js
 
