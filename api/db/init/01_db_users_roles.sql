@@ -1,4 +1,6 @@
-CREATE DATABASE ae encoding 'UTF8';
+--CREATE DATABASE ae encoding 'UTF8';
+CREATE DATABASE ae WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
+\c ae
 create role anon;
 create role authenticator with login password '${AUTHENTICATOR_PASSWORD}' noinherit;
 create role org_admin;
