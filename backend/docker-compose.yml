@@ -65,6 +65,8 @@ services:
       - 4000:4000
     depends_on:
       - db
+    env_file:
+      - ./.env
   caddy:
     image: abiosoft/caddy:0.11.0-no-stats
     container_name: caddy
