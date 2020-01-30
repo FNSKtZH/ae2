@@ -54,9 +54,22 @@ services:
         '--enable-query-batching',
         '--retry-on-init-fail',
       ]
+  json:
+    container_name: json
+    restart: always
+    build:
+      context: ./json
+    networks:
+      - network
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
   caddy:
     image: abiosoft/caddy:0.11.0-no-stats
     container_name: caddy
+    networks:
+      - network
     depends_on:
       - graphql
     restart: always
