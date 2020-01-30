@@ -1,6 +1,6 @@
 /**
  * starts a hapi server
- * for old api for ALT and EvAB
+ * for json api for ALT and EvAB
  * in production
  */
 
