@@ -11,30 +11,23 @@ sort1: 5
 ### 1.1 Link auf eine Art
 
 - bisher: http://arteigenschaften.ch/index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
-- neu: https://arteigenschaften.ch/?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3<br/>
-
-Für die Tests 2020: 
-- https://artdaten.ch/?id=ad0b10aa-707d-42c6-b68d-8f88ccd2f0b3
+- neu: https://arteigenschaften.ch/?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
+- für die Tests 2020: https://artdaten.ch/?id=ad0b10aa-707d-42c6-b68d-8f88ccd2f0b3
 
 Jede url mit "id=uuid" als Parameter wird an das Objekt weitergeleitet.<br/>
 Es ist unerheblich ob die uuid gross oder klein geschrieben wird.<br/><br/>
 
 ### 1.2 Standard-Art-Eigenschaften abholen
 
-- bisher: http://arteigenschaften.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true (vorläufig noch kompatibel)
+- bisher: http://arteigenschaften.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true
 - neu: https://api.arteigenschaften.ch/alt
-
-Für die Tests 2020:
-- historisch kompatibel: http://165.22.27.84:4000/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true
-- neu: http://165.22.27.84:4000/alt
+- für die Tests 2020: http://165.22.27.84:4000/alt
 
 ### 1.3 Art-Eigenschaften wählen
 
 - bisher: http://arteigenschaften.ch/index.html?exportieren_fuer_artenlistentool=true
 - neu: https://arteigenschaften.ch/artenlistentool/waehlen
-
-Für die Tests 2020:
-- https://artdaten.ch/artenlistentool/waehlen
+- für die Tests 2020: https://artdaten.ch/artenlistentool/waehlen
 
 ### 1.4 Gewählte Art-Eigenschaften abholen
 
@@ -64,13 +57,12 @@ Die Feldnamen sind bewusst kurz gehalten, um den Netzwerkverkehr zu minimieren. 
 Es werden nur die manuell gewählten Felder übermittelt.<br/><br/>
 
 Beispiele:
-
 - <a href="https://api.arteigenschaften.ch/alt?fields=%5B%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D%5D">https://api.arteigenschaften.ch/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
 - <a href="https://api.arteigenschaften.ch/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22Taxonomie%22,%22p%22:%22Artname%20vollst%C3%A4ndig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D%5D">https://api.arteigenschaften.ch/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]https://api.arteigenschaften.ch/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
 - <a href="https://api.arteigenschaften.ch/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22SISF%20(2005)%22,%22p%22:%22Artname%20vollst%C3%A4ndig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D,%7B%22t%22:%22rco%22,%22n%22:%22ZH%20AP%20FM%20(2010)%22,%22p%22:%22Biotopbindung%22,%20%22rt%22:%22Art%20ist%20an%20Lebensraum%20gebunden%22%7D%5D">https://api.arteigenschaften.ch/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"},{"t":"rco","n":"ZH AP FM (2010)","p":"Biotopbindung", "rt":"Art ist an Lebensraum gebunden"}]</a>
   <br/>
 
-Für die Tests 2020:
+Beispiele für die Tests 2020:
 - <a href="http://165.22.27.84:4000/alt?fields=%5B%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D%5D">http://165.22.27.84:4000/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
 - <a href="http://165.22.27.84:4000/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22Taxonomie%22,%22p%22:%22Artname%20vollst%C3%A4ndig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D%5D">http://165.22.27.84:4000/alt?fields=[{"t":"tax","n":"Taxonomie","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
 - <a href="http://165.22.27.84:4000/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22SISF%20(2005)%22,%22p%22:%22Artname%20vollst%C3%A4ndig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D,%7B%22t%22:%22rco%22,%22n%22:%22ZH%20AP%20FM%20(2010)%22,%22p%22:%22Biotopbindung%22,%20%22rt%22:%22Art%20ist%20an%20Lebensraum%20gebunden%22%7D%5D">http://165.22.27.84:4000/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"},{"t":"rco","n":"ZH AP FM (2010)","p":"Biotopbindung", "rt":"Art ist an Lebensraum gebunden"}]</a>
@@ -80,12 +72,9 @@ Für die Tests 2020:
 
 ### Art-Eigenschaften abholen
 
-- bisher: http://arteigenschaften.ch/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true (vorläufig noch kompatibel)
+- bisher: http://arteigenschaften.ch/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true
 - neu: https://api.arteigenschaften.ch/evab
-
-Für die Tests 2020:
-- bisher: http://artdaten.ch/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true (vorläufig noch kompatibel)
-- neu: http://165.22.27.84:4000/evab
+- für die Tests 2020: http://165.22.27.84:4000/evab
 
 ## 3 GraphQL
 
