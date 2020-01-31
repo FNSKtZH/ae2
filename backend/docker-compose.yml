@@ -61,6 +61,8 @@ services:
       context: ./json
     networks:
       - network
+    expose:
+      - 4000
     ports:
       - 4000:4000
     depends_on:
@@ -74,6 +76,7 @@ services:
       - network
     depends_on:
       - graphql
+      - json
     restart: always
     ports:
       - 80:80
