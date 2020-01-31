@@ -1,7 +1,6 @@
 api.artdaten.ch, www.api.artdaten.ch {
   proxy /graphql localhost:5000
   proxy /graphiql localhost:5000
-  proxy /api localhost:4000
   proxy /artendb localhost:4000
   proxy /evab localhost:4000
   proxy /alt localhost:4000
