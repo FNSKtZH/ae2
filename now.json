@@ -8,8 +8,7 @@
     "PGDATABASE": "@pgdatabase",
     "PGPORT": "@pgport"
   },
-  "redirects": [
-    {
+  "redirects": [{
       "source": "/index.html",
       "destination": "/"
     },
@@ -43,11 +42,11 @@
     },
     {
       "source": "/graphiql",
-      "destination": "/graphiql"
+      "destination": "https://api.artdaten.ch/graphiql"
     },
     {
       "source": "/graphiql/(.*)",
-      "destination": "/graphiql"
+      "destination": "https://api.artdaten.ch/graphiql"
     },
     {
       "source": "/graphql",
@@ -58,16 +57,8 @@
       "destination": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_evab/evab_arten"
     },
     {
-      "source": "/api/evab/arten",
-      "destination": "https://api.artdaten.ch/api/evab/arten"
-    },
-    {
       "source": "/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen",
       "destination": "https://api.artdaten.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen"
-    },
-    {
-      "source": "/api/alt",
-      "destination": "https://api.artdaten.ch/api/alt"
     },
     {
       "source": "/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen",
