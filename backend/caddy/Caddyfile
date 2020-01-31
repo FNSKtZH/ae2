@@ -1,4 +1,4 @@
-api2.artdaten.ch {
+api.artdaten.ch {
   proxy /graphql localhost:5000
   proxy /graphiql localhost:5000
   proxy /api localhost:4000
