@@ -42,7 +42,9 @@ Bisher:
 <a href="http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder=%7B%22felder%22:%5B%7B%22DsTyp%22:%22Taxonomie%22,%22DsName%22:%22Taxonomie(n)%22,%22Feldname%22:%22Artname vollständig%22%7D,%7B%22DsTyp%22:%22Datensammlung%22,%22DsName%22:%22CH Prioritäten (2011)%22,%22Feldname%22:%22Priorität%22%7D,%7B%22DsTyp%22:%22Beziehung%22,%22DsName%22:%22ZH AP FM (2010): Art ist an Lebensraum gebunden%22,%22Feldname%22:%22Biotopbindung%22%7D%5D%7D">http://arteigenschaften.ch:/artendb/_design/artendb/_list/export_alt_mit_synonymen/alt_arten_mit_synonymen?include_docs=true&bezInZeilen=false&felder={"felder":[{"DsTyp":"Taxonomie","DsName":"Taxonomie(n)","Feldname":"Artname vollständig"},{"DsTyp":"Datensammlung","DsName":"CH Prioritäten (2011)","Feldname":"Priorität"},{"DsTyp":"Beziehung","DsName":"ZH AP FM (2010): Art ist an Lebensraum gebunden","Feldname":"Biotopbindung"}]}</a>
 <br/><br/>
 
-Diese URL wird von der App generiert und danach von der Schnittstelle gelesen. Sie kann also ohne Rücksicht auf das ALT geändert werden. Neu ist es ein Array von solchen Objekten:
+Neu:<br/><br/>
+
+Die URL wird von der App generiert und danach von der Schnittstelle gelesen. Sie kann also ohne Rücksicht auf das ALT geändert werden. Neu ist es ein Array von solchen Objekten:
 
 ```
 {
@@ -51,8 +53,6 @@ Diese URL wird von der App generiert und danach von der Schnittstelle gelesen. S
    "p": "Priorität"
 }
 ```
-
-Neu:<br/><br/>
 
 Die Feldnamen sind bewusst kurz gehalten, um den Netzwerkverkehr zu minimieren. Sie stehen für:
 
