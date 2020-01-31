@@ -51,13 +51,6 @@ async function start() {
     handler: alt,
   })
 
-  // TODO: sunset this api
-  server.route({
-    method: 'GET',
-    path: '/api/alt',
-    handler: alt,
-  })
-
   server.route({
     method: 'GET',
     path: '/alt',
@@ -68,13 +61,6 @@ async function start() {
   server.route({
     method: 'GET',
     path: '/artendb/_design/artendb/_list/export_evab/evab_arten',
-    handler: evabArten,
-  })
-
-  // TODO: sunset this api
-  server.route({
-    method: 'GET',
-    path: '/api/evab/arten',
     handler: evabArten,
   })
 

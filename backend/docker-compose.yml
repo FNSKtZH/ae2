@@ -13,10 +13,10 @@ services:
     networks:
       - network
     expose:
-      - 5432
+      - '5432'
     ports:
       # make the Postgres database accessible from outside the Docker container on port 5432
-      - 5432:5432
+      - '5432:5432'
     volumes:
       - db_data:/var/lib/postgresql/data
       - sik_data:/sik_data
@@ -28,9 +28,9 @@ services:
     networks:
       - network
     expose:
-      - 5000
+      - '5000'
     ports:
-      - 5000:5000
+      - '5000:5000'
     depends_on:
       - db
     env_file:
@@ -62,9 +62,9 @@ services:
     networks:
       - network
     expose:
-      - 4000
+      - '4000'
     ports:
-      - 4000:4000
+      - '4000:4000'
     depends_on:
       - db
     env_file:
@@ -79,8 +79,8 @@ services:
       - json
     restart: always
     ports:
-      - 80:80
-      - 443:443
+      - '80:80'
+      - '443:443'
     volumes:
       - ./caddy/Caddyfile:/etc/Caddyfile
       - caddy_certs:/root/.caddy
