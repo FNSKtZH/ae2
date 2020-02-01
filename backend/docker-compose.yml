@@ -85,9 +85,6 @@ services:
     # use staging url for dev
     env_file:
       - ./.env
-    #environment:
-    # use staging url for dev
-    #CA_URL: https://acme-staging-v02.api.letsencrypt.org/directory
     volumes:
       - ./caddy/Caddyfile:/etc/Caddyfile
       - caddy_certs:/root/.caddy
