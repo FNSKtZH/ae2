@@ -81,6 +81,7 @@ services:
     ports:
       - '80:80'
       - '443:443'
+      - '2015:2015'
     # use staging url for dev
     env_file:
       - ./.env
