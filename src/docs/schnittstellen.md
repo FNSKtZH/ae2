@@ -12,7 +12,7 @@ sort1: 5
 
 - bisher: http://arteigenschaften.ch/index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
 - neu: https://arteigenschaften.ch/?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
-- für die Tests 2020: https://artdaten.ch/?id=ad0b10aa-707d-42c6-b68d-8f88ccd2f0b3
+- für die Tests 2020: https://eigenschaften.art//?id=ad0b10aa-707d-42c6-b68d-8f88ccd2f0b3
 
 Jede url mit "id=uuid" als Parameter wird an das Objekt weitergeleitet.<br/>
 Es ist unerheblich ob die uuid gross oder klein geschrieben wird.<br/><br/>
@@ -27,7 +27,7 @@ Es ist unerheblich ob die uuid gross oder klein geschrieben wird.<br/><br/>
 
 - bisher: http://arteigenschaften.ch/index.html?exportieren_fuer_artenlistentool=true
 - neu: https://arteigenschaften.ch/artenlistentool/waehlen
-- für die Tests 2020: https://artdaten.ch/artenlistentool/waehlen
+- für die Tests 2020: https://eigenschaften.art//artenlistentool/waehlen
 
 ### 1.4 Gewählte Art-Eigenschaften abholen
 
