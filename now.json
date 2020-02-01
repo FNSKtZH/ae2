@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "artdaten",
+  "name": "ae2",
   "env": {
     "PGUSER": "@pguser",
     "PGHOST": "@pghost",
