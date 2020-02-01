@@ -1,8 +1,10 @@
-api.art-eigenschaften.ch, api.eigenschaften.art {
+api.eigenschaften.art {
   proxy /graphql localhost:5000
   proxy /graphiql localhost:5000
   proxy /artendb localhost:4000
   proxy /evab localhost:4000
   proxy /alt localhost:4000
-  tls alex.barbalex@gmail.com
+  tls alex.barbalex@gmail.com {
+    ca https://acme-staging-v02.api.letsencrypt.org/directory
+  }
 }
