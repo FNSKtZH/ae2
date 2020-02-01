@@ -6,8 +6,10 @@ export default () => {
   const isLocalhost = hostnameWithoutWww === 'localhost'
   if (isLocalhost) return 'http://localhost:5000/graphql'
 
-  const isArteigenschaften = hostnameWithoutWww.includes('arteigenschaften')
+  return `https://api.${hostnameWithoutWww}/graphql`
+
+  /*const isArteigenschaften = hostnameWithoutWww.includes('arteigenschaften')
   return isArteigenschaften
     ? 'https://arteigenschaften.ch/graphql'
-    : 'https://api.artdaten.ch/graphql'
+    : 'https://api.artdaten.ch/graphql'*/
 }
