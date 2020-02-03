@@ -6,7 +6,7 @@ export default () => {
   const isLocalhost = hostnameWithoutWww === 'localhost'
   if (isLocalhost) return 'http://localhost:5000/graphql'
 
-  return `http://api.${hostnameWithoutWww}:5000/graphql`
+  return `https://api.${hostnameWithoutWww}/graphql`
 
   /*const isArteigenschaften = hostnameWithoutWww.includes('arteigenschaften')
   return isArteigenschaften
