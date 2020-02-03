@@ -3,7 +3,7 @@ services:
   db:
     # specify container name to make it easier to run commands.
     # for example, you could run docker exec -i postgres psql -U postgres postgres < schema.sql to run an SQL file against the Postgres database
-    container_name: db
+    container_name: ae_db
     restart: always
     image: db
     build:
@@ -21,7 +21,7 @@ services:
       - db_data:/var/lib/postgresql/data
       - sik_data:/sik_data
   graphql:
-    container_name: graphql
+    container_name: ae_graphql
     restart: unless-stopped
     build:
       context: ./graphql
@@ -55,7 +55,7 @@ services:
         '--retry-on-init-fail',
       ]
   json:
-    container_name: json
+    container_name: ae_json
     restart: always
     build:
       context: ./json
@@ -70,22 +70,24 @@ services:
     env_file:
       - ./.env
   caddy:
-    image: abiosoft/caddy:0.11.0-no-stats
-    container_name: caddy
+    # https://hub.docker.com/r/caddy/caddy/dockerfile
+    image: caddy/caddy:alpine
+    container_name: ae_caddy
     networks:
       - network
     depends_on:
       - graphql
       - json
     restart: always
+    # image downgrades user but that seems not to work, see: https://caddy.community/t/basic-docker-compose-setup-failing/6892/7?u=alexander_gabriel
+    user: root
     ports:
       - '80:80'
       - '443:443'
-      - '2015:2015'
     env_file:
       - ./.env
     volumes:
-      - ./caddy/Caddyfile:/etc/Caddyfile
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_certs:/root/.caddy
 volumes:
   db_data:
