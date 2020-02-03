@@ -1,23 +1,22 @@
 # see: https://caddyserver.com/v1/docs/proxy
 
-#api.eigenschaften.art {
-#  proxy /graphql localhost:5000
-#  proxy /graphiql localhost:5000
-#  proxy /artendb localhost:4000
-#  proxy /evab localhost:4000
-#  proxy /alt localhost:4000
-#  tls alex.barbalex@gmail.com {
-#    ca https://acme-staging-v02.api.letsencrypt.org/directory
-#  }
-#}
-
-api.eigenschaften.art
-
-#proxy /graphql localhost:5000
-#proxy /graphiql localhost:5000
-#proxy /artendb localhost:4000
-#proxy /evab localhost:4000
-#proxy /alt localhost:4000
-tls alex.barbalex@gmail.com {
-  #ca https://acme-staging-v02.api.letsencrypt.org/directory
+api.eigenschaften.art {
+  proxy /graphql localhost:5000 {
+    transparent
+  }
+  proxy /graphiql https://graphql {
+    transparent
+  }
+  proxy /artendb localhost:4000 {
+    transparent
+  }
+  proxy /evab https://localhost:4000 {
+    transparent
+  }
+  proxy /alt 0.0.0.0:4000 {
+    transparent
+  }
 }
+#tls alex.barbalex@gmail.com {
+  #ca https://acme-staging-v02.api.letsencrypt.org/directory
+#}
