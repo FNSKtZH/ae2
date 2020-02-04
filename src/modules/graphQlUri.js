@@ -7,9 +7,4 @@ export default () => {
   if (isLocalhost) return 'http://localhost:5000/graphql'
 
   return `https://graphql.${hostnameWithoutWww}/graphql`
-
-  /*const isArteigenschaften = hostnameWithoutWww.includes('arteigenschaften')
-  return isArteigenschaften
-    ? 'https://arteigenschaften.ch/graphql'
-    : 'https://api.artdaten.ch/graphql'*/
 }
