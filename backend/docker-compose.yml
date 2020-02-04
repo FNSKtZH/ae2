@@ -70,8 +70,8 @@ services:
     env_file:
       - ./.env
   caddy:
-    # https://hub.docker.com/r/caddy/caddy/dockerfile
-    image: caddy/caddy:alpine
+    build:
+      context: ./caddy
     container_name: ae_caddy
     networks:
       - network

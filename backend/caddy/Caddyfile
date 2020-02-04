@@ -6,7 +6,12 @@
   #acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
-api.arten-foerdern.ch {
+ortinfo.ch {
+  root * /html
+  file_server
+}
+
+api.ortinfo.ch {
   reverse_proxy /graphql* {
     to localhost:5000
     header_down Access-Control-Allow-Origin *
