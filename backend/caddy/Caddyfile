@@ -7,13 +7,24 @@
 }
 
 api.arten-foerdern.ch {
-  reverse_proxy /graphql* localhost:5000
-  reverse_proxy /graphiql* localhost:5000
-  reverse_proxy /artendb/* localhost:4000
-  reverse_proxy /evab* localhost:4000
-  reverse_proxy /alt* localhost:4000
-  header / {
-    Access-Control-Allow-Origin *
-    -Server
+  reverse_proxy /graphql* {
+    to localhost:5000
+    header_down Access-Control-Allow-Origin *
+  }
+  reverse_proxy /graphiql* {
+    to localhost:5000
+    header_down Access-Control-Allow-Origin *
+  }
+  reverse_proxy /artendb/* {
+    to localhost:4000
+    header_down Access-Control-Allow-Origin *
+  }
+  reverse_proxy /evab* {
+    to localhost:4000
+    header_up Access-Control-Allow-Origin *
+  }
+  reverse_proxy /alt* {
+    to localhost:4000
+    header_down Access-Control-Allow-Origin *
   }
 }

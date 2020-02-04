@@ -88,10 +88,12 @@ services:
       - ./.env
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-      - caddy_certs:/root/.caddy
+      - caddy_certs:/root/.local/share/caddy
+      - caddy_config:/root/.config/caddy
 volumes:
   db_data:
   sik_data:
   caddy_certs:
+  caddy_config:
 networks:
   network:
