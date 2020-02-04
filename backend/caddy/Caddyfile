@@ -6,12 +6,18 @@
   #acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
-ortinfo.ch {
+direktbegruenung.ch {
+  # try proxying these - they should not be cross-domain
+  reverse_proxy /graphql* localhost:5000
+  reverse_proxy /graphiql* localhost:5000
+  reverse_proxy /artendb/* localhost:4000
+  reverse_proxy /evab* localhost:4000
+  reverse_proxy /alt* localhost:4000
   root * /html
   file_server
 }
 
-api.ortinfo.ch {
+api.direktbegruenung.ch {
   reverse_proxy /graphql* {
     to localhost:5000
     header_down Access-Control-Allow-Origin *
@@ -31,5 +37,17 @@ api.ortinfo.ch {
   reverse_proxy /alt* {
     to localhost:4000
     header_down Access-Control-Allow-Origin *
+  }
+}
+
+graphql.direktbegruenung.ch {
+  reverse_proxy * localhost:5000 {
+    header_down Access-Control-Allow-Origin *
+  }
+}
+
+json.direktbegruenung.ch {
+  reverse_proxy * localhost:4000 {
+    header_up Access-Control-Allow-Origin *
   }
 }
