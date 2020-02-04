@@ -38,3 +38,5 @@ yarn-error.log*
 dbPass.json
 #sql file to build db
 *ae.sql
+
+/backend/caddy/html/*
