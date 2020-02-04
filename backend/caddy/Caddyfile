@@ -17,6 +17,7 @@ direktbegruenung.ch {
   file_server
 }
 
+# original goal - but never worked
 api.direktbegruenung.ch {
   reverse_proxy /graphql* {
     to localhost:5000
@@ -40,12 +41,20 @@ api.direktbegruenung.ch {
   }
 }
 
+# should work with:
+# https.graphql.direktbegruenung.ch/graphql
+# and
+# https.graphql.direktbegruenung.ch/graphiql
 graphql.direktbegruenung.ch {
   reverse_proxy * localhost:5000 {
     header_down Access-Control-Allow-Origin *
   }
 }
 
+# should work with:
+# https.json.direktbegruenung.ch/alt
+# and
+# https.json.direktbegruenung.ch/evab
 json.direktbegruenung.ch {
   reverse_proxy * localhost:4000 {
     header_up Access-Control-Allow-Origin *
