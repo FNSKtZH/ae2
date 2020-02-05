@@ -6,7 +6,7 @@
   #acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
-direktbegruenung.ch {
+direktbegruenung.ch, www.direktbegruenung.ch {
   # try proxying these - they should not be cross-domain
   reverse_proxy /graphql* localhost:5000
   reverse_proxy /graphiql* localhost:5000
