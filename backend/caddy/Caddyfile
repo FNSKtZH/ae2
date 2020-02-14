@@ -43,6 +43,8 @@ direktbegruenung.ch {
   file_server
 }
 
+header Access-Control-Allow-Origin direktbegruenung.ch
+
 # original goal - but never worked
 #api.direktbegruenung.ch {
 #  reverse_proxy /graphql* {
