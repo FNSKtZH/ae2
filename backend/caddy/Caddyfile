@@ -59,7 +59,7 @@ direktbegruenung.ch {
 #  }
 #  reverse_proxy /evab* {
 #    to localhost:4000
-#    header_up Access-Control-Allow-Origin *
+#    header_down Access-Control-Allow-Origin *
 #  }
 #  reverse_proxy /alt* {
 #    to localhost:4000
@@ -83,6 +83,6 @@ direktbegruenung.ch {
 # https.json.direktbegruenung.ch/evab
 #json.direktbegruenung.ch {
 #  reverse_proxy * localhost:4000 {
-#    header_up Access-Control-Allow-Origin *
+#    header_down Access-Control-Allow-Origin *
 #  }
 #}
