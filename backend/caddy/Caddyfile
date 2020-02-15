@@ -7,43 +7,19 @@
   #acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
-# this results in 502
-direktbegruenung.ch/graphql* {
-  reverse_proxy * localhost:5000
-}
-
-# this results in 502
-direktbegruenung.ch/graphiql* {
-  reverse_proxy * localhost:5000
-}
-
-# this results in 502
-direktbegruenung.ch/artendb* {
-  reverse_proxy * localhost:4000
-}
-
-# this results in 502
-direktbegruenung.ch/evab* {
-  reverse_proxy * localhost:4000
-}
-
-# this results in 502
-direktbegruenung.ch/alt* {
-  reverse_proxy * localhost:4000
-}
-
 direktbegruenung.ch {
   # try proxying these - they should not be cross-domain
-  #reverse_proxy /graphql* localhost:5000
-  #reverse_proxy /graphiql* localhost:5000
-  #reverse_proxy /artendb/* localhost:4000
-  #reverse_proxy /evab* localhost:4000
-  #reverse_proxy /alt* localhost:4000
+  reverse_proxy /graphql* localhost:5000
+  reverse_proxy /graphiql* localhost:5000
+  reverse_proxy /artendb/* localhost:4000
+  reverse_proxy /evab* localhost:4000
+  reverse_proxy /alt* localhost:4000
+  #header_down Access-Control-Allow-Origin *
   root * /html
   file_server
 }
 
-header Access-Control-Allow-Origin direktbegruenung.ch
+#header Access-Control-Allow-Origin direktbegruenung.ch
 
 # original goal - but never worked
 #api.direktbegruenung.ch {
