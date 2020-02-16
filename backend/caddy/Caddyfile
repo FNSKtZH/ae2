@@ -19,8 +19,6 @@ artdaten.ch, www.artdaten.ch, direktbegruenung.ch {
   file_server
 }
 
-#header Access-Control-Allow-Origin artdaten.ch
-
 # original goal - but never worked
 api.artdaten.ch, api.direktbegruenung.ch {
   reverse_proxy /graphql* {
