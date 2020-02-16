@@ -9,11 +9,11 @@
 
 artdaten.ch, www.artdaten.ch, direktbegruenung.ch {
   # try proxying these - they should not be cross-domain
-  reverse_proxy /graphql* ae_graphql:5000
-  reverse_proxy /graphiql* ae_graphql:5000
-  reverse_proxy /artendb/* ae_json:4000
-  reverse_proxy /evab* ae_json:4000
-  reverse_proxy /alt* ae_json:4000
+  #reverse_proxy /graphql* ae_graphql:5000
+  #reverse_proxy /graphiql* ae_graphql:5000
+  #reverse_proxy /artendb/* ae_json:4000
+  #reverse_proxy /evab* ae_json:4000
+  #reverse_proxy /alt* ae_json:4000
   #header_down Access-Control-Allow-Origin *
   root * /html
   file_server
