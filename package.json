@@ -82,8 +82,7 @@
     "xlsx": "0.15.5"
   },
   "dependenciesComments": {
-    "remove-flow-types-loader": "needed because graphiql causes warnings: https://github.com/graphql/graphiql/issues/617#issuecomment-398237987",
-    "react-swipeable-views": "do not update from 0.13.3 to 0.13.6, causes errors"
+    "remove-flow-types-loader": "needed because graphiql causes warnings: https://github.com/graphql/graphiql/issues/617#issuecomment-398237987"
   },
   "devDependencies": {
     "@graphile-contrib/pg-order-by-related": "1.0.0-beta.6",
