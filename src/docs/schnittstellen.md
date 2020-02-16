@@ -12,7 +12,7 @@ sort1: 5
 
 - bisher: http://arteigenschaften.ch/index.html?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
 - neu: https://arteigenschaften.ch/?id=AD0B10AA-707D-42C6-B68D-8F88CCD2F0B3
-- für die Tests 2020: https://eigenschaften.art//?id=ad0b10aa-707d-42c6-b68d-8f88ccd2f0b3
+- für die Tests 2020: https://artdaten.ch/?id=ad0b10aa-707d-42c6-b68d-8f88ccd2f0b3
 
 Jede url mit "id=uuid" als Parameter wird an das Objekt weitergeleitet.<br/>
 Es ist unerheblich ob die uuid gross oder klein geschrieben wird.<br/><br/>
@@ -21,13 +21,13 @@ Es ist unerheblich ob die uuid gross oder klein geschrieben wird.<br/><br/>
 
 - bisher: http://arteigenschaften.ch/artendb/_design/artendb/_list/export_alt_mit_synonymen_standardfelder/alt_arten_mit_synonymen?include_docs=true
 - neu: https://api.arteigenschaften.ch/alt
-- für die Tests 2020: http://167.172.187.231:4000/alt
+- für die Tests 2020: http://api.artdaten.ch/alt
 
 ### 1.3 Art-Eigenschaften wählen
 
 - bisher: http://arteigenschaften.ch/index.html?exportieren_fuer_artenlistentool=true
 - neu: https://arteigenschaften.ch/artenlistentool/waehlen
-- für die Tests 2020: https://eigenschaften.art//artenlistentool/waehlen
+- für die Tests 2020: https://artdaten.ch/artenlistentool/waehlen
 
 ### 1.4 Gewählte Art-Eigenschaften abholen
 
@@ -63,9 +63,9 @@ Beispiele:
   <br/>
 
 Beispiele für die Tests 2020:
-- <a href="http://167.172.187.231:4000/alt?fields=%5B%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D%5D">http://167.172.187.231:4000/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
-- <a href="http://167.172.187.231:4000/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22Taxonomie%22,%22p%22:%22Artname%20vollst%C3%A4ndig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D%5D">http://167.172.187.231:4000/alt?fields=[{"t":"tax","n":"Taxonomie","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
-- <a href="http://167.172.187.231:4000/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22SISF%20(2005)%22,%22p%22:%22Artname%20vollst%C3%A4ndig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D,%7B%22t%22:%22rco%22,%22n%22:%22ZH%20AP%20FM%20(2010)%22,%22p%22:%22Biotopbindung%22,%20%22rt%22:%22Art%20ist%20an%20Lebensraum%20gebunden%22%7D%5D">http://167.172.187.231:4000/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"},{"t":"rco","n":"ZH AP FM (2010)","p":"Biotopbindung", "rt":"Art ist an Lebensraum gebunden"}]</a>
+- <a href="http://api.artdaten.ch/alt?fields=%5B%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D%5D">http://api.artdaten.ch/alt?fields=[{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
+- <a href="http://api.artdaten.ch/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22Taxonomie%22,%22p%22:%22Artname%20vollst%C3%A4ndig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D%5D">http://api.artdaten.ch/alt?fields=[{"t":"tax","n":"Taxonomie","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"}]</a>
+- <a href="http://api.artdaten.ch/alt?fields=%5B%7B%22t%22:%22tax%22,%22n%22:%22SISF%20(2005)%22,%22p%22:%22Artname%20vollst%C3%A4ndig%22%7D,%7B%22t%22:%22pco%22,%22n%22:%22CH%20Priorit%C3%A4ten%20(2011)%22,%22p%22:%22Priorit%C3%A4t%22%7D,%7B%22t%22:%22rco%22,%22n%22:%22ZH%20AP%20FM%20(2010)%22,%22p%22:%22Biotopbindung%22,%20%22rt%22:%22Art%20ist%20an%20Lebensraum%20gebunden%22%7D%5D">http://api.artdaten.ch/alt?fields=[{"t":"tax","n":"SISF (2005)","p":"Artname vollständig"},{"t":"pco","n":"CH Prioritäten (2011)","p":"Priorität"},{"t":"rco","n":"ZH AP FM (2010)","p":"Biotopbindung", "rt":"Art ist an Lebensraum gebunden"}]</a>
   <br/><br/>
 
 ## 2 EvAB
@@ -74,7 +74,7 @@ Beispiele für die Tests 2020:
 
 - bisher: http://arteigenschaften.ch/artendb/_design/artendb/_list/export_evab/evab_arten?include_docs=true
 - neu: https://api.arteigenschaften.ch/evab
-- für die Tests 2020: http://167.172.187.231:4000/evab
+- für die Tests 2020: http://api.artdaten.ch/evab
 
 ## 3 GraphQL
 
