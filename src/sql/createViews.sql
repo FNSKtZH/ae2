@@ -336,10 +336,7 @@ order by
 
 drop view if exists ae.v_apflora_taxonomies cascade;
 create or replace view ae.v_apflora_taxonomies as
-with objkef as (
-	select * from ae.property_collection_object
-	where property_collection_id = 'bdf4dd9a-7b0e-11e8-b9a5-bd4f79edbcc4'
-), objartwert as (
+with objartwert as (
 	select * from ae.property_collection_object
 	where property_collection_id = 'bdf89414-7b0e-11e8-a170-ab93aeea0aac'
 )
@@ -355,27 +352,14 @@ select distinct
     cast(objartwert.properties->>'Artwert' as INTEGER),
     cast(synobjartwert.properties->>'Artwert' as INTEGER),
     cast(synobjartwert2.properties->>'Artwert' as INTEGER)
-  ) as artwert,
-  coalesce(
-    cast(objkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN),
-    cast(synobjkef.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN),
-    cast(synobjkef2.properties->>'Art ist KEF-Kontrollindikator' as BOOLEAN)
-  ) as kefart,
-  coalesce(
-    cast(objkef.properties->>'Erstes Kontrolljahr' as INTEGER),
-    cast(synobjkef.properties->>'Erstes Kontrolljahr' as INTEGER),
-    cast(synobjkef2.properties->>'Erstes Kontrolljahr' as INTEGER)
-  ) as kefkontrolljahr
+  ) as artwert
 from ae.object
   inner join ae.taxonomy tax on tax.id = ae.object.taxonomy_id
-  left join objkef on objkef.object_id = ae.object.id
   left join ae.synonym synonym 
-    inner join objkef synobjkef on synobjkef.object_id = synonym.object_id_synonym
     inner join objartwert synobjartwert on synobjartwert.object_id = synonym.object_id_synonym
   on ae.object.id = synonym.object_id
   -- account for both ways an object can be defined as synonym
   left join ae.synonym synonym2 
-    inner join objkef synobjkef2 on synobjkef2.object_id = synonym2.object_id_synonym
     inner join objartwert synobjartwert2 on synobjartwert2.object_id = synonym2.object_id_synonym
   on ae.object.id = synonym2.object_id_synonym
   left join objartwert on objartwert.object_id = ae.object.id
