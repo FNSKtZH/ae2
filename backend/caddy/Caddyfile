@@ -7,20 +7,13 @@
   #acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
-artdaten.ch, www.artdaten.ch, direktbegruenung.ch {
-  # try proxying these - they should not be cross-domain
-  #reverse_proxy /graphql* ae_graphql:5000
-  #reverse_proxy /graphiql* ae_graphql:5000
-  #reverse_proxy /artendb/* ae_json:4000
-  #reverse_proxy /evab* ae_json:4000
-  #reverse_proxy /alt* ae_json:4000
-  #header_down Access-Control-Allow-Origin *
+artdaten.ch, www.artdaten.ch {
   root * /html
   file_server
 }
 
 # original goal - but never worked
-api.artdaten.ch, api.direktbegruenung.ch {
+api.artdaten.ch {
   reverse_proxy /graphql* {
     to ae_graphql:5000
     header_down Access-Control-Allow-Origin *
@@ -42,23 +35,3 @@ api.artdaten.ch, api.direktbegruenung.ch {
     header_down Access-Control-Allow-Origin *
   }
 }
-
-# should work with:
-# https.graphql.artdaten.ch/graphql
-# and
-# https.graphql.artdaten.ch/graphiql
-#graphql.artdaten.ch {
-#  reverse_proxy * ae_graphql:5000 {
-#    header_down Access-Control-Allow-Origin *
-#  }
-#}
-
-# should work with:
-# https.json.artdaten.ch/alt
-# and
-# https.json.artdaten.ch/evab
-#json.artdaten.ch {
-#  reverse_proxy * ae_json:4000 {
-#    header_down Access-Control-Allow-Origin *
-#  }
-#}
