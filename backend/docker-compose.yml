@@ -79,7 +79,8 @@ services:
       - graphql
       - json
     restart: always
-    # image downgrades user but that seems not to work, see: https://caddy.community/t/basic-docker-compose-setup-failing/6892/7?u=alexander_gabriel
+    # original image downgrades user but that seems not to work
+    # see: https://caddy.community/t/basic-docker-compose-setup-failing/6892/7?u=alexander_gabriel
     user: root
     ports:
       - '80:80'
