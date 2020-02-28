@@ -1,6 +1,4 @@
-# see: https://caddyserver.com/v1/docs/proxy
-# or v2: https://caddyserver.com/docs/caddyfile/concepts
-# TODO: add www. variants
+# see: https://caddyserver.com/docs/caddyfile/concepts
 
 {
   email alex.barbalex@gmail.com
