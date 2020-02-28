@@ -7,10 +7,10 @@
 
 artdaten.ch, www.artdaten.ch {
   root * /html
+  encode gzip
   file_server
 }
 
-# original goal - but never worked
 api.artdaten.ch {
   reverse_proxy /graphql* {
     to ae_graphql:5000
