@@ -126,7 +126,7 @@ const Row = ({ index, style, node }) => {
     useSymbolIcon = false
   }
   const { url, loadingNode } = node
-  const level = url.length
+  const level = url && url.length ? url.length : 0
   const userId = get(userData, 'userByName.id', null)
 
   const onClickNode = useCallback(
