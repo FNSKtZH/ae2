@@ -3,6 +3,12 @@ import format from 'date-fns/format'
 
 import getXlsxBuffer from './getXlsxBuffer'
 
+/**
+ * TODO:
+ * use https://github.com/GoogleChromeLabs/import-from-worker
+ * once firefox has implemented worker modules too: https://bugzilla.mozilla.org/show_bug.cgi?id=1247687
+ */
+
 export default async ({ rows, onSetMessage }) => {
   let buffer
   try {
