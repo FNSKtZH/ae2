@@ -7,6 +7,13 @@
     "url": "https://gabriel-software.ch"
   },
   "private": true,
+  "scripts": {
+    "build": "gatsby clean && gatsby build && rimraf backend/caddy/html && copyfiles -u 1 \"public/**/*\" backend/caddy/html",
+    "build_with_serverless_api": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles _redirect public && copyfiles api/**/* public/api && copyfiles artendb/**/* public/api",
+    "clean": "gatsby clean",
+    "dev": "gatsby develop",
+    "serve": "gatsby serve"
+  },
   "dependencies": {
     "@apollo/react-hooks": "3.1.3",
     "@loadable/component": "5.12.0",
@@ -103,13 +110,6 @@
     "remove-flow-types-loader": "1.1.0",
     "rimraf": "3.0.2",
     "shx": "0.3.2"
-  },
-  "scripts": {
-    "build": "gatsby clean && gatsby build && rimraf backend/caddy/html && copyfiles -u 1 \"public/**/*\" backend/caddy/html",
-    "build_with_serverless_api": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles _redirect public && copyfiles api/**/* public/api && copyfiles artendb/**/* public/api",
-    "clean": "gatsby clean",
-    "dev": "gatsby develop",
-    "serve": "gatsby serve"
   },
   "license": "ISC",
   "eslintConfig": {
