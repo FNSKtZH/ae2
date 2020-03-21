@@ -31,15 +31,10 @@ const Taxonomies = ({ taxonomies }) => {
       } else {
         taxonomies = exportTaxonomies.filter(c => c !== name)
         setTaxonomies(taxonomies)
-        // check if sole type is left
-        // and this was only taxonomy
-        // if so: uncheck type too
-        const thisTaxonomy = taxonomies.find(t => t.name === name)
         if (taxonomies.length === 0) {
           // this was the only taxonomy in this type
           // it makes sense to also uncheck the type
-          const value = thisTaxonomy.type === 'ART' ? 'Arten' : 'Lebensräume'
-          setType(value)
+          setType(null)
         }
       }
     },
