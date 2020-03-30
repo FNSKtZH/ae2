@@ -7,7 +7,7 @@
 
 artdaten.ch, www.artdaten.ch {
   root * /html
-  encode gzip
+  encode zstd gzip
   file_server
 }
 
