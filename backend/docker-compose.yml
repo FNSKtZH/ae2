@@ -1,8 +1,7 @@
 version: '3.7'
 services:
   db:
-    # specify container name to make it easier to run commands.
-    # for example, you could run docker exec -i postgres psql -U postgres postgres < schema.sql to run an SQL file against the Postgres database
+    # specify container name to make it easier to run commands
     container_name: ae_db
     restart: always
     image: db
