@@ -6,6 +6,7 @@ import { navigate } from 'gatsby'
 // see: https://github.com/gatsbyjs/gatsby/issues/11225#issuecomment-457211628
 import 'isomorphic-fetch'
 import { MuiThemeProvider } from '@material-ui/core/styles'
+import 'mobx-react-lite/batchingForReactDom'
 
 import theme from './theme'
 import './index.css'
