@@ -127,8 +127,9 @@ sisf_2_3_synonyms as (
     and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
 ),
 -- 2020: Problem with new Taxonomy for Flora: 
--- SISF (2018) will supersede SISF (2005). 
--- Ideally EvAB users would now only choose SISF (2018) species.
+-- SISF (2018) will supersede SISF (2005)
+-- Ideally EvAB users would now usually choose SISF (2018) species
+-- In special cases (lists created before SISF (2018) existed) they would still need to choose from SISF (2005)
 -- Most species existing in SISF (2005) also exist in SISF (2018), but with new id's
 -- There are two problems:
 -- 1. EvAB does not have a concept of "taxonomy"
@@ -143,8 +144,8 @@ sisf_2_3_synonyms as (
 -- Solution: 
 -- need a list of all id's passed as SISF (2018)
 -- to prevent from passing the same ones as SISF (2005) a second time
--- This is of course not a good solution. We probably do not know yet all the problems that will develop as a consequence. 
--- It is untenable in the long run, with new generations of taxonomies in all groups. 
+-- This is of course not a good solution. We probably do not know yet all the problems that will develop as a consequence
+-- It is untenable in the long run, with new generations of taxonomies in all groups
 -- But it is the only way it will work in EvAB as of now
 sisf_3_id_art as (
   select
