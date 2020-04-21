@@ -126,20 +126,25 @@ sisf_2_3_synonyms as (
     o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
     and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
 ),
--- 2020: Problem with new Taxonomy for Flora: SISF (2018) will supersede SISF (2005)
--- Conclusion: need a list of all id's passed as SISF (2018)
--- to prevent from passing the same ones as SISF (2005) a second time
--- Reasons: 
+-- 2020: Problem with new Taxonomy for Flora: 
+-- SISF (2018) will supersede SISF (2005). 
+-- Ideally EvAB users would now only choose SISF (2018) species.
+-- Most species existing in SISF (2005) also exist in SISF (2018), but with new id's
+-- There are two problems:
 -- 1. EvAB does not have a concept of "taxonomy"
 --    EvAB user will only see a single list of names 
 --    and not known what taxonomy a name belongs to 
 --    nor be able to choose what taxonomy to choose species from
---    We need to pass same/similar names only once or user will not know which to choose
+--    In SISF (2018) names of synonyms existing in SISF (2005) are naturally very similar, often exactly same
+--    We need to pass them only once or user will not know which to choose
 -- 2. EvAB needs to have all idArt's ever choosen in the list
---    If an idArt that was delivered previously is not delivered any more, user will not see the species name. Maybe even worse will happen
---    So whenever a species in SISF (2018) has a synonym in SISF (2005) we need to pass the id of SISF (2005)
+--    If an idArt that was delivered previously is not delivered any more, user will not see the species name. Quite likely even worse will happen
+--    So whenever a species in SISF (2018) has a synonym in SISF (2005) (which will be most) we need to pass the id of SISF (2005)
+-- Solution: 
+-- need a list of all id's passed as SISF (2018)
+-- to prevent from passing the same ones as SISF (2005) a second time
 -- This is of course not a good solution. We probably do not know yet all the problems that will develop as a consequence. 
--- This solution is untenable in the long run, with new generations of taxonomies in all groups. 
+-- It is untenable in the long run, with new generations of taxonomies in all groups. 
 -- But it is the only way it will work in EvAB as of now
 sisf_3_id_art as (
   select
