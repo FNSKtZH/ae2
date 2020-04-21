@@ -91,6 +91,7 @@ where
   ae.user.name = current_user_name()
   and ae.organization_user.role in ('orgCollectionWriter', 'orgAdmin');
 
+-- original of this view is in: 2020-04-21_evab_arten.sql
 create or replace view ae.evab_arten as
 -- Return these fields:
 -- - idArt: MSAccess GUID, id
@@ -108,19 +109,10 @@ create or replace view ae.evab_arten as
 --   - Fauna: ZhGis.properties['GIS-Layer'].substring(0, 50)
 --   - Flora: 'Flora'
 --   - Moose: 'Moose'
-with sisf2_with_sisf3_synonym as (
-  select distinct
-    o1.id
-  from
-    ae.synonym
-    inner join ae.object o1
-    on ae.synonym.object_id = o1.id
-    inner join ae.object o2
-    on ae.synonym.object_id_synonym = o2.id
-  where
-    o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
-    and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
-), sisf_2_3_synonyms as (
+with 
+-- need a list of synonyms for SISF (2018) in SISF (2005)
+-- to enable passing id of SISF (2005) as id of SISF (2018)
+sisf_2_3_synonyms as (
   select
     o1.id as sisf2_id,
     o2.id as sisf3_id
@@ -133,6 +125,37 @@ with sisf2_with_sisf3_synonym as (
   where
     o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
     and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
+),
+-- 2020: Problem with new Taxonomy for Flora: SISF (2018) will supersede SISF (2005)
+-- Conclusion: need a list of all id's passed as SISF (2018)
+-- to prevent from passing the same ones as SISF (2005) a second time
+-- Reasons: 
+-- 1. EvAB does not have a concept of "taxonomy"
+--    EvAB user will only see a single list of names 
+--    and not known what taxonomy a name belongs to 
+--    nor be able to choose what taxonomy to choose species from
+--    We need to pass same/similar names only once or user will not know which to choose
+-- 2. EvAB needs to have all idArt's ever choosen in the list
+--    If an idArt that was delivered previously is not delivered any more, user will not see the species name. Maybe even worse will happen
+--    So whenever a species in SISF (2018) has a synonym in SISF (2005) we need to pass the id of SISF (2005)
+-- This is of course not a good solution. We probably do not know yet all the problems that will develop as a consequence. 
+-- This solution is untenable in the long run, with new generations of taxonomies in all groups. 
+-- But it is the only way it will work in EvAB as of now
+sisf_3_id_art as (
+  select
+    ae.object.id,
+    coalesce (sisf_2_3_synonyms.sisf2_id, ae.object.id) as id_art
+  from
+    ae.object
+    left join sisf_2_3_synonyms
+    on sisf_2_3_synonyms.sisf3_id = ae.object.id
+    inner join ae.taxonomy
+    on ae.object.taxonomy_id = ae.taxonomy.id
+  where
+    ae.taxonomy.id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- SISF (2018)
+    and ae.object.properties is not null
+    and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
+    and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
 )
 select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
@@ -155,14 +178,10 @@ where
   and ae.property_collection.name = 'ZH GIS'
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
-  -- 1. get sisf (2018)
-  --    but use guid of sisf (2005) if exists
+-- pass all species of SISF (2018)
 UNION select
-  case
-    -- use guid of sisf (2005) if exists
-    when sisf_2_3_synonyms.sisf2_id is not null then concat('{', upper(sisf_2_3_synonyms.sisf2_id::TEXT), '}')
-    else concat('{', upper(ae.object.id::TEXT), '}')
-  end as "idArt",
+  -- but use guid of synonym SISF (2005) if a synonym exists
+  concat('{', upper(coalesce (sisf_2_3_synonyms.sisf2_id, ae.object.id)::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
   substring(ae.object.name, 1, 255) as "wissenschArtname",
   substring(ae.object.properties->>'Name Deutsch', 1, 255) as "deutscherArtname",
@@ -175,11 +194,13 @@ from
   inner join ae.taxonomy
   on ae.object.taxonomy_id = ae.taxonomy.id
 where
-  ae.taxonomy.id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6'
+  ae.taxonomy.id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- SISF (2018)
   and ae.object.properties is not null
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
--- union sisf (2005) that have no synonym in sisf (2018)  
+-- pass species of SISF (2005) 
+-- IMPORTANT: ony those whose id has not been included in SISF (2018)
+-- because they are synonym
 UNION select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
@@ -189,16 +210,15 @@ UNION select
   'Flora'::text as "klasse"
 from
   ae.object
-  -- only sisf (2005) that have no synonym in sisf (2018)
-  inner join sisf2_with_sisf3_synonym
-  on ae.object.id = sisf2_with_sisf3_synonym.id
   inner join ae.taxonomy
   on ae.object.taxonomy_id = ae.taxonomy.id
 where
-  ae.taxonomy.id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4'
+  ae.taxonomy.id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- SISF (2005)
   and ae.object.properties is not null
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
+  -- ensure this object i.e. it's id was not passed with SISF (2018)
+  and ae.object.id not in (select id_art from sisf_3_id_art)
 UNION select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
@@ -215,6 +235,10 @@ where
   and ae.object.properties is not null
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647;
+
+
+
+
 
 create or replace view ae.alt_standard as
 select
