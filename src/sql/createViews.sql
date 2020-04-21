@@ -109,23 +109,7 @@ create or replace view ae.evab_arten as
 --   - Fauna: ZhGis.properties['GIS-Layer'].substring(0, 50)
 --   - Flora: 'Flora'
 --   - Moose: 'Moose'
-with 
--- need a list of synonyms for SISF (2018) in SISF (2005)
--- to enable passing id of SISF (2005) as id of SISF (2018)
-sisf_2_3_synonyms as (
-  select
-    o1.id as sisf2_id,
-    o2.id as sisf3_id
-  from
-    ae.synonym
-    inner join ae.object o1
-    on ae.synonym.object_id = o1.id
-    inner join ae.object o2
-    on ae.synonym.object_id_synonym = o2.id
-  where
-    o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
-    and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
-),
+
 -- Problem with new Taxonomy for Flora: 
 -- SISF (2018) supersedes SISF (2005)
 -- Most species existing in SISF (2005) also exist in SISF (2018), but with a new id. They are synonyms
@@ -149,7 +133,24 @@ sisf_2_3_synonyms as (
 -- This is of course not a good solution. We probably do not know yet all the problems that will develop as a consequence
 -- It is untenable in the long run, with new generations of taxonomies in all groups. And so it prevents us from updating taxonomies
 -- But it is the only way it will work in EvAB as of now (2020)
+with sisf_2_3_synonyms as (
+  -- this is the list of synonyms for SISF (2018) in SISF (2005)
+  -- to enable passing id of SISF (2005) as id of SISF (2018)
+  select
+    o1.id as sisf2_id,
+    o2.id as sisf3_id
+  from
+    ae.synonym
+    inner join ae.object o1
+    on ae.synonym.object_id = o1.id
+    inner join ae.object o2
+    on ae.synonym.object_id_synonym = o2.id
+  where
+    o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+    and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
+),
 sisf_3_id_art as (
+  -- this is the list of all ids already passed as SISF (2018)
   select
     ae.object.id,
     coalesce (sisf_2_3_synonyms.sisf2_id, ae.object.id) as id_art
@@ -165,6 +166,7 @@ sisf_3_id_art as (
     and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
     and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
 )
+-- Fauna
 select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
@@ -186,7 +188,7 @@ where
   and ae.property_collection.name = 'ZH GIS'
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
--- pass all species of SISF (2018)
+-- Flora: 1. all species of SISF (2018)
 UNION select
   -- but use guid of synonym SISF (2005) if a synonym exists
   concat('{', upper(coalesce (sisf_2_3_synonyms.sisf2_id, ae.object.id)::TEXT), '}') as "idArt",
@@ -206,7 +208,7 @@ where
   and ae.object.properties is not null
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
--- pass species of SISF (2005) 
+-- Flora: species of SISF (2005) 
 -- IMPORTANT: ony those whose id has not been included in SISF (2018)
 -- because they are synonym
 UNION select
@@ -227,6 +229,7 @@ where
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
   -- ensure this object i.e. it's id was not passed with SISF (2018)
   and ae.object.id not in (select id_art from sisf_3_id_art)
+-- Moose
 UNION select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
