@@ -33,11 +33,11 @@ sisf_2_3_synonyms as (
     o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
     and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
 ),
--- 2020: Problem with new Taxonomy for Flora: 
--- SISF (2018) will supersede SISF (2005)
+-- Problem with new Taxonomy for Flora: 
+-- SISF (2018) supersedes SISF (2005)
+-- Most species existing in SISF (2005) also exist in SISF (2018), but with a new id. They are synonyms
 -- Ideally EvAB users would now usually choose SISF (2018) species
--- In special cases (lists created before SISF (2018) existed) they would still need to choose from SISF (2005)
--- Most species existing in SISF (2005) also exist in SISF (2018), but with new id's
+-- In special cases (for instance when lists were created before SISF (2018) existed) they would still need to choose from SISF (2005)
 -- There are two problems:
 -- 1. EvAB does not have a concept of "taxonomy"
 --    EvAB user will only see a single list of names 
@@ -45,15 +45,17 @@ sisf_2_3_synonyms as (
 --    nor be able to choose what taxonomy to choose species from
 --    In SISF (2018) names of synonyms existing in SISF (2005) are naturally very similar, often exactly same
 --    We need to pass them only once or user will not know which to choose
--- 2. EvAB needs to have all idArt's ever choosen in the list
---    If an idArt that was delivered previously is not delivered any more, user will not see the species name. Quite likely even worse will happen
---    So whenever a species in SISF (2018) has a synonym in SISF (2005) (which will be most) we need to pass the id of SISF (2005)
--- Solution: 
--- need a list of all id's passed as SISF (2018)
--- to prevent from passing the same ones as SISF (2005) a second time
+-- 2. EvAB needs to have all idArt's ever (possibly) choosen in the list
+--    If an idArt that was delivered previously is not delivered any more, user will not see the specie's name
+--    Likely even worse will happen
+-- Solution:
+-- 1. pass SISF (2018) with the id of their SISF (2005) synonym if one exists (it usually will)
+-- 2. build a list of all id's passed as SISF (2018)
+-- 3. use this list to prevent from passing the same ones as SISF (2005) a second time
+--    but _do_ pass all species from SISF (2005) that are not synonyms of species in SISF (2018)
 -- This is of course not a good solution. We probably do not know yet all the problems that will develop as a consequence
--- It is untenable in the long run, with new generations of taxonomies in all groups
--- But it is the only way it will work in EvAB as of now
+-- It is untenable in the long run, with new generations of taxonomies in all groups. And so it prevents us from updating taxonomies
+-- But it is the only way it will work in EvAB as of now (2020)
 sisf_3_id_art as (
   select
     ae.object.id,
