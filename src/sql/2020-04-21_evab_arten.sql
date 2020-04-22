@@ -44,17 +44,17 @@ with sisf_2_3_synonyms as (
   -- this is the list of synonyms for SISF (2018) in SISF (2005)
   -- to enable passing id of SISF (2005) as id of SISF (2018)
   select
-    o1.id as sisf2_id,
-    o2.id as sisf3_id
+    sisf2.id as sisf2_id,
+    sisf3.id as sisf3_id
   from
     ae.synonym
-    inner join ae.object o1
-    on ae.synonym.object_id = o1.id
-    inner join ae.object o2
-    on ae.synonym.object_id_synonym = o2.id
+    inner join ae.object sisf2
+    on ae.synonym.object_id = sisf2.id
+    inner join ae.object sisf3
+    on ae.synonym.object_id_synonym = sisf3.id
   where
-    o1.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
-    and o2.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
+    sisf2.taxonomy_id = 'aed47d41-7b0e-11e8-b9a5-bd4f79edbcc4' -- index2
+    and sisf3.taxonomy_id = 'c87f19f2-1b77-11ea-8282-bbc40e20aff6' -- index3
 ),
 sisf_3_id_art as (
   -- this is the list of all ids already passed as SISF (2018)
