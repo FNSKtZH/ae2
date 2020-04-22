@@ -36,8 +36,11 @@ import Properties from './Properties'
 import getUrlForObject from '../../../../modules/getUrlForObject'
 import mobxStoreContext from '../../../../mobxStoreContext'
 
-const Container = styled.div`
+const LoadingContainer = styled.div`
   margin: 10px;
+`
+const Container = styled.div`
+  margin: 10px 0;
 `
 const StyledCard = styled(Card)`
   margin: 0;
@@ -53,7 +56,7 @@ const CardActionsButtons = styled.div`
   display: flex;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -115,8 +118,8 @@ const TaxonomyObject = ({ objekt, showLink, stacked }) => {
   )
   const editing = editingTaxonomies
   const userRoles = organizationUsers
-    .filter(oU => username === get(oU, 'userByUserId.name', ''))
-    .map(oU => oU.role)
+    .filter((oU) => username === get(oU, 'userByUserId.name', ''))
+    .map((oU) => oU.role)
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
   const userMayWrite = userIsTaxWriter && !showLink
@@ -139,28 +142,28 @@ const TaxonomyObject = ({ objekt, showLink, stacked }) => {
 
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
   const onClickLink = useCallback(
-    e => {
+    (e) => {
       e.stopPropagation()
       navigate(linkUrl)
     },
     [linkUrl],
   )
   const onClickStopEditing = useCallback(
-    e => {
+    (e) => {
       e.stopPropagation()
       setEditingTaxonomies(false)
     },
     [setEditingTaxonomies],
   )
   const onClickStartEditing = useCallback(
-    e => {
+    (e) => {
       e.stopPropagation()
       setEditingTaxonomies(true)
     },
     [setEditingTaxonomies],
   )
   const onClickToggleTaxDescription = useCallback(
-    e => {
+    (e) => {
       e.stopPropagation()
       setTaxExpanded(!taxExpanded)
       setExpanded(true)
@@ -169,132 +172,136 @@ const TaxonomyObject = ({ objekt, showLink, stacked }) => {
   )
 
   if (organizationUsersLoading) {
-    return <Container>Lade Daten...</Container>
+    return <LoadingContainer>Lade Daten...</LoadingContainer>
   }
   if (organizationUsersError) {
-    return <Container>{`Fehler: ${organizationUsersError.message}`}</Container>
+    return (
+      <LoadingContainer>{`Fehler: ${organizationUsersError.message}`}</LoadingContainer>
+    )
   }
 
   return (
     <ErrorBoundary>
-      <StyledCard>
-        <StyledCardActions disableSpacing onClick={onClickActions}>
-          <CardActionTitle>{taxname}</CardActionTitle>
-          <CardActionsButtons>
-            <LinkMenu objekt={objekt} />
-            {showLink && (
-              <StyledButton
-                aria-label={linkText}
-                title={linkText}
-                onClick={onClickLink}
-              >
-                <SynonymIcon />
-              </StyledButton>
-            )}
-            {userMayWrite && editing && expanded && (
-              <StyledButton
-                aria-label="Daten anzeigen"
-                title="Daten anzeigen"
-                onClick={onClickStopEditing}
+      <Container>
+        <StyledCard>
+          <StyledCardActions disableSpacing onClick={onClickActions}>
+            <CardActionTitle>{taxname}</CardActionTitle>
+            <CardActionsButtons>
+              <LinkMenu objekt={objekt} />
+              {showLink && (
+                <StyledButton
+                  aria-label={linkText}
+                  title={linkText}
+                  onClick={onClickLink}
+                >
+                  <SynonymIcon />
+                </StyledButton>
+              )}
+              {userMayWrite && editing && expanded && (
+                <StyledButton
+                  aria-label="Daten anzeigen"
+                  title="Daten anzeigen"
+                  onClick={onClickStopEditing}
+                >
+                  <Icon>
+                    <ViewIcon />
+                  </Icon>
+                </StyledButton>
+              )}
+              {userMayWrite && !editing && expanded && (
+                <StyledButton
+                  aria-label="Daten bearbeiten"
+                  title="Daten bearbeiten"
+                  onClick={onClickStartEditing}
+                >
+                  <Icon>
+                    <EditIcon />
+                  </Icon>
+                </StyledButton>
+              )}
+              <IconButton
+                data-expanded={taxExpanded}
+                aria-expanded={taxExpanded}
+                aria-label="über diese Taxonomie"
+                title={
+                  taxExpanded
+                    ? 'Taxonomie-Beschreibung schliessen'
+                    : 'Taxonomie-Beschreibung öffnen'
+                }
+                onClick={onClickToggleTaxDescription}
               >
                 <Icon>
-                  <ViewIcon />
+                  {!taxExpanded && <InfoOutlineIcon />}
+                  {taxExpanded && <InfoIcon />}
                 </Icon>
-              </StyledButton>
-            )}
-            {userMayWrite && !editing && expanded && (
-              <StyledButton
-                aria-label="Daten bearbeiten"
-                title="Daten bearbeiten"
-                onClick={onClickStartEditing}
+              </IconButton>
+              <CardActionIconButton
+                data-expanded={expanded}
+                aria-expanded={expanded}
+                aria-label="Show more"
+                title={expanded ? 'Taxonomie schliessen' : 'Taxonomie öffnen'}
               >
                 <Icon>
-                  <EditIcon />
+                  <ExpandMoreIcon />
                 </Icon>
-              </StyledButton>
-            )}
-            <IconButton
-              data-expanded={taxExpanded}
-              aria-expanded={taxExpanded}
-              aria-label="über diese Taxonomie"
-              title={
-                taxExpanded
-                  ? 'Taxonomie-Beschreibung schliessen'
-                  : 'Taxonomie-Beschreibung öffnen'
-              }
-              onClick={onClickToggleTaxDescription}
-            >
-              <Icon>
-                {!taxExpanded && <InfoOutlineIcon />}
-                {taxExpanded && <InfoIcon />}
-              </Icon>
-            </IconButton>
-            <CardActionIconButton
-              data-expanded={expanded}
-              aria-expanded={expanded}
-              aria-label="Show more"
-              title={expanded ? 'Taxonomie schliessen' : 'Taxonomie öffnen'}
-            >
-              <Icon>
-                <ExpandMoreIcon />
-              </Icon>
-            </CardActionIconButton>
-          </CardActionsButtons>
-        </StyledCardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {taxExpanded && <TaxonomyDescription taxonomy={taxonomy} />}
-          <StyledCardContent>
-            {editing ? (
-              <>
-                <Property
-                  key={`${objekt.id}/id`}
-                  label="ID"
-                  field="id"
-                  objekt={objekt}
-                  disabled={true}
-                />
-                <Property
-                  key={`${objekt.id}/name`}
-                  label="Name"
-                  field="name"
-                  objekt={objekt}
-                />
-              </>
-            ) : stacked ? (
-              <>
-                <PropertyReadOnlyStacked
-                  key={`${objekt.id}/id`}
-                  value={objekt.id}
-                  label="ID"
-                />
-                <PropertyReadOnlyStacked
-                  key={`${objekt.id}/name`}
-                  value={objekt.name}
-                  label="Name"
-                />
-              </>
-            ) : (
-              <>
-                <PropertyReadOnly
-                  key={`${objekt.id}/id`}
-                  value={objekt.id}
-                  label="ID"
-                />
-                <PropertyReadOnly
-                  key={`${objekt.id}/name`}
-                  value={objekt.name}
-                  label="Name"
-                />
-              </>
-            )}
-            <Properties
-              id={objekt.id}
-              properties={properties}
-              stacked={stacked}
-            />
-          </StyledCardContent>
-        </Collapse>
-      </StyledCard>
+              </CardActionIconButton>
+            </CardActionsButtons>
+          </StyledCardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            {taxExpanded && <TaxonomyDescription taxonomy={taxonomy} />}
+            <StyledCardContent>
+              {editing ? (
+                <>
+                  <Property
+                    key={`${objekt.id}/id`}
+                    label="ID"
+                    field="id"
+                    objekt={objekt}
+                    disabled={true}
+                  />
+                  <Property
+                    key={`${objekt.id}/name`}
+                    label="Name"
+                    field="name"
+                    objekt={objekt}
+                  />
+                </>
+              ) : stacked ? (
+                <>
+                  <PropertyReadOnlyStacked
+                    key={`${objekt.id}/id`}
+                    value={objekt.id}
+                    label="ID"
+                  />
+                  <PropertyReadOnlyStacked
+                    key={`${objekt.id}/name`}
+                    value={objekt.name}
+                    label="Name"
+                  />
+                </>
+              ) : (
+                <>
+                  <PropertyReadOnly
+                    key={`${objekt.id}/id`}
+                    value={objekt.id}
+                    label="ID"
+                  />
+                  <PropertyReadOnly
+                    key={`${objekt.id}/name`}
+                    value={objekt.name}
+                    label="Name"
+                  />
+                </>
+              )}
+              <Properties
+                id={objekt.id}
+                properties={properties}
+                stacked={stacked}
+              />
+            </StyledCardContent>
+          </Collapse>
+        </StyledCard>
+      </Container>
     </ErrorBoundary>
   )
 }
