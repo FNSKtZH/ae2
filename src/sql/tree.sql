@@ -1,3 +1,11 @@
+/**
+ * this query is currently not in use
+ * would be a very nice way to fetch data for the tree
+ * data for users and organizations could be added
+ * ISSUE: if used as view policies would not be respected :-(
+ * maybe it could be used as a function returning a set of a type (to be created)
+ * would that respect policies?
+ */
 with
 tree_categories as (
   select id, name, null::UUID as parent_id, 1::bigint recursion_level
