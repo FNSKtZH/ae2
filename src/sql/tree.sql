@@ -39,13 +39,13 @@ objects as (
     where 
       a.level <= 10
   )
-  select id, name, parent_id, level, category
+  select level, category, name, id, parent_id
   from a
 )
-select id, name, parent_id, level, category from objects
+select level, category, name, id, parent_id from objects
 union all
-select id, name, parent_id, level, category from taxonomies
+select level, category, name, id, parent_id from taxonomies
 union all
-select id, name, parent_id, level, category from tree_categories
+select level, category, name, id, parent_id from tree_categories
 order by level, category, name;
 
