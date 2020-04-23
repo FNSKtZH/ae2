@@ -18,7 +18,7 @@ taxonomies as (
   inner join ae.tree_category
   on ae.taxonomy.tree_category = ae.tree_category.id
 ),
-art_objects as (
+objects as (
   with recursive a as (
     select ae.object.id, ae.object.name, ae.object.parent_id, 3::bigint as level, ae.tree_category.name as category
     from ae.object
@@ -28,7 +28,6 @@ art_objects as (
     on ae.object.taxonomy_id = ae.taxonomy.id
     where 
       ae.object.parent_id is null
-      and ae.taxonomy.type = 'Art'
     union all
     select o.id, o.name, o.parent_id, a.level +1, ae.tree_category.name as category
     from ae.object o
@@ -38,52 +37,15 @@ art_objects as (
       on o.taxonomy_id = ae.taxonomy.id
     join a on a.id = o.parent_id
     where 
-      ae.taxonomy.type = 'Art'
-      and a.level <= 10
+      a.level <= 10
   )
   select id, name, parent_id, level, category
   from a
-),
-lr_objects as (
-  with recursive a as (
-    select ae.object.id, ae.object.name, ae.object.parent_id, 3::bigint as level, ae.tree_category.name as category
-    from ae.object
-    inner join ae.taxonomy
-      inner join ae.tree_category
-      on ae.taxonomy.tree_category = ae.tree_category.id
-    on ae.object.taxonomy_id = ae.taxonomy.id
-    where 
-      ae.object.parent_id is null
-      and ae.taxonomy.type = 'Lebensraum'
-    union all
-    select o.id, o.name, o.parent_id, a.level +1, ae.tree_category.name as category
-    from ae.object o
-      inner join ae.taxonomy
-        inner join ae.tree_category
-        on ae.taxonomy.tree_category = ae.tree_category.id
-      on o.taxonomy_id = ae.taxonomy.id
-    join a on a.id = o.parent_id
-    where 
-      ae.taxonomy.type = 'Lebensraum'
-      and a.level <= 10
-  )
-  select id, name, parent_id, level, category
-  from a
-),
-tax_and_objects as (
-  select id, name, parent_id, level, category
-  from art_objects
-  union all
-  select id, name, parent_id, level, category
-  from lr_objects
-  union all
-  select id, name, parent_id, level, category
-  from taxonomies
-  union all
-  select id, name, parent_id, level, category
-  from tree_categories
 )
-select level, category, name, id, parent_id
-from tax_and_objects
+select id, name, parent_id, level, category from objects
+union all
+select id, name, parent_id, level, category from taxonomies
+union all
+select id, name, parent_id, level, category from tree_categories
 order by level, category, name;
 
