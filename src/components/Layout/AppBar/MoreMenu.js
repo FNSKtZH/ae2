@@ -44,7 +44,7 @@ const paperProps = {
 const MoreMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const onClickButton = useCallback(event => {
+  const onClickButton = useCallback((event) => {
     setAnchorEl(event.currentTarget)
   }, [])
   const onClose = useCallback(() => {
@@ -109,7 +109,7 @@ const MoreMenu = () => {
           <br />
           inkl. Schnittstellen-Dokumentation
         </TwoLineMenuItem>
-        <Version>Version: 1.4.12 vom 21.03.2020</Version>
+        <Version>Version: 1.4.13 vom 23.04.2020</Version>
       </Menu>
     </div>
   )
