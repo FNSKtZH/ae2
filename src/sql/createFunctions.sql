@@ -353,6 +353,13 @@ CREATE OR REPLACE FUNCTION ae.object_object(taxonomy_object ae.object, taxonomy_
 ALTER FUNCTION ae.object_object(taxonomy_object ae.object, taxonomy_id UUID)
   OWNER TO postgres;
 
+DROP TABLE IF EXISTS ae.pco_properties_by_taxonomy CASCADE;
+CREATE Type ae.pco_properties_by_taxonomy as (
+  property_collection_name text,
+  property_name text,
+  jsontype text,
+  count bigint
+);
 CREATE OR REPLACE FUNCTION ae.pco_properties_by_taxonomies_function(taxonomy_names text[])
   RETURNS setof ae.pco_properties_by_taxonomy AS
   $$
@@ -409,6 +416,10 @@ ALTER FUNCTION ae.pco_properties_by_taxonomies_function(taxonomy_names text[])
 --WHERE ae.property_collection.name = 'ZH Artwert (2000)'
 --ORDER BY value
 
+DROP TABLE IF EXISTS ae.prop_value CASCADE;
+CREATE Type ae.prop_value as (
+  value text
+);
 -- TODO: ater fetching with apollo (sometimes?) last row is null
 CREATE OR REPLACE FUNCTION ae.prop_values_function(table_name text, prop_name text, pc_field_name text, pc_table_name text, pc_name text)
   RETURNS setof ae.prop_value AS
@@ -436,6 +447,12 @@ CREATE OR REPLACE FUNCTION ae.property_collection_by_property_name(property_name
 ALTER FUNCTION ae.property_collection_by_property_name(property_name text)
   OWNER TO postgres;
 
+DROP TABLE IF EXISTS ae.rco_count_by_taxonomy_relation_type CASCADE;
+CREATE Type ae.rco_count_by_taxonomy_relation_type as (
+  property_collection_name text,
+  relation_type text,
+  count bigint
+);
 CREATE OR REPLACE FUNCTION ae.rco_count_by_taxonomy_relation_type_function()
   RETURNS setof ae.rco_count_by_taxonomy_relation_type AS
   $$
@@ -458,6 +475,14 @@ CREATE OR REPLACE FUNCTION ae.rco_count_by_taxonomy_relation_type_function()
 ALTER FUNCTION ae.rco_count_by_taxonomy_relation_type_function()
   OWNER TO postgres;
 
+DROP TABLE IF EXISTS ae.rco_properties_by_taxonomy CASCADE;
+CREATE Type ae.rco_properties_by_taxonomy as (
+  property_collection_name text,
+  relation_type text,
+  property_name text,
+  jsontype text,
+  count bigint
+);
 CREATE OR REPLACE FUNCTION ae.rco_properties_by_taxonomies_function(taxonomy_names text[])
   RETURNS setof ae.rco_properties_by_taxonomy AS
   $$
@@ -509,6 +534,13 @@ CREATE OR REPLACE FUNCTION ae.rco_properties_by_taxonomies_function(taxonomy_nam
 ALTER FUNCTION ae.rco_properties_by_taxonomies_function(taxonomy_names text[])
   OWNER TO postgres;
 
+DROP TABLE IF EXISTS ae.tax_properties_by_taxonomy CASCADE;
+CREATE Type ae.tax_properties_by_taxonomy as (
+  taxonomy_name text,
+  property_name text,
+  jsontype text,
+  count bigint
+);
 CREATE OR REPLACE FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_names text[])
   RETURNS setof ae.tax_properties_by_taxonomy AS
   $$
@@ -572,6 +604,10 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
 ALTER FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
   OWNER TO postgres;
 
+CREATE TYPE ae.taxonomy_with_level1_count AS (
+    taxonomy_id uuid,
+    count bigint
+);
 CREATE OR REPLACE FUNCTION ae.taxonomy_with_level1_count()
   RETURNS setof ae.taxonomy_with_level1_count AS
   $$
