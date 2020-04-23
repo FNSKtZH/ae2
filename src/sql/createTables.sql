@@ -23,6 +23,22 @@ CREATE INDEX ON ae.organization USING btree (name);
 CREATE INDEX ON ae.organization USING btree (id);
 CREATE INDEX ON ae.organization USING btree (contact);
 
+drop table if exists ae.tree_category cascade;
+create table ae.tree_category (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
+  name text UNIQUE DEFAULT NULL
+);
+CREATE INDEX ON ae.tree_category USING btree (id);
+CREATE INDEX ON ae.tree_category USING btree (name);
+COMMENT ON table ae.tree_category IS 'Bildet die höchste Ebene im Navigations-Baum';
+
+-- only once:
+--insert into ae.tree_category (id, name)
+--values
+--  ('2aabf183-ad8c-4451-9aed-08ae38f8a73f', 'Arten'),
+--  ('3ebc6a58-fe9f-4f46-b22a-b1a1aff45a03', 'Lebensräume'),
+--  ('33744e59-1942-4341-8b2d-088d4ac96434', 'Eigenschaften-Sammlungen');
+
 -- once: ALTER TABLE ae.organization ADD CONSTRAINT fk_contact FOREIGN KEY (contact) REFERENCES ae.user (id)
 
 CREATE TYPE taxonomy_type AS ENUM ('Art', 'Lebensraum');
@@ -32,6 +48,7 @@ CREATE TABLE ae.taxonomy (
   -- gets existing guids
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   type taxonomy_type DEFAULT NULL,
+  tree_category UUID default null references ae.tree_category (id) on delete set null on update cascade,
   name text UNIQUE DEFAULT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -50,6 +67,7 @@ CREATE INDEX ON ae.taxonomy USING btree (type);
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (organization_id);
 CREATE INDEX ON ae.taxonomy USING btree (imported_by);
+CREATE INDEX ON ae.taxonomy USING btree (tree_category);
 
 --once:
 --alter table ae.taxonomy drop column is_category_standard;
@@ -95,6 +113,7 @@ CREATE TABLE ae.property_collection (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   -- later add UNIQUE
   name text DEFAULT NULL,
+  tree_category UUID default '33744e59-1942-4341-8b2d-088d4ac96434' references ae.tree_category (id) on delete set null on update cascade,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
   combining boolean DEFAULT FALSE,
@@ -107,20 +126,12 @@ CREATE TABLE ae.property_collection (
   pc_of_origin_name text DEFAULT NULL
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
--- once: ALTER TABLE ae.property_collection ADD UNIQUE (name);
--- once on notebook:
---ALTER TABLE ae.property_collection alter column name drop not null;
---ALTER TABLE ae.property_collection alter column organization_id drop not null;
-alter table ae.property_collection drop column pc_of_origin;
-alter table ae.property_collection drop column pc_of_origin_name;
-
---alter table ae.property_collection drop pc_of_origin_name;
-
 CREATE INDEX ON ae.property_collection USING btree (id);
 CREATE INDEX ON ae.property_collection USING btree (name);
 CREATE INDEX ON ae.property_collection USING btree (combining);
 CREATE INDEX ON ae.property_collection USING btree (organization_id);
 CREATE INDEX ON ae.property_collection USING btree (imported_by);
+CREATE INDEX ON ae.property_collection USING btree (tree_category);
 
 DROP TABLE IF EXISTS ae.property_collection_object CASCADE;
 CREATE TABLE ae.property_collection_object (
