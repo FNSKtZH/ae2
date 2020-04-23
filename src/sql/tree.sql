@@ -47,6 +47,6 @@ union all
 select level, category, name, id, parent_id from taxonomies
 union all
 select level, category, name, id, parent_id from tree_categories
-order by level, category, name;
 -- maybe not sort to make query faster?
+order by level, category, name;
 
