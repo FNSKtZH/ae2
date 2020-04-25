@@ -23,26 +23,21 @@ create or replace view ae.evab_arten as
 -- Problem with new Taxonomy for Flora: 
 -- SISF (2018) supersedes SISF (2005)
 -- Most species existing in SISF (2005) also exist in SISF (2018), but with a new id. They are synonyms
--- Ideally EvAB users would now usually choose SISF (2018) species
--- In special cases (for instance when lists were created before SISF (2018) existed) they would still need to choose from SISF (2005)
--- There are two problems:
--- 1. EvAB does not have a concept of "taxonomy"
---    EvAB user will only see a single list of names 
---    and not known what taxonomy a name belongs to 
---    nor be able to choose what taxonomy to choose species from
---    In SISF (2018) names of synonyms existing in SISF (2005) are naturally very similar, often exactly same
---    We need to pass them only once or user will not know which to choose
--- 2. EvAB needs to have all idArt's ever (possibly) choosen in the list
---    If an idArt that was delivered previously is not delivered any more, user will not see the specie's name
---    Likely even worse will happen
+-- Ideally EvAB users would from now on usually choose SISF (2018) species
+-- 
+-- Species they choose earlier should still exist in the list because:
+-- 1. In special cases (for instance when lists were created before SISF (2018) existed) they would still need to choose from SISF (2005)
+-- 2. In existing Data species names should still show
+-- The problem is: EvAB does not have a concept of "taxonomy"
+-- In SISF (2018) names of synonyms existing in SISF (2005) are naturally very similar, often exactly same
+-- In the dropdonw list taxonomies should normally not be mixed or user will not know which of same or similar names to choose
 -- Solution:
--- 1. pass SISF (2018) with the id of their SISF (2005) synonym if one exists (it usually will)
--- 2. build a list of all id's passed as SISF (2018)
--- 3. use this list to prevent from passing the same ones as SISF (2005) a second time
---    but _do_ pass all species from SISF (2005) that are not synonyms of species in SISF (2018)
--- This is of course not a good solution. We probably do not know yet all the problems that will develop as a consequence
--- It is untenable in the long run, with new generations of taxonomies in all groups. And so it prevents us from updating taxonomies
--- But it is the only way it will work in EvAB as of now (2020)
+-- 1. pass SISF (2018) with status 'A'
+-- 2. pass SISF (2005) with status '?'
+-- EvAB in standard settings only includes species with status 'A'. So when choosing a species a user will usually use the new Taxonomy.
+-- In existing data names are also shown if species has name with other status.
+-- If the user specifically wants to choose a species from SISF (2005) he/she can set options to list all species. 
+-- Which will not be a great experience as the taxonomy name is not visible. But should be rare and in most cases feasible
 
 -- Fauna
 select
@@ -82,12 +77,12 @@ where
   and ae.object.properties->>'Taxonomie ID' ~ E'^\\d+$'
   and (ae.object.properties->>'Taxonomie ID')::integer < 2147483647
 -- Flora: species of SISF (2005) 
--- Give them status that is not aktuell
 UNION select
   concat('{', upper(ae.object.id::TEXT), '}') as "idArt",
   (ae.object.properties->>'Taxonomie ID')::integer as "nummer",
   substring(ae.object.name, 1, 255) as "wissenschArtname",
   substring(ae.object.properties->>'Name Deutsch', 1, 255) as "deutscherArtname",
+  -- Give them status that is not aktuell
   '?' as status,
   'Flora'::text as "klasse"
 from
