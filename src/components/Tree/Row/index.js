@@ -6,22 +6,18 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import Icon from '@material-ui/core/Icon'
 import isEqual from 'lodash/isEqual'
-import get from 'lodash/get'
-import { useQuery, useApolloClient } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useApolloClient } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
 import { navigate } from 'gatsby'
 import ErrorBoundary from 'react-error-boundary'
 
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenuDo from './onClickContextMenu'
-import treeDataQuery from '../treeDataQuery'
-import treeDataVariables from '../treeDataVariables'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
-  padding-left: ${props => `${Number(props['data-level']) * 17 - 17}px`};
+  padding-left: ${(props) => `${Number(props['data-level']) * 17 - 17}px`};
   height: ${singleRowHeight}px;
   max-height: ${singleRowHeight}px;
   box-sizing: border-box;
@@ -31,26 +27,26 @@ const StyledNode = styled.div`
   white-space: nowrap;
   user-select: none;
   cursor: pointer;
-  color: ${props =>
+  color: ${(props) =>
     props['data-nodeisinactivenodepath'] ? '#D84315' : 'inherit'};
   &:hover {
     color: #f57c00 !important;
   }
 `
 const SymbolIcon = styled(Icon)`
-  margin-top: ${props =>
+  margin-top: ${(props) =>
     props['data-nodeisinactivenodepath']
       ? '-5px !important'
       : '-2px !important'};
-  padding-left: ${props =>
+  padding-left: ${(props) =>
     props['data-nodeisinactivenodepath'] ? '2px' : '2px'};
-  font-size: ${props =>
+  font-size: ${(props) =>
     props['data-nodeisinactivenodepath']
       ? '26px !important'
       : '22px !important'};
-  font-weight: ${props =>
+  font-weight: ${(props) =>
     props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
-  color: ${props =>
+  color: ${(props) =>
     props['data-nodeisinactivenodepath'] ? '#D84315 !important' : 'inherit'};
   width: 26px;
   &:hover {
@@ -59,11 +55,11 @@ const SymbolIcon = styled(Icon)`
 `
 const SymbolSpan = styled.span`
   padding-right: 8px !important;
-  padding-left: ${props =>
+  padding-left: ${(props) =>
     props['data-nodeisinactivenodepath'] ? '8px' : '9px'};
-  font-weight: ${props =>
+  font-weight: ${(props) =>
     props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
-  margin-top: ${props =>
+  margin-top: ${(props) =>
     props['data-nodeisinactivenodepath'] ? '-9px' : '-9px'};
   font-size: 28px !important;
   width: 26px;
@@ -71,7 +67,7 @@ const SymbolSpan = styled.span`
 const TextSpan = styled.span`
   margin-left: 0;
   font-size: 16px !important;
-  font-weight: ${props =>
+  font-weight: ${(props) =>
     props['data-nodeisinactivenodepath'] ? '700 !important' : 'inherit'};
 `
 const InfoSpan = styled.span`
@@ -84,28 +80,10 @@ function collect(props) {
   return props
 }
 
-const userQuery = gql`
-  query rowQuery($username: String!) {
-    userByName(name: $username) {
-      id
-    }
-  }
-`
-
-const Row = ({ index, style, node }) => {
+const Row = ({ index, style, node, treeRefetch, userId }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
-
-  const { refetch: treeRefetch } = useQuery(treeDataQuery, {
-    variables: treeDataVariables({ activeNodeArray }),
-  })
-  const { data: userData } = useQuery(userQuery, {
-    variables: {
-      username: login.username,
-    },
-  })
 
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     node.url,
@@ -127,10 +105,9 @@ const Row = ({ index, style, node }) => {
   }
   const { url, loadingNode } = node
   const level = url && url.length ? url.length : 0
-  const userId = get(userData, 'userByName.id', null)
 
   const onClickNode = useCallback(
-    event => {
+    (event) => {
       // do nothing when loading indicator is clicked
       if (loadingNode) return
       // or if node is already active
@@ -141,7 +118,7 @@ const Row = ({ index, style, node }) => {
     [loadingNode, url, activeNodeArray],
   )
   const onClickExpandMore = useCallback(
-    event => {
+    (event) => {
       // do nothing when loading indicator is clicked
       if (loadingNode) return
       if (isEqual(url, activeNodeArray)) {

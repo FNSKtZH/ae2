@@ -1,10 +1,4 @@
-import React, {
-  useRef,
-  useEffect,
-  useCallback,
-  useState,
-  useContext,
-} from 'react'
+import React, { useRef, useEffect, useState, useContext } from 'react'
 // if observer is active, forceUpdate during rendering happens
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
@@ -194,6 +188,13 @@ const usersQuery = gql`
     }
   }
 `
+const userQuery = gql`
+  query rowQuery($username: String!) {
+    userByName(name: $username) {
+      id
+    }
+  }
+`
 
 const Tree = ({ dimensions }) => {
   const mobxStore = useContext(mobxStoreContext)
@@ -203,6 +204,7 @@ const Tree = ({ dimensions }) => {
     data: treeDataFetched,
     loading: treeLoading,
     error: treeError,
+    refetch: treeRefetch,
   } = useQuery(treeDataQuery, {
     variables: treeDataVariables({ activeNodeArray }),
   })
@@ -216,6 +218,13 @@ const Tree = ({ dimensions }) => {
     loading: usersLoading,
     error: usersError,
   } = useQuery(usersQuery)
+
+  const { data: userData } = useQuery(userQuery, {
+    variables: {
+      username: login.username,
+    },
+  })
+  const userId = get(userData, 'userByName.id', null)
 
   // prevent tree from rebuilding from the top
   // every time a new branch is clicked
@@ -292,6 +301,8 @@ const Tree = ({ dimensions }) => {
                 style={style}
                 index={index}
                 node={nodes[index]}
+                treeRefetch={treeRefetch}
+                userId={userId}
               />
             )}
           </StyledList>
