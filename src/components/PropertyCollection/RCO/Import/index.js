@@ -124,10 +124,10 @@ const StyledInfoOutlineIcon = styled(InfoOutlineIcon)`
 const StyledButton = styled(Button)`
   border: 1px solid !important;
   margin: 8px 8px 16px 8px !important;
-  background-image: ${props =>
-    `linear-gradient(to right, #4caf50 ${props.completed *
-      100}%, transparent ${props.completed * 100}% ${100 -
-      props.completed * 100}%)`} !important;
+  background-image: ${(props) =>
+    `linear-gradient(to right, #4caf50 ${props.completed * 100}%, transparent ${
+      props.completed * 100
+    }% ${100 - props.completed * 100}%)`} !important;
 `
 const TotalDiv = styled.div`
   font-size: small;
@@ -307,8 +307,8 @@ const ImportRco = ({ setImport, pCO }) => {
   }
 
   const objectIdsUnreal = useMemo(() => {
-    const realIds = get(importRcoData, 'allObjects.nodes', []).map(o => o.id)
-    return objectIds.filter(i => !realIds.includes(i))
+    const realIds = get(importRcoData, 'allObjects.nodes', []).map((o) => o.id)
+    return objectIds.filter((i) => !realIds.includes(i))
   }, [importRcoData, objectIds])
   const objectIdsAreReal = useMemo(
     () =>
@@ -319,9 +319,9 @@ const ImportRco = ({ setImport, pCO }) => {
   )
   const objectRelationIdsUnreal = useMemo(() => {
     const realIds = get(importRcoData, 'allObjectRelations.nodes', []).map(
-      o => o.id,
+      (o) => o.id,
     )
-    return objectIds.filter(i => !realIds.includes(i))
+    return objectIds.filter((i) => !realIds.includes(i))
   }, [importRcoData, objectIds])
   const objectRelationIdsAreReal = useMemo(
     () =>
@@ -336,9 +336,9 @@ const ImportRco = ({ setImport, pCO }) => {
   )
   const pCOfOriginIdsUnreal = useMemo(() => {
     const realIds = get(importRcoData, 'allPropertyCollections.nodes', []).map(
-      o => o.id,
+      (o) => o.id,
     )
-    return pCOfOriginIds.filter(i => !realIds.includes(i))
+    return pCOfOriginIds.filter((i) => !realIds.includes(i))
   }, [importRcoData, pCOfOriginIds])
   const pCOfOriginIdsAreReal = useMemo(
     () =>
@@ -400,7 +400,7 @@ const ImportRco = ({ setImport, pCO }) => {
 
   const importDataFields = useMemo(() => {
     let fields = []
-    importData.forEach(d => {
+    importData.forEach((d) => {
       fields = union([...fields, ...Object.keys(d)])
     })
     return fields
@@ -408,12 +408,12 @@ const ImportRco = ({ setImport, pCO }) => {
   const propertyFields = useMemo(
     () =>
       importDataFields.filter(
-        f => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
+        (f) => !['id', 'objectId', 'propertyCollectionOfOrigin'].includes(f),
       ),
     [importDataFields],
   )
 
-  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+  const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0]
     if (!!file) {
       const reader = new FileReader()
@@ -426,70 +426,72 @@ const ImportRco = ({ setImport, pCO }) => {
           worksheet = workbook.Sheets[sheetName]
         const data = XLSX.utils
           .sheet_to_json(worksheet)
-          .map(d => omit(d, ['__rowNum__']))
+          .map((d) => omit(d, ['__rowNum__']))
         // test the data
         setImportData(data)
-        setExistsNoDataWithoutKey(data.filter(d => !!d.__EMPTY).length === 0)
-        const ids = data.map(d => d.id).filter(d => d !== undefined)
+        setExistsNoDataWithoutKey(data.filter((d) => !!d.__EMPTY).length === 0)
+        const ids = data.map((d) => d.id).filter((d) => d !== undefined)
         const _idsExist = ids.length > 0
         setIdsExist(_idsExist)
         setIdsAreUuid(
           _idsExist
-            ? !ids.map(d => isUuid.anyNonNil(d)).includes(false)
+            ? !ids.map((d) => isUuid.anyNonNil(d)).includes(false)
             : undefined,
         )
         setIdsAreUnique(_idsExist ? ids.length === uniq(ids).length : undefined)
         const _objectIds = data
-          .map(d => d.objectId)
-          .filter(d => d !== undefined)
+          .map((d) => d.objectId)
+          .filter((d) => d !== undefined)
         const _objectIdsExist = _objectIds.length === data.length
         setObjectIdsExist(_objectIdsExist)
         setObjectIdsAreUuid(
           _objectIdsExist
-            ? !_objectIds.map(d => isUuid.anyNonNil(d)).includes(false)
+            ? !_objectIds.map((d) => isUuid.anyNonNil(d)).includes(false)
             : undefined,
         )
         setObjectIds(_objectIds)
 
         const _objectRelationIds = data
-          .map(d => d.objectIdRelation)
-          .filter(d => d !== undefined)
+          .map((d) => d.objectIdRelation)
+          .filter((d) => d !== undefined)
         const _objectRelationIdsExist =
           _objectRelationIds.length === data.length
         setObjectRelationIdsExist(_objectRelationIdsExist)
         setObjectRelationIdsAreUuid(
           _objectRelationIdsExist
-            ? !_objectRelationIds.map(d => isUuid.anyNonNil(d)).includes(false)
+            ? !_objectRelationIds
+                .map((d) => isUuid.anyNonNil(d))
+                .includes(false)
             : undefined,
         )
         setObjectRelationIds(_objectRelationIds)
 
         const _relationTypes = data
-          .map(d => d.relationType)
-          .filter(d => d !== undefined)
+          .map((d) => d.relationType)
+          .filter((d) => d !== undefined)
         const _relationTypesExist = _relationTypes.length === data.length
         setRelationTypeExist(_relationTypesExist)
 
         const _pCOfOriginIds = data
-          .map(d => d.propertyCollectionOfOrigin)
-          .filter(d => d !== undefined)
+          .map((d) => d.propertyCollectionOfOrigin)
+          .filter((d) => d !== undefined)
         const _pCOfOriginIdsExist = _pCOfOriginIds.length > 0
         setPCOfOriginIdsExist(_pCOfOriginIdsExist)
         setPCOfOriginIdsAreUuid(
           _pCOfOriginIdsExist
-            ? !_pCOfOriginIds.map(d => isUuid.anyNonNil(d)).includes(false)
+            ? !_pCOfOriginIds.map((d) => isUuid.anyNonNil(d)).includes(false)
             : undefined,
         )
         setPCOfOriginIds(_pCOfOriginIds)
 
         const propertyKeys = union(
-          flatten(data.map(d => Object.keys(omit(d, ['id', 'objectId'])))),
+          flatten(data.map((d) => Object.keys(omit(d, ['id', 'objectId'])))),
         )
         const _existsPropertyKey = propertyKeys.length > 0
         setExistsPropertyKey(_existsPropertyKey)
         setPropertyKeysDontContainApostroph(
           _existsPropertyKey
-            ? !some(propertyKeys, k => {
+            ? !some(propertyKeys, (k) => {
                 if (!k || !k.includes) return false
                 return k.includes('"')
               })
@@ -497,21 +499,21 @@ const ImportRco = ({ setImport, pCO }) => {
         )
         setPropertyKeysDontContainBackslash(
           _existsPropertyKey
-            ? !some(propertyKeys, k => {
+            ? !some(propertyKeys, (k) => {
                 if (!k || !k.includes) return false
                 return k.includes('\\')
               })
             : undefined,
         )
-        const propertyValues = union(flatten(data.map(d => Object.values(d))))
+        const propertyValues = union(flatten(data.map((d) => Object.values(d))))
         setPropertyValuesDontContainApostroph(
-          !some(propertyValues, k => {
+          !some(propertyValues, (k) => {
             if (!k || !k.includes) return false
             return k.includes('"')
           }),
         )
         setPropertyValuesDontContainBackslash(
-          !some(propertyValues, k => {
+          !some(propertyValues, (k) => {
             if (!k || !k.includes) return false
             return k.includes('\\')
           }),
@@ -543,7 +545,7 @@ const ImportRco = ({ setImport, pCO }) => {
     // loop all rows, build variables and create pco
     // eslint-disable-next-line no-unused-vars
     for (const [i, d] of importData.entries()) {
-      const pco = pCO.find(o => o.objectId === d.objectId)
+      const pco = pCO.find((o) => o.objectId === d.objectId)
       const id = pco && pco.id ? pco.id : undefined
       const variables = {
         objectId: d.objectId || null,
@@ -587,7 +589,7 @@ const ImportRco = ({ setImport, pCO }) => {
     setImporting(false)
     rcoRefetch()
   }, [client, importData, pCId, pCO, rcoRefetch, setImport])
-  const rowGetter = useCallback(i => importData[i], [importData])
+  const rowGetter = useCallback((i) => importData[i], [importData])
 
   return (
     <Container>
@@ -1173,7 +1175,6 @@ const ImportRco = ({ setImport, pCO }) => {
               isDragActive,
               isDragReject,
               acceptedFiles,
-              rejectedFiles,
             }) => {
               if (isDragActive)
                 return (
@@ -1219,7 +1220,7 @@ const ImportRco = ({ setImport, pCO }) => {
             propertyFields.length === 1 ? '' : 'er'
           }${importData.length > 0 ? ':' : ''}`}</TotalDiv>
           <ReactDataGrid
-            columns={importDataFields.map(k => ({
+            columns={importDataFields.map((k) => ({
               key: k,
               name: k,
               resizable: true,
