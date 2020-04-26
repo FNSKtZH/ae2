@@ -1,6 +1,6 @@
 {
   "name": "artdaten",
-  "version": "1.4.13",
+  "version": "1.4.14",
   "author": {
     "name": "Alexander Gabriel",
     "email": "alex@gabriel-software.ch",
@@ -33,7 +33,7 @@
     "dexie": "2.0.4",
     "exceljs": "3.9.0",
     "file-saver": "2.0.2",
-    "gatsby": "2.20.35",
+    "gatsby": "2.20.36",
     "gatsby-plugin-create-client-paths": "2.2.4",
     "gatsby-plugin-eslint": "2.0.8",
     "gatsby-plugin-manifest": "2.3.7",
@@ -64,7 +64,7 @@
     "mobx-react-lite": "2.0.6",
     "mobx-state-tree": "3.16.0",
     "react": "16.13.1",
-    "react-autosuggest": "10.0.0",
+    "react-autosuggest": "10.0.1",
     "react-contextmenu": "2.13.0",
     "react-data-grid": "6.1.0",
     "react-dom": "16.13.1",
