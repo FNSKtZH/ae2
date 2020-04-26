@@ -236,7 +236,7 @@ const Tree = ({ dimensions }) => {
   })
 
   useEffect(() => {
-    const index = findIndex(nodes, node => isEqual(node.url, activeNodeArray))
+    const index = findIndex(nodes, (node) => isEqual(node.url, activeNodeArray))
     listRef.current &&
       listRef.current.scrollToItem &&
       listRef.current.scrollToItem(index)
@@ -252,8 +252,8 @@ const Tree = ({ dimensions }) => {
   const { username } = login
   const organizationUsers = get(orgUsersData, 'allOrganizationUsers.nodes', [])
   const userRoles = organizationUsers
-    .filter(oU => username === get(oU, 'userByUserId.name', ''))
-    .map(oU => oU.role)
+    .filter((oU) => username === get(oU, 'userByUserId.name', ''))
+    .map((oU) => oU.role)
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
 
@@ -261,13 +261,6 @@ const Tree = ({ dimensions }) => {
   const width = isNaN(dimensions.width) ? 250 : dimensions.width
 
   const listRef = useRef(null)
-
-  const getRow = useCallback(
-    ({ index, style }) => (
-      <Row key={index} index={index} style={style} node={nodes[index]} />
-    ),
-    [nodes],
-  )
 
   if (treeError) {
     return <Container>{`Error fetching data: ${treeError.message}`}</Container>
@@ -293,7 +286,14 @@ const Tree = ({ dimensions }) => {
             width={width}
             ref={listRef}
           >
-            {getRow}
+            {({ index, style }) => (
+              <Row
+                key={index}
+                style={style}
+                index={index}
+                node={nodes[index]}
+              />
+            )}
           </StyledList>
         </AutoSizerContainer>
         <StyledSnackbar open={treeDataLoading} message="lade Daten..." />
