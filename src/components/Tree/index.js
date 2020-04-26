@@ -251,13 +251,6 @@ const Tree = ({ dimensions }) => {
       listRef.current.scrollToItem(index)
   }, [activeNodeArray, nodes])
 
-  /*console.log('Tree', {
-    treeDataFetched,
-    treeError,
-    orgUsersData,
-    orgUsersError,
-  })*/
-
   const { username } = login
   const organizationUsers = get(orgUsersData, 'allOrganizationUsers.nodes', [])
   const userRoles = organizationUsers
