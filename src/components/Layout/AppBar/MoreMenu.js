@@ -55,8 +55,13 @@ const MoreMenu = () => {
     setAnchorEl(null)
   }, [])
   const onClickStruktur = useCallback(() => {
-    typeof window !== 'undefined' && window.open(relations)
     setAnchorEl(null)
+    if (typeof window !== 'undefined') {
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        return window.open(relations, '_blank', 'toolbar=no')
+      }
+      window.open(relations)
+    }
   }, [])
   const onClickMelden = useCallback(() => {
     typeof window !== 'undefined' &&
