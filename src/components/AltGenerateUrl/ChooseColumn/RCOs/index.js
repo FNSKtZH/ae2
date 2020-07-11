@@ -10,8 +10,8 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../../../../modules/ErrorBoundary'
 import RcoList from './RcoList'
 import getConstants from '../../../../modules/constants'
 const constants = getConstants()
@@ -30,7 +30,7 @@ const StyledCardActions = styled(CardActions)`
   display: flex;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -72,7 +72,7 @@ const RCOs = ({ rcoExpanded, onToggleRco }) => {
     [],
   )
 
-  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
+  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, (x) => {
     if (x.propertyCollectionName.includes(x.relationType)) {
       return x.propertyCollectionName
     }

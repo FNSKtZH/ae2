@@ -10,8 +10,8 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../../../../../../modules/ErrorBoundary'
 import AllChooser from './AllChooser'
 import ChooserList from './ChooserList'
 import getConstants from '../../../../../../modules/constants'
@@ -29,7 +29,7 @@ const StyledCardActions = styled(CardActions)`
   border-bottom: 1px solid #ebebeb;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -37,7 +37,7 @@ const CardActionTitle = styled.div`
   word-break: break-word;
 `
 const PropertiesContainer = styled.div`
-  column-width: ${props =>
+  column-width: ${(props) =>
     props['data-width'] > 2 * constants.export.properties.columnWidth
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};

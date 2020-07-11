@@ -10,8 +10,8 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../../../../modules/ErrorBoundary'
 import PcoList from './PcoList'
 import getConstants from '../../../../modules/constants'
 const constants = getConstants()
@@ -29,7 +29,7 @@ const StyledCardActions = styled(CardActions)`
   background-color: #ffcc80;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
