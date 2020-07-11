@@ -4,8 +4,8 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import copy from 'copy-to-clipboard'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../../../modules/ErrorBoundary'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
@@ -32,17 +32,17 @@ const Url = () => {
 
   const fieldsChoosen =
     [...taxProperties, ...pcoProperties, ...rcoProperties].length > 0
-  const taxProps = taxProperties.map(p => ({
+  const taxProps = taxProperties.map((p) => ({
     t: 'tax',
     n: p.taxname,
     p: p.pname,
   }))
-  const pcoProps = pcoProperties.map(p => ({
+  const pcoProps = pcoProperties.map((p) => ({
     t: 'pco',
     n: p.pcname,
     p: p.pname,
   }))
-  const rcoProps = rcoProperties.map(p => ({
+  const rcoProps = rcoProperties.map((p) => ({
     t: 'rco',
     n: p.pcname,
     rt: p.relationtype,

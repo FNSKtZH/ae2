@@ -11,8 +11,8 @@ import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../../../../modules/ErrorBoundary'
 import JointTaxonomy from './JointTaxonomy'
 import getConstants from '../../../../modules/constants'
 const constants = getConstants()
@@ -28,7 +28,7 @@ const StyledCardActions = styled(CardActions)`
   background-color: #ffcc80;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -75,12 +75,12 @@ const Properties = ({ taxonomiesExpanded, onToggleTaxonomies }) => {
   let jointTaxProperties = []
   if (taxCount > 1) {
     jointTaxProperties = Object.values(
-      groupBy(taxProperties, t => t.propertyName),
-    ).map(t => ({
-      count: sumBy(t, x => Number(x.count)),
+      groupBy(taxProperties, (t) => t.propertyName),
+    ).map((t) => ({
+      count: sumBy(t, (x) => Number(x.count)),
       jsontype: t[0].jsontype,
       propertyName: t[0].propertyName,
-      taxonomies: t.map(x => x.taxonomyName),
+      taxonomies: t.map((x) => x.taxonomyName),
       taxname: 'Taxonomie',
     }))
   }

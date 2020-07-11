@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../../../modules/ErrorBoundary'
 import OptionsChoosen from './OptionsChoosen'
 import Url from './Url'
 

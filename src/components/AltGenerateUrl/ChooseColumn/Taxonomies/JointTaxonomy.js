@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../../../../modules/ErrorBoundary'
 import AllTaxChooser from './AllTaxChooser'
 import TaxChooserList from './TaxChooserList'
 import getConstants from '../../../../modules/constants'
@@ -13,7 +13,7 @@ const Container = styled.div`
   padding: 8px 14px;
 `
 const PropertiesContainer = styled.div`
-  column-width: ${props =>
+  column-width: ${(props) =>
     props['data-width'] > 2 * constants.export.properties.columnWidth
       ? `${constants.export.properties.columnWidth}px`
       : 'auto'};
