@@ -1,5 +1,10 @@
 import React from 'react'
-import { ContextMenu, MenuItem, connectMenu } from 'react-contextmenu'
+
+import {
+  ContextMenu,
+  MenuItem,
+  connectMenu,
+} from '../../../modules/react-contextmenu'
 
 const dataDelete = {
   action: 'delete',
@@ -11,7 +16,7 @@ const DynamicMenu = ({ id, trigger }) => {
   const nodeLabel = trigger ? trigger.nodeLabel : ''
 
   return (
-    <ContextMenu id={id} collect={props => props}>
+    <ContextMenu id={id} collect={(props) => props}>
       <div className="react-contextmenu-title">{nodeLabel}</div>
       <MenuItem onClick={handleItemClick} data={dataDelete}>
         lösche
