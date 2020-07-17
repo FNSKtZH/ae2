@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useContext } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
-import debounce from 'lodash/debounce'
 import { observer } from 'mobx-react-lite'
 
 import mobxStoreContext from '../../../../mobxStoreContext'
@@ -16,14 +15,8 @@ const IdFilterField = () => {
 
   const [value, setValue] = useState('')
 
-  const change = useCallback(
-    debounce(value => {
-      setIds(value)
-    }, 200),
-  )
-
   const handleChange = useCallback(
-    event => {
+    (event) => {
       const { value } = event.target
       setValue(value)
       // convert values into an array of values, separated by commas
@@ -31,9 +24,9 @@ const IdFilterField = () => {
       const valueForStore = value
         ? event.target.value.replace(/\s/g, '').split(',')
         : []
-      change(valueForStore)
+      setIds(valueForStore)
     },
-    [change],
+    [setIds],
   )
 
   return (
