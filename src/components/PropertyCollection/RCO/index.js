@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext, useMemo } from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -147,36 +147,40 @@ const RCO = ({ dimensions, classes }) => {
 
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
-  let rCO = []
-  // collect all keys
-  const allKeys = []
-  const rCORaw = get(
-    rcoData,
-    'propertyCollectionById.relationsByPropertyCollectionId.nodes',
-    [],
-  ).map(p => omit(p, ['__typename']))
-  rCORaw.forEach(p => {
-    let nP = {}
-    nP['Objekt ID'] = p.objectId
-    nP['Objekt Name'] = get(p, 'objectByObjectId.name', null)
-    nP['Beziehung ID'] = p.objectIdRelation
-    nP['Beziehung Name'] = get(p, 'objectByObjectIdRelation.name', null)
-    nP['Art der Beziehung'] = p.relationType
-    if (p.properties) {
-      const props = JSON.parse(p.properties)
-      forOwn(props, (value, key) => {
-        if (typeof value === 'boolean') {
-          nP[key] = booleanToJaNein(value)
-        } else {
-          nP[key] = value
-        }
-        // collect all keys
-        allKeys.push(key)
-      })
-    }
-    rCO.push(nP)
-  })
-  rCO = orderBy(rCO, sortField, sortDirection)
+
+  const [rCO, allKeys, rCORaw] = useMemo(()=>{
+    let rCO = []
+    // collect all keys
+    const allKeys = []
+    const rCORaw = get(
+      rcoData,
+      'propertyCollectionById.relationsByPropertyCollectionId.nodes',
+      [],
+    ).map(p => omit(p, ['__typename']))
+    rCORaw.forEach(p => {
+      let nP = {}
+      nP['Objekt ID'] = p.objectId
+      nP['Objekt Name'] = get(p, 'objectByObjectId.name', null)
+      nP['Beziehung ID'] = p.objectIdRelation
+      nP['Beziehung Name'] = get(p, 'objectByObjectIdRelation.name', null)
+      nP['Art der Beziehung'] = p.relationType
+      if (p.properties) {
+        const props = JSON.parse(p.properties)
+        forOwn(props, (value, key) => {
+          if (typeof value === 'boolean') {
+            nP[key] = booleanToJaNein(value)
+          } else {
+            nP[key] = value
+          }
+          // collect all keys
+          allKeys.push(key)
+        })
+      }
+      rCO.push(nP)
+    })
+    rCO = orderBy(rCO, sortField, sortDirection)
+    return [rCO, allKeys, rCORaw]
+  }, [rcoData, sortDirection, sortField])
   // collect all keys and sort property keys by name
   const keys = [
     'Objekt ID',
