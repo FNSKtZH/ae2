@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext, useMemo } from 'react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -142,33 +142,37 @@ const PCO = ({ dimensions, classes }) => {
 
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
-  let pCO = []
-  // collect all keys
-  const allKeys = []
-  const pCORaw = get(
-    pcoData,
-    'propertyCollectionById.propertyCollectionObjectsByPropertyCollectionId.nodes',
-    [],
-  ).map(p => omit(p, ['__typename']))
-  pCORaw.forEach(p => {
-    let nP = {}
-    nP['Objekt ID'] = p.objectId
-    nP['Objekt Name'] = get(p, 'objectByObjectId.name', null)
-    if (p.properties) {
-      const props = JSON.parse(p.properties)
-      forOwn(props, (value, key) => {
-        if (typeof value === 'boolean') {
-          nP[key] = booleanToJaNein(value)
-        } else {
-          nP[key] = value
-        }
-        // collect all keys
-        allKeys.push(key)
-      })
-    }
-    pCO.push(nP)
-  })
-  pCO = orderBy(pCO, sortField, sortDirection)
+
+  const [pCO, allKeys, pCORaw] = useMemo(()=>{
+    let pCO = []
+    // collect all keys
+    const allKeys = []
+    const pCORaw = get(
+      pcoData,
+      'propertyCollectionById.propertyCollectionObjectsByPropertyCollectionId.nodes',
+      [],
+    ).map(p => omit(p, ['__typename']))
+    pCORaw.forEach(p => {
+      let nP = {}
+      nP['Objekt ID'] = p.objectId
+      nP['Objekt Name'] = get(p, 'objectByObjectId.name', null)
+      if (p.properties) {
+        const props = JSON.parse(p.properties)
+        forOwn(props, (value, key) => {
+          if (typeof value === 'boolean') {
+            nP[key] = booleanToJaNein(value)
+          } else {
+            nP[key] = value
+          }
+          // collect all keys
+          allKeys.push(key)
+        })
+      }
+      pCO.push(nP)
+    })
+    pCO = orderBy(pCO, sortField, sortDirection)
+    return [pCO, allKeys, pCORaw]
+  },[pcoData, sortDirection, sortField])
   // collect all keys and sort property keys by name
   const keys = ['Objekt ID', 'Objekt Name', ...union(allKeys).sort()]
   const columns = keys.map(k => ({
