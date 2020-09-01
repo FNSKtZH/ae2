@@ -8,7 +8,6 @@ import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
 import AppBar from './AppBar'
-//import Fallback from '../shared/Fallback'
 
 const Container = styled.div`
   @media print {
