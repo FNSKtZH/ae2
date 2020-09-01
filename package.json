@@ -9,7 +9,6 @@
   "private": true,
   "scripts": {
     "build": "gatsby clean && gatsby build && rimraf backend/caddy/html && copyfiles -u 1 \"public/**/*\" backend/caddy/html",
-    "build_with_serverless_api": "gatsby clean && gatsby build && copyfiles now.json public && copyfiles _redirect public && copyfiles api/**/* public/api && copyfiles artendb/**/* public/api",
     "clean": "gatsby clean",
     "dev": "gatsby develop",
     "serve": "gatsby serve"
