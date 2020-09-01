@@ -48,6 +48,8 @@ services:
         'anon',
         '--jwt-secret',
         '${JWT_SECRET}',
+        '--body-size-limit',
+        '300kb',
         '--cors',
         '--disable-query-log',
         '--enable-query-batching',
