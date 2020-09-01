@@ -5,7 +5,6 @@
  */
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { useStaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 
 import AppBar from './AppBar'
@@ -18,25 +17,10 @@ const Container = styled.div`
   }
 `
 
-const query = graphql`
-  query SiteTitleQuery {
-    site {
-      siteMetadata {
-        title
-      }
-    }
-  }
-`
-/**
- * ReactDOMServer does not yet support Suspense
- */
-const Layout = ({ children }) => {
-  const data = useStaticQuery(query)
-
-  return (
+const Layout = ({ children }) => (
     <Container>
       <Helmet
-        title={data.site.siteMetadata.title}
+        title="arteigenschaften"
         meta={[
           {
             name: 'description',
@@ -54,6 +38,5 @@ const Layout = ({ children }) => {
       {children}
     </Container>
   )
-}
 
 export default Layout
