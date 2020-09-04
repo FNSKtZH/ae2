@@ -20,10 +20,12 @@
     ts-invariant "^0.4.4"
     tslib "^1.10.0"
 
-"@ardatan/aggregate-error@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@ardatan/aggregate-error/-/aggregate-error-0.0.1.tgz#1403ac5de10d8ca689fc1f65844c27179ae1d44f"
-  integrity sha512-UQ9BequOTIavs0pTHLMwQwKQF8tTV1oezY/H2O9chA+JNPFZSua55xpU5dPSjAU9/jLJ1VwU+HJuTVN8u7S6Fg==
+"@ardatan/aggregate-error@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@ardatan/aggregate-error/-/aggregate-error-0.0.6.tgz#fe6924771ea40fc98dc7a7045c2e872dc8527609"
+  integrity sha512-vyrkEHG1jrukmzTPtyWB4NLPauUw5bQeg4uhn8f+1SSynmrOcyvlb1GKQjjgoBzElLdfXCRYX8UnBlhklOHYRQ==
+  dependencies:
+    tslib "~2.0.1"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.3", "@babel/code-frame@^7.10.4":
   version "7.10.4"
@@ -1182,20 +1184,21 @@
     tslib "^1.13.0"
 
 "@graphql-tools/schema@^6.0.14":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/schema/-/schema-6.2.0.tgz#41171cdaeb7d7835a458628f0c546fef2bae3a64"
-  integrity sha512-wlAIgN6pMgRaruiJqlZLIe+FM834ZYif/P7evCbG71sm7Ou8t0n+dkpf8+qZAa7D+PWO9G96BF1l2NPUlM+KvA==
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/schema/-/schema-6.2.1.tgz#6b584defa37d6649180491ae32e1bb737b1d33e5"
+  integrity sha512-SKoZmxlLwOq08/NZ8Y5aShgEHneTJ8Ksw4gU1WBSWVJGf64ROoxIxN4Uc47F0cZxwOBqVqUy/EdXWZ8Jt97uQQ==
   dependencies:
-    "@graphql-tools/utils" "6.2.0"
+    "@graphql-tools/utils" "6.2.1"
     tslib "~2.0.1"
 
-"@graphql-tools/utils@6.2.0", "@graphql-tools/utils@^6.0.14":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-6.2.0.tgz#5dc2ccec9d7fa098b9c76bddfd8a7ca64fc3fe9c"
-  integrity sha512-Z5ONje6tGNvBzGwo/8eIafr98mwuvWpi3IwPp8CKHKjTBAKlUxY8hlwSn+bEMPyuA9uH/7nHWz4lamRQQEHAhg==
+"@graphql-tools/utils@6.2.1", "@graphql-tools/utils@^6.0.14":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-6.2.1.tgz#07774dbcc7657d9f9b898721f10fc613ce116b56"
+  integrity sha512-DZ6a2bjOH4sWKhNUachvYy+3ocXDvDcTtComOD/z7ncszdlZPU6RXNOgBTxh/bMVHBPqlEh/VjCVMwBysZRbJw==
   dependencies:
-    "@ardatan/aggregate-error" "0.0.1"
+    "@ardatan/aggregate-error" "0.0.6"
     camel-case "4.1.1"
+    tslib "~2.0.1"
 
 "@hapi/address@2.x.x":
   version "2.1.4"
@@ -13604,7 +13607,7 @@ react-linkify@0.x:
     prop-types "^15.5.8"
     tlds "^1.57.0"
 
-react-measure@2.5.0, react-measure@^2.0.2:
+react-measure@^2.0.2:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/react-measure/-/react-measure-2.5.0.tgz#d6c430eb7b7d86292f04aed9936bfe7e3ddff12c"
   integrity sha512-Y+GxDY6xXPHx9yMNeQ0ctymVGjeR5bIVp6/6FvOraFmW+58wuFwVpNqupnnszVgLGcc+iWUEuGYFneywOZlVqA==
@@ -13694,7 +13697,7 @@ react-side-effect@^2.1.0:
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.0.tgz#1ce4a8b4445168c487ed24dab886421f74d380d3"
   integrity sha512-IgmcegOSi5SNX+2Snh1vqmF0Vg/CbkycU9XZbOHJlZ6kMzTmi3yc254oB1WCkgA7OQtIAoLmcSFuHTc/tlcqXg==
 
-react-spinners-kit@^1.9.1:
+react-spinners-kit@1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/react-spinners-kit/-/react-spinners-kit-1.9.1.tgz#516a7de8e80702def006be481062382ab3c38066"
   integrity sha512-QtAvSD7b1WkThY3pRKu6Sr+DZafnEufoOvug/uHprkKyZK6bg6TG5LC3Sy3JaRh6A/HACIcTNEWG+Ls0YDoSHg==
