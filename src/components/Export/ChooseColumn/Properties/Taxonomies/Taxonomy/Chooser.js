@@ -47,7 +47,6 @@ const TaxChooser = ({
       .length > 0
 
   const containerWidth = propertiesLength === 1 ? 100 : 100 / columns
-  console.log('Chooser', { columns, propertiesLength, containerWidth })
 
   return (
     <Container data-width={containerWidth}>
