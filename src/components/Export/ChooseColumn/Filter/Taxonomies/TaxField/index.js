@@ -17,7 +17,14 @@ const Container = styled.div`
   }
 `
 
-const TaxField = ({ taxname, pname, jsontype, columns, width }) => {
+const TaxField = ({
+  taxname,
+  pname,
+  jsontype,
+  columns,
+  width,
+  propertiesLength,
+}) => {
   const mobxStore = useContext(mobxStoreContext)
   const { taxFilters } = mobxStore.export
 
@@ -26,7 +33,7 @@ const TaxField = ({ taxname, pname, jsontype, columns, width }) => {
   ) || { comparator: null, value: null }
   const { comparator, value } = exportTaxFilter
 
-  const containerWidth = 100 / columns
+  const containerWidth = propertiesLength === 1 ? 100 : 100 / columns
 
   return (
     <Container data-width={containerWidth}>

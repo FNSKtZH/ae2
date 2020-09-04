@@ -103,7 +103,6 @@ const TaxonomyCard = ({ pc, initiallyExpanded, width = 500 }) => {
       </ErrorContainer>
     )
   }
-  console.log('Taxonomy, columns:', columns)
 
   return (
     <ErrorBoundary>
@@ -129,7 +128,7 @@ const TaxonomyCard = ({ pc, initiallyExpanded, width = 500 }) => {
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-columns={columns}>
+          <PropertiesContainer>
             <Properties
               properties={taxPropertiesByTaxonomy[pc]}
               columns={columns}
