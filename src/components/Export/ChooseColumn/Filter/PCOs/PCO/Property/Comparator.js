@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import { observer } from 'mobx-react-lite'
 
 import ComparatorSelect from '../../../ComparatorSelect'
@@ -21,7 +20,7 @@ const StyledFormControl = styled(FormControl)`
     padding-left: 8px;
   }
 `
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -35,17 +34,12 @@ const styles = theme => ({
   },
 })
 
-const enhance = compose(
-  withStyles(styles),
-  observer,
-)
-
 const PcoComparator = ({ pcname, pname, value, comparator, classes }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { setPcoFilter } = mobxStore.export
 
   const onChange = useCallback(
-    event => {
+    (event) => {
       setPcoFilter({ pcname, pname, comparator: event.target.value, value })
     },
     [pcname, pname, setPcoFilter, value],
@@ -61,4 +55,4 @@ const PcoComparator = ({ pcname, pname, value, comparator, classes }) => {
   )
 }
 
-export default enhance(PcoComparator)
+export default withStyles(styles)(observer(PcoComparator))
