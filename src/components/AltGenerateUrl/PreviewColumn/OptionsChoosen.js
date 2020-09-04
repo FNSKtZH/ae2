@@ -1,7 +1,5 @@
 import React, { useCallback, useContext } from 'react'
 import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
@@ -12,11 +10,6 @@ import mobxStoreContext from '../../../mobxStoreContext'
 import getConstants from '../../../modules/constants'
 const constants = getConstants()
 
-const styles = theme => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-})
 const Container = styled.div`
   margin: 0;
   padding: 8px 8px 0 8px;
@@ -37,17 +30,11 @@ const Title = styled.div`
   font-weight: bold;
 `
 const StyledButton = styled(Button)`
-  border: 1px solid !important;
   margin-left: 0 !important;
   margin-top: 0 !important;
 `
 
-const enhance = compose(
-  withStyles(styles),
-  observer,
-)
-
-const OptionsChoosen = ({ classes }) => {
+const OptionsChoosen = () => {
   const mobxStore = useContext(mobxStoreContext)
   const {
     setTaxonomies,
@@ -101,11 +88,11 @@ const OptionsChoosen = ({ classes }) => {
           </ul>
         </li>
       </ul>
-      <StyledButton className={classes.button} onClick={onClickResetAll}>
+      <StyledButton onClick={onClickResetAll} variant="outlined">
         alle Optionen zurücksetzen
       </StyledButton>
     </Container>
   )
 }
 
-export default enhance(OptionsChoosen)
+export default observer(OptionsChoosen)
