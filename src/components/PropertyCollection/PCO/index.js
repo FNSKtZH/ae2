@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useContext, useMemo } from 'react'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -8,7 +7,6 @@ import union from 'lodash/union'
 import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
@@ -63,14 +61,8 @@ const MutationButtons = styled.div`
   justify-content: space-between;
 `
 const StyledButton = styled(Button)`
-  border: 1px solid !important;
+  margin: 5px !important;
 `
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-})
 
 const pcoQuery = gql`
   query pCOQuery($pCId: UUID!) {
@@ -108,12 +100,7 @@ const pcoQuery = gql`
   }
 `
 
-const enhance = compose(
-  withStyles(styles),
-  observer,
-)
-
-const PCO = ({ dimensions, classes }) => {
+const PCO = ({ dimensions }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
@@ -143,7 +130,7 @@ const PCO = ({ dimensions, classes }) => {
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
 
-  const [pCO, allKeys, pCORaw] = useMemo(()=>{
+  const [pCO, allKeys, pCORaw] = useMemo(() => {
     let pCO = []
     // collect all keys
     const allKeys = []
@@ -151,8 +138,8 @@ const PCO = ({ dimensions, classes }) => {
       pcoData,
       'propertyCollectionById.propertyCollectionObjectsByPropertyCollectionId.nodes',
       [],
-    ).map(p => omit(p, ['__typename']))
-    pCORaw.forEach(p => {
+    ).map((p) => omit(p, ['__typename']))
+    pCORaw.forEach((p) => {
       let nP = {}
       nP['Objekt ID'] = p.objectId
       nP['Objekt Name'] = get(p, 'objectByObjectId.name', null)
@@ -172,10 +159,10 @@ const PCO = ({ dimensions, classes }) => {
     })
     pCO = orderBy(pCO, sortField, sortDirection)
     return [pCO, allKeys, pCORaw]
-  },[pcoData, sortDirection, sortField])
+  }, [pcoData, sortDirection, sortField])
   // collect all keys and sort property keys by name
   const keys = ['Objekt ID', 'Objekt Name', ...union(allKeys).sort()]
-  const columns = keys.map(k => ({
+  const columns = keys.map((k) => ({
     key: k,
     name: k,
     resizable: true,
@@ -185,8 +172,8 @@ const PCO = ({ dimensions, classes }) => {
     pcoData,
     'propertyCollectionById.organizationByOrganizationId.organizationUsersByOrganizationId.nodes',
     [],
-  ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
-  const writerNames = union(pCOWriters.map(w => w.userByUserId.name))
+  ).filter((u) => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
+  const writerNames = union(pCOWriters.map((w) => w.userByUserId.name))
   const { username } = login
   const userIsWriter = !!username && writerNames.includes(username)
   const showImportPco = (pCO.length === 0 && userIsWriter) || importing
@@ -195,7 +182,7 @@ const PCO = ({ dimensions, classes }) => {
     setSortField(column)
     setSortDirection(direction.toLowerCase())
   }, [])
-  const rowGetter = useCallback(i => pCO[i], [pCO])
+  const rowGetter = useCallback((i) => pCO[i], [pCO])
   const onClickXlsx = useCallback(
     () =>
       exportXlsx({
@@ -244,30 +231,24 @@ const PCO = ({ dimensions, classes }) => {
             columns={columns}
             rowGetter={rowGetter}
             rowsCount={pCO.length}
-            minHeight={height - 26 - 54}
+            minHeight={height - 26 - 46}
             minWidth={width}
           />
           <ButtonsContainer>
             <ExportButtons>
-              <StyledButton onClick={onClickXlsx} className={classes.button}>
+              <StyledButton onClick={onClickXlsx} variant="outlined">
                 xlsx exportieren
               </StyledButton>
-              <StyledButton onClick={onClickCsv} className={classes.button}>
+              <StyledButton onClick={onClickCsv} variant="outlined">
                 csv exportieren
               </StyledButton>
             </ExportButtons>
             {userIsWriter && (
               <MutationButtons>
-                <StyledButton
-                  onClick={onClickImport}
-                  className={classes.button}
-                >
+                <StyledButton onClick={onClickImport} variant="outlined">
                   importieren
                 </StyledButton>
-                <StyledButton
-                  onClick={onClickDelete}
-                  className={classes.button}
-                >
+                <StyledButton onClick={onClickDelete} variant="outlined">
                   Daten löschen
                 </StyledButton>
               </MutationButtons>
@@ -280,4 +261,4 @@ const PCO = ({ dimensions, classes }) => {
   )
 }
 
-export default enhance(PCO)
+export default observer(PCO)
