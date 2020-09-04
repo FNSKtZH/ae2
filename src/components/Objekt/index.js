@@ -12,6 +12,7 @@ import PCOs from './PCOs'
 import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromNodeArray'
 import objectDataQuery from './objectDataQuery'
 import mobxStoreContext from '../../mobxStoreContext'
+import Spinner from '../shared/Spinner'
 
 const Container = styled.div``
 const Container2 = styled.div`
@@ -61,12 +62,12 @@ const Objekt = ({ stacked = false }) => {
   )
   const relations = get(objekt, 'relationsByObjectId.nodes', [])
   const synonyms = get(objekt, 'synonymsByObjectId.nodes', [])
-  const synonymObjects = synonyms.map(s => s.objectByObjectIdSynonym)
+  const synonymObjects = synonyms.map((s) => s.objectByObjectIdSynonym)
   const propertyCollectionIds = propertyCollectionObjects.map(
-    pco => pco.propertyCollectionId,
+    (pco) => pco.propertyCollectionId,
   )
   let propertyCollectionObjectsOfSynonyms = []
-  synonymObjects.forEach(synonym => {
+  synonymObjects.forEach((synonym) => {
     propertyCollectionObjectsOfSynonyms = [
       ...propertyCollectionObjectsOfSynonyms,
       ...get(synonym, 'propertyCollectionObjectsByObjectId.nodes', []),
@@ -74,13 +75,13 @@ const Objekt = ({ stacked = false }) => {
   })
   propertyCollectionObjectsOfSynonyms = uniqBy(
     propertyCollectionObjectsOfSynonyms,
-    pco => pco.propertyCollectionId,
+    (pco) => pco.propertyCollectionId,
   )
   propertyCollectionObjectsOfSynonyms = propertyCollectionObjectsOfSynonyms.filter(
-    pco => !propertyCollectionIds.includes(pco.propertyCollectionId),
+    (pco) => !propertyCollectionIds.includes(pco.propertyCollectionId),
   )
 
-  if (objectLoading) return <Container2>Lade Daten...</Container2>
+  if (objectLoading) return <Spinner />
   if (objectError)
     return <Container2>{`Fehler: ${objectError.message}`}</Container2>
 

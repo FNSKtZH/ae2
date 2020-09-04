@@ -6,12 +6,10 @@ import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
 
 import graphQlUri from '../../modules/graphQlUri'
+import Spinner from '../shared/Spinner'
 
 const Container = styled.div`
   height: calc(100vh - 64px);
-`
-const LoadingContainer = styled.div`
-  padding: 10px;
 `
 // need to use ref to refresh GraphiQL after fetching params
 // for grahpiQL to work in dev mode: https://github.com/graphql/graphiql/issues/770#issuecomment-560447339
@@ -20,16 +18,16 @@ const GraphIql = ({ dataGraphData }) => {
   const loading = get(dataGraphData, 'loading', false)
 
   const graphQLFetcher = useCallback(
-    graphQLParams =>
+    (graphQLParams) =>
       fetch(graphQlUri(), {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(graphQLParams),
-      }).then(response => response.json()),
+      }).then((response) => response.json()),
     [],
   )
 
-  if (loading) return <LoadingContainer>Lade Daten...</LoadingContainer>
+  if (loading) return <Spinner />
 
   return (
     <ErrorBoundary>

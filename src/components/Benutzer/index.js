@@ -21,6 +21,7 @@ import TCs from './TCs'
 import updateUserMutation from './updateUserMutation'
 import updateUserMutationWithPass from './updateUserMutationWithPass'
 import mobxStoreContext from '../../mobxStoreContext'
+import Spinner from '../shared/Spinner'
 
 const Container = styled.div``
 const LEContainer = styled.div`
@@ -73,7 +74,7 @@ const User = () => {
     !dataLoading &&
     (passNew ||
       (!!name && !!data && !!user && name !== user.name) ||
-        (!!email && !!data && !!user && email !== user.email))
+      (!!email && !!data && !!user && email !== user.email))
   const userIsLoggedIn =
     !!user && !!login.username && user.name === login.username
 
@@ -82,9 +83,9 @@ const User = () => {
     setEmail(user.email)
   }, [user])
   const onChangeTab = useCallback((event, value) => setTab(value), [])
-  const onChangeName = useCallback(e => setName(e.target.value), [])
-  const onChangeEmail = useCallback(e => setEmail(e.target.value), [])
-  const onChangePassNew = useCallback(e => setPassNew(e.target.value), [])
+  const onChangeName = useCallback((e) => setName(e.target.value), [])
+  const onChangeEmail = useCallback((e) => setEmail(e.target.value), [])
+  const onChangePassNew = useCallback((e) => setPassNew(e.target.value), [])
 
   const onSave = useCallback(async () => {
     const variables = passNew
@@ -106,7 +107,7 @@ const User = () => {
         variables,
       })
     } catch (error) {
-      const messages = error.graphQLErrors.map(x => x.message).toString()
+      const messages = error.graphQLErrors.map((x) => x.message).toString()
       const isProperEmailError = messages.includes('proper_email')
       if (isProperEmailError) {
         const message = 'Email ist nicht gültig'
@@ -123,7 +124,7 @@ const User = () => {
   }, [passNew, name, email, id, dataRefetch, treeDataRefetch, client])
 
   if (dataLoading) {
-    return <LEContainer>Lade Daten...</LEContainer>
+    return <Spinner />
   }
   if (dataError) {
     return (

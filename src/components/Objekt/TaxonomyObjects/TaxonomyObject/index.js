@@ -30,6 +30,7 @@ import ErrorBoundary from 'react-error-boundary'
 import PropertyReadOnly from '../../../shared/PropertyReadOnly'
 import PropertyReadOnlyStacked from '../../../shared/PropertyReadOnlyStacked'
 import TaxonomyDescription from '../../../shared/TaxonomyDescription'
+import Spinner from '../../../shared/Spinner'
 import Property from './Property'
 import LinkMenu from './LinkMenu'
 import Properties from './Properties'
@@ -172,7 +173,7 @@ const TaxonomyObject = ({ objekt, showLink, stacked }) => {
   )
 
   if (organizationUsersLoading) {
-    return <LoadingContainer>Lade Daten...</LoadingContainer>
+    return <Spinner />
   }
   if (organizationUsersError) {
     return (

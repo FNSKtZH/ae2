@@ -13,6 +13,7 @@ import ErrorBoundary from 'react-error-boundary'
 import createOrgUserMutation from './createOrgUserMutation'
 import OrgUsersList from './OrgUsersList'
 import mobxStoreContext from '../../../mobxStoreContext'
+import Spinner from '../../shared/Spinner'
 
 const Container = styled.div`
   display: flex;
@@ -26,6 +27,10 @@ const AddNewButton = styled(IconButton)`
     background-color: rgba(0, 0, 0, 0.12);
     text-decoration: none;
   }
+`
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const orgUsersQuery = gql`
@@ -79,7 +84,7 @@ const OrgUsers = () => {
   )
   const orgUserSorted = sortBy(
     orgUsers,
-    orgUser =>
+    (orgUser) =>
       `${orgUser.userByUserId ? orgUser.userByUserId.name : 'zzzzz'}${
         orgUser.role ? orgUser.role : 'zzzzz'
       }`,
@@ -105,7 +110,7 @@ const OrgUsers = () => {
   }, [client, orgUsersData, organizationId])
 
   if (orgUsersLoading) {
-    return <Container>Lade Daten...</Container>
+    return <Spinner />
   }
   if (orgUsersError) {
     return <Container>{`Fehler: ${orgUsersError.message}`}</Container>
@@ -115,15 +120,17 @@ const OrgUsers = () => {
     <ErrorBoundary>
       <Container>
         <OrgUsersList orgUsers={orgUserSorted} />
-        <AddNewButton
-          title="Neuen Benutzer mit Rolle erstellen"
-          aria-label="Neue Rolle vergeben"
-          onClick={onClickNew}
-        >
-          <Icon>
-            <AddIcon color="error" />
-          </Icon>
-        </AddNewButton>
+        <ButtonContainer>
+          <AddNewButton
+            title="Neuen Benutzer mit Rolle erstellen"
+            aria-label="Neue Rolle vergeben"
+            onClick={onClickNew}
+          >
+            <Icon>
+              <AddIcon color="error" />
+            </Icon>
+          </AddNewButton>
+        </ButtonContainer>
       </Container>
     </ErrorBoundary>
   )
