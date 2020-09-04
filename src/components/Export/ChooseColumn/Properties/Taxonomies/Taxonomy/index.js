@@ -13,6 +13,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
+import { withResizeDetector } from 'react-resize-detector'
 
 import AllChooser from './AllChooser'
 import Properties from '../Properties'
@@ -34,7 +35,7 @@ const StyledCardActions = styled(CardActions)`
   height: auto !important;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -46,10 +47,8 @@ const StyledCardContent = styled(CardContent)`
   flex-direction: column;
 `
 const PropertiesContainer = styled.div`
-  column-width: ${props =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+  display: flex;
+  flex-wrap: wrap;
 `
 const Count = styled.span`
   font-size: x-small;
@@ -62,7 +61,7 @@ const propsByTaxQuery = gql`
     $exportTaxonomies: [String]
   ) {
     taxPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-      @include(if: $queryExportTaxonomies) {
+    @include(if: $queryExportTaxonomies) {
       nodes {
         taxonomyName
         propertyName
@@ -73,7 +72,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const Taxonomy = ({ initiallyExpanded, tax }) => {
+const Taxonomy = ({ initiallyExpanded, tax, width = 500 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
@@ -97,10 +96,11 @@ const Taxonomy = ({ initiallyExpanded, tax }) => {
   )
   const taxPropertiesByTaxonomy = groupBy(taxProperties, 'taxonomyName')
 
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
+
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
   const properties = taxPropertiesByTaxonomy[tax]
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   return (
     <ErrorBoundary>
@@ -126,8 +126,8 @@ const Taxonomy = ({ initiallyExpanded, tax }) => {
           <StyledCardContent>
             <>
               {properties.length > 1 && <AllChooser properties={properties} />}
-              <PropertiesContainer data-width={width}>
-                <Properties properties={properties} />
+              <PropertiesContainer>
+                <Properties properties={properties} columns={columns} />
               </PropertiesContainer>
             </>
           </StyledCardContent>
@@ -137,4 +137,4 @@ const Taxonomy = ({ initiallyExpanded, tax }) => {
   )
 }
 
-export default observer(Taxonomy)
+export default withResizeDetector(observer(Taxonomy))

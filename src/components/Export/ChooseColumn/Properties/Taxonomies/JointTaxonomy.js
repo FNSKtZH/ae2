@@ -7,6 +7,8 @@ import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
+import { withResizeDetector } from 'react-resize-detector'
+import { observer } from 'mobx-react-lite'
 
 import AllChooser from './Taxonomy/AllChooser'
 import Properties from './Properties'
@@ -25,7 +27,7 @@ const StyledCardActions = styled(CardActions)`
   border-bottom: 1px solid #ebebeb;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -38,20 +40,19 @@ const StyledCollapse = styled(Collapse)`
   padding: 8px 14px;
 `
 const PropertiesContainer = styled.div`
-  column-width: ${props =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+  display: flex;
+  flex-wrap: wrap;
 `
 const Count = styled.span`
   font-size: x-small;
   padding-left: 5px;
 `
 
-const JointTaxonomy = ({ jointTaxProperties }) => {
+const JointTaxonomy = ({ jointTaxProperties, width = 500 }) => {
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
 
   return (
     <ErrorBoundary>
@@ -75,8 +76,8 @@ const JointTaxonomy = ({ jointTaxProperties }) => {
           {jointTaxProperties.length > 1 && (
             <AllChooser properties={jointTaxProperties} />
           )}
-          <PropertiesContainer data-width={width}>
-            <Properties properties={jointTaxProperties} />
+          <PropertiesContainer>
+            <Properties properties={jointTaxProperties} columns={columns} />
           </PropertiesContainer>
         </StyledCollapse>
       </StyledCard>
@@ -84,4 +85,4 @@ const JointTaxonomy = ({ jointTaxProperties }) => {
   )
 }
 
-export default JointTaxonomy
+export default withResizeDetector(observer(JointTaxonomy))
