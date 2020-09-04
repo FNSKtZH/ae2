@@ -13,7 +13,7 @@ const SpinnerText = styled.div`
   padding: 10px;
 `
 
-const SpinnerComponent = ({ message }) => (
+const SpinnerComponent = ({ message = 'lade Daten' }) => (
   <SpinnerContainer>
     <Spinner
       size={50}

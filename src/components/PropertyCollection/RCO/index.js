@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useContext, useMemo } from 'react'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -8,7 +7,6 @@ import union from 'lodash/union'
 import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
@@ -21,6 +19,7 @@ import deleteRcoOfPcMutation from './deleteRcoOfPcMutation'
 import treeDataQuery from '../../Tree/treeDataQuery'
 import treeDataVariables from '../../Tree/treeDataVariables'
 import mobxStoreContext from '../../../mobxStoreContext'
+import Spinner from '../../shared/Spinner'
 
 const Container = styled.div`
   height: 100%;
@@ -63,14 +62,8 @@ const MutationButtons = styled.div`
   justify-content: space-between;
 `
 const StyledButton = styled(Button)`
-  border: 1px solid !important;
+  margin: 5px !important;
 `
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-})
 
 const rcoQuery = gql`
   query rCOQuery($pCId: UUID!) {
@@ -113,12 +106,7 @@ const rcoQuery = gql`
   }
 `
 
-const enhance = compose(
-  withStyles(styles),
-  observer,
-)
-
-const RCO = ({ dimensions, classes }) => {
+const RCO = ({ dimensions }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
@@ -148,7 +136,7 @@ const RCO = ({ dimensions, classes }) => {
   const height = isNaN(dimensions.height) ? 0 : dimensions.height
   const width = isNaN(dimensions.width) ? 0 : dimensions.width
 
-  const [rCO, allKeys, rCORaw] = useMemo(()=>{
+  const [rCO, allKeys, rCORaw] = useMemo(() => {
     let rCO = []
     // collect all keys
     const allKeys = []
@@ -156,8 +144,8 @@ const RCO = ({ dimensions, classes }) => {
       rcoData,
       'propertyCollectionById.relationsByPropertyCollectionId.nodes',
       [],
-    ).map(p => omit(p, ['__typename']))
-    rCORaw.forEach(p => {
+    ).map((p) => omit(p, ['__typename']))
+    rCORaw.forEach((p) => {
       let nP = {}
       nP['Objekt ID'] = p.objectId
       nP['Objekt Name'] = get(p, 'objectByObjectId.name', null)
@@ -190,7 +178,7 @@ const RCO = ({ dimensions, classes }) => {
     'Art der Beziehung',
     ...union(allKeys).sort(),
   ]
-  const columns = keys.map(k => ({
+  const columns = keys.map((k) => ({
     key: k,
     name: k,
     resizable: true,
@@ -200,8 +188,8 @@ const RCO = ({ dimensions, classes }) => {
     rcoData,
     'propertyCollectionById.organizationByOrganizationId.organizationUsersByOrganizationId.nodes',
     [],
-  ).filter(u => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
-  const writerNames = union(rCOWriters.map(w => w.userByUserId.name))
+  ).filter((u) => ['orgAdmin', 'orgCollectionWriter'].includes(u.role))
+  const writerNames = union(rCOWriters.map((w) => w.userByUserId.name))
   const { username } = login
   const userIsWriter = !!username && writerNames.includes(username)
   const showImportRco = (rCO.length === 0 && userIsWriter) || importing
@@ -210,7 +198,7 @@ const RCO = ({ dimensions, classes }) => {
     setSortField(column)
     setSortDirection(direction.toLowerCase())
   }, [])
-  const rowGetter = useCallback(i => rCO[i], [rCO])
+  const rowGetter = useCallback((i) => rCO[i], [rCO])
   const onClickXlsx = useCallback(
     () =>
       exportXlsx({
@@ -233,11 +221,7 @@ const RCO = ({ dimensions, classes }) => {
   }, [])
 
   if (rcoLoading) {
-    return (
-      <Container>
-        <TotalDiv>Lade Daten...</TotalDiv>
-      </Container>
-    )
+    return <Spinner />
   }
   if (rcoError) {
     return <Container>{`Error fetching data: ${rcoError.message}`}</Container>
@@ -259,30 +243,24 @@ const RCO = ({ dimensions, classes }) => {
             columns={columns}
             rowGetter={rowGetter}
             rowsCount={rCO.length}
-            minHeight={height - 26 - 54}
+            minHeight={height - 26 - 46}
             minWidth={width}
           />
           <ButtonsContainer>
             <ExportButtons>
-              <StyledButton onClick={onClickXlsx} className={classes.button}>
+              <StyledButton onClick={onClickXlsx} variant="outlined">
                 xlsx exportieren
               </StyledButton>
-              <StyledButton onClick={onClickCsv} className={classes.button}>
+              <StyledButton onClick={onClickCsv} variant="outlined">
                 csv exportieren
               </StyledButton>
             </ExportButtons>
             {userIsWriter && (
               <MutationButtons>
-                <StyledButton
-                  onClick={onClickImport}
-                  className={classes.button}
-                >
+                <StyledButton onClick={onClickImport} variant="outlined">
                   importieren
                 </StyledButton>
-                <StyledButton
-                  onClick={onClickDelete}
-                  className={classes.button}
-                >
+                <StyledButton onClick={onClickDelete} variant="outlined">
                   Daten löschen
                 </StyledButton>
               </MutationButtons>
@@ -295,4 +273,4 @@ const RCO = ({ dimensions, classes }) => {
   )
 }
 
-export default enhance(RCO)
+export default observer(RCO)

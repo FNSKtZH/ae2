@@ -22,6 +22,7 @@ import PropertyLr from './PropertyLr'
 import onBlurArten from './onBlurArten'
 import onBlurLr from './onBlurLr'
 import mobxStoreContext from '../../mobxStoreContext'
+import Spinner from '../shared/Spinner'
 
 const Container = styled.div`
   padding: 10px;
@@ -134,34 +135,34 @@ const Taxonomy = () => {
   const editingLr = editing && tax.type === 'LEBENSRAUM'
   const { username } = login
   const allUsers = get(allUsersData, 'allUsers.nodes', [])
-  const user = allUsers.find(u => u.name === username)
+  const user = allUsers.find((u) => u.name === username)
   const orgsUserIsTaxWriter = get(user, 'organizationUsersByUserId.nodes', [])
-    .filter(o => ['orgTaxonomyWriter', 'orgAdmin'].includes(o.role))
-    .map(o => ({
+    .filter((o) => ['orgTaxonomyWriter', 'orgAdmin'].includes(o.role))
+    .map((o) => ({
       id: o.organizationId,
       name: get(o, 'organizationByOrganizationId.name', ''),
     }))
   const userIsTaxWriter = orgsUserIsTaxWriter.length > 0
   const userIsThisTaxWriter =
-    !!orgsUserIsTaxWriter.find(o => o.id === tax.organizationId) ||
+    !!orgsUserIsTaxWriter.find((o) => o.id === tax.organizationId) ||
     (userIsTaxWriter && !tax.organizationId)
 
   const onClickStopEditing = useCallback(
-    event => {
+    (event) => {
       event.stopPropagation()
       setEditingTaxonomies(false)
     },
     [setEditingTaxonomies],
   )
   const onClickStartEditing = useCallback(
-    event => {
+    (event) => {
       event.stopPropagation()
       setEditingTaxonomies(true)
     },
     [setEditingTaxonomies],
   )
   const onChangeImportedByArten = useCallback(
-    event =>
+    (event) =>
       onBlurArten({
         client,
         field: 'importedBy',
@@ -172,7 +173,7 @@ const Taxonomy = () => {
     [client, tax],
   )
   const onChangeOrganizationArten = useCallback(
-    event =>
+    (event) =>
       onBlurArten({
         client,
         field: 'organizationId',
@@ -183,7 +184,7 @@ const Taxonomy = () => {
     [client, tax],
   )
   const onChangeImportedByLr = useCallback(
-    event =>
+    (event) =>
       onBlurLr({
         client,
         field: 'importedBy',
@@ -194,7 +195,7 @@ const Taxonomy = () => {
     [client, tax],
   )
   const onChangeOrganizationLr = useCallback(
-    event =>
+    (event) =>
       onBlurLr({
         client,
         field: 'organizationId',
@@ -206,7 +207,7 @@ const Taxonomy = () => {
   )
 
   if (taxLoading || allUsersLoading) {
-    return <Container>Lade Daten...</Container>
+    return <Spinner />
   }
   if (taxError) {
     return <Container>{`Fehler: ${taxError.message}`}</Container>
@@ -347,7 +348,7 @@ const Taxonomy = () => {
                 onChange={onChangeImportedByArten}
                 input={<Input id="importedByArten" />}
               >
-                {allUsers.map(u => (
+                {allUsers.map((u) => (
                   <MenuItem key={u.id} value={u.id}>
                     {u.name}
                   </MenuItem>
@@ -364,7 +365,7 @@ const Taxonomy = () => {
                 onChange={onChangeOrganizationArten}
                 input={<Input id="organizationIdArten" />}
               >
-                {orgsUserIsTaxWriter.map(o => (
+                {orgsUserIsTaxWriter.map((o) => (
                   <MenuItem key={o.id} value={o.id}>
                     {o.name}
                   </MenuItem>
@@ -415,7 +416,7 @@ const Taxonomy = () => {
                 onChange={onChangeImportedByLr}
                 input={<Input id="importedByLr" />}
               >
-                {allUsers.map(u => (
+                {allUsers.map((u) => (
                   <MenuItem key={u.id} value={u.id}>
                     {u.name}
                   </MenuItem>
@@ -432,7 +433,7 @@ const Taxonomy = () => {
                 onChange={onChangeOrganizationLr}
                 input={<Input id="organizationIdLr" />}
               >
-                {orgsUserIsTaxWriter.map(o => (
+                {orgsUserIsTaxWriter.map((o) => (
                   <MenuItem key={o.id} value={o.id}>
                     {o.name}
                   </MenuItem>

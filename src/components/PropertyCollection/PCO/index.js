@@ -206,7 +206,7 @@ const PCO = ({ dimensions }) => {
   }, [])
 
   if (pcoLoading) {
-    return <Spinner message="lade Daten" />
+    return <Spinner />
   }
   if (pcoError) {
     return <Container>{`Error fetching data: ${pcoError.message}`}</Container>
