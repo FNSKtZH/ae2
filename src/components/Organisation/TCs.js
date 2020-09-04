@@ -9,6 +9,7 @@ import ErrorBoundary from 'react-error-boundary'
 
 import appBaseUrl from '../../modules/appBaseUrl'
 import mobxStoreContext from '../../mobxStoreContext'
+import Spinner from '../shared/Spinner'
 
 const Container = styled.div`
   display: flex;
@@ -63,7 +64,7 @@ const TCs = () => {
     'name',
   )
 
-  if (tcsLoading) return <Container>Lade Daten...</Container>
+  if (tcsLoading) return <Spinner />
   if (tcsError) return <Container>{`Fehler: ${tcsError.message}`}</Container>
 
   return (
@@ -71,7 +72,7 @@ const TCs = () => {
       <Container>
         <List>
           <ul>
-            {tcs.map(u => {
+            {tcs.map((u) => {
               const elem2 = u.type === 'ART' ? 'Arten' : 'Lebensräume'
               const link = `${appBaseUrl}/${encodeURIComponent(elem2)}/${u.id}`
 

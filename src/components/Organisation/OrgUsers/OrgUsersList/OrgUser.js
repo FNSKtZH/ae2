@@ -116,17 +116,17 @@ const OrgUser = ({ orgUser }) => {
 
   const users = get(allUsersData, 'allUsers.nodes', [])
   const orgName = get(orgUsersData, 'organizationByName.name', '')
-  const user = users.find(user => user.id === userId)
+  const user = users.find((user) => user.id === userId)
   const userName = user ? user.name || '' : ''
-  const userNames = users.map(u => u.name).sort()
+  const userNames = users.map((u) => u.name).sort()
   const roles = get(orgUsersData, 'allRoles.nodes', [])
-    .map(role => role.name)
+    .map((role) => role.name)
     .sort()
 
   const onChangeName = useCallback(
-    async e => {
+    async (e) => {
       const val = e.target.value
-      const user = users.find(u => u.name === val)
+      const user = users.find((u) => u.name === val)
       if (user && user.id) {
         const variables = {
           nodeId: orgUser.nodeId,
@@ -162,7 +162,7 @@ const OrgUser = ({ orgUser }) => {
     [users, orgUser.nodeId, orgUser.organizationId, orgUser.id, role, client],
   )
   const onChangeRole = useCallback(
-    async event => {
+    async (event) => {
       const newRole = event.target.value
       const variables = {
         nodeId: orgUser.nodeId,
@@ -222,7 +222,7 @@ const OrgUser = ({ orgUser }) => {
           'organizationByName.organizationUsersByOrganizationId.nodes',
           [],
         )
-        const newOrgUsers = orgUsers.filter(u => u.id !== orgUser.id)
+        const newOrgUsers = orgUsers.filter((u) => u.id !== orgUser.id)
         set(
           data,
           'organizationByName.organizationUsersByOrganizationId.nodes',
@@ -238,7 +238,7 @@ const OrgUser = ({ orgUser }) => {
   }, [client, orgName, orgUser.id])
 
   if (orgUsersLoading || allUsersLoading) {
-    return <OrgUserDiv>Lade Daten...</OrgUserDiv>
+    return null
   }
   if (orgUsersError) {
     return <OrgUserDiv>{`Fehler: ${orgUsersError.message}`}</OrgUserDiv>
@@ -257,7 +257,7 @@ const OrgUser = ({ orgUser }) => {
             onChange={onChangeName}
             input={<Input id="Benutzer" />}
           >
-            {userNames.map(u => (
+            {userNames.map((u) => (
               <MenuItem key={u} value={u}>
                 {u}
               </MenuItem>
@@ -271,7 +271,7 @@ const OrgUser = ({ orgUser }) => {
             onChange={onChangeRole}
             input={<Input id="Rolle" />}
           >
-            {roles.map(u => (
+            {roles.map((u) => (
               <MenuItem key={u} value={u}>
                 {u}
               </MenuItem>

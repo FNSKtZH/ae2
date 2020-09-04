@@ -9,6 +9,7 @@ import ErrorBoundary from 'react-error-boundary'
 
 import appBaseUrl from '../../modules/appBaseUrl'
 import mobxStoreContext from '../../mobxStoreContext'
+import Spinner from '../shared/Spinner'
 
 const Container = styled.div`
   display: flex;
@@ -67,7 +68,7 @@ const PCs = () => {
     'name',
   )
 
-  if (pcsLoading) return <Container>Lade Daten...</Container>
+  if (pcsLoading) return <Spinner />
   if (pcsError) return <Container>{`Fehler: ${pcsError.message}`}</Container>
 
   return (
@@ -75,7 +76,7 @@ const PCs = () => {
       <Container>
         <List>
           <ul>
-            {pcs.map(u => (
+            {pcs.map((u) => (
               <li key={u.name}>
                 <StyledA
                   href={`${appBaseUrl}Eigenschaften-Sammlungen/${u.id}`}

@@ -11,6 +11,7 @@ import ErrorBoundary from 'react-error-boundary'
 
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import UserReadOnly from '../shared/UserReadOnly'
+import Spinner from '../shared/Spinner'
 import OrgUsers from './OrgUsers'
 import TCs from './TCs'
 import PCs from './PCs'
@@ -88,7 +89,7 @@ const Organization = () => {
   const org = get(orgData, 'organizationByName', {})
 
   if (orgLoading) {
-    return <Container>Lade Daten...</Container>
+    return <Spinner />
   }
   if (orgError) {
     return <Container>{`Fehler: ${orgError.message}`}</Container>
