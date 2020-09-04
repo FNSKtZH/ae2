@@ -70,15 +70,13 @@ const propsByTaxQuery = gql`
   }
 `
 
-const PcoCard = ({ pc, width }) => {
+const PcoCard = ({ pc, width = 500 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const [expanded, setExpanded] = useState(false)
 
-  let columns = 1
-  if (width > 2 * constants.export.properties.columnWidth) columns = 2
-  if (width > 3 * constants.export.properties.columnWidth) columns = 3
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
 
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
     propsByTaxQuery,
@@ -109,8 +107,6 @@ const PcoCard = ({ pc, width }) => {
       </ErrorContainer>
     )
   }
-
-  console.log('Filter PCO, columns:', columns)
 
   return (
     <ErrorBoundary>

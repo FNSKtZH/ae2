@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import Measure from 'react-measure'
 import { observer } from 'mobx-react-lite'
+import { withResizeDetector } from 'react-resize-detector'
 
 import Comparator from './Comparator'
 import Value from './Value'
@@ -11,51 +11,44 @@ const Container = styled.div`
   display: flex;
   align-content: stretch;
   padding: 4px 16px;
+  width: ${(props) => `${props['data-width']}%`};
   > div {
     height: auto;
   }
 `
 
-const TaxField = ({ taxname, pname, jsontype }) => {
+const TaxField = ({ taxname, pname, jsontype, columns, width }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { taxFilters } = mobxStore.export
 
-  const [width, setWidth] = useState(0)
-
   const exportTaxFilter = taxFilters.find(
-    x => x.taxname === taxname && x.pname === pname,
+    (x) => x.taxname === taxname && x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = exportTaxFilter
 
-  const onResize = useCallback(contentRect => {
-    setWidth(contentRect.bounds.width)
-  }, [])
+  const containerWidth = 100 / columns
 
   return (
-    <Measure bounds onResize={onResize}>
-      {({ measureRef }) => (
-        <Container ref={measureRef}>
-          <Value
-            key={`${taxname}/${pname}/${jsontype}`}
-            taxname={taxname}
-            pname={pname}
-            value={value}
-            jsontype={jsontype}
-            comparator={comparator}
-            width={width - 32}
-          />
-          {value !== undefined && value !== null && (
-            <Comparator
-              taxname={taxname}
-              pname={pname}
-              comparator={comparator}
-              value={value}
-            />
-          )}
-        </Container>
+    <Container data-width={containerWidth}>
+      <Value
+        key={`${taxname}/${pname}/${jsontype}`}
+        taxname={taxname}
+        pname={pname}
+        value={value}
+        jsontype={jsontype}
+        comparator={comparator}
+        width={width - 32}
+      />
+      {value !== undefined && value !== null && (
+        <Comparator
+          taxname={taxname}
+          pname={pname}
+          comparator={comparator}
+          value={value}
+        />
       )}
-    </Measure>
+    </Container>
   )
 }
 
-export default observer(TaxField)
+export default withResizeDetector(observer(TaxField))
