@@ -18,7 +18,14 @@ const Container = styled.div`
   }
 `
 
-const PcoProperty = ({ pcname, pname, jsontype, count, columns }) => {
+const PcoProperty = ({
+  pcname,
+  pname,
+  jsontype,
+  count,
+  columns,
+  propertiesLength,
+}) => {
   const mobxStore = useContext(mobxStoreContext)
   const { pcoFilters: pcoFiltersPassed } = mobxStore.export
   const pcoFilters = getSnapshot(pcoFiltersPassed)
@@ -28,14 +35,18 @@ const PcoProperty = ({ pcname, pname, jsontype, count, columns }) => {
   ) || { comparator: null, value: null }
   const { comparator, value } = pcoFilter
 
-  const width = 100 / columns
+  const containerWidth = propertiesLength === 1 ? 100 : 100 / columns
 
   if (jsontype === 'Boolean') {
-    return <Checkbox pcname={pcname} pname={pname} value={value} />
+    return (
+      <Container data-width={containerWidth}>
+        <Checkbox pcname={pcname} pname={pname} value={value} />
+      </Container>
+    )
   }
 
   return (
-    <Container data-width={width}>
+    <Container data-width={containerWidth}>
       <Value
         key={`${pcname}/${pname}/${jsontype}`}
         pcname={pcname}

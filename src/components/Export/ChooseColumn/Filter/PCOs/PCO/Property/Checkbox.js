@@ -11,7 +11,7 @@ import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
 const Container = styled.div`
   width: 100%;
-  padding: 8px 16px;
+  padding: 8px 0;
 `
 const StyledFormLabel = styled(FormLabel)`
   margin-top: 10px;

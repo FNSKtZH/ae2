@@ -131,7 +131,7 @@ const PcoCard = ({ pc, width = 500 }) => {
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-columns={columns}>
+          <PropertiesContainer>
             <Properties
               properties={pcoPropertiesByPropertyCollection[pc]}
               columns={columns}
