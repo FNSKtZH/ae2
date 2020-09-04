@@ -19,6 +19,7 @@ import treeDataQuery from '../../Tree/treeDataQuery'
 import treeDataVariables from '../../Tree/treeDataVariables'
 import deletePcoOfPcMutation from './deletePcoOfPcMutation'
 import mobxStoreContext from '../../../mobxStoreContext'
+import Spinner from '../../shared/Spinner'
 
 const Container = styled.div`
   height: 100%;
@@ -205,11 +206,7 @@ const PCO = ({ dimensions }) => {
   }, [])
 
   if (pcoLoading) {
-    return (
-      <Container>
-        <TotalDiv>Lade Daten...</TotalDiv>
-      </Container>
-    )
+    return <Spinner message="lade Daten" />
   }
   if (pcoError) {
     return <Container>{`Error fetching data: ${pcoError.message}`}</Container>
