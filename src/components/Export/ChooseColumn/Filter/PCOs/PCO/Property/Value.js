@@ -72,7 +72,7 @@ function shouldRenderSuggestions(value) {
   return true
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     flexGrow: 1,
     position: 'relative',
@@ -120,11 +120,6 @@ const pcoFieldPropQuery = gql`
   }
 `
 
-const enhance = compose(
-  withStyles(styles),
-  observer,
-)
-
 const IntegrationAutosuggest = ({
   pcname,
   pname,
@@ -156,8 +151,8 @@ const IntegrationAutosuggest = ({
   useEffect(() => {
     if (fetchData && !dataFetched) {
       const propValues = get(propData, 'propValuesFunction.nodes', [])
-        .filter(v => v !== null && v !== undefined)
-        .map(v => v.value)
+        .filter((v) => v !== null && v !== undefined)
+        .map((v) => v.value)
       if (propValues.length > 0) {
         setPropValues(propValues)
         setFetchData(false)
@@ -167,12 +162,12 @@ const IntegrationAutosuggest = ({
   }, [propData, dataFetched, fetchData])
 
   const getSuggestions = useCallback(
-    value => {
+    (value) => {
       const inputValue = value.toLowerCase()
 
       if (value === ' ') return propValues
       if (inputValue.length === 0) return []
-      return propValues.filter(v => v.toLowerCase().includes(inputValue))
+      return propValues.filter((v) => v.toLowerCase().includes(inputValue))
     },
     [propValues],
   )
@@ -189,7 +184,7 @@ const IntegrationAutosuggest = ({
   }, [getSuggestions])
 
   const onFocus = useCallback(
-    event => {
+    (event) => {
       // fetch data if not yet happened
       if (!dataFetched) setFetchData(true)
     },
@@ -228,7 +223,7 @@ const IntegrationAutosuggest = ({
   ])
 
   const renderInput = useCallback(
-    inputProps => {
+    (inputProps) => {
       const labelText = `${pname} (${readableType(jsontype)})`
       const { autoFocus, ref, ...other } = inputProps
 
@@ -280,4 +275,4 @@ const IntegrationAutosuggest = ({
   )
 }
 
-export default enhance(IntegrationAutosuggest)
+export default withStyles(styles)(observer(IntegrationAutosuggest))
