@@ -12,6 +12,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
+import { withResizeDetector } from 'react-resize-detector'
 
 import Properties from './Properties'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
@@ -34,7 +35,7 @@ const StyledCardActions = styled(CardActions)`
   height: auto !important;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -48,10 +49,8 @@ const Count = styled.span`
 const PropertiesContainer = styled.div`
   margin: 8px 0;
   padding-bottom: 10px;
-  column-width: ${props =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+  display: flex;
+  flex-wrap: wrap;
 `
 
 const propsByTaxQuery = gql`
@@ -60,7 +59,7 @@ const propsByTaxQuery = gql`
     $exportTaxonomies: [String]
   ) {
     pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-      @include(if: $queryExportTaxonomies) {
+    @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
         propertyName
@@ -71,11 +70,15 @@ const propsByTaxQuery = gql`
   }
 `
 
-const PcoCard = ({ pc }) => {
+const PcoCard = ({ pc, width }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const [expanded, setExpanded] = useState(false)
+
+  let columns = 1
+  if (width > 2 * constants.export.properties.columnWidth) columns = 2
+  if (width > 3 * constants.export.properties.columnWidth) columns = 3
 
   const { data: propsByTaxData, error: propsByTaxDataError } = useQuery(
     propsByTaxQuery,
@@ -98,7 +101,6 @@ const PcoCard = ({ pc }) => {
   )
 
   const onClickAction = useCallback(() => setExpanded(!expanded), [expanded])
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
 
   if (propsByTaxDataError) {
     return (
@@ -107,6 +109,8 @@ const PcoCard = ({ pc }) => {
       </ErrorContainer>
     )
   }
+
+  console.log('Filter PCO, columns:', columns)
 
   return (
     <ErrorBoundary>
@@ -131,8 +135,11 @@ const PcoCard = ({ pc }) => {
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-width={width}>
-            <Properties properties={pcoPropertiesByPropertyCollection[pc]} />
+          <PropertiesContainer data-columns={columns}>
+            <Properties
+              properties={pcoPropertiesByPropertyCollection[pc]}
+              columns={columns}
+            />
           </PropertiesContainer>
         </Collapse>
       </StyledCard>
@@ -140,4 +147,4 @@ const PcoCard = ({ pc }) => {
   )
 }
 
-export default observer(PcoCard)
+export default withResizeDetector(observer(PcoCard))

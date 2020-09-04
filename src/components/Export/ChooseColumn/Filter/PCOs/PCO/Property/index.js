@@ -12,27 +12,30 @@ const Container = styled.div`
   display: flex;
   align-content: stretch;
   padding: 4px 16px;
+  width: ${(props) => `${props['data-width']}%`};
   > div {
     height: auto;
   }
 `
 
-const PcoProperty = ({ pcname, pname, jsontype, count }) => {
+const PcoProperty = ({ pcname, pname, jsontype, count, columns }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { pcoFilters: pcoFiltersPassed } = mobxStore.export
   const pcoFilters = getSnapshot(pcoFiltersPassed)
 
   const pcoFilter = pcoFilters.find(
-    x => x.pcname === pcname && x.pname === pname,
+    (x) => x.pcname === pcname && x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = pcoFilter
+
+  const width = 100 / columns
 
   if (jsontype === 'Boolean') {
     return <Checkbox pcname={pcname} pname={pname} value={value} />
   }
 
   return (
-    <Container>
+    <Container data-width={width}>
       <Value
         key={`${pcname}/${pname}/${jsontype}`}
         pcname={pcname}
