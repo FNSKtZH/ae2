@@ -54,24 +54,29 @@ const StyledTypography = styled(Typography)`
 `
 const StyledButton = styled(Button)`
   color: rgb(255, 255, 255) !important;
-  border: ${props => (props['data-active'] ? '1px solid !important' : 'none')};
+  border: ${(props) =>
+    props['data-active'] ? '1px solid !important' : 'none'};
   margin: 8px;
   hyphens: manual;
   white-space: nowrap;
 `
 const LoginButton = styled(StyledButton)`
-  min-width: ${props =>
+  min-width: ${(props) =>
     props['data-widelayout'] ? 'inherit' : '40px !important'};
-  max-width: ${props => (props['data-widelayout'] ? 'inherit' : '40px')};
+  max-width: ${(props) => (props['data-widelayout'] ? 'inherit' : '40px')};
 `
 const ShareButton = styled(StyledButton)`
   min-width: 40px !important;
   max-width: 40px;
+  padding-top: 0 !important;
+  .MuiIcon-root {
+    height: 30px;
+  }
 `
 const StyledMoreVertIcon = styled(ShareIcon)`
   color: white !important;
 `
-const getInitials = name => name.match(/\b(\w)/g).join('')
+const getInitials = (name) => name.match(/\b(\w)/g).join('')
 
 const query = gql`
   query ObjectQuery(
@@ -129,7 +134,7 @@ const Header = () => {
 
   const [wide, setWide] = useState(false)
   const onResize = useCallback(
-    width => {
+    (width) => {
       if (width > 700 && !wide) {
         setWide(true)
       }
@@ -188,7 +193,7 @@ const Header = () => {
     <Location>
       {({ location }) => {
         const { pathname } = location
-        const pathArray = pathname.split('/').filter(a => !!a)
+        const pathArray = pathname.split('/').filter((a) => !!a)
 
         if (dataError) return `Error fetching data: ${dataError.message}`
 
@@ -244,7 +249,7 @@ const Header = () => {
                       </div>
                       {typeof navigator !== 'undefined' &&
                         navigator.share !== undefined && (
-                          <div>
+                          <>
                             <ShareButton
                               aria-label="teilen"
                               onClick={onClickShare}
@@ -253,7 +258,7 @@ const Header = () => {
                                 <StyledMoreVertIcon />
                               </Icon>
                             </ShareButton>
-                          </div>
+                          </>
                         )}
                       <div>
                         <StyledButton
