@@ -10,25 +10,36 @@ const Container = styled.div`
   display: flex;
   align-content: stretch;
   padding: 4px 16px;
+  width: ${(props) => `${props['data-width']}%`};
   > div {
     height: auto;
   }
 `
 
-const RcoField = ({ pcname, relationtype, pname, jsontype, count }) => {
+const RcoField = ({
+  pcname,
+  relationtype,
+  pname,
+  jsontype,
+  count,
+  columns,
+  propertiesLength,
+}) => {
   const mobxStore = useContext(mobxStoreContext)
   const { rcoFilters } = mobxStore.export
 
   const exportRcoFilter = rcoFilters.find(
-    x =>
+    (x) =>
       x.pcname === pcname &&
       x.relationtype === relationtype &&
       x.pname === pname,
   ) || { comparator: null, value: null }
   const { comparator, value } = exportRcoFilter
 
+  const containerWidth = propertiesLength === 1 ? 100 : 100 / columns
+
   return (
-    <Container>
+    <Container data-width={containerWidth}>
       <Value
         pcname={pcname}
         relationtype={relationtype}

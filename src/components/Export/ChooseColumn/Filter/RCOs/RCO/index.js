@@ -12,6 +12,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
+import { withResizeDetector } from 'react-resize-detector'
 
 import Properties from './Properties'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
@@ -35,7 +36,7 @@ const StyledCardActions = styled(CardActions)`
   height: auto !important;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -49,10 +50,8 @@ const Count = styled.span`
 const PropertiesContainer = styled.div`
   margin: 8px 0;
   padding-bottom: 10px;
-  column-width: ${props =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+  display: flex;
+  flex-wrap: wrap;
 `
 
 const propsByTaxQuery = gql`
@@ -61,7 +60,7 @@ const propsByTaxQuery = gql`
     $exportTaxonomies: [String]
   ) {
     rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-      @include(if: $queryExportTaxonomies) {
+    @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
         relationType
@@ -73,7 +72,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const RcoCard = ({ pc }) => {
+const RcoCard = ({ pc, width = 500 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
@@ -96,13 +95,14 @@ const RcoCard = ({ pc }) => {
     [],
   )
 
-  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
+  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, (x) => {
     if (x.propertyCollectionName.includes(x.relationType)) {
       return x.propertyCollectionName
     }
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
 
   if (propsByTaxDataError) {
     return (
@@ -135,8 +135,11 @@ const RcoCard = ({ pc }) => {
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-width={width}>
-            <Properties properties={rcoPropertiesByPropertyCollection[pc]} />
+          <PropertiesContainer>
+            <Properties
+              properties={rcoPropertiesByPropertyCollection[pc]}
+              columns={columns}
+            />
           </PropertiesContainer>
         </Collapse>
       </StyledCard>
@@ -144,4 +147,4 @@ const RcoCard = ({ pc }) => {
   )
 }
 
-export default observer(RcoCard)
+export default withResizeDetector(observer(RcoCard))
