@@ -20,8 +20,10 @@ CREATE TYPE rco_filter AS (
     comparator text,
     pname text,
     pcname text,
+    relationtype text,
     value text
 );
+alter type rco_filter add ATTRIBUTE relationtype text;
 CREATE TYPE pco_property AS (
     pname text,
     pcname text
