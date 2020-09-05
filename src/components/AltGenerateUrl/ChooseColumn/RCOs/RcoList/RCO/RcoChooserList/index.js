@@ -2,8 +2,10 @@ import React from 'react'
 
 import RcoChooser from './RcoChooser'
 
-const RcoChooserList = ({ properties }) =>
-  properties.map(p => (
+const RcoChooserList = ({ properties, columns }) => {
+  const propertiesLength = properties.length
+
+  return properties.map((p) => (
     <RcoChooser
       key={`${p.propertyName}${p.jsontype}`}
       pcname={p.propertyCollectionName}
@@ -11,7 +13,10 @@ const RcoChooserList = ({ properties }) =>
       pname={p.propertyName}
       jsontype={p.jsontype}
       count={p.count}
+      columns={columns}
+      propertiesLength={propertiesLength}
     />
   ))
+}
 
 export default RcoChooserList

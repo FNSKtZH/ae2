@@ -10,6 +10,7 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { withResizeDetector } from 'react-resize-detector'
 
 import ErrorBoundary from '../../../../../../modules/ErrorBoundary'
 import AllRcoChooser from './AllRcoChooser'
@@ -18,10 +19,8 @@ import getConstants from '../../../../../../modules/constants'
 const constants = getConstants()
 
 const PropertiesContainer = styled.div`
-  column-width: ${(props) =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+  display: flex;
+  flex-wrap: wrap;
 `
 const StyledCard = styled(Card)`
   margin: 0;
@@ -67,7 +66,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const RCO = ({ pc }) => {
+const RCO = ({ pc, width = 500 }) => {
   const { data: propsByTaxData, error: propsByTaxError } = useQuery(
     propsByTaxQuery,
     {
@@ -92,7 +91,7 @@ const RCO = ({ pc }) => {
     return `${x.propertyCollectionName}: ${x.relationType}`
   })
 
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
 
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
 
@@ -128,9 +127,10 @@ const RCO = ({ pc }) => {
                 properties={rcoPropertiesByPropertyCollection[pc]}
               />
             )}
-            <PropertiesContainer data-width={width}>
+            <PropertiesContainer>
               <RcoChooserList
                 properties={rcoPropertiesByPropertyCollection[pc]}
+                columns={columns}
               />
             </PropertiesContainer>
           </Fragment>
@@ -140,4 +140,4 @@ const RCO = ({ pc }) => {
   )
 }
 
-export default RCO
+export default withResizeDetector(RCO)

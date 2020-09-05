@@ -6,7 +6,9 @@ import { observer } from 'mobx-react-lite'
 
 import mobxStoreContext from '../../../../../../../mobxStoreContext'
 
-const Container = styled.div``
+const Container = styled.div`
+  width: ${(props) => `${props['data-width']}%`};
+`
 const Count = styled.span`
   font-size: xx-small;
 `
@@ -19,13 +21,21 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const RcoChooser = ({ pcname, relationtype, pname, jsontype, count }) => {
+const RcoChooser = ({
+  pcname,
+  relationtype,
+  pname,
+  jsontype,
+  count,
+  columns,
+  propertiesLength,
+}) => {
   const mobxStore = useContext(mobxStoreContext)
   const { rcoProperties, removeRcoProperty, addRcoProperty } = mobxStore.export
 
   const checked =
     rcoProperties.filter(
-      x =>
+      (x) =>
         x.pcname === pcname &&
         x.relationtype === relationtype &&
         x.pname === pname,
@@ -41,8 +51,10 @@ const RcoChooser = ({ pcname, relationtype, pname, jsontype, count }) => {
     [removeRcoProperty, pcname, relationtype, pname, addRcoProperty],
   )
 
+  const containerWidth = propertiesLength === 1 ? 100 : 100 / columns
+
   return (
-    <Container>
+    <Container data-width={containerWidth}>
       <Label
         control={
           <Checkbox color="primary" checked={checked} onChange={onCheck} />
