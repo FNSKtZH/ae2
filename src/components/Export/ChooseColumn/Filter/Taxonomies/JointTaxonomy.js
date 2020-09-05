@@ -24,7 +24,7 @@ const StyledCardActions = styled(CardActions)`
   border-bottom: 1px solid #ebebeb;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -38,11 +38,8 @@ const Count = styled.span`
 const PropertiesContainer = styled.div`
   margin: 8px 0;
   padding-bottom: 10px;
-  /*columns break autosuggest list*/
-  /*column-width: ${props =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};*/
+  display: flex;
+  flex-wrap: wrap;
 `
 
 const JointTaxonomiesCard = ({ jointTaxProperties }) => {
