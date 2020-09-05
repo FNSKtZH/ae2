@@ -86,6 +86,7 @@ const styles = (theme) => ({
   },
   suggestion: {
     display: 'block',
+    margin: 0,
   },
   suggestionsList: {
     margin: 0,
