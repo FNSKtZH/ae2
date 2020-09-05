@@ -12,6 +12,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
+import { withResizeDetector } from 'react-resize-detector'
 
 import AllChooser from './AllChooser'
 import Properties from './Properties'
@@ -31,7 +32,7 @@ const StyledCardActions = styled(CardActions)`
   border-bottom: 1px solid #ebebeb;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -39,10 +40,8 @@ const CardActionTitle = styled.div`
   word-break: break-word;
 `
 const PropertiesContainer = styled.div`
-  column-width: ${props =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+  display: flex;
+  flex-wrap: wrap;
 `
 const StyledCollapse = styled(Collapse)`
   padding: 8px 20px;
@@ -58,7 +57,7 @@ const propsByTaxQuery = gql`
     $exportTaxonomies: [String]
   ) {
     pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-      @include(if: $queryExportTaxonomies) {
+    @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
         propertyName
@@ -69,7 +68,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
+const PCO = ({ pcoExpanded, onTogglePco, pc, width = 500 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
@@ -93,7 +92,8 @@ const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
     'propertyCollectionName',
   )
   const properties = pcoPropertiesByPropertyCollection[pc]
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
 
   if (propsDataError) return `Error fetching data: ${propsDataError.message}`
 
@@ -120,8 +120,8 @@ const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
         <StyledCollapse in={expanded} timeout="auto" unmountOnExit>
           <>
             {properties.length > 1 && <AllChooser properties={properties} />}
-            <PropertiesContainer data-width={width}>
-              <Properties properties={properties} />
+            <PropertiesContainer>
+              <Properties properties={properties} columns={columns} />
             </PropertiesContainer>
           </>
         </StyledCollapse>
@@ -130,4 +130,4 @@ const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
   )
 }
 
-export default observer(PCO)
+export default withResizeDetector(observer(PCO))
