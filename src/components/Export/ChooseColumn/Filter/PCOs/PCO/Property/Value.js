@@ -36,10 +36,10 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
 
   return (
     <MenuItem selected={isHighlighted} component="div">
-      <div>
+      <>
         {parts.map((part, index) => {
           return part.highlight ? (
-            <strong key={String(index)} style={{ fontWeight: 500 }}>
+            <strong key={String(index)} style={{ fontWeight: 700 }}>
               {part.text}
             </strong>
           ) : (
@@ -48,7 +48,7 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
             </span>
           )
         })}
-      </div>
+      </>
     </MenuItem>
   )
 }
