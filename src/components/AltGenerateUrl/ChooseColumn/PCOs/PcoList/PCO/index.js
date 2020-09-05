@@ -10,6 +10,7 @@ import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { withResizeDetector } from 'react-resize-detector'
 
 import ErrorBoundary from '../../../../../../modules/ErrorBoundary'
 import AllChooser from './AllChooser'
@@ -37,10 +38,8 @@ const CardActionTitle = styled.div`
   word-break: break-word;
 `
 const PropertiesContainer = styled.div`
-  column-width: ${(props) =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+  display: flex;
+  flex-wrap: wrap;
 `
 const StyledCollapse = styled(Collapse)`
   padding: 8px 20px;
@@ -63,7 +62,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
+const PCO = ({ pcoExpanded, onTogglePco, pc, width = 500 }) => {
   const { data: propsByTaxData } = useQuery(propsByTaxQuery, {
     variables: {
       exportTaxonomies: constants.altTaxonomies,
@@ -82,7 +81,8 @@ const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
 
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
 
   return (
     <ErrorBoundary>
@@ -111,8 +111,11 @@ const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
             {pcoPropertiesByPropertyCollection[pc].length > 1 && (
               <AllChooser properties={pcoPropertiesByPropertyCollection[pc]} />
             )}
-            <PropertiesContainer data-width={width}>
-              <ChooserList properties={pcoPropertiesByPropertyCollection[pc]} />
+            <PropertiesContainer>
+              <ChooserList
+                properties={pcoPropertiesByPropertyCollection[pc]}
+                columns={columns}
+              />
             </PropertiesContainer>
           </>
         </StyledCollapse>
@@ -121,4 +124,4 @@ const PCO = ({ pcoExpanded, onTogglePco, pc }) => {
   )
 }
 
-export default PCO
+export default withResizeDetector(PCO)
