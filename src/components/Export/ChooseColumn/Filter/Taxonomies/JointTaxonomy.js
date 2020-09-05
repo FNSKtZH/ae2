@@ -7,6 +7,7 @@ import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
+import { withResizeDetector } from 'react-resize-detector'
 
 import Properties from './Properties'
 import getConstants from '../../../../../modules/constants'
@@ -42,10 +43,11 @@ const PropertiesContainer = styled.div`
   flex-wrap: wrap;
 `
 
-const JointTaxonomiesCard = ({ jointTaxProperties }) => {
+const JointTaxonomiesCard = ({ jointTaxProperties, width = 500 }) => {
   const [expanded, setExpanded] = useState(false)
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
 
   return (
     <ErrorBoundary>
@@ -66,8 +68,8 @@ const JointTaxonomiesCard = ({ jointTaxProperties }) => {
           </CardActionIconButton>
         </StyledCardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PropertiesContainer data-width={width}>
-            <Properties properties={jointTaxProperties} />
+          <PropertiesContainer>
+            <Properties properties={jointTaxProperties} columns={columns} />
           </PropertiesContainer>
         </Collapse>
       </StyledCard>
@@ -75,4 +77,4 @@ const JointTaxonomiesCard = ({ jointTaxProperties }) => {
   )
 }
 
-export default JointTaxonomiesCard
+export default withResizeDetector(JointTaxonomiesCard)
