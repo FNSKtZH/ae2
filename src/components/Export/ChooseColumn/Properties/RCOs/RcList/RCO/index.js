@@ -12,6 +12,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
+import { withResizeDetector } from 'react-resize-detector'
 
 import AllChooser from './AllChooser'
 import Properties from './Properties'
@@ -20,10 +21,8 @@ import getConstants from '../../../../../../../modules/constants'
 const constants = getConstants()
 
 const PropertiesContainer = styled.div`
-  column-width: ${props =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+  display: flex;
+  flex-wrap: wrap;
 `
 const StyledCard = styled(Card)`
   margin: 0;
@@ -40,7 +39,7 @@ const StyledCardActions = styled(CardActions)`
   display: flex;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -61,7 +60,7 @@ const propsByTaxQuery = gql`
     $exportTaxonomies: [String]
   ) {
     rcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-      @include(if: $queryExportTaxonomies) {
+    @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
         relationType
@@ -84,7 +83,7 @@ const rcoCountByTaxonomyRelationTypeQuery = gql`
   }
 `
 
-const RCO = ({ pc }) => {
+const RCO = ({ pc, width = 500 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
@@ -107,7 +106,7 @@ const RCO = ({ pc }) => {
     [],
   )
 
-  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
+  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, (x) => {
     if (x.propertyCollectionName.includes(x.relationType)) {
       return x.propertyCollectionName
     }
@@ -122,16 +121,16 @@ const RCO = ({ pc }) => {
   // in every key of rcoPropertiesByPropertyCollection
   // add id and name of Beziehungspartner
 
-  Object.values(rcoPropertiesByPropertyCollection).forEach(rpc => {
+  Object.values(rcoPropertiesByPropertyCollection).forEach((rpc) => {
     const myRpc = rpc[0] || {}
     let rco = rcoCountByTaxonomyRelationType.find(
-      r =>
+      (r) =>
         r.propertyCollectionName === myRpc.propertyCollectionName &&
         r.relationType === myRpc.relationType,
     )
     if (!rco) {
       rco = rcoCountByTaxonomyRelationType.find(
-        r =>
+        (r) =>
           `${r.propertyCollectionName}: ${r.relationType}` ===
             myRpc.propertyCollectionName &&
           r.relationType === myRpc.relationType,
@@ -155,7 +154,8 @@ const RCO = ({ pc }) => {
   })
 
   const onClickActions = useCallback(() => setExpanded(!expanded), [expanded])
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
 
   if (propsByTaxError) return `Error fetching data: ${propsByTaxError.message}`
   if (error) return `Error fetching data: ${error.message}`
@@ -187,8 +187,11 @@ const RCO = ({ pc }) => {
             {rcoPropertiesByPropertyCollection[pc].length > 1 && (
               <AllChooser properties={rcoPropertiesByPropertyCollection[pc]} />
             )}
-            <PropertiesContainer data-width={width}>
-              <Properties properties={rcoPropertiesByPropertyCollection[pc]} />
+            <PropertiesContainer>
+              <Properties
+                properties={rcoPropertiesByPropertyCollection[pc]}
+                columns={columns}
+              />
             </PropertiesContainer>
           </>
         </StyledCollapse>
@@ -197,4 +200,4 @@ const RCO = ({ pc }) => {
   )
 }
 
-export default observer(RCO)
+export default withResizeDetector(observer(RCO))
