@@ -40,7 +40,7 @@ const Container = styled.div`
     display: block;
     position: absolute;
     top: 32px;
-    width: ${props => `${props['data-autosuggestwidth']}px`};
+    width: ${(props) => `${props['data-autosuggestwidth']}px`};
     border: 1px solid #aaa;
     background-color: #fff;
     font-family: Helvetica, sans-serif;
@@ -189,12 +189,12 @@ const TreeFilter = ({ dimensions }) => {
       const matches = match(suggestion.name, query)
       const parts = parse(suggestion.name, matches)
       return (
-        <div>
+        <>
           {parts.map((part, index) => {
             return part.highlight ? (
               <strong
                 key={String(index)}
-                style={{ fontWeight: '500 !important' }}
+                style={{ fontWeight: '700 !important' }}
               >
                 {part.text}
               </strong>
@@ -207,7 +207,7 @@ const TreeFilter = ({ dimensions }) => {
               </span>
             )
           })}
-        </div>
+        </>
       )
     },
     [],
@@ -256,20 +256,20 @@ const TreeFilter = ({ dimensions }) => {
    * url is calculated by id depending on type
    */
   const suggestionsArt = objectByObjectName
-    .filter(n => get(n, 'taxonomyByTaxonomyId.type') === 'ART')
-    .map(o => ({
+    .filter((n) => get(n, 'taxonomyByTaxonomyId.type') === 'ART')
+    .map((o) => ({
       id: o.id,
       name: `${get(o, 'taxonomyByTaxonomyId.name', '')}: ${o.name}`,
       type: 'art',
     }))
   const suggestionsLr = objectByObjectName
-    .filter(n => get(n, 'taxonomyByTaxonomyId.type') === 'LEBENSRAUM')
-    .map(o => ({
+    .filter((n) => get(n, 'taxonomyByTaxonomyId.type') === 'LEBENSRAUM')
+    .map((o) => ({
       id: o.id,
       name: `${get(o, 'taxonomyByTaxonomyId.name', '')}: ${o.name}`,
       type: 'lr',
     }))
-  const suggestionsPC = pCByPropertyName.map(s => ({
+  const suggestionsPC = pCByPropertyName.map((s) => ({
     ...s,
     type: 'pC',
   }))
@@ -307,18 +307,21 @@ const TreeFilter = ({ dimensions }) => {
   const autosuggestWidth = isNaN(dimensions.width) ? 380 : dimensions.width - 29
 
   const getSuggestionValue = useCallback(
-    suggestion => suggestion && suggestion.name,
+    (suggestion) => suggestion && suggestion.name,
     [],
   )
   const shouldRenderSuggestions = useCallback(
-    value => value.trim().length > 2,
+    (value) => value.trim().length > 2,
     [],
   )
   const renderSectionTitle = useCallback(
-    section => <strong>{section.title}</strong>,
+    (section) => <strong>{section.title}</strong>,
     [],
   )
-  const getSectionSuggestions = useCallback(section => section.suggestions, [])
+  const getSectionSuggestions = useCallback(
+    (section) => section.suggestions,
+    [],
+  )
 
   if (filterSuggestionsError) {
     return `Error fetching data: ${filterSuggestionsError.message}`
