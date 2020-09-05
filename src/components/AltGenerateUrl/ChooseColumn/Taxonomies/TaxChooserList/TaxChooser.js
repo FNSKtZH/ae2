@@ -6,7 +6,9 @@ import { observer } from 'mobx-react-lite'
 
 import mobxStoreContext from '../../../../../mobxStoreContext'
 
-const Container = styled.div``
+const Container = styled.div`
+  width: ${(props) => `${props['data-width']}%`};
+`
 const Count = styled.span`
   font-size: xx-small;
 `
@@ -19,12 +21,19 @@ const Label = styled(FormControlLabel)`
   }
 `
 
-const TaxChooser = ({ taxname, pname, jsontype, count }) => {
+const TaxChooser = ({
+  taxname,
+  pname,
+  jsontype,
+  count,
+  columns,
+  propertiesLength,
+}) => {
   const mobxStore = useContext(mobxStoreContext)
   const { taxProperties, addTaxProperty, removeTaxProperty } = mobxStore.export
 
   const checked =
-    taxProperties.filter(x => /*x.taxname === taxname && */ x.pname === pname)
+    taxProperties.filter((x) => /*x.taxname === taxname && */ x.pname === pname)
       .length > 0
 
   const onCheck = useCallback(
@@ -37,8 +46,10 @@ const TaxChooser = ({ taxname, pname, jsontype, count }) => {
     [removeTaxProperty, taxname, pname, addTaxProperty],
   )
 
+  const containerWidth = propertiesLength === 1 ? 100 : 100 / columns
+
   return (
-    <Container>
+    <Container data-width={containerWidth}>
       <Label
         control={
           <Checkbox color="primary" checked={checked} onChange={onCheck} />

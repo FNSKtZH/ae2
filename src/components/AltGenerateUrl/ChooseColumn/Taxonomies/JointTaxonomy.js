@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { withResizeDetector } from 'react-resize-detector'
 
 import ErrorBoundary from '../../../../modules/ErrorBoundary'
 import AllTaxChooser from './AllTaxChooser'
@@ -13,25 +14,23 @@ const Container = styled.div`
   padding: 8px 14px;
 `
 const PropertiesContainer = styled.div`
-  column-width: ${(props) =>
-    props['data-width'] > 2 * constants.export.properties.columnWidth
-      ? `${constants.export.properties.columnWidth}px`
-      : 'auto'};
+  display: flex;
+  flex-wrap: wrap;
 `
 
-const JointTaxonomy = ({ jointTaxProperties }) => {
-  const width = typeof window !== 'undefined' ? window.innerWidth - 84 : 500
+const JointTaxonomy = ({ jointTaxProperties, width = 500 }) => {
+  const columns = Math.floor(width / constants.export.properties.columnWidth)
 
   return (
     <ErrorBoundary>
       <Container>
         <AllTaxChooser properties={jointTaxProperties} />
-        <PropertiesContainer data-width={width}>
-          <TaxChooserList properties={jointTaxProperties} />
+        <PropertiesContainer>
+          <TaxChooserList properties={jointTaxProperties} columns={columns} />
         </PropertiesContainer>
       </Container>
     </ErrorBoundary>
   )
 }
 
-export default JointTaxonomy
+export default withResizeDetector(JointTaxonomy)
