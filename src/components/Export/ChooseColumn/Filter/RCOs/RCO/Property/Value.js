@@ -7,7 +7,6 @@ import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
 import { withStyles } from '@material-ui/core/styles'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
 import { useQuery } from '@apollo/react-hooks'
@@ -37,10 +36,10 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
 
   return (
     <MenuItem selected={isHighlighted} component="div">
-      <div>
+      <>
         {parts.map((part, index) => {
           return part.highlight ? (
-            <strong key={String(index)} style={{ fontWeight: 500 }}>
+            <strong key={String(index)} style={{ fontWeight: 700 }}>
               {part.text}
             </strong>
           ) : (
@@ -49,7 +48,7 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
             </span>
           )
         })}
-      </div>
+      </>
     </MenuItem>
   )
 }
@@ -76,14 +75,14 @@ const styles = (theme) => ({
   container: {
     flexGrow: 1,
     position: 'relative',
-    height: 200,
   },
   suggestionsContainerOpen: {
     position: 'absolute',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(3),
+    //position: 'relative',
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(0),
     left: 0,
-    right: 0,
+    //right: 0,
   },
   suggestion: {
     display: 'block',
@@ -120,8 +119,6 @@ const rcoFieldPropQuery = gql`
     }
   }
 `
-
-const enhance = compose(withStyles(styles), observer)
 
 const IntegrationAutosuggest = ({
   relationtype,
@@ -228,6 +225,13 @@ const IntegrationAutosuggest = ({
     addRcoProperty,
   ])
 
+  /**
+   * Issue:
+   * This hides behind next lower rc
+   * Maybe use react portal?
+   * https://github.com/moroshko/react-autosuggest/issues/699#issuecomment-568798287
+   */
+
   const renderInput = useCallback(
     (inputProps) => {
       const labelText = `${pname} (${readableType(jsontype)})`
@@ -283,4 +287,4 @@ const IntegrationAutosuggest = ({
   )
 }
 
-export default enhance(IntegrationAutosuggest)
+export default withStyles(styles)(observer(IntegrationAutosuggest))
