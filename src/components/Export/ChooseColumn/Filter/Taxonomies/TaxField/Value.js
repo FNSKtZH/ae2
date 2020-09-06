@@ -13,7 +13,6 @@ import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
 import { withStyles } from '@material-ui/core/styles'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
 import { useQuery } from '@apollo/react-hooks'
@@ -127,8 +126,6 @@ const taxFieldPropQuery = gql`
     }
   }
 `
-
-const enhance = compose(withStyles(styles), observer)
 
 const IntegrationAutosuggest = ({
   taxname,
@@ -305,4 +302,4 @@ const IntegrationAutosuggest = ({
   )
 }
 
-export default enhance(IntegrationAutosuggest)
+export default withStyles(styles)(observer(IntegrationAutosuggest))

@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
-import compose from 'recompose/compose'
 import { observer } from 'mobx-react-lite'
 
 import ComparatorSelect from '../../ComparatorSelect'
@@ -21,7 +20,7 @@ const StyledFormControl = styled(FormControl)`
     padding-left: 8px;
   }
 `
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -35,17 +34,12 @@ const styles = theme => ({
   },
 })
 
-const enhance = compose(
-  withStyles(styles),
-  observer,
-)
-
 const Comparator = ({ comparator, classes, taxname, pname, value }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { setTaxFilters } = mobxStore.export
 
   const onChange = useCallback(
-    event =>
+    (event) =>
       setTaxFilters({
         taxname,
         pname,
@@ -65,4 +59,4 @@ const Comparator = ({ comparator, classes, taxname, pname, value }) => {
   )
 }
 
-export default enhance(Comparator)
+export default withStyles(styles)(observer(Comparator))
