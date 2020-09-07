@@ -364,31 +364,94 @@ CREATE OR REPLACE FUNCTION ae.pco_properties_by_taxonomies_function(taxonomy_nam
   RETURNS setof ae.pco_properties_by_taxonomy AS
   $$
     WITH jsontypes AS (
-      SELECT
-        ae.property_collection.name AS property_collection_name,
-        json_data.key AS property_name,
-        CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
-          WHEN json_data.value::text ~ '^-?\d' THEN
-          CASE WHEN json_data.value::text ~ '\.' THEN 'Number'
-            ELSE 'Integer'
-          END
-          WHEN left(json_data.value::text,1) = '['  THEN 'Array'
-          WHEN left(json_data.value::text,1) = '{'  THEN 'Object'
-          WHEN json_data.value::text in ('true', 'false')  THEN 'Boolean'
-          WHEN json_data.value::text = 'null'  THEN 'Null'
-          ELSE 'unknown'
-        END as jsontype
-      FROM
-        ae.object
-        INNER JOIN ae.taxonomy
-        ON ae.object.taxonomy_id = ae.taxonomy.id
-        INNER JOIN ae.property_collection_object
-        ON ae.object.id = ae.property_collection_object.object_id
-          INNER JOIN ae.property_collection
-          ON ae.property_collection.id = ae.property_collection_object.property_collection_id,
-        jsonb_each(ae.property_collection_object.properties) AS json_data
-      WHERE
-        ae.taxonomy.name = ANY(taxonomy_names)
+      with object_ids as (
+        SELECT ae.object.id
+        FROM
+          ae.object
+          INNER JOIN ae.taxonomy
+          ON ae.object.taxonomy_id = ae.taxonomy.id
+        WHERE
+          ae.taxonomy.name = ANY(taxonomy_names)
+        )
+        SELECT
+          ae.property_collection.name AS property_collection_name,
+          json_data.key AS property_name,
+          CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
+            WHEN json_data.value::text ~ '^-?\d' THEN
+            CASE WHEN json_data.value::text ~ '\.' THEN 'Number'
+              ELSE 'Integer'
+            END
+            WHEN left(json_data.value::text,1) = '['  THEN 'Array'
+            WHEN left(json_data.value::text,1) = '{'  THEN 'Object'
+            WHEN json_data.value::text in ('true', 'false')  THEN 'Boolean'
+            WHEN json_data.value::text = 'null'  THEN 'Null'
+            ELSE 'unknown'
+          END as jsontype
+        FROM
+          ae.object
+          INNER JOIN ae.taxonomy
+          ON ae.object.taxonomy_id = ae.taxonomy.id
+          INNER JOIN ae.property_collection_object
+          ON ae.object.id = ae.property_collection_object.object_id
+            INNER JOIN ae.property_collection
+            ON ae.property_collection.id = ae.property_collection_object.property_collection_id,
+          jsonb_each(ae.property_collection_object.properties) AS json_data
+        WHERE
+          ae.taxonomy.name = ANY(taxonomy_names)
+        union
+        SELECT
+          ae.property_collection.name AS property_collection_name,
+          json_data.key AS property_name,
+          CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
+            WHEN json_data.value::text ~ '^-?\d' THEN
+            CASE WHEN json_data.value::text ~ '\.' THEN 'Number'
+              ELSE 'Integer'
+            END
+            WHEN left(json_data.value::text,1) = '['  THEN 'Array'
+            WHEN left(json_data.value::text,1) = '{'  THEN 'Object'
+            WHEN json_data.value::text in ('true', 'false')  THEN 'Boolean'
+            WHEN json_data.value::text = 'null'  THEN 'Null'
+            ELSE 'unknown'
+          END as jsontype
+        FROM
+          ae.object
+          inner join ae.synonym on ae.synonym.object_id = ae.object.id
+          INNER JOIN ae.taxonomy
+          ON ae.object.taxonomy_id = ae.taxonomy.id
+          INNER JOIN ae.property_collection_object
+          ON ae.object.id = ae.property_collection_object.object_id
+            INNER JOIN ae.property_collection
+            ON ae.property_collection.id = ae.property_collection_object.property_collection_id,
+          jsonb_each(ae.property_collection_object.properties) AS json_data
+        WHERE
+          ae.synonym.object_id_synonym in (select * from object_ids)
+        union
+        SELECT
+          ae.property_collection.name AS property_collection_name,
+          json_data.key AS property_name,
+          CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
+            WHEN json_data.value::text ~ '^-?\d' THEN
+            CASE WHEN json_data.value::text ~ '\.' THEN 'Number'
+              ELSE 'Integer'
+            END
+            WHEN left(json_data.value::text,1) = '['  THEN 'Array'
+            WHEN left(json_data.value::text,1) = '{'  THEN 'Object'
+            WHEN json_data.value::text in ('true', 'false')  THEN 'Boolean'
+            WHEN json_data.value::text = 'null'  THEN 'Null'
+            ELSE 'unknown'
+          END as jsontype
+        FROM
+          ae.object
+          inner join ae.synonym on ae.synonym.object_id_synonym = ae.object.id
+          INNER JOIN ae.taxonomy
+          ON ae.object.taxonomy_id = ae.taxonomy.id
+          INNER JOIN ae.property_collection_object
+          ON ae.object.id = ae.property_collection_object.object_id
+            INNER JOIN ae.property_collection
+            ON ae.property_collection.id = ae.property_collection_object.property_collection_id,
+          jsonb_each(ae.property_collection_object.properties) AS json_data
+        WHERE
+          ae.synonym.object_id in (select * from object_ids)
     )
     SELECT
       *,
@@ -487,6 +550,15 @@ CREATE OR REPLACE FUNCTION ae.rco_properties_by_taxonomies_function(taxonomy_nam
   RETURNS setof ae.rco_properties_by_taxonomy AS
   $$
     WITH jsontypes AS (
+      with object_ids as (
+        SELECT ae.object.id
+        FROM
+          ae.object
+          INNER JOIN ae.taxonomy
+          ON ae.object.taxonomy_id = ae.taxonomy.id
+        WHERE
+          ae.taxonomy.name = ANY(taxonomy_names)
+        )
       SELECT
         ae.property_collection.name AS property_collection_name,
         ae.relation.relation_type,
@@ -513,6 +585,62 @@ CREATE OR REPLACE FUNCTION ae.rco_properties_by_taxonomies_function(taxonomy_nam
         jsonb_each(ae.relation.properties) AS json_data
       WHERE
         ae.taxonomy.name = ANY(taxonomy_names)
+      UNION
+      SELECT
+        ae.property_collection.name AS property_collection_name,
+        ae.relation.relation_type,
+        json_data.key AS property_name,
+        CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
+          WHEN json_data.value::text ~ '^-?\d' THEN
+          CASE WHEN json_data.value::text ~ '\.' THEN 'Number'
+            ELSE 'Integer'
+          END
+          WHEN left(json_data.value::text,1) = '['  THEN 'Array'
+          WHEN left(json_data.value::text,1) = '{'  THEN 'Object'
+          WHEN json_data.value::text in ('true', 'false')  THEN 'Boolean'
+          WHEN json_data.value::text = 'null'  THEN 'Null'
+          ELSE 'unknown'
+        END as jsontype
+      FROM
+        ae.object
+        inner join ae.synonym on ae.synonym.object_id = ae.object.id
+        INNER JOIN ae.taxonomy
+        ON ae.object.taxonomy_id = ae.taxonomy.id
+        INNER JOIN ae.relation
+        ON ae.object.id = ae.relation.object_id
+          INNER JOIN ae.property_collection
+          ON ae.property_collection.id = ae.relation.property_collection_id,
+        jsonb_each(ae.relation.properties) AS json_data
+      WHERE
+        ae.synonym.object_id_synonym in (select * from object_ids)
+      UNION
+      SELECT
+        ae.property_collection.name AS property_collection_name,
+        ae.relation.relation_type,
+        json_data.key AS property_name,
+        CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
+          WHEN json_data.value::text ~ '^-?\d' THEN
+          CASE WHEN json_data.value::text ~ '\.' THEN 'Number'
+            ELSE 'Integer'
+          END
+          WHEN left(json_data.value::text,1) = '['  THEN 'Array'
+          WHEN left(json_data.value::text,1) = '{'  THEN 'Object'
+          WHEN json_data.value::text in ('true', 'false')  THEN 'Boolean'
+          WHEN json_data.value::text = 'null'  THEN 'Null'
+          ELSE 'unknown'
+        END as jsontype
+      FROM
+        ae.object
+        inner join ae.synonym on ae.synonym.object_id_synonym = ae.object.id
+        INNER JOIN ae.taxonomy
+        ON ae.object.taxonomy_id = ae.taxonomy.id
+        INNER JOIN ae.relation
+        ON ae.object.id = ae.relation.object_id
+          INNER JOIN ae.property_collection
+          ON ae.property_collection.id = ae.relation.property_collection_id,
+        jsonb_each(ae.relation.properties) AS json_data
+      WHERE
+        ae.synonym.object_id in (select * from object_ids)
     )
     SELECT
       *,
