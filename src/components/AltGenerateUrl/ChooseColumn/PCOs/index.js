@@ -11,7 +11,7 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
-import ErrorBoundary from '../../../../modules/ErrorBoundary'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 import PcoList from './PcoList'
 import getConstants from '../../../../modules/constants'
 const constants = getConstants()

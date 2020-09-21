@@ -12,7 +12,7 @@ import sumBy from 'lodash/sumBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
-import ErrorBoundary from '../../../../modules/ErrorBoundary'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 import JointTaxonomy from './JointTaxonomy'
 import getConstants from '../../../../modules/constants'
 const constants = getConstants()

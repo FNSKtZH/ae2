@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce'
 import { observer } from 'mobx-react-lite'
 import loadable from '@loadable/component'
 
-import ErrorBoundary from '../modules/ErrorBoundary'
+import ErrorBoundary from './shared/ErrorBoundary'
 import Layout from './Layout'
 //import LazyImportFallback from './shared/LazyImportFallback'
 import mobxStoreContext from '../mobxStoreContext'

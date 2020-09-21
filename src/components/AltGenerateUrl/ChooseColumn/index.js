@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 
-import ErrorBoundary from '../../../modules/ErrorBoundary'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
