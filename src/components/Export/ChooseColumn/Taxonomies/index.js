@@ -4,11 +4,11 @@ import Paper from '@material-ui/core/Paper'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import HowTo from './HowTo'
 import ExportTypes from './ExportTypes'
 import mobxStoreContext from '../../../../mobxStoreContext'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 0 5px;
@@ -23,7 +23,7 @@ const PropertyTextDiv = styled.div`
 const StyledPaper = styled(Paper)`
   width: 100%;
   color: white;
-  background-color: ${props => `${props['data-bgcolor']} !important`};
+  background-color: ${(props) => `${props['data-bgcolor']} !important`};
   margin-bottom: 10px;
   margin-top: 10px;
 `

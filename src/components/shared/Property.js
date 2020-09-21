@@ -6,9 +6,9 @@ import ClearIcon from '@material-ui/icons/Clear'
 import styled from 'styled-components'
 import omit from 'lodash/omit'
 import { useApolloClient } from '@apollo/react-hooks'
-import ErrorBoundary from 'react-error-boundary'
 
 import updatePropertyMutation from './updatePropertyMutation'
+import ErrorBoundary from './ErrorBoundary'
 
 const Container = styled.div`
   margin: 12px 10px 12px 2px;
@@ -30,11 +30,11 @@ const Property = ({ id, properties: propertiesPrevious, field: key }) => {
   const client = useApolloClient()
   const [value, setValue] = useState(propertiesPrevious[key] || '')
 
-  const onChange = useCallback(event => {
+  const onChange = useCallback((event) => {
     setValue(event.target.value)
   }, [])
   const onBlur = useCallback(
-    event => {
+    (event) => {
       const { value } = event.target
       const prevValue = propertiesPrevious[key]
       if (value !== prevValue) {
@@ -62,7 +62,7 @@ const Property = ({ id, properties: propertiesPrevious, field: key }) => {
     [propertiesPrevious, key, client, id],
   )
   const onDelete = useCallback(
-    async event => {
+    async (event) => {
       const properties = omit(propertiesPrevious, key)
       await client.mutate({
         mutation: updatePropertyMutation,

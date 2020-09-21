@@ -2,7 +2,8 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
+
+import ErrorBoundary from './ErrorBoundary'
 
 const linkifyProperties = {
   target: '_blank',
