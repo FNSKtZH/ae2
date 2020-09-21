@@ -2,9 +2,9 @@ import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import { useApolloClient } from '@apollo/react-hooks'
-import ErrorBoundary from 'react-error-boundary'
 
 import updateObjectMutation from '../../updateObjectMutation'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 12px 8px 12px 0;
@@ -14,11 +14,11 @@ const Property = ({ field, label, objekt, disabled }) => {
   const client = useApolloClient()
   const [value, setValue] = useState(objekt[field] || '')
 
-  const onChange = useCallback(event => {
+  const onChange = useCallback((event) => {
     setValue(event.target.value)
   }, [])
   const onBlur = useCallback(
-    event => {
+    (event) => {
       const { value } = event.target
       if (value !== 'prevValue') {
         client.mutate({

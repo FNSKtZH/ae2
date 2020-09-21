@@ -3,9 +3,9 @@ import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel'
 import styled from 'styled-components'
 import { useApolloClient } from '@apollo/react-hooks'
-import ErrorBoundary from 'react-error-boundary'
 
 import updatePropertyMutation from './updatePropertyMutation'
+import ErrorBoundary from './ErrorBoundary'
 
 const Container = styled.div`
   margin: 20px 10px 12px 0;
@@ -21,14 +21,14 @@ const Property = ({ id, properties: propertiesPrevious }) => {
   const [label, setLabel] = useState('')
   const [value, setValue] = useState('')
 
-  const onChangeLabel = useCallback(event => {
+  const onChangeLabel = useCallback((event) => {
     setLabel(event.target.value)
   }, [])
-  const onChangeValue = useCallback(event => {
+  const onChangeValue = useCallback((event) => {
     setValue(event.target.value)
   }, [])
   const onBlurValue = useCallback(
-    async event => {
+    async (event) => {
       const { value } = event.target
       if (value !== null && value !== undefined && !!label) {
         const properties = {

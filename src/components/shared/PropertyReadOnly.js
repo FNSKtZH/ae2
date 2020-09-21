@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import Linkify from 'react-linkify'
-import ErrorBoundary from 'react-error-boundary'
+
+import ErrorBoundary from './ErrorBoundary'
 
 const Container = styled.div`
   display: flex;

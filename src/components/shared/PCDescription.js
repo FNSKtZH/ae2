@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import Linkify from 'react-linkify'
-import ErrorBoundary from 'react-error-boundary'
 
 import PropertyReadOnly from './PropertyReadOnly'
+import ErrorBoundary from './ErrorBoundary'
 
 const Container = styled.div`
   display: flex;

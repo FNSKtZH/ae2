@@ -17,11 +17,11 @@ import format from 'date-fns/format'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import Property from './Property'
 import onBlur from './onBlur'
 import PropertyReadOnly from '../shared/PropertyReadOnly'
+import ErrorBoundary from '../shared/ErrorBoundary'
 import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
@@ -133,16 +133,16 @@ const PropertyCollection = () => {
   const org = get(pC, 'organizationByOrganizationId.name', '')
   const { username } = login
   const allUsers = get(allUsersData, 'allUsers.nodes', [])
-  const user = allUsers.find(u => u.name === username)
+  const user = allUsers.find((u) => u.name === username)
   const orgsUserIsPCWriter = get(user, 'organizationUsersByUserId.nodes', [])
-    .filter(o => ['orgCollectionWriter', 'orgAdmin'].includes(o.role))
-    .map(o => ({
+    .filter((o) => ['orgCollectionWriter', 'orgAdmin'].includes(o.role))
+    .map((o) => ({
       id: o.organizationId,
       name: get(o, 'organizationByOrganizationId.name', ''),
     }))
   const userIsPCWriter = orgsUserIsPCWriter.length > 0
   const userIsThisPCWriter =
-    !!orgsUserIsPCWriter.find(o => o.id === pC.organizationId) ||
+    !!orgsUserIsPCWriter.find((o) => o.id === pC.organizationId) ||
     (userIsPCWriter && !pC.organizationId)
   const idIsReferenced =
     get(pC, 'propertyCollectionObjectsByPropertyCollectionId.totalCount', 0) >
@@ -155,17 +155,17 @@ const PropertyCollection = () => {
     ) > 0 ||
     get(pC, 'relationsByPropertyCollectionOfOrigin.totalCount', 0) > 0
   const importedBy = pC.importedBy
-  const importedByUser = allUsers.find(u => u.id === importedBy)
+  const importedByUser = allUsers.find((u) => u.id === importedBy)
 
   const onClickStopEditing = useCallback(
-    event => {
+    (event) => {
       event.stopPropagation()
       setEditingPCs(false)
     },
     [setEditingPCs],
   )
   const onClickStartEditing = useCallback(
-    event => {
+    (event) => {
       event.stopPropagation()
       setEditingPCs(true)
     },
@@ -183,7 +183,7 @@ const PropertyCollection = () => {
     [client, pC],
   )
   const onChangeOrganization = useCallback(
-    event =>
+    (event) =>
       onBlur({
         client,
         field: 'organizationId',
@@ -194,7 +194,7 @@ const PropertyCollection = () => {
     [client, pC],
   )
   const onChangeImportedBy = useCallback(
-    event =>
+    (event) =>
       onBlur({
         client,
         field: 'importedBy',
@@ -447,7 +447,7 @@ const PropertyCollection = () => {
                 onChange={onChangeOrganization}
                 input={<Input id="organizationIdArten" />}
               >
-                {orgsUserIsPCWriter.map(o => (
+                {orgsUserIsPCWriter.map((o) => (
                   <MenuItem key={o.id} value={o.id}>
                     {o.name}
                   </MenuItem>
@@ -462,7 +462,7 @@ const PropertyCollection = () => {
                 onChange={onChangeImportedBy}
                 input={<Input id="importedByArten" />}
               >
-                {allUsers.map(u => (
+                {allUsers.map((u) => (
                   <MenuItem key={u.id} value={u.id}>
                     {u.name}
                   </MenuItem>
