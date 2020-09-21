@@ -4,10 +4,10 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import Taxonomies from './Taxonomies'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
+import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 
 const exportTypes = ['Arten', 'Lebensräume']
 const exportTypeTAXToReadable = {
@@ -52,17 +52,17 @@ const ExportTypes = ({ type, taxonomies }) => {
         // check if taxonomy(s) of other type was choosen
         // if so: uncheck
         const exportTaxonomiesWithoutOtherType = exportTaxonomies.filter(
-          t => exportTypeTAXToReadable[t.type] === name,
+          (t) => exportTypeTAXToReadable[t.type] === name,
         )
         if (exportTaxonomiesWithoutOtherType.length < exportTaxonomies.length) {
           setTaxonomies(exportTaxonomiesWithoutOtherType)
         }
       } else {
-        setType(exportTypes.find(t => t !== name))
+        setType(exportTypes.find((t) => t !== name))
         // uncheck all taxonomies of this type
-        const taxonomiesToUncheck = taxonomies.map(t => t.taxonomyName)
+        const taxonomiesToUncheck = taxonomies.map((t) => t.taxonomyName)
         const remainingTaxonomies = exportTaxonomies.filter(
-          t => !taxonomiesToUncheck.includes(t),
+          (t) => !taxonomiesToUncheck.includes(t),
         )
         setTaxonomies(remainingTaxonomies)
       }
