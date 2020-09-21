@@ -4,7 +4,6 @@ import get from 'lodash/get'
 import uniqBy from 'lodash/uniqBy'
 import { useQuery } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import TaxonomyObjects from './TaxonomyObjects'
 import TaxonomyObject from './TaxonomyObjects/TaxonomyObject'
@@ -13,6 +12,7 @@ import getActiveObjectIdFromNodeArray from '../../modules/getActiveObjectIdFromN
 import objectDataQuery from './objectDataQuery'
 import mobxStoreContext from '../../mobxStoreContext'
 import Spinner from '../shared/Spinner'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div``
 const Container2 = styled.div`

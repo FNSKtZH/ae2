@@ -13,11 +13,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import styled from 'styled-components'
 import { useApolloClient } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import fetchLoginModule from './fetchLogin'
 import idbContext from '../../idbContext'
 import mobxStoreContext from '../../mobxStoreContext'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 10px;
@@ -73,7 +73,7 @@ const Login = () => {
     })
   }, [idb.users, setLogin])
   const onBlurName = useCallback(
-    e => {
+    (e) => {
       changeNameErrorText('')
       const name = e.target.value
       changeName(name)
@@ -86,7 +86,7 @@ const Login = () => {
     [fetchLogin, pass],
   )
   const onBlurPassword = useCallback(
-    e => {
+    (e) => {
       changePassErrorText('')
       const pass = e.target.value
       changePass(pass)
@@ -98,17 +98,18 @@ const Login = () => {
     },
     [fetchLogin, name],
   )
-  const onKeyPressName = useCallback(e => e.key === 'Enter' && onBlurName(e), [
-    onBlurName,
-  ])
+  const onKeyPressName = useCallback(
+    (e) => e.key === 'Enter' && onBlurName(e),
+    [onBlurName],
+  )
   const onKeyPressPass = useCallback(
-    e => e.key === 'Enter' && onBlurPassword(e),
+    (e) => e.key === 'Enter' && onBlurPassword(e),
     [onBlurPassword],
   )
   const onClickTogglePass = useCallback(() => changeShowPass(!showPass), [
     showPass,
   ])
-  const onMouseDownTogglePass = useCallback(e => {
+  const onMouseDownTogglePass = useCallback((e) => {
     e.preventDefault()
   }, [])
 

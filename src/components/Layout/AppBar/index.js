@@ -11,13 +11,13 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import { navigate } from 'gatsby'
-import ErrorBoundary from 'react-error-boundary'
 import loadable from '@loadable/component'
 import { Location } from '@reach/router'
 import ReactResizeDetector from 'react-resize-detector'
 
 import getActiveObjectIdFromNodeArray from '../../../modules/getActiveObjectIdFromNodeArray'
 import mobxStoreContext from '../../../mobxStoreContext'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 // ReactDOMServer does not yet support Suspense
 //const MoreMenu = lazy(() => import('./MoreMenu'))

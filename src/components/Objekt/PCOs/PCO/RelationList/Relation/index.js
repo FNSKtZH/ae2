@@ -1,15 +1,16 @@
 import React from 'react'
 import get from 'lodash/get'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
 import PropertyReadOnly from '../../../../../shared/PropertyReadOnly'
+import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import PropertyList from './PropertyList'
 
 const Container = styled.div`
-  border-bottom: ${props =>
+  border-bottom: ${(props) =>
     `${props['data-intermediaterelation'] ? '1px solid #c6c6c6' : 'none'}`};
-  padding-top: ${props => `${props['data-intermediaterelation'] ? 0 : '7px'}`};
+  padding-top: ${(props) =>
+    `${props['data-intermediaterelation'] ? 0 : '7px'}`};
   padding-bottom: 7px;
   column-width: 500px;
   .property p {

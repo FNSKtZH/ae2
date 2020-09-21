@@ -3,10 +3,10 @@ import GraphiQL from 'graphiql'
 import get from 'lodash/get'
 import 'graphiql/graphiql.css'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
 import graphQlUri from '../../modules/graphQlUri'
 import Spinner from '../shared/Spinner'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   height: calc(100vh - 64px);
