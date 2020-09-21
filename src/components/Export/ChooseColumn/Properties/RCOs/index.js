@@ -11,11 +11,11 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import RcList from './RcList'
 import ChooseNrOfRows from './ChooseNrOfRows'
 import mobxStoreContext from '../../../../../mobxStoreContext'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -31,7 +31,7 @@ const StyledCardActions = styled(CardActions)`
   display: flex;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -95,7 +95,7 @@ const RCOs = ({ rcoExpanded, onToggleRco }) => {
     [],
   )
 
-  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
+  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, (x) => {
     if (x.propertyCollectionName.includes(x.relationType)) {
       return x.propertyCollectionName
     }
@@ -110,16 +110,16 @@ const RCOs = ({ rcoExpanded, onToggleRco }) => {
   // in every key of rcoPropertiesByPropertyCollection
   // add id and name of Beziehungspartner
 
-  Object.values(rcoPropertiesByPropertyCollection).forEach(rpc => {
+  Object.values(rcoPropertiesByPropertyCollection).forEach((rpc) => {
     const myRpc = rpc[0] || {}
     let rco = rcoCountByTaxonomyRelationType.find(
-      r =>
+      (r) =>
         r.propertyCollectionName === myRpc.propertyCollectionName &&
         r.relationType === myRpc.relationType,
     )
     if (!rco) {
       rco = rcoCountByTaxonomyRelationType.find(
-        r =>
+        (r) =>
           `${r.propertyCollectionName}: ${r.relationType}` ===
             myRpc.propertyCollectionName &&
           r.relationType === myRpc.relationType,

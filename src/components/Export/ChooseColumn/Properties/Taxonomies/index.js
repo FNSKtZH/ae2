@@ -12,11 +12,11 @@ import sumBy from 'lodash/sumBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import TaxonomiesList from './TaxonomiesList'
 import JointTaxonomy from './JointTaxonomy'
 import mobxStoreContext from '../../../../../mobxStoreContext'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -31,7 +31,7 @@ const StyledCardActions = styled(CardActions)`
   background-color: #ffcc80;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -88,14 +88,14 @@ const Properties = ({ taxonomiesExpanded, onToggleTaxonomies }) => {
   let jointTaxProperties = []
   if (taxCount > 1) {
     jointTaxProperties = Object.values(
-      groupBy(taxProperties, t => `${t.propertyName}/${t.jsontype}`),
+      groupBy(taxProperties, (t) => `${t.propertyName}/${t.jsontype}`),
     )
-      .filter(v => v.length === taxCount)
-      .map(t => ({
-        count: sumBy(t, x => Number(x.count)),
+      .filter((v) => v.length === taxCount)
+      .map((t) => ({
+        count: sumBy(t, (x) => Number(x.count)),
         jsontype: t[0].jsontype,
         propertyName: t[0].propertyName,
-        taxonomies: t.map(x => x.taxonomyName),
+        taxonomies: t.map((x) => x.taxonomyName),
         taxname: 'Taxonomie',
       }))
   }
