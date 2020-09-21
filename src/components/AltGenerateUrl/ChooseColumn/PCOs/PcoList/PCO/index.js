@@ -12,7 +12,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { withResizeDetector } from 'react-resize-detector'
 
-import ErrorBoundary from '../../../../../../modules/ErrorBoundary'
+import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import AllChooser from './AllChooser'
 import ChooserList from './ChooserList'
 import getConstants from '../../../../../../modules/constants'
