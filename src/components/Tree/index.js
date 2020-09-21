@@ -9,7 +9,6 @@ import get from 'lodash/get'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import Row from './Row'
 import Filter from './Filter'
@@ -24,6 +23,7 @@ import CmType from './contextmenu/Type'
 import CmPCFolder from './contextmenu/PCFolder'
 import CmPC from './contextmenu/PC'
 import mobxStoreContext from '../../mobxStoreContext'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const singleRowHeight = 23
 const Container = styled.div`

@@ -3,9 +3,9 @@ import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import format from 'date-fns/format'
 import { useApolloClient } from '@apollo/react-hooks'
-import ErrorBoundary from 'react-error-boundary'
 
 import onBlurLr from './onBlurLr'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 5px 0;
@@ -15,9 +15,9 @@ const Property = ({ taxonomy, field, label, type = 'text', disabled }) => {
   const client = useApolloClient()
   const [value, setValue] = useState(taxonomy[field] || '')
 
-  const onChange = useCallback(event => setValue(event.target.value), [])
+  const onChange = useCallback((event) => setValue(event.target.value), [])
   const onBlur = useCallback(
-    event =>
+    (event) =>
       onBlurLr({
         client,
         field,
