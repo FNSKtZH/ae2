@@ -6,10 +6,10 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 import { withResizeDetector } from 'react-resize-detector'
 
 import Properties from './Properties'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 import getConstants from '../../../../../modules/constants'
 const constants = getConstants()
 

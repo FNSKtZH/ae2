@@ -10,12 +10,12 @@ import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import Taxonomies from './Taxonomies'
 import Properties from './Properties'
 import Filter from './Filter'
 import mobxStoreContext from '../../../mobxStoreContext'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const StyledSnackbar = styled(Snackbar)`
   div {
@@ -34,7 +34,7 @@ const StyledCardActions = styled(CardActions)`
   background-color: #ffcc80;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -199,7 +199,7 @@ const Export = () => {
   const [propertiesExpanded, setPropertiesExpanded] = useState(false)
   const [message, setMessage] = useState('')
 
-  const onSetMessage = useCallback(message => {
+  const onSetMessage = useCallback((message) => {
     setMessage(message)
     if (!!message) {
       setTimeout(() => setMessage(''), 5000)

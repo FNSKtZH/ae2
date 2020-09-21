@@ -7,7 +7,6 @@ import get from 'lodash/get'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import HowTo from './HowTo'
 import Tipps from './Tipps'
@@ -16,6 +15,7 @@ import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
 import mobxStoreContext from '../../../../mobxStoreContext'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 0 5px;
