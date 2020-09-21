@@ -12,9 +12,9 @@ import InfoIcon from '@material-ui/icons/Info'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
 import PCDescription from '../../../shared/PCDescription'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 import RelationList from './RelationList'
 import PropertyList from './PropertyList'
 
@@ -38,7 +38,7 @@ const StyledCardActions = styled(CardActions)`
   background-color: #ffcc80;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -64,9 +64,9 @@ const PCO = ({ pCO, relations, stacked }) => {
 
   let propertiesArray = Object.entries(properties)
   propertiesArray = propertiesArray.filter(
-    o => o[1] || o[1] === 0 || o[1] === false,
+    (o) => o[1] || o[1] === 0 || o[1] === false,
   )
-  propertiesArray = sortBy(propertiesArray, e => e[0]).filter(
+  propertiesArray = sortBy(propertiesArray, (e) => e[0]).filter(
     ([key, value]) => value || value === 0 || value === false,
   )
   const relationsTitleText =
@@ -78,7 +78,7 @@ const PCO = ({ pCO, relations, stacked }) => {
     ? 'Beschreibung der Eigenschaften-Sammlung schliessen'
     : 'Beschreibung der Eigenschaften-Sammlung öffnen'
   const onClickIcon = useCallback(
-    event => {
+    (event) => {
       event.stopPropagation()
       setPCDescriptionExpanded(!pCDescriptionExpanded)
       setExpanded(true)

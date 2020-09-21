@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import OptionsChoosen from './OptionsChoosen'
 import Preview from './Preview'
 import mobxStoreContext from '../../../mobxStoreContext'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 5px 0;

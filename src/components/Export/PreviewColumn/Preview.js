@@ -8,13 +8,13 @@ import orderBy from 'lodash/orderBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 import { getSnapshot } from 'mobx-state-tree'
 
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import rowsFromObjects from './rowsFromObjects'
 import mobxStoreContext from '../../../mobxStoreContext'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding-top: 5px;
@@ -253,14 +253,14 @@ const Preview = () => {
   const [sortDirection, setSortDirection] = useState('asc')
   const [message, setMessage] = useState('')
 
-  const onSetMessage = useCallback(message => {
+  const onSetMessage = useCallback((message) => {
     setMessage(message)
     if (!!message) {
       setTimeout(() => setMessage(''), 5000)
     }
   }, [])
 
-  const exportRcoPropertyNames = rcoProperties.map(p => p.pname)
+  const exportRcoPropertyNames = rcoProperties.map((p) => p.pname)
   const objects = get(exportObjectData, 'exportObject.nodes', [])
   const pco = get(exportPcoData, 'exportPco.nodes', [])
   const rco = get(exportRcoData, 'exportRco.nodes', [])
@@ -349,7 +349,7 @@ const Preview = () => {
             <ReactDataGrid
               onGridSort={onGridSort}
               columns={pvColumns}
-              rowGetter={i => rows[i]}
+              rowGetter={(i) => rows[i]}
               rowsCount={rows.length}
               minHeight={500}
               minColumnWidth={120}
