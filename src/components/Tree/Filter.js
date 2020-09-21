@@ -8,10 +8,10 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 import { navigate } from 'gatsby'
-import ErrorBoundary from 'react-error-boundary'
 
 import getUrlForObject from '../../modules/getUrlForObject'
 import mobxStoreContext from '../../mobxStoreContext'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 5px 16px 0 13px;

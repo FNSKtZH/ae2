@@ -3,9 +3,9 @@ import Typography from '@material-ui/core/Typography'
 import { navigate } from 'gatsby'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
-import ErrorBoundary from 'react-error-boundary'
 
 import Layout from '../components/Layout'
+import ErrorBoundary from '../components/shared/ErrorBoundary'
 
 const Container = styled.div`
   height: 100%;

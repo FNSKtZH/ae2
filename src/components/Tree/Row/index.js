@@ -8,12 +8,12 @@ import isEqual from 'lodash/isEqual'
 import { useApolloClient } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
 import { navigate } from 'gatsby'
-import ErrorBoundary from 'react-error-boundary'
 
 import { ContextMenuTrigger } from '../../../modules/react-contextmenu'
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
 import onClickContextMenuDo from './onClickContextMenu'
 import mobxStoreContext from '../../../mobxStoreContext'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const singleRowHeight = 23
 const StyledNode = styled.div`
