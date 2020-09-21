@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import copy from 'copy-to-clipboard'
 import { observer } from 'mobx-react-lite'
 
-import ErrorBoundary from '../../../modules/ErrorBoundary'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`

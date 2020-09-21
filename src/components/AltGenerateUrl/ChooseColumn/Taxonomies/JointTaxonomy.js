@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { withResizeDetector } from 'react-resize-detector'
 
-import ErrorBoundary from '../../../../modules/ErrorBoundary'
+import ErrorBoundary from '../../../shared/ErrorBoundary'
 import AllTaxChooser from './AllTaxChooser'
 import TaxChooserList from './TaxChooserList'
 import getConstants from '../../../../modules/constants'
