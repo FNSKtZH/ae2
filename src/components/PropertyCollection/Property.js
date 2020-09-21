@@ -4,9 +4,9 @@ import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import format from 'date-fns/format'
 import { useApolloClient } from '@apollo/react-hooks'
-import ErrorBoundary from 'react-error-boundary'
 
 import onBlurDo from './onBlur'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 5px 0;
@@ -16,7 +16,7 @@ const StyledFormControl = styled(FormControl)`
 `
 const StyledTextField = styled(TextField)`
   p {
-    color: ${props => (props.error ? 'red' : 'rgba(0,0,0,0.54)')};
+    color: ${(props) => (props.error ? 'red' : 'rgba(0,0,0,0.54)')};
   }
 `
 
@@ -33,11 +33,11 @@ const Property = ({
   const [value, setValue] = useState(pC[field] || '')
   const [error, setError] = useState(null)
 
-  const onChange = useCallback(event => {
+  const onChange = useCallback((event) => {
     setValue(event.target.value)
   }, [])
   const onBlur = useCallback(
-    event =>
+    (event) =>
       onBlurDo({
         client,
         field,

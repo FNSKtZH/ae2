@@ -8,12 +8,12 @@ import AddIcon from '@material-ui/icons/Add'
 import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import createOrgUserMutation from './createOrgUserMutation'
 import OrgUsersList from './OrgUsersList'
 import mobxStoreContext from '../../../mobxStoreContext'
 import Spinner from '../../shared/Spinner'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;

@@ -5,11 +5,11 @@ import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import appBaseUrl from '../../modules/appBaseUrl'
 import mobxStoreContext from '../../mobxStoreContext'
 import Spinner from '../shared/Spinner'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   display: flex;
