@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 import debounce from 'lodash/debounce'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
@@ -9,6 +8,7 @@ import Tab from '@material-ui/core/Tab'
 import SwipeableViews from 'react-swipeable-views'
 
 import Layout from '../components/Layout'
+import ErrorBoundary from '../components/shared/ErrorBoundary'
 import Sidebar from '../templates/Sidebar'
 import useLocation from '../modules/useLocation'
 
@@ -51,7 +51,7 @@ const Dokumentation = ({ data }) => {
   const { allMarkdownRemark } = data
   const { edges } = allMarkdownRemark
   const { pathname } = useLocation()
-  const pathElements = pathname.split('/').filter(p => !!p)
+  const pathElements = pathname.split('/').filter((p) => !!p)
 
   const [tab, setTab] = useState(0)
   const onChangeTab = useCallback((event, value) => setTab(value), [])
@@ -101,7 +101,7 @@ const Dokumentation = ({ data }) => {
           <StyledSwipeableViews
             axis="x"
             index={tab}
-            onChangeIndex={i => setTab(i)}
+            onChangeIndex={(i) => setTab(i)}
           >
             <Sidebar
               title="Dokumentation"
