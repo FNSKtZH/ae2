@@ -11,11 +11,11 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 import { withResizeDetector } from 'react-resize-detector'
 
 import Properties from './Properties'
 import mobxStoreContext from '../../../../../../mobxStoreContext'
+import ErrorBoundary from '../../../../../shared/ErrorBoundary'
 import getConstants from '../../../../../../modules/constants'
 const constants = getConstants()
 
@@ -59,7 +59,7 @@ const propsByTaxQuery = gql`
     $exportTaxonomies: [String]
   ) {
     pcoPropertiesByTaxonomiesFunction(taxonomyNames: $exportTaxonomies)
-    @include(if: $queryExportTaxonomies) {
+      @include(if: $queryExportTaxonomies) {
       nodes {
         propertyCollectionName
         propertyName

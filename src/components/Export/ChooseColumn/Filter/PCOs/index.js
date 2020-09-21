@@ -11,10 +11,10 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import PCO from './PCO'
 import mobxStoreContext from '../../../../../mobxStoreContext'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -32,7 +32,7 @@ const StyledCardActions = styled(CardActions)`
   background-color: #ffcc80;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -122,7 +122,7 @@ const PcosCard = ({ pcoExpanded, onTogglePco }) => {
             </CardActionIconButton>
           </StyledCardActions>
           <Collapse in={pcoExpanded} timeout="auto" unmountOnExit>
-            {Object.keys(pcoPropertiesByPropertyCollection).map(pc => (
+            {Object.keys(pcoPropertiesByPropertyCollection).map((pc) => (
               <PCO key={pc} pc={pc} />
             ))}
           </Collapse>

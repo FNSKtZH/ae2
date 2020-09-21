@@ -67,7 +67,7 @@
     "react-data-grid": "6.1.0",
     "react-dom": "16.13.1",
     "react-dropzone": "11.2.0",
-    "react-error-boundary": "1.2.5",
+    "react-error-boundary": "3.0.2",
     "react-fns": "1.4.0",
     "react-helmet": "6.1.0",
     "react-icons": "3.11.0",

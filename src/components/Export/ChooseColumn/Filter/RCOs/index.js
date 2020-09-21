@@ -11,10 +11,10 @@ import groupBy from 'lodash/groupBy'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import RCO from './RCO'
 import mobxStoreContext from '../../../../../mobxStoreContext'
+import ErrorBoundary from '../../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   margin: 10px 0;
@@ -32,7 +32,7 @@ const StyledCardActions = styled(CardActions)`
   background-color: #ffcc80;
 `
 const CardActionIconButton = styled(IconButton)`
-  transform: ${props => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
+  transform: ${(props) => (props['data-expanded'] ? 'rotate(180deg)' : 'none')};
 `
 const CardActionTitle = styled.div`
   padding-left: 8px;
@@ -82,7 +82,7 @@ const RcosCard = ({ rcoExpanded, onToggleRco }) => {
     [],
   )
 
-  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, x => {
+  const rcoPropertiesByPropertyCollection = groupBy(rcoProperties, (x) => {
     if (x.propertyCollectionName.includes(x.relationType)) {
       return x.propertyCollectionName
     }
@@ -127,7 +127,7 @@ const RcosCard = ({ rcoExpanded, onToggleRco }) => {
             </CardActionIconButton>
           </StyledCardActions>
           <Collapse in={rcoExpanded} timeout="auto" unmountOnExit>
-            {Object.keys(rcoPropertiesByPropertyCollection).map(pc => (
+            {Object.keys(rcoPropertiesByPropertyCollection).map((pc) => (
               <RCO key={pc} pc={pc} />
             ))}
           </Collapse>
