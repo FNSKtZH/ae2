@@ -7,6 +7,8 @@ import { navigate } from 'gatsby'
 import 'isomorphic-fetch'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 
+// see: https://github.com/fontsource/fontsource/tree/master/packages/roboto-mono
+import 'fontsource-roboto'
 import theme from './theme'
 import './index.css'
 import 'react-reflex/styles.css'
