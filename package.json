@@ -78,6 +78,7 @@
     "react-swipeable-views": "0.13.9",
     "react-typography": "0.16.19",
     "react-window": "1.8.5",
+    "simplebar-react": "2.3.0",
     "styled-components": "5.2.0",
     "typography": "0.16.19",
     "use-subscription": "1.4.1",
