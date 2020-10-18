@@ -4,6 +4,8 @@ import get from 'lodash/get'
 import uniqBy from 'lodash/uniqBy'
 import { useQuery } from '@apollo/react-hooks'
 import { observer } from 'mobx-react-lite'
+import SimpleBar from 'simplebar-react'
+import { withResizeDetector } from 'react-resize-detector'
 
 import TaxonomyObjects from './TaxonomyObjects'
 import TaxonomyObject from './TaxonomyObjects/TaxonomyObject'
@@ -14,13 +16,8 @@ import mobxStoreContext from '../../mobxStoreContext'
 import Spinner from '../shared/Spinner'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
-const Container = styled.div``
 const Container2 = styled.div`
   padding: 10px;
-`
-const ScrollContainer = styled.div`
-  height: 100%;
-  overflow: auto !important;
 `
 const Title = styled.h3`
   margin: 15px 0 -5px 0;
@@ -38,7 +35,7 @@ const SynonymTitle = styled(Title)`
   margin-bottom: 5px;
 `
 
-const Objekt = ({ stacked = false }) => {
+const Objekt = ({ stacked = false, height = 800 }) => {
   const mobxStore = useContext(mobxStoreContext)
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
@@ -82,58 +79,59 @@ const Objekt = ({ stacked = false }) => {
   )
 
   if (objectLoading) return <Spinner />
-  if (objectError)
+  if (objectError) {
     return <Container2>{`Fehler: ${objectError.message}`}</Container2>
+  }
+
+  console.log('hi, height:', height)
 
   return (
     <ErrorBoundary>
-      <Container>
-        <ScrollContainer>
-          <FirstTitle>Taxonomie</FirstTitle>
-          <TaxonomyObject objekt={objekt} stacked={stacked} />
-          {synonymObjects.length > 0 && (
-            <SynonymTitle>
-              {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
-              <TitleSpan>
-                {synonymObjects.length > 1 ? ` (${synonymObjects.length})` : ''}
-              </TitleSpan>
-            </SynonymTitle>
-          )}
-          <TaxonomyObjects objects={synonymObjects} stacked={stacked} />
-          {propertyCollectionObjects.length > 0 && (
-            <Title>
-              Eigenschaften
-              <TitleSpan>{` (${propertyCollectionObjects.length} ${
-                propertyCollectionObjects.length > 1 ? 'Sammlungen' : 'Sammlung'
-              })`}</TitleSpan>
-            </Title>
-          )}
-          <PCOs
-            pCOs={propertyCollectionObjects}
-            relations={relations}
-            stacked={stacked}
-          />
-          {propertyCollectionObjectsOfSynonyms.length > 0 && (
-            <Title>
-              Eigenschaften von Synonymen
-              <TitleSpan>
-                {` (${propertyCollectionObjectsOfSynonyms.length} ${
-                  propertyCollectionObjectsOfSynonyms.length > 1
-                    ? 'Sammlungen'
-                    : 'Sammlung'
-                })`}
-              </TitleSpan>
-            </Title>
-          )}
-          <PCOs
-            pCOs={propertyCollectionObjectsOfSynonyms}
-            relations={relations}
-            stacked={stacked}
-          />
-        </ScrollContainer>
-      </Container>
+      <SimpleBar style={{ maxHeight: height, height: '100%' }}>
+        <FirstTitle>Taxonomie</FirstTitle>
+        <TaxonomyObject objekt={objekt} stacked={stacked} />
+        {synonymObjects.length > 0 && (
+          <SynonymTitle>
+            {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
+            <TitleSpan>
+              {synonymObjects.length > 1 ? ` (${synonymObjects.length})` : ''}
+            </TitleSpan>
+          </SynonymTitle>
+        )}
+        <TaxonomyObjects objects={synonymObjects} stacked={stacked} />
+        {propertyCollectionObjects.length > 0 && (
+          <Title>
+            Eigenschaften
+            <TitleSpan>{` (${propertyCollectionObjects.length} ${
+              propertyCollectionObjects.length > 1 ? 'Sammlungen' : 'Sammlung'
+            })`}</TitleSpan>
+          </Title>
+        )}
+        <PCOs
+          pCOs={propertyCollectionObjects}
+          relations={relations}
+          stacked={stacked}
+        />
+        {propertyCollectionObjectsOfSynonyms.length > 0 && (
+          <Title>
+            Eigenschaften von Synonymen
+            <TitleSpan>
+              {` (${propertyCollectionObjectsOfSynonyms.length} ${
+                propertyCollectionObjectsOfSynonyms.length > 1
+                  ? 'Sammlungen'
+                  : 'Sammlung'
+              })`}
+            </TitleSpan>
+          </Title>
+        )}
+        <PCOs
+          pCOs={propertyCollectionObjectsOfSynonyms}
+          relations={relations}
+          stacked={stacked}
+        />
+      </SimpleBar>
     </ErrorBoundary>
   )
 }
 
-export default observer(Objekt)
+export default withResizeDetector(observer(Objekt))

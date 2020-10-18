@@ -14,7 +14,6 @@ import ErrorBoundary from '../../../shared/ErrorBoundary'
 
 const Container = styled.div`
   padding: 0 5px;
-  overflow: auto !important;
 `
 
 const propsByTaxQuery = gql`
