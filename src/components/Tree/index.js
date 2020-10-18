@@ -121,16 +121,17 @@ const StyledList = styled(List)`
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
 
+  /* hide native scrollbar */
   &::-webkit-scrollbar {
     width: 1px;
   }
-
   &::-webkit-scrollbar-track {
     background: transparent;
+    box-shadow: none;
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: transparent;
+    box-shadow: none;
   }
 `
 const AutoSizerContainer = styled.div`
