@@ -17,9 +17,14 @@ body {
 }
 
 /* scrollbars */
+
 ::-webkit-scrollbar {
   width: 12px;
   background: rgba(255, 253, 231, 0.1);
+}
+
+.simplebar-scrollbar:before {
+  background: #e65100 !important;
 }
 
 ::-webkit-scrollbar:horizontal {

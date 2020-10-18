@@ -7,6 +7,8 @@ import { navigate } from 'gatsby'
 import 'isomorphic-fetch'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 
+import 'simplebar/dist/simplebar.min.css'
+
 // see: https://github.com/fontsource/fontsource/tree/master/packages/roboto-mono
 import 'fontsource-roboto'
 import theme from './theme'

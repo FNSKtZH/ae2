@@ -10,6 +10,8 @@ import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import SimpleBar from 'simplebar-react'
+import { withResizeDetector } from 'react-resize-detector'
 
 import Taxonomies from './Taxonomies'
 import Properties from './Properties'
@@ -41,11 +43,9 @@ const CardActionTitle = styled.div`
   font-weight: bold;
   word-break: break-word;
 `
-
 const Container = styled.div`
   padding: 0 5px;
   overflow-x: hidden !important;
-  overflow-y: auto !important;
   height: 100%;
 `
 const ErrorContainer = styled.div`
@@ -148,7 +148,7 @@ const synonymQuery = gql`
   }
 `
 
-const Export = () => {
+const Export = ({ height }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { taxProperties, taxFilters } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
@@ -267,62 +267,64 @@ const Export = () => {
 
   return (
     <ErrorBoundary>
-      <Container>
-        <StyledCard>
-          <StyledCardActions disableSpacing onClick={onToggleTaxonomies}>
-            <CardActionTitle>1. Taxonomie(n) wählen</CardActionTitle>
-            <CardActionIconButton
-              data-expanded={taxonomiesExpanded}
-              aria-expanded={taxonomiesExpanded}
-              aria-label="Show more"
-            >
-              <Icon>
-                <ExpandMoreIcon />
-              </Icon>
-            </CardActionIconButton>
-          </StyledCardActions>
-          <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
-            <Taxonomies />
-          </Collapse>
-        </StyledCard>
-        <StyledCard>
-          <StyledCardActions disableSpacing onClick={onToggleFilter}>
-            <CardActionTitle>2. filtern</CardActionTitle>
-            <CardActionIconButton
-              data-expanded={filterExpanded}
-              aria-expanded={filterExpanded}
-              aria-label="Show more"
-            >
-              <Icon>
-                <ExpandMoreIcon />
-              </Icon>
-            </CardActionIconButton>
-          </StyledCardActions>
-          <Collapse in={filterExpanded} timeout="auto" unmountOnExit>
-            <Filter />
-          </Collapse>
-        </StyledCard>
-        <StyledCard>
-          <StyledCardActions disableSpacing onClick={onToggleProperties}>
-            <CardActionTitle>3. Eigenschaften wählen</CardActionTitle>
-            <CardActionIconButton
-              data-expanded={propertiesExpanded}
-              aria-expanded={propertiesExpanded}
-              aria-label="Show more"
-            >
-              <Icon>
-                <ExpandMoreIcon />
-              </Icon>
-            </CardActionIconButton>
-          </StyledCardActions>
-          <Collapse in={propertiesExpanded} timeout="auto" unmountOnExit>
-            <Properties />
-          </Collapse>
-        </StyledCard>
-        <StyledSnackbar open={!!message} message={message} />
-      </Container>
+      <SimpleBar style={{ maxHeight: height, height: '100%' }}>
+        <Container>
+          <StyledCard>
+            <StyledCardActions disableSpacing onClick={onToggleTaxonomies}>
+              <CardActionTitle>1. Taxonomie(n) wählen</CardActionTitle>
+              <CardActionIconButton
+                data-expanded={taxonomiesExpanded}
+                aria-expanded={taxonomiesExpanded}
+                aria-label="Show more"
+              >
+                <Icon>
+                  <ExpandMoreIcon />
+                </Icon>
+              </CardActionIconButton>
+            </StyledCardActions>
+            <Collapse in={taxonomiesExpanded} timeout="auto" unmountOnExit>
+              <Taxonomies />
+            </Collapse>
+          </StyledCard>
+          <StyledCard>
+            <StyledCardActions disableSpacing onClick={onToggleFilter}>
+              <CardActionTitle>2. filtern</CardActionTitle>
+              <CardActionIconButton
+                data-expanded={filterExpanded}
+                aria-expanded={filterExpanded}
+                aria-label="Show more"
+              >
+                <Icon>
+                  <ExpandMoreIcon />
+                </Icon>
+              </CardActionIconButton>
+            </StyledCardActions>
+            <Collapse in={filterExpanded} timeout="auto" unmountOnExit>
+              <Filter />
+            </Collapse>
+          </StyledCard>
+          <StyledCard>
+            <StyledCardActions disableSpacing onClick={onToggleProperties}>
+              <CardActionTitle>3. Eigenschaften wählen</CardActionTitle>
+              <CardActionIconButton
+                data-expanded={propertiesExpanded}
+                aria-expanded={propertiesExpanded}
+                aria-label="Show more"
+              >
+                <Icon>
+                  <ExpandMoreIcon />
+                </Icon>
+              </CardActionIconButton>
+            </StyledCardActions>
+            <Collapse in={propertiesExpanded} timeout="auto" unmountOnExit>
+              <Properties />
+            </Collapse>
+          </StyledCard>
+          <StyledSnackbar open={!!message} message={message} />
+        </Container>
+      </SimpleBar>
     </ErrorBoundary>
   )
 }
 
-export default observer(Export)
+export default withResizeDetector(observer(Export))

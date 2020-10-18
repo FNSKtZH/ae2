@@ -8,7 +8,6 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 
 const DataElement = styled(ReflexElement)`
   overflow-x: hidden !important;
-  overflow-y: auto !important;
 `
 
 const DataFlexed = () => (

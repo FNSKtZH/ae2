@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import SimpleBar from 'simplebar-react'
+import { withResizeDetector } from 'react-resize-detector'
 
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import HowTo from './HowTo'
@@ -15,7 +17,6 @@ import mobxStoreContext from '../../../mobxStoreContext'
 
 const Container = styled.div`
   padding: 10px;
-  overflow: auto !important;
   height: 100%;
 `
 const StyledSnackbar = styled(Snackbar)`
@@ -58,7 +59,7 @@ const propsByTaxQuery = gql`
   }
 `
 
-const Properties = () => {
+const Properties = ({ height }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { setTaxonomies } = mobxStore.export
   const constants = getConstants()
@@ -111,19 +112,21 @@ const Properties = () => {
 
   return (
     <ErrorBoundary>
-      <Container>
-        <StyledH3>Eigenschaften wählen</StyledH3>
-        <HowTo />
-        <Taxonomies
-          taxonomiesExpanded={taxonomiesExpanded}
-          onToggleTaxonomies={onToggleTaxonomies}
-        />
-        <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
-        <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
-        <StyledSnackbar open={!!message} message={message} />
-      </Container>
+      <SimpleBar style={{ maxHeight: height, height: '100%' }}>
+        <Container>
+          <StyledH3>Eigenschaften wählen</StyledH3>
+          <HowTo />
+          <Taxonomies
+            taxonomiesExpanded={taxonomiesExpanded}
+            onToggleTaxonomies={onToggleTaxonomies}
+          />
+          <PCOs pcoExpanded={pcoExpanded} onTogglePco={onTogglePco} />
+          <RCOs rcoExpanded={rcoExpanded} onToggleRco={onToggleRco} />
+          <StyledSnackbar open={!!message} message={message} />
+        </Container>
+      </SimpleBar>
     </ErrorBoundary>
   )
 }
 
-export default observer(Properties)
+export default withResizeDetector(observer(Properties))
