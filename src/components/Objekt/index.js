@@ -16,6 +16,9 @@ import mobxStoreContext from '../../mobxStoreContext'
 import Spinner from '../shared/Spinner'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
+const Container = styled.div`
+  height: 100%;
+`
 const Container2 = styled.div`
   padding: 10px;
 `
@@ -35,7 +38,7 @@ const SynonymTitle = styled(Title)`
   margin-bottom: 5px;
 `
 
-const Objekt = ({ stacked = false, height = 800 }) => {
+const Objekt = ({ stacked = false, height }) => {
   const mobxStore = useContext(mobxStoreContext)
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
@@ -85,49 +88,51 @@ const Objekt = ({ stacked = false, height = 800 }) => {
 
   return (
     <ErrorBoundary>
-      <SimpleBar style={{ maxHeight: height, height: '100%' }}>
-        <FirstTitle>Taxonomie</FirstTitle>
-        <TaxonomyObject objekt={objekt} stacked={stacked} />
-        {synonymObjects.length > 0 && (
-          <SynonymTitle>
-            {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
-            <TitleSpan>
-              {synonymObjects.length > 1 ? ` (${synonymObjects.length})` : ''}
-            </TitleSpan>
-          </SynonymTitle>
-        )}
-        <TaxonomyObjects objects={synonymObjects} stacked={stacked} />
-        {propertyCollectionObjects.length > 0 && (
-          <Title>
-            Eigenschaften
-            <TitleSpan>{` (${propertyCollectionObjects.length} ${
-              propertyCollectionObjects.length > 1 ? 'Sammlungen' : 'Sammlung'
-            })`}</TitleSpan>
-          </Title>
-        )}
-        <PCOs
-          pCOs={propertyCollectionObjects}
-          relations={relations}
-          stacked={stacked}
-        />
-        {propertyCollectionObjectsOfSynonyms.length > 0 && (
-          <Title>
-            Eigenschaften von Synonymen
-            <TitleSpan>
-              {` (${propertyCollectionObjectsOfSynonyms.length} ${
-                propertyCollectionObjectsOfSynonyms.length > 1
-                  ? 'Sammlungen'
-                  : 'Sammlung'
-              })`}
-            </TitleSpan>
-          </Title>
-        )}
-        <PCOs
-          pCOs={propertyCollectionObjectsOfSynonyms}
-          relations={relations}
-          stacked={stacked}
-        />
-      </SimpleBar>
+      <Container>
+        <SimpleBar style={{ maxHeight: height }}>
+          <FirstTitle>Taxonomie</FirstTitle>
+          <TaxonomyObject objekt={objekt} stacked={stacked} />
+          {synonymObjects.length > 0 && (
+            <SynonymTitle>
+              {synonymObjects.length > 1 ? 'Synonyme' : 'Synonym'}
+              <TitleSpan>
+                {synonymObjects.length > 1 ? ` (${synonymObjects.length})` : ''}
+              </TitleSpan>
+            </SynonymTitle>
+          )}
+          <TaxonomyObjects objects={synonymObjects} stacked={stacked} />
+          {propertyCollectionObjects.length > 0 && (
+            <Title>
+              Eigenschaften
+              <TitleSpan>{` (${propertyCollectionObjects.length} ${
+                propertyCollectionObjects.length > 1 ? 'Sammlungen' : 'Sammlung'
+              })`}</TitleSpan>
+            </Title>
+          )}
+          <PCOs
+            pCOs={propertyCollectionObjects}
+            relations={relations}
+            stacked={stacked}
+          />
+          {propertyCollectionObjectsOfSynonyms.length > 0 && (
+            <Title>
+              Eigenschaften von Synonymen
+              <TitleSpan>
+                {` (${propertyCollectionObjectsOfSynonyms.length} ${
+                  propertyCollectionObjectsOfSynonyms.length > 1
+                    ? 'Sammlungen'
+                    : 'Sammlung'
+                })`}
+              </TitleSpan>
+            </Title>
+          )}
+          <PCOs
+            pCOs={propertyCollectionObjectsOfSynonyms}
+            relations={relations}
+            stacked={stacked}
+          />
+        </SimpleBar>
+      </Container>
     </ErrorBoundary>
   )
 }
