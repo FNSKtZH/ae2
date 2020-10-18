@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { Link } from 'gatsby'
 import { observer } from 'mobx-react-lite'
+import SimpleBar from 'simplebar-react'
+import { withResizeDetector } from 'react-resize-detector'
 
 import storeContext from '../../mobxStoreContext'
 import MenuItems from './MenuItems'
@@ -12,11 +14,10 @@ import getConstants from '../../modules/constants'
 const constants = getConstants()
 
 const Menu = styled.div`
-  width: ${props =>
+  width: ${(props) =>
     props['data-stacked'] ? '100%' : `${constants.sidebar.width}px`};
   min-width: ${constants.sidebar.width}px;
   height: calc(100vh - 64px);
-  overflow-y: auto;
   padding: 25px 0;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
 `
@@ -33,13 +34,13 @@ const MenuTitleLink = styled(Link)`
   }
 `
 
-const Sidebar = ({ title, titleLink, edges, stacked }) => {
+const Sidebar = ({ title, titleLink, edges, stacked, height }) => {
   const store = useContext(storeContext)
   const { docFilter, sidebarWidth } = store
 
   const items = edges
-    .filter(n => !!n && !!n.node)
-    .filter(n =>
+    .filter((n) => !!n && !!n.node)
+    .filter((n) =>
       docFilter
         ? get(n, 'node.frontmatter.title', '(Titel fehlt)')
             .toLowerCase()
@@ -50,13 +51,15 @@ const Sidebar = ({ title, titleLink, edges, stacked }) => {
   if (sidebarWidth === 0) return null
   return (
     <Menu data-stacked={stacked}>
-      <MenuTitle>
-        <MenuTitleLink to={titleLink}>{title}</MenuTitleLink>
-        <Filter />
-      </MenuTitle>
-      <MenuItems items={items} />
+      <SimpleBar style={{ maxHeight: height, height: '100%', width: '100%' }}>
+        <MenuTitle>
+          <MenuTitleLink to={titleLink}>{title}</MenuTitleLink>
+          <Filter />
+        </MenuTitle>
+        <MenuItems items={items} />
+      </SimpleBar>
     </Menu>
   )
 }
 
-export default observer(Sidebar)
+export default withResizeDetector(observer(Sidebar))

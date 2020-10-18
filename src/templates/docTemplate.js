@@ -6,6 +6,8 @@ import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import SwipeableViews from 'react-swipeable-views'
+import SimpleBar from 'simplebar-react'
+import { withResizeDetector } from 'react-resize-detector'
 
 import Layout from '../components/Layout'
 import ErrorBoundary from '../components/shared/ErrorBoundary'
@@ -19,7 +21,6 @@ const Container = styled.div`
 const Doku = styled.div`
   width: 100%;
   padding: 25px;
-  overflow-y: auto;
   ul {
     margin-top: 0;
   }
@@ -52,7 +53,7 @@ const StyledSwipeableViews = styled(SwipeableViews)`
   }
 `
 
-const DocTemplate = ({ data }) => {
+const DocTemplate = ({ data, height }) => {
   const { markdownRemark, allMarkdownRemark } = data
   const { frontmatter, html } = markdownRemark
   const { edges } = allMarkdownRemark
@@ -126,11 +127,15 @@ const DocTemplate = ({ data }) => {
               edges={edges}
               stacked={true}
             />
-            <Doku>
-              <h1>{frontmatter.title}</h1>
-              <DokuDate>{frontmatter.date}</DokuDate>
-              <div dangerouslySetInnerHTML={{ __html: html }} />
-            </Doku>
+            <SimpleBar
+              style={{ maxHeight: height, height: '100%', width: '100%' }}
+            >
+              <Doku>
+                <h1>{frontmatter.title}</h1>
+                <DokuDate>{frontmatter.date}</DokuDate>
+                <div dangerouslySetInnerHTML={{ __html: html }} />
+              </Doku>
+            </SimpleBar>
           </StyledSwipeableViews>
         </Layout>
       </ErrorBoundary>
@@ -146,11 +151,15 @@ const DocTemplate = ({ data }) => {
             titleLink="/Dokumentation/"
             edges={edges}
           />
-          <Doku>
-            <h1>{frontmatter.title}</h1>
-            <DokuDate>{frontmatter.date}</DokuDate>
-            <div dangerouslySetInnerHTML={{ __html: html }} />
-          </Doku>
+          <SimpleBar
+            style={{ maxHeight: height, height: '100%', width: '100%' }}
+          >
+            <Doku>
+              <h1>{frontmatter.title}</h1>
+              <DokuDate>{frontmatter.date}</DokuDate>
+              <div dangerouslySetInnerHTML={{ __html: html }} />
+            </Doku>
+          </SimpleBar>
         </Container>
       </Layout>
     </ErrorBoundary>
@@ -186,4 +195,4 @@ export const pageQuery = graphql`
   }
 `
 
-export default DocTemplate
+export default withResizeDetector(DocTemplate)

@@ -19,7 +19,6 @@ const Container = styled.div`
 const Doku = styled.div`
   width: 100%;
   padding: 25px;
-  overflow-y: auto;
   ul {
     margin-top: 0;
   }
