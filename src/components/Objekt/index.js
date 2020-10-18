@@ -83,8 +83,6 @@ const Objekt = ({ stacked = false, height = 800 }) => {
     return <Container2>{`Fehler: ${objectError.message}`}</Container2>
   }
 
-  console.log('hi, height:', height)
-
   return (
     <ErrorBoundary>
       <SimpleBar style={{ maxHeight: height, height: '100%' }}>

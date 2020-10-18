@@ -9,6 +9,7 @@ import get from 'lodash/get'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
+import SimpleBar from 'simplebar-react'
 
 import Row from './Row'
 import Filter from './Filter'
@@ -117,6 +118,20 @@ const Container = styled.div`
 `
 const StyledList = styled(List)`
   overflow-x: hidden !important;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
 `
 const AutoSizerContainer = styled.div`
   height: 100%;
@@ -280,26 +295,35 @@ const Tree = ({ dimensions }) => {
     <ErrorBoundary>
       <Container>
         <Filter dimensions={dimensions} />
-        <AutoSizerContainer>
-          <StyledList
-            height={height}
-            itemCount={nodes.length}
-            itemSize={singleRowHeight}
-            width={width}
-            ref={listRef}
-          >
-            {({ index, style }) => (
-              <Row
-                key={index}
-                style={style}
-                index={index}
-                node={nodes[index]}
-                treeRefetch={treeRefetch}
-                userId={userId}
-              />
-            )}
-          </StyledList>
-        </AutoSizerContainer>
+        <SimpleBar style={{ maxHeight: height, height: '100%' }}>
+          {({ scrollableNodeRef, contentNodeRef }) => {
+            return (
+              <AutoSizerContainer>
+                <StyledList
+                  height={height}
+                  itemCount={nodes.length}
+                  itemSize={singleRowHeight}
+                  width={width}
+                  ref={listRef}
+                  innerRef={contentNodeRef}
+                  outerRef={scrollableNodeRef}
+                  //style={{ overflow: 'hidden' }}
+                >
+                  {({ index, style }) => (
+                    <Row
+                      key={index}
+                      style={style}
+                      index={index}
+                      node={nodes[index]}
+                      treeRefetch={treeRefetch}
+                      userId={userId}
+                    />
+                  )}
+                </StyledList>
+              </AutoSizerContainer>
+            )
+          }}
+        </SimpleBar>
         <StyledSnackbar open={treeDataLoading} message="lade Daten..." />
         <CmBenutzerFolder />
         <CmBenutzer />
