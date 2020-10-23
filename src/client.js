@@ -1,5 +1,4 @@
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client'
-//import { createHttpLink } from 'apollo-link-http'
 import { BatchHttpLink } from '@apollo/client/link/batch-http'
 import { setContext } from '@apollo/client/link/context'
 import jwtDecode from 'jwt-decode'
