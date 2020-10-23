@@ -26,6 +26,9 @@ import mobxStoreContext from '../../mobxStoreContext'
 import ErrorBoundary from '../shared/ErrorBoundary'
 
 const singleRowHeight = 23
+const ErrorContainer = styled.div`
+  padding: 24px;
+`
 const Container = styled.div`
   height: 100%;
   display: flex;
@@ -280,15 +283,21 @@ const Tree = ({ dimensions }) => {
   const listRef = useRef(null)
 
   if (treeError) {
-    return <Container>{`Error fetching data: ${treeError.message}`}</Container>
+    return (
+      <ErrorContainer>{`Error fetching data: ${treeError.message}`}</ErrorContainer>
+    )
   }
   if (orgUsersError) {
     return (
-      <Container> {`Error fetching data: ${orgUsersError.message}`} </Container>
+      <ErrorContainer>
+        {`Error fetching data: ${orgUsersError.message}`}{' '}
+      </ErrorContainer>
     )
   }
   if (usersError) {
-    return <Container> {`Error fetching data: ${usersError}`} </Container>
+    return (
+      <ErrorContainer> {`Error fetching data: ${usersError}`} </ErrorContainer>
+    )
   }
 
   return (
