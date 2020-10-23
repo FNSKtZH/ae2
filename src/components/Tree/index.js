@@ -226,6 +226,13 @@ const Tree = ({ dimensions }) => {
   } = useQuery(treeDataQuery, {
     variables: treeDataVariables({ activeNodeArray }),
   })
+  console.log('Tree', {
+    treeDataFetched,
+    treeLoading,
+    treeError,
+    variables: treeDataVariables({ activeNodeArray }),
+    activeNodeArray: activeNodeArray.slice(),
+  })
   const {
     data: orgUsersData,
     loading: orgUsersLoading,
