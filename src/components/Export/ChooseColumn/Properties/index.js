@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useQuery, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
 
 import HowTo from './HowTo'
