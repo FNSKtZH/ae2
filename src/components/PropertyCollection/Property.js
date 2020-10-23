@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
 import styled from 'styled-components'
 import format from 'date-fns/format'
-import { useApolloClient } from '@apollo/react-hooks'
+import { useApolloClient } from '@apollo/client'
 
 import onBlurDo from './onBlur'
 import ErrorBoundary from '../shared/ErrorBoundary'
