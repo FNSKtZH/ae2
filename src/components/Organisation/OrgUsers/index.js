@@ -5,7 +5,7 @@ import sortBy from 'lodash/sortBy'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import AddIcon from '@material-ui/icons/Add'
-import { useQuery, useApolloClient } from '@apollo/react-hooks'
+import { useQuery, useApolloClient } from '@apollo/client'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 

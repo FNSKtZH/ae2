@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
-import { useApolloClient } from '@apollo/react-hooks'
+import { useApolloClient } from '@apollo/client'
 
 import updateObjectMutation from '../../updateObjectMutation'
 import ErrorBoundary from '../../../shared/ErrorBoundary'
