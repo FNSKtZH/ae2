@@ -15,16 +15,9 @@
   },
   "dependencies": {
     "@apollo/client": "3.2.5",
-    "@apollo/react-hooks": "3.1.5",
     "@loadable/component": "5.13.2",
     "@material-ui/core": "4.11.0",
     "@material-ui/icons": "4.9.1",
-    "apollo-cache-inmemory": "1.6.6",
-    "apollo-client": "2.6.10",
-    "apollo-link": "1.2.14",
-    "apollo-link-batch-http": "1.2.14",
-    "apollo-link-context": "1.0.20",
-    "apollo-link-http": "1.5.17",
     "autosuggest-highlight": "3.1.1",
     "babel-plugin-styled-components": "1.11.1",
     "copy-to-clipboard": "3.3.1",
@@ -87,7 +80,8 @@
     "xlsx": "0.16.8"
   },
   "dependenciesComments": {
-    "remove-flow-types-loader": "needed because graphiql causes warnings: https://github.com/graphql/graphiql/issues/617#issuecomment-398237987"
+    "remove-flow-types-loader": "needed because graphiql causes warnings: https://github.com/graphql/graphiql/issues/617#issuecomment-398237987",
+    "file-selector": "see https://github.com/react-dropzone/react-dropzone/issues/1022"
   },
   "devDependencies": {
     "@graphile-contrib/pg-order-by-related": "1.0.0-beta.6",
@@ -109,6 +103,9 @@
     "remove-flow-types-loader": "1.1.0",
     "rimraf": "3.0.2",
     "shx": "0.3.2"
+  },
+  "resolutions": {
+    "file-selector": "0.2.2"
   },
   "license": "ISC",
   "eslintConfig": {
