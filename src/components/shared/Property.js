@@ -5,7 +5,7 @@ import Icon from '@material-ui/core/Icon'
 import ClearIcon from '@material-ui/icons/Clear'
 import styled from 'styled-components'
 import omit from 'lodash/omit'
-import { useApolloClient } from '@apollo/react-hooks'
+import { useApolloClient } from '@apollo/client'
 
 import updatePropertyMutation from './updatePropertyMutation'
 import ErrorBoundary from './ErrorBoundary'
