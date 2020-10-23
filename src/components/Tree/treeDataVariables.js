@@ -6,11 +6,11 @@ export default ({ activeNodeArray }) => {
     activeNodeArray.length > 0
   const existsLevel2Taxonomy =
     activeNodeArray.length > 1 &&
+    activeNodeArray[1] !== 0 && // dont know why but this happens
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   const level2Taxonomy = existsLevel2Taxonomy
     ? activeNodeArray[1]
     : '99999999-9999-9999-9999-999999999999'
-  const level2TaxonomyPossibleNull = activeNodeArray[1] || null
   const existsLevel3Object =
     activeNodeArray.length > 2 &&
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
@@ -51,7 +51,6 @@ export default ({ activeNodeArray }) => {
     existsLevel2Pc,
     existsLevel2Taxonomy,
     level2Taxonomy,
-    level2TaxonomyPossibleNull,
     existsLevel3Object,
     level3Object,
     existsLevel4Object,
