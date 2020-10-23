@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import format from 'date-fns/format'
-import { useApolloClient } from '@apollo/react-hooks'
+import { useApolloClient } from '@apollo/client'
 
 import onBlurArten from './onBlurArten'
 import ErrorBoundary from '../shared/ErrorBoundary'

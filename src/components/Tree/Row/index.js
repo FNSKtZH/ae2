@@ -5,7 +5,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import Icon from '@material-ui/core/Icon'
 import isEqual from 'lodash/isEqual'
-import { useApolloClient } from '@apollo/react-hooks'
+import { useApolloClient } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
 import { navigate } from 'gatsby'
 
