@@ -4,7 +4,7 @@ export default gql`
   query TreeDataQuery(
     $existsLevel2Pc: Boolean!
     $existsLevel2Taxonomy: Boolean!
-    $level2TaxonomyPossibleNull: UUID
+    $level2Taxonomy: UUID!
     $existsLevel3Object: Boolean!
     $level3Object: UUID!
     $existsLevel4Object: Boolean!
@@ -62,7 +62,7 @@ export default gql`
         totalCount
       }
     }
-    taxonomyObjectLevel1(taxonomyId: $level2TaxonomyPossibleNull)
+    taxonomyObjectLevel1(taxonomyId: $level2Taxonomy)
       @include(if: $existsLevel2Taxonomy) {
       totalCount
       nodes {
