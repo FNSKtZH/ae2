@@ -43,28 +43,6 @@ exports.onCreateWebpackConfig = ({
   actions,
   getConfig,
 }) => {
-  /*
-  const oldConfig = getConfig()
-  const config = {
-    ...oldConfig,
-    output: {
-      ...oldConfig.output,
-      globalObject: 'this',
-    },
-  }
-  config.module.rules.push(
-    {
-      test: /\.js/, // assuming the files are named .js.flow
-      enforce: 'pre',
-      use: ['remove-flow-types-loader'],
-    },
-    {
-      test: /\.worker\.js$/,
-      use: { loader: 'workerize-loader' },
-    },
-  )
-  actions.replaceWebpackConfig(config)
-  */
   actions.setWebpackConfig({
     node: {
       fs: 'empty',
@@ -83,4 +61,14 @@ exports.onCreateWebpackConfig = ({
       ],
     },
   })
+  // https://github.com/gatsbyjs/gatsby/issues/11934#issuecomment-646966955
+  if (stage.startsWith('develop')) {
+    actions.setWebpackConfig({
+      resolve: {
+        alias: {
+          'react-dom': '@hot-loader/react-dom',
+        },
+      },
+    })
+  }
 }
