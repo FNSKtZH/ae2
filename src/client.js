@@ -1,9 +1,7 @@
-import { ApolloClient } from 'apollo-client'
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client'
 //import { createHttpLink } from 'apollo-link-http'
-import { BatchHttpLink } from 'apollo-link-batch-http'
-import { setContext } from 'apollo-link-context'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { ApolloLink } from 'apollo-link'
+import { BatchHttpLink } from '@apollo/client/link/batch-http'
+import { setContext } from '@apollo/client/link/context'
 import jwtDecode from 'jwt-decode'
 
 import './index.css'
@@ -50,7 +48,6 @@ export default ({ idb, mobxStore }) => {
     }
   })
 
-  const cache = new InMemoryCache()
   // use httpLink _instead_ of batchHttpLink in order not to batch
   /*
   const httpLink = createHttpLink({
@@ -59,7 +56,7 @@ export default ({ idb, mobxStore }) => {
   const batchHttpLink = new BatchHttpLink({ uri: graphQlUri() })
   const client = new ApolloClient({
     link: ApolloLink.from([authLink, batchHttpLink]),
-    cache,
+    cache: new InMemoryCache(),
   })
   return client
 }

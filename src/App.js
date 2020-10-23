@@ -1,5 +1,5 @@
 import React from 'react'
-import { ApolloProvider } from '@apollo/react-hooks'
+import { ApolloProvider } from '@apollo/client'
 import { navigate } from 'gatsby'
 // importing isomorphic-fetch is essential
 // otherwise apollo errors during the build
