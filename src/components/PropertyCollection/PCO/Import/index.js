@@ -272,7 +272,7 @@ const ImportPco = ({ setImport, pCO, height }) => {
   const [existsPropertyKey, setExistsPropertyKey] = useState(undefined)
 
   if (importPcoError && importPcoError.message) {
-    if (importPcoError.message === 'GraphQL error: request entity too large') {
+    if (importPcoError?.message?.includes('request entity too large')) {
       setObjectIdsAreRealNotTested(true)
     }
   }

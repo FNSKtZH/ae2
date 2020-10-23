@@ -301,7 +301,7 @@ const ImportRco = ({ setImport, pCO, height }) => {
   const [existsPropertyKey, setExistsPropertyKey] = useState(undefined)
 
   if (importRcoError && importRcoError.message) {
-    if (importRcoError.message === 'GraphQL error: request entity too large') {
+    if (importRcoError?.message?.includes('request entity too large')) {
       setObjectIdsAreRealNotTested(true)
     }
   }
