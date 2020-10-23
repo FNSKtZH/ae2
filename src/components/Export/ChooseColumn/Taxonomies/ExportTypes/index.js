@@ -1,8 +1,7 @@
 import React from 'react'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
-import { useQuery } from '@apollo/client'
-import gql from 'graphql-tag'
+import { useQuery, gql } from '@apollo/client'
 
 import ExportType from './ExportType'
 
