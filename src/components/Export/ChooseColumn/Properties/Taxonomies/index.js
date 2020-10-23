@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import groupBy from 'lodash/groupBy'
 import sumBy from 'lodash/sumBy'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 import { observer } from 'mobx-react-lite'
 

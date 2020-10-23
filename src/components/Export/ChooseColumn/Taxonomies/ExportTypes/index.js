@@ -1,7 +1,7 @@
 import React from 'react'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 
 import ExportType from './ExportType'
@@ -32,13 +32,13 @@ const ExportTypes = () => {
 
   if (taxonomiesError) return `Error fetching data: ${taxonomiesError.message}`
 
-  return exportTypes.map(type => {
+  return exportTypes.map((type) => {
     const taxonomies = allTaxonomies
-      .filter(t => {
+      .filter((t) => {
         if (type === 'Arten') return t.type === 'ART'
         return t.type === 'LEBENSRAUM'
       })
-      .sort(t => t.name)
+      .sort((t) => t.name)
 
     return <ExportType key={type} type={type} taxonomies={taxonomies} />
   })
