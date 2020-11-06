@@ -49,7 +49,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        scope: '/',
+        //scope: '/',
         name: 'arteigenschaften.ch',
         short_name: 'arteigenschaften',
         start_url: '/',
@@ -73,7 +73,7 @@ module.exports = {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 2000,
-              wrapperStyle: 'margin-left: 0;',
+              //wrapperStyle: 'margin-left: 0;',
               linkImagesToOriginal: false,
             },
           },
