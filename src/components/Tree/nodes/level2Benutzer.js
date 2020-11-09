@@ -1,10 +1,10 @@
 import get from 'lodash/get'
 
-export default ({ treeData }) => {
+const level2Benutzer = ({ treeData }) => {
   if (!treeData) return []
   const nodes = get(treeData, 'allUsers.nodes', [])
 
-  return nodes.map(n => ({
+  return nodes.map((n) => ({
     id: n.id,
     url: ['Benutzer', n.id],
     sort: [4, n.name],
@@ -13,3 +13,5 @@ export default ({ treeData }) => {
     menuType: 'CmBenutzer',
   }))
 }
+
+export default level2Benutzer

@@ -1,10 +1,10 @@
 import get from 'lodash/get'
 
-export default ({ treeData }) => {
+const level2Pc = ({ treeData }) => {
   if (!treeData) return []
   const nodes = get(treeData, 'allPropertyCollections.nodes', [])
 
-  return nodes.map(node => {
+  return nodes.map((node) => {
     const pCCount = get(
       node,
       'propertyCollectionObjectsByPropertyCollectionId.totalCount',
@@ -24,3 +24,5 @@ export default ({ treeData }) => {
     }
   })
 }
+
+export default level2Pc

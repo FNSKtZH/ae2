@@ -1,11 +1,11 @@
 import get from 'lodash/get'
 
-export default ({ treeData, activeNodeArray }) => {
+const level2Taxonomy = ({ treeData, activeNodeArray }) => {
   if (!treeData) {
     console.log('no tree data for level2Taxonomy')
     return []
   }
-  const nodes = get(treeData, 'allTaxonomies.nodes', []).filter(node => {
+  const nodes = get(treeData, 'allTaxonomies.nodes', []).filter((node) => {
     if (activeNodeArray[0] === 'Arten') {
       return node.type === 'ART'
     }
@@ -17,12 +17,12 @@ export default ({ treeData, activeNodeArray }) => {
     [],
   )
 
-  return nodes.map(node => {
+  return nodes.map((node) => {
     const taxonomy = get(treeData, 'allTaxonomies.nodes', []).find(
-      n => n.id === node.id,
+      (n) => n.id === node.id,
     )
     const level1 = taxonomiesWithLevel1Counts.find(
-      c => c.taxonomyId === node.id,
+      (c) => c.taxonomyId === node.id,
     )
     const level1Count = level1 && level1.count ? level1.count : 0
     const allObjectsCount = get(taxonomy, 'objectsByTaxonomyId.totalCount', 0)
@@ -52,3 +52,5 @@ export default ({ treeData, activeNodeArray }) => {
     }
   })
 }
+
+export default level2Taxonomy
