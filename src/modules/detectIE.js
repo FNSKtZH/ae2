@@ -3,7 +3,7 @@
  * returns version of IE or false, if browser is not Internet Explorer
  * Source: https://stackoverflow.com/a/21712356/712005
  */
-export default () => {
+const detectIE = () => {
   if (typeof window !== 'undefined') {
     var ua = window.navigator.userAgent
 
@@ -30,3 +30,5 @@ export default () => {
   // other browser
   return false
 }
+
+export default detectIE

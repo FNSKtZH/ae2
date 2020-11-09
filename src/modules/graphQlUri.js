@@ -1,4 +1,4 @@
-export default () => {
+const graphQlUri = () => {
   const hostnameWithoutWww =
     typeof window !== 'undefined'
       ? window.location.hostname.replace('www.', '')
@@ -8,3 +8,5 @@ export default () => {
 
   return `https://api.${hostnameWithoutWww}/graphql`
 }
+
+export default graphQlUri

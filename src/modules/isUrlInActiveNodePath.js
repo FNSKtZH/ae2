@@ -1,6 +1,6 @@
 import isEqual from 'lodash/isEqual'
 
-export default (url, activeNodeArray) => {
+const isUrlInActiveNodePath = (url, activeNodeArray) => {
   if (!url) return false
   if (!activeNodeArray) return false
   const activeNodeArrayPartWithEqualLength = activeNodeArray.slice(
@@ -9,3 +9,5 @@ export default (url, activeNodeArray) => {
   )
   return isEqual(activeNodeArrayPartWithEqualLength, url)
 }
+
+export default isUrlInActiveNodePath

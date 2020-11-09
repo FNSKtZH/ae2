@@ -1,4 +1,4 @@
-export default () => {
+const getActiveNodeArrayFromPathname = () => {
   const pathName =
     typeof window !== 'undefined'
       ? window.location.pathname.replace('/', '')
@@ -9,7 +9,7 @@ export default () => {
     pathElements.shift()
   }
   // decode elements
-  pathElements = pathElements.map(e => decodeURIComponent(e))
+  pathElements = pathElements.map((e) => decodeURIComponent(e))
   // convert numbers to numbers
   //stackoverflow.com/questions/175739/is-there-a-built-in-way-in-javascript-to-check-if-a-string-is-a-valid-number
   pathElements.forEach((e, index) => {
@@ -19,3 +19,5 @@ export default () => {
   })
   return pathElements
 }
+
+export default getActiveNodeArrayFromPathname
