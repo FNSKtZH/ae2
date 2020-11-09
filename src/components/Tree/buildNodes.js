@@ -20,16 +20,21 @@ import level9Object from './nodes/level9Object'
 import level10Object from './nodes/level10Object'
 import sort from './nodes/sort'
 
-export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
+const buildNodes = ({
+  treeData,
+  activeNodeArray,
+  treeDataLoading,
+  mobxStore,
+}) => {
   const activeLevel2TaxonomyNodes = activeNodeArray[0]
-    ? get(treeData, 'allTaxonomies.nodes', []).filter(n => {
+    ? get(treeData, 'allTaxonomies.nodes', []).filter((n) => {
         if (activeNodeArray[0] === 'Arten') return n.type === 'ART'
         return n.type === 'LEBENSRAUM'
       })
     : null
   const activeLevel2Taxonomy =
     activeLevel2TaxonomyNodes &&
-    activeLevel2TaxonomyNodes.find(n => n.id === activeNodeArray[1])
+    activeLevel2TaxonomyNodes.find((n) => n.id === activeNodeArray[1])
   const activeLevel2TaxonomyName =
     activeLevel2Taxonomy && activeLevel2Taxonomy.name
   const activeLevel3ObjectNodes = get(
@@ -39,7 +44,7 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   )
   const activeLevel3Object =
     activeLevel3ObjectNodes &&
-    activeLevel3ObjectNodes.find(n => n.id === activeNodeArray[2])
+    activeLevel3ObjectNodes.find((n) => n.id === activeNodeArray[2])
   const activeLevel3ObjectName = activeLevel3Object && activeLevel3Object.name
   const activeLevel3ObjectId = activeLevel3Object && activeLevel3Object.id
   const activeLevel4ObjectNodes = get(
@@ -49,7 +54,7 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   )
   const activeLevel4Object =
     activeLevel4ObjectNodes &&
-    activeLevel4ObjectNodes.find(n => n.id === activeNodeArray[3])
+    activeLevel4ObjectNodes.find((n) => n.id === activeNodeArray[3])
   const activeLevel4ObjectName = activeLevel4Object && activeLevel4Object.name
   const activeLevel4ObjectId = activeLevel4Object && activeLevel4Object.id
 
@@ -60,7 +65,7 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   )
   const activeLevel5Object =
     activeLevel5ObjectNodes &&
-    activeLevel5ObjectNodes.find(n => n.id === activeNodeArray[4])
+    activeLevel5ObjectNodes.find((n) => n.id === activeNodeArray[4])
   const activeLevel5ObjectName = activeLevel5Object && activeLevel5Object.name
   const activeLevel5ObjectId = activeLevel5Object && activeLevel5Object.id
   const activeLevel6ObjectNodes = get(
@@ -70,7 +75,7 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   )
   const activeLevel6Object =
     activeLevel6ObjectNodes &&
-    activeLevel6ObjectNodes.find(n => n.id === activeNodeArray[5])
+    activeLevel6ObjectNodes.find((n) => n.id === activeNodeArray[5])
   const activeLevel6ObjectName = activeLevel6Object && activeLevel6Object.name
   const activeLevel6ObjectId = activeLevel6Object && activeLevel6Object.id
   const activeLevel7ObjectNodes = get(
@@ -80,7 +85,7 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   )
   const activeLevel7Object =
     activeLevel7ObjectNodes &&
-    activeLevel7ObjectNodes.find(n => n.id === activeNodeArray[6])
+    activeLevel7ObjectNodes.find((n) => n.id === activeNodeArray[6])
   const activeLevel7ObjectName = activeLevel7Object && activeLevel7Object.name
   const activeLevel7ObjectId = activeLevel7Object && activeLevel7Object.id
   const activeLevel8ObjectNodes = get(
@@ -90,7 +95,7 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   )
   const activeLevel8Object =
     activeLevel8ObjectNodes &&
-    activeLevel8ObjectNodes.find(n => n.id === activeNodeArray[7])
+    activeLevel8ObjectNodes.find((n) => n.id === activeNodeArray[7])
   const activeLevel8ObjectName = activeLevel8Object && activeLevel8Object.name
   const activeLevel8ObjectId = activeLevel8Object && activeLevel8Object.id
   const activeLevel9ObjectNodes = get(
@@ -100,7 +105,7 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   )
   const activeLevel9Object =
     activeLevel9ObjectNodes &&
-    activeLevel9ObjectNodes.find(n => n.id === activeNodeArray[8])
+    activeLevel9ObjectNodes.find((n) => n.id === activeNodeArray[8])
   const activeLevel9ObjectName = activeLevel9Object && activeLevel9Object.name
   const activeLevel9ObjectId = activeLevel9Object && activeLevel9Object.id
   let nodes = level1({
@@ -293,3 +298,5 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   }
   return sort(nodes)
 }
+
+export default buildNodes

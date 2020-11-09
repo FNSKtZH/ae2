@@ -2,7 +2,7 @@
 
 import updateTaxonomyMutationArten from './updateTaxonomyMutationArten'
 
-export default ({ client, field, taxonomy, value, prevValue }) => {
+const onBlurArten = ({ client, field, taxonomy, value, prevValue }) => {
   if (value !== prevValue) {
     const variables = {
       id: taxonomy.id,
@@ -11,7 +11,7 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
       links: field === 'links' ? value.split(',') : taxonomy.links,
       organizationId:
         field === 'organizationId' ? value : taxonomy.organizationId,
-        lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
+      lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
       importedBy: field === 'importedBy' ? value : taxonomy.importedBy,
       termsOfUse: field === 'termsOfUse' ? value : taxonomy.termsOfUse,
       type: taxonomy.type,
@@ -28,7 +28,7 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
             links: field === 'links' ? value.split(',') : taxonomy.links,
             organizationId:
               field === 'organizationId' ? value : taxonomy.organizationId,
-              lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
+            lastUpdated: field === 'lastUpdated' ? value : taxonomy.lastUpdated,
             importedBy: field === 'importedBy' ? value : taxonomy.importedBy,
             termsOfUse: field === 'termsOfUse' ? value : taxonomy.termsOfUse,
             type: taxonomy.type,
@@ -41,3 +41,5 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
     })
   }
 }
+
+export default onBlurArten

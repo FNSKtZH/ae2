@@ -1,7 +1,7 @@
 // #flow
 import updateTaxonomyMutationLr from './updateTaxonomyMutationLr'
 
-export default ({ client, field, taxonomy, value, prevValue }) => {
+const onBlurLr = ({ client, field, taxonomy, value, prevValue }) => {
   if (value !== prevValue) {
     const lastUpdated = new Date()
     const variables = {
@@ -56,3 +56,5 @@ export default ({ client, field, taxonomy, value, prevValue }) => {
     })
   }
 }
+
+export default onBlurLr

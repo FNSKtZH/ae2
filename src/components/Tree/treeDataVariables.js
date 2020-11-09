@@ -1,4 +1,4 @@
-export default ({ activeNodeArray }) => {
+const treeDataVariables = ({ activeNodeArray }) => {
   const existsLevel1 = activeNodeArray.length > 0
   const existsLevel2Pc =
     existsLevel1 &&
@@ -69,3 +69,5 @@ export default ({ activeNodeArray }) => {
     existsPCId,
   }
 }
+
+export default treeDataVariables
