@@ -54,10 +54,10 @@ exports.onCreateWebpackConfig = ({
           enforce: 'pre',
           use: ['remove-flow-types-loader'],
         },
-        {
+        /*{
           test: /\.worker\.js$/,
           use: { loader: 'workerize-loader' },
-        },
+        },*/
       ],
     },
   })
