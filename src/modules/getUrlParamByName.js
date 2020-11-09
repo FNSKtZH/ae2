@@ -3,7 +3,7 @@
  * DANGER: used URLSearchParams before
  * but is not compatible with older browsers
  */
-export default name => {
+const getUrlParamByName = (name) => {
   name = name.replace(/[\[\]]/g, '\\$&') // eslint-disable-line no-useless-escape
   const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
   const results =
@@ -12,3 +12,5 @@ export default name => {
   if (!results[2]) return ''
   return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
+
+export default getUrlParamByName

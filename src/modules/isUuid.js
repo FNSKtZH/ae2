@@ -8,4 +8,7 @@ import invalidUuids from './invalidUuids'
  * reason for invalidity is explained here: https://github.com/afram/is-uuid/issues/4#issuecomment-521610801
  */
 
-export default val => isUuid.anyNonNil(val) || invalidUuids.includes(val)
+const isUuidModule = (val) =>
+  isUuid.anyNonNil(val) || invalidUuids.includes(val)
+
+export default isUuidModule

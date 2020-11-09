@@ -1,6 +1,6 @@
 import get from 'lodash/get'
 
-export default tO => {
+const getUrlForObject = (tO) => {
   let url = []
   const type = get(tO, 'taxonomyByTaxonomyId.type', '')
     .replace('ART', 'Arten')
@@ -41,3 +41,5 @@ export default tO => {
   }
   return url
 }
+
+export default getUrlForObject

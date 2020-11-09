@@ -6,4 +6,7 @@ const typeTranslator = {
   Array: 'Liste von Werten',
 }
 
-export default type => (typeTranslator[type] ? typeTranslator[type] : type)
+const readableType = (type) =>
+  typeTranslator[type] ? typeTranslator[type] : type
+
+export default readableType
