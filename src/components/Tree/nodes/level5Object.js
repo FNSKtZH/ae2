@@ -1,6 +1,6 @@
 import get from 'lodash/get'
 
-export default ({
+const level5Object = ({
   treeData,
   activeLevel2TaxonomyName,
   activeLevel3ObjectName,
@@ -11,13 +11,13 @@ export default ({
   if (!treeData) return []
   const nodes = get(treeData, 'level5Object.objectsByParentId.nodes', [])
 
-  return nodes.map(node => {
+  return nodes.map((node) => {
     const childrenCount = get(node, 'objectsByParentId.totalCount', 0)
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
     const nodeName = node.name || 'ZZZZ'
     const taxonomy = get(treeData, 'allTaxonomies.nodes', []).find(
-      tax => tax.name === activeLevel2TaxonomyName,
+      (tax) => tax.name === activeLevel2TaxonomyName,
     )
     if (!taxonomy) return []
     const taxType = taxonomy.type
@@ -49,3 +49,5 @@ export default ({
     }
   })
 }
+
+export default level5Object

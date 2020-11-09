@@ -1,6 +1,6 @@
 import get from 'lodash/get'
 
-export default ({ treeData }) => {
+const level3Pc = ({ treeData }) => {
   if (!treeData) return []
   const pCId = get(treeData, 'level3Pc.id', null)
   const pCName = get(treeData, 'level3Pc.name', null)
@@ -37,3 +37,5 @@ export default ({ treeData }) => {
     },
   ]
 }
+
+export default level3Pc
