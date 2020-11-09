@@ -75,7 +75,6 @@
     "xlsx": "0.16.8"
   },
   "dependenciesComments": {
-    "remove-flow-types-loader": "needed because graphiql causes warnings: https://github.com/graphql/graphiql/issues/617#issuecomment-398237987",
     "file-selector": "see https://github.com/react-dropzone/react-dropzone/issues/1022",
     "gatsby-remark-images": "do not update from 3.3.40 to 3.4.1, see: https://github.com/gatsbyjs/gatsby/issues/27839#issuecomment-722949376",
     "gatsby-plugin-manifest": "do not update from 2.4.37 to 2.5.2, see: https://github.com/gatsbyjs/gatsby/issues/27839#issuecomment-722949376",
