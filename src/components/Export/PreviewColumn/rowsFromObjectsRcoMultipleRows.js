@@ -14,7 +14,12 @@ import clone from 'lodash/clone'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
 
-export default ({ thisObjectsRco, rcoProperties, row, aditionalRows }) => {
+const rowsFromObjectsRcoMultipleRows = ({
+  thisObjectsRco,
+  rcoProperties,
+  row,
+  aditionalRows,
+}) => {
   let rowToUse = row
   thisObjectsRco.forEach((rco, index) => {
     // 0. check if first property already exist
@@ -29,7 +34,7 @@ export default ({ thisObjectsRco, rcoProperties, row, aditionalRows }) => {
     }
     // 1. check for Beziehungspartner_id
     const rcoP_id = rcoProperties.find(
-      p =>
+      (p) =>
         p.pname === 'Beziehungspartner_id' &&
         p.relationtype === rco.relationType,
     )
@@ -47,7 +52,7 @@ export default ({ thisObjectsRco, rcoProperties, row, aditionalRows }) => {
     }
     // 2. check for Beziehungspartner_Name
     const rcoP_name = rcoProperties.find(
-      p =>
+      (p) =>
         p.pname === 'Beziehungspartner_Name' &&
         p.relationtype === rco.relationType,
     )
@@ -70,7 +75,7 @@ export default ({ thisObjectsRco, rcoProperties, row, aditionalRows }) => {
     }
     // 3. get properties
     const properties = JSON.parse(rco.properties)
-    rcoProperties.forEach(p => {
+    rcoProperties.forEach((p) => {
       if (properties && properties[p.pname] !== undefined) {
         let val = properties[p.pname]
         if (typeof val === 'boolean') {
@@ -84,7 +89,7 @@ export default ({ thisObjectsRco, rcoProperties, row, aditionalRows }) => {
   })
 
   // add every field if still missing
-  rcoProperties.forEach(p => {
+  rcoProperties.forEach((p) => {
     if (
       rowToUse[
         `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
@@ -96,3 +101,5 @@ export default ({ thisObjectsRco, rcoProperties, row, aditionalRows }) => {
     }
   })
 }
+
+export default rowsFromObjectsRcoMultipleRows

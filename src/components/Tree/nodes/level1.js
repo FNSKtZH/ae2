@@ -2,13 +2,13 @@ import get from 'lodash/get'
 import union from 'lodash/union'
 import jwtDecode from 'jwt-decode'
 
-export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
+const level1 = ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   if (!treeData) return []
   const loading = treeDataLoading
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
   const taxonomies = get(treeData, 'allTaxonomies.nodes', [])
-  const artTaxonomies = taxonomies.filter(t => t.type === 'ART')
-  const lrTaxonomies = taxonomies.filter(t => t.type === 'LEBENSRAUM')
+  const artTaxonomies = taxonomies.filter((t) => t.type === 'ART')
+  const lrTaxonomies = taxonomies.filter((t) => t.type === 'LEBENSRAUM')
   const artenInfo =
     loading && artTaxonomies.length === 0
       ? '(...)'
@@ -67,13 +67,13 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
     const tokenDecoded = jwtDecode(token)
     const { username } = tokenDecoded
     const user = get(treeData, 'allUsers.nodes', []).find(
-      u => u.name === username,
+      (u) => u.name === username,
     )
     const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
     const orgsUserIsAdminIn = union(
       orgUsers
-        .filter(o => o.role === 'orgAdmin')
-        .map(u => get(u, 'organizationByOrganizationId.name')),
+        .filter((o) => o.role === 'orgAdmin')
+        .map((u) => get(u, 'organizationByOrganizationId.name')),
     )
     const orgInfo =
       loading && orgsUserIsAdminIn.length === 0
@@ -93,3 +93,5 @@ export default ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   }
   return nodes
 }
+
+export default level1

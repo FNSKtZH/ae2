@@ -7,7 +7,7 @@ import './index.css'
 import 'react-reflex/styles.css'
 import graphQlUri from './modules/graphQlUri'
 
-export default ({ idb, mobxStore }) => {
+const client = ({ idb, mobxStore }) => {
   /**
    * On the next line Firefox 45.3.0 errors out with:
    * Unhandled Rejection (OpenFailedError): UnknownError The operation failed
@@ -59,3 +59,5 @@ export default ({ idb, mobxStore }) => {
   })
   return client
 }
+
+export default client

@@ -3,34 +3,38 @@ import get from 'lodash/get'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
 import conv from '../../../modules/convertExportFieldName'
 
-export default ({ thisObjectsRco, rcoProperties, row }) => {
+const rowsFromObjectsRcoSingleRow = ({
+  thisObjectsRco,
+  rcoProperties,
+  row,
+}) => {
   // loop through all properties
-  rcoProperties.forEach(p => {
+  rcoProperties.forEach((p) => {
     const rcos = thisObjectsRco.filter(
-      r =>
+      (r) =>
         get(r, 'propertyCollectionByPropertyCollectionId.name') === p.pcname &&
         r.relationType === p.relationtype,
     )
     if (p.pname === 'Beziehungspartner_id') {
       // add bp id if wanted
       const vals = rcos
-        .map(r => get(r, 'objectByObjectIdRelation.id', null))
-        .filter(v => v !== null)
+        .map((r) => get(r, 'objectByObjectIdRelation.id', null))
+        .filter((v) => v !== null)
       row[
         `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
       ] = vals.length ? vals.join(' | ') : null
     } else if (p.pname === 'Beziehungspartner_Name') {
       // add bp name if wanted
       const vals = rcos
-        .map(r => get(r, 'objectByObjectIdRelation.name', null))
-        .filter(v => v !== null)
+        .map((r) => get(r, 'objectByObjectIdRelation.name', null))
+        .filter((v) => v !== null)
       row[
         `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
       ] = vals.length ? vals.join(' | ') : null
     } else {
       // add field values
       const vals = rcos
-        .map(r => {
+        .map((r) => {
           // catch case where properties is null
           const properties = r.properties ? JSON.parse(r.properties) : {}
           let val = properties[p.pname] || null
@@ -39,10 +43,12 @@ export default ({ thisObjectsRco, rcoProperties, row }) => {
           }
           return val
         })
-        .filter(v => v !== null)
+        .filter((v) => v !== null)
       row[
         `${conv(p.pcname)}__${conv(p.relationtype)}__${conv(p.pname)}`
       ] = vals.length ? vals.join(' | ') : null
     }
   })
 }
+
+export default rowsFromObjectsRcoSingleRow
