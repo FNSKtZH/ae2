@@ -1,4 +1,4 @@
-export default activeNodeArray => {
+const getActiveObjectIdFromNodeArray = (activeNodeArray) => {
   let activeObjectId = null
   if (
     activeNodeArray.length > 2 &&
@@ -8,3 +8,5 @@ export default activeNodeArray => {
   }
   return activeObjectId
 }
+
+export default getActiveObjectIdFromNodeArray

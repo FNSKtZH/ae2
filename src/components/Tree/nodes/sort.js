@@ -16,7 +16,7 @@
  */
 const collator =
   typeof window !== 'undefined' ? new window.Intl.Collator('de-CH') : {}
-const exists = value => !!value || value === 0
+const exists = (value) => !!value || value === 0
 const compare = (a, b) => {
   // without this user without name is sorted above users node
   if (!exists(a) && !exists(b)) return 0
@@ -31,7 +31,7 @@ const compare = (a, b) => {
   return a - b
 }
 
-export default nodes =>
+const sort = (nodes) =>
   nodes.sort(
     (a, b) =>
       compare(a.sort[0], b.sort[0]) ||
@@ -46,3 +46,5 @@ export default nodes =>
       compare(a.sort[9], b.sort[9]) ||
       compare(a.sort[10], b.sort[10]),
   )
+
+export default sort
