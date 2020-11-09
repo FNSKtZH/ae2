@@ -49,6 +49,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
+        // uncommented scope because of gatsby issue
+        // https://github.com/gatsbyjs/gatsby/issues/27839
         //scope: '/',
         name: 'arteigenschaften.ch',
         short_name: 'arteigenschaften',
@@ -73,6 +75,7 @@ module.exports = {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 2000,
+              // uncomment this again when gatsby-plugin-manifest > 2.5.2
               //wrapperStyle: 'margin-left: 0;',
               linkImagesToOriginal: false,
             },
