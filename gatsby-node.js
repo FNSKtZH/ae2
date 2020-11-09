@@ -47,19 +47,14 @@ exports.onCreateWebpackConfig = ({
     node: {
       fs: 'empty',
     },
-    module: {
+    /*module: {
       rules: [
         {
-          test: /\.js/, // assuming the files are named .js.flow
-          enforce: 'pre',
-          use: ['remove-flow-types-loader'],
-        },
-        /*{
           test: /\.worker\.js$/,
           use: { loader: 'workerize-loader' },
-        },*/
+        },
       ],
-    },
+    },*/
   })
   // https://github.com/gatsbyjs/gatsby/issues/11934#issuecomment-646966955
   if (stage.startsWith('develop')) {
