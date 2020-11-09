@@ -10,19 +10,19 @@ import toPairs from 'lodash/toPairs'
 import sortBy from 'lodash/sortBy'
 import findIndex from 'lodash/findIndex'
 
-export default async jsonArray => {
-  const columns = uniq(flatten(jsonArray.map(object => keys(object))))
+const getXlsxBuffer = async (jsonArray) => {
+  const columns = uniq(flatten(jsonArray.map((object) => keys(object))))
   // add missing columns to each object
-  jsonArray.forEach(o => {
-    columns.forEach(k => {
+  jsonArray.forEach((o) => {
+    columns.forEach((k) => {
       if (!o.hasOwnProperty(k)) {
         o[k] = ''
       }
     })
   })
-  const values = jsonArray.map(object =>
-    sortBy(toPairs(object), p => findIndex(columns, c => c === p[0])).map(
-      a => a[1],
+  const values = jsonArray.map((object) =>
+    sortBy(toPairs(object), (p) => findIndex(columns, (c) => c === p[0])).map(
+      (a) => a[1],
     ),
   )
   const dataArray = [columns, ...values]
@@ -72,3 +72,5 @@ export default async jsonArray => {
   }
   return buffer
 }
+
+export default getXlsxBuffer
