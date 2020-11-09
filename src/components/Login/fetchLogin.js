@@ -5,7 +5,7 @@ import get from 'lodash/get'
 
 import loginDbMutation from './loginDbMutation'
 
-export default async ({
+const fetchLogin = async ({
   client,
   changeNameErrorText,
   changePassErrorText,
@@ -49,7 +49,7 @@ export default async ({
       },
     })
   } catch (error) {
-    const messages = error.graphQLErrors.map(x => x.message)
+    const messages = error.graphQLErrors.map((x) => x.message)
     const isNamePassError =
       messages.includes('invalid user or password') ||
       messages.includes('permission denied for relation user')
@@ -94,3 +94,5 @@ export default async ({
     }, 2000)
   }
 }
+
+export default fetchLogin

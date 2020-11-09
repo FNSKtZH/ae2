@@ -14,7 +14,7 @@ import deleteTaxonomyMutation from '../../Taxonomy/deleteTaxonomyMutation'
 import treeDataQuery from '../treeDataQuery'
 import treeDataVariables from '../treeDataVariables'
 
-export default async ({
+const onClickContextMenu = async ({
   e,
   data,
   target,
@@ -135,7 +135,7 @@ export default async ({
                 variables,
               })
               const nodes = get(data, 'allUsers.nodes', []).filter(
-                u => u.id !== id,
+                (u) => u.id !== id,
               )
               set(data, 'allUsers.nodes', nodes)
               proxy.writeQuery({
@@ -174,7 +174,7 @@ export default async ({
               url.length === 3
                 ? `taxonomyObjectLevel1.nodes`
                 : `level${url.length}Object.objectsByParentId.nodes`
-            const nodes = get(data, nodesPath, []).filter(u => u.id !== id)
+            const nodes = get(data, nodesPath, []).filter((u) => u.id !== id)
             set(data, nodesPath, nodes)
             proxy.writeQuery({
               query: treeDataQuery,
@@ -208,7 +208,7 @@ export default async ({
               variables,
             })
             const nodes = get(data, 'allTaxonomies.nodes', []).filter(
-              u => u.id !== id,
+              (u) => u.id !== id,
             )
             set(data, 'allTaxonomies.nodes', nodes)
             proxy.writeQuery({
@@ -243,7 +243,7 @@ export default async ({
               variables,
             })
             const nodes = get(data, 'allPropertyCollections.nodes', []).filter(
-              u => u.id !== id,
+              (u) => u.id !== id,
             )
             set(data, 'allPropertyCollections.nodes', nodes)
             proxy.writeQuery({
@@ -266,3 +266,5 @@ export default async ({
     console.log(`action "${action}" unknown, therefore not executed`)
   }
 }
+
+export default onClickContextMenu
