@@ -6,7 +6,7 @@ import TreeFilter, { defaultValue as defaultTreeFilter } from './TreeFilter'
 import Login, { defaultValue as defaultLogin } from './Login'
 import getActiveNodeArrayFromPathname from '../modules/getActiveNodeArrayFromPathname'
 
-export default ({ navigate }) =>
+const mobxStore = ({ navigate }) =>
   types
     .model({
       export: types.optional(Export, defaultExport),
@@ -23,7 +23,7 @@ export default ({ navigate }) =>
       sidebarWidth: types.maybeNull(types.number, null),
       docFilter: types.optional(types.union(types.string, types.number), ''),
     })
-    .actions(self => ({
+    .actions((self) => ({
       setSidebarWidth(val) {
         self.sidebarWidth = val
       },
@@ -50,3 +50,5 @@ export default ({ navigate }) =>
         self.historyAfterLogin = value
       },
     }))
+
+export default mobxStore
