@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext, useRef } from 'react'
 import TextField from '@material-ui/core/TextField'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
@@ -47,6 +47,9 @@ const Login = () => {
   const [passErrorText, changePassErrorText] = useState('')
   const [loginSuccessfull, changeLoginSuccessfull] = useState(false)
 
+  const nameInput = useRef(null)
+  const passwordInput = useRef(null)
+
   const fetchLogin = useCallback(
     (namePassed, passPassed) =>
       fetchLoginModule({
@@ -62,6 +65,8 @@ const Login = () => {
         passPassed,
         idb,
         mobxStore,
+        nameInput,
+        passwordInput,
       }),
     [client, name, pass, idb, mobxStore],
   )
@@ -119,6 +124,7 @@ const Login = () => {
         {!token && (
           <FormControl fullWidth error={!!nameErrorText}>
             <TextField
+              inputRef={nameInput}
               label="Name"
               defaultValue={name}
               onBlur={onBlurName}
@@ -137,6 +143,7 @@ const Login = () => {
             <InputLabel htmlFor="password">Passwort</InputLabel>
             <Input
               id="adornment-password"
+              inputRef={passwordInput}
               type={showPass ? 'text' : 'password'}
               defaultValue={pass}
               onBlur={onBlurPassword}

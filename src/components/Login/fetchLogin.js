@@ -18,14 +18,16 @@ const fetchLogin = async ({
   passPassed,
   idb,
   mobxStore,
+  nameInput,
+  passwordInput,
 }) => {
   const { historyAfterLogin, setHistoryAfterLogin, login } = mobxStore
   const { setLogin } = login
   // when bluring fields need to pass event value
   // on the other hand when clicking on Anmelden button,
   // need to grab props
-  const name = namePassed || propsName
-  const pass = passPassed || propsPass
+  const name = namePassed || propsName || nameInput.current.value
+  const pass = passPassed || propsPass || passwordInput.current.value
   if (!name) {
     return changeNameErrorText('Bitte Benutzernamen eingeben')
   }
