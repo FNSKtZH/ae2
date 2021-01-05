@@ -37,7 +37,6 @@ const ITEM_HEIGHT = 48
 const paperProps = {
   style: {
     maxHeight: ITEM_HEIGHT * 7,
-    width: 295,
   },
 }
 
@@ -76,6 +75,8 @@ const MoreMenu = () => {
     navigate('/graphiql')
     setAnchorEl(null)
   }, [])
+  const hostname =
+    typeof window !== 'undefined' ? window.location.hostname : 'artdaten.ch'
   const onClickUptime = useCallback(() => {
     if (typeof window === 'undefined') return
 
@@ -126,7 +127,7 @@ const MoreMenu = () => {
           inkl. Schnittstellen-Dokumentation
         </TwoLineMenuItem>
         <MenuItem onClick={onClickUptime}>
-          Verfügbarkeit der Server von vermehrung.ch
+          {`Verfügbarkeit der Server von ${hostname}`}
         </MenuItem>
         <Version>Version: 1.4.21 vom 5.01.2021</Version>
       </Menu>
