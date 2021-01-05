@@ -34,6 +34,13 @@ async function start() {
   })
   app.init()
 
+  server.route({
+    method: '*',
+    path: '/json-api-test',
+    handler: (request, h) => {
+      return `Hello from the JSON-API`
+    },
+  })
   // TODO: sunset this api
   server.route({
     method: 'GET',
@@ -74,7 +81,7 @@ async function start() {
   console.log('JSON-API-Server running at:', server.info.uri)
 }
 
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   console.log(err)
   process.exit(1)
 })

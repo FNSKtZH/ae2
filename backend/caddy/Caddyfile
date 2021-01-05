@@ -20,6 +20,10 @@ api.artdaten.ch {
     to ae_graphql:5000
     header_down Access-Control-Allow-Origin *
   }
+  reverse_proxy /json-api-test {
+    to ae_json:4000
+    header_down Access-Control-Allow-Origin *
+  }
   reverse_proxy /artendb/* {
     to ae_json:4000
     header_down Access-Control-Allow-Origin *
