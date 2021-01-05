@@ -76,6 +76,17 @@ const MoreMenu = () => {
     navigate('/graphiql')
     setAnchorEl(null)
   }, [])
+  const onClickUptime = useCallback(() => {
+    if (typeof window === 'undefined') return
+
+    const hostname = window.location.hostname
+    const uptimeUrl =
+      hostname === 'localhost'
+        ? 'https://uptime.artdaten.ch'
+        : `http://uptime.${hostname}`
+    window.open(uptimeUrl)
+    setAnchorEl(null)
+  }, [])
 
   return (
     <div>
@@ -114,7 +125,10 @@ const MoreMenu = () => {
           <br />
           inkl. Schnittstellen-Dokumentation
         </TwoLineMenuItem>
-        <Version>Version: 1.4.21 vom 18.10.2020</Version>
+        <MenuItem onClick={onClickUptime}>
+          Verfügbarkeit der Server von vermehrung.ch
+        </MenuItem>
+        <Version>Version: 1.4.21 vom 5.01.2021</Version>
       </Menu>
     </div>
   )
