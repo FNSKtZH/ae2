@@ -180,7 +180,7 @@ const onClickContextMenu = async ({
             })
             const nodesPath =
               url.length === 3
-                ? `taxonomyObjectLevel1.nodes`
+                ? `level${url.length}Object.nodes`
                 : `level${url.length}Object.objectsByParentId.nodes`
             const nodes = get(data, nodesPath, []).filter((u) => u.id !== id)
             set(data, nodesPath, nodes)

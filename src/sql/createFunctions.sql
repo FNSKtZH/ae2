@@ -768,6 +768,7 @@ CREATE OR REPLACE FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_nam
 ALTER FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_names text[])
   OWNER TO postgres;
 
+-- TODO: drop this funktion after next update
 CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
   RETURNS setof ae.object AS
   $$

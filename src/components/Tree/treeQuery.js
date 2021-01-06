@@ -113,9 +113,12 @@ export default gql`
         totalCount
       }
     }
-    taxonomyObjectLevel1(taxonomyId: $level2Taxonomy)
-      @include(if: $existsLevel2Taxonomy) {
-      totalCount
+    level3Object: allObjects(
+      filter: {
+        taxonomyId: { equalTo: $level2Taxonomy }
+        parentId: { isNull: true }
+      }
+    ) @include(if: $existsLevel2Taxonomy) {
       nodes {
         id
         name
