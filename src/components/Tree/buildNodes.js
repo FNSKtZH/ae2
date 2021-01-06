@@ -26,16 +26,12 @@ const buildNodes = ({
   treeDataLoading,
   mobxStore,
 }) => {
-  const activeLevel3ObjectNodes = get(
-    treeData,
-    'taxonomyObjectLevel1.nodes',
-    [],
+  const activeLevel3ObjectNodes = treeData?.taxonomyObjectLevel1?.nodes ?? []
+  const activeLevel3Object = activeLevel3ObjectNodes.find(
+    (n) => n.id === activeNodeArray[2],
   )
-  const activeLevel3Object =
-    activeLevel3ObjectNodes &&
-    activeLevel3ObjectNodes.find((n) => n.id === activeNodeArray[2])
-  const activeLevel3ObjectName = activeLevel3Object && activeLevel3Object.name
-  const activeLevel3ObjectId = activeLevel3Object && activeLevel3Object.id
+  const activeLevel3ObjectName = activeLevel3Object?.name
+  const activeLevel3ObjectId = activeLevel3Object?.id
   const activeLevel4ObjectNodes = get(
     treeData,
     'level4Object.objectsByParentId.nodes',
@@ -117,143 +113,17 @@ const buildNodes = ({
       nodes = [...nodes, ...level2Benutzer({ treeData })]
     } else if (activeNodeArray[0] === 'Organisationen') {
       nodes = [...nodes, ...level2Organization({ treeData, mobxStore })]
-    } else if (activeNodeArray[0] === 'Arten') {
+    } else if (['Arten', 'Lebensräume'].includes(activeNodeArray[0])) {
       nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
       if (activeNodeArray.length > 1) {
-        const activeLevel2TaxonomyNodes = treeData?.artTaxonomies?.nodes ?? []
-        const activeLevel2Taxonomy =
-          activeLevel2TaxonomyNodes &&
-          activeLevel2TaxonomyNodes.find((n) => n.id === activeNodeArray[1])
-        const activeLevel2TaxonomyName =
-          activeLevel2Taxonomy && activeLevel2Taxonomy.name
-        nodes = nodes.concat(
-          level3Object({
-            treeData,
-            activeLevel2TaxonomyName,
-          }),
+        const activeLevel2TaxonomyNodes =
+          activeNodeArray[0] === 'Arten'
+            ? treeData?.artTaxonomies?.nodes ?? []
+            : treeData?.lrTaxonomies?.nodes ?? []
+        const activeLevel2Taxonomy = activeLevel2TaxonomyNodes.find(
+          (n) => n.id === activeNodeArray[1],
         )
-        if (activeNodeArray.length > 2) {
-          nodes = nodes.concat(
-            level4Object({
-              treeData,
-              activeLevel2TaxonomyName,
-              activeLevel3ObjectName,
-              activeLevel3ObjectId,
-            }),
-          )
-          if (activeNodeArray.length > 3) {
-            nodes = nodes.concat(
-              level5Object({
-                treeData,
-                activeLevel2TaxonomyName,
-                activeLevel3ObjectName,
-                activeLevel3ObjectId,
-                activeLevel4ObjectName,
-                activeLevel4ObjectId,
-              }),
-            )
-            if (activeNodeArray.length > 4) {
-              nodes = nodes.concat(
-                level6Object({
-                  treeData,
-                  activeLevel2TaxonomyName,
-                  activeLevel3ObjectName,
-                  activeLevel3ObjectId,
-                  activeLevel4ObjectName,
-                  activeLevel4ObjectId,
-                  activeLevel5ObjectName,
-                  activeLevel5ObjectId,
-                }),
-              )
-              if (activeNodeArray.length > 5) {
-                nodes = nodes.concat(
-                  level7Object({
-                    treeData,
-                    activeLevel2TaxonomyName,
-                    activeLevel3ObjectName,
-                    activeLevel3ObjectId,
-                    activeLevel4ObjectName,
-                    activeLevel4ObjectId,
-                    activeLevel5ObjectName,
-                    activeLevel5ObjectId,
-                    activeLevel6ObjectName,
-                    activeLevel6ObjectId,
-                  }),
-                )
-                if (activeNodeArray.length > 6) {
-                  nodes = nodes.concat(
-                    level8Object({
-                      treeData,
-                      activeLevel2TaxonomyName,
-                      activeLevel3ObjectName,
-                      activeLevel3ObjectId,
-                      activeLevel4ObjectName,
-                      activeLevel4ObjectId,
-                      activeLevel5ObjectName,
-                      activeLevel5ObjectId,
-                      activeLevel6ObjectName,
-                      activeLevel6ObjectId,
-                      activeLevel7ObjectName,
-                      activeLevel7ObjectId,
-                    }),
-                  )
-                  if (activeNodeArray.length > 7) {
-                    nodes = nodes.concat(
-                      level9Object({
-                        treeData,
-                        activeLevel2TaxonomyName,
-                        activeLevel3ObjectName,
-                        activeLevel3ObjectId,
-                        activeLevel4ObjectName,
-                        activeLevel4ObjectId,
-                        activeLevel5ObjectName,
-                        activeLevel5ObjectId,
-                        activeLevel6ObjectName,
-                        activeLevel6ObjectId,
-                        activeLevel7ObjectName,
-                        activeLevel7ObjectId,
-                        activeLevel8ObjectName,
-                        activeLevel8ObjectId,
-                      }),
-                    )
-                    if (activeNodeArray.length > 8) {
-                      nodes = nodes.concat(
-                        level10Object({
-                          treeData,
-                          activeLevel2TaxonomyName,
-                          activeLevel3ObjectName,
-                          activeLevel3ObjectId,
-                          activeLevel4ObjectName,
-                          activeLevel4ObjectId,
-                          activeLevel5ObjectName,
-                          activeLevel5ObjectId,
-                          activeLevel6ObjectName,
-                          activeLevel6ObjectId,
-                          activeLevel7ObjectName,
-                          activeLevel7ObjectId,
-                          activeLevel8ObjectName,
-                          activeLevel8ObjectId,
-                          activeLevel9ObjectName,
-                          activeLevel9ObjectId,
-                        }),
-                      )
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    } else if (activeNodeArray[0] === 'Lebensräume') {
-      nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
-      if (activeNodeArray.length > 1) {
-        const activeLevel2TaxonomyNodes = treeData?.lrTaxonomies?.nodes ?? []
-        const activeLevel2Taxonomy =
-          activeLevel2TaxonomyNodes &&
-          activeLevel2TaxonomyNodes.find((n) => n.id === activeNodeArray[1])
-        const activeLevel2TaxonomyName =
-          activeLevel2Taxonomy && activeLevel2Taxonomy.name
+        const activeLevel2TaxonomyName = activeLevel2Taxonomy?.name ?? ''
         nodes = nodes.concat(
           level3Object({
             treeData,
