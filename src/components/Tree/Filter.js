@@ -99,8 +99,8 @@ const filterSuggestionsQuery = gql`
   }
 `
 const objectUrlQuery = gql`
-  query objectUrlDataQuery($treeFilterId: UUID!) {
-    objectById(id: $treeFilterId) {
+  query objectUrlDataQuery($treeFilterId: UUID!, $run: Boolean!) {
+    objectById(id: $treeFilterId) @include(if: $run) {
       id
       objectByParentId {
         id
@@ -150,6 +150,7 @@ const TreeFilter = ({ dimensions }) => {
     {
       variables: {
         treeFilterId,
+        run: !!treeFilter.id,
       },
     },
   )
