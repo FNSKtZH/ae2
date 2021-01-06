@@ -14,7 +14,7 @@ const level10Object = ({
   const nodes = treeData?.level10Object?.objectsByParentId?.nodes ?? []
 
   return nodes.map((node) => {
-    const childrenCount = node?.objectsByParentId?.totalCount ?? 0
+    const childrenCount = node?.childrenCount?.totalCount ?? 0
     // give nodeName a value if it does not yet exist
     // otherwise empty nodes are sorted before its parent
     const nodeName = node.name || 'ZZZZ'
