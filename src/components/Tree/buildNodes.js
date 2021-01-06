@@ -79,19 +79,11 @@ const buildNodes = ({
             }),
           )
           if (activeNodeArray.length > 3) {
-            const activeLevel4ObjectNodes = get(
-              treeData,
-              'level4Object.objectsByParentId.nodes',
-              [],
+            const level4Objects =
+              treeData?.level4Object?.objectsByParentId?.nodes ?? []
+            const level4Object = level4Objects.find(
+              (n) => n.id === activeNodeArray[3],
             )
-            const activeLevel4Object =
-              activeLevel4ObjectNodes &&
-              activeLevel4ObjectNodes.find((n) => n.id === activeNodeArray[3])
-            const activeLevel4ObjectName =
-              activeLevel4Object && activeLevel4Object.name
-            const activeLevel4ObjectId =
-              activeLevel4Object && activeLevel4Object.id
-
             nodes = nodes.concat(
               buildLevel5Objects({
                 type,
@@ -99,8 +91,7 @@ const buildNodes = ({
                 taxonomy,
                 taxonomySort,
                 level3Object,
-                activeLevel4ObjectName,
-                activeLevel4ObjectId,
+                level4Object,
               }),
             )
             if (activeNodeArray.length > 4) {
@@ -123,8 +114,7 @@ const buildNodes = ({
                   taxonomy,
                   taxonomySort,
                   level3Object,
-                  activeLevel4ObjectName,
-                  activeLevel4ObjectId,
+                  level4Object,
                   activeLevel5ObjectName,
                   activeLevel5ObjectId,
                 }),
@@ -151,8 +141,7 @@ const buildNodes = ({
                     taxonomy,
                     taxonomySort,
                     level3Object,
-                    activeLevel4ObjectName,
-                    activeLevel4ObjectId,
+                    level4Object,
                     activeLevel5ObjectName,
                     activeLevel5ObjectId,
                     activeLevel6ObjectName,
@@ -181,8 +170,7 @@ const buildNodes = ({
                       taxonomy,
                       taxonomySort,
                       level3Object,
-                      activeLevel4ObjectName,
-                      activeLevel4ObjectId,
+                      level4Object,
                       activeLevel5ObjectName,
                       activeLevel5ObjectId,
                       activeLevel6ObjectName,
@@ -213,8 +201,7 @@ const buildNodes = ({
                         taxonomy,
                         taxonomySort,
                         level3Object,
-                        activeLevel4ObjectName,
-                        activeLevel4ObjectId,
+                        level4Object,
                         activeLevel5ObjectName,
                         activeLevel5ObjectId,
                         activeLevel6ObjectName,
@@ -247,8 +234,7 @@ const buildNodes = ({
                           taxonomy,
                           taxonomySort,
                           level3Object,
-                          activeLevel4ObjectName,
-                          activeLevel4ObjectId,
+                          level4Object,
                           activeLevel5ObjectName,
                           activeLevel5ObjectId,
                           activeLevel6ObjectName,
