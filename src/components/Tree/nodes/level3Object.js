@@ -1,7 +1,11 @@
-const level3Object = ({ type, treeData, taxonomy, taxonomySort }) => {
-  const nodes = treeData?.taxonomyObjectLevel1?.nodes ?? []
-
-  return nodes.map((node) => {
+const level3Object = ({
+  type,
+  treeData,
+  taxonomy,
+  taxonomySort,
+  level3Objects,
+}) =>
+  level3Objects.map((node) => {
     const childrenCount = node?.objectsByParentId?.totalCount ?? 0
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
@@ -18,6 +22,5 @@ const level3Object = ({ type, treeData, taxonomy, taxonomySort }) => {
       menuType: 'CmObject',
     }
   })
-}
 
 export default level3Object

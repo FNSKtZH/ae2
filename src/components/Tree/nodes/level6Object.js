@@ -5,8 +5,7 @@ const level6Object = ({
   taxonomySort,
   level3Object,
   level4Object,
-  activeLevel5ObjectName,
-  activeLevel5ObjectId,
+  level5Object,
 }) => {
   const nodes = treeData?.level6Object?.objectsByParentId?.nodes ?? []
 
@@ -23,7 +22,7 @@ const level6Object = ({
         taxonomy.id,
         level3Object?.id,
         level4Object?.id,
-        activeLevel5ObjectId,
+        level5Object?.id,
         node.id,
       ],
       sort: [
@@ -31,7 +30,7 @@ const level6Object = ({
         taxonomy?.name,
         level3Object?.name,
         level4Object?.name,
-        activeLevel5ObjectName,
+        level5Object?.name,
         nodeName,
       ],
       label: node.name,

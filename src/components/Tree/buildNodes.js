@@ -56,19 +56,22 @@ const buildNodes = ({
       nodes = [...nodes, ...level2Taxonomy({ type, taxonomies, taxonomySort })]
       if (activeNodeArray.length > 1) {
         const taxonomy = taxonomies.find((n) => n.id === activeNodeArray[1])
+        const level3Objects = treeData?.taxonomyObjectLevel1?.nodes ?? []
         nodes = nodes.concat(
           buildLevel3Objects({
             type,
             treeData,
             taxonomy,
             taxonomySort,
+            level3Objects,
           }),
         )
         if (activeNodeArray.length > 2) {
-          const level3Objects = treeData?.taxonomyObjectLevel1?.nodes ?? []
           const level3Object = level3Objects.find(
             (n) => n.id === activeNodeArray[2],
           )
+          const level4Objects =
+            treeData?.level4Object?.objectsByParentId?.nodes ?? []
           nodes = nodes.concat(
             buildLevel4Objects({
               type,
@@ -76,14 +79,15 @@ const buildNodes = ({
               taxonomy,
               taxonomySort,
               level3Object,
+              level4Objects,
             }),
           )
           if (activeNodeArray.length > 3) {
-            const level4Objects =
-              treeData?.level4Object?.objectsByParentId?.nodes ?? []
             const level4Object = level4Objects.find(
               (n) => n.id === activeNodeArray[3],
             )
+            const level5Objects =
+              treeData?.level5Object?.objectsByParentId?.nodes ?? []
             nodes = nodes.concat(
               buildLevel5Objects({
                 type,
@@ -92,21 +96,13 @@ const buildNodes = ({
                 taxonomySort,
                 level3Object,
                 level4Object,
+                level5Objects,
               }),
             )
             if (activeNodeArray.length > 4) {
-              const activeLevel5ObjectNodes = get(
-                treeData,
-                'level5Object.objectsByParentId.nodes',
-                [],
+              const level5Object = level5Objects.find(
+                (n) => n.id === activeNodeArray[4],
               )
-              const activeLevel5Object =
-                activeLevel5ObjectNodes &&
-                activeLevel5ObjectNodes.find((n) => n.id === activeNodeArray[4])
-              const activeLevel5ObjectName =
-                activeLevel5Object && activeLevel5Object.name
-              const activeLevel5ObjectId =
-                activeLevel5Object && activeLevel5Object.id
               nodes = nodes.concat(
                 buildLevel6Objects({
                   type,
@@ -115,8 +111,7 @@ const buildNodes = ({
                   taxonomySort,
                   level3Object,
                   level4Object,
-                  activeLevel5ObjectName,
-                  activeLevel5ObjectId,
+                  level5Object,
                 }),
               )
               if (activeNodeArray.length > 5) {
@@ -142,8 +137,7 @@ const buildNodes = ({
                     taxonomySort,
                     level3Object,
                     level4Object,
-                    activeLevel5ObjectName,
-                    activeLevel5ObjectId,
+                    level5Object,
                     activeLevel6ObjectName,
                     activeLevel6ObjectId,
                   }),
@@ -171,8 +165,7 @@ const buildNodes = ({
                       taxonomySort,
                       level3Object,
                       level4Object,
-                      activeLevel5ObjectName,
-                      activeLevel5ObjectId,
+                      level5Object,
                       activeLevel6ObjectName,
                       activeLevel6ObjectId,
                       activeLevel7ObjectName,
@@ -202,8 +195,7 @@ const buildNodes = ({
                         taxonomySort,
                         level3Object,
                         level4Object,
-                        activeLevel5ObjectName,
-                        activeLevel5ObjectId,
+                        level5Object,
                         activeLevel6ObjectName,
                         activeLevel6ObjectId,
                         activeLevel7ObjectName,
@@ -235,8 +227,7 @@ const buildNodes = ({
                           taxonomySort,
                           level3Object,
                           level4Object,
-                          activeLevel5ObjectName,
-                          activeLevel5ObjectId,
+                          level5Object,
                           activeLevel6ObjectName,
                           activeLevel6ObjectId,
                           activeLevel7ObjectName,
