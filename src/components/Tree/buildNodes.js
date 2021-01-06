@@ -2,14 +2,12 @@
  * gets data from AppQuery
  * returns nodes
  */
-import get from 'lodash/get'
-
-import level1 from './nodes/level1'
-import level2Benutzer from './nodes/level2Benutzer'
-import level2Organization from './nodes/level2Organization'
-import level2Pc from './nodes/level2Pc'
-import level3Pc from './nodes/level3Pc'
-import level2Taxonomy from './nodes/level2Taxonomy'
+import buildLevel1Nodes from './nodes/level1'
+import buildLevel2BenutzerNodes from './nodes/level2Benutzer'
+import buildLevel2OrganizationNodes from './nodes/level2Organization'
+import buildLevel2PcNodes from './nodes/level2Pc'
+import buildLevel3PcNodes from './nodes/level3Pc'
+import buildLevel2TaxonomyNodes from './nodes/level2Taxonomy'
 import buildLevel3Objects from './nodes/level3Object'
 import buildLevel4Objects from './nodes/level4Object'
 import buildLevel5Objects from './nodes/level5Object'
@@ -26,7 +24,7 @@ const buildNodes = ({
   treeDataLoading,
   mobxStore,
 }) => {
-  let nodes = level1({
+  let nodes = buildLevel1Nodes({
     treeData,
     activeNodeArray,
     treeDataLoading,
@@ -34,18 +32,21 @@ const buildNodes = ({
   })
   if (activeNodeArray.length > 0) {
     if (activeNodeArray[0] === 'Eigenschaften-Sammlungen') {
-      nodes = [...nodes, ...level2Pc({ treeData })]
+      nodes = [...nodes, ...buildLevel2PcNodes({ treeData })]
       if (activeNodeArray.length > 1) {
         nodes = nodes.concat(
-          level3Pc({
+          buildLevel3PcNodes({
             treeData,
           }),
         )
       }
     } else if (activeNodeArray[0] === 'Benutzer' && !!mobxStore.login.token) {
-      nodes = [...nodes, ...level2Benutzer({ treeData })]
+      nodes = [...nodes, ...buildLevel2BenutzerNodes({ treeData })]
     } else if (activeNodeArray[0] === 'Organisationen') {
-      nodes = [...nodes, ...level2Organization({ treeData, mobxStore })]
+      nodes = [
+        ...nodes,
+        ...buildLevel2OrganizationNodes({ treeData, mobxStore }),
+      ]
     } else if (['Arten', 'Lebensräume'].includes(activeNodeArray[0])) {
       const type = activeNodeArray[0]
       const taxonomies =
@@ -53,7 +54,10 @@ const buildNodes = ({
           ? treeData?.artTaxonomies?.nodes ?? []
           : treeData?.lrTaxonomies?.nodes ?? []
       const taxonomySort = type === 'Arten' ? 1 : 2
-      nodes = [...nodes, ...level2Taxonomy({ type, taxonomies, taxonomySort })]
+      nodes = [
+        ...nodes,
+        ...buildLevel2TaxonomyNodes({ type, taxonomies, taxonomySort }),
+      ]
       if (activeNodeArray.length > 1) {
         const taxonomy = taxonomies.find((n) => n.id === activeNodeArray[1])
         const level3Objects = treeData?.taxonomyObjectLevel1?.nodes ?? []
