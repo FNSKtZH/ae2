@@ -131,153 +131,249 @@ const buildNodes = ({
       nodes = [...nodes, ...level2Organization({ treeData, mobxStore })]
     } else if (activeNodeArray[0] === 'Arten') {
       nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
+      if (activeNodeArray.length > 1) {
+        nodes = nodes.concat(
+          level3Object({
+            treeData,
+            activeLevel2TaxonomyName,
+          }),
+        )
+        if (activeNodeArray.length > 2) {
+          nodes = nodes.concat(
+            level4Object({
+              treeData,
+              activeLevel2TaxonomyName,
+              activeLevel3ObjectName,
+              activeLevel3ObjectId,
+            }),
+          )
+          if (activeNodeArray.length > 3) {
+            nodes = nodes.concat(
+              level5Object({
+                treeData,
+                activeLevel2TaxonomyName,
+                activeLevel3ObjectName,
+                activeLevel3ObjectId,
+                activeLevel4ObjectName,
+                activeLevel4ObjectId,
+              }),
+            )
+            if (activeNodeArray.length > 4) {
+              nodes = nodes.concat(
+                level6Object({
+                  treeData,
+                  activeLevel2TaxonomyName,
+                  activeLevel3ObjectName,
+                  activeLevel3ObjectId,
+                  activeLevel4ObjectName,
+                  activeLevel4ObjectId,
+                  activeLevel5ObjectName,
+                  activeLevel5ObjectId,
+                }),
+              )
+              if (activeNodeArray.length > 5) {
+                nodes = nodes.concat(
+                  level7Object({
+                    treeData,
+                    activeLevel2TaxonomyName,
+                    activeLevel3ObjectName,
+                    activeLevel3ObjectId,
+                    activeLevel4ObjectName,
+                    activeLevel4ObjectId,
+                    activeLevel5ObjectName,
+                    activeLevel5ObjectId,
+                    activeLevel6ObjectName,
+                    activeLevel6ObjectId,
+                  }),
+                )
+                if (activeNodeArray.length > 6) {
+                  nodes = nodes.concat(
+                    level8Object({
+                      treeData,
+                      activeLevel2TaxonomyName,
+                      activeLevel3ObjectName,
+                      activeLevel3ObjectId,
+                      activeLevel4ObjectName,
+                      activeLevel4ObjectId,
+                      activeLevel5ObjectName,
+                      activeLevel5ObjectId,
+                      activeLevel6ObjectName,
+                      activeLevel6ObjectId,
+                      activeLevel7ObjectName,
+                      activeLevel7ObjectId,
+                    }),
+                  )
+                  if (activeNodeArray.length > 7) {
+                    nodes = nodes.concat(
+                      level9Object({
+                        treeData,
+                        activeLevel2TaxonomyName,
+                        activeLevel3ObjectName,
+                        activeLevel3ObjectId,
+                        activeLevel4ObjectName,
+                        activeLevel4ObjectId,
+                        activeLevel5ObjectName,
+                        activeLevel5ObjectId,
+                        activeLevel6ObjectName,
+                        activeLevel6ObjectId,
+                        activeLevel7ObjectName,
+                        activeLevel7ObjectId,
+                        activeLevel8ObjectName,
+                        activeLevel8ObjectId,
+                      }),
+                    )
+                    if (activeNodeArray.length > 8) {
+                      nodes = nodes.concat(
+                        level10Object({
+                          treeData,
+                          activeLevel2TaxonomyName,
+                          activeLevel3ObjectName,
+                          activeLevel3ObjectId,
+                          activeLevel4ObjectName,
+                          activeLevel4ObjectId,
+                          activeLevel5ObjectName,
+                          activeLevel5ObjectId,
+                          activeLevel6ObjectName,
+                          activeLevel6ObjectId,
+                          activeLevel7ObjectName,
+                          activeLevel7ObjectId,
+                          activeLevel8ObjectName,
+                          activeLevel8ObjectId,
+                          activeLevel9ObjectName,
+                          activeLevel9ObjectId,
+                        }),
+                      )
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     } else if (activeNodeArray[0] === 'Lebensräume') {
       nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
+      if (activeNodeArray.length > 1) {
+        nodes = nodes.concat(
+          level3Object({
+            treeData,
+            activeLevel2TaxonomyName,
+          }),
+        )
+        if (activeNodeArray.length > 2) {
+          nodes = nodes.concat(
+            level4Object({
+              treeData,
+              activeLevel2TaxonomyName,
+              activeLevel3ObjectName,
+              activeLevel3ObjectId,
+            }),
+          )
+          if (activeNodeArray.length > 3) {
+            nodes = nodes.concat(
+              level5Object({
+                treeData,
+                activeLevel2TaxonomyName,
+                activeLevel3ObjectName,
+                activeLevel3ObjectId,
+                activeLevel4ObjectName,
+                activeLevel4ObjectId,
+              }),
+            )
+            if (activeNodeArray.length > 4) {
+              nodes = nodes.concat(
+                level6Object({
+                  treeData,
+                  activeLevel2TaxonomyName,
+                  activeLevel3ObjectName,
+                  activeLevel3ObjectId,
+                  activeLevel4ObjectName,
+                  activeLevel4ObjectId,
+                  activeLevel5ObjectName,
+                  activeLevel5ObjectId,
+                }),
+              )
+              if (activeNodeArray.length > 5) {
+                nodes = nodes.concat(
+                  level7Object({
+                    treeData,
+                    activeLevel2TaxonomyName,
+                    activeLevel3ObjectName,
+                    activeLevel3ObjectId,
+                    activeLevel4ObjectName,
+                    activeLevel4ObjectId,
+                    activeLevel5ObjectName,
+                    activeLevel5ObjectId,
+                    activeLevel6ObjectName,
+                    activeLevel6ObjectId,
+                  }),
+                )
+                if (activeNodeArray.length > 6) {
+                  nodes = nodes.concat(
+                    level8Object({
+                      treeData,
+                      activeLevel2TaxonomyName,
+                      activeLevel3ObjectName,
+                      activeLevel3ObjectId,
+                      activeLevel4ObjectName,
+                      activeLevel4ObjectId,
+                      activeLevel5ObjectName,
+                      activeLevel5ObjectId,
+                      activeLevel6ObjectName,
+                      activeLevel6ObjectId,
+                      activeLevel7ObjectName,
+                      activeLevel7ObjectId,
+                    }),
+                  )
+                  if (activeNodeArray.length > 7) {
+                    nodes = nodes.concat(
+                      level9Object({
+                        treeData,
+                        activeLevel2TaxonomyName,
+                        activeLevel3ObjectName,
+                        activeLevel3ObjectId,
+                        activeLevel4ObjectName,
+                        activeLevel4ObjectId,
+                        activeLevel5ObjectName,
+                        activeLevel5ObjectId,
+                        activeLevel6ObjectName,
+                        activeLevel6ObjectId,
+                        activeLevel7ObjectName,
+                        activeLevel7ObjectId,
+                        activeLevel8ObjectName,
+                        activeLevel8ObjectId,
+                      }),
+                    )
+                    if (activeNodeArray.length > 8) {
+                      nodes = nodes.concat(
+                        level10Object({
+                          treeData,
+                          activeLevel2TaxonomyName,
+                          activeLevel3ObjectName,
+                          activeLevel3ObjectId,
+                          activeLevel4ObjectName,
+                          activeLevel4ObjectId,
+                          activeLevel5ObjectName,
+                          activeLevel5ObjectId,
+                          activeLevel6ObjectName,
+                          activeLevel6ObjectId,
+                          activeLevel7ObjectName,
+                          activeLevel7ObjectId,
+                          activeLevel8ObjectName,
+                          activeLevel8ObjectId,
+                          activeLevel9ObjectName,
+                          activeLevel9ObjectId,
+                        }),
+                      )
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  }
-  if (
-    activeNodeArray.length > 1 &&
-    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  ) {
-    nodes = nodes.concat(
-      level3Object({
-        treeData,
-        activeLevel2TaxonomyName,
-      }),
-    )
-  }
-  if (
-    activeNodeArray.length > 2 &&
-    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  ) {
-    nodes = nodes.concat(
-      level4Object({
-        treeData,
-        activeLevel2TaxonomyName,
-        activeLevel3ObjectName,
-        activeLevel3ObjectId,
-      }),
-    )
-  }
-  if (
-    activeNodeArray.length > 3 &&
-    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  ) {
-    nodes = nodes.concat(
-      level5Object({
-        treeData,
-        activeLevel2TaxonomyName,
-        activeLevel3ObjectName,
-        activeLevel3ObjectId,
-        activeLevel4ObjectName,
-        activeLevel4ObjectId,
-      }),
-    )
-  }
-  if (
-    activeNodeArray.length > 4 &&
-    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  ) {
-    nodes = nodes.concat(
-      level6Object({
-        treeData,
-        activeLevel2TaxonomyName,
-        activeLevel3ObjectName,
-        activeLevel3ObjectId,
-        activeLevel4ObjectName,
-        activeLevel4ObjectId,
-        activeLevel5ObjectName,
-        activeLevel5ObjectId,
-      }),
-    )
-  }
-  if (
-    activeNodeArray.length > 5 &&
-    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  ) {
-    nodes = nodes.concat(
-      level7Object({
-        treeData,
-        activeLevel2TaxonomyName,
-        activeLevel3ObjectName,
-        activeLevel3ObjectId,
-        activeLevel4ObjectName,
-        activeLevel4ObjectId,
-        activeLevel5ObjectName,
-        activeLevel5ObjectId,
-        activeLevel6ObjectName,
-        activeLevel6ObjectId,
-      }),
-    )
-  }
-  if (
-    activeNodeArray.length > 6 &&
-    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  ) {
-    nodes = nodes.concat(
-      level8Object({
-        treeData,
-        activeLevel2TaxonomyName,
-        activeLevel3ObjectName,
-        activeLevel3ObjectId,
-        activeLevel4ObjectName,
-        activeLevel4ObjectId,
-        activeLevel5ObjectName,
-        activeLevel5ObjectId,
-        activeLevel6ObjectName,
-        activeLevel6ObjectId,
-        activeLevel7ObjectName,
-        activeLevel7ObjectId,
-      }),
-    )
-  }
-  if (
-    activeNodeArray.length > 7 &&
-    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  ) {
-    nodes = nodes.concat(
-      level9Object({
-        treeData,
-        activeLevel2TaxonomyName,
-        activeLevel3ObjectName,
-        activeLevel3ObjectId,
-        activeLevel4ObjectName,
-        activeLevel4ObjectId,
-        activeLevel5ObjectName,
-        activeLevel5ObjectId,
-        activeLevel6ObjectName,
-        activeLevel6ObjectId,
-        activeLevel7ObjectName,
-        activeLevel7ObjectId,
-        activeLevel8ObjectName,
-        activeLevel8ObjectId,
-      }),
-    )
-  }
-  if (
-    activeNodeArray.length > 8 &&
-    ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  ) {
-    nodes = nodes.concat(
-      level10Object({
-        treeData,
-        activeLevel2TaxonomyName,
-        activeLevel3ObjectName,
-        activeLevel3ObjectId,
-        activeLevel4ObjectName,
-        activeLevel4ObjectId,
-        activeLevel5ObjectName,
-        activeLevel5ObjectId,
-        activeLevel6ObjectName,
-        activeLevel6ObjectId,
-        activeLevel7ObjectName,
-        activeLevel7ObjectId,
-        activeLevel8ObjectName,
-        activeLevel8ObjectId,
-        activeLevel9ObjectName,
-        activeLevel9ObjectId,
-      }),
-    )
   }
   return sort(nodes)
 }
