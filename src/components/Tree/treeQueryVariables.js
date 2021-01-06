@@ -14,33 +14,12 @@ const treeDataVariables = ({ activeNodeArray }) => {
   const existsLevel3Object =
     activeNodeArray.length > 2 &&
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  const level3Object = existsLevel3Object
-    ? activeNodeArray[2]
-    : '99999999-9999-9999-9999-999999999999'
   const existsLevel4Object = activeNodeArray.length > 3
-  const level4Object = existsLevel4Object
-    ? activeNodeArray[3]
-    : '99999999-9999-9999-9999-999999999999'
   const existsLevel5Object = activeNodeArray.length > 4
-  const level5Object = existsLevel5Object
-    ? activeNodeArray[4]
-    : '99999999-9999-9999-9999-999999999999'
   const existsLevel6Object = activeNodeArray.length > 5
-  const level6Object = existsLevel6Object
-    ? activeNodeArray[5]
-    : '99999999-9999-9999-9999-999999999999'
   const existsLevel7Object = activeNodeArray.length > 6
-  const level7Object = existsLevel7Object
-    ? activeNodeArray[6]
-    : '99999999-9999-9999-9999-999999999999'
   const existsLevel8Object = activeNodeArray.length > 7
-  const level8Object = existsLevel8Object
-    ? activeNodeArray[7]
-    : '99999999-9999-9999-9999-999999999999'
   const existsLevel9Object = activeNodeArray.length > 8
-  const level9Object = existsLevel9Object
-    ? activeNodeArray[8]
-    : '99999999-9999-9999-9999-999999999999'
   let pCId = '99999999-9999-9999-9999-999999999999'
   if (activeNodeArray[0] === 'Eigenschaften-Sammlungen' && activeNodeArray[1]) {
     pCId = activeNodeArray[1]
@@ -52,19 +31,12 @@ const treeDataVariables = ({ activeNodeArray }) => {
     existsLevel2Taxonomy,
     level2Taxonomy,
     existsLevel3Object,
-    level3Object,
     existsLevel4Object,
-    level4Object,
     existsLevel5Object,
-    level5Object,
     existsLevel6Object,
-    level6Object,
     existsLevel7Object,
-    level7Object,
     existsLevel8Object,
-    level8Object,
     existsLevel9Object,
-    level9Object,
     pCId,
     existsPCId,
   }
