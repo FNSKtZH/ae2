@@ -7,12 +7,10 @@ const level8Object = ({
   level4Object,
   level5Object,
   level6Object,
-  activeLevel7ObjectName,
-  activeLevel7ObjectId,
-}) => {
-  const nodes = treeData?.level8Object?.objectsByParentId?.nodes ?? []
-
-  return nodes.map((node) => {
+  level7Object,
+  level8Objects,
+}) =>
+  level8Objects.map((node) => {
     const childrenCount = node?.objectsByParentId?.totalCount ?? 0
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
@@ -27,7 +25,7 @@ const level8Object = ({
         level4Object?.id,
         level5Object?.id,
         level6Object?.id,
-        activeLevel7ObjectId,
+        level7Object?.id,
         node.id,
       ],
       sort: [
@@ -37,7 +35,7 @@ const level8Object = ({
         level4Object?.name,
         level5Object?.name,
         level6Object?.name,
-        activeLevel7ObjectName,
+        level7Object?.name,
         nodeName,
       ],
       label: node.name,
@@ -47,6 +45,5 @@ const level8Object = ({
       menuType: 'CmObject',
     }
   })
-}
 
 export default level8Object

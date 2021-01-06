@@ -7,10 +7,8 @@ const level9Object = ({
   level4Object,
   level5Object,
   level6Object,
-  activeLevel7ObjectName,
-  activeLevel7ObjectId,
-  activeLevel8ObjectName,
-  activeLevel8ObjectId,
+  level7Object,
+  level8Object,
 }) => {
   const nodes = treeData?.level9Object?.objectsByParentId?.nodes ?? []
 
@@ -29,8 +27,8 @@ const level9Object = ({
         level4Object?.id,
         level5Object?.id,
         level6Object?.id,
-        activeLevel7ObjectId,
-        activeLevel8ObjectId,
+        level7Object?.id,
+        level8Object?.id,
         node.id,
       ],
       sort: [
@@ -40,8 +38,8 @@ const level9Object = ({
         level4Object?.name,
         level5Object?.name,
         level6Object?.name,
-        activeLevel7ObjectName,
-        activeLevel8ObjectName,
+        level7Object?.name,
+        level8Object?.name,
         nodeName,
       ],
       label: node.name,

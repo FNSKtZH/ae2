@@ -121,6 +121,8 @@ const buildNodes = ({
                 const level6Object = level6Objects.find(
                   (n) => n.id === activeNodeArray[5],
                 )
+                const level7Objects =
+                  treeData?.level7Object?.objectsByParentId?.nodes ?? []
                 nodes = nodes.concat(
                   buildLevel7Objects({
                     type,
@@ -131,23 +133,15 @@ const buildNodes = ({
                     level4Object,
                     level5Object,
                     level6Object,
+                    level7Objects,
                   }),
                 )
                 if (activeNodeArray.length > 6) {
-                  const activeLevel7ObjectNodes = get(
-                    treeData,
-                    'level7Object.objectsByParentId.nodes',
-                    [],
+                  const level7Object = level7Objects.find(
+                    (n) => n.id === activeNodeArray[6],
                   )
-                  const activeLevel7Object =
-                    activeLevel7ObjectNodes &&
-                    activeLevel7ObjectNodes.find(
-                      (n) => n.id === activeNodeArray[6],
-                    )
-                  const activeLevel7ObjectName =
-                    activeLevel7Object && activeLevel7Object.name
-                  const activeLevel7ObjectId =
-                    activeLevel7Object && activeLevel7Object.id
+                  const level8Objects =
+                    treeData?.level8Object?.objectsByParentId?.nodes ?? []
                   nodes = nodes.concat(
                     buildLevel8Objects({
                       type,
@@ -158,25 +152,14 @@ const buildNodes = ({
                       level4Object,
                       level5Object,
                       level6Object,
-                      activeLevel7ObjectName,
-                      activeLevel7ObjectId,
+                      level7Object,
+                      level8Objects,
                     }),
                   )
                   if (activeNodeArray.length > 7) {
-                    const activeLevel8ObjectNodes = get(
-                      treeData,
-                      'level8Object.objectsByParentId.nodes',
-                      [],
+                    const level8Object = level8Objects.find(
+                      (n) => n.id === activeNodeArray[7],
                     )
-                    const activeLevel8Object =
-                      activeLevel8ObjectNodes &&
-                      activeLevel8ObjectNodes.find(
-                        (n) => n.id === activeNodeArray[7],
-                      )
-                    const activeLevel8ObjectName =
-                      activeLevel8Object && activeLevel8Object.name
-                    const activeLevel8ObjectId =
-                      activeLevel8Object && activeLevel8Object.id
                     nodes = nodes.concat(
                       buildLevel9Objects({
                         type,
@@ -187,10 +170,8 @@ const buildNodes = ({
                         level4Object,
                         level5Object,
                         level6Object,
-                        activeLevel7ObjectName,
-                        activeLevel7ObjectId,
-                        activeLevel8ObjectName,
-                        activeLevel8ObjectId,
+                        level7Object,
+                        level8Object,
                       }),
                     )
                     if (activeNodeArray.length > 8) {
@@ -218,10 +199,8 @@ const buildNodes = ({
                           level4Object,
                           level5Object,
                           level6Object,
-                          activeLevel7ObjectName,
-                          activeLevel7ObjectId,
-                          activeLevel8ObjectName,
-                          activeLevel8ObjectId,
+                          level7Object,
+                          level8Object,
                           activeLevel9ObjectName,
                           activeLevel9ObjectId,
                         }),
