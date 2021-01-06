@@ -87,7 +87,7 @@ const propsByTaxQuery = gql`
   }
 `
 const exportObjectQuery = gql`
-  query Query(
+  query ChooseColumnExportObjectQuery(
     $exportTaxonomies: [String]!
     $taxFilters: [TaxFilterInput]!
     $fetchTaxProperties: Boolean!
