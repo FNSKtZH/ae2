@@ -6,19 +6,12 @@ export default gql`
     $existsLevel2Taxonomy: Boolean!
     $level2Taxonomy: UUID!
     $existsLevel3Object: Boolean!
-    $level3Object: UUID!
     $existsLevel4Object: Boolean!
-    $level4Object: UUID!
     $existsLevel5Object: Boolean!
-    $level5Object: UUID!
     $existsLevel6Object: Boolean!
-    $level6Object: UUID!
     $existsLevel7Object: Boolean!
-    $level7Object: UUID!
     $existsLevel8Object: Boolean!
-    $level8Object: UUID!
     $existsLevel9Object: Boolean!
-    $level9Object: UUID!
     $pCId: UUID!
     $existsPCId: Boolean!
     $username: String!
@@ -122,52 +115,88 @@ export default gql`
       nodes {
         id
         name
-        objectsByParentId {
+        childrenCount: objectsByParentId {
           totalCount
         }
-      }
-    }
-    level4Object: objectById(id: $level3Object)
-      @include(if: $existsLevel3Object) {
-      ...ObjektLevel4AndUp
-    }
-    level5Object: objectById(id: $level4Object)
-      @include(if: $existsLevel4Object) {
-      ...ObjektLevel4AndUp
-    }
-    level6Object: objectById(id: $level5Object)
-      @include(if: $existsLevel5Object) {
-      ...ObjektLevel4AndUp
-    }
-    level7Object: objectById(id: $level6Object)
-      @include(if: $existsLevel6Object) {
-      ...ObjektLevel4AndUp
-    }
-    level8Object: objectById(id: $level7Object)
-      @include(if: $existsLevel7Object) {
-      ...ObjektLevel4AndUp
-    }
-    level9Object: objectById(id: $level8Object)
-      @include(if: $existsLevel8Object) {
-      ...ObjektLevel4AndUp
-    }
-    level10Object: objectById(id: $level9Object)
-      @include(if: $existsLevel9Object) {
-      ...ObjektLevel4AndUp
-    }
-  }
-  ${gql`
-    fragment ObjektLevel4AndUp on Object {
-      id
-      objectsByParentId {
-        nodes {
-          id
-          name
-          objectsByParentId {
-            totalCount
+        objectsByParentId {
+          nodes {
+            id
+            name
+            childrenCount: objectsByParentId @include(if: $existsLevel3Object) {
+              totalCount
+            }
+            objectsByParentId @include(if: $existsLevel3Object) {
+              nodes {
+                id
+                name
+                childrenCount: objectsByParentId
+                  @include(if: $existsLevel4Object) {
+                  totalCount
+                }
+                objectsByParentId @include(if: $existsLevel4Object) {
+                  nodes {
+                    id
+                    name
+                    childrenCount: objectsByParentId
+                      @include(if: $existsLevel5Object) {
+                      totalCount
+                    }
+                    objectsByParentId @include(if: $existsLevel5Object) {
+                      nodes {
+                        id
+                        name
+                        childrenCount: objectsByParentId
+                          @include(if: $existsLevel6Object) {
+                          totalCount
+                        }
+                        objectsByParentId @include(if: $existsLevel6Object) {
+                          nodes {
+                            id
+                            name
+                            childrenCount: objectsByParentId
+                              @include(if: $existsLevel7Object) {
+                              totalCount
+                            }
+                            objectsByParentId
+                              @include(if: $existsLevel7Object) {
+                              nodes {
+                                id
+                                name
+                                childrenCount: objectsByParentId
+                                  @include(if: $existsLevel8Object) {
+                                  totalCount
+                                }
+                                objectsByParentId
+                                  @include(if: $existsLevel8Object) {
+                                  nodes {
+                                    id
+                                    name
+                                    childrenCount: objectsByParentId
+                                      @include(if: $existsLevel9Object) {
+                                      totalCount
+                                    }
+                                    objectsByParentId
+                                      @include(if: $existsLevel9Object) {
+                                      nodes {
+                                        id
+                                        name
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
-  `}
+  }
 `

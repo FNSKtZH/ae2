@@ -84,8 +84,7 @@ const buildNodes = ({
           const level3Object = level3Objects.find(
             (n) => n.id === activeNodeArray[2],
           )
-          const level4Objects =
-            treeData?.level4Object?.objectsByParentId?.nodes ?? []
+          const level4Objects = level3Object?.objectsByParentId?.nodes ?? []
           nodes = nodes.concat(
             buildLevel4Objects({
               type,
@@ -97,17 +96,18 @@ const buildNodes = ({
             }),
           )
           console.log('building level 4 objects', {
-            activeNodeArray,
-            nodes,
-            activeNodeArray3: activeNodeArray[3],
+            //activeNodeArray,
+            //nodes,
+            //activeNodeArray3: activeNodeArray[3],
+            //level4Objects,
+            level3Object,
           })
           if (activeNodeArray.length > 3) {
             console.log('building level 5 objects')
             const level4Object = level4Objects.find(
               (n) => n.id === activeNodeArray[3],
             )
-            const level5Objects =
-              treeData?.level5Object?.objectsByParentId?.nodes ?? []
+            const level5Objects = level4Object?.objectsByParentId?.nodes ?? []
             nodes = nodes.concat(
               buildLevel5Objects({
                 type,
@@ -124,8 +124,7 @@ const buildNodes = ({
               const level5Object = level5Objects.find(
                 (n) => n.id === activeNodeArray[4],
               )
-              const level6Objects =
-                treeData?.level6Object?.objectsByParentId?.nodes ?? []
+              const level6Objects = level5Object?.objectsByParentId?.nodes ?? []
               nodes = nodes.concat(
                 buildLevel6Objects({
                   type,
@@ -143,7 +142,7 @@ const buildNodes = ({
                   (n) => n.id === activeNodeArray[5],
                 )
                 const level7Objects =
-                  treeData?.level7Object?.objectsByParentId?.nodes ?? []
+                  level6Object?.objectsByParentId?.nodes ?? []
                 nodes = nodes.concat(
                   buildLevel7Objects({
                     type,
@@ -162,7 +161,7 @@ const buildNodes = ({
                     (n) => n.id === activeNodeArray[6],
                   )
                   const level8Objects =
-                    treeData?.level8Object?.objectsByParentId?.nodes ?? []
+                    level7Object?.objectsByParentId?.nodes ?? []
                   nodes = nodes.concat(
                     buildLevel8Objects({
                       type,
@@ -182,7 +181,7 @@ const buildNodes = ({
                       (n) => n.id === activeNodeArray[7],
                     )
                     const level9Objects =
-                      treeData?.level9Object?.objectsByParentId?.nodes ?? []
+                      level8Object?.objectsByParentId?.nodes ?? []
                     nodes = nodes.concat(
                       buildLevel9Objects({
                         type,

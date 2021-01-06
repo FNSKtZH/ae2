@@ -156,7 +156,7 @@ const Tree = ({ dimensions }) => {
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
-  //const treeQueryVars = treeQueryVariables({ activeNodeArray })
+  const treeQueryVars = treeQueryVariables({ activeNodeArray })
   const {
     data: treeDataFetched,
     loading: treeLoading,
@@ -178,13 +178,7 @@ const Tree = ({ dimensions }) => {
     }
   }, [treeDataFetched, treeLoading])
 
-  /*console.log('Tree', {
-    treeDataFetched,
-    treeLoading,
-    treeData,
-    activeNodeArray,
-    treeQueryVars,
-  })*/
+  console.log('Tree, treeQueryVars', treeQueryVars)
 
   const treeDataLoading = treeLoading
   const userId = treeData?.userByName?.id
