@@ -118,65 +118,58 @@ export default gql`
         childrenCount: objectsByParentId {
           totalCount
         }
-        objectsByParentId {
+        objectsByParentId @include(if: $existsLevel3Object) {
           nodes {
             id
             name
-            childrenCount: objectsByParentId @include(if: $existsLevel3Object) {
+            childrenCount: objectsByParentId {
               totalCount
             }
-            objectsByParentId @include(if: $existsLevel3Object) {
+            objectsByParentId @include(if: $existsLevel4Object) {
               nodes {
                 id
                 name
-                childrenCount: objectsByParentId
-                  @include(if: $existsLevel4Object) {
+                childrenCount: objectsByParentId {
                   totalCount
                 }
-                objectsByParentId @include(if: $existsLevel4Object) {
+                objectsByParentId @include(if: $existsLevel5Object) {
                   nodes {
                     id
                     name
-                    childrenCount: objectsByParentId
-                      @include(if: $existsLevel5Object) {
+                    childrenCount: objectsByParentId {
                       totalCount
                     }
-                    objectsByParentId @include(if: $existsLevel5Object) {
+                    objectsByParentId @include(if: $existsLevel6Object) {
                       nodes {
                         id
                         name
-                        childrenCount: objectsByParentId
-                          @include(if: $existsLevel6Object) {
+                        childrenCount: objectsByParentId {
                           totalCount
                         }
-                        objectsByParentId @include(if: $existsLevel6Object) {
+                        objectsByParentId @include(if: $existsLevel7Object) {
                           nodes {
                             id
                             name
-                            childrenCount: objectsByParentId
-                              @include(if: $existsLevel7Object) {
+                            childrenCount: objectsByParentId {
                               totalCount
                             }
                             objectsByParentId
-                              @include(if: $existsLevel7Object) {
+                              @include(if: $existsLevel8Object) {
                               nodes {
                                 id
                                 name
-                                childrenCount: objectsByParentId
-                                  @include(if: $existsLevel8Object) {
+                                childrenCount: objectsByParentId {
                                   totalCount
                                 }
                                 objectsByParentId
-                                  @include(if: $existsLevel8Object) {
+                                  @include(if: $existsLevel9Object) {
                                   nodes {
                                     id
                                     name
-                                    childrenCount: objectsByParentId
-                                      @include(if: $existsLevel9Object) {
+                                    childrenCount: objectsByParentId {
                                       totalCount
                                     }
-                                    objectsByParentId
-                                      @include(if: $existsLevel9Object) {
+                                    objectsByParentId {
                                       nodes {
                                         id
                                         name

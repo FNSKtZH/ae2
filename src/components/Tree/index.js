@@ -156,7 +156,6 @@ const Tree = ({ dimensions }) => {
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
-  const treeQueryVars = treeQueryVariables({ activeNodeArray })
   const {
     data: treeDataFetched,
     loading: treeLoading,
@@ -229,7 +228,6 @@ const Tree = ({ dimensions }) => {
                   ref={listRef}
                   innerRef={contentNodeRef}
                   outerRef={scrollableNodeRef}
-                  //style={{ overflow: 'hidden' }}
                 >
                   {({ index, style }) => (
                     <Row
