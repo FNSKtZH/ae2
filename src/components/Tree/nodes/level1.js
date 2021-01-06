@@ -6,22 +6,22 @@ const level1 = ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
   if (!treeData) return []
   const loading = treeDataLoading
   const pcCount = get(treeData, 'allPropertyCollections.totalCount', 0)
-  const taxonomies = get(treeData, 'allTaxonomies.nodes', [])
-  const artTaxonomies = taxonomies.filter((t) => t.type === 'ART')
-  const lrTaxonomies = taxonomies.filter((t) => t.type === 'LEBENSRAUM')
+  const artTaxonomiesCount = treeData?.artTaxonomies?.totalCount
+  const lrTaxonomiesCount = treeData?.lrTaxonomies?.totalCount
   const artenInfo =
-    loading && artTaxonomies.length === 0
+    loading && !artTaxonomiesCount
       ? '(...)'
-      : `(${artTaxonomies.length} Taxonomie${
-          artTaxonomies.length !== 1 ? 'n' : ''
+      : `(${artTaxonomiesCount} Taxonomie${
+          artTaxonomiesCount !== 1 ? 'n' : ''
         })`
   const lrInfo =
-    loading && lrTaxonomies.length === 0
+    loading && !lrTaxonomiesCount
       ? '(...)'
-      : `(${lrTaxonomies.length} Taxonomie${
-          lrTaxonomies.length !== 1 ? 'n' : ''
-        })`
+      : `(${lrTaxonomiesCount} Taxonomie${lrTaxonomiesCount !== 1 ? 'n' : ''})`
   const pcInfo = loading && pcCount === 0 ? '(...)' : `(${pcCount})`
+  const { token } = mobxStore.login
+  const userCount = get(treeData, 'allUsers.totalCount', 0)
+  const userInfo = loading && userCount === 0 ? '(...)' : `(${userCount})`
   const nodes = [
     {
       id: 'Arten',
@@ -29,7 +29,7 @@ const level1 = ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
       sort: [1],
       label: 'Arten',
       info: artenInfo,
-      childrenCount: artTaxonomies.length,
+      childrenCount: artTaxonomiesCount,
       menuType: 'CmType',
     },
     {
@@ -38,7 +38,7 @@ const level1 = ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
       sort: [2],
       label: 'Lebensräume',
       info: lrInfo,
-      childrenCount: lrTaxonomies.length,
+      childrenCount: lrTaxonomiesCount,
       menuType: 'CmType',
     },
     {
@@ -50,20 +50,21 @@ const level1 = ({ treeData, activeNodeArray, treeDataLoading, mobxStore }) => {
       childrenCount: pcCount,
       menuType: 'CmPCFolder',
     },
+    ...(!!token
+      ? [
+          {
+            id: 'Benutzer',
+            url: ['Benutzer'],
+            sort: [4],
+            label: 'Benutzer',
+            info: userInfo,
+            childrenCount: userCount,
+            menuType: 'CmBenutzerFolder',
+          },
+        ]
+      : []),
   ]
-  const { token } = mobxStore.login
-  const userCount = get(treeData, 'allUsers.totalCount', 0)
-  const userInfo = loading && userCount === 0 ? '(...)' : `(${userCount})`
   if (!!token) {
-    nodes.push({
-      id: 'Benutzer',
-      url: ['Benutzer'],
-      sort: [4],
-      label: 'Benutzer',
-      info: userInfo,
-      childrenCount: userCount,
-      menuType: 'CmBenutzerFolder',
-    })
     const tokenDecoded = jwtDecode(token)
     const { username } = tokenDecoded
     const user = get(treeData, 'allUsers.nodes', []).find(

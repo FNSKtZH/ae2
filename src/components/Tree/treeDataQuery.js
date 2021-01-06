@@ -41,6 +41,28 @@ export default gql`
         }
       }
     }
+    artTaxonomies: allTaxonomies(filter: { type: { equalTo: ART } }) {
+      totalCount
+      nodes {
+        id
+        name
+        type
+        objectsByTaxonomyId {
+          totalCount
+        }
+      }
+    }
+    lrTaxonomies: allTaxonomies(filter: { type: { equalTo: LEBENSRAUM } }) {
+      totalCount
+      nodes {
+        id
+        name
+        type
+        objectsByTaxonomyId {
+          totalCount
+        }
+      }
+    }
     # leave this here: is only used once more, without objectsByTaxonomyId
     allTaxonomies {
       nodes {
