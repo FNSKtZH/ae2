@@ -4,8 +4,17 @@
  * filter by level and category
  * data for users and organizations could be added
  * ISSUE: if used as view policies would not be respected :-(
+ * see: https://www.postgresql.org/docs/13/sql-createpolicy.html
+ * "This does not change how views work, however. As with normal queries and views, 
+ * permission checks and policies for the tables which are referenced by a view will 
+ * use the view owner's rights and any policies which apply to the view owner"
+ *
  * maybe it could be used as a function returning a set of a type (to be created)
  * would that respect policies?
+ * Seems that yes: functions have SECURITY INVOKER set by default
+ * see postgresql.org/docs/current/sql-createfunction.html
+ *
+ * would need to pass in openNodes to create full tree?
  */
 with
 tree_categories as (
