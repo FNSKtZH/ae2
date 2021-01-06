@@ -6,10 +6,9 @@ const level6Object = ({
   level3Object,
   level4Object,
   level5Object,
-}) => {
-  const nodes = treeData?.level6Object?.objectsByParentId?.nodes ?? []
-
-  return nodes.map((node) => {
+  level6Objects,
+}) =>
+  level6Objects.map((node) => {
     const childrenCount = node?.objectsByParentId?.totalCount ?? 0
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
@@ -40,6 +39,5 @@ const level6Object = ({
       menuType: 'CmObject',
     }
   })
-}
 
 export default level6Object

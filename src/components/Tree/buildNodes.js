@@ -103,6 +103,8 @@ const buildNodes = ({
               const level5Object = level5Objects.find(
                 (n) => n.id === activeNodeArray[4],
               )
+              const level6Objects =
+                treeData?.level6Object?.objectsByParentId?.nodes ?? []
               nodes = nodes.concat(
                 buildLevel6Objects({
                   type,
@@ -112,23 +114,13 @@ const buildNodes = ({
                   level3Object,
                   level4Object,
                   level5Object,
+                  level6Objects,
                 }),
               )
               if (activeNodeArray.length > 5) {
-                const activeLevel6ObjectNodes = get(
-                  treeData,
-                  'level6Object.objectsByParentId.nodes',
-                  [],
+                const level6Object = level6Objects.find(
+                  (n) => n.id === activeNodeArray[5],
                 )
-                const activeLevel6Object =
-                  activeLevel6ObjectNodes &&
-                  activeLevel6ObjectNodes.find(
-                    (n) => n.id === activeNodeArray[5],
-                  )
-                const activeLevel6ObjectName =
-                  activeLevel6Object && activeLevel6Object.name
-                const activeLevel6ObjectId =
-                  activeLevel6Object && activeLevel6Object.id
                 nodes = nodes.concat(
                   buildLevel7Objects({
                     type,
@@ -138,8 +130,7 @@ const buildNodes = ({
                     level3Object,
                     level4Object,
                     level5Object,
-                    activeLevel6ObjectName,
-                    activeLevel6ObjectId,
+                    level6Object,
                   }),
                 )
                 if (activeNodeArray.length > 6) {
@@ -166,8 +157,7 @@ const buildNodes = ({
                       level3Object,
                       level4Object,
                       level5Object,
-                      activeLevel6ObjectName,
-                      activeLevel6ObjectId,
+                      level6Object,
                       activeLevel7ObjectName,
                       activeLevel7ObjectId,
                     }),
@@ -196,8 +186,7 @@ const buildNodes = ({
                         level3Object,
                         level4Object,
                         level5Object,
-                        activeLevel6ObjectName,
-                        activeLevel6ObjectId,
+                        level6Object,
                         activeLevel7ObjectName,
                         activeLevel7ObjectId,
                         activeLevel8ObjectName,
@@ -228,8 +217,7 @@ const buildNodes = ({
                           level3Object,
                           level4Object,
                           level5Object,
-                          activeLevel6ObjectName,
-                          activeLevel6ObjectId,
+                          level6Object,
                           activeLevel7ObjectName,
                           activeLevel7ObjectId,
                           activeLevel8ObjectName,
