@@ -77,14 +77,15 @@ const Container = styled.div`
 `
 
 const filterSuggestionsQuery = gql`
-  query filterSuggestionsQuery($treeFilterText: String!) {
-    propertyCollectionByPropertyName(propertyName: $treeFilterText) {
+  query filterSuggestionsQuery($treeFilterText: String!, $run: Boolean!) {
+    propertyCollectionByPropertyName(propertyName: $treeFilterText)
+      @include(if: $run) {
       nodes {
         id
         name
       }
     }
-    objectByObjectName(objectName: $treeFilterText) {
+    objectByObjectName(objectName: $treeFilterText) @include(if: $run) {
       nodes {
         id
         name
@@ -141,6 +142,7 @@ const TreeFilter = ({ dimensions }) => {
   } = useQuery(filterSuggestionsQuery, {
     variables: {
       treeFilterText: treeFilter.text || 'ZZZZ',
+      run: !!treeFilter.text,
     },
   })
   const { data: objectUrlData, error: objectUrlError } = useQuery(
