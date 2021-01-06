@@ -67,17 +67,6 @@ export default gql`
         }
       }
     }
-    # leave this here: is only used once more, without objectsByTaxonomyId
-    allTaxonomies {
-      nodes {
-        id
-        name
-        type
-        objectsByTaxonomyId {
-          totalCount
-        }
-      }
-    }
     level3Pc: propertyCollectionById(id: $pCId) @include(if: $existsPCId) {
       id
       name

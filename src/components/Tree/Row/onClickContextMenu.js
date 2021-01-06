@@ -32,6 +32,14 @@ const onClickContextMenu = async ({
   const { table, action } = data
   const id = target.firstElementChild.getAttribute('data-id')
   const url = target.firstElementChild.getAttribute('data-url').split(',')
+  console.log('onClickContextMenu', {
+    data,
+    table,
+    action,
+    id,
+    url,
+    activeNodeArray,
+  })
   const actions = {
     insert: async () => {
       if (table === 'user') {
@@ -207,10 +215,19 @@ const onClickContextMenu = async ({
               query: treeDataQuery,
               variables,
             })
-            const nodes = get(data, 'allTaxonomies.nodes', []).filter(
-              (u) => u.id !== id,
-            )
-            set(data, 'allTaxonomies.nodes', nodes)
+            // get and set artTaxonomies or lrTaxonomies depending on url
+            const type = url[0]
+            if (type === 'Arten') {
+              const nodes = (data?.artTaxonomies.nodes ?? []).filter(
+                (u) => u.id !== id,
+              )
+              set(data, 'artTaxonomies.nodes', nodes)
+            } else {
+              const nodes = (data?.lrTaxonomies.nodes ?? []).filter(
+                (u) => u.id !== id,
+              )
+              set(data, 'lrTaxonomies.nodes', nodes)
+            }
             proxy.writeQuery({
               query: treeDataQuery,
               variables,

@@ -107,16 +107,14 @@ const Taxonomy = () => {
   const mobxStore = useContext(mobxStoreContext)
   const { editingTaxonomies, setEditingTaxonomies, login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
-  const taxId =
-    activeNodeArray.length > 0
-      ? activeNodeArray[1]
-      : '99999999-9999-9999-9999-999999999999'
+  const taxId = activeNodeArray?.[1] || '99999999-9999-9999-9999-999999999999'
 
   const {
     data: allUsersData,
     loading: allUsersLoading,
     error: allUsersError,
   } = useQuery(allUsersQuery)
+  console.log('Taxonomy', { activeNodeArray, taxId })
   const { data: taxData, loading: taxLoading, error: taxError } = useQuery(
     taxQuery,
     {
@@ -126,12 +124,12 @@ const Taxonomy = () => {
     },
   )
 
-  const tax = get(taxData, 'taxonomyById', {})
-  const importedByName = get(tax, 'userByImportedBy.name')
-  const organizationName = get(tax, 'organizationByOrganizationId.name')
+  const tax = taxData?.taxonomyById
+  const importedByName = tax?.userByImportedBy?.name
+  const organizationName = tax?.organizationByOrganizationId?.name
   const editing = editingTaxonomies
-  const editingArten = editing && tax.type === 'ART'
-  const editingLr = editing && tax.type === 'LEBENSRAUM'
+  const editingArten = editing && tax?.type === 'ART'
+  const editingLr = editing && tax?.type === 'LEBENSRAUM'
   const { username } = login
   const allUsers = get(allUsersData, 'allUsers.nodes', [])
   const user = allUsers.find((u) => u.name === username)
@@ -143,8 +141,8 @@ const Taxonomy = () => {
     }))
   const userIsTaxWriter = orgsUserIsTaxWriter.length > 0
   const userIsThisTaxWriter =
-    !!orgsUserIsTaxWriter.find((o) => o.id === tax.organizationId) ||
-    (userIsTaxWriter && !tax.organizationId)
+    !!orgsUserIsTaxWriter.find((o) => o.id === tax?.organizationId) ||
+    (userIsTaxWriter && !tax?.organizationId)
 
   const onClickStopEditing = useCallback(
     (event) => {
@@ -214,6 +212,8 @@ const Taxonomy = () => {
   if (allUsersError) {
     return <Container>{`Fehler: ${allUsersError.message}`}</Container>
   }
+
+  if (!tax?.id) return null
 
   return (
     <ErrorBoundary>
