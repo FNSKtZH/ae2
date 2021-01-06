@@ -59,28 +59,28 @@ const User = () => {
   })
   const user = get(data, 'userById', {})
 
-  const [name, setName] = useState(user.name)
+  const [name, setName] = useState(user?.name)
   const [nameErrorText, setNameErrorText] = useState('')
-  const [email, setEmail] = useState(user.email)
+  const [email, setEmail] = useState(user?.email)
   const [emailErrorText, setEmailErrorText] = useState('')
   const [passNew, setPassNew] = useState('')
   const [tab, setTab] = useState(0)
 
-  const { id } = user
-  const orgUsers = get(user, 'organizationUsersByUserId.nodes', [])
-  const pcs = get(user, 'propertyCollectionsByImportedBy.nodes', [])
-  const tcs = get(user, 'taxonomiesByImportedBy.nodes', [])
+  const id = user?.id
+  const orgUsers = user?.organizationUsersByUserId?.nodes ?? []
+  const pcs = user?.propertyCollectionsByImportedBy?.nodes ?? []
+  const tcs = user?.taxonomiesByImportedBy?.nodes ?? []
   const saveEnabled =
     !dataLoading &&
     (passNew ||
-      (!!name && !!data && !!user && name !== user.name) ||
-      (!!email && !!data && !!user && email !== user.email))
+      (!!name && !!data && !!user && name !== user?.name) ||
+      (!!email && !!data && !!user && email !== user?.email))
   const userIsLoggedIn =
-    !!user && !!login.username && user.name === login.username
+    !!user && !!login.username && user?.name === login.username
 
   useEffect(() => {
-    setName(user.name)
-    setEmail(user.email)
+    setName(user?.name)
+    setEmail(user?.email)
   }, [user])
   const onChangeTab = useCallback((event, value) => setTab(value), [])
   const onChangeName = useCallback((e) => setName(e.target.value), [])
@@ -133,6 +133,8 @@ const User = () => {
       </LEContainer>
     )
   }
+
+  if (!user) return null
 
   return (
     <ErrorBoundary>
