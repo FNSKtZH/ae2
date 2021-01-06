@@ -13,8 +13,8 @@ import SimpleBar from 'simplebar-react'
 import Row from './Row'
 import Filter from './Filter'
 import buildNodes from './buildNodes'
-import treeDataQuery from './treeDataQuery'
-import treeDataVariables from './treeDataVariables'
+import treeQuery from './treeQuery'
+import treeQueryVariables from './treeQueryVariables'
 import CmBenutzerFolder from './contextmenu/BenutzerFolder'
 import CmBenutzer from './contextmenu/Benutzer'
 import CmObject from './contextmenu/Object'
@@ -166,46 +166,6 @@ const StyledSnackbar = styled(Snackbar)`
 `
 //const listContainerStyle = { padding: '5px' }
 
-const orgUsersQuery = gql`
-  query AllOrganizationUsersQuery {
-    allOrganizationUsers {
-      nodes {
-        id
-        nodeId
-        organizationId
-        userId
-        role
-        userByUserId {
-          id
-          name
-        }
-      }
-    }
-  }
-`
-const usersQuery = gql`
-  query AllUsersQuery {
-    allUsers {
-      totalCount
-      nodes {
-        id
-        name
-        email
-        organizationUsersByUserId {
-          nodes {
-            id
-            organizationId
-            role
-            organizationByOrganizationId {
-              id
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`
 const userQuery = gql`
   query rowQuery($username: String!) {
     userByName(name: $username) {
@@ -223,19 +183,9 @@ const Tree = ({ dimensions }) => {
     loading: treeLoading,
     error: treeError,
     refetch: treeRefetch,
-  } = useQuery(treeDataQuery, {
-    variables: treeDataVariables({ activeNodeArray }),
+  } = useQuery(treeQuery, {
+    variables: treeQueryVariables({ activeNodeArray }),
   })
-  const {
-    data: orgUsersData,
-    loading: orgUsersLoading,
-    error: orgUsersError,
-  } = useQuery(orgUsersQuery)
-  const {
-    data: usersData,
-    loading: usersLoading,
-    error: usersError,
-  } = useQuery(usersQuery)
 
   const { data: userData } = useQuery(userQuery, {
     variables: {
@@ -253,16 +203,16 @@ const Tree = ({ dimensions }) => {
     }
   }, [treeDataFetched, treeLoading])
 
-  console.log('Tree', {
+  /*console.log('Tree', {
     treeDataFetched,
     treeLoading,
     treeDataState,
     activeNodeArray,
     userId,
-  })
+  })*/
 
-  const treeDataLoading = treeLoading || orgUsersLoading || usersLoading
-  const treeData = { ...usersData, ...treeDataState }
+  const treeDataLoading = treeLoading
+  const treeData = { ...treeDataState }
   const nodes = buildNodes({
     treeData,
     activeNodeArray,
@@ -278,7 +228,8 @@ const Tree = ({ dimensions }) => {
   }, [activeNodeArray, nodes])
 
   const { username } = login
-  const organizationUsers = get(orgUsersData, 'allOrganizationUsers.nodes', [])
+  const organizationUsers = get(treeDataState, 'allOrganizationUsers.nodes', [])
+  console.log('organizationUsers:', organizationUsers)
   const userRoles = organizationUsers
     .filter((oU) => username === get(oU, 'userByUserId.name', ''))
     .map((oU) => oU.role)
@@ -293,18 +244,6 @@ const Tree = ({ dimensions }) => {
   if (treeError) {
     return (
       <ErrorContainer>{`Error fetching data: ${treeError.message}`}</ErrorContainer>
-    )
-  }
-  if (orgUsersError) {
-    return (
-      <ErrorContainer>
-        {`Error fetching data: ${orgUsersError.message}`}{' '}
-      </ErrorContainer>
-    )
-  }
-  if (usersError) {
-    return (
-      <ErrorContainer> {`Error fetching data: ${usersError}`} </ErrorContainer>
     )
   }
 

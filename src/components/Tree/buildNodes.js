@@ -24,6 +24,7 @@ const buildNodes = ({
   treeDataLoading,
   mobxStore,
 }) => {
+  console.log('building level 1 roots')
   let nodes = buildLevel1Nodes({
     treeData,
     activeNodeArray,
@@ -48,6 +49,7 @@ const buildNodes = ({
         ...buildLevel2OrganizationNodes({ treeData, mobxStore }),
       ]
     } else if (['Arten', 'Lebensräume'].includes(activeNodeArray[0])) {
+      console.log('building level 2 taxonomies')
       const type = activeNodeArray[0]
       const taxonomies =
         type === 'Arten'
@@ -59,6 +61,7 @@ const buildNodes = ({
         ...buildLevel2TaxonomyNodes({ type, taxonomies, taxonomySort }),
       ]
       if (activeNodeArray.length > 1) {
+        console.log('building level 3 objects')
         const taxonomy = taxonomies.find((n) => n.id === activeNodeArray[1])
         const level3Objects = treeData?.taxonomyObjectLevel1?.nodes ?? []
         nodes = nodes.concat(
@@ -71,6 +74,7 @@ const buildNodes = ({
           }),
         )
         if (activeNodeArray.length > 2) {
+          console.log('building level 4 objects')
           const level3Object = level3Objects.find(
             (n) => n.id === activeNodeArray[2],
           )

@@ -12,8 +12,8 @@ import { useQuery, useApolloClient } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
 
 import query from './query'
-import treeDataQuery from '../Tree/treeDataQuery'
-import getTreeDataVariables from '../Tree/treeDataVariables'
+import treeQuery from '../Tree/treeQuery'
+import getTreeDataVariables from '../Tree/treeQueryVariables'
 import Roles from './Roles'
 import PCs from './PCs'
 import TCs from './TCs'
@@ -44,7 +44,7 @@ const User = () => {
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
 
-  const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
+  const { refetch: treeDataRefetch } = useQuery(treeQuery, {
     variables: getTreeDataVariables({ activeNodeArray }),
   })
   const {

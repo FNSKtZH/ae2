@@ -15,8 +15,8 @@ import booleanToJaNein from '../../../modules/booleanToJaNein'
 import exportXlsx from '../../../modules/exportXlsx'
 import exportCsv from '../../../modules/exportCsv'
 import deleteRcoOfPcMutation from './deleteRcoOfPcMutation'
-import treeDataQuery from '../../Tree/treeDataQuery'
-import treeDataVariables from '../../Tree/treeDataVariables'
+import treeQuery from '../../Tree/treeQuery'
+import treeQueryVariables from '../../Tree/treeQueryVariables'
 import mobxStoreContext from '../../../mobxStoreContext'
 import Spinner from '../../shared/Spinner'
 
@@ -114,8 +114,8 @@ const RCO = ({ dimensions }) => {
     activeNodeArray.length > 0
       ? activeNodeArray[1]
       : '99999999-9999-9999-9999-999999999999'
-  const { refetch: treeDataRefetch } = useQuery(treeDataQuery, {
-    variables: treeDataVariables({ activeNodeArray }),
+  const { refetch: treeDataRefetch } = useQuery(treeQuery, {
+    variables: treeQueryVariables({ activeNodeArray }),
   })
   const {
     data: rcoData,

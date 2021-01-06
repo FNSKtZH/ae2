@@ -22,6 +22,38 @@ export default gql`
     $pCId: UUID!
     $existsPCId: Boolean!
   ) {
+    allUsers {
+      totalCount
+      nodes {
+        id
+        name
+        email
+        organizationUsersByUserId {
+          nodes {
+            id
+            organizationId
+            role
+            organizationByOrganizationId {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+    allOrganizationUsers {
+      nodes {
+        id
+        nodeId
+        organizationId
+        userId
+        role
+        userByUserId {
+          id
+          name
+        }
+      }
+    }
     allPropertyCollections {
       totalCount
       nodes @include(if: $existsLevel2Pc) {

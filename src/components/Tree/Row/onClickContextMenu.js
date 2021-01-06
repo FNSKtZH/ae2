@@ -11,8 +11,8 @@ import createTaxonomyMutation from '../../Taxonomy/createTaxonomyMutation'
 import createPCMutation from '../../PropertyCollection/createPCMutation'
 import deletePCMutation from '../../PropertyCollection/deletePCMutation'
 import deleteTaxonomyMutation from '../../Taxonomy/deleteTaxonomyMutation'
-import treeDataQuery from '../treeDataQuery'
-import treeDataVariables from '../treeDataVariables'
+import treeQuery from '../treeQuery'
+import treeQueryVariables from '../treeQueryVariables'
 
 const onClickContextMenu = async ({
   e,
@@ -137,9 +137,9 @@ const onClickContextMenu = async ({
               },
             },
             update: (proxy, { data: { deleteUserMutation } }) => {
-              const variables = treeDataVariables({ activeNodeArray })
+              const variables = treeQueryVariables({ activeNodeArray })
               const data = proxy.readQuery({
-                query: treeDataQuery,
+                query: treeQuery,
                 variables,
               })
               const nodes = get(data, 'allUsers.nodes', []).filter(
@@ -147,7 +147,7 @@ const onClickContextMenu = async ({
               )
               set(data, 'allUsers.nodes', nodes)
               proxy.writeQuery({
-                query: treeDataQuery,
+                query: treeQuery,
                 variables,
                 data,
               })
@@ -173,9 +173,9 @@ const onClickContextMenu = async ({
             },
           },
           update: (proxy, { data: { deleteObjectMutation } }) => {
-            const variables = treeDataVariables({ activeNodeArray })
+            const variables = treeQueryVariables({ activeNodeArray })
             const data = proxy.readQuery({
-              query: treeDataQuery,
+              query: treeQuery,
               variables,
             })
             const nodesPath =
@@ -185,7 +185,7 @@ const onClickContextMenu = async ({
             const nodes = get(data, nodesPath, []).filter((u) => u.id !== id)
             set(data, nodesPath, nodes)
             proxy.writeQuery({
-              query: treeDataQuery,
+              query: treeQuery,
               variables,
               data,
             })
@@ -210,9 +210,9 @@ const onClickContextMenu = async ({
             },
           },
           update: (proxy, { data: { deleteTaxonomyMutation } }) => {
-            const variables = treeDataVariables({ activeNodeArray })
+            const variables = treeQueryVariables({ activeNodeArray })
             const data = proxy.readQuery({
-              query: treeDataQuery,
+              query: treeQuery,
               variables,
             })
             // get and set artTaxonomies or lrTaxonomies depending on url
@@ -229,7 +229,7 @@ const onClickContextMenu = async ({
               set(data, 'lrTaxonomies.nodes', nodes)
             }
             proxy.writeQuery({
-              query: treeDataQuery,
+              query: treeQuery,
               variables,
               data,
             })
@@ -254,9 +254,9 @@ const onClickContextMenu = async ({
             },
           },
           update: (proxy, { data: { deletePCMutation } }) => {
-            const variables = treeDataVariables({ activeNodeArray })
+            const variables = treeQueryVariables({ activeNodeArray })
             const data = proxy.readQuery({
-              query: treeDataQuery,
+              query: treeQuery,
               variables,
             })
             const nodes = get(data, 'allPropertyCollections.nodes', []).filter(
@@ -264,7 +264,7 @@ const onClickContextMenu = async ({
             )
             set(data, 'allPropertyCollections.nodes', nodes)
             proxy.writeQuery({
-              query: treeDataQuery,
+              query: treeQuery,
               variables,
               data,
             })
