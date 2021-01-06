@@ -10,14 +10,14 @@ import level2Organization from './nodes/level2Organization'
 import level2Pc from './nodes/level2Pc'
 import level3Pc from './nodes/level3Pc'
 import level2Taxonomy from './nodes/level2Taxonomy'
-import level3Object from './nodes/level3Object'
-import level4Object from './nodes/level4Object'
-import level5Object from './nodes/level5Object'
-import level6Object from './nodes/level6Object'
-import level7Object from './nodes/level7Object'
-import level8Object from './nodes/level8Object'
-import level9Object from './nodes/level9Object'
-import level10Object from './nodes/level10Object'
+import buildLevel3Objects from './nodes/level3Object'
+import buildLevel4Objects from './nodes/level4Object'
+import buildLevel5Objects from './nodes/level5Object'
+import buildLevel6Objects from './nodes/level6Object'
+import buildLevel7Objects from './nodes/level7Object'
+import buildLevel8Objects from './nodes/level8Object'
+import buildLevel9Objects from './nodes/level9Object'
+import buildLevel10Objects from './nodes/level10Object'
 import sort from './nodes/sort'
 
 const buildNodes = ({
@@ -48,35 +48,34 @@ const buildNodes = ({
       nodes = [...nodes, ...level2Organization({ treeData, mobxStore })]
     } else if (['Arten', 'Lebensräume'].includes(activeNodeArray[0])) {
       const type = activeNodeArray[0]
-      const level2Data =
+      const taxonomies =
         type === 'Arten'
           ? treeData?.artTaxonomies?.nodes ?? []
           : treeData?.lrTaxonomies?.nodes ?? []
-      nodes = [...nodes, ...level2Taxonomy({ type, level2Data })]
+      const taxonomySort = type === 'Arten' ? 1 : 2
+      nodes = [...nodes, ...level2Taxonomy({ type, taxonomies, taxonomySort })]
       if (activeNodeArray.length > 1) {
-        const taxonomy = level2Data.find((n) => n.id === activeNodeArray[1])
-        const taxonomyName = taxonomy?.name ?? ''
+        const taxonomy = taxonomies.find((n) => n.id === activeNodeArray[1])
         nodes = nodes.concat(
-          level3Object({
+          buildLevel3Objects({
             type,
             treeData,
             taxonomy,
+            taxonomySort,
           }),
         )
         if (activeNodeArray.length > 2) {
-          const activeLevel3ObjectNodes =
-            treeData?.taxonomyObjectLevel1?.nodes ?? []
-          const activeLevel3Object = activeLevel3ObjectNodes.find(
+          const level3Objects = treeData?.taxonomyObjectLevel1?.nodes ?? []
+          const level3Object = level3Objects.find(
             (n) => n.id === activeNodeArray[2],
           )
-          const activeLevel3ObjectName = activeLevel3Object?.name
-          const activeLevel3ObjectId = activeLevel3Object?.id
           nodes = nodes.concat(
-            level4Object({
+            buildLevel4Objects({
+              type,
               treeData,
-              taxonomyName,
-              activeLevel3ObjectName,
-              activeLevel3ObjectId,
+              taxonomy,
+              taxonomySort,
+              level3Object,
             }),
           )
           if (activeNodeArray.length > 3) {
@@ -94,11 +93,12 @@ const buildNodes = ({
               activeLevel4Object && activeLevel4Object.id
 
             nodes = nodes.concat(
-              level5Object({
+              buildLevel5Objects({
+                type,
                 treeData,
-                taxonomyName,
-                activeLevel3ObjectName,
-                activeLevel3ObjectId,
+                taxonomy,
+                taxonomySort,
+                level3Object,
                 activeLevel4ObjectName,
                 activeLevel4ObjectId,
               }),
@@ -117,11 +117,12 @@ const buildNodes = ({
               const activeLevel5ObjectId =
                 activeLevel5Object && activeLevel5Object.id
               nodes = nodes.concat(
-                level6Object({
+                buildLevel6Objects({
+                  type,
                   treeData,
-                  taxonomyName,
-                  activeLevel3ObjectName,
-                  activeLevel3ObjectId,
+                  taxonomy,
+                  taxonomySort,
+                  level3Object,
                   activeLevel4ObjectName,
                   activeLevel4ObjectId,
                   activeLevel5ObjectName,
@@ -144,11 +145,12 @@ const buildNodes = ({
                 const activeLevel6ObjectId =
                   activeLevel6Object && activeLevel6Object.id
                 nodes = nodes.concat(
-                  level7Object({
+                  buildLevel7Objects({
+                    type,
                     treeData,
-                    taxonomyName,
-                    activeLevel3ObjectName,
-                    activeLevel3ObjectId,
+                    taxonomy,
+                    taxonomySort,
+                    level3Object,
                     activeLevel4ObjectName,
                     activeLevel4ObjectId,
                     activeLevel5ObjectName,
@@ -173,11 +175,12 @@ const buildNodes = ({
                   const activeLevel7ObjectId =
                     activeLevel7Object && activeLevel7Object.id
                   nodes = nodes.concat(
-                    level8Object({
+                    buildLevel8Objects({
+                      type,
                       treeData,
-                      taxonomyName,
-                      activeLevel3ObjectName,
-                      activeLevel3ObjectId,
+                      taxonomy,
+                      taxonomySort,
+                      level3Object,
                       activeLevel4ObjectName,
                       activeLevel4ObjectId,
                       activeLevel5ObjectName,
@@ -204,11 +207,12 @@ const buildNodes = ({
                     const activeLevel8ObjectId =
                       activeLevel8Object && activeLevel8Object.id
                     nodes = nodes.concat(
-                      level9Object({
+                      buildLevel9Objects({
+                        type,
                         treeData,
-                        taxonomyName,
-                        activeLevel3ObjectName,
-                        activeLevel3ObjectId,
+                        taxonomy,
+                        taxonomySort,
+                        level3Object,
                         activeLevel4ObjectName,
                         activeLevel4ObjectId,
                         activeLevel5ObjectName,
@@ -237,11 +241,12 @@ const buildNodes = ({
                       const activeLevel9ObjectId =
                         activeLevel9Object && activeLevel9Object.id
                       nodes = nodes.concat(
-                        level10Object({
+                        buildLevel10Objects({
+                          type,
                           treeData,
-                          taxonomyName,
-                          activeLevel3ObjectName,
-                          activeLevel3ObjectId,
+                          taxonomy,
+                          taxonomySort,
+                          level3Object,
                           activeLevel4ObjectName,
                           activeLevel4ObjectId,
                           activeLevel5ObjectName,

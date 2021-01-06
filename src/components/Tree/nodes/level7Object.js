@@ -1,10 +1,9 @@
-import get from 'lodash/get'
-
 const level7Object = ({
+  type,
   treeData,
-  activeLevel2TaxonomyName,
-  activeLevel3ObjectName,
-  activeLevel3ObjectId,
+  taxonomy,
+  taxonomySort,
+  level3Object,
   activeLevel4ObjectName,
   activeLevel4ObjectId,
   activeLevel5ObjectName,
@@ -12,38 +11,29 @@ const level7Object = ({
   activeLevel6ObjectName,
   activeLevel6ObjectId,
 }) => {
-  if (!treeData) return []
-  const nodes = get(treeData, 'level7Object.objectsByParentId.nodes', [])
+  const nodes = treeData?.level7Object?.objectsByParentId?.nodes ?? []
 
   return nodes.map((node) => {
-    const childrenCount = get(node, 'objectsByParentId.totalCount', 0)
+    const childrenCount = node?.objectsByParentId?.totalCount ?? 0
     // give nodeName a value if it does not yet exist
     // otherwiese empty nodes are sorted before its parent
     const nodeName = node.name || 'ZZZZ'
-    const taxonomy = get(treeData, 'allTaxonomies.nodes', []).find(
-      (tax) => tax.name === activeLevel2TaxonomyName,
-    )
-    if (!taxonomy) return []
-    const taxType = taxonomy.type
-    if (!taxType) return []
-    const elem1 = taxType === 'ART' ? 'Arten' : 'Lebensräume'
-    const sort1 = taxType === 'ART' ? 1 : 2
 
     return {
       id: node.id,
       url: [
-        elem1,
-        taxonomy.id,
-        activeLevel3ObjectId,
+        type,
+        taxonomy?.id,
+        level3Object?.id,
         activeLevel4ObjectId,
         activeLevel5ObjectId,
         activeLevel6ObjectId,
         node.id,
       ],
       sort: [
-        sort1,
-        activeLevel2TaxonomyName,
-        activeLevel3ObjectName,
+        taxonomySort,
+        taxonomy?.name,
+        level3Object?.name,
         activeLevel4ObjectName,
         activeLevel5ObjectName,
         activeLevel6ObjectName,
