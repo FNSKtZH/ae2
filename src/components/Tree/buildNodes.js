@@ -26,6 +26,7 @@ const buildNodes = ({
   treeDataLoading,
   mobxStore,
 }) => {
+  // ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
   const activeLevel2TaxonomyNodes = activeNodeArray[0]
     ? get(treeData, 'allTaxonomies.nodes', []).filter((n) => {
         if (activeNodeArray[0] === 'Arten') return n.type === 'ART'
@@ -115,42 +116,24 @@ const buildNodes = ({
     mobxStore,
   })
   if (activeNodeArray.length > 0) {
-    switch (activeNodeArray[0]) {
-      case 'Eigenschaften-Sammlungen': {
-        nodes = [...nodes, ...level2Pc({ treeData })]
-        break
+    if (activeNodeArray[0] === 'Eigenschaften-Sammlungen') {
+      nodes = [...nodes, ...level2Pc({ treeData })]
+      if (activeNodeArray.length > 1) {
+        nodes = nodes.concat(
+          level3Pc({
+            treeData,
+          }),
+        )
       }
-      case 'Benutzer': {
-        const { token } = mobxStore.login
-        if (!!token) {
-          nodes = [...nodes, ...level2Benutzer({ treeData })]
-        }
-        break
-      }
-      case 'Organisationen': {
-        nodes = [...nodes, ...level2Organization({ treeData, mobxStore })]
-        break
-      }
-      default:
-      case 'Arten':
-      case 'Lebensräume': {
-        nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
-        break
-      }
+    } else if (activeNodeArray[0] === 'Benutzer' && !!mobxStore.login.token) {
+      nodes = [...nodes, ...level2Benutzer({ treeData })]
+    } else if (activeNodeArray[0] === 'Organisationen') {
+      nodes = [...nodes, ...level2Organization({ treeData, mobxStore })]
+    } else if (activeNodeArray[0] === 'Arten') {
+      nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
+    } else if (activeNodeArray[0] === 'Lebensräume') {
+      nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
     }
-  }
-  if (
-    activeNodeArray.length > 1 &&
-    activeNodeArray[0] === 'Eigenschaften-Sammlungen'
-  ) {
-    nodes = nodes.concat(
-      level3Pc({
-        treeData,
-      }),
-    )
-  }
-  if (activeNodeArray.length > 1 && activeNodeArray[0] === 'Benutzer') {
-    // TODO
   }
   if (
     activeNodeArray.length > 1 &&
