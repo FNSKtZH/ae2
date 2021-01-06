@@ -14,7 +14,7 @@
  * Seems that yes: functions have SECURITY INVOKER set by default
  * see postgresql.org/docs/current/sql-createfunction.html
  *
- * would need to pass in openNodes to create full tree?
+ * would need to pass in activeNodeArray to create full tree?
  */
 with
 tree_categories as (
