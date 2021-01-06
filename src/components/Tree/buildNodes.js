@@ -26,18 +26,6 @@ const buildNodes = ({
   treeDataLoading,
   mobxStore,
 }) => {
-  // ['Arten', 'Lebensräume'].includes(activeNodeArray[0])
-  const activeLevel2TaxonomyNodes = activeNodeArray[0]
-    ? get(treeData, 'allTaxonomies.nodes', []).filter((n) => {
-        if (activeNodeArray[0] === 'Arten') return n.type === 'ART'
-        return n.type === 'LEBENSRAUM'
-      })
-    : null
-  const activeLevel2Taxonomy =
-    activeLevel2TaxonomyNodes &&
-    activeLevel2TaxonomyNodes.find((n) => n.id === activeNodeArray[1])
-  const activeLevel2TaxonomyName =
-    activeLevel2Taxonomy && activeLevel2Taxonomy.name
   const activeLevel3ObjectNodes = get(
     treeData,
     'taxonomyObjectLevel1.nodes',
@@ -132,6 +120,12 @@ const buildNodes = ({
     } else if (activeNodeArray[0] === 'Arten') {
       nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
       if (activeNodeArray.length > 1) {
+        const activeLevel2TaxonomyNodes = treeData?.artTaxonomies?.nodes ?? []
+        const activeLevel2Taxonomy =
+          activeLevel2TaxonomyNodes &&
+          activeLevel2TaxonomyNodes.find((n) => n.id === activeNodeArray[1])
+        const activeLevel2TaxonomyName =
+          activeLevel2Taxonomy && activeLevel2Taxonomy.name
         nodes = nodes.concat(
           level3Object({
             treeData,
@@ -254,6 +248,12 @@ const buildNodes = ({
     } else if (activeNodeArray[0] === 'Lebensräume') {
       nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
       if (activeNodeArray.length > 1) {
+        const activeLevel2TaxonomyNodes = treeData?.lrTaxonomies?.nodes ?? []
+        const activeLevel2Taxonomy =
+          activeLevel2TaxonomyNodes &&
+          activeLevel2TaxonomyNodes.find((n) => n.id === activeNodeArray[1])
+        const activeLevel2TaxonomyName =
+          activeLevel2Taxonomy && activeLevel2Taxonomy.name
         nodes = nodes.concat(
           level3Object({
             treeData,
