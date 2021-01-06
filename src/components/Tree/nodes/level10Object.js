@@ -9,15 +9,14 @@ const level10Object = ({
   level6Object,
   level7Object,
   level8Object,
-  activeLevel9ObjectName,
-  activeLevel9ObjectId,
+  level9Object,
 }) => {
   const nodes = treeData?.level10Object?.objectsByParentId?.nodes ?? []
 
   return nodes.map((node) => {
     const childrenCount = node?.objectsByParentId?.totalCount ?? 0
     // give nodeName a value if it does not yet exist
-    // otherwiese empty nodes are sorted before its parent
+    // otherwise empty nodes are sorted before its parent
     const nodeName = node.name || 'ZZZZ'
 
     return {
@@ -31,7 +30,7 @@ const level10Object = ({
         level6Object?.id,
         level7Object?.id,
         level8Object?.id,
-        activeLevel9ObjectId,
+        level9Object?.id,
         node.id,
       ],
       sort: [
@@ -43,7 +42,7 @@ const level10Object = ({
         level6Object?.name,
         level7Object?.name,
         level8Object?.name,
-        activeLevel9ObjectName,
+        level9Object?.name,
         nodeName,
       ],
       label: node.name,

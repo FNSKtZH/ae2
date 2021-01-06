@@ -160,6 +160,8 @@ const buildNodes = ({
                     const level8Object = level8Objects.find(
                       (n) => n.id === activeNodeArray[7],
                     )
+                    const level9Objects =
+                      treeData?.level9Object?.objectsByParentId?.nodes ?? []
                     nodes = nodes.concat(
                       buildLevel9Objects({
                         type,
@@ -172,23 +174,13 @@ const buildNodes = ({
                         level6Object,
                         level7Object,
                         level8Object,
+                        level9Objects,
                       }),
                     )
                     if (activeNodeArray.length > 8) {
-                      const activeLevel9ObjectNodes = get(
-                        treeData,
-                        'level9Object.objectsByParentId.nodes',
-                        [],
+                      const level9Object = level9Objects.find(
+                        (n) => n.id === activeNodeArray[8],
                       )
-                      const activeLevel9Object =
-                        activeLevel9ObjectNodes &&
-                        activeLevel9ObjectNodes.find(
-                          (n) => n.id === activeNodeArray[8],
-                        )
-                      const activeLevel9ObjectName =
-                        activeLevel9Object && activeLevel9Object.name
-                      const activeLevel9ObjectId =
-                        activeLevel9Object && activeLevel9Object.id
                       nodes = nodes.concat(
                         buildLevel10Objects({
                           type,
@@ -201,8 +193,7 @@ const buildNodes = ({
                           level6Object,
                           level7Object,
                           level8Object,
-                          activeLevel9ObjectName,
-                          activeLevel9ObjectId,
+                          level9Object,
                         }),
                       )
                     }

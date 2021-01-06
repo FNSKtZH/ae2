@@ -8,7 +8,7 @@ const level3Object = ({
   level3Objects.map((node) => {
     const childrenCount = node?.objectsByParentId?.totalCount ?? 0
     // give nodeName a value if it does not yet exist
-    // otherwiese empty nodes are sorted before its parent
+    // otherwise empty nodes are sorted before its parent
     const nodeName = node.name || 'ZZZZ'
 
     return {
