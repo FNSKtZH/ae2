@@ -25,7 +25,7 @@
     "exceljs": "4.2.0",
     "file-saver": "2.0.5",
     "fontsource-roboto": "3.0.3",
-    "gatsby": "2.30.0",
+    "gatsby": "2.30.1",
     "gatsby-plugin-create-client-paths": "2.8.0",
     "gatsby-plugin-eslint": "2.0.8",
     "gatsby-plugin-manifest": "2.10.0",
@@ -76,8 +76,7 @@
   },
   "dependenciesComments": {
     "file-selector": "see https://github.com/react-dropzone/react-dropzone/issues/1022",
-    "react-spinners-kit": "forked because it added dependencies via non-peer-dependencies. See: https://github.com/dmitrymorozoff/react-spinners-kit/pull/18. Wait for release > 1.9.1",
-    "gatsby/socket.io": "2.3.0-resolution: see https://github.com/gatsbyjs/gatsby/issues/28877#issuecomment-754954894"
+    "react-spinners-kit": "forked because it added dependencies via non-peer-dependencies. See: https://github.com/dmitrymorozoff/react-spinners-kit/pull/18. Wait for release > 1.9.1"
   },
   "devDependencies": {
     "@graphile-contrib/pg-order-by-related": "1.0.0-beta.6",
@@ -111,8 +110,7 @@
     "webpack": "5.11.1"
   },
   "resolutions": {
-    "file-selector": "0.2.2",
-    "gatsby/socket.io": "2.3.0"
+    "file-selector": "0.2.2"
   },
   "license": "ISC",
   "eslintConfig": {
