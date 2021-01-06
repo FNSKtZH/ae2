@@ -61,7 +61,6 @@ const buildNodes = ({
         ...buildLevel2TaxonomyNodes({ type, taxonomies, taxonomySort }),
       ]
       if (activeNodeArray.length > 1) {
-        console.log('building level 3 objects')
         const taxonomy = taxonomies.find((n) => n.id === activeNodeArray[1])
         const level3Objects = treeData?.taxonomyObjectLevel1?.nodes ?? []
         nodes = nodes.concat(
@@ -73,6 +72,13 @@ const buildNodes = ({
             level3Objects,
           }),
         )
+        console.log('building level 3 objects', {
+          nodes,
+          type,
+          treeData,
+          taxonomy,
+          level3Objects,
+        })
         if (activeNodeArray.length > 2) {
           console.log('building level 4 objects')
           const level3Object = level3Objects.find(
@@ -90,7 +96,9 @@ const buildNodes = ({
               level4Objects,
             }),
           )
+          console.log('building level 4 objects', { activeNodeArray, nodes })
           if (activeNodeArray.length > 3) {
+            console.log('building level 5 objects')
             const level4Object = level4Objects.find(
               (n) => n.id === activeNodeArray[3],
             )
@@ -108,6 +116,7 @@ const buildNodes = ({
               }),
             )
             if (activeNodeArray.length > 4) {
+              console.log('building level 6 objects')
               const level5Object = level5Objects.find(
                 (n) => n.id === activeNodeArray[4],
               )

@@ -5,8 +5,7 @@ import styled from 'styled-components'
 import findIndex from 'lodash/findIndex'
 import isEqual from 'lodash/isEqual'
 import Snackbar from '@material-ui/core/Snackbar'
-import get from 'lodash/get'
-import { useQuery, gql } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
 import SimpleBar from 'simplebar-react'
 
@@ -140,19 +139,6 @@ const AutoSizerContainer = styled.div`
   height: 100%;
   padding: 5px 0;
 `
-/*
-const ListContainer = styled(List)`
-  font-size: 14px;
-  font-weight: normal;
-  * {
-    box-sizing: border-box;
-    font-size: 14px;
-    font-weight: normal;
-  }
-  &:focus {
-    outline-color: rgb(48, 48, 48) !important;
-  }
-`*/
 const StyledSnackbar = styled(Snackbar)`
   div {
     min-width: auto;
@@ -164,55 +150,44 @@ const StyledSnackbar = styled(Snackbar)`
     flex-grow: 0;
   }
 `
-//const listContainerStyle = { padding: '5px' }
-
-const userQuery = gql`
-  query rowQuery($username: String!) {
-    userByName(name: $username) {
-      id
-    }
-  }
-`
 
 const Tree = ({ dimensions }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
   const activeNodeArray = mobxStore.activeNodeArray.toJS()
+
+  const treeQueryVars = treeQueryVariables({ activeNodeArray })
   const {
     data: treeDataFetched,
     loading: treeLoading,
     error: treeError,
     refetch: treeRefetch,
   } = useQuery(treeQuery, {
-    variables: treeQueryVariables({ activeNodeArray }),
-  })
-
-  const { data: userData } = useQuery(userQuery, {
     variables: {
+      ...treeQueryVariables({ activeNodeArray }),
       username: login.username,
     },
   })
-  const userId = get(userData, 'userByName.id', null)
 
   // prevent tree from rebuilding from the top
   // every time a new branch is clicked
-  const [treeDataState, setTreeDataState] = useState({})
+  const [treeData, setTreeData] = useState({})
   useEffect(() => {
-    if (!treeLoading) {
-      setTreeDataState(treeDataFetched)
+    if (!treeLoading && treeDataFetched) {
+      setTreeData(treeDataFetched)
     }
   }, [treeDataFetched, treeLoading])
 
-  /*console.log('Tree', {
+  console.log('Tree', {
     treeDataFetched,
     treeLoading,
-    treeDataState,
+    treeData,
     activeNodeArray,
-    userId,
-  })*/
+    treeQueryVars,
+  })
 
   const treeDataLoading = treeLoading
-  const treeData = { ...treeDataState }
+  const userId = treeData?.userByName?.id
   const nodes = buildNodes({
     treeData,
     activeNodeArray,
@@ -228,10 +203,9 @@ const Tree = ({ dimensions }) => {
   }, [activeNodeArray, nodes])
 
   const { username } = login
-  const organizationUsers = get(treeDataState, 'allOrganizationUsers.nodes', [])
-  console.log('organizationUsers:', organizationUsers)
+  const organizationUsers = treeData?.allOrganizationUsers?.nodes ?? []
   const userRoles = organizationUsers
-    .filter((oU) => username === get(oU, 'userByUserId.name', ''))
+    .filter((oU) => username === oU?.userByUserId?.name ?? '')
     .map((oU) => oU.role)
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')

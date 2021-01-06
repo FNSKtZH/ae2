@@ -21,7 +21,11 @@ export default gql`
     $level9Object: UUID!
     $pCId: UUID!
     $existsPCId: Boolean!
+    $username: String!
   ) {
+    userByName(name: $username) {
+      id
+    }
     allUsers {
       totalCount
       nodes {

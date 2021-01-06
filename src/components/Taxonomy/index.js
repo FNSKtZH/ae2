@@ -114,7 +114,6 @@ const Taxonomy = () => {
     loading: allUsersLoading,
     error: allUsersError,
   } = useQuery(allUsersQuery)
-  console.log('Taxonomy', { activeNodeArray, taxId })
   const { data: taxData, loading: taxLoading, error: taxError } = useQuery(
     taxQuery,
     {
