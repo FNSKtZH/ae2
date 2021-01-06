@@ -787,6 +787,7 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
 ALTER FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
   OWNER TO postgres;
 
+-- TODO: drop taxonomy_with_level1_count after setting version 1.4.23 live
 CREATE TYPE ae.taxonomy_with_level1_count AS (
     taxonomy_id uuid,
     count bigint
@@ -807,6 +808,7 @@ CREATE OR REPLACE FUNCTION ae.taxonomy_with_level1_count()
   LANGUAGE sql STABLE;
 ALTER FUNCTION ae.taxonomy_with_level1_count()
   OWNER TO postgres;
+-- TODO: till here
 
 CREATE OR REPLACE FUNCTION ae.delete_pco_of_pc(pc_id uuid)
   RETURNS setof ae.taxonomy AS

@@ -253,6 +253,14 @@ const Tree = ({ dimensions }) => {
     }
   }, [treeDataFetched, treeLoading])
 
+  console.log('Tree', {
+    treeDataFetched,
+    treeLoading,
+    treeDataState,
+    activeNodeArray,
+    userId,
+  })
+
   const treeDataLoading = treeLoading || orgUsersLoading || usersLoading
   const treeData = { ...usersData, ...treeDataState }
   const nodes = buildNodes({

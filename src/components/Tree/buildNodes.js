@@ -26,73 +26,6 @@ const buildNodes = ({
   treeDataLoading,
   mobxStore,
 }) => {
-  const activeLevel3ObjectNodes = treeData?.taxonomyObjectLevel1?.nodes ?? []
-  const activeLevel3Object = activeLevel3ObjectNodes.find(
-    (n) => n.id === activeNodeArray[2],
-  )
-  const activeLevel3ObjectName = activeLevel3Object?.name
-  const activeLevel3ObjectId = activeLevel3Object?.id
-  const activeLevel4ObjectNodes = get(
-    treeData,
-    'level4Object.objectsByParentId.nodes',
-    [],
-  )
-  const activeLevel4Object =
-    activeLevel4ObjectNodes &&
-    activeLevel4ObjectNodes.find((n) => n.id === activeNodeArray[3])
-  const activeLevel4ObjectName = activeLevel4Object && activeLevel4Object.name
-  const activeLevel4ObjectId = activeLevel4Object && activeLevel4Object.id
-
-  const activeLevel5ObjectNodes = get(
-    treeData,
-    'level5Object.objectsByParentId.nodes',
-    [],
-  )
-  const activeLevel5Object =
-    activeLevel5ObjectNodes &&
-    activeLevel5ObjectNodes.find((n) => n.id === activeNodeArray[4])
-  const activeLevel5ObjectName = activeLevel5Object && activeLevel5Object.name
-  const activeLevel5ObjectId = activeLevel5Object && activeLevel5Object.id
-  const activeLevel6ObjectNodes = get(
-    treeData,
-    'level6Object.objectsByParentId.nodes',
-    [],
-  )
-  const activeLevel6Object =
-    activeLevel6ObjectNodes &&
-    activeLevel6ObjectNodes.find((n) => n.id === activeNodeArray[5])
-  const activeLevel6ObjectName = activeLevel6Object && activeLevel6Object.name
-  const activeLevel6ObjectId = activeLevel6Object && activeLevel6Object.id
-  const activeLevel7ObjectNodes = get(
-    treeData,
-    'level7Object.objectsByParentId.nodes',
-    [],
-  )
-  const activeLevel7Object =
-    activeLevel7ObjectNodes &&
-    activeLevel7ObjectNodes.find((n) => n.id === activeNodeArray[6])
-  const activeLevel7ObjectName = activeLevel7Object && activeLevel7Object.name
-  const activeLevel7ObjectId = activeLevel7Object && activeLevel7Object.id
-  const activeLevel8ObjectNodes = get(
-    treeData,
-    'level8Object.objectsByParentId.nodes',
-    [],
-  )
-  const activeLevel8Object =
-    activeLevel8ObjectNodes &&
-    activeLevel8ObjectNodes.find((n) => n.id === activeNodeArray[7])
-  const activeLevel8ObjectName = activeLevel8Object && activeLevel8Object.name
-  const activeLevel8ObjectId = activeLevel8Object && activeLevel8Object.id
-  const activeLevel9ObjectNodes = get(
-    treeData,
-    'level9Object.objectsByParentId.nodes',
-    [],
-  )
-  const activeLevel9Object =
-    activeLevel9ObjectNodes &&
-    activeLevel9ObjectNodes.find((n) => n.id === activeNodeArray[8])
-  const activeLevel9ObjectName = activeLevel9Object && activeLevel9Object.name
-  const activeLevel9ObjectId = activeLevel9Object && activeLevel9Object.id
   let nodes = level1({
     treeData,
     activeNodeArray,
@@ -114,13 +47,15 @@ const buildNodes = ({
     } else if (activeNodeArray[0] === 'Organisationen') {
       nodes = [...nodes, ...level2Organization({ treeData, mobxStore })]
     } else if (['Arten', 'Lebensräume'].includes(activeNodeArray[0])) {
-      nodes = [...nodes, ...level2Taxonomy({ treeData, activeNodeArray })]
+      const type = activeNodeArray[0]
+      const level2Data =
+        type === 'Arten'
+          ? treeData?.artTaxonomies?.nodes ?? []
+          : treeData?.lrTaxonomies?.nodes ?? []
+      console.log('Tree, level2Data:', level2Data)
+      nodes = [...nodes, ...level2Taxonomy({ type, level2Data })]
       if (activeNodeArray.length > 1) {
-        const activeLevel2TaxonomyNodes =
-          activeNodeArray[0] === 'Arten'
-            ? treeData?.artTaxonomies?.nodes ?? []
-            : treeData?.lrTaxonomies?.nodes ?? []
-        const activeLevel2Taxonomy = activeLevel2TaxonomyNodes.find(
+        const activeLevel2Taxonomy = level2Data.find(
           (n) => n.id === activeNodeArray[1],
         )
         const activeLevel2TaxonomyName = activeLevel2Taxonomy?.name ?? ''
@@ -131,6 +66,13 @@ const buildNodes = ({
           }),
         )
         if (activeNodeArray.length > 2) {
+          const activeLevel3ObjectNodes =
+            treeData?.taxonomyObjectLevel1?.nodes ?? []
+          const activeLevel3Object = activeLevel3ObjectNodes.find(
+            (n) => n.id === activeNodeArray[2],
+          )
+          const activeLevel3ObjectName = activeLevel3Object?.name
+          const activeLevel3ObjectId = activeLevel3Object?.id
           nodes = nodes.concat(
             level4Object({
               treeData,
@@ -140,6 +82,19 @@ const buildNodes = ({
             }),
           )
           if (activeNodeArray.length > 3) {
+            const activeLevel4ObjectNodes = get(
+              treeData,
+              'level4Object.objectsByParentId.nodes',
+              [],
+            )
+            const activeLevel4Object =
+              activeLevel4ObjectNodes &&
+              activeLevel4ObjectNodes.find((n) => n.id === activeNodeArray[3])
+            const activeLevel4ObjectName =
+              activeLevel4Object && activeLevel4Object.name
+            const activeLevel4ObjectId =
+              activeLevel4Object && activeLevel4Object.id
+
             nodes = nodes.concat(
               level5Object({
                 treeData,
@@ -151,6 +106,18 @@ const buildNodes = ({
               }),
             )
             if (activeNodeArray.length > 4) {
+              const activeLevel5ObjectNodes = get(
+                treeData,
+                'level5Object.objectsByParentId.nodes',
+                [],
+              )
+              const activeLevel5Object =
+                activeLevel5ObjectNodes &&
+                activeLevel5ObjectNodes.find((n) => n.id === activeNodeArray[4])
+              const activeLevel5ObjectName =
+                activeLevel5Object && activeLevel5Object.name
+              const activeLevel5ObjectId =
+                activeLevel5Object && activeLevel5Object.id
               nodes = nodes.concat(
                 level6Object({
                   treeData,
@@ -164,6 +131,20 @@ const buildNodes = ({
                 }),
               )
               if (activeNodeArray.length > 5) {
+                const activeLevel6ObjectNodes = get(
+                  treeData,
+                  'level6Object.objectsByParentId.nodes',
+                  [],
+                )
+                const activeLevel6Object =
+                  activeLevel6ObjectNodes &&
+                  activeLevel6ObjectNodes.find(
+                    (n) => n.id === activeNodeArray[5],
+                  )
+                const activeLevel6ObjectName =
+                  activeLevel6Object && activeLevel6Object.name
+                const activeLevel6ObjectId =
+                  activeLevel6Object && activeLevel6Object.id
                 nodes = nodes.concat(
                   level7Object({
                     treeData,
@@ -179,6 +160,20 @@ const buildNodes = ({
                   }),
                 )
                 if (activeNodeArray.length > 6) {
+                  const activeLevel7ObjectNodes = get(
+                    treeData,
+                    'level7Object.objectsByParentId.nodes',
+                    [],
+                  )
+                  const activeLevel7Object =
+                    activeLevel7ObjectNodes &&
+                    activeLevel7ObjectNodes.find(
+                      (n) => n.id === activeNodeArray[6],
+                    )
+                  const activeLevel7ObjectName =
+                    activeLevel7Object && activeLevel7Object.name
+                  const activeLevel7ObjectId =
+                    activeLevel7Object && activeLevel7Object.id
                   nodes = nodes.concat(
                     level8Object({
                       treeData,
@@ -196,6 +191,20 @@ const buildNodes = ({
                     }),
                   )
                   if (activeNodeArray.length > 7) {
+                    const activeLevel8ObjectNodes = get(
+                      treeData,
+                      'level8Object.objectsByParentId.nodes',
+                      [],
+                    )
+                    const activeLevel8Object =
+                      activeLevel8ObjectNodes &&
+                      activeLevel8ObjectNodes.find(
+                        (n) => n.id === activeNodeArray[7],
+                      )
+                    const activeLevel8ObjectName =
+                      activeLevel8Object && activeLevel8Object.name
+                    const activeLevel8ObjectId =
+                      activeLevel8Object && activeLevel8Object.id
                     nodes = nodes.concat(
                       level9Object({
                         treeData,
@@ -215,6 +224,20 @@ const buildNodes = ({
                       }),
                     )
                     if (activeNodeArray.length > 8) {
+                      const activeLevel9ObjectNodes = get(
+                        treeData,
+                        'level9Object.objectsByParentId.nodes',
+                        [],
+                      )
+                      const activeLevel9Object =
+                        activeLevel9ObjectNodes &&
+                        activeLevel9ObjectNodes.find(
+                          (n) => n.id === activeNodeArray[8],
+                        )
+                      const activeLevel9ObjectName =
+                        activeLevel9Object && activeLevel9Object.name
+                      const activeLevel9ObjectId =
+                        activeLevel9Object && activeLevel9Object.id
                       nodes = nodes.concat(
                         level10Object({
                           treeData,

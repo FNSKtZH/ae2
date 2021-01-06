@@ -22,12 +22,6 @@ export default gql`
     $pCId: UUID!
     $existsPCId: Boolean!
   ) {
-    taxonomyWithLevel1Count {
-      nodes {
-        taxonomyId
-        count
-      }
-    }
     allPropertyCollections {
       totalCount
       nodes @include(if: $existsLevel2Pc) {
@@ -50,6 +44,11 @@ export default gql`
         objectsByTaxonomyId {
           totalCount
         }
+        topLevelObjects: objectsByTaxonomyId(
+          filter: { parentId: { isNull: true } }
+        ) {
+          totalCount
+        }
       }
     }
     lrTaxonomies: allTaxonomies(filter: { type: { equalTo: LEBENSRAUM } }) {
@@ -59,6 +58,11 @@ export default gql`
         name
         type
         objectsByTaxonomyId {
+          totalCount
+        }
+        topLevelObjects: objectsByTaxonomyId(
+          filter: { parentId: { isNull: true } }
+        ) {
           totalCount
         }
       }
