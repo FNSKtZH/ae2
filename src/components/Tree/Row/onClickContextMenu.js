@@ -180,8 +180,22 @@ const onClickContextMenu = async ({
             })
             const nodesPath =
               url.length === 3
-                ? `level${url.length}Object.nodes`
-                : `level${url.length}Object.objectsByParentId.nodes`
+                ? `level3Object.nodes`
+                : url.length === 4
+                ? `level3Object.objectsByParentId.nodes`
+                : url.length === 5
+                ? `level3Object.objectsByParentId.objectsByParentId.nodes`
+                : url.length === 6
+                ? `level3Object.objectsByParentId.objectsByParentId.objectsByParentId.nodes`
+                : url.length === 7
+                ? `level3Object.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.nodes`
+                : url.length === 8
+                ? `level3Object.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.nodes`
+                : url.length === 9
+                ? `level3Object.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.nodes`
+                : url.length === 10
+                ? `level3Object.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.nodes`
+                : `level3Object.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.objectsByParentId.nodes`
             const nodes = get(data, nodesPath, []).filter((u) => u.id !== id)
             set(data, nodesPath, nodes)
             proxy.writeQuery({

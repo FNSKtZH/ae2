@@ -178,8 +178,6 @@ const Tree = ({ dimensions }) => {
     }
   }, [treeDataFetched, treeLoading])
 
-  console.log('Tree, treeQueryVars', treeQueryVars)
-
   const treeDataLoading = treeLoading
   const userId = treeData?.userByName?.id
   const nodes = buildNodes({

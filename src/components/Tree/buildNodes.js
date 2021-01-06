@@ -24,7 +24,6 @@ const buildNodes = ({
   treeDataLoading,
   mobxStore,
 }) => {
-  console.log('building level 1 roots')
   let nodes = buildLevel1Nodes({
     treeData,
     activeNodeArray,
@@ -49,7 +48,6 @@ const buildNodes = ({
         ...buildLevel2OrganizationNodes({ treeData, mobxStore }),
       ]
     } else if (['Arten', 'Lebensräume'].includes(activeNodeArray[0])) {
-      console.log('building level 2 taxonomies')
       const type = activeNodeArray[0]
       const taxonomies =
         type === 'Arten'
@@ -72,15 +70,7 @@ const buildNodes = ({
             level3Objects,
           }),
         )
-        console.log('building level 3 objects', {
-          nodes,
-          type,
-          treeData,
-          taxonomy,
-          level3Objects,
-        })
         if (activeNodeArray.length > 2) {
-          console.log('building level 4 objects')
           const level3Object = level3Objects.find(
             (n) => n.id === activeNodeArray[2],
           )
@@ -95,15 +85,7 @@ const buildNodes = ({
               level4Objects,
             }),
           )
-          console.log('building level 4 objects', {
-            //activeNodeArray,
-            //nodes,
-            //activeNodeArray3: activeNodeArray[3],
-            //level4Objects,
-            level3Object,
-          })
           if (activeNodeArray.length > 3) {
-            console.log('building level 5 objects')
             const level4Object = level4Objects.find(
               (n) => n.id === activeNodeArray[3],
             )
@@ -120,7 +102,6 @@ const buildNodes = ({
               }),
             )
             if (activeNodeArray.length > 4) {
-              console.log('building level 6 objects')
               const level5Object = level5Objects.find(
                 (n) => n.id === activeNodeArray[4],
               )
