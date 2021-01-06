@@ -1,12 +1,7 @@
 import get from 'lodash/get'
 
-const level2Taxonomy = ({ type, level2Data }) => {
-  if (!level2Data?.length) {
-    console.log('no tree data for level2Taxonomy')
-    return []
-  }
-
-  return level2Data.map((taxonomy) => {
+const level2Taxonomy = ({ type, level2Data }) =>
+  level2Data.map((taxonomy) => {
     const level1Count = taxonomy?.topLevelObjects?.totalCount
     const allObjectsCount = get(taxonomy, 'objectsByTaxonomyId.totalCount', 0)
     const sort1 = type === 'Arten' ? 1 : 2
@@ -21,6 +16,5 @@ const level2Taxonomy = ({ type, level2Data }) => {
       menuType: 'CmTaxonomy',
     }
   })
-}
 
 export default level2Taxonomy
