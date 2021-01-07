@@ -29,7 +29,7 @@ const Taxonomies = ({ taxonomies }) => {
         taxonomies = [...exportTaxonomies, name]
         setTaxonomies(taxonomies)
       } else {
-        taxonomies = exportTaxonomies.filter(c => c !== name)
+        taxonomies = exportTaxonomies.filter((c) => c !== name)
         setTaxonomies(taxonomies)
         if (taxonomies.length === 0) {
           // this was the only taxonomy in this type
@@ -41,7 +41,7 @@ const Taxonomies = ({ taxonomies }) => {
     [exportTaxonomies, setTaxonomies, setType],
   )
 
-  return taxonomies.map(tax => (
+  return taxonomies.map((tax) => (
     <TaxonomyLabel
       key={tax.name}
       control={
