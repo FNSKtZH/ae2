@@ -264,21 +264,6 @@ const Preview = () => {
   const rco = exportRcoData?.exportRco?.nodes ?? []
   const synonyms = synonymData?.allSynonyms?.nodes ?? []
 
-  console.log('Export Preview 0', {
-    objects,
-    taxProperties,
-    withSynonymData,
-    rcoInOneRow,
-    pcoProperties,
-    pco,
-    rco,
-    synonyms,
-    exportRcoPropertyNames,
-    rcoProperties,
-    exportIds,
-    exportOnlyRowsWithProperties,
-  })
-
   // need taxFields to filter only data with properties
   const rowsResult = rowsFromObjects({
     objects,
@@ -296,8 +281,6 @@ const Preview = () => {
   })
   const rowsUnsorted = rowsResult?.rowsUnsorted ?? []
   const pvColumns = rowsResult?.pvColumns ?? []
-
-  console.log('Export Preview 1', { rowsUnsorted, pvColumns })
 
   const rows = orderBy(rowsUnsorted, sortField, sortDirection)
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
