@@ -768,11 +768,6 @@ CREATE OR REPLACE FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_nam
 ALTER FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_names text[])
   OWNER TO postgres;
 
--- TODO: drop this funktion after next update
-drop FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid);
-drop FUNCTION ae.taxonomy_with_level1_count();
-drop TYPE ae.taxonomy_with_level1_count;
-
 CREATE OR REPLACE FUNCTION ae.delete_pco_of_pc(pc_id uuid)
   RETURNS setof ae.taxonomy AS
   $$
