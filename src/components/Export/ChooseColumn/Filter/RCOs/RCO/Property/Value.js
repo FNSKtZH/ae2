@@ -42,7 +42,7 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
               {part.text}
             </strong>
           ) : (
-            <span key={String(index)} style={{ fontWeight: 300 }}>
+            <span key={String(index)} style={{ fontWeight: 400 }}>
               {part.text}
             </span>
           )

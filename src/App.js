@@ -10,7 +10,9 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import 'simplebar/dist/simplebar.min.css'
 
 // see: https://github.com/fontsource/fontsource/tree/master/packages/roboto-mono
-import 'fontsource-roboto'
+import '@fontsource/roboto'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
 import theme from './theme'
 import './index.css'
 import 'react-reflex/styles.css'

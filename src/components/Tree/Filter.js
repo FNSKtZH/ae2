@@ -203,7 +203,7 @@ const TreeFilter = ({ dimensions }) => {
             ) : (
               <span
                 key={String(index)}
-                style={{ fontWeight: '300 !important' }}
+                style={{ fontWeight: '400 !important' }}
               >
                 {part.text}
               </span>

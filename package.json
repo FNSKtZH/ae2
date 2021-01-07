@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.3.6",
+    "@fontsource/roboto": "4.1.0",
     "@loadable/component": "5.14.1",
     "@material-ui/core": "4.11.2",
     "@material-ui/icons": "4.11.2",
@@ -24,7 +25,6 @@
     "dexie": "3.0.3",
     "exceljs": "4.2.0",
     "file-saver": "2.0.5",
-    "fontsource-roboto": "3.0.3",
     "gatsby": "2.30.1",
     "gatsby-plugin-create-client-paths": "2.8.0",
     "gatsby-plugin-eslint": "2.0.8",
