@@ -35,18 +35,22 @@ const TypeLabel = styled(FormControlLabel)`
 
 const ExportTypes = ({ type, taxonomies }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const { type: exportType, setType, setTaxonomies } = mobxStore.export
+  const {
+    type: exportType,
+    setType: setExportType,
+    setTaxonomies,
+  } = mobxStore.export
   const exportTaxonomies = mobxStore.export.taxonomies.toJSON()
 
   const onCheckType = useCallback(
     async (event, isChecked) => {
       const { name } = event.target
       if (isChecked) {
-        setType(name)
+        setExportType(name)
         // check if only one Taxonomy exists
         // if so, check it
         if (taxonomies.length === 1) {
-          const taxonomyName = taxonomies[0].taxonomyName
+          const taxonomyName = taxonomies[0]?.taxonomyName
           setTaxonomies([...exportTaxonomies, taxonomyName])
         }
         // check if taxonomy(s) of other type was choosen
@@ -58,7 +62,7 @@ const ExportTypes = ({ type, taxonomies }) => {
           setTaxonomies(exportTaxonomiesWithoutOtherType)
         }
       } else {
-        setType(exportTypes.find((t) => t !== name))
+        setExportType(exportTypes.find((t) => t !== name))
         // uncheck all taxonomies of this type
         const taxonomiesToUncheck = taxonomies.map((t) => t.taxonomyName)
         const remainingTaxonomies = exportTaxonomies.filter(
@@ -67,7 +71,7 @@ const ExportTypes = ({ type, taxonomies }) => {
         setTaxonomies(remainingTaxonomies)
       }
     },
-    [setType, taxonomies, exportTaxonomies, setTaxonomies],
+    [setExportType, taxonomies, exportTaxonomies, setTaxonomies],
   )
 
   return (
