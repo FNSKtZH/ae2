@@ -11,7 +11,7 @@ import conv from '../../../modules/convertExportFieldName'
 import rowsFromObjectsRcoSingleRow from './rowsFromObjectsRcoSingleRow'
 import rowsFromObjectsRcoMultipleRows from './rowsFromObjectsRcoMultipleRows'
 
-const rowsFromObjects = () => ({
+const rowsFromObjects = ({
   objects,
   taxProperties,
   withSynonymData,
@@ -31,7 +31,6 @@ const rowsFromObjects = () => ({
     ...taxProperties.map((p) => `${conv(p.taxname)}__${conv(p.pname)}`),
   ]
   const aditionalRows = []
-  //console.log('rowsFromObjects 1:',{rcoInOneRow,rcoProperties,exportOnlyRowsWithProperties})
   let rows = objects.map((o) => {
     // 1. object
     const row = {}
@@ -90,7 +89,6 @@ const rowsFromObjects = () => ({
       const thisObjectsRco = rco.filter((p) =>
         thisObjectsSynonyms.includes(p.objectId),
       )
-      //console.log('rowsFromObjects:',{thisObjectsRco,row})
 
       /**
        * add all relations comma separated
@@ -125,7 +123,6 @@ const rowsFromObjects = () => ({
   // reason: if multiple rows were created per object,
   // they will be next to each other
   rows = sortBy(rows, 'id')
-  //console.log('rowsFromObjects 2:',{rows:[...rows]})
 
   const fields = rows[0] ? Object.keys(rows[0]).map((k) => k) : []
   const propertyFields = fields.filter((f) => !taxFields.includes(f))
@@ -147,8 +144,7 @@ const rowsFromObjects = () => ({
     resizable: true,
     sortable: true,
   }))
-  //console.log('rowsFromObjects 3:',{rows:[...rows], pvColumns,propertyFields,fields,taxFields})
-  return { rows, pvColumns }
+  return { rowsUnsorted: rows, pvColumns }
 }
 
 export default rowsFromObjects
