@@ -1,5 +1,4 @@
 import React from 'react'
-import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import { useQuery, gql } from '@apollo/client'
 
@@ -20,16 +19,11 @@ const taxonomiesQuery = gql`
 `
 
 const ExportTypes = () => {
-  const { data: taxonomiesData, error: taxonomiesError } = useQuery(
-    taxonomiesQuery,
-  )
+  const { data, error } = useQuery(taxonomiesQuery)
 
-  const allTaxonomies = sortBy(
-    get(taxonomiesData, 'allTaxonomies.nodes', []),
-    'name',
-  )
+  const allTaxonomies = sortBy(data?.allTaxonomies?.nodes ?? [], 'name')
 
-  if (taxonomiesError) return `Error fetching data: ${taxonomiesError.message}`
+  if (error) return `Error fetching data: ${error.message}`
 
   return exportTypes.map((type) => {
     const taxonomies = allTaxonomies
