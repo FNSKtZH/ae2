@@ -3,7 +3,6 @@ import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import styled from 'styled-components'
-import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
 import { useQuery, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
@@ -260,13 +259,12 @@ const Preview = () => {
   }, [])
 
   const exportRcoPropertyNames = rcoProperties.map((p) => p.pname)
-  const objects = get(exportObjectData, 'exportObject.nodes', [])
-  const pco = get(exportPcoData, 'exportPco.nodes', [])
-  const rco = get(exportRcoData, 'exportRco.nodes', [])
-  const synonyms = get(synonymData, 'allSynonyms.nodes', [])
+  const objects = exportObjectData?.exportObject?.nodes ?? []
+  const pco = exportPcoData?.exportPco?.nodes ?? []
+  const rco = exportRcoData?.exportRco?.nodes ?? []
+  const synonyms = synonymData?.allSynonyms?.nodes ?? []
 
-  // need taxFields to filter only data with properties
-  let { rows, pvColumns } = rowsFromObjects({
+  console.log('Export Preview 0', {
     objects,
     taxProperties,
     withSynonymData,
@@ -280,7 +278,28 @@ const Preview = () => {
     exportIds,
     exportOnlyRowsWithProperties,
   })
-  rows = orderBy(rows, sortField, sortDirection)
+
+  // need taxFields to filter only data with properties
+  const rowsResult = rowsFromObjects({
+    objects,
+    taxProperties,
+    withSynonymData,
+    rcoInOneRow,
+    pcoProperties,
+    pco,
+    rco,
+    synonyms,
+    exportRcoPropertyNames,
+    rcoProperties,
+    exportIds,
+    exportOnlyRowsWithProperties,
+  })
+  const rowsUnsorted = rowsResult?.rowsUnsorted ?? []
+  const pvColumns = rowsResult?.pvColumns ?? []
+
+  console.log('Export Preview 1', { rowsUnsorted, pvColumns })
+
+  const rows = orderBy(rowsUnsorted, sortField, sortDirection)
   const anzFelder = rows[0] ? Object.keys(rows[0]).length : 0
   const loading =
     exportRcoLoading ||
