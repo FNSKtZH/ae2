@@ -769,47 +769,9 @@ ALTER FUNCTION ae.tax_properties_by_taxonomies_function(taxonomy_names text[])
   OWNER TO postgres;
 
 -- TODO: drop this funktion after next update
-CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
-  RETURNS setof ae.object AS
-  $$
-    SELECT ae.object.*
-    FROM ae.object
-      INNER JOIN ae.taxonomy
-      ON ae.taxonomy.id = ae.object.taxonomy_id
-    WHERE
-      ae.object.parent_id IS NULL AND
-      1 = CASE
-        WHEN $1 IS NULL THEN 1
-        WHEN ae.taxonomy.id = $1 THEN 1
-        ELSE 2
-      END
-  $$
-  LANGUAGE sql STABLE;
-ALTER FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid)
-  OWNER TO postgres;
-
--- TODO: drop taxonomy_with_level1_count after setting version 1.4.23 live
-CREATE TYPE ae.taxonomy_with_level1_count AS (
-    taxonomy_id uuid,
-    count bigint
-);
-CREATE OR REPLACE FUNCTION ae.taxonomy_with_level1_count()
-  RETURNS setof ae.taxonomy_with_level1_count AS
-  $$
-    SELECT
-      ae.taxonomy.id as taxonomy_id,
-      count(*)
-    FROM ae.taxonomy
-      INNER JOIN ae.object
-      ON ae.taxonomy.id = ae.object.taxonomy_id
-    WHERE
-      ae.object.parent_id IS NULL
-    group by ae.taxonomy.id;
-  $$
-  LANGUAGE sql STABLE;
-ALTER FUNCTION ae.taxonomy_with_level1_count()
-  OWNER TO postgres;
--- TODO: till here
+drop FUNCTION ae.taxonomy_object_level1(taxonomy_id uuid);
+drop FUNCTION ae.taxonomy_with_level1_count();
+drop TYPE ae.taxonomy_with_level1_count;
 
 CREATE OR REPLACE FUNCTION ae.delete_pco_of_pc(pc_id uuid)
   RETURNS setof ae.taxonomy AS
