@@ -16,6 +16,7 @@ import get from 'lodash/get'
 import format from 'date-fns/format'
 import { useQuery, useApolloClient, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
+import { getSnapshot } from 'mobx-state-tree'
 
 import Property from './Property'
 import onBlur from './onBlur'
@@ -108,7 +109,7 @@ const PropertyCollection = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const { editingPCs, setEditingPCs, login } = mobxStore
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
   const pCId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]

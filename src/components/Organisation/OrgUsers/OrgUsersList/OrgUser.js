@@ -12,6 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import set from 'lodash/set'
 import { useQuery, useApolloClient, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
+import { getSnapshot } from 'mobx-state-tree'
 
 import updateOrgUserMutation from './updateOrgUserMutation'
 import deleteOrgUserMutation from './deleteOrgUserMutation'
@@ -92,7 +93,7 @@ const orgUsersQuery = gql`
 const OrgUser = ({ orgUser }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
   const name = activeNodeArray.length > 1 ? activeNodeArray[1] : 'none'
 
   const {

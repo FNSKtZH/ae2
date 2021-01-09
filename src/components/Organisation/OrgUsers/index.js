@@ -7,6 +7,7 @@ import Icon from '@material-ui/core/Icon'
 import AddIcon from '@material-ui/icons/Add'
 import { useQuery, useApolloClient, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
+import { getSnapshot } from 'mobx-state-tree'
 
 import createOrgUserMutation from './createOrgUserMutation'
 import OrgUsersList from './OrgUsersList'
@@ -64,7 +65,7 @@ const orgUsersQuery = gql`
 const OrgUsers = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
   const name = activeNodeArray.length > 1 ? activeNodeArray[1] : 'none'
   const {
     data: orgUsersData,

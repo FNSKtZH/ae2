@@ -42,17 +42,17 @@
     "gatsby-remark-images-medium-zoom": "1.7.0",
     "gatsby-source-filesystem": "2.9.0",
     "gatsby-transformer-remark": "2.14.0",
-    "gatsby-transformer-sharp": "2.9.0",
-    "graphiql": "1.2.2",
+    "gatsby-transformer-sharp": "2.10.0",
+    "graphiql": "1.3.2",
     "is-uuid": "1.0.2",
     "isomorphic-fetch": "3.0.0",
     "js-file-download": "0.4.12",
     "json2csv": "5.0.5",
     "jwt-decode": "3.1.2",
     "lodash": "4.17.20",
-    "mobx": "5.15.7",
-    "mobx-react-lite": "2.2.2",
-    "mobx-state-tree": "3.17.2",
+    "mobx": "6.0.4",
+    "mobx-react-lite": "3.1.6",
+    "mobx-state-tree": "5.0.0",
     "react": "17.0.1",
     "react-autosuggest": "10.0.4",
     "react-data-grid": "6.1.0",
@@ -76,7 +76,8 @@
   },
   "dependenciesComments": {
     "file-selector": "see https://github.com/react-dropzone/react-dropzone/issues/1022",
-    "react-spinners-kit": "forked because it added dependencies via non-peer-dependencies. See: https://github.com/dmitrymorozoff/react-spinners-kit/pull/18. Wait for release > 1.9.1"
+    "react-spinners-kit": "forked because it added dependencies via non-peer-dependencies. See: https://github.com/dmitrymorozoff/react-spinners-kit/pull/18. Wait for release > 1.9.1",
+    "gatsby-plugin-sharp": "do not update from 2.8.0 to 2.9.0 or 2.10.0 or 2.11.1, see https://github.com/gatsbyjs/gatsby/issues/28203"
   },
   "devDependencies": {
     "@graphile-contrib/pg-order-by-related": "1.0.0-beta.6",
@@ -107,7 +108,7 @@
     "prop-types": "15.7.2",
     "react-is": "17.0.1",
     "typescript": "3.6.5",
-    "webpack": "5.11.1"
+    "webpack": "5.12.2"
   },
   "resolutions": {
     "file-selector": "0.2.2"

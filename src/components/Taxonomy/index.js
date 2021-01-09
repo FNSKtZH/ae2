@@ -13,6 +13,7 @@ import get from 'lodash/get'
 import format from 'date-fns/format'
 import { useQuery, useApolloClient, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
+import { getSnapshot } from 'mobx-state-tree'
 
 import PropertyReadOnly from '../shared/PropertyReadOnly'
 import ErrorBoundary from '../shared/ErrorBoundary'
@@ -106,7 +107,7 @@ const Taxonomy = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const { editingTaxonomies, setEditingTaxonomies, login } = mobxStore
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
   const taxId = activeNodeArray?.[1] || '99999999-9999-9999-9999-999999999999'
 
   const {

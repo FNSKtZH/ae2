@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
+import { getSnapshot } from 'mobx-state-tree'
 
 import query from './query'
 import treeQuery from '../Tree/treeQuery'
@@ -42,7 +43,7 @@ const User = () => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
 
   const { refetch: treeDataRefetch } = useQuery(treeQuery, {
     variables: getTreeDataVariables({ activeNodeArray }),

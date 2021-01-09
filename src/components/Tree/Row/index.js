@@ -8,6 +8,7 @@ import isEqual from 'lodash/isEqual'
 import { useApolloClient } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
 import { navigate } from 'gatsby'
+import { getSnapshot } from 'mobx-state-tree'
 
 import { ContextMenuTrigger } from '../../../modules/react-contextmenu'
 import isUrlInActiveNodePath from '../../../modules/isUrlInActiveNodePath'
@@ -83,7 +84,7 @@ function collect(props) {
 const Row = ({ index, style, node, treeRefetch, userId }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
 
   const nodeIsInActiveNodePath = isUrlInActiveNodePath(
     node.url,

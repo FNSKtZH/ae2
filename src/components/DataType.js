@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import loadable from '@loadable/component'
+import { getSnapshot } from 'mobx-state-tree'
 
 //import LazyImportFallback from './shared/LazyImportFallback'
 import mobxStoreContext from '../mobxStoreContext'
@@ -22,7 +23,7 @@ const Organisation = loadable(() => import('./Organisation'))
 
 const DataType = ({ dimensions, stacked = false }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
 
   const showObjekt =
     ['Arten', 'Lebensräume'].includes(activeNodeArray[0]) &&

@@ -4,6 +4,7 @@ import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 import { useQuery, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
+import { getSnapshot } from 'mobx-state-tree'
 
 import appBaseUrl from '../../modules/appBaseUrl'
 import mobxStoreContext from '../../mobxStoreContext'
@@ -46,7 +47,7 @@ const pcsQuery = gql`
 
 const PCs = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
   const name = activeNodeArray.length > 1 ? activeNodeArray[1] : 'none'
 
   const { data: pcsData, loading: pcsLoading, error: pcsError } = useQuery(

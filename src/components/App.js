@@ -5,6 +5,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import debounce from 'lodash/debounce'
 import { observer } from 'mobx-react-lite'
 import loadable from '@loadable/component'
+import { getSnapshot } from 'mobx-state-tree'
 
 import ErrorBoundary from './shared/ErrorBoundary'
 import Layout from './Layout'
@@ -34,7 +35,7 @@ const GraphIql = loadable(() => import('./GraphIql'))
 const App = () => {
   const mobxStore = useContext(mobxStoreContext)
   const { updateAvailable } = mobxStore
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
 
   const [stacked, setStacked] = useState(false)
 

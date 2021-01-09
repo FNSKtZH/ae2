@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import set from 'lodash/set'
 import { navigate } from 'gatsby'
+import { getSnapshot } from 'mobx-state-tree'
 
 import createUserMutation from '../../Benutzer/createUserMutation'
 import deleteUserMutation from '../../Benutzer/deleteUserMutation'
@@ -24,7 +25,7 @@ const onClickContextMenu = async ({
   mobxStore,
 }) => {
   const { setEditingTaxonomies, setEditingPCs, editingTaxonomies } = mobxStore
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
   if (!data) return console.log('no data passed with click')
   if (!target) {
     return console.log('no target passed with click')

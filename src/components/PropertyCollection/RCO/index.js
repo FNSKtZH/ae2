@@ -9,6 +9,7 @@ import ReactDataGrid from 'react-data-grid'
 import Button from '@material-ui/core/Button'
 import { useQuery, useApolloClient, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
+import { getSnapshot } from 'mobx-state-tree'
 
 import ImportRco from './Import'
 import booleanToJaNein from '../../../modules/booleanToJaNein'
@@ -109,7 +110,7 @@ const RCO = ({ dimensions }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
   const pCId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]

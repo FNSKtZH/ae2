@@ -20,6 +20,7 @@ import { useQuery, useApolloClient, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
 import SimpleBar from 'simplebar-react'
 import { withResizeDetector } from 'react-resize-detector'
+import { getSnapshot } from 'mobx-state-tree'
 
 import createRCOMutation from './createRCOMutation'
 import updateRCOMutation from './updateRCOMutation'
@@ -216,7 +217,7 @@ const importRcoQuery = gql`
 const ImportRco = ({ setImport, pCO, height }) => {
   const client = useApolloClient()
   const mobxStore = useContext(mobxStoreContext)
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
   const pCId =
     activeNodeArray.length > 0
       ? activeNodeArray[1]

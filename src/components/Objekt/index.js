@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
 import SimpleBar from 'simplebar-react'
 import { withResizeDetector } from 'react-resize-detector'
+import { getSnapshot } from 'mobx-state-tree'
 
 import TaxonomyObjects from './TaxonomyObjects'
 import TaxonomyObject from './TaxonomyObjects/TaxonomyObject'
@@ -40,7 +41,7 @@ const SynonymTitle = styled(Title)`
 
 const Objekt = ({ stacked = false, height }) => {
   const mobxStore = useContext(mobxStoreContext)
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
 
   const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   const {

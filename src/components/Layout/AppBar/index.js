@@ -13,6 +13,7 @@ import { navigate } from 'gatsby'
 import loadable from '@loadable/component'
 import { Location } from '@reach/router'
 import ReactResizeDetector from 'react-resize-detector'
+import { getSnapshot } from 'mobx-state-tree'
 
 import getActiveObjectIdFromNodeArray from '../../../modules/getActiveObjectIdFromNodeArray'
 import mobxStoreContext from '../../../mobxStoreContext'
@@ -104,7 +105,7 @@ const query = gql`
 const Header = () => {
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
 
   const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
   let pCId = '99999999-9999-9999-9999-999999999999'

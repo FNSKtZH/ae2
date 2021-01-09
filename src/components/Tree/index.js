@@ -8,6 +8,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { useQuery } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
 import SimpleBar from 'simplebar-react'
+import { getSnapshot } from 'mobx-state-tree'
 
 import Row from './Row'
 import Filter from './Filter'
@@ -154,7 +155,7 @@ const StyledSnackbar = styled(Snackbar)`
 const Tree = ({ dimensions }) => {
   const mobxStore = useContext(mobxStoreContext)
   const { login } = mobxStore
-  const activeNodeArray = mobxStore.activeNodeArray.toJS()
+  const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
 
   const {
     data: treeDataFetched,
