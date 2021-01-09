@@ -54,7 +54,7 @@
     "mobx-react-lite": "3.1.6",
     "mobx-state-tree": "5.0.0",
     "react": "17.0.1",
-    "react-autosuggest": "10.0.4",
+    "react-autosuggest": "10.1.0",
     "react-data-grid": "6.1.0",
     "react-dom": "17.0.1",
     "react-dropzone": "11.2.4",
