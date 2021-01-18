@@ -1,20 +1,22 @@
 # inspired by: https://nodejs.org/de/docs/guides/nodejs-docker-webapp/
-FROM node:alpine
+FROM node:lts-alpine
+RUN apk add dumb-init
+ENV NODE_ENV production
 
 # Create app directory
 WORKDIR /usr/src/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
 
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
+RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
 
 EXPOSE 4000
 
-CMD [ "node", "server.js" ]
+USER node
+
+CMD ["dumb-init", "node", "server.js"]

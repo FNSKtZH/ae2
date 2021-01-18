@@ -11,7 +11,7 @@
   "dependencies": {
     "@hapi/hapi": "20.0.3",
     "ampersand-app": "2.0.0",
-    "pg-promise": "10.8.7",
+    "pg-promise": "10.9.1",
     "sql-tagged-template-literal": "1.0.2"
   }
 }
