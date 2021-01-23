@@ -20,6 +20,7 @@ const PropertyCollection = loadable(() => import('./PropertyCollection'))
 const Benutzer = loadable(() => import('./Benutzer'))
 //const Organisation = lazy(() => import('./Organisation'))
 const Organisation = loadable(() => import('./Organisation'))
+const Home = loadable(() => import('./Home'))
 
 const DataType = ({ dimensions, stacked = false }) => {
   const mobxStore = useContext(mobxStoreContext)
@@ -58,7 +59,7 @@ const DataType = ({ dimensions, stacked = false }) => {
   if (showRCO) return <Rco dimensions={dimensions} />
   if (showBenutzer) return <Benutzer />
   if (showOrganization) return <Organisation />
-  return null
+  return <Home />
 }
 
 export default observer(DataType)

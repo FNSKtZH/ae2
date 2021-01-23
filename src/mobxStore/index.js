@@ -22,8 +22,12 @@ const mobxStore = ({ navigate }) =>
       historyAfterLogin: types.optional(types.string, ''),
       sidebarWidth: types.maybeNull(types.number, null),
       docFilter: types.optional(types.union(types.string, types.number), ''),
+      homeWidth: types.optional(types.number, 800),
     })
     .actions((self) => ({
+      setHomeWidth(val) {
+        self.homeWidth = val
+      },
       setSidebarWidth(val) {
         self.sidebarWidth = val
       },
