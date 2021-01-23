@@ -6,6 +6,8 @@
 }
 
 artdaten.ch, www.artdaten.ch {
+  # set headers for gatsby?
+  # https://caddyserver.com/docs/caddyfile/directives/header
   root * /html
   encode zstd gzip
   file_server
