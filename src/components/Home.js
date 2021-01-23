@@ -106,7 +106,7 @@ const Home = ({ data, width }) => {
   return (
     <StaticQuery
       query={graphql`
-        query indexPageQuery {
+        query homePageQuery {
           file(relativePath: { eq: "home.jpg" }) {
             childImageSharp {
               fluid {
