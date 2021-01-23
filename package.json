@@ -11,7 +11,8 @@
     "build": "gatsby clean && gatsby build && rimraf backend/caddy/html && copyfiles -u 1 \"public/**/*\" backend/caddy/html",
     "clean": "gatsby clean",
     "dev": "gatsby develop",
-    "serve": "gatsby serve"
+    "serve": "gatsby serve",
+    "check_caching": "npx check-gatsby-caching https://artdaten.ch"
   },
   "dependencies": {
     "@apollo/client": "3.3.7",
