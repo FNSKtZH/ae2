@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
-import { navigate } from 'gatsby'
+import { navigate, Link } from 'gatsby'
 import loadable from '@loadable/component'
 import { Location } from '@reach/router'
 import ReactResizeDetector from 'react-resize-detector'
@@ -45,13 +45,6 @@ const Buttons = styled.div`
   flex-wrap: nowrap;
   align-items: center;
 `
-const StyledTypography = styled(Typography)`
-  flex: 1;
-  width: 200px;
-  color: white !important;
-  margin-right: 12px !important;
-  hyphens: manual;
-`
 const StyledButton = styled(Button)`
   color: rgb(255, 255, 255) !important;
   border: ${(props) =>
@@ -75,6 +68,20 @@ const ShareButton = styled(StyledButton)`
 `
 const StyledMoreVertIcon = styled(ShareIcon)`
   color: white !important;
+`
+const TitleContainer = styled.div`
+  flex: 1;
+  margin-left: -20px;
+`
+const SiteTitle = styled(Button)`
+  color: white !important;
+  font-size: 20px !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  border-width: 0 !important;
+  text-transform: none !important;
+  :hover {
+    border-width: 1px !important;
+  }
 `
 const getInitials = (name) => name.match(/\b(\w)/g).join('')
 
@@ -205,9 +212,16 @@ const Header = () => {
                 <div>
                   <StyledToolbar>
                     {wide ? (
-                      <StyledTypography variant="h6" color="inherit">
-                        Arteigenschaften
-                      </StyledTypography>
+                      <TitleContainer>
+                        <SiteTitle
+                          variant="outlined"
+                          component={Link}
+                          to="/"
+                          title="Home"
+                        >
+                          Arteigenschaften
+                        </SiteTitle>
+                      </TitleContainer>
                     ) : (
                       <div />
                     )}

@@ -125,27 +125,27 @@ const Home = ({ data, width }) => {
             />
             <CardContainer data-width={homeWidth}>
               <Card>
-                <CardTitle>Informationen zu:</CardTitle>Arten, Lebensräumen und
-                deren Taxonomien
+                <CardTitle>Informationen zu:</CardTitle>
+                <CardTitle>Arten, Lebensräumen und ihren Taxonomien</CardTitle>
               </Card>
               <Card>
-                <CardTitle>nachschlagen</CardTitle>Informationen finden, auch
+                <CardTitle>...nachschlagen</CardTitle>Informationen finden, auch
                 von Synonymen aus anderen Taxonomien
               </Card>
               <Card>
-                <CardTitle>exportieren</CardTitle>Eigenschaften wählen, Arten
+                <CardTitle>...exportieren</CardTitle>Eigenschaften wählen, Arten
                 filtern
               </Card>
               <Card>
-                <CardTitle>direkt einbinden</CardTitle>Daten direkt aus anderen
-                Anwendungen abfragen
+                <CardTitle>...direkt einbinden</CardTitle>Daten direkt aus
+                anderen Anwendungen abfragen
               </Card>
               <Card>
-                <CardTitle>importieren und ändern</CardTitle>Benutzer mit Konto
-                können Eigenschaften importieren oder direkt bearbeiten
+                <CardTitle>...importieren und ändern</CardTitle>Benutzer mit
+                Konto können Eigenschaften importieren oder direkt bearbeiten
               </Card>
               <Card>
-                <CardTitle>Mehr Info</CardTitle>
+                <CardTitle>Mehr Info:</CardTitle>
                 <DokuLink to="/Dokumentation/Projektbeschreibung">
                   in der Dokumentation
                 </DokuLink>
