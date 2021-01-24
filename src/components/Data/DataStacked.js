@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite'
 
 import Tree from '../Tree'
 import DataType from '../DataType'
-import mobxStoreContext from '../../mobxStoreContext'
+//import mobxStoreContext from '../../mobxStoreContext'
 
 const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
@@ -21,8 +21,8 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 `
 
 const DataStacked = () => {
-  const mobxStore = useContext(mobxStoreContext)
-  const { activeNodeArray } = mobxStore
+  //const mobxStore = useContext(mobxStoreContext)
+  //const { activeNodeArray } = mobxStore
 
   const [tab, setTab] = useState(0)
   const onChangeTab = useCallback((event, value) => setTab(value), [])
