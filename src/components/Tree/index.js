@@ -202,7 +202,7 @@ const Tree = ({ dimensions }) => {
   const userIsTaxWriter =
     userRoles.includes('orgAdmin') || userRoles.includes('orgTaxonomyWriter')
 
-  const height = isNaN(dimensions.height) ? 250 : dimensions.height - 44
+  const height = isNaN(dimensions.height) ? 250 : dimensions.height - 40
   const width = isNaN(dimensions.width) ? 250 : dimensions.width
 
   const listRef = useRef(null)
