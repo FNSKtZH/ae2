@@ -8,7 +8,8 @@
   },
   "private": true,
   "scripts": {
-    "build": "gatsby clean && gatsby build && copyfiles .vercel/* public && copyfiles vercel.json public",
+    "build": "gatsby clean && gatsby build",
+    "postbuild": "copyfiles .vercel/* public && copyfiles vercel.json public",
     "clean": "gatsby clean",
     "dev": "gatsby develop",
     "serve": "gatsby serve",
