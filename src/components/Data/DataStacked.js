@@ -39,7 +39,8 @@ const DataStacked = () => {
     typeof window !== 'undefined'
       ? w.innerHeight || e.clientHeight || g.clientHeight
       : 500
-  const disableDataType = activeNodeArray.length < 2
+  // 2021.01.24: no more used, as Home is shown
+  //const disableDataType = activeNodeArray.length < 2
 
   return (
     <>
@@ -51,14 +52,14 @@ const DataStacked = () => {
           indicatorColor="primary"
         >
           <Tab label="Navigation" />
-          <Tab label="Formular" disabled={disableDataType} />
+          <Tab label="Formular" disabled={false} />
         </Tabs>
       </StyledPaper>
       <StyledSwipeableViews
         axis="x"
         index={tab}
-        onChangeIndex={i => setTab(i)}
-        disabled={disableDataType}
+        onChangeIndex={(i) => setTab(i)}
+        disabled={false}
       >
         <Tree dimensions={{ width: windowWidth, height: windowHeight - 103 }} />
         <DataType stacked={true} dimensions={{ width: windowWidth }} />
