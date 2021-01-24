@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite'
 
 import Tree from '../Tree'
 import DataType from '../DataType'
-//import mobxStoreContext from '../../mobxStoreContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
@@ -21,24 +21,11 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 `
 
 const DataStacked = () => {
-  //const mobxStore = useContext(mobxStoreContext)
-  //const { activeNodeArray } = mobxStore
+  const mobxStore = useContext(mobxStoreContext)
+  const { windowWidth, windowHeight } = mobxStore
 
   const [tab, setTab] = useState(0)
   const onChangeTab = useCallback((event, value) => setTab(value), [])
-
-  const w = typeof window !== 'undefined' ? window : {}
-  const d = typeof window !== 'undefined' ? document : {}
-  const e = typeof window !== 'undefined' ? d.documentElement : {}
-  const g = d.getElementsByTagName('body')[0]
-  const windowWidth =
-    typeof window !== 'undefined'
-      ? w.innerWidth || e.clientWidth || g.clientWidth
-      : 500
-  const windowHeight =
-    typeof window !== 'undefined'
-      ? w.innerHeight || e.clientHeight || g.clientHeight
-      : 500
   // 2021.01.24: no more used, as Home is shown
   //const disableDataType = activeNodeArray.length < 2
 

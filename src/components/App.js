@@ -34,7 +34,7 @@ const GraphIql = loadable(() => import('./GraphIql'))
 
 const App = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { updateAvailable } = mobxStore
+  const { updateAvailable, setWindowWidth, setWindowHeight } = mobxStore
   const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
 
   const [stacked, setStacked] = useState(false)
@@ -76,9 +76,12 @@ const App = () => {
     const e = d.documentElement
     const g = d.getElementsByTagName('body')[0]
     const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+    const windowHeight = w.innerHeight || e.clientHeight || g.clientHeight
     const shouldBeStacked = windowWidth < 700
     setStacked(shouldBeStacked)
-  }, [])
+    setWindowWidth(windowWidth)
+    setWindowHeight(windowHeight)
+  }, [setWindowHeight, setWindowWidth])
 
   useEffect(() => {
     updateStacked()

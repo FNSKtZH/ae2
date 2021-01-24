@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext, useEffect } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Icon from '@material-ui/core/Icon'
@@ -11,7 +11,6 @@ import { observer } from 'mobx-react-lite'
 import { navigate, Link } from 'gatsby'
 import loadable from '@loadable/component'
 import { Location } from '@reach/router'
-import ReactResizeDetector from 'react-resize-detector'
 import { getSnapshot } from 'mobx-state-tree'
 
 import getActiveObjectIdFromNodeArray from '../../../modules/getActiveObjectIdFromNodeArray'
@@ -110,7 +109,7 @@ const query = gql`
 
 const Header = () => {
   const mobxStore = useContext(mobxStoreContext)
-  const { login } = mobxStore
+  const { login, windowWidth } = mobxStore
   const activeNodeArray = getSnapshot(mobxStore.activeNodeArray)
 
   const objectId = getActiveObjectIdFromNodeArray(activeNodeArray)
@@ -139,17 +138,14 @@ const Header = () => {
   })
 
   const [wide, setWide] = useState(false)
-  const onResize = useCallback(
-    (width) => {
-      if (width > 700 && !wide) {
-        setWide(true)
-      }
-      if (width < 700 && wide) {
-        setWide(false)
-      }
-    },
-    [wide],
-  )
+  useEffect(() => {
+    if (windowWidth > 700 && !wide) {
+      setWide(true)
+    }
+    if (windowWidth <= 700 && wide) {
+      setWide(false)
+    }
+  }, [wide, windowWidth])
 
   const url0 = activeNodeArray[0] && activeNodeArray[0].toLowerCase()
   const { username } = login
@@ -206,7 +202,6 @@ const Header = () => {
         return (
           <ErrorBoundary>
             <Container>
-              <ReactResizeDetector handleWidth onResize={onResize} />
               <StyledAppBar position="static">
                 <div>
                   <StyledToolbar>

@@ -1,12 +1,14 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import styled from 'styled-components'
 import SwipeableViews from 'react-swipeable-views'
+import { observer } from 'mobx-react-lite'
 
 import ChooseColumn from './ChooseColumn'
 import PreviewColumn from './PreviewColumn'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
@@ -19,21 +21,13 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 `
 
 const ExportStacked = () => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { windowWidth } = mobxStore
   const [tab, setTab] = useState(0)
 
   const onChangeTab = useCallback((event, value) => {
     setTab(value)
   }, [])
-
-  const w = typeof window !== 'undefined' ? window : {}
-  const d = typeof window !== 'undefined' ? document : {}
-  const e = typeof window !== 'undefined' ? d.documentElement : {}
-  const g =
-    typeof window !== 'undefined' ? d.getElementsByTagName('body')[0] : {}
-  const windowWidth =
-    typeof window !== 'undefined'
-      ? w.innerWidth || e.clientWidth || g.clientWidth
-      : 500
 
   return (
     <>
@@ -48,7 +42,11 @@ const ExportStacked = () => {
           <Tab label="Vorschau" />
         </Tabs>
       </StyledPaper>
-      <StyledSwipeableViews axis="x" index={tab} onChangeIndex={i => setTab(i)}>
+      <StyledSwipeableViews
+        axis="x"
+        index={tab}
+        onChangeIndex={(i) => setTab(i)}
+      >
         <ChooseColumn dimensions={{ width: windowWidth }} />
         <PreviewColumn dimensions={{ width: windowWidth }} />
       </StyledSwipeableViews>
@@ -56,4 +54,4 @@ const ExportStacked = () => {
   )
 }
 
-export default ExportStacked
+export default observer(ExportStacked)

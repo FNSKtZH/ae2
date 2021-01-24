@@ -129,7 +129,7 @@ const Home = ({ data, width }) => {
                 <CardTitle>Arten, Lebensräumen und ihren Taxonomien</CardTitle>
               </Card>
               <Card>
-                <CardTitle>...nachschlagen</CardTitle>Informationen finden, auch
+                <CardTitle>...nachschlagen</CardTitle>Eigenschaften finden. Auch
                 von Synonymen aus anderen Taxonomien
               </Card>
               <Card>

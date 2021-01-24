@@ -1,16 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
-import debounce from 'lodash/debounce'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import SwipeableViews from 'react-swipeable-views'
+import { observer } from 'mobx-react-lite'
 
 import Layout from '../components/Layout'
 import ErrorBoundary from '../components/shared/ErrorBoundary'
 import Sidebar from '../templates/Sidebar'
 import useLocation from '../modules/useLocation'
+import mobxStoreContext from '../mobxStoreContext'
 
 const Container = styled.div`
   height: calc(100vh - 64px);
@@ -47,6 +48,7 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 `
 
 const Dokumentation = ({ data }) => {
+  const { windowWidth } = useContext(mobxStoreContext)
   const { allMarkdownRemark } = data
   const { edges } = allMarkdownRemark
   const { pathname } = useLocation()
@@ -56,27 +58,10 @@ const Dokumentation = ({ data }) => {
   const onChangeTab = useCallback((event, value) => setTab(value), [])
 
   const [stacked, setStacked] = useState(false)
-  const updateStacked = useCallback(() => {
-    if (typeof window === 'undefined') return
-    const w = window
-    const d = document
-    const e = d.documentElement
-    const g = d.getElementsByTagName('body')[0]
-    const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+  useEffect(() => {
     const shouldBeStacked = windowWidth < 700
     setStacked(shouldBeStacked)
-  }, [])
-  useEffect(() => {
-    updateStacked()
-  }, [updateStacked])
-  useEffect(() => {
-    typeof window !== 'undefined' &&
-      window.addEventListener('resize', debounce(updateStacked, 100))
-    return () => {
-      typeof window !== 'undefined' &&
-        window.removeEventListener('resize', updateStacked)
-    }
-  }, [updateStacked])
+  }, [windowWidth])
   useEffect(() => {
     if (pathElements.length > 1 && tab === 0) setTab(1)
     if (pathElements.length === 1 && tab === 1) setTab(0)
@@ -155,4 +140,4 @@ export const pageQuery = graphql`
   }
 `
 
-export default Dokumentation
+export default observer(Dokumentation)

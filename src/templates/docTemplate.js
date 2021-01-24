@@ -1,18 +1,19 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState, useContext } from 'react'
 import { graphql, navigate } from 'gatsby'
 import styled from 'styled-components'
-import debounce from 'lodash/debounce'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import SwipeableViews from 'react-swipeable-views'
 import SimpleBar from 'simplebar-react'
 import { withResizeDetector } from 'react-resize-detector'
+import { observer } from 'mobx-react-lite'
 
 import Layout from '../components/Layout'
 import ErrorBoundary from '../components/shared/ErrorBoundary'
 import Sidebar from './Sidebar'
 import useLocation from '../modules/useLocation'
+import mobxStoreContext from '../mobxStoreContext'
 
 const Container = styled.div`
   height: calc(100vh - 64px);
@@ -54,6 +55,9 @@ const StyledSwipeableViews = styled(SwipeableViews)`
 `
 
 const DocTemplate = ({ data, height }) => {
+  const mobxStore = useContext(mobxStoreContext)
+  const { windowWidth } = mobxStore
+
   const { markdownRemark, allMarkdownRemark } = data
   const { frontmatter, html } = markdownRemark
   const { edges } = allMarkdownRemark
@@ -75,27 +79,10 @@ const DocTemplate = ({ data, height }) => {
   )
 
   const [stacked, setStacked] = useState(false)
-  const updateStacked = useCallback(() => {
-    if (typeof window === 'undefined') return
-    const w = window
-    const d = document
-    const e = d.documentElement
-    const g = d.getElementsByTagName('body')[0]
-    const windowWidth = w.innerWidth || e.clientWidth || g.clientWidth
+  useEffect(() => {
     const shouldBeStacked = windowWidth < 700
     setStacked(shouldBeStacked)
-  }, [])
-  useEffect(() => {
-    updateStacked()
-  }, [updateStacked])
-  useEffect(() => {
-    typeof window !== 'undefined' &&
-      window.addEventListener('resize', debounce(updateStacked, 100))
-    return () => {
-      typeof window !== 'undefined' &&
-        window.removeEventListener('resize', updateStacked)
-    }
-  }, [updateStacked])
+  }, [windowWidth])
   useEffect(() => {
     pathElements.length > 1 && tab === 0 && setTab(1)
     pathElements.length === 1 && tab === 1 && setTab(0)
@@ -195,4 +182,4 @@ export const pageQuery = graphql`
   }
 `
 
-export default withResizeDetector(DocTemplate)
+export default withResizeDetector(observer(DocTemplate))

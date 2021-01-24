@@ -23,8 +23,16 @@ const mobxStore = ({ navigate }) =>
       sidebarWidth: types.maybeNull(types.number, null),
       docFilter: types.optional(types.union(types.string, types.number), ''),
       homeWidth: types.optional(types.number, 800),
+      windowWidth: types.optional(types.number, 800),
+      windowHeight: types.optional(types.number, 800),
     })
     .actions((self) => ({
+      setWindowHeight(val) {
+        self.windowHeight = val
+      },
+      setWindowWidth(val) {
+        self.windowWidth = val
+      },
       setHomeWidth(val) {
         self.homeWidth = val
       },
