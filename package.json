@@ -81,7 +81,8 @@
   "dependenciesComments": {
     "file-selector": "see https://github.com/react-dropzone/react-dropzone/issues/1022",
     "react-spinners-kit": "forked because it added dependencies via non-peer-dependencies. See: https://github.com/dmitrymorozoff/react-spinners-kit/pull/18. Wait for release > 1.9.1",
-    "gatsby-plugin-sharp": "do not update from 2.8.0 to 2.9.0 or 2.10.0 or 2.11.1, see https://github.com/gatsbyjs/gatsby/issues/28203"
+    "gatsby-plugin-sharp": "do not update from 2.8.0 to 2.9.0 or 2.10.0 or 2.11.1, see https://github.com/gatsbyjs/gatsby/issues/28203",
+    "mobx": "6.0.5: do not upgrade to 6.1.0 or higher until this issue is solved: https://github.com/mobxjs/mobx-state-tree/issues/1653"
   },
   "devDependencies": {
     "@graphile-contrib/pg-order-by-related": "1.0.0-beta.6",
