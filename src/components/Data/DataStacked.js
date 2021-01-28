@@ -14,6 +14,7 @@ const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
 `
 const StyledSwipeableViews = styled(SwipeableViews)`
+  /* the following height is needed for home to scroll */
   height: ${(props) => props['data-height']}px;
   .react-swipeable-view-container {
     height: 100%;
