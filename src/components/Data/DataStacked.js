@@ -14,7 +14,7 @@ const StyledPaper = styled(Paper)`
   background-color: #ffcc80 !important;
 `
 const StyledSwipeableViews = styled(SwipeableViews)`
-  height: 100%;
+  height: ${(props) => props['data-height']}px;
   .react-swipeable-view-container {
     height: 100%;
   }
@@ -47,6 +47,7 @@ const DataStacked = () => {
         index={tab}
         onChangeIndex={(i) => setTab(i)}
         disabled={false}
+        data-height={windowHeight - 103}
       >
         <Tree dimensions={{ width: windowWidth, height: windowHeight - 103 }} />
         <DataType stacked={true} dimensions={{ width: windowWidth }} />

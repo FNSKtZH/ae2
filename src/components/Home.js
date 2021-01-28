@@ -4,7 +4,7 @@ import Img from 'gatsby-image'
 import MaterialCard from '@material-ui/core/Card'
 import styled from 'styled-components'
 import SimpleBar from 'simplebar-react'
-import { withResizeDetector } from 'react-resize-detector'
+import { useResizeDetector } from 'react-resize-detector'
 import { observer } from 'mobx-react-lite'
 
 import mobxStoreContext from '../mobxStoreContext'
@@ -93,10 +93,14 @@ const bgImageStyle = {
   zIndex: -1,
 }
 
-const Home = ({ data, width }) => {
+const Home = ({ data }) => {
   // trick to prevent with from being reset on routing
   const mobxStore = useContext(mobxStoreContext)
   const { homeWidth, setHomeWidth } = mobxStore
+  const { width, ref } = useResizeDetector({
+    refreshMode: 'debounce',
+    refreshRate: 100,
+  })
   useEffect(() => {
     if (width && width !== homeWidth) {
       setHomeWidth(width)
@@ -118,12 +122,12 @@ const Home = ({ data, width }) => {
       `}
       render={(data) => (
         <StyledSimpleBar>
-          <Container data-width={homeWidth}>
+          <Container ref={ref} data-width={width}>
             <Img
               fluid={data?.file?.childImageSharp?.fluid}
               style={bgImageStyle}
             />
-            <CardContainer data-width={homeWidth}>
+            <CardContainer data-width={width}>
               <Card>
                 <CardTitle>Informationen zu:</CardTitle>
                 <CardTitle>Arten, Lebensräumen und ihren Taxonomien</CardTitle>
@@ -158,4 +162,4 @@ const Home = ({ data, width }) => {
   )
 }
 
-export default withResizeDetector(observer(Home))
+export default observer(Home)
