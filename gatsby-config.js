@@ -61,7 +61,7 @@ module.exports = {
         scope: '.',
         name: 'arteigenschaften.ch',
         short_name: 'arteigenschaften',
-        start_url: '/',
+        start_url: './',
         background_color: '#e65100',
         theme_color: '#e65100',
         display: 'minimal-ui',
