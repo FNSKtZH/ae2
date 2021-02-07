@@ -78,9 +78,7 @@
     "xlsx": "0.16.9"
   },
   "dependenciesComments": {
-    "file-selector": "see https://github.com/react-dropzone/react-dropzone/issues/1022",
     "react-spinners-kit": "forked because it added dependencies via non-peer-dependencies. See: https://github.com/dmitrymorozoff/react-spinners-kit/pull/18. Wait for release > 1.9.1",
-    "gatsby-plugin-sharp": "do not update from 2.8.0 to 2.9.0 or 2.10.0 or 2.11.1, see https://github.com/gatsbyjs/gatsby/issues/28203",
     "gatsby-plugin-eslint": "2.0.8: do not update to v3, see: https://github.com/mongkuen/gatsby-plugin-eslint/issues/25 and https://github.com/gatsbyjs/gatsby/issues/29326#issuecomment-773895559"
   },
   "devDependencies": {
@@ -114,9 +112,6 @@
     "react-is": "17.0.1",
     "typescript": "3.6.5",
     "webpack": "5.21.1"
-  },
-  "resolutions": {
-    "file-selector": "0.2.2"
   },
   "license": "ISC",
   "eslintConfig": {
