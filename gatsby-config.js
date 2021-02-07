@@ -58,15 +58,17 @@ module.exports = {
       options: {
         // uncommented scope because of gatsby issue
         // https://github.com/gatsbyjs/gatsby/issues/27839
-        //scope: '/',
+        scope: '.',
         name: 'arteigenschaften.ch',
         short_name: 'arteigenschaften',
-        start_url: '/',
-        background_color: '#ffffff',
-        theme_color: '#000000',
-        display: 'standalone',
+        start_url: './',
+        background_color: '#ff9800',
+        theme_color: '#ff9800',
+        display: 'minimal-ui',
         icon: 'src/images/favicon256.png',
         include_favicon: true,
+        description:
+          'Eigenschaften von Flora, Fauna, Moosen und Lebensräumen: Sichten, exportieren, importieren',
       },
     },
     {
