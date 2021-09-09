@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import orange from '@material-ui/core/colors/orange'
 import green from '@material-ui/core/colors/green'
 import red from '@material-ui/core/colors/red'
@@ -8,7 +8,7 @@ const constants = getConstants()
 
 // All the following keys are optional.
 // We try our best to provide a great default value.
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     contrastThreshold: 3,
     tonalOffset: 0.2,
