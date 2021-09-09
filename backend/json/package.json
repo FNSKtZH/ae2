@@ -9,9 +9,9 @@
   "author": "Alexander Gabriel",
   "license": "ISC",
   "dependencies": {
-    "@hapi/hapi": "20.0.3",
+    "@hapi/hapi": "20.1.5",
     "ampersand-app": "2.0.0",
-    "pg-promise": "10.9.1",
-    "sql-tagged-template-literal": "1.0.2"
+    "pg-promise": "10.11.0",
+    "sql-tagged-template-literal": "1.1.0"
   }
 }
