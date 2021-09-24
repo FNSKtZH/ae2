@@ -44,9 +44,7 @@ exports.onCreateWebpackConfig = ({
   getConfig,
 }) => {
   actions.setWebpackConfig({
-    node: {
-      fs: 'empty',
-    },
+    resolve: { fallback: { fs: false } },
     /*module: {
       rules: [
         {
