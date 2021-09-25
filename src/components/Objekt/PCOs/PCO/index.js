@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from 'react'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import Collapse from '@material-ui/core/Collapse'
-import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import Collapse from '@mui/material/Collapse'
+import IconButton from '@mui/material/IconButton'
+import Icon from '@mui/material/Icon'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 // seemst that InfoOutline does not exist any more????
 // TODO: revert to InfoOutline when google has added that again
-import InfoOutlineIcon from '@material-ui/icons/Info'
-import InfoIcon from '@material-ui/icons/Info'
+import InfoOutlineIcon from '@mui/icons-material/Info'
+import InfoIcon from '@mui/icons-material/Info'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
@@ -99,7 +99,7 @@ const PCO = ({ pCO, relations, stacked }) => {
                 aria-label="über diese Eigenschaften-Sammlung"
                 title={iconTitle}
                 onClick={onClickIcon}
-              >
+                size="large">
                 <Icon>
                   {!pCDescriptionExpanded && <InfoOutlineIcon />}
                   {pCDescriptionExpanded && <InfoIcon />}
@@ -132,7 +132,7 @@ const PCO = ({ pCO, relations, stacked }) => {
         </StyledCard>
       </Container>
     </ErrorBoundary>
-  )
+  );
 }
 
 export default PCO

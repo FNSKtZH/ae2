@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 import { navigate } from 'gatsby'
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 
 import Layout from '../components/Layout'
 import ErrorBoundary from '../components/shared/ErrorBoundary'
@@ -54,7 +54,11 @@ const FourOFour = () => {
             </Text>
           </TextContainer>
           <TextContainer>
-            <StyledButton variant="outlined" onClick={onClickBack}>
+            <StyledButton
+              variant="outlined"
+              onClick={onClickBack}
+              color="inherit"
+            >
               Zurück zur Startseite
             </StyledButton>
           </TextContainer>

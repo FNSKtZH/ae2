@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import TextField from '@material-ui/core/TextField'
-import FormControl from '@material-ui/core/FormControl'
+import TextField from '@mui/material/TextField'
+import FormControl from '@mui/material/FormControl'
 import styled from 'styled-components'
 import format from 'date-fns/format'
 import { useApolloClient } from '@apollo/client'
@@ -52,7 +52,7 @@ const Property = ({
   return (
     <ErrorBoundary>
       <Container>
-        <StyledFormControl error={!!error}>
+        <StyledFormControl error={!!error} variant="standard">
           <StyledTextField
             autoFocus={label === 'Name' && !value}
             label={label}
@@ -73,6 +73,7 @@ const Property = ({
             type={type}
             helperText={error ? error : helperText ? helperText : ''}
             error={!!error}
+            variant="standard"
           />
         </StyledFormControl>
       </Container>

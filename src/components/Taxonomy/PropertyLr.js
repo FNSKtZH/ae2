@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import TextField from '@material-ui/core/TextField'
+import TextField from '@mui/material/TextField'
 import styled from 'styled-components'
 import format from 'date-fns/format'
 import { useApolloClient } from '@apollo/client'
@@ -49,6 +49,7 @@ const Property = ({ taxonomy, field, label, type = 'text', disabled }) => {
           spellCheck="false"
           disabled={!!disabled}
           type={type}
+          variant="standard"
         />
       </Container>
     </ErrorBoundary>

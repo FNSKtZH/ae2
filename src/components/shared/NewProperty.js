@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import TextField from '@material-ui/core/TextField'
-import InputLabel from '@material-ui/core/InputLabel'
+import TextField from '@mui/material/TextField'
+import InputLabel from '@mui/material/InputLabel'
 import styled from 'styled-components'
 import { useApolloClient } from '@apollo/client'
 
@@ -61,6 +61,7 @@ const Property = ({ id, properties: propertiesPrevious }) => {
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck="false"
+            variant="standard"
           />
           {!!label && (
             <TextField
@@ -74,6 +75,7 @@ const Property = ({ id, properties: propertiesPrevious }) => {
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck="false"
+              variant="standard"
             />
           )}
         </FieldContainer>

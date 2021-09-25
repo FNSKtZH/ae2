@@ -1,5 +1,5 @@
 import React from 'react'
-import TextField from '@material-ui/core/TextField'
+import TextField from '@mui/material/TextField'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
 
@@ -43,6 +43,7 @@ const PropertyReadOnly = ({ label, value }) => {
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck="false"
+            variant="standard"
           />
         </Linkify>
       </Container>

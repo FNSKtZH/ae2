@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react'
-import TextField from '@material-ui/core/TextField'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import TextField from '@mui/material/TextField'
+import FormHelperText from '@mui/material/FormHelperText'
+import FormControl from '@mui/material/FormControl'
+import Button from '@mui/material/Button'
+import Paper from '@mui/material/Paper'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, useApolloClient } from '@apollo/client'
@@ -145,6 +145,7 @@ const User = () => {
             fullWidth
             error={!!nameErrorText}
             aria-describedby="name-error-text"
+            variant="standard"
           >
             <TextField
               name="name"
@@ -153,6 +154,7 @@ const User = () => {
               onChange={onChangeName}
               fullWidth
               autoComplete="username"
+              variant="standard"
             />
             <FormHelperText id="name-error-text">
               {nameErrorText}
@@ -162,6 +164,7 @@ const User = () => {
             fullWidth
             error={!!emailErrorText}
             aria-describedby="email-error-text"
+            variant="standard"
           >
             <TextField
               name="email"
@@ -170,13 +173,14 @@ const User = () => {
               onChange={onChangeEmail}
               fullWidth
               autoComplete="email"
+              variant="standard"
             />
             <FormHelperText id="email-error-text">
               {emailErrorText}
             </FormHelperText>
           </FormControl>
           {userIsLoggedIn && (
-            <FormControl fullWidth>
+            <FormControl fullWidth variant="standard">
               <TextField
                 name="passNew"
                 label="Passwort ändern"
@@ -185,10 +189,11 @@ const User = () => {
                 onChange={onChangePassNew}
                 fullWidth
                 autoComplete="new-password"
+                variant="standard"
               />
             </FormControl>
           )}
-          <SaveButton onClick={onSave} disabled={!saveEnabled}>
+          <SaveButton onClick={onSave} disabled={!saveEnabled} color="inherit">
             Änderungen speichern
           </SaveButton>
         </OrgContainer>

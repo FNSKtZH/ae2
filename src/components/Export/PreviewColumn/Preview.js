@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext } from 'react'
 import ReactDataGrid from 'react-data-grid'
-import Button from '@material-ui/core/Button'
-import Snackbar from '@material-ui/core/Snackbar'
+import Button from '@mui/material/Button'
+import Snackbar from '@mui/material/Snackbar'
 import styled from 'styled-components'
 import orderBy from 'lodash/orderBy'
 import { useQuery, gql } from '@apollo/client'
@@ -295,10 +295,10 @@ const Preview = () => {
     setSortField(column)
     setSortDirection(direction.toLowerCase())
   }, [])
-  const onClickXlsx = useCallback(() => exportXlsx({ rows, onSetMessage }), [
-    rows,
-    onSetMessage,
-  ])
+  const onClickXlsx = useCallback(
+    () => exportXlsx({ rows, onSetMessage }),
+    [rows, onSetMessage],
+  )
   const onClickCsv = useCallback(() => exportCsv(rows), [rows])
 
   if (propsByTaxError) {
@@ -366,10 +366,12 @@ const Preview = () => {
         )}
         {rows.length > 0 && (
           <ButtonsContainer>
-            <StyledButton onClick={onClickXlsx}>
+            <StyledButton onClick={onClickXlsx} color="inherit">
               .xlsx herunterladen
             </StyledButton>
-            <StyledButton onClick={onClickCsv}>.csv herunterladen</StyledButton>
+            <StyledButton onClick={onClickCsv} color="inherit">
+              .csv herunterladen
+            </StyledButton>
           </ButtonsContainer>
         )}
         <StyledSnackbar open={!!message} message={message} />

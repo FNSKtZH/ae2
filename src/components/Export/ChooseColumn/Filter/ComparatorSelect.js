@@ -1,7 +1,7 @@
 import React from 'react'
-import Input from '@material-ui/core/Input'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
+import Input from '@mui/material/Input'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 import styled from 'styled-components'
 
 const StyledSelect = styled(Select)`

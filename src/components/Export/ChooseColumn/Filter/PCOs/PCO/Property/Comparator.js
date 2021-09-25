@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
+import withStyles from '@mui/styles/withStyles'
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
@@ -47,7 +47,7 @@ const PcoComparator = ({ pcname, pname, value, comparator, classes }) => {
 
   return (
     <Container>
-      <StyledFormControl className={classes.formControl}>
+      <StyledFormControl className={classes.formControl} variant="standard">
         <InputLabel htmlFor="v-op">Vergleichs-Operator</InputLabel>
         <ComparatorSelect comparator={comparator} onChange={onChange} />
       </StyledFormControl>

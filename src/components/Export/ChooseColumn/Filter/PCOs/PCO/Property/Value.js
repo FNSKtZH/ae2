@@ -2,10 +2,10 @@ import React, { useEffect, useState, useCallback, useContext } from 'react'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
-import TextField from '@material-ui/core/TextField'
-import Paper from '@material-ui/core/Paper'
-import MenuItem from '@material-ui/core/MenuItem'
-import { withStyles } from '@material-ui/core/styles'
+import TextField from '@mui/material/TextField'
+import Paper from '@mui/material/Paper'
+import MenuItem from '@mui/material/MenuItem'
+import withStyles from '@mui/styles/withStyles'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import trimStart from 'lodash/trimStart'
@@ -238,6 +238,7 @@ const IntegrationAutosuggest = ({
             },
             ...other,
           }}
+          variant="standard"
         />
       )
     },

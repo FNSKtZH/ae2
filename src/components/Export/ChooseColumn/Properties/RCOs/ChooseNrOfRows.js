@@ -1,11 +1,11 @@
 import React, { useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormLabel from '@material-ui/core/FormLabel'
-import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Typography from '@material-ui/core/Typography'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormLabel from '@mui/material/FormLabel'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Typography from '@mui/material/Typography'
 import uniq from 'lodash/uniq'
 import { observer } from 'mobx-react-lite'
 
@@ -40,13 +40,13 @@ const ChooseNrOfRows = () => {
   const { setRcoInOneRow, rcoInOneRow, rcoProperties } = mobxStore.export
 
   const multipleRowsDisabled =
-    uniq(rcoProperties.map(e => `${e.pcname}/${e.relationtype}`)).length > 1
+    uniq(rcoProperties.map((e) => `${e.pcname}/${e.relationtype}`)).length > 1
   const onChange = useCallback(() => {
     setRcoInOneRow(!rcoInOneRow)
   }, [rcoInOneRow, setRcoInOneRow])
 
   return (
-    <StyledFormControl>
+    <StyledFormControl variant="standard">
       <StyledFormLabel>Wie wollen Sie Beziehungen exportieren?</StyledFormLabel>
       <StyledRadioGroup
         aria-label="Wie wollen Sie Beziehungen exportieren?"

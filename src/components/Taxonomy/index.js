@@ -1,13 +1,13 @@
 import React, { useCallback, useContext } from 'react'
-import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
-import EditIcon from '@material-ui/icons/Edit'
-import ViewIcon from '@material-ui/icons/Visibility'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
+import IconButton from '@mui/material/IconButton'
+import Icon from '@mui/material/Icon'
+import EditIcon from '@mui/icons-material/Edit'
+import ViewIcon from '@mui/icons-material/Visibility'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import Input from '@mui/material/Input'
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import format from 'date-fns/format'
@@ -115,14 +115,15 @@ const Taxonomy = () => {
     loading: allUsersLoading,
     error: allUsersError,
   } = useQuery(allUsersQuery)
-  const { data: taxData, loading: taxLoading, error: taxError } = useQuery(
-    taxQuery,
-    {
-      variables: {
-        taxId,
-      },
+  const {
+    data: taxData,
+    loading: taxLoading,
+    error: taxError,
+  } = useQuery(taxQuery, {
+    variables: {
+      taxId,
     },
-  )
+  })
 
   const tax = taxData?.taxonomyById
   const importedByName = tax?.userByImportedBy?.name
@@ -339,7 +340,7 @@ const Taxonomy = () => {
               field="description"
               taxonomy={tax}
             />
-            <StyledFormControl>
+            <StyledFormControl variant="standard">
               <InputLabel htmlFor="importedByArten">Importiert von</InputLabel>
               <Select
                 key={`${tax.id}/importedBy`}
@@ -354,7 +355,7 @@ const Taxonomy = () => {
                 ))}
               </Select>
             </StyledFormControl>
-            <StyledFormControl>
+            <StyledFormControl variant="standard">
               <InputLabel htmlFor="organizationIdArten">
                 Zuständige Organisation
               </InputLabel>
@@ -407,7 +408,7 @@ const Taxonomy = () => {
               field="description"
               taxonomy={tax}
             />
-            <StyledFormControl>
+            <StyledFormControl variant="standard">
               <InputLabel htmlFor="importedByLr">Importiert von</InputLabel>
               <Select
                 key={`${tax.id}/importedBy`}
@@ -422,7 +423,7 @@ const Taxonomy = () => {
                 ))}
               </Select>
             </StyledFormControl>
-            <StyledFormControl>
+            <StyledFormControl variant="standard">
               <InputLabel htmlFor="organizationIdLr">
                 Zuständige Organisation
               </InputLabel>

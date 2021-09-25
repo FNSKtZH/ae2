@@ -1,15 +1,15 @@
 import React, { useState, useCallback, useContext, useRef } from 'react'
-import TextField from '@material-ui/core/TextField'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-import Snackbar from '@material-ui/core/Snackbar'
-import Button from '@material-ui/core/Button'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import IconButton from '@material-ui/core/IconButton'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import TextField from '@mui/material/TextField'
+import FormHelperText from '@mui/material/FormHelperText'
+import FormControl from '@mui/material/FormControl'
+import Snackbar from '@mui/material/Snackbar'
+import Button from '@mui/material/Button'
+import Input from '@mui/material/Input'
+import InputLabel from '@mui/material/InputLabel'
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import styled from 'styled-components'
 import { useApolloClient } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
@@ -111,9 +111,10 @@ const Login = () => {
     (e) => e.key === 'Enter' && onBlurPassword(e),
     [onBlurPassword],
   )
-  const onClickTogglePass = useCallback(() => changeShowPass(!showPass), [
-    showPass,
-  ])
+  const onClickTogglePass = useCallback(
+    () => changeShowPass(!showPass),
+    [showPass],
+  )
   const onMouseDownTogglePass = useCallback((e) => {
     e.preventDefault()
   }, [])
@@ -122,7 +123,7 @@ const Login = () => {
     <ErrorBoundary>
       <Container>
         {!token && (
-          <FormControl fullWidth error={!!nameErrorText}>
+          <FormControl fullWidth error={!!nameErrorText} variant="standard">
             <TextField
               inputRef={nameInput}
               label="Name"
@@ -132,6 +133,7 @@ const Login = () => {
               autoFocus
               onKeyPress={onKeyPressName}
               autoComplete="username"
+              variant="standard"
             />
             <FormHelperText id="name-error-text">
               {nameErrorText}
@@ -139,7 +141,7 @@ const Login = () => {
           </FormControl>
         )}
         {!token && (
-          <FormControl fullWidth error={!!passErrorText}>
+          <FormControl fullWidth error={!!passErrorText} variant="standard">
             <InputLabel htmlFor="password">Passwort</InputLabel>
             <Input
               id="adornment-password"
@@ -158,6 +160,7 @@ const Login = () => {
                     onClick={onClickTogglePass}
                     onMouseDown={onMouseDownTogglePass}
                     title={showPass ? 'verstecken' : 'anzeigen'}
+                    size="large"
                   >
                     {showPass ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -169,8 +172,12 @@ const Login = () => {
             </FormHelperText>
           </FormControl>
         )}
-        {!token && <StyledButton>anmelden</StyledButton>}
-        {!!token && <StyledButton onClick={onLogout}>abmelden</StyledButton>}
+        {!token && <StyledButton color="inherit">anmelden</StyledButton>}
+        {!!token && (
+          <StyledButton onClick={onLogout} color="inherit">
+            abmelden
+          </StyledButton>
+        )}
         <StyledSnackbar
           open={loginSuccessfull}
           message={`Willkommen ${name}`}

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import TextField from '@material-ui/core/TextField'
+import TextField from '@mui/material/TextField'
 import styled from 'styled-components'
 import { useApolloClient } from '@apollo/client'
 
@@ -60,6 +60,7 @@ const Property = ({ field, label, objekt, disabled }) => {
           autoCapitalize="off"
           spellCheck="false"
           disabled={!!disabled}
+          variant="standard"
         />
       </Container>
     </ErrorBoundary>

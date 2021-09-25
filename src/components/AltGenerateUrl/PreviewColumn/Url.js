@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 import copy from 'copy-to-clipboard'
 import { observer } from 'mobx-react-lite'
 
@@ -79,8 +79,11 @@ const Url = () => {
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck="false"
+          variant="standard"
         />
-        <StyledButton onClick={onClickButton}>{copyButtonText}</StyledButton>
+        <StyledButton onClick={onClickButton} color="inherit">
+          {copyButtonText}
+        </StyledButton>
       </Container>
     </ErrorBoundary>
   )
