@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import { StaticQuery, graphql, Link } from 'gatsby'
 import Img from 'gatsby-image'
-import MaterialCard from '@material-ui/core/Card'
+import MaterialCard from '@mui/material/Card'
 import styled from 'styled-components'
 import SimpleBar from 'simplebar-react'
 import { useResizeDetector } from 'react-resize-detector'

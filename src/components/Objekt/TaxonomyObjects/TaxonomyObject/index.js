@@ -7,18 +7,18 @@
  * edit prop: see https://stackoverflow.com/a/35349699/712005
  */
 import React, { useState, useCallback, useContext } from 'react'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import Collapse from '@material-ui/core/Collapse'
-import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import EditIcon from '@material-ui/icons/Edit'
-import ViewIcon from '@material-ui/icons/Visibility'
-import SynonymIcon from '@material-ui/icons/Forward'
-import InfoOutlineIcon from '@material-ui/icons/Info'
-import InfoIcon from '@material-ui/icons/Info'
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import Collapse from '@mui/material/Collapse'
+import IconButton from '@mui/material/IconButton'
+import Icon from '@mui/material/Icon'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import EditIcon from '@mui/icons-material/Edit'
+import ViewIcon from '@mui/icons-material/Visibility'
+import SynonymIcon from '@mui/icons-material/Forward'
+import InfoOutlineIcon from '@mui/icons-material/Info'
+import InfoIcon from '@mui/icons-material/Info'
 import get from 'lodash/get'
 import styled from 'styled-components'
 import { useQuery, gql } from '@apollo/client'
@@ -229,7 +229,7 @@ const TaxonomyObject = ({ objekt, showLink, stacked }) => {
                     : 'Taxonomie-Beschreibung öffnen'
                 }
                 onClick={onClickToggleTaxDescription}
-              >
+                size="large">
                 <Icon>
                   {!taxExpanded && <InfoOutlineIcon />}
                   {taxExpanded && <InfoIcon />}
@@ -303,7 +303,7 @@ const TaxonomyObject = ({ objekt, showLink, stacked }) => {
         </StyledCard>
       </Container>
     </ErrorBoundary>
-  )
+  );
 }
 
 export default observer(TaxonomyObject)

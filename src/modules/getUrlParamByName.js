@@ -10,7 +10,7 @@ const getUrlParamByName = (name) => {
     typeof window !== 'undefined' ? regex.exec(window.location.href) : null
   if (!results) return null
   if (!results[2]) return ''
-  return decodeURIComponent(results[2].replace(/\+/g, ' '))
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
 export default getUrlParamByName

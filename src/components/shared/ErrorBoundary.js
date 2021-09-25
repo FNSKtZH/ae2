@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 
 import idbContext from '../../idbContext'
 import mobxStoreContext from '../../mobxStoreContext'
@@ -48,12 +48,16 @@ const ErrorFallback = ({ error, componentStack, resetErrorBoundary }) => {
         <Pre>{componentStack}</Pre>
       </Details>
       <ButtonContainer>
-        <StyledButton variant="outlined" onClick={onReload}>
+        <StyledButton variant="outlined" onClick={onReload} color="inherit">
           neu starten
         </StyledButton>
       </ButtonContainer>
       <ButtonContainer>
-        <StyledButton variant="outlined" onClick={resetErrorBoundary}>
+        <StyledButton
+          variant="outlined"
+          onClick={resetErrorBoundary}
+          color="inherit"
+        >
           Cache leeren und neu starten (neue Anmeldung nötig)
         </StyledButton>
       </ButtonContainer>

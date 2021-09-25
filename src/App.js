@@ -5,7 +5,7 @@ import { navigate } from 'gatsby'
 // otherwise apollo errors during the build
 // see: https://github.com/gatsbyjs/gatsby/issues/11225#issuecomment-457211628
 import 'isomorphic-fetch'
-import { MuiThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
 import 'simplebar/dist/simplebar.min.css'
 
@@ -52,11 +52,13 @@ const App = ({ element }) => {
     <IdbProvider value={idb}>
       <MobxProvider value={mobxStore}>
         <ApolloProvider client={myClient}>
-          <MuiThemeProvider theme={theme}>{element}</MuiThemeProvider>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>{element}</ThemeProvider>
+          </StyledEngineProvider>
         </ApolloProvider>
       </MobxProvider>
     </IdbProvider>
-  )
+  );
 }
 
 export default App

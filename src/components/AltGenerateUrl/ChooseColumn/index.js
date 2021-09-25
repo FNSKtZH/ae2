@@ -10,7 +10,7 @@ import HowTo from './HowTo'
 import Taxonomies from './Taxonomies'
 import PCOs from './PCOs'
 import RCOs from './RCOs'
-import Snackbar from '@material-ui/core/Snackbar'
+import Snackbar from '@mui/material/Snackbar'
 import getConstants from '../../../modules/constants'
 import mobxStoreContext from '../../../mobxStoreContext'
 

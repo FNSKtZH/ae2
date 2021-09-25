@@ -1,14 +1,14 @@
 import React, { useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
-import ClearIcon from '@material-ui/icons/Clear'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
+import IconButton from '@mui/material/IconButton'
+import Icon from '@mui/material/Icon'
+import ClearIcon from '@mui/icons-material/Clear'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Input from '@mui/material/Input'
+import InputLabel from '@mui/material/InputLabel'
 import set from 'lodash/set'
 import { useQuery, useApolloClient, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
@@ -250,7 +250,7 @@ const OrgUser = ({ orgUser }) => {
   return (
     <ErrorBoundary>
       <OrgUserDiv>
-        <StyledFormControl>
+        <StyledFormControl variant="standard">
           <InputLabel htmlFor="Benutzer">Benutzer</InputLabel>
           <Select
             value={userName}
@@ -264,7 +264,7 @@ const OrgUser = ({ orgUser }) => {
             ))}
           </Select>
         </StyledFormControl>
-        <StyledFormControl>
+        <StyledFormControl variant="standard">
           <InputLabel htmlFor="Rolle">Rolle</InputLabel>
           <Select
             value={role || ''}

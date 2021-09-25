@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react'
-import TextField from '@material-ui/core/TextField'
-import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
-import ClearIcon from '@material-ui/icons/Clear'
+import TextField from '@mui/material/TextField'
+import IconButton from '@mui/material/IconButton'
+import Icon from '@mui/material/Icon'
+import ClearIcon from '@mui/icons-material/Clear'
 import styled from 'styled-components'
 import omit from 'lodash/omit'
 import { useApolloClient } from '@apollo/client'
@@ -86,6 +86,7 @@ const Property = ({ id, properties: propertiesPrevious, field: key }) => {
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck="false"
+          variant="standard"
         />
         <DeleteButton
           title="Feld löschen"

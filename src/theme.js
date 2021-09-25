@@ -1,7 +1,5 @@
-import { createTheme } from '@material-ui/core/styles'
-import orange from '@material-ui/core/colors/orange'
-import green from '@material-ui/core/colors/green'
-import red from '@material-ui/core/colors/red'
+import { createTheme } from '@mui/material/styles'
+import { orange, green, red } from '@mui/material/colors'
 
 import getConstants from './modules/constants'
 const constants = getConstants()

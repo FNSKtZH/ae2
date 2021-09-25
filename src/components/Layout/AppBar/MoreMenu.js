@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
-import Icon from '@material-ui/core/Icon'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import Button from '@material-ui/core/Button'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import Icon from '@mui/material/Icon'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Button from '@mui/material/Button'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import styled from 'styled-components'
 import { navigate } from 'gatsby'
 
@@ -129,7 +129,7 @@ const MoreMenu = () => {
         <MenuItem onClick={onClickUptime}>
           {`Verfügbarkeit der Server von ${hostname}`}
         </MenuItem>
-        <Version>Version: 1.5.10 vom 19.09.2021</Version>
+        <Version>Version: 1.5.11 vom 26.09.2021</Version>
       </Menu>
     </div>
   )

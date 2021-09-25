@@ -1,9 +1,9 @@
 import React, { useCallback, useContext } from 'react'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import DeleteFilterIcon from '@material-ui/icons/DeleteSweep'
+import Input from '@mui/material/Input'
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl'
+import InputAdornment from '@mui/material/InputAdornment'
+import DeleteFilterIcon from '@mui/icons-material/DeleteSweep'
 import styled from 'styled-components'
 
 import storeContext from '../../mobxStoreContext'
@@ -26,13 +26,14 @@ const StyledDeleteFilterIcon = styled(DeleteFilterIcon)`
 const Filter = () => {
   const store = useContext(storeContext)
   const { docFilter, setDocFilter } = store
-  const onChange = useCallback(e => setDocFilter(e.target.value), [
-    setDocFilter,
-  ])
+  const onChange = useCallback(
+    (e) => setDocFilter(e.target.value),
+    [setDocFilter],
+  )
   const onClickEmptyFilter = useCallback(() => setDocFilter(''), [setDocFilter])
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth variant="standard">
       <InputLabel htmlFor="filterInput">filtern</InputLabel>
       <StyledInput
         id="filterInput"

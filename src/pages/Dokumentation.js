@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
-import Paper from '@material-ui/core/Paper'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import Paper from '@mui/material/Paper'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 import SwipeableViews from 'react-swipeable-views'
 import { observer } from 'mobx-react-lite'
 

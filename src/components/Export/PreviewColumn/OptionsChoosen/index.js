@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { getSnapshot } from 'mobx-state-tree'
@@ -200,7 +200,11 @@ const OptionsChoosen = () => {
           </ul>
         </li>
       </ul>
-      <StyledButton onClick={onClickResetAll} variant="outlined">
+      <StyledButton
+        onClick={onClickResetAll}
+        variant="outlined"
+        color="inherit"
+      >
         alle Optionen zurücksetzen
       </StyledButton>
     </Container>

@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Icon from '@material-ui/core/Icon'
-import ShareIcon from '@material-ui/icons/Share'
-import Button from '@material-ui/core/Button'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Icon from '@mui/material/Icon'
+import ShareIcon from '@mui/icons-material/Share'
+import Button from '@mui/material/Button'
 import styled from 'styled-components'
 import get from 'lodash/get'
 import { useQuery, gql } from '@apollo/client'
@@ -251,6 +251,7 @@ const Header = () => {
                           data-widelayout={wide}
                           onClick={onClickColumnButtonLogin}
                           title={loginTitle}
+                          color="inherit"
                         >
                           {loginLabel}
                         </LoginButton>
@@ -261,6 +262,7 @@ const Header = () => {
                             <ShareButton
                               aria-label="teilen"
                               onClick={onClickShare}
+                              color="inherit"
                             >
                               <Icon>
                                 <StyledMoreVertIcon />

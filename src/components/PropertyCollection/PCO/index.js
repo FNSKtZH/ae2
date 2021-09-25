@@ -6,7 +6,7 @@ import forOwn from 'lodash/forOwn'
 import union from 'lodash/union'
 import orderBy from 'lodash/orderBy'
 import ReactDataGrid from 'react-data-grid'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import { useQuery, useApolloClient, gql } from '@apollo/client'
 import { observer } from 'mobx-react-lite'
 import { getSnapshot } from 'mobx-state-tree'
@@ -233,19 +233,35 @@ const PCO = ({ dimensions }) => {
           />
           <ButtonsContainer>
             <ExportButtons>
-              <StyledButton onClick={onClickXlsx} variant="outlined">
+              <StyledButton
+                onClick={onClickXlsx}
+                variant="outlined"
+                color="inherit"
+              >
                 xlsx exportieren
               </StyledButton>
-              <StyledButton onClick={onClickCsv} variant="outlined">
+              <StyledButton
+                onClick={onClickCsv}
+                variant="outlined"
+                color="inherit"
+              >
                 csv exportieren
               </StyledButton>
             </ExportButtons>
             {userIsWriter && (
               <MutationButtons>
-                <StyledButton onClick={onClickImport} variant="outlined">
+                <StyledButton
+                  onClick={onClickImport}
+                  variant="outlined"
+                  color="inherit"
+                >
                   importieren
                 </StyledButton>
-                <StyledButton onClick={onClickDelete} variant="outlined">
+                <StyledButton
+                  onClick={onClickDelete}
+                  variant="outlined"
+                  color="inherit"
+                >
                   Daten löschen
                 </StyledButton>
               </MutationButtons>

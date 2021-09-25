@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useContext } from 'react'
-import TextField from '@material-ui/core/TextField'
+import TextField from '@mui/material/TextField'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
@@ -34,7 +34,7 @@ const IdFilterField = () => {
       id="id"
       label="id"
       multiline
-      rowsMax="5"
+      maxRows="5"
       value={value}
       onChange={handleChange}
       margin="normal"
@@ -44,6 +44,7 @@ const IdFilterField = () => {
       autoCorrect="off"
       autoCapitalize="off"
       spellCheck="false"
+      variant="standard"
     />
   )
 }
