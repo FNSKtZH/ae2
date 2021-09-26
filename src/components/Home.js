@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
-import { StaticQuery, graphql, Link } from 'gatsby'
-import Img from 'gatsby-image'
+import { Link } from 'gatsby'
+import { StaticImage } from 'gatsby-plugin-image'
 import MaterialCard from '@mui/material/Card'
 import styled from 'styled-components'
 import SimpleBar from 'simplebar-react'
@@ -108,57 +108,44 @@ const Home = ({ data }) => {
   }, [homeWidth, setHomeWidth, width])
 
   return (
-    <StaticQuery
-      query={graphql`
-        query homePageQuery {
-          file(relativePath: { eq: "home.jpg" }) {
-            childImageSharp {
-              fluid {
-                ...GatsbyImageSharpFluid
-              }
-            }
-          }
-        }
-      `}
-      render={(data) => (
-        <StyledSimpleBar>
-          <Container ref={ref} data-width={width}>
-            <Img
-              fluid={data?.file?.childImageSharp?.fluid}
-              style={bgImageStyle}
-            />
-            <CardContainer data-width={width}>
-              <Card>
-                <CardTitle>Informationen zu:</CardTitle>
-                <CardTitle>Arten, Lebensräumen und ihren Taxonomien</CardTitle>
-              </Card>
-              <Card>
-                <CardTitle>...nachschlagen</CardTitle>Eigenschaften finden. Auch
-                von Synonymen aus anderen Taxonomien
-              </Card>
-              <Card>
-                <CardTitle>...exportieren</CardTitle>Eigenschaften wählen, Arten
-                filtern
-              </Card>
-              <Card>
-                <CardTitle>...direkt einbinden</CardTitle>Daten direkt aus
-                anderen Anwendungen abfragen
-              </Card>
-              <Card>
-                <CardTitle>...importieren und ändern</CardTitle>Benutzer mit
-                Konto können Eigenschaften importieren oder direkt bearbeiten
-              </Card>
-              <Card>
-                <CardTitle>Mehr Info:</CardTitle>
-                <DokuLink to="/Dokumentation/Projektbeschreibung">
-                  in der Dokumentation
-                </DokuLink>
-              </Card>
-            </CardContainer>
-          </Container>
-        </StyledSimpleBar>
-      )}
-    />
+    <StyledSimpleBar>
+      <Container ref={ref} data-width={width}>
+        <StaticImage
+          src="../images/home.jpg"
+          alt="Bläuling"
+          style={bgImageStyle}
+          layout="fullWidth"
+        />
+        <CardContainer data-width={width}>
+          <Card>
+            <CardTitle>Informationen zu:</CardTitle>
+            <CardTitle>Arten, Lebensräumen und ihren Taxonomien</CardTitle>
+          </Card>
+          <Card>
+            <CardTitle>...nachschlagen</CardTitle>Eigenschaften finden. Auch von
+            Synonymen aus anderen Taxonomien
+          </Card>
+          <Card>
+            <CardTitle>...exportieren</CardTitle>Eigenschaften wählen, Arten
+            filtern
+          </Card>
+          <Card>
+            <CardTitle>...direkt einbinden</CardTitle>Daten direkt aus anderen
+            Anwendungen abfragen
+          </Card>
+          <Card>
+            <CardTitle>...importieren und ändern</CardTitle>Benutzer mit Konto
+            können Eigenschaften importieren oder direkt bearbeiten
+          </Card>
+          <Card>
+            <CardTitle>Mehr Info:</CardTitle>
+            <DokuLink to="/Dokumentation/Projektbeschreibung">
+              in der Dokumentation
+            </DokuLink>
+          </Card>
+        </CardContainer>
+      </Container>
+    </StyledSimpleBar>
   )
 }
 
