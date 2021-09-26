@@ -16,11 +16,9 @@
     "serve": "gatsby serve"
   },
   "dependencies": {
-    "@apollo/client": "3.4.12",
-    "@fontsource/roboto": "4.5.0",
+    "@apollo/client": "3.4.13",
+    "@fontsource/roboto": "4.5.1",
     "@loadable/component": "5.15.0",
-    "@material-ui/core": "4.12.3",
-    "@material-ui/icons": "4.11.2",
     "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.1",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
@@ -64,7 +62,7 @@
     "react-autosuggest": "10.1.0",
     "react-data-grid": "6.1.0",
     "react-dom": "17.0.2",
-    "react-dropzone": "11.4.0",
+    "react-dropzone": "11.4.2",
     "react-error-boundary": "3.1.3",
     "react-helmet": "6.1.0",
     "react-icons": "4.2.0",
@@ -75,7 +73,7 @@
     "react-swipeable-views": "0.14.0",
     "react-typography": "0.16.20",
     "react-window": "1.8.6",
-    "simplebar-react": "2.3.5",
+    "simplebar-react": "2.3.6",
     "styled-components": "5.3.1",
     "typography": "0.16.21",
     "use-subscription": "1.5.1",
@@ -87,20 +85,20 @@
   "devDependencies": {
     "@graphile-contrib/pg-order-by-related": "1.0.0-beta.6",
     "@hot-loader/react-dom": "17.0.1",
-    "@typescript-eslint/eslint-plugin": "4.31.1",
-    "@typescript-eslint/parser": "4.31.1",
+    "@typescript-eslint/eslint-plugin": "4.31.2",
+    "@typescript-eslint/parser": "4.31.2",
     "babel-eslint": "10.x",
     "copyfiles": "2.4.1",
     "eslint": "7.32.0",
     "eslint-config-react-app": "6.0.0",
     "eslint-loader": "4.0.2",
-    "eslint-plugin-flowtype": "6.0.1",
+    "eslint-plugin-flowtype": "6.1.0",
     "eslint-plugin-import": "2.x",
     "eslint-plugin-jsx-a11y": "6.x",
     "eslint-plugin-react": "7.x",
     "eslint-plugin-react-hooks": "4.2.0",
     "gatsby-cli": "3.14.0",
-    "postgraphile": "4.12.3",
+    "postgraphile": "4.12.4",
     "postgraphile-plugin-connection-filter": "2.2.2",
     "rimraf": "3.0.2",
     "vercel": "23.1.2"
@@ -108,13 +106,13 @@
   "peerDependencies": {
     "babel-plugin-styled-components": "1.13.2",
     "create-react-class": "15.7.0",
-    "graphql": "15.5.3",
+    "graphql": "15.6.0",
     "graphql-tag": "2.12.5",
     "polished": "1.x",
     "prop-types": "15.7.2",
     "react-is": "17.0.2",
     "typescript": "4.4.3",
-    "webpack": "5.53.0"
+    "webpack": "5.54.0"
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
