@@ -1,4 +1,3 @@
-// #flow
 import updateTaxonomyMutationLr from './updateTaxonomyMutationLr'
 
 const onBlurLr = ({ client, field, taxonomy, value, prevValue }) => {

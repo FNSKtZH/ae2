@@ -1,5 +1,3 @@
-// #flow
-
 import updateTaxonomyMutationArten from './updateTaxonomyMutationArten'
 
 const onBlurArten = ({ client, field, taxonomy, value, prevValue }) => {
