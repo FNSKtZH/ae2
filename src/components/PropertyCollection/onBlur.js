@@ -1,4 +1,3 @@
-// #flow
 import { navigate } from 'gatsby'
 
 import updatePCMutation from './updatePCMutation'

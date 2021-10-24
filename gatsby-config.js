@@ -31,6 +31,7 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    `gatsby-plugin-image`,
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     {
@@ -64,9 +65,9 @@ module.exports = {
       resolve: 'gatsby-transformer-remark',
       options: {
         gfm: true,
-        commonmark: true,
+        // commonmark: true,
         footnotes: true,
-        pedantic: true,
+        // pedantic: true,
         excerpt_separator: '<!-- end -->',
         plugins: [
           {
