@@ -19,12 +19,12 @@
     "@apollo/client": "3.4.16",
     "@fontsource/roboto": "4.5.1",
     "@loadable/component": "5.15.0",
-    "@mui/icons-material": "5.0.3",
-    "@mui/material": "5.0.3",
+    "@mui/icons-material": "5.0.4",
+    "@mui/material": "5.0.4",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@mui/styled-engine-sc": "5.0.3",
     "@mui/styles": "5.0.1",
-    "autosuggest-highlight": "3.1.1",
+    "autosuggest-highlight": "3.2.0",
     "copy-to-clipboard": "3.3.1",
     "date-fns": "2.25.0",
     "dexie": "3.0.3",
@@ -55,7 +55,7 @@
     "json2csv": "5.0.6",
     "jwt-decode": "3.1.2",
     "lodash": "4.17.21",
-    "mobx": "6.3.3",
+    "mobx": "6.3.5",
     "mobx-react-lite": "3.2.1",
     "mobx-state-tree": "5.0.3",
     "react": "17.0.2",
@@ -74,10 +74,10 @@
     "react-typography": "0.16.20",
     "react-window": "1.8.6",
     "simplebar-react": "2.3.6",
-    "styled-components": "5.3.1",
+    "styled-components": "5.3.3",
     "typography": "0.16.21",
     "use-subscription": "1.5.1",
-    "xlsx": "0.17.2"
+    "xlsx": "0.17.3"
   },
   "dependenciesComments": {
     "react-spinners-kit": "forked because it added dependencies via non-peer-dependencies. See: https://github.com/dmitrymorozoff/react-spinners-kit/pull/18. Wait for release > 1.9.1"
@@ -92,27 +92,27 @@
     "eslint": "7.32.0",
     "eslint-config-react-app": "6.0.0",
     "eslint-loader": "4.0.2",
-    "eslint-plugin-flowtype": "6.1.0",
+    "eslint-plugin-flowtype": "6.1.1",
     "eslint-plugin-import": "2.x",
     "eslint-plugin-jsx-a11y": "6.x",
     "eslint-plugin-react": "7.x",
     "eslint-plugin-react-hooks": "4.2.0",
     "gatsby-cli": "3.14.1",
-    "postgraphile": "4.12.4",
+    "postgraphile": "4.12.5",
     "postgraphile-plugin-connection-filter": "2.2.2",
     "rimraf": "3.0.2",
     "vercel": "23.1.2"
   },
   "peerDependencies": {
-    "babel-plugin-styled-components": "1.13.2",
+    "babel-plugin-styled-components": "1.13.3",
     "create-react-class": "15.7.0",
     "graphql": "15.6.1",
     "graphql-tag": "2.12.5",
     "polished": "1.x",
     "prop-types": "15.7.2",
     "react-is": "17.0.2",
-    "typescript": "4.4.3",
-    "webpack": "5.57.1"
+    "typescript": "4.4.4",
+    "webpack": "5.59.1"
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
