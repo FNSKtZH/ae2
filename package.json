@@ -27,7 +27,7 @@
     "autosuggest-highlight": "3.2.0",
     "copy-to-clipboard": "3.3.1",
     "date-fns": "2.25.0",
-    "dexie": "3.0.3",
+    "dexie": "3.2.2",
     "exceljs": "4.3.0",
     "file-saver": "2.0.5",
     "gatsby": "4.0.0",
