@@ -46,7 +46,7 @@
     "gatsby-remark-images": "6.0.0",
     "gatsby-remark-images-medium-zoom": "1.7.0",
     "gatsby-source-filesystem": "4.0.0",
-    "gatsby-transformer-remark": "5.0.0",
+    "gatsby-transformer-remark": "5.25.1",
     "gatsby-transformer-sharp": "4.0.0",
     "graphiql": "1.4.2",
     "is-uuid": "1.0.2",
